@@ -1,0 +1,13 @@
+{
+  "content_scripts": [ {
+    "js": [ "vimlike_smooziee.js" ],
+    "run_at": "document_start",
+    "matches": [ "http://*/*", "https://*/*" ]
+  } ],
+  "name": "Vimlike Smooziee",
+  "version": "0.0.3",
+  "background_page": "background.html",
+  "permissions": [
+    "tabs"
+  ]
+}
