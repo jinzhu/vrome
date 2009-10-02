@@ -1,13 +1,13 @@
 {
+  "name": "Vimlike Smooziee",
+  "version": "0.0.3",
+  "update_url": "http://vimlike-smooziee.googlecode.com/files/updates.xml",
+  "background_page": "background.html",
   "content_scripts": [ {
     "js": [ "vimlike_smooziee.js" ],
     "run_at": "document_start",
     "matches": [ "http://*/*", "https://*/*" ]
   } ],
-  "name": "Vimlike Smooziee",
-  "version": "0.0.3",
-  "update_url": "http://vimlike-smooziee.googlecode.com/files/updates.xml",
-  "background_page": "background.html",
   "permissions": [
     "tabs"
   ]
