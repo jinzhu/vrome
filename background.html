@@ -2,13 +2,37 @@
 <head>
 <script typw='text/javascript'>
 var closed_tabs = [];
+var now_tab;
+
+chrome.tabs.getSelected(null, function(tab) {
+  now_tab = tab;
+});
+
+chrome.tabs.onSelectionChanged.addListener(function(tabId) {
+  chrome.tabs.get(tabId, function(tab) {
+    now_tab = tab;
+  });
+});
+
+chrome.tabs.onUpdated.addListener(function(tabId) {
+  chrome.tabs.get(tabId, function(tab) {
+    if (now_tab && now_tab.id == tab.id) {
+      now_tab = tab;
+    }
+  });
+});
+
+chrome.tabs.onRemoved.addListener(function(tabId) {
+  if(now_tab) {
+    closed_tabs.push(now_tab);
+  };
+}); 
 
 chrome.extension.onConnect.addListener(function(port, name) {
   port.onMessage.addListener(function(msg) {
     var tab = port.tab;
     switch(msg.action){
     case "close_tab":
-      closed_tabs.push({url: tab.url, index: tab.index});
       chrome.tabs.remove(tab.id);
       break;
     case "reopen_tab":
