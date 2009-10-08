@@ -5,6 +5,10 @@
   var next;
   var flg;
   
+  var zoom_settings = [];
+  var zoom_levels = ['30%', '50%', '67%', '80%', '90%', '100%', '110%', '120%', '133%', '150%', '170%', '200%', '240%', '300%']
+  var defalut_zoom_index = zoom_levels.indexOf('100%');
+
   function smoothScrollDown(){
     flg = 'vertical';
     smoothScrollBy(vertical_moment);
@@ -104,16 +108,78 @@
     history.forward();
   }
 
-  function gMode(){
-    document.addEventListener('keydown', ghandler, false);
+  function zoomDefault() {
+    var domain = document.domain;
+    setZoom(defalut_zoom_index, domain);
   }
 
-  function ghandler(e){
+  function zoomIn() {
+    var domain = document.domain;
+    setZoomCountup(1, domain);
+  }
+
+  function zoomOut() {
+    var domain = document.domain;
+    setZoomCountup(-1, domain);
+  }
+
+  function zoomMore() {
+    var domain = document.domain;
+    setZoomCountup(3, domain);
+  }
+
+  function zoomReduce() {
+    var domain = document.domain;
+    setZoomCountup(-3, domain);
+  }
+
+  function setZoomCountup(countup, domain) {
+    var now_zoom_level = zoom_settings[domain] || defalut_zoom_index;
+    var zoom_level;
+    zoom_level = now_zoom_level + countup;
+    if ( zoom_level < 0 ) {
+      zoom_level = 0;
+    } else if (zoom_level >= zoom_levels.length) {
+      zoom_level = zoom_levels.length - 1;
+    }
+    setZoom(zoom_level, domain);
+  }
+
+  function setZoom(zoom_level, domain) {
+    document.body.style.zoom = zoom_levels[zoom_level];
+    if (zoom_level == defalut_zoom_index) {
+      delete zoom_settings[domain];
+    } else {
+      zoom_settings[domain] = zoom_level;
+    }
+    document.removeEventListener('keydown', zHandler, false);
+  }
+
+  function gMode(){
+    document.addEventListener('keydown', gHandler, false);
+  }
+
+  function gHandler(e){
     addKeyBind( 'g', 'scrollToTop()', e );
     addKeyBind( 'i', 'focusFirstTextInput()', e );
     var pressedKey = get_key(e);
     if (pressedKey != 'g' && pressedKey != 'i')
-      document.removeEventListener('keydown', ghandler, false);
+      document.removeEventListener('keydown', gHandler, false);
+  }
+
+  function zMode(){
+    document.addEventListener('keydown', zHandler, false);
+  }
+
+  function zHandler(e){
+    addKeyBind( 'z', 'zoomDefault()', e );
+    addKeyBind( 'i', 'zoomIn()', e );
+    addKeyBind( 'o', 'zoomOut()', e );
+    addKeyBind( 'm', 'zoomMore()', e );
+    addKeyBind( 'r', 'zoomReduce()', e );
+    var pressedKey = get_key(e);
+    if (/[ziomr]/.test(pressedKey) == false)
+      document.removeEventListener('keydown', zHandler, false);
   }
 
   function focusFirstTextInput(){
@@ -208,6 +274,7 @@
       addKeyBind( '$', 'scrollToLast()', e );
       addKeyBind( 'Esc', 'blurFocus()', e );
       addKeyBind( 'g', 'gMode()', e );
+      addKeyBind( 'z', 'zMode()', e );
     }
   },false );
 
