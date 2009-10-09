@@ -137,7 +137,7 @@
     var now_zoom_level = zoom_settings[domain] || defalut_zoom_index;
     var zoom_level;
     zoom_level = now_zoom_level + countup;
-    if ( zoom_level < 0 ) {
+    if ( zoom_level <= 0 ) {
       zoom_level = 0;
     } else if (zoom_level >= zoom_levels.length) {
       zoom_level = zoom_levels.length - 1;
