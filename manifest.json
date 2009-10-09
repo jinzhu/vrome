@@ -1,7 +1,7 @@
 {
   "name": "Vimlike Smooziee",
-  "version": "0.0.4",
-  "update_url": "http://vimlike-smooziee.googlecode.com/files/updates.xml",
+  "version": "0.0.5",
+  "update_url": "http://sites.google.com/site/hirokifujita/Home/vimlike-smooziee-updates.xml?attredirects=0",
   "background_page": "background.html",
   "content_scripts": [ {
     "js": [ "vimlike_smooziee.js" ],
