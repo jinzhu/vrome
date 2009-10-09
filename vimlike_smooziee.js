@@ -244,7 +244,7 @@
     }
   }
 
-  window.addEventListener( 'keydown', function(e){
+  document.addEventListener( 'keydown', function(e){
     var t = e.target;
     if( t.nodeType == 1){
       tn=t.tagName.toLowerCase();
