@@ -134,7 +134,10 @@
   }
 
   function setZoomCountup(countup, domain) {
-    var now_zoom_level = zoom_settings[domain] || defalut_zoom_index;
+    var now_zoom_level = zoom_settings[domain];
+    if (now_zoom_level == undefined) {
+      now_zoom_level = defalut_zoom_index;
+    }
     var zoom_level;
     zoom_level = now_zoom_level + countup;
     if ( zoom_level <= 0 ) {
@@ -153,6 +156,7 @@
       zoom_settings[domain] = zoom_level;
     }
     document.removeEventListener('keydown', zHandler, false);
+    document.addEventListener('keydown', initKeyBind, false);
   }
 
   function gMode(){
@@ -168,6 +172,7 @@
   }
 
   function zMode(){
+    document.removeEventListener('keydown', initKeyBind, false);
     document.addEventListener('keydown', zHandler, false);
   }
 
@@ -178,8 +183,10 @@
     addKeyBind( 'm', 'zoomMore()', e );
     addKeyBind( 'r', 'zoomReduce()', e );
     var pressedKey = get_key(e);
-    if (/[ziomr]/.test(pressedKey) == false)
+    if (/[ziomr]/.test(pressedKey) == false) {
       document.removeEventListener('keydown', zHandler, false);
+      document.addEventListener('keydown', initKeyBind, false);
+    }
   }
 
   function focusFirstTextInput(){
@@ -244,7 +251,9 @@
     }
   }
 
-  document.addEventListener( 'keydown', function(e){
+  document.addEventListener( 'keydown', initKeyBind, false );
+
+  function initKeyBind(e){
     var t = e.target;
     if( t.nodeType == 1){
       tn=t.tagName.toLowerCase();
@@ -276,7 +285,7 @@
       addKeyBind( 'g', 'gMode()', e );
       addKeyBind( 'z', 'zMode()', e );
     }
-  },false );
+  }
 
   var keyId = {
     "U+0008" : "BackSpace",
@@ -376,7 +385,7 @@
     ctrl = evt.ctrlKey ? 'C-' : '',
     meta = (evt.metaKey || evt.altKey) ? 'M-' : '',
     shift = evt.shiftKey ? 'S-' : '';
-    if (/^(Meta|Shift|Control|Alt)$/.test(key)) return key; // safari only
+//    if (/^(Meta|Shift|Control|Alt)$/.test(key)) return key; // safari only
     if (evt.shiftKey){
       if (/^[a-z]$/.test(key)) 
         return ctrl+meta+key.toUpperCase();

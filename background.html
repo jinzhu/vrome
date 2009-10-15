@@ -51,7 +51,7 @@ chrome.extension.onConnect.addListener(function(port, name) {
       });
       break;
     case "next_tab":
-      chrome.tabs.getAllInWindow(port.tab.windowId, function(tabs) {
+      chrome.tabs.getAllInWindow(tab.windowId, function(tabs) {
         var next_tab = tabs[tab.index + 1] || tabs[0];
         if (next_tab) {
           chrome.tabs.update(next_tab.id, {selected: true});
