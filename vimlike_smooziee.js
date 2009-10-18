@@ -4,6 +4,9 @@
   var horizontal_moment = 100;
   var next;
   var flg;
+
+  var hint_num_str = '';
+  var hint_elems = [];
   
   var zoom_settings = [];
   var zoom_levels = ['30%', '50%', '67%', '80%', '90%', '100%', '110%', '120%', '133%', '150%', '170%', '200%', '240%', '300%']
@@ -189,6 +192,162 @@
     }
   }
 
+  function hintMode(){
+    setHints();
+    document.removeEventListener('keydown', initKeyBind, false);
+    document.addEventListener('keydown', hintHandler, false);
+    hint_num_str = '';
+  }
+
+  function hintHandler(e){
+    e.preventDefault();  //Stop Default Event 
+    var pressedKey = get_key(e);
+    if (pressedKey == 'Enter') {
+      if (hint_num_str == '')
+        hint_num_str = '1';
+      judgeHintNum(Number(hint_num_str));
+    } else if (/[0-9asdfghjkl;]/.test(pressedKey) == false || pressedKey =='Esc') {
+       removeHints();
+    } else {
+      // TODO
+      if (pressedKey == 'U+00BA') {
+        pressedKey = ';';
+      }
+      var num = ';asdfghjkl'.indexOf(pressedKey);
+      if (num >= 0) {
+        pressedKey = num;
+      }
+      hint_num_str += pressedKey;
+      var hint_num = Number(hint_num_str);
+      if (hint_num * 10 > hint_elems.length + 1) {
+        judgeHintNum(hint_num);
+      } else {
+        var hint_elem = hint_elems[hint_num - 1];
+        if (hint_elem != undefined && hint_elem.tagName.toLowerCase() == 'a') {
+          setHighlight(hint_elem, true);
+        }
+      }
+    }
+  }
+
+  function setHighlight(elem, is_active) {
+    if (is_active) {
+      var active_elem = document.body.querySelector('a[highlight=hint_active]');
+      if (active_elem != undefined)
+        active_elem.setAttribute('highlight', 'hint_elem');
+      elem.setAttribute('highlight', 'hint_active');
+    } else {
+      elem.setAttribute('highlight', 'hint_elem');
+    }
+
+  }
+
+  function setHintRules() {
+    var ss = document.styleSheets[0];
+    ss.insertRule('a[highlight=hint_elem] {background-color: yellow}', 0);
+    ss.insertRule('a[highlight=hint_active] {background-color: lime}', 0);
+  }
+
+  function deleteHintRules() {
+    var ss = document.styleSheets[0];
+    ss.deleteRule(0);
+    ss.deleteRule(0);
+  }
+
+  function judgeHintNum(hint_num) {
+    var hint_elem = hint_elems[hint_num - 1];
+    if (hint_elem != undefined) {
+      execSelect(hint_elem);
+    } else {
+      removeHints();
+    }
+  }
+
+  function execSelect(elem) {
+    var tag_name = elem.tagName.toLowerCase();
+    var type = elem.type ? elem.type.toLowerCase() : "";
+    if (tag_name == 'a') {
+      setHighlight(elem, true);
+      var port = chrome.extension.connect();
+      // TODO: ajax, <select>
+      port.postMessage({action: "open_url", url: elem.href});
+    } else if (tag_name == 'input' && (type == "submit" || type == "button" || type == "reset")) {
+      elem.click();
+    } else if (tag_name == 'input' && (type == "radio" || type == "checkbox")) {
+      elem.checked = true;
+      removeHints();
+    } else if (tag_name == 'input' || tag_name == 'textarea') {
+      elem.focus();
+      elem.setSelectionRange(elem.value.length, elem.value.length);
+      removeHints();
+    }
+  }
+
+  function setHints() {
+    setHintRules();
+    var top = window.scrollY;
+    var bottom = top + window.innerHeight;
+    // TODO: <area>
+    var elems = document.body.querySelectorAll('a, input:not([type=hidden]), textarea, select, button');
+    var div = document.createElement('div');
+    div.setAttribute('highlight', 'hints');
+    document.body.appendChild(div);
+    for (var i = 0; i < elems.length; i++) {
+      var elem = elems[i];
+      if (!isHintDisplay(elem))
+        continue;
+      var pos = elem.getBoundingClientRect();
+      var elem_top = window.scrollY + pos.top;
+      var elem_bottom = window.scrollY + pos.bottom;
+      var elem_left = window.scrollX + pos.left;
+      if (elem_bottom >= top && elem_top <= bottom) {
+        hint_elems.push(elem);
+        setHighlight(elem, false);
+        var span = document.createElement('span');
+        span.style.cssText = [ 
+          'left: ', elem_left, 'px;',
+          'top: ', elem_top, 'px;',
+          'position: absolute;',
+          'font-size: 13px;',
+          'background-color: red;',
+          'color: white;',
+          'font-weight: bold;',
+          'padding: 0px 1px;',
+          'z-index: 100000;'
+        ].join('');
+        span.innerHTML = hint_elems.length;
+        div.appendChild(span);
+        if (elem.tagName.toLowerCase() == 'a') {
+          if (hint_elems.length == 1) {
+            setHighlight(elem, true);
+          } else {
+            setHighlight(elem, false);
+          }
+        }
+      }
+    }
+  }
+
+  function isHintDisplay(elem) {
+    var pos = elem.getBoundingClientRect();
+    return (pos.height != 0 && pos.width != 0);
+  }
+
+  function removeHints() {
+    deleteHintRules();
+    for (var i = 0; i < hint_elems.length; i++) {
+      hint_elems[i].removeAttribute('highlight');
+    }
+    hint_elems = [];
+    hint_num_str = '';
+    var div = document.body.querySelector('div[highlight=hints]');
+    if (div != undefined) {
+      document.body.removeChild(div);
+    }
+    document.removeEventListener('keydown', hintHandler, false);
+    document.addEventListener('keydown', initKeyBind, false);
+  }
+
   function focusFirstTextInput(){
     var elem = document.querySelector('input[type="text"],input:not([type])');
     if (elem) {
@@ -284,6 +443,9 @@
       addKeyBind( 'Esc', 'blurFocus()', e );
       addKeyBind( 'g', 'gMode()', e );
       addKeyBind( 'z', 'zMode()', e );
+      addKeyBind( 'f', 'hintMode()', e );
+      // TODO: open new tab
+      //addKeyBind( 'F', 'hintMode()', e );
     }
   }
 
@@ -391,6 +553,7 @@
         return ctrl+meta+key.toUpperCase();
       if (/^[0-9]$/.test(key)) {
         switch(key) {
+        // TODO
         case "4":
           key = "$";
           break;

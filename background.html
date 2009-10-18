@@ -58,6 +58,9 @@ chrome.extension.onConnect.addListener(function(port, name) {
         }
       });
       break;
+    case "open_url":
+      chrome.tabs.update(tab.id, {url: msg.url});
+      break;
     };
   });
 });
