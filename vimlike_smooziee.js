@@ -162,6 +162,14 @@
     document.addEventListener('keydown', initKeyBind, false);
   }
 
+  function currentZoom() {
+    var domain = document.domain;
+    var zoom_level = zoom_settings[domain];
+    if (zoom_level == undefined)
+      return 1;
+    return ( parseInt(zoom_levels[zoom_level]) / 100 );
+  }
+
   function gMode(){
     document.addEventListener('keydown', gHandler, false);
   }
@@ -266,7 +274,7 @@
   function execSelect(elem) {
     var tag_name = elem.tagName.toLowerCase();
     var type = elem.type ? elem.type.toLowerCase() : "";
-    if (tag_name == 'a') {
+    if (tag_name == 'a' && elem.href != '') {
       setHighlight(elem, true);
       var port = chrome.extension.connect();
       // TODO: ajax, <select>
@@ -274,6 +282,7 @@
     } else if (tag_name == 'input' && (type == "submit" || type == "button" || type == "reset")) {
       elem.click();
     } else if (tag_name == 'input' && (type == "radio" || type == "checkbox")) {
+      // TODO: toggle checkbox
       elem.checked = true;
       removeHints();
     } else if (tag_name == 'input' || tag_name == 'textarea') {
@@ -285,8 +294,10 @@
 
   function setHints() {
     setHintRules();
-    var top = window.scrollY;
-    var bottom = top + window.innerHeight;
+    var win_top = window.scrollY / currentZoom();
+    var win_bottom = win_top + window.innerHeight;
+    var win_left = window.scrollX / currentZoom();
+    var win_right = win_left + window.innerWidth;
     // TODO: <area>
     var elems = document.body.querySelectorAll('a, input:not([type=hidden]), textarea, select, button');
     var div = document.createElement('div');
@@ -297,10 +308,11 @@
       if (!isHintDisplay(elem))
         continue;
       var pos = elem.getBoundingClientRect();
-      var elem_top = window.scrollY + pos.top;
-      var elem_bottom = window.scrollY + pos.bottom;
-      var elem_left = window.scrollX + pos.left;
-      if (elem_bottom >= top && elem_top <= bottom) {
+      var elem_top = win_top + pos.top;
+      var elem_bottom = win_top + pos.bottom;
+      var elem_left = win_left + pos.left;
+      var elem_right = win_left + pos.left;
+      if ( elem_bottom >= win_top && elem_top <= win_bottom) {
         hint_elems.push(elem);
         setHighlight(elem, false);
         var span = document.createElement('span');

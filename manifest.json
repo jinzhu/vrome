@@ -1,6 +1,6 @@
 {
   "name": "Vimlike Smooziee",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "update_url": "http://sites.google.com/site/hirokifujita/Home/vimlike-smooziee-updates.xml?attredirects=0",
   "background_page": "background.html",
   "content_scripts": [ {
