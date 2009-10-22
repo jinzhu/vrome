@@ -1,4 +1,12 @@
 (function(){
+  // TODO
+  var exclude_urls = [/\/\/www\.google\..*\/reader\//,  /\/\/mail\.google\.com\//]
+  for (var i = 0; i < exclude_urls.length; i++) {
+    if ( exclude_urls[i].test(location.href) ) {
+      return;
+    }
+  }
+
   var interval = 20;
   var vertical_moment = 250;
   var horizontal_moment = 100;
