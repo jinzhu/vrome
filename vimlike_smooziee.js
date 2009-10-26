@@ -1,6 +1,6 @@
 (function(){
   // TODO
-  var exclude_urls = [/\/\/www\.google\..*\/reader\//,  /\/\/mail\.google\.com\//]
+  var exclude_urls = [/\/\/www\.google\.[^\/]+\/reader\//,  /\/\/mail\.google\.com\/mail\//]
   for (var i = 0; i < exclude_urls.length; i++) {
     if ( exclude_urls[i].test(location.href) ) {
       return;
@@ -15,10 +15,22 @@
 
   var hint_num_str = '';
   var hint_elems = [];
+  var hint_open_in_new_tab = false;
   
   var zoom_settings = [];
   var zoom_levels = ['30%', '50%', '67%', '80%', '90%', '100%', '110%', '120%', '133%', '150%', '170%', '200%', '240%', '300%']
   var defalut_zoom_index = zoom_levels.indexOf('100%');
+
+  chrome.extension.onConnect.addListener(function(port) {
+    port.onMessage.addListener(function(msg) {
+      var tab = port.tab;
+      switch(msg.action){
+      case "remove_hints":
+        removeHints();
+        break;
+      };
+    });
+  });
 
   function smoothScrollDown(){
     flg = 'vertical';
@@ -208,7 +220,12 @@
     }
   }
 
-  function hintMode(){
+  function hintMode(newtab){
+    if (newtab) {
+      hint_open_in_new_tab = true;
+    } else {
+      hint_open_in_new_tab = false;
+    }
     setHints();
     document.removeEventListener('keydown', initKeyBind, false);
     document.addEventListener('keydown', hintHandler, false);
@@ -286,12 +303,12 @@
       setHighlight(elem, true);
       var port = chrome.extension.connect();
       // TODO: ajax, <select>
-      port.postMessage({action: "open_url", url: elem.href});
+      port.postMessage({action: "open_url", url: elem.href, newtab: hint_open_in_new_tab});
     } else if (tag_name == 'input' && (type == "submit" || type == "button" || type == "reset")) {
       elem.click();
     } else if (tag_name == 'input' && (type == "radio" || type == "checkbox")) {
       // TODO: toggle checkbox
-      elem.checked = true;
+      elem.checked = !elem.checked;
       removeHints();
     } else if (tag_name == 'input' || tag_name == 'textarea') {
       elem.focus();
@@ -329,7 +346,7 @@
           'top: ', elem_top, 'px;',
           'position: absolute;',
           'font-size: 13px;',
-          'background-color: red;',
+          'background-color: ' + (hint_open_in_new_tab ? '#ff6600' : 'red') + ';',
           'color: white;',
           'font-weight: bold;',
           'padding: 0px 1px;',
@@ -438,6 +455,7 @@
       tn=t.tagName.toLowerCase();
       if( tn == 'input' || tn == 'textarea' ){
         addKeyBind( 'Esc', 'blurFocus()', e );
+        addKeyBind( 'C-[', 'blurFocus()', e ); // = Esc
         addKeyBind( 'C-a', 'moveFirstOrSelectAll()', e );
         addKeyBind( 'C-e', 'moveEnd()', e );
         addKeyBind( 'C-f', 'moveForward()', e );
@@ -461,11 +479,11 @@
       addKeyBind( '0', 'scrollToFirst()', e );
       addKeyBind( '$', 'scrollToLast()', e );
       addKeyBind( 'Esc', 'blurFocus()', e );
+      addKeyBind( 'C-[', 'blurFocus()', e ); // = Esc
       addKeyBind( 'g', 'gMode()', e );
       addKeyBind( 'z', 'zMode()', e );
       addKeyBind( 'f', 'hintMode()', e );
-      // TODO: open new tab
-      //addKeyBind( 'F', 'hintMode()', e );
+      addKeyBind( 'F', 'hintMode(true)', e );
     }
   }
 
@@ -532,9 +550,12 @@
     "U+0058" : "x",
     "U+0059" : "y",
     "U+005A" : "z",
-    "U+005B" : "[",
-    "U+005C" : "\\",
-    "U+005D" : "]",
+    //"U+005B" : "[",
+    //"U+005C" : "\\",
+    //"U+005D" : "]",
+    "U+00DB" : "[",
+    "U+00DC" : "\\",
+    "U+00DD" : "]",
     "U+005E" : "^",
     "U+005F" : "_",
     "U+0060" : "`",
