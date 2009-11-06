@@ -439,12 +439,22 @@
     elem.setSelectionRange(caret_position - 1, caret_position - 1);
   }
 
+  function deleteBackwardWord(){
+    var elem = document.activeElement;
+    var caret_position = elem.selectionEnd;
+    var org_str = elem.value
+    elem.value = org_str.substring(0, caret_position - 1).replace(/\S*\s*$/,'') + org_str.substring(caret_position, org_str.length);
+    var position = elem.value.length - (org_str.length - caret_position);
+    elem.setSelectionRange(position,position);
+  }
+
   function addKeyBind( key, func, eve ){
     var pressedKey = get_key(eve);
     if( pressedKey == key ){
       eve.preventDefault();  //Stop Default Event 
       eval(func);
     }
+    return false;
   }
 
   document.addEventListener( 'keydown', initKeyBind, false );
@@ -462,6 +472,7 @@
         addKeyBind( 'C-b', 'moveBackward()', e );
         addKeyBind( 'C-d', 'deleteForward()', e );
         addKeyBind( 'C-h', 'deleteBackward()', e );
+        addKeyBind( 'C-w', 'deleteBackwardWord()', e );
         return;
       }
       addKeyBind( 'j', 'smoothScrollDown()', e );
@@ -485,6 +496,7 @@
       addKeyBind( 'f', 'hintMode()', e );
       addKeyBind( 'F', 'hintMode(true)', e );
     }
+    return false;
   }
 
   var keyId = {
