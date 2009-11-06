@@ -87,6 +87,8 @@ class ExCreator < Object
   def create_zip
     Zip::Archive.open(@zip, Zip::CREATE | Zip::TRUNC) do |zip|
       Find.find(@exdir) do |path|
+        next if File.basename(path) =~ /buildex\.rb|vimlike-smooziee\.crx|vimlike-smooziee\.pem|Rakefile|\.gitignore/ || path =~ /\/\.git\//
+
         unless path == @exdir
           if File.directory?(path)
             if File.basename(path)[0] == ?.
