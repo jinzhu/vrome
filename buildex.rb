@@ -109,7 +109,7 @@ class ExCreator < Object
     if base[base.size - 1] != ?/
       base += '/'
     end
-    target.sub(Regexp.escape(base), '')
+    target.sub(base, '')
   end
  
   def sign_zip
