@@ -16,7 +16,7 @@
   var hint_num_str = '';
   var hint_elems = [];
   var hint_open_in_new_tab = false;
-  
+
   var zoom_settings = [];
   var zoom_levels = ['30%', '50%', '67%', '80%', '90%', '100%', '110%', '120%', '133%', '150%', '170%', '200%', '240%', '300%']
   var defalut_zoom_index = zoom_levels.indexOf('100%');
@@ -36,43 +36,43 @@
     flg = 'vertical';
     smoothScrollBy(vertical_moment);
   }
-  
+
   function smoothScrollUp(){
     flg = 'vertical';
     smoothScrollBy(-vertical_moment);
   }
-  
+
   function smoothScrollRight(){
     flg = 'horizontal';
     smoothScrollBy(horizontal_moment);
   }
-  
+
   function smoothScrollLeft(){
     flg = 'horizontal';
     smoothScrollBy(-horizontal_moment);
   }
-  
+
   function smoothScrollBy(moment){
     clearTimeout(next);
     smoothScroll(moment);
   }
-  
+
   function smoothScroll(moment){
     if (moment > 0)
       moment = Math.floor(moment / 2);
     else
       moment = Math.ceil(moment / 2);
-  
+
     scrollFunc(moment);
-  
+
     if (Math.abs(moment) < 1) {
       setTimeout(function() {scrollFunc(moment)});
       return;
     }
-  
+
     next = setTimeout(function() {smoothScroll(moment)}, interval);
   }
-  
+
   function scrollFunc(moment) {
     if (flg == 'vertical') {
       scrollBy(0, moment);
@@ -102,7 +102,7 @@
   function reload(){
     location.reload();
   }
- 
+
   function closeTab(){
     var port = chrome.extension.connect();
     port.postMessage({action: "close_tab"});
@@ -117,16 +117,16 @@
     var port = chrome.extension.connect();
     port.postMessage({action: "previous_tab"});
   }
- 
+
   function nextTab(){
     var port = chrome.extension.connect();
     port.postMessage({action: "next_tab"});
   }
- 
+
   function historyBack(){
     history.back();
   }
- 
+
   function historyForward(){
     history.forward();
   }
@@ -233,7 +233,7 @@
   }
 
   function hintHandler(e){
-    e.preventDefault();  //Stop Default Event 
+    e.preventDefault();  //Stop Default Event
     var pressedKey = get_key(e);
     if (pressedKey == 'Enter') {
       if (hint_num_str == '')
@@ -341,7 +341,7 @@
         hint_elems.push(elem);
         setHighlight(elem, false);
         var span = document.createElement('span');
-        span.style.cssText = [ 
+        span.style.cssText = [
           'left: ', elem_left, 'px;',
           'top: ', elem_top, 'px;',
           'position: absolute;',
@@ -451,7 +451,7 @@
   function addKeyBind( key, func, eve ){
     var pressedKey = get_key(eve);
     if( pressedKey == key ){
-      eve.preventDefault();  //Stop Default Event 
+      eve.preventDefault();  //Stop Default Event
       eval(func);
     }
     return false;
@@ -602,7 +602,7 @@
     shift = evt.shiftKey ? 'S-' : '';
 //    if (/^(Meta|Shift|Control|Alt)$/.test(key)) return key; // safari only
     if (evt.shiftKey){
-      if (/^[a-z]$/.test(key)) 
+      if (/^[a-z]$/.test(key))
         return ctrl+meta+key.toUpperCase();
       if (/^[0-9]$/.test(key)) {
         switch(key) {
@@ -613,7 +613,7 @@
         };
         return key;
       }
-      if (/^(Enter|Space|BackSpace|Tab|Esc|Home|End|Left|Right|Up|Down|PageUp|PageDown|F(\d\d?))$/.test(key)) 
+      if (/^(Enter|Space|BackSpace|Tab|Esc|Home|End|Left|Right|Up|Down|PageUp|PageDown|F(\d\d?))$/.test(key))
         return ctrl+meta+shift+key;
     }
     return ctrl+meta+key;
