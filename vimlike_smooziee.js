@@ -482,8 +482,8 @@
       addKeyBind( 'r', 'reload()', e );
       addKeyBind( 'd', 'closeTab()', e );
       addKeyBind( 'u', 'reopenTab()', e );
-      //addKeyBind( 'C-p', 'previousTab()', e );
-      //addKeyBind( 'C-n', 'nextTab()', e );
+      addKeyBind( 'C-p', 'previousTab()', e );
+      addKeyBind( 'C-n', 'nextTab()', e );
       addKeyBind( 'H', 'historyBack()', e );
       addKeyBind( 'L', 'historyForward()', e );
       addKeyBind( 'G', 'scrollToBottom()', e );
