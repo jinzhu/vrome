@@ -103,6 +103,11 @@
     location.reload();
   }
 
+  function reloadAll(){
+    var port = chrome.extension.connect();
+    port.postMessage({action: "reload_all_tabs"});
+  }
+
   function closeTab(){
     var port = chrome.extension.connect();
     port.postMessage({action: "close_tab"});
@@ -480,6 +485,7 @@
       addKeyBind( 'h', 'smoothScrollLeft()', e );
       addKeyBind( 'l', 'smoothScrollRight()', e );
       addKeyBind( 'r', 'reload()', e );
+      addKeyBind( 'R', 'reloadAll()', e );
       addKeyBind( 'd', 'closeTab()', e );
       addKeyBind( 'u', 'reopenTab()', e );
       addKeyBind( 'C-p', 'previousTab()', e );
