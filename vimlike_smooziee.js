@@ -207,6 +207,44 @@
       document.removeEventListener('keydown', gHandler, false);
   }
 
+  function pageMode(key){
+    if(key == ']'){
+      document.addEventListener('keydown', nextPageHandler, false);
+    }else{
+      document.addEventListener('keydown', prevPageHandler, false);
+    }
+  }
+
+  function nextPageHandler(e){
+    addKeyBind( ']', 'nextPage()', e );
+    var pressedKey = get_key(e);
+    if (pressedKey != ']')
+      document.removeEventListener('keydown', nextPageHandler, false);
+  }
+
+  function prevPageHandler(e){
+    addKeyBind( '[', 'prevPage()', e );
+    var pressedKey = get_key(e);
+    if (pressedKey != '[')
+      document.removeEventListener('keydown', prevPageHandler, false);
+  }
+
+  function nextPage(){
+    a_nodes = document.getElementsByTagName('a');
+    for(var cur in a_nodes){
+      if(new RegExp('>>|下一页|Next','im').test(a_nodes[cur].firstChild.data))
+        document.location = a_nodes[cur].href
+    }
+  }
+
+  function prevPage(){
+    a_nodes = document.getElementsByTagName('a');
+    for(var cur in a_nodes){
+      if(new RegExp('<<|上一页|Prev','im').test(a_nodes[cur].firstChild.data))
+        document.location = a_nodes[cur].href
+    }
+  }
+
   function zMode(){
     document.removeEventListener('keydown', initKeyBind, false);
     document.addEventListener('keydown', zHandler, false);
@@ -498,6 +536,8 @@
       addKeyBind( 'Esc', 'blurFocus()', e );
       addKeyBind( 'C-[', 'blurFocus()', e ); // = Esc
       addKeyBind( 'g', 'gMode()', e );
+      addKeyBind( ']', 'pageMode("]")', e );
+      addKeyBind( '[', 'pageMode()', e );
       addKeyBind( 'z', 'zMode()', e );
       addKeyBind( 'f', 'hintMode()', e );
       addKeyBind( 'F', 'hintMode(true)', e );
