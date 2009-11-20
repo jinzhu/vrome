@@ -232,15 +232,14 @@
   function nextPage(){
     a_nodes = document.getElementsByTagName('a');
     for(var cur in a_nodes){
-      if(new RegExp('>>|下一页|Next','im').test(a_nodes[cur].firstChild.data))
-        document.location = a_nodes[cur].href
+      if(new RegExp('(>>|下一页|»|Next|more\.*)','im').test(a_nodes[cur].firstChild.data))
     }
   }
 
   function prevPage(){
     a_nodes = document.getElementsByTagName('a');
     for(var cur in a_nodes){
-      if(new RegExp('<<|上一页|Prev','im').test(a_nodes[cur].firstChild.data))
+      if(new RegExp('<<|«|上一页|Prev','im').test(a_nodes[cur].firstChild.data))
         document.location = a_nodes[cur].href
     }
   }
