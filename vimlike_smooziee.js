@@ -275,17 +275,52 @@
     hint_num_str = '';
   }
 
+  function getHintNum(hint_num_str){
+    if(hint_num_str == ''){
+    }else if(/^\d+$/.test(hint_num_str)){
+      return(Number(hintHandler));
+    }else{
+      for(var i in hint_elems){
+        hint_elems[i].firstChild.data
+      }
+    }
+  }
+
+  function getCurrentHintElement(str){
+    elems = []
+    if(/^\d+$/.test(hint_num_str)){
+      hint_num = Number(str);
+
+      if (Number(hint_num) * 10 > hint_elems.length + 1) {
+        judgeHintNum(hint_num);
+      }
+    }else{
+      for(var i in hint_elems){
+        if new RegExp(str,'im').test(hint_elems[i].firstChild.data){
+          elems << hint_elems[i]
+        }
+      }
+      if(elems.length == 1){
+        if (Number(hint_num) * 10 > hint_elems.length + 1) {
+          judgeHintNum(hint_num);
+        }
+      }
+    }
+
+
+    setHighlight(hint_elems[hint_num],true);
+    return hint_num;
+  }
+
   function hintHandler(e){
     e.preventDefault();  //Stop Default Event
     var pressedKey = get_key(e);
+
     if (pressedKey == 'Enter') {
-      if (hint_num_str == '')
-        hint_num_str = '1';
-      judgeHintNum(Number(hint_num_str));
+      judgeHintNum(getCurrentHintElement(hint_num_str))
     } else if (/[0-9asdfghjkl;]/.test(pressedKey) == false || pressedKey =='Esc') {
        removeHints();
     } else {
-      // TODO
       if (pressedKey == 'U+00BA') {
         pressedKey = ';';
       }
@@ -294,8 +329,10 @@
         pressedKey = num;
       }
       hint_num_str += pressedKey;
-      var hint_num = Number(hint_num_str);
-      if (hint_num * 10 > hint_elems.length + 1) {
+      getCurrentHintElement(hint_num_str)
+
+      var hint_num = hint_num_str;
+      if (/^\d+$/.test(hint_num) && Number(hint_num) * 10 > hint_elems.length + 1) {
         judgeHintNum(hint_num);
       } else {
         var hint_elem = hint_elems[hint_num - 1];
@@ -331,6 +368,15 @@
   }
 
   function judgeHintNum(hint_num) {
+    //FIXME Number
+    if(/^\d+$/.test(hint_num)){
+      hint_num = Number(hint_num); 
+    }else{
+      for(var i in hint_elems){
+        hint_elem[i].firstChild.data
+      }
+    }
+
     var hint_elem = hint_elems[hint_num - 1];
     if (hint_elem != undefined) {
       execSelect(hint_elem);
