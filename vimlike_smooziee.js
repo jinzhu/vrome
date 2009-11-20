@@ -1,6 +1,6 @@
 (function(){
   // TODO
-  var exclude_urls = [/\/\/www\.google\.[^\/]+\/reader\//,  /\/\/mail\.google\.com\/mail\//, /\/\/www\.pivotaltracker\.com\//]
+  var exclude_urls = [/\/\/www\.google\.[^\/]+\/reader\//,  /\/\/mail\.google\.com\/mail\//, /\/\/www\.pivotaltracker\.com\//];
   for (var i = 0; i < exclude_urls.length; i++) {
     if ( exclude_urls[i].test(location.href) ) {
       return;
@@ -18,7 +18,7 @@
   var hint_open_in_new_tab = false;
 
   var zoom_settings = [];
-  var zoom_levels = ['30%', '50%', '67%', '80%', '90%', '100%', '110%', '120%', '133%', '150%', '170%', '200%', '240%', '300%']
+  var zoom_levels = ['30%', '50%', '67%', '80%', '90%', '100%', '110%', '120%', '133%', '150%', '170%', '200%', '240%', '300%'];
   var defalut_zoom_index = zoom_levels.indexOf('100%');
 
   chrome.extension.onConnect.addListener(function(port) {
@@ -28,7 +28,7 @@
       case "remove_hints":
         removeHints();
         break;
-      };
+      }
     });
   });
 
@@ -58,19 +58,20 @@
   }
 
   function smoothScroll(moment){
-    if (moment > 0)
+    if (moment > 0){
       moment = Math.floor(moment / 2);
-    else
+    }else{
       moment = Math.ceil(moment / 2);
+    }
 
     scrollFunc(moment);
 
     if (Math.abs(moment) < 1) {
-      setTimeout(function() {scrollFunc(moment)});
+      setTimeout(function() { scrollFunc(moment); });
       return;
     }
 
-    next = setTimeout(function() {smoothScroll(moment)}, interval);
+    next = setTimeout(function() { smoothScroll(moment); }, interval);
   }
 
   function scrollFunc(moment) {
@@ -82,21 +83,21 @@
   }
 
   function scrollToTop(){
-    scroll(0, -document.documentElement.scrollHeight)
+    scroll(0, -document.documentElement.scrollHeight);
   }
 
   function scrollToBottom(){
-    scroll(0, document.documentElement.scrollHeight)
+    scroll(0, document.documentElement.scrollHeight);
   }
 
   function scrollToFirst(){
     var scrollTop  = document.body.scrollTop  || document.documentElement.scrollTop;
-    scroll(-document.documentElement.scrollWidth, scrollTop)
+    scroll(-document.documentElement.scrollWidth, scrollTop);
   }
 
   function scrollToLast(){
     var scrollTop  = document.body.scrollTop  || document.documentElement.scrollTop;
-    scroll(document.documentElement.scrollWidth, scrollTop)
+    scroll(document.documentElement.scrollWidth, scrollTop);
   }
 
   function reload(){
@@ -190,8 +191,9 @@
   function currentZoom() {
     var domain = document.domain;
     var zoom_level = zoom_settings[domain];
-    if (zoom_level == undefined)
+    if (zoom_level == undefined){
       return 1;
+    }
     return ( parseInt(zoom_levels[zoom_level]) / 100 );
   }
 
@@ -203,8 +205,9 @@
     addKeyBind( 'g', 'scrollToTop()', e );
     addKeyBind( 'i', 'focusFirstTextInput()', e );
     var pressedKey = get_key(e);
-    if (pressedKey != 'g' && pressedKey != 'i')
+    if (pressedKey != 'g' && pressedKey != 'i'){
       document.removeEventListener('keydown', gHandler, false);
+    }
   }
 
   function pageMode(key){
@@ -218,30 +221,34 @@
   function nextPageHandler(e){
     addKeyBind( ']', 'nextPage()', e );
     var pressedKey = get_key(e);
-    if (pressedKey != ']')
+    if (pressedKey != ']'){
       document.removeEventListener('keydown', nextPageHandler, false);
+    }
   }
 
   function prevPageHandler(e){
     addKeyBind( '[', 'prevPage()', e );
     var pressedKey = get_key(e);
-    if (pressedKey != '[')
+    if (pressedKey != '['){
       document.removeEventListener('keydown', prevPageHandler, false);
+    }
   }
 
   function nextPage(){
     elems = document.getElementsByTagName('a');
     for(var cur in elems){
-      if(new RegExp('>>|下一页|»|Next|more*','im').test(elems[cur].firstChild.data))
+      if(new RegExp('>>|下一页|»|Next|more*','im').test(elems[cur].firstChild.data)){
         document.location = elems[cur].href;
+      }
     }
   }
 
   function prevPage(){
     elems = document.getElementsByTagName('a');
     for(var cur in elems){
-      if(new RegExp('<<|«|上一页|Prev','im').test(elems[cur].firstChild.data))
+      if(new RegExp('<<|«|上一页|Prev','im').test(elems[cur].firstChild.data)){
         document.location = elems[cur].href;
+      }
     }
   }
 
@@ -275,41 +282,27 @@
     hint_num_str = '';
   }
 
-  function getHintNum(hint_num_str){
-    if(hint_num_str == ''){
-    }else if(/^\d+$/.test(hint_num_str)){
-      return(Number(hintHandler));
-    }else{
-      for(var i in hint_elems){
-        hint_elems[i].firstChild.data
-      }
-    }
-  }
-
-  function getCurrentHintElement(str){
-    elems = []
+  function getCurrentHintElement(str,force_jump){
+    elems = [];
     if(/^\d+$/.test(hint_num_str)){
       hint_num = Number(str);
 
-      if (Number(hint_num) * 10 > hint_elems.length + 1) {
-        judgeHintNum(hint_num);
+      if (force_jump || (hint_num * 10 > hint_elems.length + 1)) {
+        return judgeHintNum(hint_num);
       }
     }else{
       for(var i in hint_elems){
-        if new RegExp(str,'im').test(hint_elems[i].firstChild.data){
-          elems << hint_elems[i]
+        if(new RegExp(str,'im').test(hint_elems[i].firstChild.data)){
+          if(elems.length == 0){ hint_num = i; }
+          elems[elems.length] = hint_elems[i];
         }
       }
-      if(elems.length == 1){
-        if (Number(hint_num) * 10 > hint_elems.length + 1) {
-          judgeHintNum(hint_num);
-        }
+      if(force_jump || elems.length == 1){
+        return judgeHintNum(hint_num);
       }
     }
 
-
     setHighlight(hint_elems[hint_num],true);
-    return hint_num;
   }
 
   function hintHandler(e){
@@ -317,42 +310,25 @@
     var pressedKey = get_key(e);
 
     if (pressedKey == 'Enter') {
-      judgeHintNum(getCurrentHintElement(hint_num_str))
-    } else if (/[0-9asdfghjkl;]/.test(pressedKey) == false || pressedKey =='Esc') {
+      getCurrentHintElement(hint_num_str,true);
+    } else if (pressedKey =='Esc') {
        removeHints();
     } else {
-      if (pressedKey == 'U+00BA') {
-        pressedKey = ';';
-      }
-      var num = ';asdfghjkl'.indexOf(pressedKey);
-      if (num >= 0) {
-        pressedKey = num;
-      }
       hint_num_str += pressedKey;
-      getCurrentHintElement(hint_num_str)
-
-      var hint_num = hint_num_str;
-      if (/^\d+$/.test(hint_num) && Number(hint_num) * 10 > hint_elems.length + 1) {
-        judgeHintNum(hint_num);
-      } else {
-        var hint_elem = hint_elems[hint_num - 1];
-        if (hint_elem != undefined && hint_elem.tagName.toLowerCase() == 'a') {
-          setHighlight(hint_elem, true);
-        }
-      }
+      getCurrentHintElement(hint_num_str);
     }
   }
 
   function setHighlight(elem, is_active) {
     if (is_active) {
       var active_elem = document.body.querySelector('a[highlight=hint_active]');
-      if (active_elem != undefined)
+      if (active_elem != undefined){
         active_elem.setAttribute('highlight', 'hint_elem');
+      }
       elem.setAttribute('highlight', 'hint_active');
     } else {
       elem.setAttribute('highlight', 'hint_elem');
     }
-
   }
 
   function setHintRules() {
@@ -368,15 +344,6 @@
   }
 
   function judgeHintNum(hint_num) {
-    //FIXME Number
-    if(/^\d+$/.test(hint_num)){
-      hint_num = Number(hint_num); 
-    }else{
-      for(var i in hint_elems){
-        hint_elem[i].firstChild.data
-      }
-    }
-
     var hint_elem = hint_elems[hint_num - 1];
     if (hint_elem != undefined) {
       execSelect(hint_elem);
@@ -419,8 +386,9 @@
     document.body.appendChild(div);
     for (var i = 0; i < elems.length; i++) {
       var elem = elems[i];
-      if (!isHintDisplay(elem))
+      if (!isHintDisplay(elem)){
         continue;
+      }
       var pos = elem.getBoundingClientRect();
       var elem_top = win_top + pos.top;
       var elem_bottom = win_top + pos.bottom;
@@ -489,10 +457,11 @@
   function moveFirstOrSelectAll(){
     var elem = document.activeElement;
     var caret_position = elem.selectionEnd;
-    if (caret_position == 0)
+    if (caret_position == 0){
       elem.setSelectionRange(0, elem.value.length); // select all text
-    else
+    }else{
       elem.setSelectionRange(0, 0);
+    }
   }
 
   function moveEnd(){
@@ -515,7 +484,7 @@
   function deleteForward(){
     var elem = document.activeElement;
     var caret_position = elem.selectionEnd;
-    var org_str = elem.value
+    var org_str = elem.value;
     elem.value = org_str.substring(0, caret_position) + org_str.substring(caret_position + 1, org_str.length);
     elem.setSelectionRange(caret_position, caret_position);
   }
@@ -523,7 +492,7 @@
   function deleteBackward(){
     var elem = document.activeElement;
     var caret_position = elem.selectionEnd;
-    var org_str = elem.value
+    var org_str = elem.value;
     elem.value = org_str.substring(0, caret_position - 1) + org_str.substring(caret_position, org_str.length);
     elem.setSelectionRange(caret_position - 1, caret_position - 1);
   }
@@ -531,7 +500,7 @@
   function deleteBackwardWord(){
     var elem = document.activeElement;
     var caret_position = elem.selectionEnd;
-    var org_str = elem.value
+    var org_str = elem.value;
     elem.value = org_str.substring(0, caret_position - 1).replace(/\S*\s*$/,'') + org_str.substring(caret_position, org_str.length);
     var position = elem.value.length - (org_str.length - caret_position);
     elem.setSelectionRange(position,position);
@@ -668,7 +637,6 @@
     "U+007D" : "}",
     "U+007F" : "Delete",
     "U+00A1" : "¡",
-    "U+0300" : "CombGrave",
     "U+0300" : "CombAcute",
     "U+0302" : "CombCircum",
     "U+0303" : "CombTilde",
@@ -684,8 +652,8 @@
     "U+0345" : "CombYpogeg",
     "U+20AC" : "€",
     "U+3099" : "CombVoice",
-    "U+309A" : "CombSVoice",
-  }
+    "U+309A" : "CombSVoice"
+  };
 
   function get_key(evt){
     var key = keyId[evt.keyIdentifier] || evt.keyIdentifier,
@@ -694,19 +662,20 @@
     shift = evt.shiftKey ? 'S-' : '';
 //    if (/^(Meta|Shift|Control|Alt)$/.test(key)) return key; // safari only
     if (evt.shiftKey){
-      if (/^[a-z]$/.test(key))
+      if (/^[a-z]$/.test(key)){
         return ctrl+meta+key.toUpperCase();
+      }
       if (/^[0-9]$/.test(key)) {
         switch(key) {
-        // TODO
         case "4":
           key = "$";
           break;
-        };
+        }
         return key;
       }
-      if (/^(Enter|Space|BackSpace|Tab|Esc|Home|End|Left|Right|Up|Down|PageUp|PageDown|F(\d\d?))$/.test(key))
+      if (/^(Enter|Space|BackSpace|Tab|Esc|Home|End|Left|Right|Up|Down|PageUp|PageDown|F(\d\d?))$/.test(key)){
         return ctrl+meta+shift+key;
+      }
     }
     return ctrl+meta+key;
   }
