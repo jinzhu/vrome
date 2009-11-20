@@ -349,17 +349,9 @@
     ss.deleteRule(0);
   }
 
-  function judgeHintNum(hint_num) {
-    var hint_elem = hint_elems[hint_num - 1];
-    if (hint_elem != undefined) {
-      execSelect(hint_elem);
-    } else {
-      removeHints();
-    }
-  }
-
   function execSelect(elem) {
-    if(elem == undefined){ return }
+    // if the element is not a really element,then return and remove all hints
+    if(elem == undefined){ return removeHints(); }
 
     var tag_name = elem.tagName.toLowerCase();
     var type = elem.type ? elem.type.toLowerCase() : "";
