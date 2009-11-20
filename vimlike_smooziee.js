@@ -283,26 +283,32 @@
   }
 
   function getCurrentHintElement(str,force_jump){
-    elems = [];
     if(/^\d+$/.test(hint_num_str)){
-      hint_num = Number(str);
+      var hint_num = Number(str) - 1;
+      var hint_elem = hint_elems[hint_num];
 
       if (force_jump || (hint_num * 10 > hint_elems.length + 1)) {
-        return judgeHintNum(hint_num);
+        return execSelect(hint_elems[hint_num]);
       }
     }else{
+      var elems = new Array;
       for(var i in hint_elems){
-        if(new RegExp(str,'im').test(hint_elems[i].firstChild.data)){
-          if(elems.length == 0){ hint_num = i; }
+        var firstChild = hint_elems[i].firstChild;
+        var data = (firstChild && firstChild.nodeType == 3) ? firstChild.data : '';
+        if(new RegExp(str,'im').test(data)){
           elems[elems.length] = hint_elems[i];
         }
       }
+
       if(force_jump || elems.length == 1){
-        return judgeHintNum(hint_num);
+        return execSelect(elems[0]);
       }
+      var hint_elem = elems[0];
     }
 
-    setHighlight(hint_elems[hint_num],true);
+    if(hint_elem != undefined) {
+      setHighlight(hint_elem,true);
+    }
   }
 
   function hintHandler(e){
@@ -353,6 +359,8 @@
   }
 
   function execSelect(elem) {
+    if(elem == undefined){ return }
+
     var tag_name = elem.tagName.toLowerCase();
     var type = elem.type ? elem.type.toLowerCase() : "";
     if (tag_name == 'a' && elem.href != '') {
