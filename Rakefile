@@ -2,7 +2,8 @@ require 'rake'
 
 desc 'preinstall'
 task :preinstall do
-  `sh #{File.join(__FILE__,'preinstall.sh')}`
+  file = File.join(__FILE__,'preinstall.sh')
+  `sh #{file}` if File.exist?(file)
 end
 
 desc 'build extension'
