@@ -269,29 +269,44 @@
       document.addEventListener('keydown', initKeyBind, false);
     }
   }
-
+  ////////////////////////////////////////
+  // Hint
+  ////////////////////////////////////////
   function hintMode(newtab){
-    if (newtab) {
-      hint_open_in_new_tab = true;
-    } else {
-      hint_open_in_new_tab = false;
-    }
+    hint_num_str = '';
+    hint_open_in_new_tab = newtab ? true : false;
     setHints();
+
     document.removeEventListener('keydown', initKeyBind, false);
     document.addEventListener('keydown', hintHandler, false);
-    hint_num_str = '';
   }
 
-  function getCurrentHintElement(str,force_jump){
+  function hintHandler(e){
+    e.preventDefault();  //Stop Default Event
+    var pressedKey = get_key(e);
+
+    if (pressedKey =='Esc') {
+       removeHints();
+    } else {
+      if(pressedKey == 'Enter'){
+        highlightAndJumpCurrentHint(hint_num_str,true);
+      }else{
+        highlightAndJumpCurrentHint(hint_num_str + pressedKey,false);
+      }
+    }
+  }
+
+  function highlightAndJumpCurrentHint(str,force_jump){
+    hint_num_str = str;
+    var hint_num = 0;
+    var elems = new Array();
+
+    // input num to filter
     if(/^\d+$/.test(hint_num_str)){
       var hint_num = Number(str) - 1;
       var hint_elem = hint_elems[hint_num];
-
-      if (force_jump || (hint_num * 10 > hint_elems.length + 1)) {
-        return execSelect(hint_elems[hint_num]);
-      }
     }else{
-      var elems = new Array;
+    // input string to filter
       for(var i in hint_elems){
         var firstChild = hint_elems[i].firstChild;
         var data = (firstChild && firstChild.nodeType == 3) ? firstChild.data : '';
@@ -299,33 +314,19 @@
           elems[elems.length] = hint_elems[i];
         }
       }
-
-      if(force_jump || elems.length == 1){
-        return execSelect(elems[0]);
-      }
       var hint_elem = elems[0];
     }
 
-    if(hint_elem != undefined) {
-      setHighlight(hint_elem,true);
-    }
-  }
+    setHighlight(hint_elem,true);
 
-  function hintHandler(e){
-    e.preventDefault();  //Stop Default Event
-    var pressedKey = get_key(e);
-
-    if (pressedKey == 'Enter') {
-      getCurrentHintElement(hint_num_str,true);
-    } else if (pressedKey =='Esc') {
-       removeHints();
-    } else {
-      hint_num_str += pressedKey;
-      getCurrentHintElement(hint_num_str);
+    if (force_jump || (hint_num * 10 > hint_elems.length + 1) || elems.length == 1) {
+      return execSelect(hint_elem);
     }
   }
 
   function setHighlight(elem, is_active) {
+    if(elem == undefined) { return false; }
+
     if (is_active) {
       var active_elem = document.body.querySelector('a[highlight=hint_active]');
       if (active_elem != undefined){
