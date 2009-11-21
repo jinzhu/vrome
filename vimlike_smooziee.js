@@ -13,7 +13,8 @@
   var next;
   var flg;
 
-  var hint_num_str = '';
+  var hint_str = '';
+  var hint_str_num = 0;
   var hint_elems = [];
   var hint_open_in_new_tab = false;
 
@@ -273,7 +274,8 @@
   // Hint
   ////////////////////////////////////////
   function hintMode(newtab){
-    hint_num_str = '';
+    hint_str = '';
+    hint_str_num = 0;
     hint_open_in_new_tab = newtab ? true : false;
     setHints();
 
@@ -289,20 +291,28 @@
        removeHints();
     } else {
       if(pressedKey == 'Enter'){
-        highlightAndJumpCurrentHint(hint_num_str,true);
+        highlightAndJumpCurrentHint(hint_tr,true);
       }else{
-        highlightAndJumpCurrentHint(hint_num_str + pressedKey,false);
+        highlightAndJumpCurrentHint(hint_str + pressedKey,false);
       }
     }
   }
 
   function highlightAndJumpCurrentHint(str,force_jump){
-    hint_num_str = str;
+    hint_str = str;
+
+    if(/^\d$/.test(str)){
+      hint_str_num = hint_str_num * 10 + Number(str);
+      if (force_jump || (hint_str_num * 10 > hint_elems.length + 1)){
+        return execSelect(hint_elem);
+      }
+    }
+
     var hint_num = 0;
     var elems = new Array();
 
     // input num to filter
-    if(/^\d+$/.test(hint_num_str)){
+    if(/^\d+$/.test(hint_str)){
       var hint_num = Number(str) - 1;
       var hint_elem = hint_elems[hint_num];
     }else{
@@ -434,7 +444,7 @@
       hint_elems[i].removeAttribute('highlight');
     }
     hint_elems = [];
-    hint_num_str = '';
+    hint_str = '';
     var div = document.body.querySelector('div[highlight=hints]');
     if (div != undefined) {
       document.body.removeChild(div);
