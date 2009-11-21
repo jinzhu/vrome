@@ -16,6 +16,7 @@
   var hint_str = '';
   var hint_str_num = 0;
   var hint_elems = [];
+  var hint_elems_filter = [];
   var hint_open_in_new_tab = false;
 
   var zoom_settings = [];
@@ -299,6 +300,7 @@
   }
 
   function highlightAndJumpCurrentHint(str,force_jump){
+    hint_elems_filter = [];
     hint_str = str;
 
     if(/^\d$/.test(str)){
@@ -309,8 +311,6 @@
     }
 
     var hint_num = 0;
-    var elems = new Array();
-
     // input num to filter
     if(/^\d+$/.test(hint_str)){
       var hint_num = Number(str) - 1;
@@ -321,10 +321,10 @@
         var firstChild = hint_elems[i].firstChild;
         var data = (firstChild && firstChild.nodeType == 3) ? firstChild.data : '';
         if(new RegExp('^' + str,'im').test(CC2PY(data).replace(/\W/g,''))){
-          elems[elems.length] = hint_elems[i];
+          hint_elems_filter[hint_elems_filter.length] = hint_elems[i];
         }
       }
-      var hint_elem = elems[0];
+      var hint_elem = hint_elems_filter[0];
     }
 
     setHighlight(hint_elem,true);
@@ -386,28 +386,17 @@
 
   function setHints() {
     setHintRules();
-    var win_top = window.scrollY / currentZoom();
-    var win_bottom = win_top + window.innerHeight;
-    var win_left = window.scrollX / currentZoom();
-    var win_right = win_left + window.innerWidth;
     // TODO: <area>
     var elems = document.body.querySelectorAll('a, input:not([type=hidden]), textarea, select, button');
     var div = document.createElement('div');
     div.setAttribute('highlight', 'hints');
     document.body.appendChild(div);
+
     for (var i = 0; i < elems.length; i++) {
       var elem = elems[i];
-      if (!isHintDisplay(elem)){
-        continue;
-      }
-      var pos = elem.getBoundingClientRect();
-      var elem_top = win_top + pos.top;
-      var elem_bottom = win_top + pos.bottom;
-      var elem_left = win_left + pos.left;
-      var elem_right = win_left + pos.left;
-      if ( elem_bottom >= win_top && elem_top <= win_bottom) {
+      if (isHintDisplay(elem)){
         hint_elems.push(elem);
-        setHighlight(elem, false);
+
         var span = document.createElement('span');
         span.style.cssText = [
           'left: ', elem_left, 'px;',
@@ -430,12 +419,30 @@
           }
         }
       }
+      }
+      hint_elems_filter = hint_elems;
     }
   }
 
+  // the element is seeable
   function isHintDisplay(elem) {
+    var win_top = window.scrollY / currentZoom();
+    var win_bottom = win_top + window.innerHeight;
+    var win_left = window.scrollX / currentZoom();
+    var win_right = win_left + window.innerWidth;
+
     var pos = elem.getBoundingClientRect();
-    return (pos.height != 0 && pos.width != 0);
+    var elem_top = win_top + pos.top;
+    var elem_bottom = win_top + pos.bottom;
+    var elem_left = win_left + pos.left;
+    var elem_right = win_left + pos.left;
+
+    return pos.height != 0 && pos.width != 0 && elem_bottom >= win_top && elem_top <= win_bottom && elem_left <= win_right && elem_right >= win_left;
+  }
+
+  // set hint's order and background
+  function setDefaultHintOrder(){
+
   }
 
   function removeHints() {
