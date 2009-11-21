@@ -305,11 +305,16 @@
       hint_str_num = hint_str_num * 10 + Number(str) - 1;
       setHighlight(hint_elems_filter[hint_str_num],true); //FIXME set color not a link
 
-      if (force_jump || (hint_str_num * 10 > hint_elems_filter.length)){
+      if (force_jump || ((hint_str_num + 1)* 10 > hint_elems_filter.length)){
         return execSelect( hint_elems_filter[hint_str_num] );
       }
     }else{
-      hint_str          = hint_str + str;
+      if(str == 'BackSpace'){
+        hint_str = hint_str.slice(0,-1);
+      }else if(/^\w$/.test(str)){
+        hint_str = hint_str + str;
+      }
+
       hint_str_num      = 0
       hint_elems_filter = [];
 
@@ -318,7 +323,7 @@
         var firstChild = hint_elems[i].firstChild;
         var data = (firstChild && firstChild.nodeType == 3) ? firstChild.data : '';
 
-        if(new RegExp('^' + str,'im').test(CC2PY(data).replace(/\W/g,''))){
+        if(new RegExp(hint_str,'im').test(CC2PY(data))){
           hint_elems_filter[hint_elems_filter.length] = hint_elems[i];
         }
       }
