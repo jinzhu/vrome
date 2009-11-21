@@ -281,6 +281,26 @@
     hint_open_in_new_tab = newtab ? true : false;
     setHints();
 
+    var div = document.createElement('div');
+    div.setAttribute('id','follow_hint');
+    div.style.position   = "fixed";
+    div.style.bottom     = "0px";
+    div.style.left       = "0";
+    div.style.width      = "250px";
+    div.style.background = "#ff0";
+    div.style.textAlign  = "left";
+    div.style.color      = "green";
+    div.style.fontWeight = "bold";
+    div.style.padding    = "5px";
+
+    div.innerHTML        = 'Follow Hint:';
+    var div_text = document.createElement('span');
+    div_text.setAttribute('id','follow_hint_text');
+    div_text.style.color      = "#000";
+    div_text.style.padding    = "5px";
+    div.appendChild(div_text);
+    document.body.appendChild(div);
+
     document.removeEventListener('keydown', initKeyBind, false);
     document.addEventListener('keydown', hintHandler, false);
   }
@@ -314,6 +334,9 @@
       }else if(/^\w$/.test(str)){
         hint_str = hint_str + str;
       }
+
+      var div = document.getElementById('follow_hint_text');
+      div.innerHTML = hint_str;
 
       hint_str_num      = 0
       hint_elems_filter = [];
@@ -469,6 +492,10 @@
   }
 
   function removeHints() {
+    // remove follow hint
+    var div = document.getElementById('follow_hint');
+    document.body.removeChild(div);
+
     deleteHintRules();
     for (var i = 0; i < hint_elems.length; i++) {
       hint_elems[i].removeAttribute('highlight');
