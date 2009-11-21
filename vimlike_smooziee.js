@@ -289,6 +289,7 @@
     div.style.width      = "250px";
     div.style.background = "#ff0";
     div.style.textAlign  = "left";
+    div.style.fontSize   = "12px";
     div.style.color      = "green";
     div.style.fontWeight = "bold";
     div.style.padding    = "5px";
