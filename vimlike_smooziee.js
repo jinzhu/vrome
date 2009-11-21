@@ -310,7 +310,7 @@
       for(var i in hint_elems){
         var firstChild = hint_elems[i].firstChild;
         var data = (firstChild && firstChild.nodeType == 3) ? firstChild.data : '';
-        if(new RegExp(str,'im').test(data)){
+        if(new RegExp('^' + str,'im').test(CC2PY(data).replace(/\W/g,''))){
           elems[elems.length] = hint_elems[i];
         }
       }
