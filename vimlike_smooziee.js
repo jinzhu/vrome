@@ -272,10 +272,11 @@
     }
   }
   ////////////////////////////////////////
-  // Hint
+  // Hint Mode
   ////////////////////////////////////////
   function hintMode(newtab){
-    hint_str = '';
+    hint_str     = '';
+    hint_elems   = [];
     hint_str_num = 0;
     hint_open_in_new_tab = newtab ? true : false;
     setHints();
@@ -292,45 +293,40 @@
        removeHints();
     } else {
       if(pressedKey == 'Enter'){
-        highlightAndJumpCurrentHint(hint_tr,true);
+        highlightAndJumpCurrentHint('',true);
       }else{
-        highlightAndJumpCurrentHint(hint_str + pressedKey,false);
+        highlightAndJumpCurrentHint(pressedKey,false);
       }
     }
   }
 
   function highlightAndJumpCurrentHint(str,force_jump){
-    hint_elems_filter = [];
-    hint_str = str;
-
     if(/^\d$/.test(str)){
-      hint_str_num = hint_str_num * 10 + Number(str);
-      if (force_jump || (hint_str_num * 10 > hint_elems.length + 1)){
-        return execSelect(hint_elem);
-      }
-    }
+      hint_str_num = hint_str_num * 10 + Number(str) - 1;
+      setHighlight(hint_elems_filter[hint_str_num],true); //FIXME set color not a link
 
-    var hint_num = 0;
-    // input num to filter
-    if(/^\d+$/.test(hint_str)){
-      var hint_num = Number(str) - 1;
-      var hint_elem = hint_elems[hint_num];
+      if (force_jump || (hint_str_num * 10 > hint_elems_filter.length)){
+        return execSelect( hint_elems_filter[hint_str_num] );
+      }
     }else{
-    // input string to filter
+      hint_str          = hint_str + str;
+      hint_str_num      = 0
+      hint_elems_filter = [];
+
+      // filte string key
       for(var i in hint_elems){
         var firstChild = hint_elems[i].firstChild;
         var data = (firstChild && firstChild.nodeType == 3) ? firstChild.data : '';
+
         if(new RegExp('^' + str,'im').test(CC2PY(data).replace(/\W/g,''))){
           hint_elems_filter[hint_elems_filter.length] = hint_elems[i];
         }
       }
-      var hint_elem = hint_elems_filter[0];
-    }
+      setDefaultHintOrder(hint_elems_filter);
 
-    setHighlight(hint_elem,true);
-
-    if (force_jump || (hint_num * 10 > hint_elems.length + 1) || elems.length == 1) {
-      return execSelect(hint_elem);
+      if (force_jump || hint_elems_filter.length == 1) {
+        return execSelect(hint_elems_filter[0]);
+      }
     }
   }
 
@@ -388,40 +384,14 @@
     setHintRules();
     // TODO: <area>
     var elems = document.body.querySelectorAll('a, input:not([type=hidden]), textarea, select, button');
-    var div = document.createElement('div');
-    div.setAttribute('highlight', 'hints');
-    document.body.appendChild(div);
 
     for (var i = 0; i < elems.length; i++) {
-      var elem = elems[i];
-      if (isHintDisplay(elem)){
-        hint_elems.push(elem);
-
-        var span = document.createElement('span');
-        span.style.cssText = [
-          'left: ', elem_left, 'px;',
-          'top: ', elem_top, 'px;',
-          'position: absolute;',
-          'font-size: 13px;',
-          'background-color: ' + (hint_open_in_new_tab ? '#ff6600' : 'red') + ';',
-          'color: white;',
-          'font-weight: bold;',
-          'padding: 0px 1px;',
-          'z-index: 100000;'
-        ].join('');
-        span.innerHTML = hint_elems.length;
-        div.appendChild(span);
-        if (elem.tagName.toLowerCase() == 'a') {
-          if (hint_elems.length == 1) {
-            setHighlight(elem, true);
-          } else {
-            setHighlight(elem, false);
-          }
-        }
+      if (isHintDisplay(elems[i])){
+        hint_elems.push(elems[i]);
       }
-      }
-      hint_elems_filter = hint_elems;
     }
+    setDefaultHintOrder(hint_elems);
+    hint_elems_filter = hint_elems;
   }
 
   // the element is seeable
@@ -441,8 +411,56 @@
   }
 
   // set hint's order and background
-  function setDefaultHintOrder(){
+  function setDefaultHintOrder(elems){
+    // delete old highlight hints
+    for (var i = 0; i < hint_elems.length; i++) {
+      hint_elems[i].removeAttribute('highlight');
+    }
 
+    var div = document.body.querySelector('div[highlight=hints]');
+    if (div != undefined) {
+      document.body.removeChild(div);
+    }
+
+    // create new highlight hints
+    var div = document.createElement('div');
+    div.setAttribute('highlight', 'hints');
+    document.body.appendChild(div);
+
+    for(var i in elems){
+      elem = elems[i];
+      var win_top = window.scrollY / currentZoom();
+      var win_bottom = win_top + window.innerHeight;
+      var win_left = window.scrollX / currentZoom();
+      var win_right = win_left + window.innerWidth;
+
+      var pos = elem.getBoundingClientRect();
+      var elem_top = win_top + pos.top;
+      var elem_bottom = win_top + pos.bottom;
+      var elem_left = win_left + pos.left;
+      var elem_right = win_left + pos.left;
+
+      var span = document.createElement('span');
+      span.style.cssText = [
+        'left: ', elem_left, 'px;',
+        'top: ', elem_top, 'px;',
+        'position: absolute;',
+        'font-size: 13px;',
+        'background-color: ' + (hint_open_in_new_tab ? '#ff6600' : 'red') + ';',
+        'color: white;',
+        'font-weight: bold;',
+        'padding: 0px 1px;',
+        'z-index: 100000;'
+          ].join('');
+
+      span.innerHTML = Number(i) + 1; // cur
+      div.appendChild(span);
+
+      setHighlight(elem, false);
+      if (i == 0 && elems[i].tagName.toLowerCase() == 'a') {
+        setHighlight(elem, true);
+      }
+    }
   }
 
   function removeHints() {
@@ -450,15 +468,16 @@
     for (var i = 0; i < hint_elems.length; i++) {
       hint_elems[i].removeAttribute('highlight');
     }
-    hint_elems = [];
-    hint_str = '';
+
     var div = document.body.querySelector('div[highlight=hints]');
     if (div != undefined) {
       document.body.removeChild(div);
     }
+
     document.removeEventListener('keydown', hintHandler, false);
     document.addEventListener('keydown', initKeyBind, false);
   }
+  ////////////////////
 
   function focusFirstTextInput(){
     var elem = document.querySelector('input[type="text"],input:not([type])');
