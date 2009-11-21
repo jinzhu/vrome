@@ -239,7 +239,7 @@
   function nextPage(){
     elems = document.getElementsByTagName('a');
     for(var cur in elems){
-      if(new RegExp('>>|下一页|»|Next|more*','im').test(elems[cur].firstChild.data)){
+      if(new RegExp('>>|下一页|»|Next|more*','im').test(elems[cur].innerText)){
         document.location = elems[cur].href;
       }
     }
@@ -248,7 +248,7 @@
   function prevPage(){
     elems = document.getElementsByTagName('a');
     for(var cur in elems){
-      if(new RegExp('<<|«|上一页|Prev','im').test(elems[cur].firstChild.data)){
+      if(new RegExp('<<|«|上一页|Prev','im').test(elems[cur].innerText)){
         document.location = elems[cur].href;
       }
     }
@@ -344,10 +344,7 @@
 
       // filte string key
       for(var i in hint_elems){
-        var firstChild = hint_elems[i].firstChild;
-        var data = (firstChild && firstChild.nodeType == 3) ? firstChild.data : '';
-
-        if(new RegExp(hint_str,'im').test(CC2PY(data))){
+        if(new RegExp(hint_str,'im').test(CC2PY(hint_elems[i].innerText))){
           hint_elems_filter[hint_elems_filter.length] = hint_elems[i];
         }
       }
