@@ -6,7 +6,7 @@
   "content_scripts": [ {
     "js": [ "vimlike_smooziee.js" ],
     "run_at": "document_start",
-    "matches": [ "http://*/*", "https://*/*" ]
+    "matches": [ "http://*/*", "https://*/*", "ftp://*/*"]
   } ],
   "permissions": [
     "tabs"
