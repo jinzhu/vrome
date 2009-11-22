@@ -239,7 +239,7 @@
   function nextPage(){
     elems = document.getElementsByTagName('a');
     for(var cur in elems){
-      if(new RegExp('>>|下一页|»|Next|more*','im').test(elems[cur].innerText)){
+      if(/(^>$|^(>>|»)|(»|>>)$|^下一页|\bNext\b|\bmore\b)/im.test(elems[cur].innerText)){
         document.location = elems[cur].href;
       }
     }
@@ -248,7 +248,7 @@
   function prevPage(){
     elems = document.getElementsByTagName('a');
     for(var cur in elems){
-      if(new RegExp('<<|«|上一页|Prev','im').test(elems[cur].innerText)){
+      if(/\b(prev|previous)\b|^<$|^(<<|«)|(<<|«)$|^上一页/im.test(elems[cur].innerText)){
         document.location = elems[cur].href;
       }
     }
