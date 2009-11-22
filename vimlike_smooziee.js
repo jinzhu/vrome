@@ -285,14 +285,17 @@
     div.setAttribute('id','follow_hint');
     div.style.position   = "fixed";
     div.style.bottom     = "0px";
-    div.style.left       = "0";
+    div.style.right      = "0";
     div.style.width      = "250px";
     div.style.background = "#ff0";
     div.style.textAlign  = "left";
-    div.style.fontSize   = "12px";
+    div.style.fontSize   = "10px";
     div.style.color      = "green";
     div.style.fontWeight = "bold";
-    div.style.padding    = "5px";
+    div.style.padding    = "2px";
+    div.style.paddingLeft= "10px";
+    div.style.border     = "thin solid #f00"
+    div.style.zIndex     = "100000";
 
     div.innerHTML        = 'Follow Hint:';
     var div_text = document.createElement('span');
