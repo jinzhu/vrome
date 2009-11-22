@@ -326,11 +326,17 @@
 
   function highlightAndJumpCurrentHint(str,force_jump){
     if(/^\d$/.test(str)){
-      hint_str_num = hint_str_num * 10 + Number(str) - 1;
-      setHighlight(hint_elems_filter[hint_str_num],true); //FIXME set color not a link
+      hint_str_num = hint_str_num * 10 + Number(str);
 
-      if (force_jump || ((hint_str_num + 1)* 10 > hint_elems_filter.length)){
-        return execSelect( hint_elems_filter[hint_str_num] );
+      var cur = hint_str_num - 1;
+      setHighlight(hint_elems_filter[cur],true);
+
+      var text = document.getElementById('follow_hint_text').innerHTML;
+      text = text.replace(/(\s\(\d+\))?$/,' (' + hint_str_num + ')');
+      document.getElementById('follow_hint_text').innerHTML = text;
+
+      if (force_jump || ((cur + 1)* 10 > hint_elems_filter.length)){
+        return execSelect( hint_elems_filter[cur] );
       }
     }else{
       if(str == 'BackSpace'){
@@ -339,8 +345,7 @@
         hint_str = hint_str + str;
       }
 
-      var div = document.getElementById('follow_hint_text');
-      div.innerHTML = hint_str;
+      document.getElementById('follow_hint_text').innerHTML = hint_str;
 
       hint_str_num      = 0
       hint_elems_filter = [];
@@ -391,6 +396,7 @@
 
     var tag_name = elem.tagName.toLowerCase();
     var type = elem.type ? elem.type.toLowerCase() : "";
+
     if (tag_name == 'a' && elem.href != '') {
       setHighlight(elem, true);
       var port = chrome.extension.connect();
