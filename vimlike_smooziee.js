@@ -591,7 +591,24 @@
     return false;
   }
 
-  document.addEventListener( 'keydown', initKeyBind, false );
+  function disableVimlike(){
+    document.removeEventListener('keydown', initKeyBind, false);
+  }
+
+  function enableVimlike(){
+    document.addEventListener( 'keydown', initKeyBind, false );
+  }
+
+  function passMode(){
+    document.removeEventListener('keydown', initKeyBind, false);
+    document.addEventListener( 'keydown', passModeHandle, false );
+  }
+
+  function passModeHandle(){
+    addKeyBind( 'Esc', 'enableVimlike()', e );
+  }
+
+  enableVimlike()
 
   function initKeyBind(e){
     var t = e.target;
@@ -626,6 +643,7 @@
       addKeyBind( '$', 'scrollToLast()', e );
       addKeyBind( 'Esc', 'blurFocus()', e );
       addKeyBind( 'C-[', 'blurFocus()', e ); // = Esc
+      addKeyBind( 'C-z', 'passMode()', e );
       addKeyBind( 'g', 'gMode()', e );
       addKeyBind( ']', 'pageMode("]")', e );
       addKeyBind( '[', 'pageMode()', e );
