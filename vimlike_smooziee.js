@@ -393,6 +393,26 @@
     ss.deleteRule(0);
   }
 
+  function clickLink(link) {
+    var cancelled = false;
+
+    if (document.createEvent) {
+      var event = document.createEvent("MouseEvents");
+      event.initMouseEvent("click", true, true, window,
+          0, 0, 0, 0, 0,
+          false, false, false, false,
+          0, null);
+      cancelled = !link.dispatchEvent(event);
+    }
+    else if (link.fireEvent) {
+      cancelled = !link.fireEvent("onclick");
+    }
+
+    if (!cancelled) {
+      window.location = link.href;
+    }
+  }
+
   function execSelect(elem) {
     // if the element is not a really element,then return and remove all hints
     if(elem == undefined){ return removeHints(); }
@@ -402,23 +422,27 @@
 
     if (tag_name == 'a' && elem.href != '') {
       setHighlight(elem, true);
-      var port = chrome.extension.connect();
-      // TODO: ajax, <select>
-      port.postMessage({action: "open_url", url: elem.href, newtab: hint_open_in_new_tab});
+
+      var original_target = elem.getAttribute('target');
+
+      if(hint_open_in_new_tab){ elem.setAttribute('target','_blank'); }
+
+      clickLink(elem);
+
+      elem.setAttribute('target',original_target);
     } else if (tag_name == 'input' && (type == "submit" || type == "button" || type == "reset")) {
       elem.click();
     } else if (tag_name == 'input' && (type == "radio" || type == "checkbox")) {
       // TODO: toggle checkbox
       elem.checked = !elem.checked;
-      removeHints();
     } else if (tag_name == 'input' || tag_name == 'textarea') {
       elem.focus();
       elem.setSelectionRange(elem.value.length, elem.value.length);
-      removeHints();
     } else if (tag_name == 'select'){
       elem.focus();
-      removeHints();
     }
+
+    removeHints();
   }
 
   function setHints() {
