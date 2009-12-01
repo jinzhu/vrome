@@ -634,7 +634,7 @@
     document.addEventListener( 'keydown', passModeHandle, false );
   }
 
-  function passModeHandle(){
+  function passModeHandle(e){
     addKeyBind( 'Esc', 'enableVimlike()', e );
   }
 
