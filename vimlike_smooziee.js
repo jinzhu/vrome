@@ -241,7 +241,7 @@
     elems = document.getElementsByTagName('a');
     for(var cur in elems){
       if(/(^>$|^(>>|»)|(»|>>)$|^下一页|\bNext\b|\bmore\b)/im.test(elems[cur].innerText)){
-        document.location = elems[cur].href;
+        execSelect(elems[cur]);
       }
     }
   }
@@ -250,7 +250,7 @@
     elems = document.getElementsByTagName('a');
     for(var cur in elems){
       if(/\b(prev|previous)\b|^<$|^(<<|«)|(<<|«)$|^上一页/im.test(elems[cur].innerText)){
-        document.location = elems[cur].href;
+        execSelect(elems[cur]);
       }
     }
   }
