@@ -35,6 +35,45 @@
     });
   });
 
+  // set/get notice
+  function notice(opt){
+    if(opt){
+      var div = document.getElementById('vimlike_smooziee_notice_title');
+      div     = div || document.createElement('div');
+      div.setAttribute('id','vimlike_smooziee_notice_title');
+      div.style.position   = "fixed";
+      div.style.bottom     = "0px";
+      div.style.right      = "0";
+      div.style.width      = "250px";
+      div.style.background = "#ff0";
+      div.style.textAlign  = "left";
+      div.style.fontSize   = "10px";
+      div.style.color      = "green";
+      div.style.fontWeight = "bold";
+      div.style.padding    = "2px";
+      div.style.paddingLeft= "10px";
+      div.style.border     = "thin solid #f00";
+      div.style.zIndex     = "100000";
+      div.innerHTML        = opt.title ? opt.title : (div.firstChild.data);
+
+      var div_text = document.getElementById('vimlike_smooziee_notice_content');
+      div_text     = div_text || document.createElement('span');
+      div_text.setAttribute('id','vimlike_smooziee_notice_content');
+      div_text.style.color      = "#000";
+      div_text.style.padding    = "5px";
+      div_text.innerHTML        = opt.content ? opt.content : (div_text.innerText);
+      div.appendChild(div_text);
+      document.body.appendChild(div);
+    }else{
+      return { title : document.getElementById('vimlike_smooziee_notice_title').firstChild.data , content : document.getElementById('vimlike_smooziee_notice_content').innerText }
+    }
+  }
+
+  function removeNotice(){
+    var div = document.getElementById('vimlike_smooziee_notice_title');
+    if(div){ document.body.removeChild(div); }
+  }
+
   function smoothScrollDown(){
     flg = 'vertical';
     smoothScrollBy(vertical_moment);
@@ -281,31 +320,7 @@
     hint_str_num = 0;
     hint_open_in_new_tab = newtab ? true : false;
     setHints();
-
-    var div = document.createElement('div');
-    div.setAttribute('id','follow_hint');
-    div.style.position   = "fixed";
-    div.style.bottom     = "0px";
-    div.style.right      = "0";
-    div.style.width      = "250px";
-    div.style.background = "#ff0";
-    div.style.textAlign  = "left";
-    div.style.fontSize   = "10px";
-    div.style.color      = "green";
-    div.style.fontWeight = "bold";
-    div.style.padding    = "2px";
-    div.style.paddingLeft= "10px";
-    div.style.border     = "thin solid #f00"
-    div.style.zIndex     = "100000";
-
-    div.innerHTML        = 'Follow Hint:';
-    var div_text = document.createElement('span');
-    div_text.setAttribute('id','follow_hint_text');
-    div_text.style.color      = "#000";
-    div_text.style.padding    = "5px";
-    div.appendChild(div_text);
-    document.body.appendChild(div);
-
+    notice({title : 'Follow Hint:'});
     document.removeEventListener('keydown', initKeyBind, false);
     document.addEventListener('keydown', hintHandler, false);
   }
@@ -333,9 +348,7 @@
       setHighlight(hint_elems_filter[cur],true);
       currentSelectHint = hint_elems_filter[cur];
 
-      var text = document.getElementById('follow_hint_text').innerHTML;
-      text = text.replace(/(\s\(\d+\))?$/,' (' + hint_str_num + ')');
-      document.getElementById('follow_hint_text').innerHTML = text;
+      notice({ content : notice().content.replace(/(\s\(\d+\))?$/,' (' + hint_str_num + ')') });
 
       if (force_jump || ((cur + 1)* 10 > hint_elems_filter.length)){
         return execSelect( hint_elems_filter[cur] );
@@ -347,7 +360,7 @@
         hint_str = hint_str + str;
       }
 
-      document.getElementById('follow_hint_text').innerHTML = hint_str;
+      notice({ content : hint_str });
 
       hint_str_num      = 0
       hint_elems_filter = [];
@@ -529,9 +542,7 @@
   }
 
   function removeHints() {
-    // remove follow hint
-    var div = document.getElementById('follow_hint');
-    document.body.removeChild(div);
+    removeNotice();
 
     deleteHintRules();
     for (var i = 0; i < hint_elems.length; i++) {
@@ -626,10 +637,12 @@
   }
 
   function enableVimlike(){
+    removeNotice();
     document.addEventListener( 'keydown', initKeyBind, false );
   }
 
   function passMode(){
+    notice({title : ' -- PASS THROUGH -- '});
     document.removeEventListener('keydown', initKeyBind, false);
     document.addEventListener( 'keydown', passModeHandle, false );
   }
