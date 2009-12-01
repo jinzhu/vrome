@@ -13,11 +13,12 @@
   var next;
   var flg;
 
-  var hint_str = '';
-  var hint_str_num = 0;
-  var hint_elems = [];
-  var hint_elems_filter = [];
+  var hint_str             = '';
+  var hint_str_num         = 0;
+  var hint_elems           = [];
+  var hint_elems_filter    = [];
   var hint_open_in_new_tab = false;
+  var currentSelectHint    = false;
 
   var zoom_settings = [];
   var zoom_levels = ['30%', '50%', '67%', '80%', '90%', '100%', '110%', '120%', '133%', '150%', '170%', '200%', '240%', '300%'];
@@ -330,6 +331,7 @@
 
       var cur = hint_str_num - 1;
       setHighlight(hint_elems_filter[cur],true);
+      currentSelectHint = hint_elems_filter[cur];
 
       var text = document.getElementById('follow_hint_text').innerHTML;
       text = text.replace(/(\s\(\d+\))?$/,' (' + hint_str_num + ')');
@@ -359,8 +361,9 @@
       setDefaultHintOrder(hint_elems_filter);
 
       if (force_jump || hint_elems_filter.length == 1) {
-        return execSelect(hint_elems_filter[0]);
+        return execSelect(currentSelectHint ? currentSelectHint : hint_elems_filter[0]);
       }
+      currentSelectHint = false;
     }
   }
 
