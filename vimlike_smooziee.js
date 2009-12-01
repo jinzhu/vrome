@@ -415,6 +415,9 @@
       elem.focus();
       elem.setSelectionRange(elem.value.length, elem.value.length);
       removeHints();
+    } else if (tag_name == 'select'){
+      elem.focus();
+      removeHints();
     }
   }
 
