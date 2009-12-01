@@ -1,11 +1,11 @@
 (function(){
   // TODO
-  var exclude_urls = [/\/\/www\.google\.[^\/]+\/reader\//,  /\/\/mail\.google\.com\/mail\//, /\/\/www\.pivotaltracker\.com\//];
-  for (var i = 0; i < exclude_urls.length; i++) {
-    if ( exclude_urls[i].test(location.href) ) {
-      return;
-    }
-  }
+  //var exclude_urls = [/\/\/www\.google\.[^\/]+\/reader\//,  /\/\/mail\.google\.com\/mail\//, /\/\/www\.pivotaltracker\.com\//];
+  //for (var i = 0; i < exclude_urls.length; i++) {
+  //  if ( exclude_urls[i].test(location.href) ) {
+  //    return;
+  //  }
+  //}
 
   var interval = 20;
   var vertical_moment = 250;
