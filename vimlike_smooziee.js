@@ -10,7 +10,7 @@
   var interval          = 20;
   var vertical_moment   = 250;
   var horizontal_moment = 100;
-  var next;
+  var nextSmoothScroll;
   var flg;
 
   var hint_str             = '';
@@ -105,7 +105,7 @@
   }
 
   function smoothScrollBy(moment){
-    clearTimeout(next);
+    clearTimeout(nextSmoothScroll);
     smoothScroll(moment);
   }
 
@@ -123,7 +123,7 @@
       return;
     }
 
-    next = setTimeout(function() { smoothScroll(moment); }, interval);
+    nextSmoothScroll = setTimeout(function() { smoothScroll(moment); }, interval);
   }
 
   function scrollFunc(moment) {
@@ -135,21 +135,19 @@
   }
 
   function scrollToTop(){
-    scroll(0, -document.documentElement.scrollHeight);
+    scrollTo(scrollX, 0);
   }
 
   function scrollToBottom(){
-    scroll(0, document.documentElement.scrollHeight);
+    scrollTo(scrollX, document.height);
   }
 
-  function scrollToFirst(){
-    var scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
-    scroll(-document.documentElement.scrollWidth, scrollTop);
+  function scrollToLeft(){
+    scrollTo(0, scrollY);
   }
 
-  function scrollToLast(){
-    var scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
-    scroll(document.documentElement.scrollWidth, scrollTop);
+  function scrollToRight(){
+    scrollTo(document.width, scrollY);
   }
 
   //////////////////////////////////////////////////
@@ -714,8 +712,8 @@
       addKeyBind( 'H', 'historyBack()', e );
       addKeyBind( 'L', 'historyForward()', e );
       addKeyBind( 'G', 'scrollToBottom()', e );
-      addKeyBind( '0', 'scrollToFirst()', e );
-      addKeyBind( '$', 'scrollToLast()', e );
+      addKeyBind( '0', 'scrollToLeft()', e );
+      addKeyBind( '$', 'scrollToRight()', e );
       addKeyBind( 'Esc', 'blurFocus()', e );
       addKeyBind( 'C-[', 'blurFocus()', e ); // = Esc
       addKeyBind( 'C-z', 'passMode()', e );
