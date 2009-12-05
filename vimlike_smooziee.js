@@ -177,18 +177,30 @@
   //////////////////////////////////////////////////
   // Zoom
   //////////////////////////////////////////////////
-  function zoomDefault() {
-    setZoom(defalut_zoom_index);
+  function zMode(){
+    document.removeEventListener('keydown', initKeyBind, false);
+    document.addEventListener('keydown', zHandler, false);
   }
 
-  function zoom(level) {
-    var zoom_level = currentZoom() + level;
+  function zHandler(e){
+    addKeyBind( 'z', 'setZoom(  )', e );
+    addKeyBind( 'i', 'setZoom( 1)', e );
+    addKeyBind( 'o', 'setZoom(-1)', e );
+    addKeyBind( 'm', 'setZoom( 3)', e );
+    addKeyBind( 'r', 'setZoom(-3)', e );
+
+    var pressedKey = get_key(e);
+    if (/[ziomr]/.test(pressedKey) == false) {
+      document.removeEventListener('keydown', zHandler, false);
+      document.addEventListener('keydown', initKeyBind, false);
+    }
+  }
+
+  function setZoom(count) {
+    var zoom_level = count ? (currentZoom() + count) : defalut_zoom_index;
     zoom_level = Math.max(0,zoom_level);
     zoom_level = Math.min(zoom_levels.length - 1,zoom_level);
-    setZoom(zoom_level);
-  }
 
-  function setZoom(zoom_level) {
     document.body.style.zoom = zoom_levels[zoom_level];
     document.removeEventListener('keydown', zHandler, false);
     document.addEventListener('keydown', initKeyBind, false);
@@ -202,7 +214,6 @@
     }
     return defalut_zoom_index;
   }
-
   //////////////////////////////////////////////////
   // gMode
   //////////////////////////////////////////////////
@@ -261,27 +272,6 @@
       if(/\b(prev|previous)\b|^<$|^(<<|«)|(<<|«)$|^上一页/im.test(elems[cur].innerText)){
         execSelect(elems[cur]);
       }
-    }
-  }
-
-  //////////////////////////////////////////////////
-  // zMode
-  //////////////////////////////////////////////////
-  function zMode(){
-    document.removeEventListener('keydown', initKeyBind, false);
-    document.addEventListener('keydown', zHandler, false);
-  }
-
-  function zHandler(e){
-    addKeyBind( 'z', 'zoomDefault()', e );
-    addKeyBind( 'i', 'zoom(1)', e );
-    addKeyBind( 'o', 'zoom(-1)', e );
-    addKeyBind( 'm', 'zoom(3)', e );
-    addKeyBind( 'r', 'zoom(-3)', e );
-    var pressedKey = get_key(e);
-    if (/[ziomr]/.test(pressedKey) == false) {
-      document.removeEventListener('keydown', zHandler, false);
-      document.addEventListener('keydown', initKeyBind, false);
     }
   }
 
