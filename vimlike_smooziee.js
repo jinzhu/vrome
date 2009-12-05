@@ -35,7 +35,9 @@
     });
   });
 
-  // set/get notice
+  //////////////////////////////////////////////////
+  // Notice
+  //////////////////////////////////////////////////
   function notice(opt){
     if(opt){
       // find or create a element
@@ -65,6 +67,7 @@
       content.style.color      = "#000";
       content.style.padding    = "5px";
       content.innerHTML        = opt.content ? opt.content : (content.innerText);
+
       title.appendChild(content);
       document.body.appendChild(title);
     }else{
@@ -77,6 +80,10 @@
     if(notice){ document.body.removeChild(notice); }
   }
 
+  //////////////////////////////////////////////////
+  // Scroll
+  // TODO need more clean job
+  //////////////////////////////////////////////////
   function smoothScrollDown(){
     flg = 'vertical';
     smoothScrollBy(vertical_moment);
@@ -136,15 +143,18 @@
   }
 
   function scrollToFirst(){
-    var scrollTop  = document.body.scrollTop  || document.documentElement.scrollTop;
+    var scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
     scroll(-document.documentElement.scrollWidth, scrollTop);
   }
 
   function scrollToLast(){
-    var scrollTop  = document.body.scrollTop  || document.documentElement.scrollTop;
+    var scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
     scroll(document.documentElement.scrollWidth, scrollTop);
   }
 
+  //////////////////////////////////////////////////
+  // Reload
+  //////////////////////////////////////////////////
   function reload(){
     location.reload();
   }
@@ -154,6 +164,9 @@
     port.postMessage({action: "reload_all_tabs"});
   }
 
+  //////////////////////////////////////////////////
+  // Tab
+  //////////////////////////////////////////////////
   function closeTab(){
     var port = chrome.extension.connect();
     port.postMessage({action: "close_tab"});
@@ -174,6 +187,9 @@
     port.postMessage({action: "next_tab"});
   }
 
+  //////////////////////////////////////////////////
+  // History
+  //////////////////////////////////////////////////
   function historyBack(){
     history.back();
   }
@@ -182,6 +198,9 @@
     history.forward();
   }
 
+  //////////////////////////////////////////////////
+  // Zoom
+  //////////////////////////////////////////////////
   function zoomDefault() {
     var domain = document.domain;
     setZoom(defalut_zoom_index, domain);
@@ -242,6 +261,9 @@
     return ( parseInt(zoom_levels[zoom_level]) / 100 );
   }
 
+  //////////////////////////////////////////////////
+  // gMode
+  //////////////////////////////////////////////////
   function gMode(){
     document.addEventListener('keydown', gHandler, false);
   }
@@ -255,6 +277,9 @@
     }
   }
 
+  //////////////////////////////////////////////////
+  // PageMode
+  //////////////////////////////////////////////////
   function pageMode(key){
     if(key == ']'){
       document.addEventListener('keydown', nextPageHandler, false);
@@ -297,6 +322,9 @@
     }
   }
 
+  //////////////////////////////////////////////////
+  // zMode
+  //////////////////////////////////////////////////
   function zMode(){
     document.removeEventListener('keydown', initKeyBind, false);
     document.addEventListener('keydown', zHandler, false);
@@ -314,6 +342,7 @@
       document.addEventListener('keydown', initKeyBind, false);
     }
   }
+
   ////////////////////////////////////////
   // Hint Mode
   ////////////////////////////////////////
