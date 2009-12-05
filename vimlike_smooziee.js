@@ -11,7 +11,6 @@
   var vertical_moment   = 250;
   var horizontal_moment = 100;
   var nextSmoothScroll;
-  var flg;
 
   var hint_str             = '';
   var hint_str_num         = 0;
@@ -82,55 +81,35 @@
 
   //////////////////////////////////////////////////
   // Scroll
-  // TODO need more clean job
   //////////////////////////////////////////////////
   function smoothScrollDown(){
-    flg = 'vertical';
-    smoothScrollBy(vertical_moment);
+    smoothScrollBy(0,vertical_moment);
   }
 
   function smoothScrollUp(){
-    flg = 'vertical';
-    smoothScrollBy(-vertical_moment);
+    smoothScrollBy(0,-vertical_moment);
   }
 
   function smoothScrollRight(){
-    flg = 'horizontal';
-    smoothScrollBy(horizontal_moment);
+    smoothScrollBy(horizontal_moment,0);
   }
 
   function smoothScrollLeft(){
-    flg = 'horizontal';
-    smoothScrollBy(-horizontal_moment);
+    smoothScrollBy(-horizontal_moment,0);
   }
 
-  function smoothScrollBy(moment){
+  function smoothScrollBy(x,y){
     clearTimeout(nextSmoothScroll);
-    smoothScroll(moment);
+    smoothScroll(x,y);
   }
 
-  function smoothScroll(moment){
-    if (moment > 0){
-      moment = Math.floor(moment / 2);
-    }else{
-      moment = Math.ceil(moment / 2);
-    }
+  function smoothScroll(x,y){
+    x = parseInt(x), y = parseInt(y);
 
-    scrollFunc(moment);
+    scrollBy(x,y);
 
-    if (Math.abs(moment) < 1) {
-      setTimeout(function() { scrollFunc(moment); });
-      return;
-    }
-
-    nextSmoothScroll = setTimeout(function() { smoothScroll(moment); }, interval);
-  }
-
-  function scrollFunc(moment) {
-    if (flg == 'vertical') {
-      scrollBy(0, moment);
-    } else if (flg == 'horizontal') {
-      scrollBy(moment, 0);
+    if (Math.max(Math.abs(x),Math.abs(y)) >= 1) {
+      nextSmoothScroll = setTimeout(function(){ scrollBy(x,y); }, interval);
     }
   }
 
