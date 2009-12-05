@@ -7,8 +7,8 @@
   //  }
   //}
 
-  var interval = 20;
-  var vertical_moment = 250;
+  var interval          = 20;
+  var vertical_moment   = 250;
   var horizontal_moment = 100;
   var next;
   var flg;
@@ -21,7 +21,7 @@
   var currentSelectHint    = false;
 
   var zoom_settings = [];
-  var zoom_levels = ['30%', '50%', '67%', '80%', '90%', '100%', '110%', '120%', '133%', '150%', '170%', '200%', '240%', '300%'];
+  var zoom_levels   = ['30%', '50%', '67%', '80%', '90%', '100%', '110%', '120%', '133%', '150%', '170%', '200%', '240%', '300%'];
   var defalut_zoom_index = zoom_levels.indexOf('100%');
 
   chrome.extension.onConnect.addListener(function(port) {
@@ -38,40 +38,43 @@
   // set/get notice
   function notice(opt){
     if(opt){
-      var div = document.getElementById('vimlike_smooziee_notice_title');
-      div     = div || document.createElement('div');
-      div.setAttribute('id','vimlike_smooziee_notice_title');
-      div.style.position   = "fixed";
-      div.style.bottom     = "0px";
-      div.style.right      = "0";
-      div.style.width      = "250px";
-      div.style.background = "#ff0";
-      div.style.textAlign  = "left";
-      div.style.fontSize   = "10px";
-      div.style.color      = "green";
-      div.style.fontWeight = "bold";
-      div.style.padding    = "2px";
-      div.style.paddingLeft= "10px";
-      div.style.border     = "thin solid #f00";
-      div.style.zIndex     = "100000";
-      div.innerHTML        = opt.title ? opt.title : (div.firstChild.data);
+      // find or create a element
+      var title = document.getElementById('vimlike_smooziee_notice_title') || document.createElement('div');
+      title.setAttribute('id','vimlike_smooziee_notice_title');
+      title.style.position   = "fixed";
+      title.style.bottom     = "0";
+      title.style.right      = "0";
+      title.style.width      = "250px";
+      title.style.background = "#ff0";
+      title.style.textAlign  = "left";
+      title.style.fontSize   = "10px";
+      title.style.color      = "green";
+      title.style.fontWeight = "bold";
+      title.style.padding    = "2px";
+      title.style.paddingLeft= "10px";
+      title.style.border     = "thin solid #f00";
+      title.style.zIndex     = "100000";
+      if(opt.title){
+        // set notice title if has
+        title.innerHTML      = opt.title;
+      }
 
-      var div_text = document.getElementById('vimlike_smooziee_notice_content');
-      div_text     = div_text || document.createElement('span');
-      div_text.setAttribute('id','vimlike_smooziee_notice_content');
-      div_text.style.color      = "#000";
-      div_text.style.padding    = "5px";
-      div_text.innerHTML        = opt.content ? opt.content : (div_text.innerText);
-      div.appendChild(div_text);
-      document.body.appendChild(div);
+      // find or create a element
+      var content = document.getElementById('vimlike_smooziee_notice_content') || document.createElement('span');
+      content.setAttribute('id','vimlike_smooziee_notice_content');
+      content.style.color      = "#000";
+      content.style.padding    = "5px";
+      content.innerHTML        = opt.content ? opt.content : (content.innerText);
+      title.appendChild(content);
+      document.body.appendChild(title);
     }else{
       return { title : document.getElementById('vimlike_smooziee_notice_title').firstChild.data , content : document.getElementById('vimlike_smooziee_notice_content').innerText }
     }
   }
 
   function removeNotice(){
-    var div = document.getElementById('vimlike_smooziee_notice_title');
-    if(div){ document.body.removeChild(div); }
+    var notice = document.getElementById('vimlike_smooziee_notice_title');
+    if(notice){ document.body.removeChild(notice); }
   }
 
   function smoothScrollDown(){
