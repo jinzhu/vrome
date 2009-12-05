@@ -122,7 +122,6 @@
 
   function scrollToTop(){
     scrollTo(scrollX, 0);
-    keyListener({add : initKeyBind,remove : gHandler});
   }
 
   function scrollToBottom(){
@@ -187,7 +186,8 @@
   // Zoom
   //////////////////////////////////////////////////
   function zMode(){
-    keyListener({add : zHandler,remove : initKeyBind});
+    document.removeEventListener('keydown', initKeyBind, false);
+    document.addEventListener('keydown', zHandler, false);
   }
 
   function zHandler(e){
@@ -199,7 +199,8 @@
 
     var pressedKey = get_key(e);
     if (/[ziomr]/.test(pressedKey) == false) {
-      keyListener({add : initKeyBind,remove : zHandler});
+      document.removeEventListener('keydown', zHandler, false);
+      document.addEventListener('keydown', initKeyBind, false);
     }
   }
 
@@ -209,7 +210,8 @@
     zoom_level = Math.min(zoom_levels.length - 1,zoom_level);
 
     document.body.style.zoom = zoom_levels[zoom_level];
-    keyListener({add : initKeyBind,remove : zHandler});
+    document.removeEventListener('keydown', zHandler, false);
+    document.addEventListener('keydown', initKeyBind, false);
   }
 
   function currentZoom() {
@@ -224,7 +226,7 @@
   // gMode
   //////////////////////////////////////////////////
   function gMode(){
-    keyListener({add : gHandler,remove : initKeyBind});
+    keyListener({add : gHandler});
   }
 
   function gHandler(e){
@@ -232,7 +234,7 @@
     addKeyBind( 'i', 'focusFirstTextInput()', e );
     var pressedKey = get_key(e);
     if (pressedKey != 'g' && pressedKey != 'i'){
-      keyListener({add : initKeyBind,remove : gHandler});
+      document.removeEventListener('keydown', gHandler, false);
     }
   }
 
@@ -240,14 +242,18 @@
   // PageMode
   //////////////////////////////////////////////////
   function pageMode(key){
-    keyListener({add : key == ']' ? nextPageHandler : prevPageHandler,remove : initKeyBind});
+    if(key == ']'){
+      document.addEventListener('keydown', nextPageHandler, false);
+    }else{
+      document.addEventListener('keydown', prevPageHandler, false);
+    }
   }
 
   function nextPageHandler(e){
     addKeyBind( ']', 'nextPage()', e );
     var pressedKey = get_key(e);
     if (pressedKey != ']'){
-      keyListener({add : initKeyBind,remove : nextPageHandler});
+      document.removeEventListener('keydown', nextPageHandler, false);
     }
   }
 
@@ -255,7 +261,7 @@
     addKeyBind( '[', 'prevPage()', e );
     var pressedKey = get_key(e);
     if (pressedKey != '['){
-      keyListener({add : initKeyBind,remove : prevPageHandler});
+      document.removeEventListener('keydown', prevPageHandler, false);
     }
   }
 
@@ -263,7 +269,7 @@
     elems = document.getElementsByTagName('a');
     for(var cur in elems){
       if(/(^>$|^(>>|»)|(»|>>)$|^下一页|\bNext\b|\bmore\b)/im.test(elems[cur].innerText)){
-        return execSelect(elems[cur]);
+        execSelect(elems[cur]);
       }
     }
   }
@@ -272,7 +278,7 @@
     elems = document.getElementsByTagName('a');
     for(var cur in elems){
       if(/\b(prev|previous)\b|^<$|^(<<|«)|(<<|«)$|^上一页/im.test(elems[cur].innerText)){
-        return execSelect(elems[cur]);
+        execSelect(elems[cur]);
       }
     }
   }
@@ -287,7 +293,8 @@
     hint_open_in_new_tab = newtab ? true : false;
     setHints();
     notice({title : 'Follow Hint:'});
-    keyListener({add : hintHandler,remove : initKeyBind});
+    document.removeEventListener('keydown', initKeyBind, false);
+    document.addEventListener('keydown', hintHandler, false);
   }
 
   function hintHandler(e){
@@ -519,7 +526,8 @@
       document.body.removeChild(div);
     }
 
-    keyListener({remove : hintHandler,add : initKeyBind});
+    document.removeEventListener('keydown', hintHandler, false);
+    document.addEventListener('keydown', initKeyBind, false);
   }
   ////////////////////
 
@@ -527,9 +535,8 @@
     var elem = document.querySelector('input[type="text"],input:not([type])');
     if (elem) {
       elem.focus();
-      elem.setSelectionRange(0,elem.value.length);
+      elem.setSelectionRange(elem.value.length, elem.value.length);
     }
-    keyListener({add : initKeyBind,remove : gHandler});
   }
 
   function blurFocus(){
@@ -598,17 +605,18 @@
   }
 
   function disableVimlike(){
-    keyListener({remove : initKeyBind });
+    document.removeEventListener('keydown', initKeyBind, false);
   }
 
   function enableVimlike(){
     removeNotice();
-    keyListener({add : initKeyBind });
+    document.addEventListener( 'keydown', initKeyBind, false );
   }
 
   function passMode(){
     notice({title : ' -- PASS THROUGH -- '});
-    keyListener({add : passModeHandle,remove : initKeyBind});
+    document.removeEventListener('keydown', initKeyBind, false);
+    document.addEventListener( 'keydown', passModeHandle, false );
   }
 
   function passModeHandle(e){
@@ -653,7 +661,7 @@
       addKeyBind( 'C-z', 'passMode()', e );
       addKeyBind( 'g', 'gMode()', e );
       addKeyBind( ']', 'pageMode("]")', e );
-      addKeyBind( '[', 'pageMode("[")', e );
+      addKeyBind( '[', 'pageMode()', e );
       addKeyBind( 'z', 'zMode()', e );
       addKeyBind( 'f', 'hintMode()', e );
       addKeyBind( 'F', 'hintMode(true)', e );
