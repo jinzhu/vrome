@@ -19,7 +19,6 @@
   var hint_open_in_new_tab = false;
   var currentSelectHint    = false;
 
-  var zoom_settings = [];
   var zoom_levels   = ['30%', '50%', '67%', '80%', '90%', '100%', '110%', '120%', '133%', '150%', '170%', '200%', '240%', '300%'];
   var defalut_zoom_index = zoom_levels.indexOf('100%');
 
@@ -179,63 +178,29 @@
   // Zoom
   //////////////////////////////////////////////////
   function zoomDefault() {
-    var domain = document.domain;
-    setZoom(defalut_zoom_index, domain);
+    setZoom(defalut_zoom_index);
   }
 
-  function zoomIn() {
-    var domain = document.domain;
-    setZoomCountup(1, domain);
+  function zoom(level) {
+    var zoom_level = currentZoom() + level;
+    zoom_level = Math.max(0,zoom_level);
+    zoom_level = Math.min(zoom_levels.length - 1,zoom_level);
+    setZoom(zoom_level);
   }
 
-  function zoomOut() {
-    var domain = document.domain;
-    setZoomCountup(-1, domain);
-  }
-
-  function zoomMore() {
-    var domain = document.domain;
-    setZoomCountup(3, domain);
-  }
-
-  function zoomReduce() {
-    var domain = document.domain;
-    setZoomCountup(-3, domain);
-  }
-
-  function setZoomCountup(countup, domain) {
-    var now_zoom_level = zoom_settings[domain];
-    if (now_zoom_level == undefined) {
-      now_zoom_level = defalut_zoom_index;
-    }
-    var zoom_level;
-    zoom_level = now_zoom_level + countup;
-    if ( zoom_level <= 0 ) {
-      zoom_level = 0;
-    } else if (zoom_level >= zoom_levels.length) {
-      zoom_level = zoom_levels.length - 1;
-    }
-    setZoom(zoom_level, domain);
-  }
-
-  function setZoom(zoom_level, domain) {
+  function setZoom(zoom_level) {
     document.body.style.zoom = zoom_levels[zoom_level];
-    if (zoom_level == defalut_zoom_index) {
-      delete zoom_settings[domain];
-    } else {
-      zoom_settings[domain] = zoom_level;
-    }
     document.removeEventListener('keydown', zHandler, false);
     document.addEventListener('keydown', initKeyBind, false);
   }
 
   function currentZoom() {
-    var domain = document.domain;
-    var zoom_level = zoom_settings[domain];
-    if (zoom_level == undefined){
-      return 1;
+    for(var i in zoom_levels){
+      if(zoom_levels[i] == document.body.style.zoom){
+        return parseInt(i);
+      }
     }
-    return ( parseInt(zoom_levels[zoom_level]) / 100 );
+    return defalut_zoom_index;
   }
 
   //////////////////////////////////////////////////
@@ -309,10 +274,10 @@
 
   function zHandler(e){
     addKeyBind( 'z', 'zoomDefault()', e );
-    addKeyBind( 'i', 'zoomIn()', e );
-    addKeyBind( 'o', 'zoomOut()', e );
-    addKeyBind( 'm', 'zoomMore()', e );
-    addKeyBind( 'r', 'zoomReduce()', e );
+    addKeyBind( 'i', 'zoom(1)', e );
+    addKeyBind( 'o', 'zoom(-1)', e );
+    addKeyBind( 'm', 'zoom(3)', e );
+    addKeyBind( 'r', 'zoom(-3)', e );
     var pressedKey = get_key(e);
     if (/[ziomr]/.test(pressedKey) == false) {
       document.removeEventListener('keydown', zHandler, false);
