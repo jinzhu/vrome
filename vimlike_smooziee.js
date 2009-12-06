@@ -111,7 +111,7 @@
   }
 
   function smoothScroll(x,y){
-    x = parseInt(x), y = parseInt(y);
+    x = Number(x), y = Number(y);
 
     scrollBy(x,y);
 
@@ -204,18 +204,19 @@
   }
 
   function setZoom(count) {
-    var zoom_level = count ? (currentZoom() + count) : defalut_zoom_index;
+    var zoom_level = count ? (currentZoom() + Number(count)) : defalut_zoom_index;
     zoom_level = Math.max(0,zoom_level);
     zoom_level = Math.min(zoom_levels.length - 1,zoom_level);
 
-    document.body.style.zoom = zoom_levels[zoom_level];
+    localStorage.vimlike_zoom = zoom_level - defalut_zoom_index;
+    document.body.style.zoom  = zoom_levels[zoom_level];
     keyListener({add : initKeyBind,remove : zHandler});
   }
 
   function currentZoom() {
     for(var i in zoom_levels){
       if(zoom_levels[i] == document.body.style.zoom){
-        return parseInt(i);
+        return Number(i);
       }
     }
     return defalut_zoom_index;
@@ -598,24 +599,27 @@
   }
 
   function passMode(){
-    if(document.body){
       notice({title : ' -- PASS THROUGH -- '});
       keyListener({add : passModeHandle,remove : initKeyBind});
       localStorage.disableVimlike = true;
-    }else{
-      setTimeout(passMode,1000);
-    }
   }
 
   function passModeHandle(e){
     addKeyBind( 'Esc', 'enableVimlike()', e );
   }
 
-  if(localStorage.disableVimlike){
-    setTimeout(passMode,1000);
-  }else{
-    enableVimlike();
+
+  function runLastSetting(){
+    if(document.body){
+      if(localStorage.disableVimlike){ passMode(); }
+      if(localStorage.vimlike_zoom){ setZoom(localStorage.vimlike_zoom); }
+    }else{
+      setTimeout(runLastSetting,100);
+    }
   }
+
+  enableVimlike();
+  runLastSetting();
 
   function initKeyBind(e){
     var t = e.target;
