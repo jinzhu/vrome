@@ -21,7 +21,7 @@ task :build_xml do
      xml.instruct!
      xml.gupdate(:xmlns => 'http://www.google.com/update2/response',:protocol => '2.0') do |x|
       x.app(:appid => 'iiffmolbankaonfoniihhpbpclcenokk') do |y|
-        y.updatecheck(:codebase => 'http://github.com/jinzhu/vimlike-smooziee/blob/master/vimlike-smooziee.crx',:version => version)
+        y.updatecheck(:codebase => 'http://github.com/jinzhu/vimlike-smooziee/raw/master/vimlike-smooziee.crx',:version => version)
       end
     end
 end

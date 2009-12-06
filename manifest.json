@@ -1,7 +1,7 @@
 {
   "name": "Vimlike Smooziee",
   "version": "0.0.15",
-  "update_url": "http://github.com/jinzhu/vimlike-smooziee/blob/master/vimlike-smooziee-updates.xml",
+  "update_url": "http://github.com/jinzhu/vimlike-smooziee/raw/master/vimlike-smooziee-updates.xml",
   "background_page": "background.html",
   "content_scripts": [ {
     "js": ["chinese-pinyin.js", "vimlike_smooziee.js" ],

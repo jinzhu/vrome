@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gupdate protocol="2.0" xmlns="http://www.google.com/update2/response">
   <app appid="iiffmolbankaonfoniihhpbpclcenokk">
-    <updatecheck codebase="http://github.com/jinzhu/vimlike-smooziee/blob/master/vimlike-smooziee.crx" version="0.0.15"/>
+    <updatecheck codebase="http://github.com/jinzhu/vimlike-smooziee/raw/master/vimlike-smooziee.crx" version="0.0.15"/>
   </app>
 </gupdate>
