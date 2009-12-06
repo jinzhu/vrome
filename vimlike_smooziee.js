@@ -591,25 +591,31 @@
     return false;
   }
 
-  function disableVimlike(){
-    keyListener({remove : initKeyBind });
-  }
-
   function enableVimlike(){
     removeNotice();
     keyListener({add : initKeyBind });
+    localStorage.removeItem('disableVimlike');
   }
 
   function passMode(){
-    notice({title : ' -- PASS THROUGH -- '});
-    keyListener({add : passModeHandle,remove : initKeyBind});
+    if(document.body){
+      notice({title : ' -- PASS THROUGH -- '});
+      keyListener({add : passModeHandle,remove : initKeyBind});
+      localStorage.disableVimlike = true;
+    }else{
+      setTimeout(passMode,1000);
+    }
   }
 
   function passModeHandle(e){
     addKeyBind( 'Esc', 'enableVimlike()', e );
   }
 
-  enableVimlike()
+  if(localStorage.disableVimlike){
+    setTimeout(passMode,1000);
+  }else{
+    enableVimlike();
+  }
 
   function initKeyBind(e){
     var t = e.target;
