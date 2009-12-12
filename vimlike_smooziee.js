@@ -261,11 +261,11 @@
   }
 
   function nextPage(){
-    selectPagesByMatch(['(下|后)一页','\b?Next\b?','^>$','(^(>>|»))|((»|>>)$)','\b?More\b?'])
+    selectPagesByMatch(['(下|后)一页','\b?Next\b?','^>$','(^(>>|››|»))|((»|››|>>)$)','\b?More\b?'])
   }
 
   function prevPage(){
-    selectPagesByMatch(['(上|前)一页','\b?(Prev|Previous)\b?','^<$','(^(<<|«))|((<<|«)$)'])
+    selectPagesByMatch(['(上|前)一页','\b?(Prev|Previous)\b?','^<$','(^(<<|‹‹|«))|((<<|‹‹|«)$)'])
   }
 
   function selectPagesByMatch(regexps){
