@@ -261,19 +261,20 @@
   }
 
   function nextPage(){
-    elems = document.getElementsByTagName('a');
-    for(var cur in elems){
-      if(/(^>$|^(>>|»)|(»|>>)$|^下一页|\bNext\b|\bmore\b)/im.test(elems[cur].innerText)){
-        return execSelect(elems[cur]);
-      }
-    }
+    selectPagesByMatch(['(下|后)一页','\b?Next\b?','^>$','(^(>>|»))|((»|>>)$)','\b?More\b?'])
   }
 
   function prevPage(){
+    selectPagesByMatch(['(上|前)一页','\b?(Prev|Previous)\b?','^<$','(^(<<|«))|((<<|«)$)'])
+  }
+
+  function selectPagesByMatch(regexps){
     elems = document.getElementsByTagName('a');
-    for(var cur in elems){
-      if(/\b(prev|previous)\b|^<$|^(<<|«)|(<<|«)$|^上一页/im.test(elems[cur].innerText)){
-        return execSelect(elems[cur]);
+    for(var i in regexps){
+      for(var cur in elems){
+        if(new RegExp(regexps[i],'i').test(elems[cur].innerText)){
+          return execSelect(elems[cur]);
+        }
       }
     }
   }
