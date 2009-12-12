@@ -1,6 +1,6 @@
 {
   "name": "Vimlike Smooziee",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "update_url": "http://github.com/jinzhu/vimlike-smooziee/raw/master/vimlike-smooziee-updates.xml",
   "background_page": "background.html",
   "content_scripts": [ {

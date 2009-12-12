@@ -261,7 +261,7 @@
   }
 
   function nextPage(){
-    selectPagesByMatch(['(下|后)一页','\b?Next\b?','^>$','(^(>>|››|»))|((»|››|>>)$)','\b?More\b?'])
+    selectPagesByMatch(['(下|后)一页','\b?Next\b?','^>$','^More$','(^(>>|››|»))|((»|››|>>)$)'])
   }
 
   function prevPage(){
