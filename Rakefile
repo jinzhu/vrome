@@ -15,8 +15,21 @@ task :build => [:build_xml] do
   `ruby #{File.join(File.dirname(__FILE__),'buildex.rb')} --pack-extension=#{File.dirname(__FILE__)} #{File.exist?(pem_file) ? "--pack-extension-key=#{pem_file}" : ""}`
 end
 
+desc "build manifest"
+task :build_manifest do
+  file = File.join(File.dirname(__FILE__),'manifest.json')
+
+  json = JSON.parse(File.read(file))
+  json["version"] = File.read('Version').strip
+  json["content_scripts"][0]["js"] = ["chinese-pinyin.js", "vimlike_smooziee.js" ].concat(Dir['modules/*.js'])
+
+  File.open(file,'w+') do |f|
+    f << json.to_json
+  end
+end
+
 desc "build xml"
-task :build_xml do
+task :build_xml => [:build_manifest] do
   version = JSON.parse(File.read('manifest.json'))['version']
     xml = Builder::XmlMarkup.new( :target => File.open('vimlike-smooziee-updates.xml','w+') , :indent => 2 )
      xml.instruct!

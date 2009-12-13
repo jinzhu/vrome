@@ -1,14 +1,1 @@
-{
-  "name": "Vimlike Smooziee",
-  "version": "0.0.19",
-  "update_url": "http://github.com/jinzhu/vimlike-smooziee/raw/master/vimlike-smooziee-updates.xml",
-  "background_page": "background.html",
-  "content_scripts": [ {
-    "js": ["chinese-pinyin.js", "vimlike_smooziee.js" ],
-    "run_at": "document_start",
-    "matches": [ "http://*/*", "https://*/*", "ftp://*/*", "file://*/*"]
-  } ],
-  "permissions": [
-    "tabs"
-  ]
-}
+{"name":"Vimlike Smooziee","background_page":"background.html","update_url":"http://github.com/jinzhu/vimlike-smooziee/raw/master/vimlike-smooziee-updates.xml","version":"0.0.19","content_scripts":[{"run_at":"document_start","js":["chinese-pinyin.js","vimlike_smooziee.js"],"matches":["http://*/*","https://*/*","ftp://*/*","file://*/*"]}],"permissions":["tabs"]}
