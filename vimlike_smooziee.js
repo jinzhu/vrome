@@ -28,16 +28,7 @@ with(KeyEvent){
   add(['L'], History.forward);
 }
 
-//function gHandler(e){
-//  addKeyBind( 'g', 'scrollToTop()', e );
 //  addKeyBind( 'i', 'focusFirstTextInput()', e );
-//  var pressedKey = get_key(e);
-//  if (pressedKey != 'g' && pressedKey != 'i'){
-//    keyListener({add : initKeyBind,remove : gHandler});
-//  }
-//}
-//
-//////////////////////
 //
 //function enableVimlike(){
 //  removeNotice();

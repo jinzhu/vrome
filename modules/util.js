@@ -2,10 +2,7 @@
  * Util
  */
 
-var Util = new Object();
-
-(function(){
-
+var Util = (function(){
 	function focusFirstTextInput(){
 		var elem = document.querySelector('input[type="text"],input:not([type])');
 		if (elem) {
