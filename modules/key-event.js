@@ -1,4 +1,4 @@
-keyEvent = (function(){
+var KeyEvent = (function(){
 	var keyId = {
 		"U+0008" : "BackSpace",
 		"U+0009" : "Tab",
