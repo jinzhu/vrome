@@ -2,9 +2,7 @@
  * Page
  */
 
-var Page = new Object();
-
-(function(){
+var Page = (function(){
 
 	function execMatch(regexps){
 		elems = document.getElementsByTagName('a');
@@ -18,35 +16,12 @@ var Page = new Object();
 	}
 
   // Public API
-	Page.Next = function(){
-		execMatch(['(下|后)一页','^\s*Next\s*$','^>$','^More$','(^(>>|››|»))|((»|››|>>)$)'])
-	}
-
-	Page.Prev = function(){
-		execMatch(['(上|前)一页','^\s*Prev(ious)?\s*$','^<$','(^(<<|‹‹|«))|((<<|‹‹|«)$)'])
+	return {
+		next : function(){
+			execMatch(['(下|后)一页','^\s*Next\s*$','^>$','^More$','(^(>>|››|»))|((»|››|>>)$)']);
+		},
+	  prev : function(){
+	   execMatch(['(上|前)一页','^\s*Prev(ious)?\s*$','^<$','(^(<<|‹‹|«))|((<<|‹‹|«)$)']);
+    }
 	}
 })()
-
-
-//////////////////////////////////////////////////
-// PageMode
-//////////////////////////////////////////////////
-function pageMode(key){
-  keyListener({add : key == ']' ? nextPageHandler : prevPageHandler,remove : initKeyBind});
-}
-
-function nextPageHandler(e){
-  addKeyBind( ']', 'nextPage()', e );
-  var pressedKey = get_key(e);
-  if (pressedKey != ']'){
-    keyListener({add : initKeyBind,remove : nextPageHandler});
-  }
-}
-
-function prevPageHandler(e){
-  addKeyBind( '[', 'prevPage()', e );
-  var pressedKey = get_key(e);
-  if (pressedKey != '['){
-    keyListener({add : initKeyBind,remove : prevPageHandler});
-  }
-}

@@ -4,6 +4,9 @@ with(KeyEvent){
   add(['z','m'],Zoom.more   );
   add(['z','r'],Zoom.reduce );
   add(['z','z'],Zoom.reset  );
+
+  add([']',']'],Page.next   );
+  add(['[','['],Page.prev   );
 }
 
 ////////////////////////////////////////////////////

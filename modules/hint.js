@@ -115,38 +115,6 @@ function clickLink(link) {
   link.dispatchEvent(event);
 }
 
-function execSelect(elem) {
-  // if the element is not a really element,then return and remove all hints
-  if(elem == undefined){ return removeHints(); }
-
-  var tag_name = elem.tagName.toLowerCase();
-  var type = elem.type ? elem.type.toLowerCase() : "";
-
-  if (tag_name == 'a' && elem.href != '') {
-    setHighlight(elem, true);
-
-    var original_target = elem.getAttribute('target');
-
-    if(hint_open_in_new_tab){ elem.setAttribute('target','_blank'); }
-
-    clickLink(elem);
-
-    elem.setAttribute('target',original_target);
-  } else if (tag_name == 'input' && (type == "submit" || type == "button" || type == "reset")) {
-    elem.click();
-  } else if (tag_name == 'input' && (type == "radio" || type == "checkbox")) {
-    // TODO: toggle checkbox
-    elem.checked = !elem.checked;
-  } else if (tag_name == 'input' || tag_name == 'textarea') {
-    elem.focus();
-    elem.setSelectionRange(elem.value.length, elem.value.length);
-  } else if (tag_name == 'select'){
-    elem.focus();
-  }
-
-  removeHints();
-}
-
 function setHints() {
   setHintRules();
   // TODO: <area>
