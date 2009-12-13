@@ -16,26 +16,15 @@ with(KeyEvent){
   add(['k'], Scroll.down    );
   add(['l'], Scroll.left    );
   add(['h'], Scroll.right   );
+
+  add(['r'],   Tab.reload   );
+  add(['R'],   Tab.reloadAll);
+  add(['d'],   Tab.close    );
+  add(['u'],   Tab.reopen   );
+  add(['C-p'], Tab.prev     );
+  add(['C-n'], Tab.next     );
 }
 
-////////////////////////////////////////////////////
-//// History
-////////////////////////////////////////////////////
-//function historyBack(){
-//  history.back();
-//}
-//
-//function historyForward(){
-//  history.forward();
-//}
-//
-////////////////////////////////////////////////////
-//// gMode
-////////////////////////////////////////////////////
-//function gMode(){
-//  keyListener({add : gHandler,remove : initKeyBind});
-//}
-//
 //function gHandler(e){
 //  addKeyBind( 'g', 'scrollToTop()', e );
 //  addKeyBind( 'i', 'focusFirstTextInput()', e );

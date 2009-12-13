@@ -174,6 +174,7 @@ var KeyEvent = (function(){
 		}
 
 		if(matched.length == 0 || key == 'Esc'){ reset(); }
+    return false;
 	}
 
 	function reset(){
