@@ -13,11 +13,6 @@ function extend(to,from) {
   return to;
 }
 
-var interval          = 20;
-var vertical_moment   = 250;
-var horizontal_moment = 100;
-var nextSmoothScroll;
-
 var hint_str             = '';
 var hint_str_num         = 0;
 var hint_elems           = [];
@@ -87,57 +82,6 @@ function notice(opt){
 function removeNotice(){
   var notice = document.getElementById('vimlike_smooziee_notice_title');
   if(notice){ document.body.removeChild(notice); }
-}
-
-//////////////////////////////////////////////////
-// Scroll
-//////////////////////////////////////////////////
-function smoothScrollDown(){
-  smoothScrollBy(0,vertical_moment);
-}
-
-function smoothScrollUp(){
-  smoothScrollBy(0,-vertical_moment);
-}
-
-function smoothScrollRight(){
-  smoothScrollBy(horizontal_moment,0);
-}
-
-function smoothScrollLeft(){
-  smoothScrollBy(-horizontal_moment,0);
-}
-
-function smoothScrollBy(x,y){
-  clearTimeout(nextSmoothScroll);
-  smoothScroll(x,y);
-}
-
-function smoothScroll(x,y){
-  x = Number(x), y = Number(y);
-
-  scrollBy(x,y);
-
-  if (Math.max(Math.abs(x),Math.abs(y)) >= 1) {
-    nextSmoothScroll = setTimeout(function(){ scrollBy(x,y); }, interval);
-  }
-}
-
-function scrollToTop(){
-  scrollTo(scrollX, 0);
-  keyListener({add : initKeyBind,remove : gHandler});
-}
-
-function scrollToBottom(){
-  scrollTo(scrollX, document.height);
-}
-
-function scrollToLeft(){
-  scrollTo(0, scrollY);
-}
-
-function scrollToRight(){
-  scrollTo(document.width, scrollY);
 }
 
 //////////////////////////////////////////////////
