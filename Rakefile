@@ -11,7 +11,8 @@ end
 
 desc 'build extension'
 task :build => [:build_xml] do
-  `ruby #{File.join(File.dirname(__FILE__),'buildex.rb')} --pack-extension=#{File.dirname(__FILE__)} --pack-extension-key=#{File.join(File.dirname(__FILE__),"vimlike-smooziee.pem")}`
+  pem_file = File.join(File.dirname(__FILE__),"vimlike-smooziee.pem")
+  `ruby #{File.join(File.dirname(__FILE__),'buildex.rb')} --pack-extension=#{File.dirname(__FILE__)} #{File.exist?(pem_file) ? "--pack-extension-key=#{pem_file}" : ""}`
 end
 
 desc "build xml"
