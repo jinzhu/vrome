@@ -7,6 +7,15 @@ with(KeyEvent){
 
   add([']',']'],Page.next   );
   add(['[','['],Page.prev   );
+
+  add(['g','g'],Scroll.top  );
+  add(['G'], Scroll.bottom  );
+  add(['0'], Scroll.first   );
+  add(['$'], Scroll.last    );
+  add(['j'], Scroll.up      );
+  add(['k'], Scroll.down    );
+  add(['l'], Scroll.left    );
+  add(['h'], Scroll.right   );
 }
 
 ////////////////////////////////////////////////////

@@ -2,10 +2,7 @@
  * Zoom
  */
 
-var Scroll = new Object();
-
-(function(){
-
+var Scroll = (function(){
 	var interval          = 20;
 	var vertical_moment   = 250;
 	var horizontal_moment = 100;
@@ -24,13 +21,14 @@ var Scroll = new Object();
 		smoothScroll(x,y);
 	}
 
- Scroll.Down   = function(){ smoothScrollBy(0,vertical_moment);    } 
- Scroll.Up     = function(){ smoothScrollBy(0,-vertical_moment);   } 
- Scroll.Left   = function(){ smoothScrollBy(horizontal_moment,0);  } 
- Scroll.Right  = function(){ smoothScrollBy(-horizontal_moment,0); } 
- Scroll.Top    = function(){ scrollTo(scrollX, 0);                 } 
- Scroll.Bottom = function(){ scrollTo(scrollX, document.height);   } 
- Scroll.First  = function(){ scrollTo(0, scrollY);                 } 
- Scroll.Last   = function(){ scrollTo(document.width, scrollY);    } 
-
+	return {
+	  top    : function(){ scrollTo(scrollX, 0);                 },
+	  bottom : function(){ scrollTo(scrollX, document.height);   },
+	  first  : function(){ scrollTo(0, scrollY);                 },
+	  last   : function(){ scrollTo(document.width, scrollY);    },
+	  up     : function(){ smoothScrollBy(0,vertical_moment);    },
+	  down   : function(){ smoothScrollBy(0,-vertical_moment);   },
+	  left   : function(){ smoothScrollBy(horizontal_moment,0);  },
+	  right  : function(){ smoothScrollBy(-horizontal_moment,0); }
+	}
 })()
