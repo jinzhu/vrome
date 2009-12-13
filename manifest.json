@@ -6,7 +6,7 @@
   "content_scripts": [ {
     "js": ["chinese-pinyin.js", "vimlike_smooziee.js" ],
     "run_at": "document_start",
-    "matches": [ "http://*/*", "https://*/*", "ftp://*/*"]
+    "matches": [ "http://*/*", "https://*/*", "ftp://*/*", "file://*/*"]
   } ],
   "permissions": [
     "tabs"
