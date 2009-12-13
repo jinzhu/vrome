@@ -1,11 +1,3 @@
-// vim:ft=javascript
-
-function extend(to,from) {
-  if (!to) to = {};
-  for(var p in from) to[p] = from[p];
-  return to;
-}
-
 chrome.extension.onConnect.addListener(function(port) {
   port.onMessage.addListener(function(msg) {
     var tab = port.tab;
