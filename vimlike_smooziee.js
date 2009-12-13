@@ -202,48 +202,6 @@ function gHandler(e){
   }
 }
 
-//////////////////////////////////////////////////
-// PageMode
-//////////////////////////////////////////////////
-function pageMode(key){
-  keyListener({add : key == ']' ? nextPageHandler : prevPageHandler,remove : initKeyBind});
-}
-
-function nextPageHandler(e){
-  addKeyBind( ']', 'nextPage()', e );
-  var pressedKey = get_key(e);
-  if (pressedKey != ']'){
-    keyListener({add : initKeyBind,remove : nextPageHandler});
-  }
-}
-
-function prevPageHandler(e){
-  addKeyBind( '[', 'prevPage()', e );
-  var pressedKey = get_key(e);
-  if (pressedKey != '['){
-    keyListener({add : initKeyBind,remove : prevPageHandler});
-  }
-}
-
-function nextPage(){
-  selectPagesByMatch(['(下|后)一页','\b?Next\b?','^>$','^More$','(^(>>|››|»))|((»|››|>>)$)'])
-}
-
-function prevPage(){
-  selectPagesByMatch(['(上|前)一页','\b?(Prev|Previous)\b?','^<$','(^(<<|‹‹|«))|((<<|‹‹|«)$)'])
-}
-
-function selectPagesByMatch(regexps){
-  elems = document.getElementsByTagName('a');
-  for(var i in regexps){
-    for(var cur in elems){
-      if(new RegExp(regexps[i],'i').test(elems[cur].innerText)){
-        return execSelect(elems[cur]);
-      }
-    }
-  }
-}
-
 ////////////////////////////////////////
 // Hint Mode
 ////////////////////////////////////////

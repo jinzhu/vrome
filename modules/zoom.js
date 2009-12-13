@@ -2,9 +2,10 @@
  * Zoom
  */
 
-var Zoom = new Object;
+var Zoom = new Object();
 
 (function(){
+
   var levels = ['30%', '50%', '67%', '80%', '90%', '100%', '110%', '120%', '133%', '150%', '170%', '200%', '240%', '300%'];
   var default_index = levels.indexOf('100%');
 
@@ -34,8 +35,8 @@ var Zoom = new Object;
   Zoom.Reduce  = function() { setZoom(-3) };
   Zoom.Reset   = function() { setZoom(  ) };
   Zoom.Current = function() {
-                   return (parseInt( levels[currentLevel()] ) / 100);
-                 }
+    return (parseInt( levels[currentLevel()]) / 100);
+  }
 })()
 
 
