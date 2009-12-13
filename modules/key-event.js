@@ -1,4 +1,4 @@
-keyBindings = (function(){
+keyEvent = (function(){
 	var keyId = {
 		"U+0008" : "BackSpace",
 		"U+0009" : "Tab",
@@ -183,4 +183,4 @@ keyBindings = (function(){
 	return { add : add, exec : exec, remove : remove};
 })()
 
-document.addEventListener('keydown', keyBindings.exec, false);
+document.addEventListener('keydown', keyEvent.exec, false);
