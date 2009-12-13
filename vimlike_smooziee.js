@@ -23,6 +23,9 @@ with(KeyEvent){
   add(['u'],   Tab.reopen   );
   add(['C-p'], Tab.prev     );
   add(['C-n'], Tab.next     );
+
+  add(['H'], History.back   );
+  add(['L'], History.forward);
 }
 
 //function gHandler(e){
