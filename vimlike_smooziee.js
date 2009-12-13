@@ -204,7 +204,7 @@
   }
 
   function setZoom(count) {
-    var zoom_level = count ? (currentZoom() + Number(count)) : defalut_zoom_index;
+    var zoom_level = count ? (currentZoomLevel() + Number(count)) : defalut_zoom_index;
     zoom_level = Math.max(0,zoom_level);
     zoom_level = Math.min(zoom_levels.length - 1,zoom_level);
 
@@ -213,13 +213,17 @@
     keyListener({add : initKeyBind,remove : zHandler});
   }
 
-  function currentZoom() {
+  function currentZoomLevel() {
     for(var i in zoom_levels){
       if(zoom_levels[i] == document.body.style.zoom){
         return Number(i);
       }
     }
     return defalut_zoom_index;
+  }
+
+  function currentZoom() {
+    return (parseInt(zoom_levels[currentZoomLevel()]) / 100);
   }
   //////////////////////////////////////////////////
   // gMode
@@ -469,15 +473,11 @@
     for(var i in elems){
       elem = elems[i];
       var win_top = window.scrollY / currentZoom();
-      var win_bottom = win_top + window.innerHeight;
       var win_left = window.scrollX / currentZoom();
-      var win_right = win_left + window.innerWidth;
 
       var pos = elem.getBoundingClientRect();
       var elem_top = win_top + pos.top;
-      var elem_bottom = win_top + pos.bottom;
       var elem_left = win_left + pos.left;
-      var elem_right = win_left + pos.left;
 
       var span = document.createElement('span');
       span.style.cssText = [
