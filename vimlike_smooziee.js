@@ -141,41 +141,6 @@ function scrollToRight(){
 }
 
 //////////////////////////////////////////////////
-// Reload
-//////////////////////////////////////////////////
-function reload(){
-  location.reload();
-}
-
-function reloadAll(){
-  var port = chrome.extension.connect();
-  port.postMessage({action: "reload_all_tabs"});
-}
-
-//////////////////////////////////////////////////
-// Tab
-//////////////////////////////////////////////////
-function closeTab(){
-  var port = chrome.extension.connect();
-  port.postMessage({action: "close_tab"});
-}
-
-function reopenTab(){
-  var port = chrome.extension.connect();
-  port.postMessage({action: "reopen_tab"});
-}
-
-function previousTab(){
-  var port = chrome.extension.connect();
-  port.postMessage({action: "previous_tab"});
-}
-
-function nextTab(){
-  var port = chrome.extension.connect();
-  port.postMessage({action: "next_tab"});
-}
-
-//////////////////////////////////////////////////
 // History
 //////////////////////////////////////////////////
 function historyBack(){
