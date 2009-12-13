@@ -2,9 +2,7 @@
  * Hint
  */
 
-var Hint = new Object();
-
-(function(){
+var Hint = (function(){
 	var hint_str             = '';
 	var hint_str_num         = 0;
 	var hint_elems           = [];
@@ -243,3 +241,4 @@ function removeHints() {
 
   keyListener({remove : hintHandler,add : initKeyBind});
 }
+})()

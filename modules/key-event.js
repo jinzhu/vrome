@@ -183,4 +183,4 @@ var KeyEvent = (function(){
 	return { add : add, exec : exec, remove : remove};
 })()
 
-document.addEventListener('keydown', keyEvent.exec, false);
+document.addEventListener('keydown', KeyEvent.exec, false);
