@@ -21,7 +21,7 @@ task :build_manifest do
 
   json = JSON.parse(File.read(file))
   json["version"] = File.read('Version').strip
-  json["content_scripts"][0]["js"] = ["chinese-pinyin.js", "vimlike_smooziee.js" ].concat(Dir['modules/*.js'])
+  json["content_scripts"][0]["js"] = Dir['modules/*.js'].concat(["chinese-pinyin.js", "vimlike_smooziee.js" ])
   json["content_scripts"][0]["css"] = Dir['styles/*.css']
 
   File.open(file,'w+') do |f|

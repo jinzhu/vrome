@@ -1,5 +1,11 @@
 with(KeyEvent){
+  add(['z','i'],Zoom['in']  );
+  add(['z','o'],Zoom.out    );
+  add(['z','m'],Zoom.more   );
+  add(['z','r'],Zoom.reduce );
+  add(['z','z'],Zoom.reset  );
 }
+
 ////////////////////////////////////////////////////
 //// History
 ////////////////////////////////////////////////////
