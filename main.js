@@ -55,19 +55,18 @@ with(KeyEvent){
   // "M-j"  Move backward char
 }
 
-
 function disableVimlike(){
   //TODO Add Notice
   localStorage._disableVimlike = true;
 }
 
 function clickElement(element) {
-  var event = document.createEvent("MouseEvents");
   //event.initMouseEvent(type, canBubble, cancelable, view,
   //                     detail, screenX, screenY, clientX, clientY,
   //                     ctrlKey, altKey, shiftKey, metaKey,
   //                     button, relatedTarget);
   // https://developer.mozilla.org/en/DOM/event.initMouseEvent
+  var event = document.createEvent("MouseEvents");
   event.initMouseEvent("click", true, true, window,
       0, 0, 0, 0, 0,
       false, false, false, false,
@@ -75,12 +74,6 @@ function clickElement(element) {
   element.dispatchEvent(event);
 }
 
-//function runLastSetting(){
-//  if(document.body){
-//    if(localStorage.disableVimlike){ passMode(); }
-//    if(localStorage.vimlike_zoom){ setZoom(localStorage.vimlike_zoom); }
-//  }else{
-//    setTimeout(runLastSetting,100);
-//  }
-//}
-//runLastSetting();
+// Initial
+Zoom.init()
+document.addEventListener('keydown', KeyEvent.exec, false);
