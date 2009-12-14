@@ -1,10 +1,11 @@
 /**
  * Util
  */
+//TODO should use focus/click event to active some js binding
 
 var Util = (function(){
 	function focusFirstTextInput(){
-		var elem = document.querySelector('input[type="text"],input:not([type])');
+		var elem = document.querySelector('input[type="text"],input[type="search"]');
 		if (elem) {
 			elem.focus();
 			elem.setSelectionRange(0,elem.value.length);
