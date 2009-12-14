@@ -23,6 +23,7 @@ with(KeyEvent){
   add(['u'],   Tab.reopen   );
   add(['C-p'], Tab.prev     );
   add(['C-n'], Tab.next     );
+  add(['y'],   Tab.yankUrl  );
 
   add(['H'], History.back   );
   add(['L'], History.forward);
@@ -31,6 +32,8 @@ with(KeyEvent){
   add(['Esc'], Hint.remove  );
 
   add(['g','i'], InputMode.focusFirstTextInput);
+
+
   add(['C-z'],   disableVimlike);
 
 

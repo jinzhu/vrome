@@ -3,7 +3,12 @@
  */
 
 var Tab = (function(){
+  function yankUrl() {
+    Clipboard.copy(document.location);
+  }
+
 	return {
+    yankUrl : yankUrl,
 		reload : function() { location.reload(); },
 		reloadAll : function() {
 			var port = chrome.extension.connect();
