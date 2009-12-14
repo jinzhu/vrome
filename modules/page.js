@@ -9,7 +9,7 @@ var Page = (function(){
 		for(var i in regexps){
 			for(var cur in elems){
 				if(new RegExp(regexps[i],'i').test(elems[cur].innerText)){
-					return execSelect(elems[cur]);
+					return clickElement(elems[cur]);
 				}
 			}
 		}
@@ -18,10 +18,10 @@ var Page = (function(){
   // Public API
 	return {
 		next : function(){
-			execMatch(['(下|后)一页','^\s*Next\s*$','^>$','^More$','(^(>>|››|»))|((»|››|>>)$)']);
+			execMatch(['(下|后)一页','^\\s*Next\\s*$','^>$','^More$','(^(>>|››|»))|((»|››|>>)$)']);
 		},
 	  prev : function(){
-	   execMatch(['(上|前)一页','^\s*Prev(ious)?\s*$','^<$','(^(<<|‹‹|«))|((<<|‹‹|«)$)']);
+	   execMatch(['(上|前)一页','^\\s*Prev(ious)?\\s*$','^<$','(^(<<|‹‹|«))|((<<|‹‹|«)$)']);
     }
 	}
 })()
