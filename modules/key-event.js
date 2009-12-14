@@ -1,4 +1,11 @@
 var KeyEvent = (function(){
+  var disableVimlike = !!localStorage._disableVimlike;
+
+  function init(){
+    if(disableVimlike) disable();
+    document.addEventListener('keydown',exec, false);
+  }
+
 	var keyId = {
 		"U+0008" : "BackSpace",
 		"U+0009" : "Tab",
@@ -152,8 +159,11 @@ var KeyEvent = (function(){
 		key = getKey(e);
     if(key == 'Esc') CmdLine.remove();
 
-		if(localStorage._disableVimlike){
-			if(key == 'Esc') localStorage.removeItem('_disableVimlike');
+		if(disableVimlike){
+			if(key == 'Esc'){
+        localStorage.removeItem('_disableVimlike');
+        disableVimlike = false;
+      }
 			reset();
 			return false;
 		}
@@ -193,11 +203,7 @@ var KeyEvent = (function(){
 	function disable(){
 		CmdLine.set({title : ' -- PASS THROUGH -- ' });
 		localStorage._disableVimlike = true;
-	}
-
-	function init(){
-		document.addEventListener('keydown', KeyEvent.exec, false);
-		if(localStorage._disableVimlike) disable();
+    disableVimlike = true;
 	}
 
 	return { add : add, exec : exec, remove : remove,getKey : getKey, disable : disable, init : init};
