@@ -153,29 +153,19 @@ var Hint = (function(){
   }
 
   function execSelect(elem) {
+    if(!elem){ return false; }
     var tag_name = elem.tagName.toLowerCase();
     var type     = elem.type ? elem.type.toLowerCase() : "";
 
     if (tag_name == 'a') {
       setHighlight(elem, true);
-
       var old_target = elem.getAttribute('target');
-
       elem.setAttribute('target',new_tab ? '_blank' : '_self');
-
       clickElement(elem);
+      old_target ? elem.setAttribute('target',old_target) : elem.removeAttribute('target');
 
-      if(old_target){
-        elem.setAttribute('target',old_target);
-      }else{
-        elem.removeAttribute('target');
-      }
-
-    } else if (tag_name == 'input' && (type == "submit" || type == "button" || type == "reset")) {
-      elem.click();
-
-    } else if (tag_name == 'input' && (type == "radio" || type == "checkbox")) {
-      elem.checked = !elem.checked;
+    } else if (tag_name == "input" && (type == "submit" || type == "button" || type == "reset" || type == "radio" || type == "checkbox")) {
+      clickElement(elem);
 
     } else if (tag_name == 'input' || tag_name == 'textarea') {
       elem.focus();
