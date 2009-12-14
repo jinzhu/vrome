@@ -31,18 +31,6 @@ var Util = (function(){
 		elem.setSelectionRange(elem.value.length, elem.value.length);
 	}
 
-	function moveForward(){
-		var elem = document.activeElement;
-		var caret_position = elem.selectionEnd;
-		elem.setSelectionRange(caret_position + 1, caret_position + 1);
-	}
-
-	function moveBackward(){
-		var elem = document.activeElement;
-		var caret_position = elem.selectionEnd;
-		elem.setSelectionRange(caret_position - 1, caret_position - 1);
-	}
-
 	function deleteForward(){
 		var elem = document.activeElement;
 		var caret_position = elem.selectionEnd;
@@ -73,8 +61,6 @@ var Util = (function(){
     blurFocus            : blurFocus,
     moveFirstOrSelectAll : moveFirstOrSelectAll,
     moveEnd              : moveEnd,
-    moveForward          : moveForward,
-    moveBackward         : moveBackward,
     deleteForward        : deleteForward,
     deleteBackward       : deleteBackward,
     deleteBackwardWord   : deleteBackwardWord

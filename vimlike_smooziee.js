@@ -30,8 +30,18 @@ with(KeyEvent){
   add(['g','i'], Util.focusFirstTextInput);
   add(['C-z'],   disableVimlike);
 
+  // Edit Mode
+  add(['Esc'], Util.blurFocus, true);
+
   add(['C-w'], Util.deleteBackwardWord, true);
   add(['C-h'], Util.deleteBackward, true);
+  add(['C-d'], Util.deleteForward, true);
+
+  add(['C-a'], Util.moveFirstOrSelectAll, true);
+  add(['C-e'], Util.moveEnd, true);
+
+  //add(['C-u'], Util.moveEnd, true); // delete to begin
+  //add(['C-k'], Util.moveEnd, true); // delete to end
 }
 
 function disableVimlike(){
