@@ -75,5 +75,13 @@ function clickElement(element) {
 }
 
 // Initial
-Zoom.init()
+function init(){
+  if(document.body){
+    Zoom.init()
+  }else{
+    setTimeout(init,50);
+  }
+}
+
+init();
 document.addEventListener('keydown', KeyEvent.exec, false);
