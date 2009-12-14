@@ -44,12 +44,11 @@ var CmdLine = (function(){
     if(opt.title)
       cmdBox().firstChild ? cmdBox().firstChild.data = opt.title :
         cmdBox().innerHTML = opt.title;
-    if(opt.content){
+    if(typeof(opt.content) == 'string'){
       inputBox().value = opt.content;
     }
     if(opt.inputFunction)
       inputFunction = opt.inputFunction;
-    return get();
   }
 
   function get(){

@@ -30,11 +30,12 @@ with(KeyEvent){
 
   add(['f'], Hint.start     );
   add(['Esc'], Hint.remove  );
+  add(['Esc'], Hint.remove,true);
 
   add(['g','i'], InputMode.focusFirstTextInput);
 
 
-  add(['C-z'],   disableVimlike);
+  add(['C-z'], KeyEvent.disable);
 
 
   // InputMode
@@ -58,11 +59,6 @@ with(KeyEvent){
   // "M-j"  Move backward char
 }
 
-function disableVimlike(){
-  //TODO Add Notice
-  localStorage._disableVimlike = true;
-}
-
 function clickElement(element) {
   //event.initMouseEvent(type, canBubble, cancelable, view,
   //                     detail, screenX, screenY, clientX, clientY,
@@ -81,10 +77,10 @@ function clickElement(element) {
 function init(){
   if(document.body){
     Zoom.init()
+    KeyEvent.init();
   }else{
     setTimeout(init,50);
   }
 }
 
 init();
-document.addEventListener('keydown', KeyEvent.exec, false);

@@ -8,14 +8,16 @@ var Hint = (function(){
   var currentHint = false;
 	var new_tab     = false;
   var matched     = [];
+	var hint_mode   = false;
 
   function start(newTab){
+		hint_mode   = true;
     elements    = [];
     numbers     = 0;
     currentHint = false;
     new_tab = newTab;
     setHints();
-    CmdLine.set({title : 'HintMode',inputFunction : handleInput});
+    CmdLine.set({title : 'HintMode',inputFunction : handleInput,content : ''});
     document.getElementById('__vimlike_cmd_input_box').focus();
   }
 
@@ -108,8 +110,10 @@ var Hint = (function(){
   }
 
   function remove(){
+		if(!hint_mode) { return false; }
+		hint_mode = false;
+
     deleteHintRules();
-    CmdLine.remove();
 
     for (var i = 0; i < elements.length; i++) {
       elements[i].removeAttribute('highlight');
@@ -129,6 +133,7 @@ var Hint = (function(){
       //TODO set notice
       currentHint = matched[cur];
       e.preventDefault();
+			CmdLine.set({title : 'HintMode (' + numbers + ')'});
 
       if (numbers * 10 > matched.length){
         return execSelect( currentHint );

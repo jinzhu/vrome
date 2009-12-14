@@ -150,6 +150,7 @@ var KeyEvent = (function(){
 
 	function exec(e){
 		key = getKey(e);
+    if(key == 'Esc') CmdLine.remove();
 
 		if(localStorage._disableVimlike){
 			if(key == 'Esc') localStorage.removeItem('_disableVimlike');
@@ -189,5 +190,15 @@ var KeyEvent = (function(){
 		currentKeys = [];
 	}
 
-	return { add : add, exec : exec, remove : remove,getKey : getKey};
+	function disable(){
+		CmdLine.set({title : ' -- PASS THROUGH -- ' });
+		localStorage._disableVimlike = true;
+	}
+
+	function init(){
+		document.addEventListener('keydown', KeyEvent.exec, false);
+		if(localStorage._disableVimlike) disable();
+	}
+
+	return { add : add, exec : exec, remove : remove,getKey : getKey, disable : disable, init : init};
 })()
