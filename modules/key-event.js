@@ -176,6 +176,12 @@ var KeyEvent = (function(){
     for(var i in matched){
 			if(matched[i][0].length == currentKeys.length){
 				matched[i][1].call();
+
+				if(e.stopPropagation) {
+					e.stopPropagation();
+					e.preventDefault();
+				}
+
 				matched.splice(i,1);
 			}
 		}
