@@ -3,16 +3,18 @@
  */
 
 var Hint = (function(){
-  var elements = [];
-  var matched  = [];
-  var numbers  = 0;
+  var elements    = [];
+  var matched     = [];
+  var numbers     = 0;
+  var currentHint = false;
 	//var hint_open_in_new_tab = false;
 
   function start(){
-    CmdLine.set({title : 'HintMode'});
-    elements = [];
-    matched  = [];
-    numbers  = 0;
+    CmdLine.set({title : 'HintMode',inputFunction : handleInput});
+    elements    = [];
+    matched     = [];
+    numbers     = 0;
+    currentHint = false;
     setHints();
   }
 
@@ -117,43 +119,37 @@ var Hint = (function(){
     if (div) { document.body.removeChild(div); }
   }
 
-function highlightAndJumpCurrentHint(str,force_jump){
-  if(/^\d$/.test(str)){
-    hint_str_num = hint_str_num * 10 + Number(str);
+  function handleInput(e){
+    key = KeyEvent.getKey(e);
 
-    var cur = hint_str_num - 1;
-    setHighlight(hint_elems_filter[cur],true);
-    currentSelectHint = hint_elems_filter[cur];
+    if(/^\d$/.test(key)){
+      numbers = numbers * 10 + Number(key);
+      var cur = numbers - 1;
+      setHighlight(elements[cur],true);
+      //TODO set notice
+      currentHint = elements[cur];
+      e.preventDefault();
 
-    notice({ content : notice().content.replace(/(\s\(\d+\))?$/,' (' + hint_str_num + ')') });
-
-    if (force_jump || ((cur + 1)* 10 > hint_elems_filter.length)){
-      return execSelect( hint_elems_filter[cur] );
-    }
+      if (numbers * 10 > elements.length){
+        return execSelect( currentHint );
+      }
   }else{
-    if(str == 'BackSpace'){
-      hint_str = hint_str.slice(0,-1);
-    }else if(/^\w$/.test(str)){
-      hint_str = hint_str + str;
-    }
+    numbers = 0
 
-    notice({ content : hint_str });
-
-    hint_str_num      = 0
-    hint_elems_filter = [];
-
+    matched = [];
     // filte string key
-    for(var i in hint_elems){
-      if(new RegExp(hint_str,'im').test(CC2PY(hint_elems[i].innerText))){
-        hint_elems_filter[hint_elems_filter.length] = hint_elems[i];
+    for(var i in elements){
+      if ( new RegExp(CmdLine.get().content,'im').test(elements[i].innerText) ){
+        matched[matched.length] = elements[i];
       }
     }
-    setDefaultHintOrder(hint_elems_filter);
 
-    if (force_jump || hint_elems_filter.length == 1) {
-      return execSelect(currentSelectHint ? currentSelectHint : hint_elems_filter[0]);
+    setOrder(matched);
+
+    if (key == 'Enter' || matched.length == 1) {
+      return execSelect(currentHint ? currentHint : matched[0]);
     }
-    currentSelectHint = false;
+    currentHint = false;
   }
 }
 
