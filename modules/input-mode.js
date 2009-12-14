@@ -3,7 +3,7 @@
  */
 //TODO should use focus/click event to active some js binding
 
-var Util = (function(){
+var InputMode = (function(){
 	function blurFocus(){
 		document.activeElement.blur();
 	}

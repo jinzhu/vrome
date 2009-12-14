@@ -27,21 +27,21 @@ with(KeyEvent){
   add(['H'], History.back   );
   add(['L'], History.forward);
 
-  add(['g','i'], Util.focusFirstTextInput);
+  add(['g','i'], InputMode.focusFirstTextInput);
   add(['C-z'],   disableVimlike);
 
 
-  // Edit Mode
-  add(['Esc'], Util.blurFocus, true);
-  add(['C-['], Util.blurFocus, true);
+  // InputMode
+  add(['Esc'], InputMode.blurFocus             , true);
+  add(['C-['], InputMode.blurFocus             , true);
 
-  add(['C-a'], Util.moveToFirstOrSelectAll, true);
-  add(['C-e'], Util.moveToEnd, true);
+  add(['C-a'], InputMode.moveToFirstOrSelectAll, true);
+  add(['C-e'], InputMode.moveToEnd             , true);
 
-  add(['C-d'], Util.deleteForwardChar, true);
-  add(['C-h'], Util.deleteBackwardChar, true);
+  add(['C-d'], InputMode.deleteForwardChar     , true);
+  add(['C-h'], InputMode.deleteBackwardChar    , true);
 
-  add(['C-w'], Util.deleteBackwardWord, true);
+  add(['C-w'], InputMode.deleteBackwardWord    , true);
 
   // "C-U"  Delete backward from cursor
   // "C-K"  Delete to EOL
