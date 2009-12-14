@@ -28,7 +28,7 @@ with(KeyEvent){
   add(['L'], History.forward);
 
   add(['g','i'], Util.focusFirstTextInput);
-  add(['C-z'], disableVimlike);
+  add(['C-z'],   disableVimlike);
 }
 
 function disableVimlike(){
