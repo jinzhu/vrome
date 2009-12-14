@@ -99,6 +99,24 @@ var Hint = (function(){
     }
   }
 
+  function deleteHintRules() {
+    var ss = document.styleSheets[0];
+    ss.deleteRule(0);
+    ss.deleteRule(0);
+  }
+
+  function remove(){
+    deleteHintRules();
+    CmdLine.remove();
+
+    for (var i = 0; i < elements.length; i++) {
+      elements[i].removeAttribute('highlight');
+    }
+
+    var div = document.getElementById('__vim_hint_highlight');
+    if (div) { document.body.removeChild(div); }
+  }
+
 function highlightAndJumpCurrentHint(str,force_jump){
   if(/^\d$/.test(str)){
     hint_str_num = hint_str_num * 10 + Number(str);
@@ -154,22 +172,6 @@ function clickLink(link) {
 }
 
 
-function removeHints() {
-  removeNotice();
-
-  deleteHintRules();
-  for (var i = 0; i < hint_elems.length; i++) {
-    hint_elems[i].removeAttribute('highlight');
-  }
-
-  var div = document.body.querySelector('div[highlight=hints]');
-  if (div != undefined) {
-    document.body.removeChild(div);
-  }
-
-  keyListener({remove : hintHandler,add : initKeyBind});
-}
-
 function execSelect(elem) {
   // if the element is not a really element,then return and remove all hints
   if(elem == undefined){ return removeHints(); }
@@ -204,5 +206,6 @@ function execSelect(elem) {
 
   return {
     start : start,
+    remove : remove,
   }
 })()

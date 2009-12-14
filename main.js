@@ -27,7 +27,8 @@ with(KeyEvent){
   add(['H'], History.back   );
   add(['L'], History.forward);
 
-  add(['f'], Hint.start   );
+  add(['f'], Hint.start     );
+  add(['Esc'], Hint.remove  );
 
   add(['g','i'], InputMode.focusFirstTextInput);
   add(['C-z'],   disableVimlike);
