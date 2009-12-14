@@ -28,25 +28,16 @@ with(KeyEvent){
   add(['L'], History.forward);
 
   add(['g','i'], Util.focusFirstTextInput);
+  add(['C-z'], disableVimlike);
 }
 
-//function enableVimlike(){
-//  removeNotice();
-//  keyListener({add : initKeyBind });
-//  localStorage.removeItem('disableVimlike');
-//}
-//
-//function passMode(){
-//    notice({title : ' -- PASS THROUGH -- '});
-//    keyListener({add : passModeHandle,remove : initKeyBind});
-//    localStorage.disableVimlike = true;
-//}
-//
-//function passModeHandle(e){
-//  addKeyBind( 'Esc', 'enableVimlike()', e );
-//}
-//
-//
+function disableVimlike(){
+  //TODO Add Notice
+  localStorage._disableVimlike = true;
+}
+
+document.addEventListener('keydown', KeyEvent.exec, false);
+
 //function runLastSetting(){
 //  if(document.body){
 //    if(localStorage.disableVimlike){ passMode(); }
@@ -55,6 +46,4 @@ with(KeyEvent){
 //    setTimeout(runLastSetting,100);
 //  }
 //}
-//
-//enableVimlike();
 //runLastSetting();

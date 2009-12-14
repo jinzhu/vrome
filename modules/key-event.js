@@ -150,6 +150,13 @@ var KeyEvent = (function(){
 
 	function exec(e){
 		key = getKey(e);
+
+		if(localStorage._disableVimlike){
+			if(key == 'Esc') localStorage.removeItem('_disableVimlike');
+			reset();
+			return false;
+		}
+
 		currentKeys.push(key);
 
 		if(console && console.debug){ console.debug('handling key: ' + currentKeys.join(', ')); }
@@ -183,5 +190,3 @@ var KeyEvent = (function(){
 
 	return { add : add, exec : exec, remove : remove};
 })()
-
-document.addEventListener('keydown', KeyEvent.exec, false);
