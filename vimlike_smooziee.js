@@ -30,19 +30,28 @@ with(KeyEvent){
   add(['g','i'], Util.focusFirstTextInput);
   add(['C-z'],   disableVimlike);
 
+
   // Edit Mode
   add(['Esc'], Util.blurFocus, true);
+  add(['C-['], Util.blurFocus, true);
+
+  add(['C-a'], Util.moveToFirstOrSelectAll, true);
+  add(['C-e'], Util.moveToEnd, true);
+
+  add(['C-d'], Util.deleteForwardChar, true);
+  add(['C-h'], Util.deleteBackwardChar, true);
 
   add(['C-w'], Util.deleteBackwardWord, true);
-  add(['C-h'], Util.deleteBackward, true);
-  add(['C-d'], Util.deleteForward, true);
 
-  add(['C-a'], Util.moveFirstOrSelectAll, true);
-  add(['C-e'], Util.moveEnd, true);
-
-  //add(['C-u'], Util.moveEnd, true); // delete to begin
-  //add(['C-k'], Util.moveEnd, true); // delete to end
+  // "C-U"  Delete backward from cursor
+  // "C-K"  Delete to EOL
+  // "M-d"  Delete word
+  // "M-l"  Move forward word
+  // "M-h"  Move backward word
+  // "M-k"  Move forward char
+  // "M-j"  Move backward char
 }
+
 
 function disableVimlike(){
   //TODO Add Notice

@@ -4,6 +4,10 @@
 //TODO should use focus/click event to active some js binding
 
 var Util = (function(){
+	function blurFocus(){
+		document.activeElement.blur();
+	}
+
 	function focusFirstTextInput(){
 		var elem = document.querySelector('input[type="text"],input[type="search"]');
 		if (elem) {
@@ -12,11 +16,7 @@ var Util = (function(){
 		}
 	}
 
-	function blurFocus(){
-		document.activeElement.blur();
-	}
-
-	function moveFirstOrSelectAll(){
+	function moveToFirstOrSelectAll(){
 		var elem = document.activeElement;
 		var caret_position = elem.selectionEnd;
 		if (caret_position == 0){
@@ -26,12 +26,12 @@ var Util = (function(){
 		}
 	}
 
-	function moveEnd(){
+	function moveToEnd(){
 		var elem = document.activeElement;
 		elem.setSelectionRange(elem.value.length, elem.value.length);
 	}
 
-	function deleteForward(){
+	function deleteForwardChar(){
 		var elem = document.activeElement;
 		var caret_position = elem.selectionEnd;
 		var org_str = elem.value;
@@ -39,7 +39,7 @@ var Util = (function(){
 		elem.setSelectionRange(caret_position, caret_position);
 	}
 
-	function deleteBackward(){
+	function deleteBackwardChar(){
 		var elem = document.activeElement;
 		var caret_position = elem.selectionEnd;
 		var org_str = elem.value;
@@ -57,12 +57,13 @@ var Util = (function(){
 	}
 
   return {
-    focusFirstTextInput  : focusFirstTextInput,
-    blurFocus            : blurFocus,
-    moveFirstOrSelectAll : moveFirstOrSelectAll,
-    moveEnd              : moveEnd,
-    deleteForward        : deleteForward,
-    deleteBackward       : deleteBackward,
-    deleteBackwardWord   : deleteBackwardWord
+    blurFocus              : blurFocus              ,
+    focusFirstTextInput    : focusFirstTextInput    ,
+
+    moveToFirstOrSelectAll : moveToFirstOrSelectAll ,
+    moveToEnd              : moveToEnd              ,
+    deleteForwardChar      : deleteForwardChar      ,
+    deleteBackwardChar     : deleteBackwardChar     ,
+    deleteBackwardWord     : deleteBackwardWord     ,
   }
 })()
