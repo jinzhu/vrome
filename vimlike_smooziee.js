@@ -29,14 +29,15 @@ with(KeyEvent){
 
   add(['g','i'], Util.focusFirstTextInput);
   add(['C-z'],   disableVimlike);
+
+  add(['C-w'], Util.deleteBackwardWord, true);
+  add(['C-h'], Util.deleteBackward, true);
 }
 
 function disableVimlike(){
   //TODO Add Notice
   localStorage._disableVimlike = true;
 }
-
-document.addEventListener('keydown', KeyEvent.exec, false);
 
 //function runLastSetting(){
 //  if(document.body){
