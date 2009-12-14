@@ -15,3 +15,15 @@
 
 #__vimlike_cmd_input_box{
 }
+
+#__vim_hint_highlight {
+}
+
+#__vim_hint_highlight_span {
+  position: absolute;
+  font-size: 13px;
+  color: white;
+  font-weight: bold;
+  padding: 0px 1px;
+  z-index: 100000;
+}

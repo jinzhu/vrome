@@ -3,37 +3,101 @@
  */
 
 var Hint = (function(){
-	var hint_str             = '';
-	var hint_str_num         = 0;
-	var hint_elems           = [];
-	var hint_elems_filter    = [];
-	var hint_open_in_new_tab = false;
-	var currentSelectHint    = false;
+  var elements = [];
+  var matched  = [];
+  var numbers  = 0;
+	//var hint_open_in_new_tab = false;
 
-function hintMode(newtab){
-  hint_str     = '';
-  hint_elems   = [];
-  hint_str_num = 0;
-  hint_open_in_new_tab = newtab ? true : false;
-  setHints();
-  notice({title : 'Follow Hint:'});
-  keyListener({add : hintHandler,remove : initKeyBind});
-}
+  function start(){
+    CmdLine.set({title : 'HintMode'});
+    elements = [];
+    matched  = [];
+    numbers  = 0;
+    setHints();
+  }
 
-function hintHandler(e){
-  e.preventDefault();  //Stop Default Event
-  var pressedKey = get_key(e);
+  function setHints() {
+    var elems = document.body.querySelectorAll('a, input:not([type=hidden]), textarea, select, button');
+    for (var i = 0; i < elems.length; i++) {
+      if (isHintDisplay(elems[i])){
+        elements.push(elems[i]);
+      }
+    }
+    setOrder(elements);
+    matched = elements;
+  }
 
-  if (pressedKey =='Esc') {
-     removeHints();
-  } else {
-    if(pressedKey == 'Enter'){
-      highlightAndJumpCurrentHint('',true);
-    }else{
-      highlightAndJumpCurrentHint(pressedKey,false);
+  function isHintDisplay(elem) {
+    var win_top     = window.scrollY / Zoom.current();
+    var win_bottom  = win_top + window.innerHeight;
+    var win_left    = window.scrollX / Zoom.current();
+    var win_right   = win_left + window.innerWidth;
+
+    var pos         = elem.getBoundingClientRect();
+    var elem_top    = win_top + pos.top;
+    var elem_bottom = win_top + pos.bottom;
+    var elem_left   = win_left + pos.left;
+    var elem_right  = win_left + pos.left;
+
+    return pos.height != 0 && pos.width != 0 && elem_bottom >= win_top && elem_top <= win_bottom && elem_left <= win_right && elem_right >= win_left;
+  }
+
+  function setHintRules() {
+    var ss = document.styleSheets[0];
+    ss.insertRule('a[highlight=hint_elem] {background-color: yellow}', 0);
+    ss.insertRule('a[highlight=hint_active] {background-color: lime}', 0);
+  }
+
+  function setOrder(elems){
+    setHintRules();
+    // delete old highlight hints
+    for (var i = 0; i < elements.length; i++) {
+      elements[i].removeAttribute('highlight');
+    }
+
+    var div = document.getElementById('__vim_hint_highlight');
+    if (!div) {
+      div = document.createElement('div');
+      div.setAttribute('id', '__vim_hint_highlight');
+      document.body.appendChild(div);
+    }
+
+    for(var i in elems){ //TODO need refactor
+      elem          = elems[i];
+      var win_top   = window.scrollY / Zoom.current();
+      var win_left  = window.scrollX / Zoom.current();
+      var pos       = elem.getBoundingClientRect();
+      var elem_top  = win_top + pos.top;
+      var elem_left = win_left + pos.left;
+
+      var span = document.createElement('span');
+      span.setAttribute('id', '__vim_hint_highlight_span');
+      span.style.left            = elem_left + 'px';
+      span.style.top             = elem_top  + 'px';
+      span.style.backgroundColor = 'red';
+      span.innerHTML = Number(i) + 1; // cur
+      div.appendChild(span);
+
+      setHighlight(elem, false);
+      if (i == 0 && elems[i].tagName.toLowerCase() == 'a') {
+        setHighlight(elem, true);
+      }
     }
   }
-}
+
+  function setHighlight(elem, is_active) {
+    if(elem == undefined) { return false; }
+
+    if (is_active) {
+      var active_elem = document.body.querySelector('a[highlight=hint_active]');
+      if (active_elem != undefined){
+        active_elem.setAttribute('highlight', 'hint_elem');
+      }
+      elem.setAttribute('highlight', 'hint_active');
+    } else {
+      elem.setAttribute('highlight', 'hint_elem');
+    }
+  }
 
 function highlightAndJumpCurrentHint(str,force_jump){
   if(/^\d$/.test(str)){
@@ -75,32 +139,6 @@ function highlightAndJumpCurrentHint(str,force_jump){
   }
 }
 
-function setHighlight(elem, is_active) {
-  if(elem == undefined) { return false; }
-
-  if (is_active) {
-    var active_elem = document.body.querySelector('a[highlight=hint_active]');
-    if (active_elem != undefined){
-      active_elem.setAttribute('highlight', 'hint_elem');
-    }
-    elem.setAttribute('highlight', 'hint_active');
-  } else {
-    elem.setAttribute('highlight', 'hint_elem');
-  }
-}
-
-function setHintRules() {
-  var ss = document.styleSheets[0];
-  ss.insertRule('a[highlight=hint_elem] {background-color: yellow}', 0);
-  ss.insertRule('a[highlight=hint_active] {background-color: lime}', 0);
-}
-
-function deleteHintRules() {
-  var ss = document.styleSheets[0];
-  ss.deleteRule(0);
-  ss.deleteRule(0);
-}
-
 function clickLink(link) {
   var event = document.createEvent("MouseEvents");
   //event.initMouseEvent(type, canBubble, cancelable, view,
@@ -115,84 +153,6 @@ function clickLink(link) {
   link.dispatchEvent(event);
 }
 
-function setHints() {
-  setHintRules();
-  // TODO: <area>
-  var elems = document.body.querySelectorAll('a, input:not([type=hidden]), textarea, select, button');
-
-  for (var i = 0; i < elems.length; i++) {
-    if (isHintDisplay(elems[i])){
-      hint_elems.push(elems[i]);
-    }
-  }
-  setDefaultHintOrder(hint_elems);
-  hint_elems_filter = hint_elems;
-}
-
-// the element is seeable
-function isHintDisplay(elem) {
-  var win_top = window.scrollY / currentZoom();
-  var win_bottom = win_top + window.innerHeight;
-  var win_left = window.scrollX / currentZoom();
-  var win_right = win_left + window.innerWidth;
-
-  var pos = elem.getBoundingClientRect();
-  var elem_top = win_top + pos.top;
-  var elem_bottom = win_top + pos.bottom;
-  var elem_left = win_left + pos.left;
-  var elem_right = win_left + pos.left;
-
-  return pos.height != 0 && pos.width != 0 && elem_bottom >= win_top && elem_top <= win_bottom && elem_left <= win_right && elem_right >= win_left;
-}
-
-// set hint's order and background
-function setDefaultHintOrder(elems){
-  // delete old highlight hints
-  for (var i = 0; i < hint_elems.length; i++) {
-    hint_elems[i].removeAttribute('highlight');
-  }
-
-  var div = document.body.querySelector('div[highlight=hints]');
-  if (div != undefined) {
-    document.body.removeChild(div);
-  }
-
-  // create new highlight hints
-  var div = document.createElement('div');
-  div.setAttribute('highlight', 'hints');
-  document.body.appendChild(div);
-
-  for(var i in elems){
-    elem = elems[i];
-    var win_top = window.scrollY / currentZoom();
-    var win_left = window.scrollX / currentZoom();
-
-    var pos = elem.getBoundingClientRect();
-    var elem_top = win_top + pos.top;
-    var elem_left = win_left + pos.left;
-
-    var span = document.createElement('span');
-    span.style.cssText = [
-      'left: ', elem_left, 'px;',
-      'top: ', elem_top, 'px;',
-      'position: absolute;',
-      'font-size: 13px;',
-      'background-color: ' + (hint_open_in_new_tab ? '#ff6600' : 'red') + ';',
-      'color: white;',
-      'font-weight: bold;',
-      'padding: 0px 1px;',
-      'z-index: 100000;'
-        ].join('');
-
-    span.innerHTML = Number(i) + 1; // cur
-    div.appendChild(span);
-
-    setHighlight(elem, false);
-    if (i == 0 && elems[i].tagName.toLowerCase() == 'a') {
-      setHighlight(elem, true);
-    }
-  }
-}
 
 function removeHints() {
   removeNotice();
@@ -242,4 +202,7 @@ function execSelect(elem) {
   removeHints();
 }
 
+  return {
+    start : start,
+  }
 })()
