@@ -9,7 +9,6 @@ var Util = (function(){
 			elem.focus();
 			elem.setSelectionRange(0,elem.value.length);
 		}
-		keyListener({add : initKeyBind,remove : gHandler});
 	}
 
 	function blurFocus(){
@@ -67,4 +66,16 @@ var Util = (function(){
 		var position = elem.value.length - (org_str.length - caret_position);
 		elem.setSelectionRange(position,position);
 	}
+
+  return {
+    focusFirstTextInput  : focusFirstTextInput,
+    blurFocus            : blurFocus,
+    moveFirstOrSelectAll : moveFirstOrSelectAll,
+    moveEnd              : moveEnd,
+    moveForward          : moveForward,
+    moveBackward         : moveBackward,
+    deleteForward        : deleteForward,
+    deleteBackward       : deleteBackward,
+    deleteBackwardWord   : deleteBackwardWord
+  }
 })()

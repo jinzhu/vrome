@@ -26,10 +26,10 @@ with(KeyEvent){
 
   add(['H'], History.back   );
   add(['L'], History.forward);
+
+  add(['g','i'], Util.focusFirstTextInput);
 }
 
-//  addKeyBind( 'i', 'focusFirstTextInput()', e );
-//
 //function enableVimlike(){
 //  removeNotice();
 //  keyListener({add : initKeyBind });
