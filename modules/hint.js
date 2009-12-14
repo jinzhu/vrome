@@ -4,18 +4,19 @@
 
 var Hint = (function(){
   var elements    = [];
-  var matched     = [];
   var numbers     = 0;
   var currentHint = false;
-	//var hint_open_in_new_tab = false;
+	var new_tab     = false;
+  var matched     = [];
 
-  function start(){
-    CmdLine.set({title : 'HintMode',inputFunction : handleInput});
+  function start(newTab){
     elements    = [];
-    matched     = [];
     numbers     = 0;
     currentHint = false;
+    new_tab = newTab;
     setHints();
+    CmdLine.set({title : 'HintMode',inputFunction : handleInput});
+    document.getElementById('__vimlike_cmd_input_box').focus();
   }
 
   function setHints() {
@@ -58,11 +59,10 @@ var Hint = (function(){
     }
 
     var div = document.getElementById('__vim_hint_highlight');
-    if (!div) {
-      div = document.createElement('div');
-      div.setAttribute('id', '__vim_hint_highlight');
-      document.body.appendChild(div);
-    }
+    if(div) document.body.removeChild(div);
+    div = document.createElement('div');
+    div.setAttribute('id', '__vim_hint_highlight');
+    document.body.appendChild(div);
 
     for(var i in elems){ //TODO need refactor
       elem          = elems[i];
@@ -77,7 +77,7 @@ var Hint = (function(){
       span.style.left            = elem_left + 'px';
       span.style.top             = elem_top  + 'px';
       span.style.backgroundColor = 'red';
-      span.innerHTML = Number(i) + 1; // cur
+      span.innerHTML             = Number(i) + 1; // cur
       div.appendChild(span);
 
       setHighlight(elem, false);
@@ -125,83 +125,85 @@ var Hint = (function(){
     if(/^\d$/.test(key)){
       numbers = numbers * 10 + Number(key);
       var cur = numbers - 1;
-      setHighlight(elements[cur],true);
+      setHighlight(matched[cur],true);
       //TODO set notice
-      currentHint = elements[cur];
+      currentHint = matched[cur];
       e.preventDefault();
 
-      if (numbers * 10 > elements.length){
+      if (numbers * 10 > matched.length){
         return execSelect( currentHint );
       }
-  }else{
-    numbers = 0
+    }else{
+      numbers = 0
+      matched = [];
 
-    matched = [];
-    // filte string key
-    for(var i in elements){
-      if ( new RegExp(CmdLine.get().content,'im').test(elements[i].innerText) ){
-        matched[matched.length] = elements[i];
+      for(var i in elements){
+        if ( new RegExp(CmdLine.get().content,'im').test(elements[i].innerText) ){
+          matched.push(elements[i]);
+        }
       }
+
+      setOrder(matched);
+
+      if (key == 'Enter' || matched.length == 1) {
+        return execSelect(currentHint ? currentHint : matched[0]);
+      }
+      currentHint = false;
     }
-
-    setOrder(matched);
-
-    if (key == 'Enter' || matched.length == 1) {
-      return execSelect(currentHint ? currentHint : matched[0]);
-    }
-    currentHint = false;
-  }
-}
-
-function clickLink(link) {
-  var event = document.createEvent("MouseEvents");
-  //event.initMouseEvent(type, canBubble, cancelable, view,
-  //                     detail, screenX, screenY, clientX, clientY,
-  //                     ctrlKey, altKey, shiftKey, metaKey,
-  //                     button, relatedTarget);
-  // https://developer.mozilla.org/en/DOM/event.initMouseEvent
-  event.initMouseEvent("click", true, true, window,
-      0, 0, 0, 0, 0,
-      false, false, false, false,
-      0, null);
-  link.dispatchEvent(event);
-}
-
-
-function execSelect(elem) {
-  // if the element is not a really element,then return and remove all hints
-  if(elem == undefined){ return removeHints(); }
-
-  var tag_name = elem.tagName.toLowerCase();
-  var type = elem.type ? elem.type.toLowerCase() : "";
-
-  if (tag_name == 'a' && elem.href != '') {
-    setHighlight(elem, true);
-
-    var original_target = elem.getAttribute('target');
-
-    if(hint_open_in_new_tab){ elem.setAttribute('target','_blank'); }
-
-    clickLink(elem);
-
-    elem.setAttribute('target',original_target);
-  } else if (tag_name == 'input' && (type == "submit" || type == "button" || type == "reset")) {
-    elem.click();
-  } else if (tag_name == 'input' && (type == "radio" || type == "checkbox")) {
-    // TODO: toggle checkbox
-    elem.checked = !elem.checked;
-  } else if (tag_name == 'input' || tag_name == 'textarea') {
-    elem.focus();
-    elem.setSelectionRange(elem.value.length, elem.value.length);
-  } else if (tag_name == 'select'){
-    elem.focus();
   }
 
-  removeHints();
-}
+  function clickLink(link) {
+    var event = document.createEvent("MouseEvents");
+    //event.initMouseEvent(type, canBubble, cancelable, view,
+    //                     detail, screenX, screenY, clientX, clientY,
+    //                     ctrlKey, altKey, shiftKey, metaKey,
+    //                     button, relatedTarget);
+    // https://developer.mozilla.org/en/DOM/event.initMouseEvent
+    event.initMouseEvent("click", true, true, window,
+        0, 0, 0, 0, 0,
+        false, false, false, false,
+        0, null);
+    link.dispatchEvent(event);
+  }
+
+  function execSelect(elem) {
+    var tag_name = elem.tagName.toLowerCase();
+    var type     = elem.type ? elem.type.toLowerCase() : "";
+
+    if (tag_name == 'a') {
+      setHighlight(elem, true);
+
+      var old_target = elem.getAttribute('target');
+
+      elem.setAttribute('target',new_tab ? '_blank' : '_self');
+
+      clickLink(elem);
+
+      if(old_target){
+        elem.setAttribute('target',old_target);
+      }else{
+        elem.removeAttribute('target');
+      }
+
+    } else if (tag_name == 'input' && (type == "submit" || type == "button" || type == "reset")) {
+      elem.click();
+
+    } else if (tag_name == 'input' && (type == "radio" || type == "checkbox")) {
+      elem.checked = !elem.checked;
+
+    } else if (tag_name == 'input' || tag_name == 'textarea') {
+      elem.focus();
+      elem.setSelectionRange(elem.value.length, elem.value.length);
+
+    } else if (tag_name == 'select'){
+      elem.focus();
+    }
+
+    remove();
+  }
 
   return {
     start : start,
-    remove : remove,
+    remove : remove
   }
 })()
