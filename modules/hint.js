@@ -152,20 +152,6 @@ var Hint = (function(){
     }
   }
 
-  function clickLink(link) {
-    var event = document.createEvent("MouseEvents");
-    //event.initMouseEvent(type, canBubble, cancelable, view,
-    //                     detail, screenX, screenY, clientX, clientY,
-    //                     ctrlKey, altKey, shiftKey, metaKey,
-    //                     button, relatedTarget);
-    // https://developer.mozilla.org/en/DOM/event.initMouseEvent
-    event.initMouseEvent("click", true, true, window,
-        0, 0, 0, 0, 0,
-        false, false, false, false,
-        0, null);
-    link.dispatchEvent(event);
-  }
-
   function execSelect(elem) {
     var tag_name = elem.tagName.toLowerCase();
     var type     = elem.type ? elem.type.toLowerCase() : "";
@@ -177,7 +163,7 @@ var Hint = (function(){
 
       elem.setAttribute('target',new_tab ? '_blank' : '_self');
 
-      clickLink(elem);
+      clickElement(elem);
 
       if(old_target){
         elem.setAttribute('target',old_target);

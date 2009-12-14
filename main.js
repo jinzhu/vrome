@@ -61,6 +61,20 @@ function disableVimlike(){
   localStorage._disableVimlike = true;
 }
 
+function clickElement(element) {
+  var event = document.createEvent("MouseEvents");
+  //event.initMouseEvent(type, canBubble, cancelable, view,
+  //                     detail, screenX, screenY, clientX, clientY,
+  //                     ctrlKey, altKey, shiftKey, metaKey,
+  //                     button, relatedTarget);
+  // https://developer.mozilla.org/en/DOM/event.initMouseEvent
+  event.initMouseEvent("click", true, true, window,
+      0, 0, 0, 0, 0,
+      false, false, false, false,
+      0, null);
+  element.dispatchEvent(event);
+}
+
 //function runLastSetting(){
 //  if(document.body){
 //    if(localStorage.disableVimlike){ passMode(); }
