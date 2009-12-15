@@ -23,7 +23,7 @@ var CmdLine = (function(){
     box.setAttribute('id',input_box_id);
     box.setAttribute('type','text');
     cmdBox().appendChild(box);
-    document.getElementById(input_box_id).addEventListener('keydown',inputFunction,false)
+    cmdBox().addEventListener('keydown',inputFunction,false)
   }
 
   function inputBoxExist(){
@@ -36,25 +36,23 @@ var CmdLine = (function(){
   }
 
   function remove(){
-    try{ document.body.removeChild(document.getElementById(box_id)); }catch(e){};
-    inputFunction = function(){};
+    var div = document.getElementById(box_id);
+    if(div) document.body.removeChild(div);
   }
 
   function set(opt){
-    if(opt.title)
-      cmdBox().firstChild ? cmdBox().firstChild.data = opt.title :
-        cmdBox().innerHTML = opt.title;
-    if(typeof(opt.content) == 'string'){
-      inputBox().value = opt.content;
-    }
     if(opt.inputFunction)
       inputFunction = opt.inputFunction;
+    if(opt.title)
+      cmdBox().firstChild ? cmdBox().firstChild.data = opt.title : cmdBox().innerHTML = opt.title;
+    if(typeof(opt.content) == 'string')
+      inputBox().value = opt.content;
   }
 
   function get(){
     return {
-      title   : cmdBoxExist ? cmdBox().firstChild.data : '',
-      content : inputBoxExist ? inputBox().value : '',
+      title         : cmdBoxExist ? cmdBox().firstChild.data : '',
+      content       : inputBoxExist ? inputBox().value       : '',
       inputFunction : inputFunction
     };
   }
