@@ -60,16 +60,18 @@ with(KeyEvent){
   // "M-j"  Move backward char
 }
 
-function clickElement(element) {
+function clickElement(element,opt) {
   //event.initMouseEvent(type, canBubble, cancelable, view,
   //                     detail, screenX, screenY, clientX, clientY,
   //                     ctrlKey, altKey, shiftKey, metaKey,
   //                     button, relatedTarget);
   // https://developer.mozilla.org/en/DOM/event.initMouseEvent
+  opt = opt || {};
+
   var event = document.createEvent("MouseEvents");
   event.initMouseEvent("click", true, true, window,
       0, 0, 0, 0, 0,
-      false, false, false, false,
+      !!opt.ctrl, !!opt.alt, !!opt.shift, !!opt.meta,
       0, null);
   element.dispatchEvent(event);
 }

@@ -165,10 +165,7 @@ var Hint = (function(){
 
     if (tag_name == 'a') {
       setHighlight(elem, true);
-      var old_target = elem.getAttribute('target');
-      elem.setAttribute('target',new_tab ? '_blank' : '_self');
-      clickElement(elem);
-      old_target ? elem.setAttribute('target',old_target) : elem.removeAttribute('target');
+      clickElement(elem,{ ctrl : new_tab });
 
     } else if (tag_name == "input" && (type == "submit" || type == "button" || type == "reset" || type == "radio" || type == "checkbox")) {
       clickElement(elem);
