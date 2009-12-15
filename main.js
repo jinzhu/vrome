@@ -28,9 +28,10 @@ with(KeyEvent){
   add(['H'], History.back   );
   add(['L'], History.forward);
 
-  add(['f'], Hint.start     );
-  add(['Esc'], Hint.remove  );
-  add(['Esc'], Hint.remove,true);
+  add(['f'], Hint.start         );
+  add(['F'], Hint.new_tab_start );
+  add(['Esc'], Hint.remove      );
+  add(['Esc'], Hint.remove,true );
 
   add(['g','i'], InputMode.focusFirstTextInput);
 

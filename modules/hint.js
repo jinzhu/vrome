@@ -185,7 +185,8 @@ var Hint = (function(){
   }
 
   return {
-    start : start,
-    remove : remove
+    start         : start,
+    new_tab_start : function(){ start(true) },
+    remove        : remove
   }
 })()
