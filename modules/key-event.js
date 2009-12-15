@@ -184,15 +184,16 @@ var KeyEvent = (function(){
 		}
 
 		// TODO notices matched functions, pass arguments
+    var exec_length = 0;
     for(var i in matched){
 			if(matched[i][0].length == currentKeys.length){
 				matched[i][1].call();
+        exec_length++;
         e.preventDefault();
-				matched.splice(i,1);
 			}
 		}
 
-		if(matched.length == 0 || key == 'Esc'){ reset(); }
+		if(matched.length == exec_length || key == 'Esc'){ reset(); }
     return false;
 	}
 
