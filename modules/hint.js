@@ -111,6 +111,7 @@ var Hint = (function(){
 
   function remove(){
 		if(!hint_mode) { return false; }
+		CmdLine.remove();
 		hint_mode = false;
 
     deleteHintRules();
