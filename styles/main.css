@@ -27,3 +27,7 @@
   padding: 0px 1px;
   z-index: 100000;
 }
+
+.__vimlike_highlight_box {
+  border: 1px dotted #555;
+}

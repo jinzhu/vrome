@@ -17,7 +17,7 @@ var Hint = (function(){
     currentHint = false;
     new_tab = newTab;
     setHints();
-    CmdLine.set({title : 'HintMode',inputFunction : handleInput,content : ''});
+    CmdLine.set({title : 'HintMode',pressDown : handleInput,content : ''});
     document.getElementById('__vimlike_cmd_input_box').focus();
   }
 

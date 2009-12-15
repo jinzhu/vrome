@@ -34,6 +34,8 @@ with(KeyEvent){
   add(['Esc'], Hint.remove      );
   add(['Esc'], Hint.remove,true );
 
+  add(['/'], Search.start );
+
   add(['g','i'], InputMode.focusFirstTextInput);
 
 
