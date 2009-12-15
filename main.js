@@ -24,6 +24,7 @@ with(KeyEvent){
   add(['C-p'], Tab.prev     );
   add(['C-n'], Tab.next     );
   add(['y'],   Tab.yankUrl  );
+  add(['Y'],   Tab.copyUrl  );
 
   add(['H'], History.back   );
   add(['L'], History.forward);
