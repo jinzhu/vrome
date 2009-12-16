@@ -35,3 +35,7 @@
   font-size:inherit !important;
   padding:0 !important;
 }
+
+#__vimlike_search_highlight_current {
+  background-color:cyan !important;
+}

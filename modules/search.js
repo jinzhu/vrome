@@ -1,5 +1,6 @@
 var Search = (function(){
   var highlight_class = '__vimlike_search_highlight';
+  var current_id = '__vimlike_search_highlight_current';
 
   function find(keyword,node) {
     if(!keyword) return;
@@ -47,6 +48,34 @@ var Search = (function(){
         pn.innerHTML = pn.innerText;
       }
     }
+  }
+
+  function next() {
+    var nodes = document.getElementsByClassName(highlight_class);
+    if(nodes.length == 0) return false;
+
+    for(var i = 0; i < nodes.length; i++){
+      if (nodes[i].id == current_id) {
+        nodes[i].removeAttribute('id');
+        break;
+      }
+    }
+    if(i == nodes.length) i = -1;
+    nodes[i + 1].setAttribute('id',current_id);
+  }
+
+  function prev() {
+    var nodes = document.getElementsByClassName(highlight_class);
+    if(nodes.length == 0) return false;
+
+    for(var i = 0; i < nodes.length; i++){
+      if (nodes[i].id == current_id) {
+        nodes[i].removeAttribute('id');
+        break;
+      }
+    }
+    if(i == 0) i = nodes.length;
+    nodes[i - 1].setAttribute('id',current_id);
   }
 
   function handleInput(e){
