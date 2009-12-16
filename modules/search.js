@@ -6,7 +6,7 @@ var Search = (function(){
     if(!node) node = document.body;
 
     // Iterate node childNodes
-    if (node.hasChildNodes() && !/(script|style)/i.test(node.tagName)) {
+    if (node.id != '__vimlike_cmd_box' && node.hasChildNodes() && !/(script|style)/i.test(node.tagName)) {
       for (var i = 0;i < node.childNodes.length;i++) {
         find(keyword, node.childNodes[i]);
       }

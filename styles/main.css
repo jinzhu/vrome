@@ -29,5 +29,9 @@
 }
 
 .__vimlike_search_highlight {
-  border: 1px dotted #555;
+  display:inline;
+  background-color:yellow !important;
+  color:black !important;
+  font-size:inherit !important;
+  padding:0 !important;
 }
