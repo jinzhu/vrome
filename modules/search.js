@@ -1,6 +1,7 @@
 var Search = (function(){
   var highlight_class = '__vimlike_search_highlight';
   var current_id = '__vimlike_search_highlight_current';
+  var step = 1;
 
   function find(keyword,node) {
     if(!keyword) return;
@@ -40,6 +41,7 @@ var Search = (function(){
   }
 
   function remove() {
+    step = 1;
     var nodes = document.getElementsByClassName(highlight_class);
     var length = nodes.length;
     for(var i = 0; i < length; i++){
@@ -50,7 +52,8 @@ var Search = (function(){
     }
   }
 
-  function next() {
+  function next(direction) {
+    direction = direction * step;
     var nodes = document.getElementsByClassName(highlight_class);
     if(nodes.length == 0) return false;
 
@@ -60,22 +63,13 @@ var Search = (function(){
         break;
       }
     }
-    if(i == nodes.length) i = -1;
-    nodes[i + 1].setAttribute('id',current_id);
-  }
 
-  function prev() {
-    var nodes = document.getElementsByClassName(highlight_class);
-    if(nodes.length == 0) return false;
-
-    for(var i = 0; i < nodes.length; i++){
-      if (nodes[i].id == current_id) {
-        nodes[i].removeAttribute('id');
-        break;
-      }
+    if(direction == 1){
+      i == nodes.length ? (i = 0) : i++ ;
+    }else{
+      i == 0 ? (i = nodes.length - 1) : i-- ;
     }
-    if(i == 0) i = nodes.length;
-    nodes[i - 1].setAttribute('id',current_id);
+    nodes[i].setAttribute('id',current_id);
   }
 
   function handleInput(e){
@@ -83,13 +77,17 @@ var Search = (function(){
     find(CmdLine.get().content);
   }
 
-  function start(){
+  function start(backward){
+    if(backward) step = -1;
     CmdLine.set({title : 'SearchMode',pressUp : handleInput,content : ''});
     document.getElementById('__vimlike_cmd_input_box').focus();
   }
 
   return {
-    start  : start,
-    remove : remove
+    start    : start,
+    backward : function(){ start(true) },
+    remove   : remove,
+    prev     : function(){ next(-1) },
+    next     : function(){ next(1) },
   }
 })()

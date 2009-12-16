@@ -35,6 +35,9 @@ with(KeyEvent){
   add(['Esc'], Hint.remove,true );
 
   add(['/'],   Search.start  );
+  add(['?'],   Search.backward);
+  add(['n'],   Search.next  );
+  add(['N'],   Search.prev  );
   add(['Esc'], Search.remove );
   add(['Esc'], Search.remove,true );
 
