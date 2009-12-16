@@ -140,22 +140,26 @@ var Hint = (function(){
         return execSelect( currentHint );
       }
     }else{
-      numbers = 0
-      matched = [];
-
-      for(var i in elements){
-        if ( new RegExp(CmdLine.get().content,'im').test(elements[i].innerText) ){
-          matched.push(elements[i]);
-        }
-      }
-
-      setOrder(matched);
-
-      if (key == 'Enter' || matched.length == 1) {
-        return execSelect(currentHint ? currentHint : matched[0]);
-      }
-      currentHint = false;
+      if(key != 'Esc') setTimeout(delayToWaitKeyDown,50);
     }
+  }
+
+  function delayToWaitKeyDown(){
+    numbers = 0
+    matched = [];
+
+    for(var i in elements){
+      if ( new RegExp(CmdLine.get().content,'im').test(elements[i].innerText) ){
+        matched.push(elements[i]);
+      }
+    }
+
+    setOrder(matched);
+
+    if (key == 'Enter' || matched.length == 1) {
+      return execSelect(currentHint ? currentHint : matched[0]);
+    }
+    currentHint = false;
   }
 
   function execSelect(elem) {
