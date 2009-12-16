@@ -1,8 +1,11 @@
 var CmdLine = (function(){
   var box_id        = '__vimlike_cmd_box';
   var input_box_id  = '__vimlike_cmd_input_box';
+
 	var pressUpFunction   = function(){};
 	var pressDownFunction = function(){};
+	var pressUp           = function(e) { pressUpFunction.call('',e);  }
+	var pressDown         = function(e) { pressDownFunction.call('',e);}
 
   function createCmdBox(){
     var box = document.createElement('div');
@@ -27,8 +30,6 @@ var CmdLine = (function(){
     cmdBox().addEventListener('keydown',pressDown,false)
     cmdBox().addEventListener('keyup',pressUp,false)
   }
-	function pressUp()   { pressUpFunction.call(); }
-	function pressDown() { pressDownFunction.call(); }
 
   function inputBoxExist(){
     return !!document.getElementById(input_box_id);
@@ -42,25 +43,19 @@ var CmdLine = (function(){
   function remove(){
 		pressUpFunction   = function(){};
 		pressDownFunction = function(){};
-
-		if(cmdBoxExist()){
-			cmdBox().removeEventListener('keydown',pressDown,false)
-			cmdBox().removeEventListener('keydown',pressUp,false)
-		}
-
-    var div = document.getElementById(box_id);
-    if(div) document.body.removeChild(div);
+    var box = document.getElementById(box_id);
+    if(box) document.body.removeChild(box);
   }
 
   function set(opt){
-		if(opt.pressUp)
-      pressUp = opt.pressUp;
-    if(opt.pressDown)
-      pressDown = opt.pressDown;
     if(opt.title)
       cmdBox().firstChild ? cmdBox().firstChild.data = opt.title : cmdBox().innerHTML = opt.title;
     if(typeof(opt.content) == 'string')
       inputBox().value = opt.content;
+		if(opt.pressUp)
+      pressUpFunction = opt.pressUp;
+    if(opt.pressDown)
+      pressDownFunction = opt.pressDown;
   }
 
   function get(){
