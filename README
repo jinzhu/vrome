@@ -1,0 +1,109 @@
+==============================
+ Vimlike Smooziee
+==============================
+
+THE BETA README FOR THE BETA VERSION.
+
+the beta version has much more features, under very hot development, maybe it's not stable enough. but I will try to keep the code stable, because I use the beta version every day ;)
+
+--
+you can install the beta version from here.
+http://github.com/jinzhu/vimlike-smooziee/raw/next/vimlike-smooziee.crx
+
+( but it's won't be auto updated,so maybe you need to install it by youself after every time I commited if you want to always keep it up to date. )
+
+you can install the `more stable version/auto updated version/less features version` from here.
+http://github.com/jinzhu/vimlike-smooziee/raw/master/vimlike-smooziee.crx
+---
+
+######## Features Of The Beta Version
+
+### Zoom
+zi    zoom in
+zo    zoom out
+zm    zoom more
+zr    zoom reduce
+zz    zoom reset
+
+zI    Enlarge full zoom of current web page. Mnemonic: zoom in.
+zM    Enlarge full zoom of current web page by a larger amount. Mnemonic: zoom more.
+zO    Reduce full zoom of current web page. Mnemonic: zoom out.
+zR    Reduce full zoom of current web page by a larger amount. Mnemonic: zoom reduce.
+zZ    Set full zoom value of current web page to 100%.
+
+
+### Page
+]]    Next Page
+[[    Prev Page
+
+
+### Scroll
+gg    scroll to top
+G     scroll to bottom 
+0     scroll to first  
+$     scroll to last   
+
+[count]k    scroll up       
+[count]j    scroll down     
+[count]h    scroll left     
+[count]l    scroll right    
+[count]%    scroll to percent [count]%
+
+[count]C-f         scroll to next page
+[count]C-b         scroll to prev page
+[count]C-d         scroll to next half page
+[count]C-u         scroll to prev half page
+
+
+
+### Tab
+r       Tab.reload
+d       Tab.close 
+u       Tab.reopen
+C-p     Prev Tab.prev
+C-n     Next Tab.next
+y       yank current url, (use middle button to copy -- maybe only works on linux)
+Y       copy current url
+
+
+### History
+H        History.back   
+L        History.forward
+C-o      History.back   
+C-i      History.forward
+
+
+f         start hint mode
+F         start hint mode,open link in new tab.
+
+
+### Search
+/          forward search
+?          backward search
+[count]n   next search result ( out input box )
+[count]N   prev search result ( out input box )
+
+Enter      next search result ( in input box )
+S-Enter    prev search result ( in input box )
+*          forward search current selected words
+#          backward search current selected words
+
+gi         focus the first input box in the current page
+C-z        disable vimlike temporary
+
+
+### Insert Mode
+Esc     blur focus
+C-[     blur focus
+
+C-a    move to first words or select all
+C-e    move to end
+
+C-d    delete forward char 
+C-h    delete backward char
+
+C-w    delete backward word
+
+
+---
+feel free to email me ask some questions/ report bugs/ request features about vimlike. `wosmvp@gmail.com`
