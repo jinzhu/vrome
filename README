@@ -64,6 +64,8 @@ C-p     Prev Tab.prev
 C-n     Next Tab.next
 y       yank current url, (use middle button to copy -- maybe only works on linux)
 Y       copy current url
+g0/g^   Switch to the first tab.
+g$      Switch to the last tab.
 
 
 ### History
@@ -90,6 +92,12 @@ S-Enter    prev search result ( in input box )
 
 gi         focus the first input box in the current page
 C-z        disable vimlike temporary
+C-v        pass through next key
+
+C-a    Increment last number in URL
+C-x    Decrement last number in URL
+gu     Go to the parent directory.
+gU     Go to the root of the web site.
 
 
 ### Insert Mode
@@ -103,7 +111,6 @@ C-d    delete forward char
 C-h    delete backward char
 
 C-w    delete backward word
-
 
 ---
 feel free to email me ask some questions/ report bugs/ request features about vimlike. `wosmvp@gmail.com`
