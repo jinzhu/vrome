@@ -6,19 +6,26 @@ with(KeyEvent) {
   add(['z' , 'r'], Zoom.reduce );
   add(['z' , 'z'], Zoom.reset  );
 
+
   // Page
   add([']',']'], Page.next );
   add(['[','['], Page.prev );
 
+
   // Scroll
-  add(['g','g'], Scroll.top    );
-  add(['G']    , Scroll.bottom );
-  add(['0']    , Scroll.first  );
-  add(['$']    , Scroll.last   );
-  add(['j']    , Scroll.up     );
-  add(['k']    , Scroll.down   );
-  add(['l']    , Scroll.left   );
-  add(['h']    , Scroll.right  );
+  add(['g','g'], Scroll.top      );
+  add(['G']    , Scroll.bottom   );
+  add(['0']    , Scroll.first    );
+  add(['$']    , Scroll.last     );
+
+  add(['j']    , Scroll.up       );
+  add(['k']    , Scroll.down     );
+  add(['l']    , Scroll.left     );
+  add(['h']    , Scroll.right    );
+
+  add(['C-f']  , Scroll.nextPage );
+  add(['C-b']  , Scroll.prevPage );
+
 
   // Tab
   add(['r']  , Tab.reload    );
@@ -30,15 +37,18 @@ with(KeyEvent) {
   add(['y']  , Tab.yankUrl   );
   add(['Y']  , Tab.copyUrl   );
 
+
   // History
   add(['H'], History.back    );
   add(['L'], History.forward );
+
 
   // Hint
   add(['f']  , Hint.start         );
   add(['F']  , Hint.new_tab_start );
   add(['Esc'], Hint.remove        );
   add(['Esc'], Hint.remove , true );
+
 
   // Search
   add(['/']      , Search.start          );
