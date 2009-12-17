@@ -48,8 +48,10 @@ with(KeyEvent) {
 
 
   // History
-  add(['H'], History.back    );
-  add(['L'], History.forward );
+  add(['H'],   History.back    );
+  add(['L'],   History.forward );
+  add(['C-o'], History.back    );
+  add(['C-i'], History.forward );
 
 
   // Hint

@@ -41,7 +41,6 @@ var Tab = (function(){
 		port.postMessage({action: "next_tab"});
 	}
 
-
 	return {
     yankUrl   : yankUrl  ,
     copyUrl   : copyUrl	 ,

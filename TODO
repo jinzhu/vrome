@@ -1,13 +1,45 @@
-# vim:ft=javascript
-// Buffer
-b
-
-// Tabs
+# Tabs
 o
 O
 t
 T
 
+p     Open (put) a URL based on the current clipboard contents in a new buffer
+~     Open home directory
+
+<C-a> Increment last number in URL
+<C-l> Redraw the screen
+<C-v> Pass through next key
+<C-x> Decrement last number in URL
+
+*  Search forward for the next word under the cursor.
+#  Search backward for the previous word under the cursor.
+/regexp/ search
+
+g0/g^ Switch to the first tab.
+g$    Switch to the last tab.
+gh    goto home page
+gu    Go to [count]th parent directory.
+gU    Go to the root of the web site.
+
 vimlike status
 config page
+
+.                Run last command
+History count
+<C-^>            last tab
+[count] <C-n/p>
+[count] gt/T     next/prev tab
+
+# ?
+gf    View source
+Move Tab
+extended-hints ?
+
+]f    Focus next frame
+[f    Focus previous frame
+
+# Buffer
+b
+
 helper page
