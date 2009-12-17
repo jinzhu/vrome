@@ -25,6 +25,8 @@ with(KeyEvent) {
 
   add(['C-f']  , Scroll.nextPage );
   add(['C-b']  , Scroll.prevPage );
+  add(['C-d']  , Scroll.nextHalfPage );
+  add(['C-u']  , Scroll.prevHalfPage );
 
 
   // Tab

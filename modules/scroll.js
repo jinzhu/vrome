@@ -34,5 +34,7 @@ var Scroll = (function(){
 
 		nextPage : function(){ scrollBy(0, window.innerHeight*0.95); },
 		prevPage : function(){ scrollBy(0,-window.innerHeight*0.95); },
+    nextHalfPage : function(){ scrollBy(0, window.innerHeight/2);},
+    prevHalfPage : function(){ scrollBy(0,-window.innerHeight/2);},
 	}
 })()

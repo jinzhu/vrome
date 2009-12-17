@@ -1,24 +1,11 @@
 # vim:ft=javascript
-// Search
-
-/
-?
-n
-N
-
 // Pages
-
-C-F next page
-C-B prev page
-C-D
-C-U
 %
 
 // Buffer
 b
 
 // Zoom
-
 zM
 zR
 zI
@@ -27,7 +14,6 @@ zZ
 ...
 
 // Tabs
-
 o
 O
 t
