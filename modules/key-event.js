@@ -180,13 +180,13 @@ var KeyEvent = (function(){
 		}
 
 		currentKeys.push(key);
-
-		Debug('handling key: ' + currentKeys.join(', '));
+    var inputMode = /^INPUT|TEXTAREA$/.test(e.target.nodeName);
+		Debug('handling key: ' + currentKeys.join(', ') + " inputMode:" + inputMode);
 
 		var matched = [];
 
 		binding : for(var i in bindings){
-      if(/^INPUT|TEXTAREA$/.test(e.target.nodeName) != bindings[i][2]) continue binding;
+      if(inputMode != bindings[i][2]) continue binding;
 
 			for(var j in currentKeys){
 				if(currentKeys[j] != bindings[i][0][j]) continue binding;
@@ -209,7 +209,7 @@ var KeyEvent = (function(){
 		}
 
     // Times
-    times = /\d/.test(key) ? (times * 10 + Number(key)) : 0;
+    times = (!inputMode && /\d/.test(key)) ? (times * 10 + Number(key)) : 0;
 
 		if(matched.length == exec_length || key == 'Esc'){ reset(); }
     return false;

@@ -8,10 +8,10 @@ var Hint = (function(){
   var currentHint = false;
 	var new_tab     = false;
   var matched     = [];
-	var hint_mode   = false;
+	var hintMode   = false;
 
   function start(newTab){
-		hint_mode   = true;
+		hintMode    = true;
     elements    = [];
     numbers     = 0;
     currentHint = false;
@@ -110,9 +110,8 @@ var Hint = (function(){
   }
 
   function remove(){
-		if(!hint_mode) { return false; }
 		CmdLine.remove();
-		hint_mode = false;
+		hintMode = false;
 
     deleteHintRules();
 
@@ -195,6 +194,8 @@ var Hint = (function(){
   return {
     start         : start,
     new_tab_start : function(){ start(true) },
-    remove        : remove
+    remove        : function(){
+                      if(hintMode) remove();
+                    }
   }
 })()
