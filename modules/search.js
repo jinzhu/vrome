@@ -1,7 +1,9 @@
 var Search = (function(){
+  var searchMode = false;
+
   var highlight_class = '__vimlike_search_highlight';
   var current_id = '__vimlike_search_highlight_current';
-  var step = 1;
+  var direction = 1;
 
   function find(keyword,node) {
     if(!keyword) return;
@@ -52,8 +54,8 @@ var Search = (function(){
     }
   }
 
-  function next(direction) {
-    direction = direction * step;
+  function next(step) {
+    step = direction * step;
     var nodes = document.getElementsByClassName(highlight_class);
     if(nodes.length == 0) return false;
 
@@ -64,30 +66,52 @@ var Search = (function(){
       }
     }
 
-    if(direction == 1){
+    if(step == 1){
       i == nodes.length ? (i = 0) : i++ ;
     }else{
       i == 0 ? (i = nodes.length - 1) : i-- ;
     }
+
+    Debug('Search.next - size:' + nodes.length + ' selected:' + i + ' direction:' + direction + ' step:' + step);
     nodes[i].setAttribute('id',current_id);
   }
 
   function handleInput(e){
-    remove();
+    key = KeyEvent.getKey(e);
+    if( ! /Shift|Enter/.test(key) ) remove(); // clear exist highlight before search
     find(CmdLine.get().content);
   }
 
   function start(backward){
-    if(backward) step = -1;
+    searchMode = true;
+
+    if(backward) direction = -1;
     CmdLine.set({title : 'SearchMode',pressUp : handleInput,content : ''});
     document.getElementById('__vimlike_cmd_input_box').focus();
+  }
+
+  function stop(){
+    searchMode = false;
+    remove();
   }
 
   return {
     start    : start,
     backward : function(){ start(true) },
-    remove   : remove,
-    prev     : function(){ next(-1) },
-    next     : function(){ next(1) },
+    stop     : function() {
+                 Debug('Search.stop - Mode ' + searchMode);
+                 if(!searchMode) return;
+                 stop()
+               },
+    prev     : function() {
+                 Debug('Search.prev - Mode ' + searchMode);
+                 if(!searchMode) return;
+                 next(-1);
+               },
+    next     : function() {
+                 Debug('Search.next - Mode ' + searchMode);
+                 if(!searchMode) return;
+                 next(1)
+               },
   }
 })()

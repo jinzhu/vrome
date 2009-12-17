@@ -34,12 +34,16 @@ with(KeyEvent){
   add(['Esc'], Hint.remove      );
   add(['Esc'], Hint.remove,true );
 
-  add(['/'],   Search.start  );
-  add(['?'],   Search.backward);
-  add(['n'],   Search.next  );
-  add(['N'],   Search.prev  );
-  add(['Esc'], Search.remove );
-  add(['Esc'], Search.remove,true );
+  // Search
+  add(['/']      , Search.start         );
+  add(['?']      , Search.backward      );
+  add(['n']      , Search.next          );
+  add(['Enter']  , Search.next    , true);
+  add(['N']      , Search.prev          );
+  add(['S-Enter'], Search.prev    , true);
+  add(['Esc']    , Search.stop          );
+  add(['Esc']    , Search.stop    , true);
+
 
   add(['g','i'], InputMode.focusFirstTextInput);
 
