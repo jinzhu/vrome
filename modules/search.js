@@ -74,7 +74,12 @@ var Search = (function(){
     }
 
     Debug('Search.next - size:' + nodes.length + ' selected:' + i + ' direction:' + direction + ' step:' + step);
-    nodes[i].setAttribute('id',highlight_current_id);
+
+    if(nodes[i]){ // if undefined,then goto next
+      nodes[i].setAttribute('id',highlight_current_id);
+    }else{
+      next( step * direction)
+    }
   }
 
   function handleInput(e){
