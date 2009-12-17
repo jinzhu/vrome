@@ -1,13 +1,13 @@
 var Search = (function(){
   var searchMode = false;
+  var direction;
 
-  var highlight_class = '__vimlike_search_highlight';
-  var current_id = '__vimlike_search_highlight_current';
-  var direction = 1;
+  var highlight_class      = '__vimlike_search_highlight';
+  var highlight_current_id = '__vimlike_search_highlight_current';
 
   function find(keyword,node) {
     if(!keyword) return;
-    if(!node) node = document.body;
+    if(!node)    node = document.body;
 
     // Iterate node childNodes
     if (node.id != '__vimlike_cmd_box' && node.hasChildNodes() && !/(script|style)/i.test(node.tagName)) {
@@ -17,39 +17,40 @@ var Search = (function(){
     }
 
     if (node.nodeType == 3) { // text node
-      var tmpKey = keyword.toUpperCase();
-      var tmpText = node.data.toUpperCase();
-      var ni = tmpText.indexOf(tmpKey);
-      if (ni != -1) {
-        var pn = node.parentNode;
+      var key = keyword.toUpperCase();
+      var text = node.data.toUpperCase();
+      var index = text.indexOf(key);
+      if (index != -1) {
+        var parentNode = node.parentNode;
 
-        if (pn.className != highlight_class) {
-          var nv = node.data;
+        if (parentNode.className != highlight_class) {
+          var nodeData = node.data;
 
-          var before = document.createTextNode(nv.substr(0,ni));
-          var match  = document.createTextNode(nv.substr(ni,keyword.length));
-          var after  = document.createTextNode(nv.substr(ni+keyword.length));
+          var before = document.createTextNode(nodeData.substr(0,ni));
+          var match  = document.createTextNode(nodeData.substr(index,keyword.length));
+          var after  = document.createTextNode(nodeData.substr(index + keyword.length));
 
-          var hiLabel = document.createElement("span");
-          hiLabel.className = highlight_class;
-          hiLabel.appendChild(match);
-          pn.insertBefore(before,node);
-          pn.insertBefore(hiLabel,node);
-          pn.insertBefore(after,node);
-          pn.removeChild(node);
+          var span = document.createElement("span");
+          span.className = highlight_class;
+          span.appendChild(match);
+
+          parentNode.insertBefore(before, node);
+          parentNode.insertBefore(span  , node);
+          parentNode.insertBefore(after , node);
+          parentNode.removeChild(node);
         }
       }
     }
   }
 
   function remove() {
-    step = 1;
     var nodes = document.getElementsByClassName(highlight_class);
     var length = nodes.length;
+
     for(var i = 0; i < length; i++){
       if(nodes[0]){
-        var pn = nodes[0].parentNode;
-        pn.innerHTML = pn.innerText;
+        var parentNode = nodes[0].parentNode;
+        parentNode.innerHTML = parentNode.innerText;
       }
     }
   }
@@ -60,7 +61,7 @@ var Search = (function(){
     if(nodes.length == 0) return false;
 
     for(var i = 0; i < nodes.length; i++){
-      if (nodes[i].id == current_id) {
+      if (nodes[i].id == highlight_current_id) {
         nodes[i].removeAttribute('id');
         break;
       }
@@ -73,19 +74,20 @@ var Search = (function(){
     }
 
     Debug('Search.next - size:' + nodes.length + ' selected:' + i + ' direction:' + direction + ' step:' + step);
-    nodes[i].setAttribute('id',current_id);
+    nodes[i].setAttribute('id',highlight_current_id);
   }
 
   function handleInput(e){
     key = KeyEvent.getKey(e);
     if( ! /Shift|Enter/.test(key) ) remove(); // clear exist highlight before search
+
     find(CmdLine.get().content);
   }
 
   function start(backward){
     searchMode = true;
+    direction = backward ? -1 : 1 ;
 
-    if(backward) direction = -1;
     CmdLine.set({title : 'SearchMode',pressUp : handleInput,content : ''});
     document.getElementById('__vimlike_cmd_input_box').focus();
   }
@@ -97,7 +99,9 @@ var Search = (function(){
 
   return {
     start    : start,
-    backward : function(){ start(true) },
+    backward : function(){
+                 start(true)
+               },
     stop     : function() {
                  Debug('Search.stop - Mode ' + searchMode);
                  if(!searchMode) return;
