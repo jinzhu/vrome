@@ -77,6 +77,8 @@ var Search = (function(){
 
     if(nodes[i]){ // if undefined,then goto next
       nodes[i].setAttribute('id',highlight_current_id);
+      // TODO only move if the node is invisible?
+      nodes[i].scrollIntoView();
     }else{
       next( step * direction)
     }
