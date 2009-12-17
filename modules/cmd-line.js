@@ -50,8 +50,12 @@ var CmdLine = (function(){
   function set(opt){
     if(opt.title)
       cmdBox().firstChild ? cmdBox().firstChild.data = opt.title : cmdBox().innerHTML = opt.title;
-    if(typeof(opt.content) == 'string')
-      inputBox().value = opt.content;
+    if(typeof(opt.content) == 'string'){
+      elem = inputBox();
+      elem.value = opt.content;
+      elem.focus();
+      elem.setSelectionRange(0,elem.value.length);
+    }
 		if(opt.pressUp)
       pressUpFunction = opt.pressUp;
     if(opt.pressDown)

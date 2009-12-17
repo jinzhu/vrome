@@ -4,6 +4,7 @@ var Search = (function(){
 
   var highlight_class      = '__vimlike_search_highlight';
   var highlight_current_id = '__vimlike_search_highlight_current';
+  var lastSearch;
 
   function find(keyword,node) {
     if(!keyword) return;
@@ -89,14 +90,14 @@ var Search = (function(){
     if( ! /Shift|Enter/.test(key) ) remove(); // clear exist highlight before search
 
     find(CmdLine.get().content);
+    lastSearch = CmdLine.get().content;
   }
 
   function start(backward){
     searchMode = true;
     direction = backward ? -1 : 1 ;
 
-    CmdLine.set({title : 'SearchMode',pressUp : handleInput,content : ''});
-    document.getElementById('__vimlike_cmd_input_box').focus();
+    CmdLine.set({title : 'SearchMode',pressUp : handleInput,content : lastSearch || ''});
   }
 
   function stop(){
