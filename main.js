@@ -18,6 +18,11 @@ with(KeyEvent) {
   add(['[','['], Page.prev );
 
 
+  // Url
+  add(['g','u'], Url.parent );
+  add(['g','U'], Url.root   );
+
+
   // Scroll
   add(['g','g'], Scroll.top      );
   add(['G']    , Scroll.bottom   );

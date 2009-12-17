@@ -14,8 +14,6 @@ p     Open (put) a URL based on the current clipboard contents in a new buffer
 /regexp/ search
 
 gh    goto home page
-gu    Go to [count]th parent directory.
-gU    Go to the root of the web site.
 
 vimlike status
 config page
