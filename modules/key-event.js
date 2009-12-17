@@ -1,4 +1,5 @@
 var KeyEvent = (function(){
+  var times = 0;
   var disableVimlike = !!localStorage._disableVimlike;
 
   function init(){
@@ -197,11 +198,18 @@ var KeyEvent = (function(){
     var exec_length = 0;
     for(var i in matched){
 			if(matched[i][0].length == currentKeys.length){
-				matched[i][1].call();
+        var exec_time = times > 0 ? times : 1;
+        Debug('Invoke ' + exec_time + ' Times');
+        for(var t = 0; t < exec_time; t++) {
+          matched[i][1].call();
+        }
         exec_length++;
         e.preventDefault();
 			}
 		}
+
+    // Times
+    times = /\d/.test(key) ? (times * 10 + Number(key)) : 0;
 
 		if(matched.length == exec_length || key == 'Esc'){ reset(); }
     return false;
