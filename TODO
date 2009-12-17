@@ -12,8 +12,6 @@ p     Open (put) a URL based on the current clipboard contents in a new buffer
 <C-v> Pass through next key
 <C-x> Decrement last number in URL
 
-*  Search forward for the next word under the cursor.
-#  Search backward for the previous word under the cursor.
 /regexp/ search
 
 g0/g^ Switch to the first tab.

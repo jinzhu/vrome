@@ -70,6 +70,8 @@ with(KeyEvent) {
   add(['S-Enter'], Search.prev    , true );
   add(['Esc']    , Search.stop           );
   add(['Esc']    , Search.stop    , true );
+  add(['*']      , Search.forwardCursor  );
+  add(['#']      , Search.backwardCursor );
 
   add(['g','i'], InputMode.focusFirstTextInput );
   add(['C-z'], KeyEvent.disable );

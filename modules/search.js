@@ -105,6 +105,12 @@ var Search = (function(){
     remove();
   }
 
+  function getSelectedValue() {
+    var value = window.getSelection().focusNode.data;
+    var range = window.getSelection().getRangeAt();
+    return value.substring(range.startOffset,range.endOffset);
+  }
+
   return {
     start    : start,
     backward : function(){
@@ -125,5 +131,13 @@ var Search = (function(){
                  if(!searchMode) return;
                  next(1)
                },
+    forwardCursor : function() {
+                      lastSearch = getSelectedValue();
+                      if(lastSearch){ start(); }
+                    },
+    backwardCursor : function() {
+                      lastSearch = getSelectedValue();
+                      if(lastSearch){ start(true); }
+                    },
   }
 })()
