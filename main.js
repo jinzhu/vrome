@@ -1,10 +1,16 @@
 with(KeyEvent) {
   // Zoom
-  add(['z' , 'i'], Zoom['in']  );
-  add(['z' , 'o'], Zoom.out    );
-  add(['z' , 'm'], Zoom.more   );
-  add(['z' , 'r'], Zoom.reduce );
-  add(['z' , 'z'], Zoom.reset  );
+  add(['z', 'i'], Zoom['in']  );
+  add(['z', 'o'], Zoom.out    );
+  add(['z', 'm'], Zoom.more   );
+  add(['z', 'r'], Zoom.reduce );
+  add(['z', 'z'], Zoom.reset  );
+
+  add(['z', 'I'], Zoom.cur_in    );
+  add(['z', 'O'], Zoom.cur_out   );
+  add(['z', 'M'], Zoom.cur_more  );
+  add(['z', 'R'], Zoom.cur_reduce);
+  add(['z', 'Z'], Zoom.cur_reset );
 
 
   // Page

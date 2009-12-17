@@ -167,6 +167,7 @@ var KeyEvent = (function(){
 	function exec(e){
 		key = getKey(e);
     if(key == 'Esc') CmdLine.remove();
+		if(/^(Control|Alt|Shift)$/.test(key)) return;
 
 		if(disableVimlike){
 			if(key == 'Esc'){
