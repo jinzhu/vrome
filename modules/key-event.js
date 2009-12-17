@@ -198,7 +198,7 @@ var KeyEvent = (function(){
     var exec_length = 0;
     for(var i in matched){
 			if(matched[i][0].length == currentKeys.length){
-        var exec_time = times > 0 ? times : 1;
+        var exec_time = (times > 0 && key != '%') ? times : 1;
         Debug('Invoke ' + exec_time + ' Times');
         for(var t = 0; t < exec_time; t++) {
           matched[i][1].call();
@@ -225,5 +225,8 @@ var KeyEvent = (function(){
     disableVimlike = true;
 	}
 
-	return { add : add, exec : exec, remove : remove,getKey : getKey, disable : disable, init : init};
+	return {
+    add : add, exec : exec, remove : remove,getKey : getKey, disable : disable, init : init,
+    times : function(){ return times }
+  };
 })()

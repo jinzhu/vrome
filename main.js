@@ -28,6 +28,7 @@ with(KeyEvent) {
   add(['j']    , Scroll.down     );
   add(['h']    , Scroll.left     );
   add(['l']    , Scroll.right    );
+  add(['%']    , Scroll.toPercent);
 
   add(['C-f']  , Scroll.nextPage );
   add(['C-b']  , Scroll.prevPage );
