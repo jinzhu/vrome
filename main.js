@@ -1,67 +1,70 @@
-with(KeyEvent){
-  add(['z','i'],Zoom['in']  );
-  add(['z','o'],Zoom.out    );
-  add(['z','m'],Zoom.more   );
-  add(['z','r'],Zoom.reduce );
-  add(['z','z'],Zoom.reset  );
+with(KeyEvent) {
+  // Zoom
+  add(['z' , 'i'], Zoom['in']  );
+  add(['z' , 'o'], Zoom.out    );
+  add(['z' , 'm'], Zoom.more   );
+  add(['z' , 'r'], Zoom.reduce );
+  add(['z' , 'z'], Zoom.reset  );
 
-  add([']',']'],Page.next   );
-  add(['[','['],Page.prev   );
+  // Page
+  add([']',']'], Page.next );
+  add(['[','['], Page.prev );
 
-  add(['g','g'],Scroll.top  );
-  add(['G'], Scroll.bottom  );
-  add(['0'], Scroll.first   );
-  add(['$'], Scroll.last    );
-  add(['j'], Scroll.up      );
-  add(['k'], Scroll.down    );
-  add(['l'], Scroll.left    );
-  add(['h'], Scroll.right   );
+  // Scroll
+  add(['g','g'], Scroll.top    );
+  add(['G']    , Scroll.bottom );
+  add(['0']    , Scroll.first  );
+  add(['$']    , Scroll.last   );
+  add(['j']    , Scroll.up     );
+  add(['k']    , Scroll.down   );
+  add(['l']    , Scroll.left   );
+  add(['h']    , Scroll.right  );
 
-  add(['r'],   Tab.reload   );
-  add(['R'],   Tab.reloadAll);
-  add(['d'],   Tab.close    );
-  add(['u'],   Tab.reopen   );
-  add(['C-p'], Tab.prev     );
-  add(['C-n'], Tab.next     );
-  add(['y'],   Tab.yankUrl  );
-  add(['Y'],   Tab.copyUrl  );
+  // Tab
+  add(['r']  , Tab.reload    );
+  add(['R']  , Tab.reloadAll );
+  add(['d']  , Tab.close     );
+  add(['u']  , Tab.reopen    );
+  add(['C-p'], Tab.prev      );
+  add(['C-n'], Tab.next      );
+  add(['y']  , Tab.yankUrl   );
+  add(['Y']  , Tab.copyUrl   );
 
-  add(['H'], History.back   );
-  add(['L'], History.forward);
+  // History
+  add(['H'], History.back    );
+  add(['L'], History.forward );
 
-  add(['f'], Hint.start         );
-  add(['F'], Hint.new_tab_start );
-  add(['Esc'], Hint.remove      );
-  add(['Esc'], Hint.remove,true );
+  // Hint
+  add(['f']  , Hint.start         );
+  add(['F']  , Hint.new_tab_start );
+  add(['Esc'], Hint.remove        );
+  add(['Esc'], Hint.remove , true );
 
   // Search
-  add(['/']      , Search.start         );
-  add(['?']      , Search.backward      );
-  add(['n']      , Search.next          );
-  add(['Enter']  , Search.next    , true);
-  add(['N']      , Search.prev          );
-  add(['S-Enter'], Search.prev    , true);
-  add(['Esc']    , Search.stop          );
-  add(['Esc']    , Search.stop    , true);
+  add(['/']      , Search.start          );
+  add(['?']      , Search.backward       );
+  add(['n']      , Search.next           );
+  add(['Enter']  , Search.next    , true );
+  add(['N']      , Search.prev           );
+  add(['S-Enter'], Search.prev    , true );
+  add(['Esc']    , Search.stop           );
+  add(['Esc']    , Search.stop    , true );
 
-
-  add(['g','i'], InputMode.focusFirstTextInput);
-
-
-  add(['C-z'], KeyEvent.disable);
+  add(['g','i'], InputMode.focusFirstTextInput );
+  add(['C-z'], KeyEvent.disable );
 
 
   // InputMode
-  add(['Esc'], InputMode.blurFocus             , true);
-  add(['C-['], InputMode.blurFocus             , true);
+  add(['Esc'], InputMode.blurFocus             , true );
+  add(['C-['], InputMode.blurFocus             , true );
 
-  add(['C-a'], InputMode.moveToFirstOrSelectAll, true);
-  add(['C-e'], InputMode.moveToEnd             , true);
+  add(['C-a'], InputMode.moveToFirstOrSelectAll, true );
+  add(['C-e'], InputMode.moveToEnd             , true );
 
-  add(['C-d'], InputMode.deleteForwardChar     , true);
-  add(['C-h'], InputMode.deleteBackwardChar    , true);
+  add(['C-d'], InputMode.deleteForwardChar     , true );
+  add(['C-h'], InputMode.deleteBackwardChar    , true );
 
-  add(['C-w'], InputMode.deleteBackwardWord    , true);
+  add(['C-w'], InputMode.deleteBackwardWord    , true );
 
   // "C-U"  Delete backward from cursor
   // "C-K"  Delete to EOL
