@@ -22,7 +22,7 @@ var Hint = (function(){
   }
 
   function setHints() {
-    var elems = document.body.querySelectorAll('a, input:not([type=hidden]), textarea, select, button');
+    var elems = document.body.querySelectorAll('a, input:not([type=hidden]), textarea, select, button,*[onclick]');
     for (var i = 0; i < elems.length; i++) {
       if (isHintDisplay(elems[i])){
         elements.push(elems[i]);
@@ -181,8 +181,12 @@ var Hint = (function(){
       }catch(e){
         clickElement(elem); // some website don't use standard submit input.
       }
+
     } else if (tag_name == 'select'){
       elem.focus();
+
+    } else if (elem.onclick) {
+      clickElement(elem);
     }
 
     remove();
