@@ -175,9 +175,12 @@ var Hint = (function(){
       clickElement(elem);
 
     } else if (tag_name == 'input' || tag_name == 'textarea') {
-      elem.focus();
-      elem.setSelectionRange(elem.value.length, elem.value.length);
-
+      try{
+        elem.focus();
+        elem.setSelectionRange(elem.value.length, elem.value.length);
+      }catch(e){
+        clickElement(elem); // some website don't use standard submit input.
+      }
     } else if (tag_name == 'select'){
       elem.focus();
     }
