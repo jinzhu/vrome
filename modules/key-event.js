@@ -102,14 +102,22 @@ var KeyEvent = (function(){
 		"U+309A" : "CombSVoice"
 	};
 
+	var shiftNums = { "`":"~",
+		"1":"!", "2":"@", "3":"#", "4":"$", "5":"%", "6":"^", "7":"&", "8":"*", "9":"(", "0":")",
+		"-":"_", "=":"+", ";":":", "'":"\"", ",":"<", ".":">",  "/":"?",  "\\":"|" }
+
 	function getKey(evt){
 		var key = keyId[evt.keyIdentifier] || evt.keyIdentifier,
 		ctrl = evt.ctrlKey ? 'C-' : '',
 		meta = (evt.metaKey || evt.altKey) ? 'M-' : '',
 		shift = evt.shiftKey ? 'S-' : '';
+
 		if (evt.shiftKey){
 			if (/^[a-z]$/.test(key)){
 				return ctrl+meta+key.toUpperCase();
+			}
+			if (shiftNums[key]){
+				return ctrl+meta+shiftNums[key];
 			}
 			if (/^[0-9]$/.test(key)) {
 				switch(key) {

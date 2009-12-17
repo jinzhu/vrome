@@ -26,7 +26,7 @@ var Search = (function(){
         if (parentNode.className != highlight_class) {
           var nodeData = node.data;
 
-          var before = document.createTextNode(nodeData.substr(0,ni));
+          var before = document.createTextNode(nodeData.substr(0,index));
           var match  = document.createTextNode(nodeData.substr(index,keyword.length));
           var after  = document.createTextNode(nodeData.substr(index + keyword.length));
 
