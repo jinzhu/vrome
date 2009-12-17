@@ -74,7 +74,8 @@ with(KeyEvent) {
   add(['#']      , Search.backwardCursor );
 
   add(['g','i'], InputMode.focusFirstTextInput );
-  add(['C-z'], KeyEvent.disable );
+  add(['C-z'], KeyEvent.disable     );
+  add(['C-v'], KeyEvent.passNextKey );
 
 
   // InputMode

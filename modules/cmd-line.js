@@ -60,6 +60,8 @@ var CmdLine = (function(){
       pressUpFunction = opt.pressUp;
     if(opt.pressDown)
       pressDownFunction = opt.pressDown;
+    if(opt.timeout)
+      setTimeout(remove,Number(opt.timeout));
   }
 
   function get(){

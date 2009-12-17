@@ -1,6 +1,7 @@
 var KeyEvent = (function(){
   var times = 0;
   var disableVimlike = !!localStorage._disableVimlike;
+  var pass_next_key;
 
   function init(){
     if(disableVimlike) disable();
@@ -170,6 +171,12 @@ var KeyEvent = (function(){
     if(key == 'Esc') CmdLine.remove();
 		if(/^(Control|Alt|Shift)$/.test(key)) return;
 
+    if(pass_next_key) {
+      pass_next_key = false;
+      reset();
+      return false;
+    }
+
 		if(disableVimlike){
 			if(key == 'Esc'){
         localStorage.removeItem('_disableVimlike');
@@ -216,6 +223,7 @@ var KeyEvent = (function(){
 	}
 
 	function reset(){
+    times = 0;
 		currentKeys = [];
 	}
 
@@ -225,8 +233,13 @@ var KeyEvent = (function(){
     disableVimlike = true;
 	}
 
+  function passNextKey(){
+		CmdLine.set({title : ' -- PASS NEXT KEY -- ',timeout : 2000 });
+    pass_next_key  = true;
+  }
+
 	return {
     add : add, exec : exec, remove : remove,getKey : getKey, disable : disable, init : init,
-    times : function(){ return times }
+    times : function(){ return times }, passNextKey : passNextKey
   };
 })()
