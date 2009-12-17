@@ -24,10 +24,10 @@ with(KeyEvent) {
   add(['0']    , Scroll.first    );
   add(['$']    , Scroll.last     );
 
-  add(['j']    , Scroll.up       );
-  add(['k']    , Scroll.down     );
-  add(['l']    , Scroll.left     );
-  add(['h']    , Scroll.right    );
+  add(['k']    , Scroll.up       );
+  add(['j']    , Scroll.down     );
+  add(['h']    , Scroll.left     );
+  add(['l']    , Scroll.right    );
 
   add(['C-f']  , Scroll.nextPage );
   add(['C-b']  , Scroll.prevPage );
