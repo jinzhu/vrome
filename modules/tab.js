@@ -41,6 +41,16 @@ var Tab = (function(){
 		port.postMessage({action: "next_tab"});
 	}
 
+  function first() {
+		var port = chrome.extension.connect();
+		port.postMessage({action: "first_tab"});
+	}
+
+  function last() {
+		var port = chrome.extension.connect();
+		port.postMessage({action: "last_tab"});
+	}
+
 	return {
     yankUrl   : yankUrl  ,
     copyUrl   : copyUrl	 ,
@@ -50,5 +60,7 @@ var Tab = (function(){
     reopen    : reopen   ,
     prev      : prev     ,
     next      : next     ,
+    first     : first    ,
+    last      : last     ,
 	}
 })()

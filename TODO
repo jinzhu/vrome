@@ -9,13 +9,10 @@ p     Open (put) a URL based on the current clipboard contents in a new buffer
 
 <C-a> Increment last number in URL
 <C-l> Redraw the screen
-<C-v> Pass through next key
 <C-x> Decrement last number in URL
 
 /regexp/ search
 
-g0/g^ Switch to the first tab.
-g$    Switch to the last tab.
 gh    goto home page
 gu    Go to [count]th parent directory.
 gU    Go to the root of the web site.

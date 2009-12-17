@@ -45,6 +45,9 @@ with(KeyEvent) {
   add(['C-n'], Tab.next      );
   add(['y']  , Tab.yankUrl   );
   add(['Y']  , Tab.copyUrl   );
+  add(['g','0'], Tab.first   );
+  add(['g','^'], Tab.first   );
+  add(['g','$'], Tab.last    );
 
 
   // History
