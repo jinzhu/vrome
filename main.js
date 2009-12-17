@@ -21,6 +21,8 @@ with(KeyEvent) {
   // Url
   add(['g','u'], Url.parent );
   add(['g','U'], Url.root   );
+  add(['C-a'], Url.increment);
+  add(['C-x'], Url.decrement);
 
 
   // Scroll
