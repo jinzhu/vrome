@@ -32,6 +32,12 @@ chrome.extension.onConnect.addListener(function(port, name) {
   port.onMessage.addListener(function(msg) {
     var tab = port.tab;
     switch(msg.action){
+    case "enable":
+      chrome.browserAction.setIcon({path: 'icons/logo.png'});
+      break;
+    case "disable":
+      chrome.browserAction.setIcon({path: 'icons/logo-disable.png'});
+      break;
     case "close_tab":
       chrome.tabs.remove(tab.id);
       break;

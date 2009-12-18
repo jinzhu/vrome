@@ -6,6 +6,11 @@ var KeyEvent = (function(){
   function init(){
     if(disableVimlike) disable();
     document.addEventListener('keydown',exec, false);
+
+    window.onfocus = function(){
+      var port = chrome.extension.connect();
+      port.postMessage({action: disableVimlike ? "disable" : "enable"});
+    }
   }
 
 	var keyId = {
@@ -175,10 +180,7 @@ var KeyEvent = (function(){
     }
 
 		if(disableVimlike){
-			if(key == 'Esc'){
-        localStorage.removeItem('_disableVimlike');
-        disableVimlike = false;
-      }
+			if(key == 'Esc'){ enable(); }
 			reset();
 			return false;
 		}
@@ -229,8 +231,16 @@ var KeyEvent = (function(){
 		CmdLine.set({title : ' -- PASS THROUGH -- ' });
 		localStorage._disableVimlike = true;
     disableVimlike = true;
+    var port = chrome.extension.connect();
+    port.postMessage({action: "disable"});
 	}
 
+  function enable() {
+    localStorage.removeItem('_disableVimlike');
+    disableVimlike = false;
+    var port = chrome.extension.connect();
+    port.postMessage({action: "enable"});
+  }
   function passNextKey(){
 		CmdLine.set({title : ' -- PASS NEXT KEY -- ',timeout : 2000 });
     pass_next_key  = true;
