@@ -7,10 +7,6 @@ var KeyEvent = (function(){
     document.addEventListener('keydown',exec, false);
   }
 
-  function changeStatus() {
-    disableVimlike ? disable() : enable();
-  }
-
 	var keyId = {
 		"U+0008" : "BackSpace",
 		"U+0009" : "Tab",
@@ -177,14 +173,14 @@ var KeyEvent = (function(){
       return false;
     }
 
-		if(disableVimlike){
+    var inputMode = /^INPUT|TEXTAREA$/.test(e.target.nodeName);
+		if(disableVimlike && !inputMode){
 			if(key == 'Esc'){ enable(); }
 			reset();
 			return false;
 		}
 
 		currentKeys.push(key);
-    var inputMode = /^INPUT|TEXTAREA$/.test(e.target.nodeName);
 		Debug('handling key: ' + currentKeys.join(', ') + " inputMode:" + inputMode);
 
 		var matched = [];
@@ -251,9 +247,9 @@ var KeyEvent = (function(){
     remove  : remove,
     getKey  : getKey,
     disable : disable,
+    enable  : enable,
     init    : init,
     times   : function(){ return times; },
     passNextKey  : passNextKey,
-    changeStatus : changeStatus,
   };
 })();
