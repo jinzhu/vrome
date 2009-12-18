@@ -101,7 +101,8 @@ var KeyEvent = (function(){
 		"U+0345" : "CombYpogeg",
 		"U+20AC" : "€",
 		"U+3099" : "CombVoice",
-		"U+309A" : "CombSVoice"
+		"U+309A" : "CombSVoice",
+    "U+00C0" : "`",
 	};
 
 	var shiftNums = { "`":"~",

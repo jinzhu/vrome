@@ -1,9 +1,4 @@
 # Tabs
-o
-O
-t
-T
-
 p     Open (put) a URL based on the current clipboard contents in a new buffer
 ~     Open home directory
 
