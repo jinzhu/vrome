@@ -4,8 +4,10 @@ var CmdLine = (function(){
 
 	var pressUpFunction   = function(){};
 	var pressDownFunction = function(){};
+  var enterFunction     = function(){};
 	var pressUp           = function(e) { pressUpFunction.call('',e);  };
 	var pressDown         = function(e) { pressDownFunction.call('',e);};
+  var enter = function(e) { if(KeyEvent.getKey(e) == 'Enter') enterFunction.call('',e); }
 
   function createCmdBox(){
     var box = document.createElement('div');
@@ -27,8 +29,10 @@ var CmdLine = (function(){
     box.setAttribute('id',input_box_id);
     box.setAttribute('type','text');
     cmdBox().appendChild(box);
+
     cmdBox().addEventListener('keydown',pressDown,false);
-    cmdBox().addEventListener('keyup',pressUp,false);
+    cmdBox().addEventListener('keydown',enter  ,false);
+    cmdBox().addEventListener('keyup'  ,pressUp,false);
   }
 
   function inputBoxExist(){
@@ -43,6 +47,7 @@ var CmdLine = (function(){
   function remove(){
 		pressUpFunction   = function(){};
 		pressDownFunction = function(){};
+    enterFunction     = function(){};
     var box = document.getElementById(box_id);
     if(box) document.body.removeChild(box);
   }
@@ -60,6 +65,8 @@ var CmdLine = (function(){
       pressUpFunction = opt.pressUp;
     if(opt.pressDown)
       pressDownFunction = opt.pressDown;
+    if(opt.enter)
+      enterFunction = opt.enter;
     if(opt.timeout)
       setTimeout(remove,Number(opt.timeout));
   }
