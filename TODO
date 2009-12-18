@@ -6,7 +6,6 @@ p     Open (put) a URL based on the current clipboard contents in a new buffer
 
 gh    goto home page
 
-vimlike status
 config page
 
 .                Run last command(s)?
