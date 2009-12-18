@@ -168,7 +168,13 @@ var Hint = (function(){
 
     if (tag_name == 'a') {
       setHighlight(elem, true);
+      if(!new_tab){
+        var old_target = elem.getAttribute('target');
+        elem.removeAttribute('target');
+      }
+
       clickElement(elem,{ ctrl : new_tab });
+      if (old_target) elem.setAttribute('target',old_target);
 
     } else if (tag_name == "input" && (type == "submit" || type == "button" || type == "reset" || type == "radio" || type == "checkbox")) {
       clickElement(elem);
