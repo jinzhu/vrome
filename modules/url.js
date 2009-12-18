@@ -1,16 +1,19 @@
 var Url = (function(){
 
   function parent() {
-    if (location.pathname != '/') {
-      /(.*)\/[\/]*?/.test(location.pathname);
-      document.location.pathname = RegExp.$1;
-    } else {
+    if(location.pathname == '/'){
       var segments = location.hostname.split('.');
       if (segments.length > 2) {
         segments.shift();
-        document.location = location.protocol + '//' + segments.join('.');
+        var hostname = segments.join('.');
       }
+    }else{
+      var segments = location.pathname.split('/');
+      if( !segments.splice(segments.length - 1, 1)[0] ) segments.splice(segments.length - 1, 1);
+      var pathname = segments.join('/');
     }
+
+    location.href = location.protocol + '//' + (hostname || location.hostname) + (location.port ? (':' + location.port) : '') + (pathname || location.pathname);
   }
 
   function root() {
@@ -28,8 +31,8 @@ var Url = (function(){
   }
 
   return {
-    parent : parent,
-    root   : root,
+    parent    : parent,
+    root      : root,
     increment : increment,
     decrement : decrement,
   }
