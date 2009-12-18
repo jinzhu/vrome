@@ -143,3 +143,14 @@ function init(){
 }
 
 init();
+
+chrome.extension.onConnect.addListener(function(port) {
+  port.onMessage.addListener(function(msg) {
+    var tab = port.tab;
+    switch(msg.action){
+    case "changeStatus":
+      KeyEvent.changeStatus();
+      break;
+    }
+  });
+})

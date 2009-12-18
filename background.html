@@ -5,15 +5,22 @@ var closed_tabs = [];
 var now_tab;
 var last_selected_tab;
 
+function changeStatus(tab){
+  var port = chrome.tabs.connect(tab.id, {});
+  port.postMessage({action: "changeStatus"});
+}
+
 chrome.tabs.getSelected(null, function(tab) {
   last_selected_tab = now_tab || tab;
   now_tab  = tab;
+  changeStatus(tab);
 });
 
 chrome.tabs.onSelectionChanged.addListener(function(tabId) {
   chrome.tabs.get(tabId, function(tab) {
     last_selected_tab = now_tab || tab;
     now_tab = tab;
+    changeStatus(tab);
   });
 });
 

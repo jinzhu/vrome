@@ -3,14 +3,12 @@ var KeyEvent = (function(){
   var disableVimlike = !!localStorage._disableVimlike;
   var pass_next_key;
 
-  function init(){
-    if(disableVimlike) disable();
+  function init() {
     document.addEventListener('keydown',exec, false);
+  }
 
-    window.onfocus = function(){
-      var port = chrome.extension.connect();
-      port.postMessage({action: disableVimlike ? "disable" : "enable"});
-    }
+  function changeStatus() {
+    disableVimlike ? disable() : enable();
   }
 
 	var keyId = {
@@ -241,13 +239,21 @@ var KeyEvent = (function(){
     var port = chrome.extension.connect();
     port.postMessage({action: "enable"});
   }
+
   function passNextKey(){
 		CmdLine.set({title : ' -- PASS NEXT KEY -- ',timeout : 2000 });
     pass_next_key  = true;
   }
 
 	return {
-    add : add, exec : exec, remove : remove,getKey : getKey, disable : disable, init : init,
-    times : function(){ return times; }, passNextKey : passNextKey
+    add     : add,
+    exec    : exec,
+    remove  : remove,
+    getKey  : getKey,
+    disable : disable,
+    init    : init,
+    times   : function(){ return times; },
+    passNextKey  : passNextKey,
+    changeStatus : changeStatus,
   };
 })();
