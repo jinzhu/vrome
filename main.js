@@ -133,24 +133,26 @@ function clickElement(element,opt) {
 }
 
 // Initial
+var initFunction = [ Zoom.init, KeyEvent.init];
+
 function init(){
   if(document.body){
-    Zoom.init()
-    KeyEvent.init();
+    for(var i in initFunction)
+      initFunction[i].call()
   }else{
     setTimeout(init,50);
   }
 }
 
-init();
-
 chrome.extension.onConnect.addListener(function(port) {
   port.onMessage.addListener(function(msg) {
     var tab = port.tab;
     switch(msg.action){
-    case "changeStatus":
+    case "pageInit":
       Debug("changeStatus - disable:" + msg.disable);
-      msg.disable ? KeyEvent.disable() : KeyEvent.enable();
+
+      initFunction[initFunction.length] = (msg.disable ? KeyEvent.disable : KeyEvent.enable);
+      init();
       break;
     }
   });
