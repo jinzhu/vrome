@@ -18,7 +18,7 @@ var Clipboard = (function(){
 	}
 
   return {
-		yank : function(data) { yankCopy(data) },
-    copy : function(data) { yankCopy(data,true) }
-  }
-})()
+		yank : function(data) { yankCopy(data); },
+    copy : function(data) { yankCopy(data,true); }
+  };
+})();

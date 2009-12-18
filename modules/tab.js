@@ -10,7 +10,7 @@ var Tab = (function(){
 			Clipboard.yank(document.location);
 		}
   }
-	function copyUrl() { yankUrl(true) }
+	function copyUrl() { yankUrl(true); }
 
   function reload(){
     location.reload();

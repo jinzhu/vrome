@@ -81,7 +81,7 @@ var Search = (function(){
       // TODO only move if the node is invisible?
       nodes[i].scrollIntoView();
     }else{
-      next( step * direction)
+      next( step * direction);
     }
   }
 
@@ -114,12 +114,12 @@ var Search = (function(){
   return {
     start    : start,
     backward : function(){
-                 start(true)
+                 start(true);
                },
     stop     : function() {
                  Debug('Search.stop - Mode ' + searchMode);
                  if(!searchMode) return;
-                 stop()
+                 stop();
                },
     prev     : function() {
                  Debug('Search.prev - Mode ' + searchMode);
@@ -129,7 +129,7 @@ var Search = (function(){
     next     : function() {
                  Debug('Search.next - Mode ' + searchMode);
                  if(!searchMode) return;
-                 next(1)
+                 next(1);
                },
     forwardCursor : function() {
                       lastSearch = getSelectedValue();

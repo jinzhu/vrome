@@ -4,8 +4,8 @@ var CmdLine = (function(){
 
 	var pressUpFunction   = function(){};
 	var pressDownFunction = function(){};
-	var pressUp           = function(e) { pressUpFunction.call('',e);  }
-	var pressDown         = function(e) { pressDownFunction.call('',e);}
+	var pressUp           = function(e) { pressUpFunction.call('',e);  };
+	var pressDown         = function(e) { pressDownFunction.call('',e);};
 
   function createCmdBox(){
     var box = document.createElement('div');
@@ -27,8 +27,8 @@ var CmdLine = (function(){
     box.setAttribute('id',input_box_id);
     box.setAttribute('type','text');
     cmdBox().appendChild(box);
-    cmdBox().addEventListener('keydown',pressDown,false)
-    cmdBox().addEventListener('keyup',pressUp,false)
+    cmdBox().addEventListener('keydown',pressDown,false);
+    cmdBox().addEventListener('keyup',pressUp,false);
   }
 
   function inputBoxExist(){

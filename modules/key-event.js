@@ -106,7 +106,7 @@ var KeyEvent = (function(){
 
 	var shiftNums = { "`":"~",
 		"1":"!", "2":"@", "3":"#", "4":"$", "5":"%", "6":"^", "7":"&", "8":"*", "9":"(", "0":")",
-		"-":"_", "=":"+", ";":":", "'":"\"", ",":"<", ".":">",  "/":"?",  "\\":"|" }
+		"-":"_", "=":"+", ";":":", "'":"\"", ",":"<", ".":">",  "/":"?",  "\\":"|" };
 
 	function getKey(evt){
 		var key = keyId[evt.keyIdentifier] || evt.keyIdentifier,
@@ -122,11 +122,7 @@ var KeyEvent = (function(){
 				return ctrl+meta+shiftNums[key];
 			}
 			if (/^[0-9]$/.test(key)) {
-				switch(key) {
-				case "4":
-					key = "$";
-					break;
-				}
+				if(key == "4") key = "$";
 				return key;
 			}
 			if (/^(Enter|Space|BackSpace|Tab|Esc|Home|End|Left|Right|Up|Down|PageUp|PageDown|F(\d\d?))$/.test(key)){
@@ -240,6 +236,6 @@ var KeyEvent = (function(){
 
 	return {
     add : add, exec : exec, remove : remove,getKey : getKey, disable : disable, init : init,
-    times : function(){ return times }, passNextKey : passNextKey
+    times : function(){ return times; }, passNextKey : passNextKey
   };
-})()
+})();

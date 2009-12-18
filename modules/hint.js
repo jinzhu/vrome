@@ -66,7 +66,7 @@ var Hint = (function(){
     div.setAttribute('id', '__vim_hint_highlight');
     document.body.appendChild(div);
 
-    for(var i in elems){ //TODO need refactor
+    for(var i = 0;i < elems.length; i++){ //TODO need refactor
       elem          = elems[i];
       var win_top   = window.scrollY / Zoom.current();
       var win_left  = window.scrollX / Zoom.current();
@@ -144,7 +144,7 @@ var Hint = (function(){
   }
 
   function delayToWaitKeyDown(){
-    numbers = 0
+    numbers = 0;
     matched = [];
 
     for(var i in elements){
@@ -199,9 +199,9 @@ var Hint = (function(){
 
   return {
     start         : start,
-    new_tab_start : function(){ start(true) },
+    new_tab_start : function(){ start(true); },
     remove        : function(){
                       if(hintMode) remove();
                     }
-  }
-})()
+  };
+})();

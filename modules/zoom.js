@@ -30,17 +30,17 @@ var Zoom = (function(){
 
   // Public API
 	return {
-		'in'       : function() { setZoom( 1) },
-		out        : function() { setZoom(-1) },
-		more       : function() { setZoom( 3) },
-		reduce     : function() { setZoom(-3) },
-		reset      : function() { setZoom(  ) },
+		'in'       : function() { setZoom( 1); },
+		out        : function() { setZoom(-1); },
+		more       : function() { setZoom( 3); },
+		reduce     : function() { setZoom(-3); },
+		reset      : function() { setZoom(  ); },
 
-		cur_in     : function() { setZoom( 1, true) },
-		cur_out    : function() { setZoom(-1, true) },
-		cur_more   : function() { setZoom( 3, true) },
-		cur_reduce : function() { setZoom(-3, true) },
-		cur_reset  : function() { setZoom( 0, true) },
+		cur_in     : function() { setZoom( 1, true); },
+		cur_out    : function() { setZoom(-1, true); },
+		cur_more   : function() { setZoom( 3, true); },
+		cur_reduce : function() { setZoom(-3, true); },
+		cur_reset  : function() { setZoom( 0, true); },
 
 		current    : function() { return (parseInt( levels[currentLevel()]) / 100); },
 		init       : function() { setZoom(localStorage.vimlike_zoom); }
