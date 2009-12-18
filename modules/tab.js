@@ -51,6 +51,11 @@ var Tab = (function(){
 		port.postMessage({action: "last_tab"});
 	}
 
+  function last_selected() {
+		var port = chrome.extension.connect();
+		port.postMessage({action: "last_selected_tab"});
+  }
+
 	return {
     yankUrl   : yankUrl  ,
     copyUrl   : copyUrl	 ,
@@ -62,5 +67,6 @@ var Tab = (function(){
     next      : next     ,
     first     : first    ,
     last      : last     ,
+    last_selected : last_selected,
 	}
 })()

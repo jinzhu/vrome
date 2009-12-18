@@ -60,6 +60,8 @@ with(KeyEvent) {
   add(['g','0'], Tab.first   );
   add(['g','^'], Tab.first   );
   add(['g','$'], Tab.last    );
+  add(['C-6'], Tab.last_selected );
+  add(['C-^'], Tab.last_selected );
 
 
   // History

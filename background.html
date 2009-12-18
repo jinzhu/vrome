@@ -3,13 +3,16 @@
 <script typw='text/javascript'>
 var closed_tabs = [];
 var now_tab;
+var last_selected_tab;
 
 chrome.tabs.getSelected(null, function(tab) {
-  now_tab = tab;
+  last_selected_tab = now_tab || tab;
+  now_tab  = tab;
 });
 
 chrome.tabs.onSelectionChanged.addListener(function(tabId) {
   chrome.tabs.get(tabId, function(tab) {
+    last_selected_tab = now_tab || tab;
     now_tab = tab;
   });
 });
@@ -17,6 +20,7 @@ chrome.tabs.onSelectionChanged.addListener(function(tabId) {
 chrome.tabs.onUpdated.addListener(function(tabId) {
   chrome.tabs.get(tabId, function(tab) {
     if (now_tab && now_tab.id == tab.id) {
+      last_selected_tab = tab;
       now_tab = tab;
     }
   });
@@ -74,6 +78,11 @@ chrome.extension.onConnect.addListener(function(port, name) {
       chrome.tabs.getAllInWindow(tab.windowId, function(tabs) {
         var last_tab = tabs[tabs.length - 1];
         chrome.tabs.update(last_tab.id, {selected: true});
+      });
+      break;
+    case "last_selected_tab":
+      chrome.tabs.getAllInWindow(tab.windowId, function(tabs) {
+        chrome.tabs.update(last_selected_tab.id, {selected: true});
       });
       break;
     case "open_url":
