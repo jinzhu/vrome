@@ -9,7 +9,8 @@ gh    goto home page
 vimlike status
 config page
 
-.                Run last command
+.                Run last command(s)?
+
 History count
 [count] <C-n/p>
 [count] gt/T     next/prev tab

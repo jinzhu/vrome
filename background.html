@@ -38,9 +38,11 @@ chrome.extension.onConnect.addListener(function(port, name) {
     switch(msg.action){
     case "enable":
       chrome.browserAction.setIcon({path: 'icons/logo.png'});
+      chrome.browserAction.setTitle({title:"Vimlike (enabled)"});
       break;
     case "disable":
       chrome.browserAction.setIcon({path: 'icons/logo-disable.png'});
+      chrome.browserAction.setTitle({title:"Vimlike (disabled)"});
       break;
     case "close_tab":
       chrome.tabs.remove(tab.id);
