@@ -208,7 +208,8 @@ var KeyEvent = (function(){
           matched[i][1].call();
         }
         exec_length++;
-        e.preventDefault();
+
+        if(key != 'Enter' && !inputMode) e.preventDefault();
 			}
 		}
 
