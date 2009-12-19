@@ -124,7 +124,7 @@ var Hint = (function(){
   }
 
   function handleInput(e){
-    key = KeyEvent.getKey(e);
+    key = getKey(e);
 
     if(/^\d$/.test(key)){
       numbers = numbers * 10 + Number(key);

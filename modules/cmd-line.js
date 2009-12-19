@@ -7,7 +7,7 @@ var CmdLine = (function(){
   var enterFunction     = function(){};
 	var pressUp           = function(e) { pressUpFunction.call('',e);  };
 	var pressDown         = function(e) { pressDownFunction.call('',e);};
-  var enter = function(e) { if(KeyEvent.getKey(e) == 'Enter') enterFunction.call('',e); }
+  var enter = function(e) { if(getKey(e) == 'Enter') enterFunction.call('',e); }
 
   function createCmdBox(){
     var box = document.createElement('div');

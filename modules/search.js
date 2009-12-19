@@ -83,7 +83,7 @@ var Search = (function(){
   }
 
   function handleInput(e){
-    key = KeyEvent.getKey(e);
+    key = getKey(e);
     if( ! /Shift|Enter/.test(key) ) remove(); // clear exist highlight before search
 
     find(CmdLine.get().content);
