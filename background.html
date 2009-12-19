@@ -6,7 +6,7 @@ var now_tab;
 var last_selected_tab;
 
 function changeStatus(tab){
-  if(!tab.id) return;
+  if(!(tab && tab.id)) return;
   var port = chrome.tabs.connect(tab.id, {});
   var disable_sites = (localStorage.disableSites || '').split(' ');
 
@@ -82,15 +82,17 @@ chrome.extension.onConnect.addListener(function(port, name) {
       break;
     case "gotoTab":
       chrome.tabs.getAllInWindow(tab.windowId, function(tabs) {
-        if(msg.index) { var index = msg.index; }
-        if(msg.offset){
-          var index = tab.index + msg.offset;
+        if(typeof msg.index != 'undefined') { var index = msg.index; }
+        if(typeof msg.offset != 'undefined'){ var index = tab.index + msg.offset; }
+
+        if(index){
           index = index % tabs.length;
           if (index < 0){ index = index + tabs.length; }
         }
-        if(typeof index == 'undefined') index = tab.id;
+
         console.log("gotoTab:" + index + " index:" + msg.index + " offset:" + msg.offset);
-        if(tabs[index]){ chrome.tabs.update(tabs[index].id, {selected: true}); }
+        var get_tab = tabs[index] || tab;
+        chrome.tabs.update(get_tab.id, {selected: true});
       });
       break;
     case "lastSelectedTab":

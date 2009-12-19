@@ -31,7 +31,7 @@ var Tab = (function(){
 
   function prev()  { Post({action: "gotoTab",offset : -1 * times()}); }
   function next()  { Post({action: "gotoTab",offset : times()}); }
-  function first() { Post({action: "gotoTab",index  :	1}); }
+  function first() { Post({action: "gotoTab",index  :	0}); }
   function last()  { Post({action: "gotoTab",index : -1}); }
 
 	return {

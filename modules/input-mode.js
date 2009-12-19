@@ -1,6 +1,3 @@
-/**
- * Util
- */
 //TODO should use focus/click event to active some js binding
 
 var InputMode = (function(){

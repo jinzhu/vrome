@@ -1,7 +1,3 @@
-/**
- * Hint
- */
-
 var Hint = (function(){
   var elements    = [];
   var numbers     = 0;
