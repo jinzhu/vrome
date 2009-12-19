@@ -1,34 +1,28 @@
-/**
- * Zoom
- */
-
 var Zoom = (function(){
   var levels = ['30%', '50%', '67%', '80%', '90%', '100%', '110%', '120%', '133%', '150%', '170%', '200%', '240%', '300%'];
   var default_index = levels.indexOf('100%');
 
   function currentLevel() {
     for(var i in levels){
-      if(levels[i] == document.body.style.zoom){
+      if(levels[i] == (document.body.style.zoom || '100%')){
         return Number(i);
       }
     }
-    return default_index;
   }
 
-  function setZoom(/*Number*/ count,/*Boolean*/ current) {
-    var cur = count ? (currentLevel() + Number(count)) : default_index;
+  function setZoom(/*Number*/ count,/*Boolean*/ keepCurrentPage) {
+		var index = count ? (currentLevel() + (times() * Number(count))) : default_index
     // index should >= 0 && < levels.length
-    cur = Math.min(levels.length - 1, Math.max(0,cur));
-    localStorage.vimlike_zoom = cur - default_index;
+    index = Math.min(levels.length - 1, Math.max(0,index));
 
-    var height    = document.height;
-    var distanceY = scrollY;
+    localStorage.__vimlike_zoom_count = index - default_index;
+    var topPercent = scrollY / document.height;
 
-    document.body.style.zoom  = levels[cur];
-    if(current) scrollTo(0,distanceY / height * document.height);
+    document.body.style.zoom  = levels[index];
+    if(keepCurrentPage) scrollTo(0,topPercent * document.height);
   }
 
-  // Public API
+
 	return {
 		setZoom    : setZoom,
 		'in'       : function() { setZoom( 1); },
@@ -43,7 +37,7 @@ var Zoom = (function(){
 		cur_reduce : function() { setZoom(-3, true); },
 		cur_reset  : function() { setZoom( 0, true); },
 
-		current    : function() { return (parseInt( levels[currentLevel()]) / 100); },
-		init       : function() { Zoom.setZoom(localStorage.vimlike_zoom); }
+		current    : function() { return (parseInt(levels[currentLevel()]) / 100); },
+		init       : function() { Zoom.setZoom(localStorage.__vimlike_zoom_count); }
 	}
 })()

@@ -1,7 +1,3 @@
-/**
- * Tab
- */
-
 var Tab = (function(){
 
   function yankUrl(/*Boolean*/ copy) {
