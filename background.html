@@ -18,8 +18,11 @@ function changeStatus(tab){
     }
   }
 
-  console.log("Disable Sites: " + disable_sites.join(', ') + " Url: " + tab.url + " Disabled:" + disable);
-  port.postMessage({action : "changeStatus", disable : !!disable});
+  var currentKeys = (localStorage.currentKeys || '').split(' ');
+  var times = Number(localStorage.times || 0);
+
+  console.log("Disable Sites: " + disable_sites.join(', ') + " Url: " + tab.url + " Disabled:" + disable + " currentKeys:" + currentKeys + " times:" + times);
+  port.postMessage({action : "changeStatus", disable : !!disable,currentKeys : currentKeys, times : times});
 }
 
 chrome.tabs.getSelected(null, function(tab) {
@@ -123,6 +126,10 @@ chrome.extension.onConnect.addListener(function(port, name) {
           chrome.tabs.executeScript(tabs[i].id, jsRunner);
         }
       });
+      break;
+    case "storeLastCommand":
+      localStorage.currentKeys = msg.currentKey.join(' ');
+      localStorage.times       = msg.currentKey.join(' ');
       break;
     };
   });

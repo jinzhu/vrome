@@ -1,4 +1,8 @@
-var times = function() { return KeyEvent.times(); };
+var times = function() {
+  var time = KeyEvent.times() || 1;
+  Debug('KeyEvent.times:' + time);
+  return time;
+};
 
 with(KeyEvent) {
   // Zoom
@@ -98,6 +102,7 @@ with(KeyEvent) {
   add(['g','i'], InputMode.focusFirstTextInput );
   add(['C-z'], KeyEvent.disable     );
   add(['C-v'], KeyEvent.passNextKey );
+  add(['.'], KeyEvent.runLast);
 
 
   // InputMode
@@ -167,6 +172,7 @@ chrome.extension.onConnect.addListener(function(port) {
     case "changeStatus":
       Debug("changeStatus - listener:" + msg.disable);
       runIt(KeyEvent.changeStatus, [msg.disable]);
+      KeyEvent.setLast({currentKeys : msg.currentKeys, times : msg.times})
       break;
     }
   });

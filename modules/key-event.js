@@ -2,6 +2,19 @@ var KeyEvent = (function(){
   var times = 0;
   var disableVimlike;
   var pass_next_key;
+  var last_current_keys;
+  var last_times;
+
+  function setLast(opt){
+    if(opt.currentKeys) last_current_keys = opt.currentKeys;
+    if(opt.times) last_times = opt.times;
+  }
+
+  function runLast(){
+    times = last_times;
+    runCurrentKeys(last_current_keys);
+    times = 0;
+  }
 
   function init() {
     document.addEventListener('keydown',KeyEvent.exec, false);
@@ -23,9 +36,13 @@ var KeyEvent = (function(){
 		"U+0029" : ")",
 		"U+002A" : "*",
 		"U+002B" : "+",
+		"U+00BB" : "+",
 		"U+002C" : ",",
+		"U+00BC" : ",",
 		"U+002D" : "-",
+		"U+00BD" : "-",
 		"U+002E" : ".",
+    "U+00BE" : ".",
 		"U+002F" : "/",
 		"U+00BF" : "/",
 		"U+0030" : "0",
@@ -163,10 +180,11 @@ var KeyEvent = (function(){
 	}
 
   function runCurrentKeys(keys,inputMode) {
+    Debug("KeyEvent.runCurrentKeys - keys:" + keys + " inputMode:" + inputMode + " times:" + times);
 		var matched = [];
 
 		binding : for(var i in bindings){
-      if(inputMode != bindings[i][2]) continue binding;
+      if(!!inputMode != bindings[i][2]) continue binding;
 
 			for(var j in keys){
 				if(keys[j] != bindings[i][0][j]) continue binding;
@@ -182,6 +200,7 @@ var KeyEvent = (function(){
         exec_length++;
 			}
 		}
+    Debug("KeyEvent.runCurrentKeys - matched:" + matched.length + " exec:" + exec_length + " times:" + times);
     return {match: matched.length,exec : exec_length};
   }
 
@@ -206,20 +225,26 @@ var KeyEvent = (function(){
 		currentKeys.push(key);
 		Debug('KeyEvent.exec - handling key:' + currentKeys.join(', ') + " inputMode:" + inputMode);
 
-    var port = chrome.extension.connect();
-    port.postMessage({action: "storeLastCommand",currentKey : currentKeys,times: times});
-
+    var old_times = times;
     var result = runCurrentKeys(currentKeys,inputMode);
     if(result.exec > 0 && key != 'Enter' && !inputMode) e.preventDefault();
 
+    if(key != '.'){
+      var port = chrome.extension.connect();
+      port.postMessage({action: "storeLastCommand",currentKey : currentKeys,times: old_times});
+      last_current_keys = currentKeys;
+      last_times        = old_times;
+      Debug("KeyEvent.exec(storeLastCommand) - currentKeys:" + currentKeys + " times:" + old_times);
+    }
+
     // Times
     // reset times, if not in InsertMode,current key is not number,some func matched
-		Debug('KeyEvent.exec(times) - inputMode:' + inputMode + " Num:" + /\d/.test(key) + "Matched:" + result.exec);
     if (!inputMode && /\d/.test(key)){
       times = times * 10 + Number(key);
     }else{
       if(result.exec != 0) times = 0;
     }
+		Debug('KeyEvent.exec(times) - inputMode:' + inputMode + " Num:" + /\d/.test(key) + "Matched:" + result.exec + " times:" + times);
 
 		if(result.match == result.exec || key == 'Esc'){ reset(); }
     return false;
@@ -265,12 +290,13 @@ var KeyEvent = (function(){
     enable  : enable,
     init    : init,
     times   : function(){
-                var result = times || 1;
+                var result = times;
                 times = 0;
-                Debug('KeyEvent.times:' + result);
                 return result;
               },
     passNextKey    : passNextKey,
     changeStatus   : changeStatus,
+    setLast : setLast,
+    runLast : runLast,
   };
 })();
