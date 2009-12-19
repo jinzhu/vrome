@@ -39,3 +39,11 @@
 #__vimlike_search_highlight_current {
   background-color:cyan !important;
 }
+
+a[vimlike_highlight=hint_elem] {
+	background-color: yellow;
+}
+
+a[vimlike_highlight=hint_active] {
+	background-color: lime
+}
