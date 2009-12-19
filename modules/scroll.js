@@ -5,7 +5,9 @@ var Scroll = (function(){
 	return {
 	  top      : function(){ scrollTo(scrollX, 0);                 },
 	  bottom   : function(){ scrollTo(scrollX, document.height);   },
-	  first    : function(){ scrollTo(0, scrollY);                 },
+	  first    : function(){
+							   if(times(/*read Boolean*/ true) == 0) scrollTo(0, scrollY);
+							 },
 	  last     : function(){ scrollTo(document.width, scrollY);    },
 
 	  up       : function(){ scrollBy(0,times() * -vertical_moment);   },

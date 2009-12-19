@@ -1,5 +1,5 @@
-var times = function() {
-  var time = KeyEvent.times() || 1;
+var times = function(/*Boolean*/ read) {
+  var time = KeyEvent.times(read) || 1;
   Debug('KeyEvent.times:' + time);
   return time;
 };

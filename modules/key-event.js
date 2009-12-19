@@ -6,9 +6,9 @@ var KeyEvent = (function(){
     document.addEventListener('keydown',KeyEvent.exec, false);
   }
 
-  function returnTimes() {
+  function returnTimes(/*Boolean*/ read) {
     var result = times;
-    times      = 0;
+    if(!read) times = 0; // only read.
     return result;
   }
 
@@ -141,7 +141,7 @@ var KeyEvent = (function(){
     exec    : exec,
 
     init    : init,
-    times   : returnTimes,
+    times   : function(/*Boolean*/ read){ return returnTimes(read) },
 
     disable : disable,
     enable  : enable,
