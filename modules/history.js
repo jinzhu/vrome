@@ -1,6 +1,6 @@
 var History = (function(){
   return {
-    back    : function(){ history.back(); },
-    forward : function(){ history.forward(); }
+    back    : function(){ history.go(-1 * times()); },
+    forward : function(){ history.go( 1 * times()); }
   };
 })();
