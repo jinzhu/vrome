@@ -8,7 +8,6 @@ gh    goto home page
 
 .                Run last command(s)?
 
-[count] <C-n/p>
 [count] gt/T     next/prev tab
 
 # ?

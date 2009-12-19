@@ -33,12 +33,12 @@ var Tab = (function(){
 
   function prev() {
 		var port = chrome.extension.connect();
-		port.postMessage({action: "previous_tab"});
+		port.postMessage({action: "previous_tab",num : times()});
 	}
 
   function next() {
 		var port = chrome.extension.connect();
-		port.postMessage({action: "next_tab"});
+		port.postMessage({action: "next_tab",num : times()});
 	}
 
   function first() {

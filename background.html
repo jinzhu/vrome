@@ -76,7 +76,7 @@ chrome.extension.onConnect.addListener(function(port, name) {
       break;
     case "previous_tab":
       chrome.tabs.getAllInWindow(tab.windowId, function(tabs) {
-        var previous_tab = tabs[tab.index - 1] || tabs[tabs.length - 1];
+        var previous_tab = tabs[tab.index - msg.num] || tabs[tabs.length - 1];
         if (previous_tab) {
           chrome.tabs.update(previous_tab.id, {selected: true});
         }
@@ -84,7 +84,7 @@ chrome.extension.onConnect.addListener(function(port, name) {
       break;
     case "next_tab":
       chrome.tabs.getAllInWindow(tab.windowId, function(tabs) {
-        var next_tab = tabs[tab.index + 1] || tabs[0];
+        var next_tab = tabs[tab.index + msg.num] || tabs[0];
         if (next_tab) {
           chrome.tabs.update(next_tab.id, {selected: true});
         }

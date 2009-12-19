@@ -57,6 +57,9 @@ with(KeyEvent) {
   add(['u']  , Tab.reopen    );
   add(['C-p'], Tab.prev      );
   add(['C-n'], Tab.next      );
+  add(['g','t'],Tab.next     );
+  add(['g','T'],Tab.prev     );
+
   add(['y']  , Tab.yankUrl   );
   add(['Y']  , Tab.copyUrl   );
   add(['g','0'], Tab.first   );
