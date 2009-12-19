@@ -5,7 +5,7 @@ var closed_tabs = [];
 var now_tab;
 var last_selected_tab;
 
-function pageInit(tab){
+function changeStatus(tab){
   var port = chrome.tabs.connect(tab.id, {});
   var disable_sites = (localStorage.disableSites || '').split(' ');
 
@@ -19,20 +19,20 @@ function pageInit(tab){
   }
 
   console.log("Disable Sites: " + disable_sites.join(', ') + " Url: " + tab.url + " Disabled:" + disable);
-  port.postMessage({action : "pageInit", disable : !!disable});
+  port.postMessage({action : "changeStatus", disable : !!disable});
 }
 
 chrome.tabs.getSelected(null, function(tab) {
   last_selected_tab = now_tab || tab;
   now_tab  = tab;
-  pageInit(tab);
+  changeStatus(tab);
 });
 
 chrome.tabs.onSelectionChanged.addListener(function(tabId) {
   chrome.tabs.get(tabId, function(tab) {
     last_selected_tab = now_tab || tab;
     now_tab = tab;
-    pageInit(tab);
+    changeStatus(tab);
   });
 });
 
@@ -42,7 +42,7 @@ chrome.tabs.onUpdated.addListener(function(tabId) {
       last_selected_tab = tab;
       now_tab = tab;
     }
-    pageInit(tab);
+    changeStatus(tab);
   });
 });
 

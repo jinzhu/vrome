@@ -1,10 +1,10 @@
 var KeyEvent = (function(){
   var times = 0;
-  var disableVimlike = !!localStorage._disableVimlike;
+  var disableVimlike;
   var pass_next_key;
 
   function init() {
-    document.addEventListener('keydown',exec, false);
+    document.addEventListener('keydown',KeyEvent.exec, false);
   }
 
 	var keyId = {
@@ -222,18 +222,27 @@ var KeyEvent = (function(){
 	}
 
 	function disable(){
+    Debug("KeyEvent.disable");
+
 		CmdLine.set({title : ' -- PASS THROUGH -- ' });
-		localStorage._disableVimlike = true;
     disableVimlike = true;
     var port = chrome.extension.connect();
     port.postMessage({action: "disable"});
 	}
 
   function enable() {
-    localStorage.removeItem('_disableVimlike');
+    Debug("KeyEvent.enable");
+
     disableVimlike = false;
     var port = chrome.extension.connect();
     port.postMessage({action: "enable"});
+  }
+
+  function changeStatus(disableSite){
+    Debug("Before Status: " + disableVimlike);
+    if(typeof disableVimlike == "undefined") disableVimlike = disableSite;
+    disableVimlike ? disable() : enable();
+    Debug("After Status: " + disableVimlike);
   }
 
   function passNextKey(){
@@ -250,6 +259,7 @@ var KeyEvent = (function(){
     enable  : enable,
     init    : init,
     times   : function(){ return times; },
-    passNextKey  : passNextKey,
+    passNextKey    : passNextKey,
+    changeStatus   : changeStatus,
   };
 })();

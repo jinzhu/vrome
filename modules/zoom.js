@@ -30,6 +30,7 @@ var Zoom = (function(){
 
   // Public API
 	return {
+		setZoom    : setZoom,
 		'in'       : function() { setZoom( 1); },
 		out        : function() { setZoom(-1); },
 		more       : function() { setZoom( 3); },
@@ -43,6 +44,6 @@ var Zoom = (function(){
 		cur_reset  : function() { setZoom( 0, true); },
 
 		current    : function() { return (parseInt( levels[currentLevel()]) / 100); },
-		init       : function() { setZoom(localStorage.vimlike_zoom); }
+		init       : function() { Zoom.setZoom(localStorage.vimlike_zoom); }
 	}
 })()

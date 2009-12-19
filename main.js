@@ -135,24 +135,33 @@ function clickElement(element,opt) {
 // Initial
 var initFunction = [ Zoom.init, KeyEvent.init];
 
-function init(){
+function runIt(func,args){
+  initFunction.push([func,args]);
+
   if(document.body){
-    for(var i in initFunction)
-      initFunction[i].call()
+    for(var i in initFunction){
+      func = initFunction.shift();
+      Debug("RunIt:" + func);
+      if(func instanceof Function){
+        func.call();
+      }else{
+        if(func[0] instanceof Function) func[0].apply('',func[1]);
+      }
+    }
   }else{
-    setTimeout(init,50);
+    setTimeout(runIt,50);
   }
 }
+
+runIt();
 
 chrome.extension.onConnect.addListener(function(port) {
   port.onMessage.addListener(function(msg) {
     var tab = port.tab;
     switch(msg.action){
-    case "pageInit":
-      Debug("changeStatus - disable:" + msg.disable);
-
-      initFunction[initFunction.length] = (msg.disable ? KeyEvent.disable : KeyEvent.enable);
-      init();
+    case "changeStatus":
+      Debug("changeStatus - listener:" + msg.disable);
+      runIt(KeyEvent.changeStatus, [msg.disable]);
       break;
     }
   });
