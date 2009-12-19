@@ -1,4 +1,5 @@
-next/prev page pattern
+1, next/prev page pattern
+2, search keyword case sensitive
 
 # Tabs
 p     Open (put) a URL based on the current clipboard contents in a new buffer

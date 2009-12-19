@@ -1,10 +1,10 @@
 var Search = (function(){
   var searchMode = false;
   var direction;
+  var lastSearch;
 
   var highlight_class      = '__vimlike_search_highlight';
   var highlight_current_id = '__vimlike_search_highlight_current';
-  var lastSearch;
 
   function find(keyword,node) {
     if(!keyword) return;
@@ -18,8 +18,8 @@ var Search = (function(){
     }
 
     if (node.nodeType == 3) { // text node
-      var key = keyword.toUpperCase();
-      var text = node.data.toUpperCase();
+      var key   = keyword.toUpperCase();
+      var text  = node.data.toUpperCase();
       var index = text.indexOf(key);
       if (index != -1) {
         var parentNode = node.parentNode;
@@ -32,7 +32,7 @@ var Search = (function(){
           var after  = document.createTextNode(nodeData.substr(index + keyword.length));
 
           var span = document.createElement("span");
-          span.className = highlight_class;
+          span.setAttribute('class',highlight_class);
           span.appendChild(match);
 
           parentNode.insertBefore(before, node);
@@ -57,7 +57,9 @@ var Search = (function(){
   }
 
   function next(step) {
-    step = direction * step * times();
+		if(!searchMode) return;
+
+    var offset = direction * step * times();
     var nodes = document.getElementsByClassName(highlight_class);
     if(nodes.length == 0) return false;
 
@@ -68,23 +70,25 @@ var Search = (function(){
       }
     }
 
-		i = (i + step) % nodes.length
-		while(i < 0) i +=	nodes.length;
+		i = (i + offset) % nodes.length
+		if (i < 0) i +=	nodes.length;
 
-    Debug('Search.next - size:' + nodes.length + ' selected:' + i + ' direction:' + direction + ' step:' + step);
+    Debug('Search.next - size:' + nodes.length + ' selected:' + i + ' direction:' + direction + ' offset:' + offset);
 
     if(nodes[i]){ // if undefined,then goto next
       nodes[i].setAttribute('id',highlight_current_id);
       // TODO only move if the node is invisible?
       nodes[i].scrollIntoView();
     }else{
-      next( step * direction);
+      next(step);
     }
   }
 
   function handleInput(e){
+		if(!searchMode) return;
+
     key = getKey(e);
-    if( ! /Shift|Enter/.test(key) ) remove(); // clear exist highlight before search
+    if( ! /Enter/.test(key) ) remove(); // clear exist highlight before search
 
     find(CmdLine.get().content);
     lastSearch = CmdLine.get().content;
@@ -94,47 +98,33 @@ var Search = (function(){
     searchMode = true;
     direction = backward ? -1 : 1 ;
 
-    CmdLine.set({title : 'SearchMode',pressUp : handleInput,content : lastSearch || ''});
+    CmdLine.set({
+			title   : backward ? 'Backward search: ?' : 'Forward search: /',
+			pressUp : handleInput,
+			content : lastSearch || ''
+	  });
   }
 
   function stop(){
+		if(!searchMode) return;
     searchMode = false;
     remove();
   }
 
-  function getSelectedValue() {
-    var value = window.getSelection().focusNode.data;
-    var range = window.getSelection().getRangeAt();
-    return value.substring(range.startOffset,range.endOffset);
+  function useSelectedValueAsKeyword() {
+    var value  = window.getSelection().focusNode.data;
+    var range  = window.getSelection().getRangeAt();
+    lastSearch = value.substring(range.startOffset,range.endOffset);
+		return lastSearch;
   }
 
   return {
     start    : start,
-    backward : function(){
-                 start(true);
-               },
-    stop     : function() {
-                 Debug('Search.stop - Mode ' + searchMode);
-                 if(!searchMode) return;
-                 stop();
-               },
-    prev     : function() {
-                 Debug('Search.prev - Mode ' + searchMode);
-                 if(!searchMode) return;
-                 next(-1);
-               },
-    next     : function() {
-                 Debug('Search.next - Mode ' + searchMode);
-                 if(!searchMode) return;
-                 next(1);
-               },
-    forwardCursor : function() {
-                      lastSearch = getSelectedValue();
-                      if(lastSearch){ start(); }
-                    },
-    backwardCursor : function() {
-                      lastSearch = getSelectedValue();
-                      if(lastSearch){ start(true); }
-                    },
+    stop     : stop,
+    backward : function() { start(true); },
+    prev     : function() { next(-1); },
+    next     : function() { next(1);  },
+    forwardCursor  : function() { if(useSelectedValueAsKeyword){ start(); } },
+    backwardCursor : function() { if(useSelectedValueAsKeyword){ start(true); } },
   }
 })()

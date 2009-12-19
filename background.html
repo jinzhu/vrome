@@ -85,8 +85,8 @@ chrome.extension.onConnect.addListener(function(port, name) {
         if(msg.index) { var index = msg.index; }
         if(msg.offset){
           var index = tab.index + msg.offset;
-          while(index > tabs.length){ index = index - tabs.length; }
-          while(index < 0){ index = index + tabs.length; }
+          index = index % tabs.length;
+          if (index < 0){ index = index + tabs.length; }
         }
         if(typeof index == 'undefined') index = tab.id;
         console.log("gotoTab:" + index + " index:" + msg.index + " offset:" + msg.offset);
