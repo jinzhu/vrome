@@ -1,7 +1,6 @@
 1, next/prev page pattern
 2, search Enter/S-Enter in other input box
-3, debug mode, open/close
-4, popup
+3, popup
   - open/close
   - add current url to disable sites
   - matched highlight
