@@ -23,11 +23,9 @@ var Url = (function(){
   function enter() {
     if(urlMode){
       var url = fixUrl(CmdLine.get().content);
+      Debug('Url.enter - url: ' + url + ' newtab:' + newTab);
 
-      Debug('Run UrlOpen Mode, Url: ' + url + ' NewTab:' + newTab);
-
-      var port = chrome.extension.connect();
-      port.postMessage({action: "open_url", url: url, newtab: newTab});
+      Post({action: "open_url", url: url, newtab: newTab});
 
       urlMode = false;
       CmdLine.remove();
