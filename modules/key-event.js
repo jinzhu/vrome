@@ -1,13 +1,31 @@
 var KeyEvent = (function(){
   var times = 0;
-  var disableVimlike;
-  var pass_next_key;
-  var last_current_keys;
-  var last_times;
+  var disableVimlike,pass_next_key,last_current_keys,last_times;
 
+  function init() {
+    document.addEventListener('keydown',KeyEvent.exec, false);
+  }
+
+  function returnTimes() {
+    var result = times;
+    times      = 0;
+    return result;
+  }
+
+  ///////////////////////////////////////////////////
+  // Last Commands
+  ///////////////////////////////////////////////////
   function setLast(opt){
     if(opt.currentKeys) last_current_keys = opt.currentKeys;
-    if(opt.times) last_times = opt.times;
+    if(opt.times)       last_times        = opt.times;
+  }
+
+  function storeLast(currentKeys,times){
+    var port = chrome.extension.connect();
+    port.postMessage({action: "storeLastCommand",currentKey : currentKeys,times: times});
+    last_current_keys = currentKeys;
+    last_times        = times;
+    Debug("KeyEvent.storeLast - currentKeys:" + currentKeys + " times:" + times);
   }
 
   function runLast(){
@@ -15,10 +33,7 @@ var KeyEvent = (function(){
     runCurrentKeys(last_current_keys);
     times = 0;
   }
-
-  function init() {
-    document.addEventListener('keydown',KeyEvent.exec, false);
-  }
+  ///////////////////////////////////////////////////
 
 	var keyId = {
 		"U+0008" : "BackSpace",
@@ -179,75 +194,64 @@ var KeyEvent = (function(){
 		}
 	}
 
-  function runCurrentKeys(keys,inputMode) {
-    Debug("KeyEvent.runCurrentKeys - keys:" + keys + " inputMode:" + inputMode + " times:" + times);
+  function runCurrentKeys(keys,insertMode) {
 		var matched = [];
 
 		binding : for(var i in bindings){
-      if(!!inputMode != bindings[i][2]) continue binding;
+      // in insertMode or not
+      if(!!insertMode != bindings[i][2]) continue binding;
 
+      // part matched bindings.
 			for(var j in keys){
 				if(keys[j] != bindings[i][0][j]) continue binding;
 			}
 			matched.push(bindings[i]);
 		}
 
-		// TODO notices matched functions, pass arguments
-    var exec_length = 0;
+    var exec = 0;
     for(var i in matched){
+      // execute those exactly matched bindings
 			if(matched[i][0].length == keys.length){
         matched[i][1].call();
-        exec_length++;
+        exec++;
 			}
 		}
-    Debug("KeyEvent.runCurrentKeys - matched:" + matched.length + " exec:" + exec_length + " times:" + times);
-    return {match: matched.length,exec : exec_length};
+
+    Debug("KeyEvent.runCurrentKeys - keys:" + keys + " insertMode:" + insertMode + " times:" + times + " matched:" + matched.length + " exec:" + exec);
+    return {match : matched.length, exec : exec};
   }
 
 	function exec(e){
-		key = getKey(e);
-    if(key == 'Esc') CmdLine.remove();
+		var key       = getKey(e);
+		var insertMode = /^INPUT|TEXTAREA$/.test(e.target.nodeName);
 		if(/^(Control|Alt|Shift)$/.test(key)) return;
+		currentKeys.push(key);
 
-    if(pass_next_key) {
-      pass_next_key = false;
-      reset();
-      return false;
-    }
+    if(key == 'Esc') CmdLine.remove();
 
-    var inputMode = /^INPUT|TEXTAREA$/.test(e.target.nodeName);
-		if(disableVimlike && !inputMode){
-			if(key == 'Esc'){ enable(); }
-			reset();
-			return false;
+    // if vimlike set disabled/pass the next, use Esc to enable it again.
+		if((pass_next_key || disableVimlike) && !insertMode){
+      if(key == 'Esc'){ enable(); }
+			return;
 		}
 
-		currentKeys.push(key);
-		Debug('KeyEvent.exec - handling key:' + currentKeys.join(', ') + " inputMode:" + inputMode);
+    // store current command before run
+    if(key != '.') storeLast(currentKeys,times);
 
-    var old_times = times;
-    var result = runCurrentKeys(currentKeys,inputMode);
-    if(result.exec > 0 && key != 'Enter' && !inputMode) e.preventDefault();
+    var result = runCurrentKeys(currentKeys,insertMode);
+    // if any command executed,and the key is not insertMode Enter (used to submit form)
+    if(result.exec > 0 && !(key == 'Enter' && insertMode)) e.preventDefault();
 
-    if(key != '.'){
-      var port = chrome.extension.connect();
-      port.postMessage({action: "storeLastCommand",currentKey : currentKeys,times: old_times});
-      last_current_keys = currentKeys;
-      last_times        = old_times;
-      Debug("KeyEvent.exec(storeLastCommand) - currentKeys:" + currentKeys + " times:" + old_times);
-    }
 
-    // Times
-    // reset times, if not in InsertMode,current key is not number,some func matched
-    if (!inputMode && /\d/.test(key)){
+    // not in insertMode,key is not number,some func matched,set time to 0
+    if (!insertMode && /\d/.test(key)){
       times = times * 10 + Number(key);
     }else{
       if(result.exec != 0) times = 0;
     }
-		Debug('KeyEvent.exec(times) - inputMode:' + inputMode + " Num:" + /\d/.test(key) + "Matched:" + result.exec + " times:" + times);
 
+    // all matched bindings has been executed,or the key is Esc.
 		if(result.match == result.exec || key == 'Esc'){ reset(); }
-    return false;
 	}
 
 	function reset(){
@@ -265,15 +269,15 @@ var KeyEvent = (function(){
   function enable() {
     Debug("KeyEvent.enable");
     disableVimlike = false;
+    pass_next_key  = false;
+    reset();
     var port = chrome.extension.connect();
     port.postMessage({action: "enable"});
   }
 
   function changeStatus(disableSite){
-    Debug("Before Status: " + disableVimlike);
     if(typeof disableVimlike == "undefined") disableVimlike = disableSite;
     disableVimlike ? disable() : enable();
-    Debug("After Status: " + disableVimlike);
   }
 
   function passNextKey(){
@@ -285,17 +289,16 @@ var KeyEvent = (function(){
     add     : add,
     exec    : exec,
     remove  : remove,
+
     getKey  : getKey,
+    init    : init,
+    times   : returnTimes,
+
     disable : disable,
     enable  : enable,
-    init    : init,
-    times   : function(){
-                var result = times;
-                times = 0;
-                return result;
-              },
     passNextKey    : passNextKey,
     changeStatus   : changeStatus,
+
     setLast : setLast,
     runLast : runLast,
   };
