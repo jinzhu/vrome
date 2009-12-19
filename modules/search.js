@@ -18,9 +18,11 @@ var Search = (function(){
     }
 
     if (node.nodeType == 3) { // text node
-      var key   = keyword.toUpperCase();
-      var text  = node.data.toUpperCase();
+      var caseSensitive = /[A-Z]/.test(keyword);
+      var key   = caseSensitive ? keyword   : keyword.toUpperCase();
+      var text  = caseSensitive ? node.data : node.data.toUpperCase();
       var index = text.indexOf(key);
+
       if (index != -1) {
         var parentNode = node.parentNode;
 
