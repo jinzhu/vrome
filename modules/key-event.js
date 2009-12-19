@@ -162,6 +162,29 @@ var KeyEvent = (function(){
 		}
 	}
 
+  function runCurrentKeys(keys,inputMode) {
+		var matched = [];
+
+		binding : for(var i in bindings){
+      if(inputMode != bindings[i][2]) continue binding;
+
+			for(var j in keys){
+				if(keys[j] != bindings[i][0][j]) continue binding;
+			}
+			matched.push(bindings[i]);
+		}
+
+		// TODO notices matched functions, pass arguments
+    var exec_length = 0;
+    for(var i in matched){
+			if(matched[i][0].length == keys.length){
+        matched[i][1].call();
+        exec_length++;
+			}
+		}
+    return {match: matched.length,exec : exec_length};
+  }
+
 	function exec(e){
 		key = getKey(e);
     if(key == 'Esc') CmdLine.remove();
@@ -183,38 +206,22 @@ var KeyEvent = (function(){
 		currentKeys.push(key);
 		Debug('KeyEvent.exec - handling key:' + currentKeys.join(', ') + " inputMode:" + inputMode);
 
-		var matched = [];
+    var port = chrome.extension.connect();
+    port.postMessage({action: "storeLastCommand",currentKey : currentKeys,times: times});
 
-		binding : for(var i in bindings){
-      if(inputMode != bindings[i][2]) continue binding;
-
-			for(var j in currentKeys){
-				if(currentKeys[j] != bindings[i][0][j]) continue binding;
-			}
-			matched.push(bindings[i]);
-		}
-
-		// TODO notices matched functions, pass arguments
-    var exec_length = 0;
-    for(var i in matched){
-			if(matched[i][0].length == currentKeys.length){
-        matched[i][1].call();
-        exec_length++;
-
-        if(key != 'Enter' && !inputMode) e.preventDefault();
-			}
-		}
+    var result = runCurrentKeys(currentKeys,inputMode);
+    if(result.exec > 0 && key != 'Enter' && !inputMode) e.preventDefault();
 
     // Times
     // reset times, if not in InsertMode,current key is not number,some func matched
-		Debug('KeyEvent.exec(times) - inputMode:' + inputMode + " Num:" + /\d/.test(key) + "Matched:" + exec_length);
+		Debug('KeyEvent.exec(times) - inputMode:' + inputMode + " Num:" + /\d/.test(key) + "Matched:" + result.exec);
     if (!inputMode && /\d/.test(key)){
       times = times * 10 + Number(key);
     }else{
-      if(exec_length != 0) times = 0;
+      if(result.exec != 0) times = 0;
     }
 
-		if(matched.length == exec_length || key == 'Esc'){ reset(); }
+		if(result.match == result.exec || key == 'Esc'){ reset(); }
     return false;
 	}
 
