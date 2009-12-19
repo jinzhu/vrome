@@ -8,8 +8,6 @@ gh    goto home page
 
 .                Run last command(s)?
 
-[count] gt/T     next/prev tab
-
 # ?
 gf    View source
 Move Tab

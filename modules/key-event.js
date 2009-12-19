@@ -181,7 +181,7 @@ var KeyEvent = (function(){
 		}
 
 		currentKeys.push(key);
-		Debug('handling key: ' + currentKeys.join(', ') + " inputMode:" + inputMode);
+		Debug('KeyEvent.exec - handling key:' + currentKeys.join(', ') + " inputMode:" + inputMode);
 
 		var matched = [];
 
@@ -206,7 +206,13 @@ var KeyEvent = (function(){
 		}
 
     // Times
-    times = (!inputMode && /\d/.test(key)) ? (times * 10 + Number(key)) : 0;
+    // reset times, if not in InsertMode,current key is not number,some func matched
+		Debug('KeyEvent.exec(times) - inputMode:' + inputMode + " Num:" + /\d/.test(key) + "Matched:" + exec_length);
+    if (!inputMode && /\d/.test(key)){
+      times = times * 10 + Number(key);
+    }else{
+      if(exec_length != 0) times = 0;
+    }
 
 		if(matched.length == exec_length || key == 'Esc'){ reset(); }
     return false;
