@@ -115,9 +115,9 @@ chrome.extension.onConnect.addListener(function(port, name) {
         chrome.tabs.update(tab.id, {url: msg.url});
       }
       break;
-    case "storeLastCommand":
+    case "setLastCommand":
       localStorage.currentKeys = msg.currentKey.join(' ');
-      localStorage.times       = msg.currentKey.join(' ');
+      localStorage.times       = msg.times;
       break;
     };
   });

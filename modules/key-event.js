@@ -7,25 +7,20 @@ var KeyEvent = (function(){
   }
 
   function returnTimes(/*Boolean*/ read) {
-    var result = times;
+    var old_times = times;
     if(!read) times = 0; // only read.
-    return result;
+    return old_times;
   }
 
   ///////////////////////////////////////////////////
   // Last Commands
   ///////////////////////////////////////////////////
-  function setLast(opt){
-    if(opt.currentKeys) last_current_keys = opt.currentKeys;
-    if(opt.times)       last_times        = opt.times;
-  }
-
-  function storeLast(currentKeys,times){
-    var port = chrome.extension.connect();
-    port.postMessage({action: "storeLastCommand",currentKey : currentKeys,times: times});
+  function setLast(/*Array*/ currentKeys,/*Number*/ times){
+    times = times || 0;
+    Post({action : "setLastCommand",currentKey : currentKeys,times : times });
     last_current_keys = currentKeys;
     last_times        = times;
-    Debug("KeyEvent.storeLast - currentKeys:" + currentKeys + " times:" + times);
+    Debug("KeyEvent.setLast - currentKeys:" + currentKeys + " times:" + times);
   }
 
   function runLast(){
@@ -33,8 +28,8 @@ var KeyEvent = (function(){
     runCurrentKeys(last_current_keys);
     times = 0;
   }
-  ///////////////////////////////////////////////////
 
+  ///////////////////////////////////////////////////
 	var bindings    = [];
 	var currentKeys = [];
 
@@ -51,14 +46,14 @@ var KeyEvent = (function(){
   function passNextKey(){
 		CmdLine.set({title : ' -- PASS NEXT KEY -- ',timeout : 2000 });
     pass_next_key  = true;
+    Post({action : "disable"})
   }
 
 	function disable(){
     Debug("KeyEvent.disable");
 		CmdLine.set({title : ' -- PASS THROUGH -- ' });
     disableVimlike = true;
-    var port = chrome.extension.connect();
-    port.postMessage({action: "disable"});
+    Post({action : "disable"})
 	}
 
   function enable() {
@@ -66,21 +61,22 @@ var KeyEvent = (function(){
     disableVimlike = false;
     pass_next_key  = false;
     reset();
-    var port = chrome.extension.connect();
-    port.postMessage({action: "enable"});
+    Post({action : "enable"})
   }
 
   function changeStatus(disableSite){
     if(typeof disableVimlike == "undefined") disableVimlike = disableSite;
     disableVimlike ? disable() : enable();
   }
-  ///////////////////////////////////////////////////
 
-  function runCurrentKeys(keys,insertMode) {
+  ///////////////////////////////////////////////////
+  function runCurrentKeys(keys, insertMode, key) {
+    var old_times = times;
+
 		var matched = [];
 
 		binding : for(var i in bindings){
-      // in insertMode or not
+      // insertMode or not
       if(!!insertMode != bindings[i][2]) continue binding;
 
       // part matched bindings.
@@ -90,50 +86,49 @@ var KeyEvent = (function(){
 			matched.push(bindings[i]);
 		}
 
-    var exec = 0;
+    var exec_length = 0;
     for(var i in matched){
       // execute those exactly matched bindings
 			if(matched[i][0].length == keys.length){
         matched[i][1].call();
-        exec++;
+        exec_length++;
 			}
 		}
 
-    Debug("KeyEvent.runCurrentKeys - keys:" + keys + " insertMode:" + insertMode + " times:" + times + " matched:" + matched.length + " exec:" + exec);
-    return {match : matched.length, exec : exec};
+    Debug("KeyEvent.runCurrentKeys - keys:" + keys + " insertMode:" + insertMode + " times:" + times + " matched:" + matched.length + " exec:" + exec_length);
+
+    // store current command before run
+    if(exec_length > 0 && key != '.' && !insertMode) setLast(keys,old_times);
+
+    // if currentMode is not insertMode,and the key is a number,update times.
+    if (!insertMode && /\d/.test(key)){
+      times = times * 10 + Number(key);
+    }else{
+      // no function executed and there must be a key pressed, keep times don't change
+      // no key perssed means,this function invoked by run last command.
+      if(exec_length != 0 && key) times = 0;
+    }
+
+    // reset if all matched bindings has been executed,or the key is Esc,or no key
+		if(matched.length == exec_length || key == 'Esc' || !key){ reset(); }
+
+    // if any command executed,and the key is not Enter in insertMode (submit form)
+    return (exec_length > 0 && !(key == 'Enter' && insertMode));
   }
 
-	function exec(e){
+	function exec(e) {
 		var key        = getKey(e);
 		var insertMode = /^INPUT|TEXTAREA$/.test(e.target.nodeName);
 		if(/^(Control|Alt|Shift)$/.test(key)) return;
 		currentKeys.push(key);
 
-    if(key == 'Esc') CmdLine.remove();
-
     // if vimlike set disabled/pass the next, use Esc to enable it again.
-		if((pass_next_key || disableVimlike) && !insertMode){
-      if(key == 'Esc'){ enable(); }
+		if ((pass_next_key || disableVimlike) && !insertMode) {
+      if (pass_next_key || key == 'Esc') { enable(); }
 			return;
 		}
 
-    // store current command before run
-    if(key != '.') storeLast(currentKeys,times);
-
-    var result = runCurrentKeys(currentKeys,insertMode);
-    // if any command executed,and the key is not insertMode Enter (used to submit form)
-    if(result.exec > 0 && !(key == 'Enter' && insertMode)) e.preventDefault();
-
-
-    // not in insertMode,key is not number,some func matched,set time to 0
-    if (!insertMode && /\d/.test(key)){
-      times = times * 10 + Number(key);
-    }else{
-      if(result.exec != 0) times = 0;
-    }
-
-    // all matched bindings has been executed,or the key is Esc.
-		if(result.match == result.exec || key == 'Esc'){ reset(); }
+    if (runCurrentKeys(currentKeys,insertMode,key)) e.preventDefault();
 	}
 
 	return {
@@ -144,7 +139,6 @@ var KeyEvent = (function(){
     times   : function(/*Boolean*/ read){ return returnTimes(read) },
 
     disable : disable,
-    enable  : enable,
     passNextKey    : passNextKey,
     changeStatus   : changeStatus,
 

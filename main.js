@@ -85,6 +85,10 @@ with(KeyEvent) {
   add(['C-i'], History.forward );
 
 
+  // CmdLine
+  add(['Esc'], CmdLine.remove     );
+  add(['Esc'], CmdLine.remove,true);
+
   // Hint
   add(['f']  , Hint.start         );
   add(['F']  , Hint.new_tab_start );
@@ -177,7 +181,7 @@ chrome.extension.onConnect.addListener(function(port) {
     case "changeStatus":
       Debug("changeStatus - listener:" + msg.disable);
       runIt(KeyEvent.changeStatus, [msg.disable]);
-      KeyEvent.setLast({currentKeys : msg.currentKeys, times : msg.times})
+      KeyEvent.setLast(msg.currentKeys, msg.times);
       break;
     }
   });
