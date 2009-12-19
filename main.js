@@ -5,8 +5,8 @@ var times = function(/*Boolean*/ read) {
 };
 
 var Post = function(msg){
-    var port = chrome.extension.connect();
-    port.postMessage(msg);
+  var port = chrome.extension.connect();
+  port.postMessage(msg);
 }
 
 with(KeyEvent) {

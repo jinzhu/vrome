@@ -1,5 +1,11 @@
 1, next/prev page pattern
-2, search keyword case sensitive
+2, search keyword case sensitive / Enter S-Enter in other input box
+3, debug mode, open/close
+4, popup
+  - open/close
+  - add current url to disable sites
+  - matched highlight
+  - chinese pinyin - whole / single / none
 
 # Tabs
 p     Open (put) a URL based on the current clipboard contents in a new buffer

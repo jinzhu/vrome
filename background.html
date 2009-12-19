@@ -69,7 +69,9 @@ chrome.extension.onConnect.addListener(function(port, name) {
       chrome.browserAction.setTitle({title:"Vimlike (disabled)"});
       break;
 
+    //////////////////////////////////////////////////
     // Tab
+    //////////////////////////////////////////////////
     case "closeTab":
       chrome.tabs.remove(tab.id);
       break;
@@ -108,15 +110,17 @@ chrome.extension.onConnect.addListener(function(port, name) {
         }
       });
       break;
+    //////////////////////////////////////////////////
+
     case "open_url":
       if (msg.newtab) { 
         chrome.tabs.create({url: msg.url, index: tab.index + 1});
-        var myport = chrome.tabs.connect(tab.id, {});
-        myport.postMessage({action: "remove_hints"});
       } else {
         chrome.tabs.update(tab.id, {url: msg.url});
       }
       break;
+
+    //////////////////////////////////////////////////
     case "setLastCommand":
       localStorage.currentKeys = msg.currentKey.join(' ');
       localStorage.times       = msg.times;
