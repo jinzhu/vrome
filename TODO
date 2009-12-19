@@ -1,3 +1,5 @@
+next/prev page pattern
+
 # Tabs
 p     Open (put) a URL based on the current clipboard contents in a new buffer
 ~     Open home directory

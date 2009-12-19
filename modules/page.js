@@ -1,7 +1,3 @@
-/**
- * Page
- */
-
 var Page = (function(){
 
 	function execMatch(regexps){
@@ -15,7 +11,6 @@ var Page = (function(){
 		}
 	}
 
-  // Public API
 	return {
 		next : function(){
 			execMatch(['(下|后)一页','^\\s*Next\\s*$','^>$','^More$','(^(>>|››|»))|((»|››|>>)$)']);
