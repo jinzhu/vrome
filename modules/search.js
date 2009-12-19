@@ -57,7 +57,7 @@ var Search = (function(){
   }
 
   function next(step) {
-    step = direction * step;
+    step = direction * step * times();
     var nodes = document.getElementsByClassName(highlight_class);
     if(nodes.length == 0) return false;
 
@@ -68,11 +68,8 @@ var Search = (function(){
       }
     }
 
-    if(step == 1){
-      i == nodes.length ? (i = 0) : i++ ;
-    }else{
-      i == 0 ? (i = nodes.length - 1) : i-- ;
-    }
+		i = (i + step) % nodes.length
+		while(i < 0) i +=	nodes.length;
 
     Debug('Search.next - size:' + nodes.length + ' selected:' + i + ' direction:' + direction + ' step:' + step);
 
