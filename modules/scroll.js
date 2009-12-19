@@ -1,6 +1,3 @@
-/**
- * Zoom
- */
 var Scroll = (function(){
 	var vertical_moment   = 30;
 	var horizontal_moment = 30;
@@ -21,6 +18,6 @@ var Scroll = (function(){
     nextHalfPage : function(){ scrollBy(0,times() * window.innerHeight/2);},
     prevHalfPage : function(){ scrollBy(0,times() * -window.innerHeight/2);},
 
-    toPercent : function(){ scrollTo(0,times() * document.height / 100); },
+    toPercent : function(){ scrollTo(scrollX,times() * document.height / 100); },
 	}
 })()
