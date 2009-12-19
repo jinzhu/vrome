@@ -3,6 +3,7 @@
  */
 
 var Tab = (function(){
+
   function yankUrl(/*Boolean*/ copy) {
 		if(copy){
 			Clipboard.copy(document.location);
@@ -17,44 +18,25 @@ var Tab = (function(){
   }
 
   function reloadAll() {
-    var port = chrome.extension.connect();
-    port.postMessage({action: "reload_all_tabs"});
+		Post({action: "reloadAllTabs"});
 	}
 
   function close() {
-    var port = chrome.extension.connect();
-    port.postMessage({action: "close_tab"});
+		Post({action: "closeTab"});
   }
 
   function reopen() {
-		var port = chrome.extension.connect();
-		port.postMessage({action: "reopen_tab"});
+		Post({action: "reopenTab"});
 	}
 
-  function prev() {
-		var port = chrome.extension.connect();
-		port.postMessage({action: "previous_tab",num : times()});
-	}
-
-  function next() {
-		var port = chrome.extension.connect();
-		port.postMessage({action: "next_tab",num : times()});
-	}
-
-  function first() {
-		var port = chrome.extension.connect();
-		port.postMessage({action: "first_tab"});
-	}
-
-  function last() {
-		var port = chrome.extension.connect();
-		port.postMessage({action: "last_tab"});
-	}
-
-  function last_selected() {
-		var port = chrome.extension.connect();
-		port.postMessage({action: "last_selected_tab"});
+  function lastSelected() {
+		Post({action: "lastSelectedTab"});
   }
+
+  function prev()  { Post({action: "gotoTab",offset : -1 * times()}); }
+  function next()  { Post({action: "gotoTab",offset : times()}); }
+  function first() { Post({action: "gotoTab",index  :	1}); }
+  function last()  { Post({action: "gotoTab",index : -1}); }
 
 	return {
     yankUrl   : yankUrl  ,
@@ -67,6 +49,6 @@ var Tab = (function(){
     next      : next     ,
     first     : first    ,
     last      : last     ,
-    last_selected : last_selected,
+    lastSelected : lastSelected,
 	}
 })()

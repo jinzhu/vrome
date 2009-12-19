@@ -6,6 +6,7 @@ var now_tab;
 var last_selected_tab;
 
 function changeStatus(tab){
+  if(!tab.id) return;
   var port = chrome.tabs.connect(tab.id, {});
   var disable_sites = (localStorage.disableSites || '').split(' ');
 
@@ -67,47 +68,42 @@ chrome.extension.onConnect.addListener(function(port, name) {
       chrome.browserAction.setIcon({path: 'icons/logo-disable.png'});
       chrome.browserAction.setTitle({title:"Vimlike (disabled)"});
       break;
-    case "close_tab":
+
+    // Tab
+    case "closeTab":
       chrome.tabs.remove(tab.id);
       break;
-    case "reopen_tab":
+    case "reopenTab":
       if (closed_tabs.length > 0) {
         var last_closed_tab = closed_tabs[closed_tabs.length - 1]
         closed_tabs.pop();
         chrome.tabs.create({url: last_closed_tab.url, index: last_closed_tab.index});
       }
       break;
-    case "previous_tab":
+    case "gotoTab":
       chrome.tabs.getAllInWindow(tab.windowId, function(tabs) {
-        var previous_tab = tabs[tab.index - msg.num] || tabs[tabs.length - 1];
-        if (previous_tab) {
-          chrome.tabs.update(previous_tab.id, {selected: true});
+        if(msg.index) { var index = msg.index; }
+        if(msg.offset){
+          var index = tab.index + msg.offset;
+          while(index > tabs.length){ index = index - tabs.length; }
+          while(index < 0){ index = index + tabs.length; }
         }
+        if(typeof index == 'undefined') index = tab.id;
+        console.log("gotoTab:" + index + " index:" + msg.index + " offset:" + msg.offset);
+        if(tabs[index]){ chrome.tabs.update(tabs[index].id, {selected: true}); }
       });
       break;
-    case "next_tab":
-      chrome.tabs.getAllInWindow(tab.windowId, function(tabs) {
-        var next_tab = tabs[tab.index + msg.num] || tabs[0];
-        if (next_tab) {
-          chrome.tabs.update(next_tab.id, {selected: true});
-        }
-      });
-      break;
-    case "first_tab":
-      chrome.tabs.getAllInWindow(tab.windowId, function(tabs) {
-        var first_tab = tabs[0];
-        chrome.tabs.update(first_tab.id, {selected: true});
-      });
-      break;
-    case "last_tab":
-      chrome.tabs.getAllInWindow(tab.windowId, function(tabs) {
-        var last_tab = tabs[tabs.length - 1];
-        chrome.tabs.update(last_tab.id, {selected: true});
-      });
-      break;
-    case "last_selected_tab":
+    case "lastSelectedTab":
       chrome.tabs.getAllInWindow(tab.windowId, function(tabs) {
         chrome.tabs.update(last_selected_tab.id, {selected: true});
+      });
+      break;
+    case "reloadAllTabs":
+      chrome.tabs.getAllInWindow(tab.windowId, function(tabs) {
+        for (var i = 0; i < tabs.length; i++) {
+          var jsRunner = {"code": "document.location.reload()"};
+          chrome.tabs.executeScript(tabs[i].id, jsRunner);
+        }
       });
       break;
     case "open_url":
@@ -118,14 +114,6 @@ chrome.extension.onConnect.addListener(function(port, name) {
       } else {
         chrome.tabs.update(tab.id, {url: msg.url});
       }
-      break;
-    case "reload_all_tabs":
-      chrome.tabs.getAllInWindow(tab.windowId, function(tabs) {
-        for (var i = 0; i < tabs.length; i++) {
-          var jsRunner = {"code": "location.reload()"};
-          chrome.tabs.executeScript(tabs[i].id, jsRunner);
-        }
-      });
       break;
     case "storeLastCommand":
       localStorage.currentKeys = msg.currentKey.join(' ');

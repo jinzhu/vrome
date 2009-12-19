@@ -4,6 +4,11 @@ var times = function() {
   return time;
 };
 
+var Post = function(msg){
+    var port = chrome.extension.connect();
+    port.postMessage(msg);
+}
+
 with(KeyEvent) {
   // Zoom
   add(['z', 'i'], Zoom['in']  );
@@ -69,8 +74,8 @@ with(KeyEvent) {
   add(['g','0'], Tab.first   );
   add(['g','^'], Tab.first   );
   add(['g','$'], Tab.last    );
-  add(['C-6'], Tab.last_selected );
-  add(['C-^'], Tab.last_selected );
+  add(['C-6'], Tab.lastSelected );
+  add(['C-^'], Tab.lastSelected );
 
 
   // History

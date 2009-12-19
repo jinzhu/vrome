@@ -44,14 +44,6 @@ var CmdLine = (function(){
     return document.getElementById(input_box_id);
   }
 
-  function remove(){
-		pressUpFunction   = function(){};
-		pressDownFunction = function(){};
-    enterFunction     = function(){};
-    var box = document.getElementById(box_id);
-    if(box) document.body.removeChild(box);
-  }
-
   function set(opt){
     if(opt.title)
       cmdBox().firstChild ? cmdBox().firstChild.data = opt.title : cmdBox().innerHTML = opt.title;
@@ -76,6 +68,14 @@ var CmdLine = (function(){
       title   : cmdBoxExist ? cmdBox().firstChild.data : '',
       content : inputBoxExist ? inputBox().value       : '',
     };
+  }
+
+  function remove(){
+		pressUpFunction   = function(){};
+		pressDownFunction = function(){};
+    enterFunction     = function(){};
+    var box = document.getElementById(box_id);
+    if(box) document.body.removeChild(box);
   }
 
   return { set : set, get : get, remove : remove };
