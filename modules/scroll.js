@@ -11,18 +11,16 @@ var Scroll = (function(){
 	  first    : function(){ scrollTo(0, scrollY);                 },
 	  last     : function(){ scrollTo(document.width, scrollY);    },
 
-	  up       : function(){ scrollBy(0,-vertical_moment);   },
-	  down     : function(){ scrollBy(0, vertical_moment);   },
-	  left     : function(){ scrollBy(-horizontal_moment,0); },
-	  right    : function(){ scrollBy( horizontal_moment,0); },
+	  up       : function(){ scrollBy(0,times() * -vertical_moment);   },
+	  down     : function(){ scrollBy(0,times() * vertical_moment);   },
+	  left     : function(){ scrollBy(times() * -horizontal_moment,0); },
+	  right    : function(){ scrollBy(times() * horizontal_moment,0); },
 
-		nextPage : function(){ scrollBy(0, window.innerHeight*0.95); },
-		prevPage : function(){ scrollBy(0,-window.innerHeight*0.95); },
-    nextHalfPage : function(){ scrollBy(0, window.innerHeight/2);},
-    prevHalfPage : function(){ scrollBy(0,-window.innerHeight/2);},
+		nextPage : function(){ scrollBy(0,times() * window.innerHeight*0.95); },
+		prevPage : function(){ scrollBy(0,times() * -window.innerHeight*0.95); },
+    nextHalfPage : function(){ scrollBy(0,times() * window.innerHeight/2);},
+    prevHalfPage : function(){ scrollBy(0,times() * -window.innerHeight/2);},
 
-    toPercent : function(){
-      scrollTo(0, KeyEvent.times() * document.height / 100);
-    },
+    toPercent : function(){ scrollTo(0,times() * document.height / 100); },
 	}
 })()

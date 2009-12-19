@@ -1,3 +1,5 @@
+var times = function() { return KeyEvent.times(); };
+
 with(KeyEvent) {
   // Zoom
   add(['z', 'i'], Zoom['in']  );

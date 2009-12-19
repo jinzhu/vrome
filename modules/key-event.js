@@ -198,11 +198,7 @@ var KeyEvent = (function(){
     var exec_length = 0;
     for(var i in matched){
 			if(matched[i][0].length == currentKeys.length){
-        var exec_time = (times > 0 && key != '%') ? times : 1;
-        Debug('Invoke ' + exec_time + ' Times');
-        for(var t = 0; t < exec_time; t++) {
-          matched[i][1].call();
-        }
+        matched[i][1].call();
         exec_length++;
 
         if(key != 'Enter' && !inputMode) e.preventDefault();
@@ -217,13 +213,11 @@ var KeyEvent = (function(){
 	}
 
 	function reset(){
-    times = 0;
 		currentKeys = [];
 	}
 
 	function disable(){
     Debug("KeyEvent.disable");
-
 		CmdLine.set({title : ' -- PASS THROUGH -- ' });
     disableVimlike = true;
     var port = chrome.extension.connect();
@@ -232,7 +226,6 @@ var KeyEvent = (function(){
 
   function enable() {
     Debug("KeyEvent.enable");
-
     disableVimlike = false;
     var port = chrome.extension.connect();
     port.postMessage({action: "enable"});
@@ -258,7 +251,12 @@ var KeyEvent = (function(){
     disable : disable,
     enable  : enable,
     init    : init,
-    times   : function(){ return times; },
+    times   : function(){
+                var result = times || 1;
+                times = 0;
+                Debug('KeyEvent.times:' + result);
+                return result;
+              },
     passNextKey    : passNextKey,
     changeStatus   : changeStatus,
   };
