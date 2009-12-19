@@ -167,31 +167,9 @@ var KeyEvent = (function(){
 	var bindings    = [];
 	var currentKeys = [];
 
-	function sameArray(x, y) {
-		if(!(x instanceof Array && y instanceof Array)) return false;
-
-		var len = 0;
-		for(var i in x) {
-			if(x[i] instanceof Array){
-				if(!sameArray(x[i],y[i])) return false;
-			}else{
-				if(x[i] != y[i]) return false;
-			}
-			len++;
-		}
-		return y.length == len;
-	}
-
 	function add(/*Array*/ keys,/*Function*/ fun,/*Boolean*/ input){
 		if(typeof keys == 'string'){ keys = Array(keys); }
 		bindings.push([keys,fun,!!input]);
-	}
-
-	function remove(/*Array*/ keys,/*Function*/ fun,/*Boolean*/ input){
-		if(typeof keys == 'string'){ keys = Array(keys); }
-		for(var i in bindings){
-			if(sameArray(bindings[i],[keys,fun,!!input])) return bindings.splice(i,1);
-		}
 	}
 
   function runCurrentKeys(keys,insertMode) {
