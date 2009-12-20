@@ -56,6 +56,7 @@ var KeyEvent = (function(){
 
   function enable() {
     Debug("KeyEvent.enable");
+    CmdLine.remove();
     disableVimlike = false;
     pass_next_key  = false;
     reset();
