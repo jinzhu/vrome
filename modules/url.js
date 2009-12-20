@@ -13,7 +13,7 @@ var Url = (function(){
   }
 
   function fixUrl(url) {
-    var url = url.split(/ , /);
+    var url = url.split(/, /);
     var urls = [];
     for(var i = 0; i< url.length; i++){
       if(/\./.test(url[i]) && !/\s/.test(url[i])){
