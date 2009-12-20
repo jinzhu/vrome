@@ -37,6 +37,18 @@ http://github.com/jinzhu/vimlike-smooziee/raw/master/vimlike-smooziee.crx
 [[    Prev Page
 
 
+### Url
+[count]C-a    Increment last number in URL
+[count]C-x    Decrement last number in URL
+[count]gu     Go to the parent directory.
+gU     Go to the root of the web site.
+
+o      Open one or more URLs in the current tab,multiple urls can be separated with ", " Note that the space after the comma is required.
+O      Show an :open prompt containing the current URL.
+t      Just like :open but also uses a new tab for the first URL.
+T      Show an :tabopen prompt containing the current URL.
+
+
 ### Scroll
 gg    scroll to top
 G     scroll to bottom 
@@ -93,11 +105,6 @@ S-Enter    prev search result ( in input box )
 gi         focus the first input box in the current page
 C-z        disable vimlike temporary
 C-v        pass through next key
-
-[count]C-a    Increment last number in URL
-[count]C-x    Decrement last number in URL
-[count]gu     Go to the parent directory.
-gU     Go to the root of the web site.
 
 
 ### Insert Mode

@@ -13,19 +13,24 @@ var Url = (function(){
   }
 
   function fixUrl(url) {
-    if(/\./.test(url) && !/\s/.test(url)){
-      return (new RegExp('://','im').test(url) ? "" : "http://") + url
-    }else{
-      return "http://www.google.com/search?q=" + url;
+    var url = url.split(/ , /);
+    var urls = [];
+    for(var i = 0; i< url.length; i++){
+      if(/\./.test(url[i]) && !/\s/.test(url[i])){
+        urls[urls.length] = (new RegExp('://','im').test(url[i]) ? "" : "http://") + url[i]
+      }else{
+        urls[urls.length] = "http://www.google.com/search?q=" + url[i];
+      }
     }
+    return urls;
   }
 
   function enter() {
     if(urlMode){
-      var url = fixUrl(CmdLine.get().content);
-      Debug('Url.enter - url: ' + url + ' newtab:' + newTab);
+      var urls = fixUrl(CmdLine.get().content);
+      Debug('Url.enter - urls: ' + urls + ' newtab:' + newTab);
 
-      Post({action: "open_url", url: url, newtab: newTab});
+      Post({action: "open_url", urls: urls, newtab: newTab});
 
       urlMode = false;
       CmdLine.remove();
