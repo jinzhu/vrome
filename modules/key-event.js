@@ -24,7 +24,7 @@ var KeyEvent = (function(){
   }
 
   function runLast(){
-    times = last_times;
+    times = last_times || 0;
     runCurrentKeys(last_current_keys);
     times = 0;
   }
@@ -95,14 +95,14 @@ var KeyEvent = (function(){
 			}
 		}
 
-    Debug("KeyEvent.runCurrentKeys - keys:" + keys + " insertMode:" + insertMode + " times:" + times + " matched:" + matched.length + " exec:" + exec_length);
+    Debug("KeyEvent.runCurrentKeys - keys:" + keys + " insertMode:" + insertMode + " times:" + old_times + " matched:" + matched.length + " exec:" + exec_length);
 
     // store current command before run
     if(exec_length > 0 && key != '.' && !insertMode) setLast(keys,old_times);
 
     // if currentMode is not insertMode,and the key is a number,update times.
     if (!insertMode && /\d/.test(key)){
-      times = times * 10 + Number(key);
+      times = (times || 0) * 10 + Number(key);
     }else{
       // no function executed and there must be a key pressed, keep times don't change
       // no key perssed means,this function invoked by run last command.

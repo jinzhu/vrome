@@ -46,11 +46,14 @@ function runIt(func,args){
   if(document.body){
     for(var i in initFunction){
       func = initFunction.shift();
-      Debug("RunIt:" + func);
       if(func instanceof Function){
+				Debug("RunIt:" + func);
         func.call();
       }else{
-        if(func[0] instanceof Function) func[0].apply('',func[1]);
+				if(func[0] instanceof Function){
+					Debug("RunIt:" + func);
+					func[0].apply('',func[1]);
+				}
       }
     }
   }else{

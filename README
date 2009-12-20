@@ -19,17 +19,17 @@ http://github.com/jinzhu/vimlike-smooziee/raw/master/vimlike-smooziee.crx
 ######## Features Of The Beta Version
 
 ### Zoom
-zi    zoom in
-zo    zoom out
-zm    zoom more
-zr    zoom reduce
-zz    zoom reset
+[count]zi  zoom in
+[count]zo  zoom out
+[count]zm  zoom more
+[count]zr  zoom reduce
+[count]zz  zoom reset
 
-zI    Enlarge full zoom of current web page. Mnemonic: zoom in.
-zM    Enlarge full zoom of current web page by a larger amount. Mnemonic: zoom more.
-zO    Reduce full zoom of current web page. Mnemonic: zoom out.
-zR    Reduce full zoom of current web page by a larger amount. Mnemonic: zoom reduce.
-zZ    Set full zoom value of current web page to 100%.
+[count]zI  Enlarge full zoom of current web page. Mnemonic: zoom in.
+[count]zM  Enlarge full zoom of current web page by a larger amount. Mnemonic: zoom more.
+[count]zO  Reduce full zoom of current web page. Mnemonic: zoom out.
+[count]zR  Reduce full zoom of current web page by a larger amount.Mnemonic: zoom reduce.
+[count]zZ  Set full zoom value of current web page to 100%.
 
 
 ### Page

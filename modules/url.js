@@ -33,19 +33,23 @@ var Url = (function(){
   }
 
   function parent() {
-    if(location.pathname == '/'){
-      var segments = location.hostname.split('.');
-      if (segments.length > 2) {
-        segments.shift();
-        var hostname = segments.join('.');
-      }
-    }else{
-      var segments = location.pathname.split('/');
-      if( !segments.splice(segments.length - 1, 1)[0] ) segments.splice(segments.length - 1, 1);
-      var pathname = segments.join('/');
-    }
+		var pathname = location.pathname.split('/');
+		var hostname = location.hostname.split('.');
+		var count 	 = times();
 
-    location.href = location.protocol + '//' + (hostname || location.hostname) + (location.port ? (':' + location.port) : '') + (pathname || location.pathname);
+		for(var i = 0; i < count; i++){
+			if(pathname.length <= 1){
+				if ( hostname.length > 2) { hostname.shift(); }
+			}else{
+				if (!pathname.pop()) !pathname.pop();
+			}
+		}
+
+		hostname = hostname.join('.');
+		pathname = pathname.join('/');
+
+		var url = location.protocol + '//' + hostname + (location.port ? (':' + location.port) : '') + pathname;
+		Post({action: "open_url", url: url});
   }
 
   function root() {
@@ -54,12 +58,12 @@ var Url = (function(){
 
   function increment() {
    if(/^(.*?)(\d+)([^\d]*)$/.test(document.location.href))
-      document.location.href = RegExp.$1 + (Number(RegExp.$2) + 1) + RegExp.$3;
+			Post({action: "open_url", url: RegExp.$1 + (Number(RegExp.$2) + 1) + RegExp.$3});
   }
 
   function decrement() {
    if(/^(.*?)(\d+)([^\d]*)$/.test(document.location.href))
-      document.location.href = RegExp.$1 + (Number(RegExp.$2) - 1) + RegExp.$3;
+			Post({action: "open_url", url: RegExp.$1 + (Number(RegExp.$2) - 1) + RegExp.$3});
   }
 
   return {
