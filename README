@@ -1,22 +1,8 @@
 ==============================
- Vimlike Smooziee
+ Vimlike Smooziee  -- http://github.com/jinzhu/vimlike-smooziee
 ==============================
 
-THE BETA README FOR THE BETA VERSION.
-
-the beta version has much more features, under very hot development, maybe it's not stable enough. but I will try to keep the code stable, because I use the beta version every day ;)
-
---
-you can install the beta version from here.
-http://github.com/jinzhu/vimlike-smooziee/raw/next/vimlike-smooziee.crx
-
-( but it's won't be auto updated,so maybe you need to install it by youself after every time I commited if you want to always keep it up to date. )
-
-you can install the `more stable version/auto updated version/less features version` from here.
-http://github.com/jinzhu/vimlike-smooziee/raw/master/vimlike-smooziee.crx
----
-
-######## Features Of The Beta Version
+######## Features
 
 ### Zoom
 [count]zi  zoom in
@@ -33,8 +19,8 @@ http://github.com/jinzhu/vimlike-smooziee/raw/master/vimlike-smooziee.crx
 
 
 ### Page
-]]    Next Page
-[[    Prev Page
+]]    next page
+[[    prev page
 Y     copy selected text
 
 
@@ -124,4 +110,9 @@ C-h    delete backward char
 C-w    delete backward word
 
 ---
-feel free to email me ask some questions/ report bugs/ request features about vimlike. `wosmvp@gmail.com`
+feel free to concact me to ask questions/ report bugs/ request features about vimlike.
+
+You can find me here,
+  http://github.com/jinzhu
+  wosmvp@gmail.com
+  http://twitter.com/zhangjinzhu
