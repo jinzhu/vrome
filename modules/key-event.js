@@ -24,9 +24,7 @@ var KeyEvent = (function(){
   }
 
   function runLast(){
-    times = last_times || 0;
     runCurrentKeys(last_current_keys);
-    times = 0;
   }
 
   ///////////////////////////////////////////////////
@@ -71,7 +69,14 @@ var KeyEvent = (function(){
 
   ///////////////////////////////////////////////////
   function runCurrentKeys(keys, insertMode, key) {
-    var old_times = times;
+		// run last command
+    if(key == '.' && !insertMode){
+			var old_times = last_times;
+			times = (last_times || 1) * (times || 1);
+		// some key pressed
+		}else if(key && !insertMode){
+			var old_times = times;
+		}
 
 		var matched = [];
 
@@ -97,15 +102,15 @@ var KeyEvent = (function(){
 
     Debug("KeyEvent.runCurrentKeys - keys:" + keys + " insertMode:" + insertMode + " times:" + old_times + " matched:" + matched.length + " exec:" + exec_length);
 
-    // store current command before run
+    // store current command
     if(exec_length > 0 && key != '.' && !insertMode) setLast(keys,old_times);
 
     // if currentMode is not insertMode,and the key is a number,update times.
     if (!insertMode && /\d/.test(key)){
       times = (times || 0) * 10 + Number(key);
     }else{
-      // no function executed and there must be a key pressed, keep times don't change
-      // no key perssed means,this function invoked by run last command.
+      // if some function executed and some key pressed, reset the times
+      // no key perssed always means,this function is invoked by runLastCommand.
       if(exec_length != 0 && key) times = 0;
     }
 

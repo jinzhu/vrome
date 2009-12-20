@@ -108,7 +108,7 @@ S-Enter    find previous ( in input box )
 [count]gi  focus the first input box in the current page
 C-z        disable vimlike temporary
 C-v        pass through next key
-.          Repeat the last command
+[count].   Repeat the last command
 
 
 ### Insert Mode
