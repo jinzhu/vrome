@@ -1,7 +1,7 @@
-var times = function(/*Boolean*/ read) {
-  var time = KeyEvent.times(read) || 1;
-  Debug('KeyEvent.times:' + time);
-  return time;
+var times = function(/*Boolean*/ raw,/*Boolean*/ read) {
+  var count = raw ? KeyEvent.times(read) : (KeyEvent.times(read) || 1);
+  Debug('KeyEvent.times:' + count);
+  return count;
 };
 
 var Post = function(msg){

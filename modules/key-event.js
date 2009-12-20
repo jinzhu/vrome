@@ -8,7 +8,7 @@ var KeyEvent = (function(){
 
   function returnTimes(/*Boolean*/ read) {
     var old_times = times;
-    if(!read) times = 0; // only read.
+    if(!read) times = 0; // only read,don't reset it
     return old_times;
   }
 
