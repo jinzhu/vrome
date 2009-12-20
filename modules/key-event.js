@@ -1,6 +1,6 @@
 var KeyEvent = (function(){
   var times = 0;
-  var disableVimlike,pass_next_key,last_current_keys,last_times;
+  var disableVimlike,pass_next_key,last_current_keys,last_times,disable_site;
 
   function init() {
     document.addEventListener('keydown',KeyEvent.exec, false);
@@ -64,8 +64,9 @@ var KeyEvent = (function(){
   }
 
   function changeStatus(disableSite,/*Boolean*/ force){
-    Debug('KeyEvent.changeStatus - disableSite' + disableSite + ' force:' + force);
-    if(typeof disableVimlike == "undefined" || force) disableVimlike = disableSite;
+    disable_site = disableSite;
+    Debug('KeyEvent.changeStatus - disableSite' + disable_site + ' force:' + force);
+    if(typeof disableVimlike == "undefined" || force) disableVimlike = disable_site;
     disableVimlike ? disable() : enable();
     Post({action : "currentPageDisabled", disable : disableVimlike});
   }
@@ -125,6 +126,7 @@ var KeyEvent = (function(){
   }
 
 	function exec(e) {
+    if(disable_site) return; // if this url belong to disabled sites,do nothing
 		var key        = getKey(e);
 		var insertMode = /^INPUT|TEXTAREA$/.test(e.target.nodeName);
 		if(/^(Control|Alt|Shift)$/.test(key)) return;
