@@ -133,9 +133,9 @@ chrome.extension.onConnect.addListener(function(port) {
     var tab = port.tab;
     switch(msg.action){
     case "changeStatus":
-      Debug("changeStatus - listener:" + msg);
+      Debug("changeStatus - disable:" + msg.disable + " force:" + msg.force);
       runIt(KeyEvent.changeStatus, [msg.disable,msg.force]);
-      KeyEvent.setLast(msg.currentKeys, msg.times);
+      if(msg.currentKeys) KeyEvent.setLast(msg.currentKeys, msg.times);
       break;
     }
   });

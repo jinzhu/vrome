@@ -44,8 +44,8 @@ function runIt(func,args){
   if(func) initFunction.push([func,args]);
 
   if(document.body){
-    for(var i in initFunction){
-      func = initFunction.shift();
+    for(var i = 0;i < initFunction.length; i++){
+      func = initFunction[i];
       if(func instanceof Function){
 				Debug("RunIt:" + func);
         func.call();
@@ -56,6 +56,7 @@ function runIt(func,args){
 				}
       }
     }
+    initFunction = [];
   }else{
     setTimeout(runIt,50);
   }
