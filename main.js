@@ -16,6 +16,7 @@ with(KeyEvent) {
   // Page
   add([']',']'], Page.next );
   add(['[','['], Page.prev );
+  add(['Y']    , Page.copySelected );
 
 
   // Url
@@ -58,8 +59,7 @@ with(KeyEvent) {
   add(['g','t'],Tab.next     );
   add(['g','T'],Tab.prev     );
 
-  add(['y']  , Tab.yankUrl   );
-  add(['Y']  , Tab.copyUrl   );
+  add(['y']  , Tab.copyUrl   );
   add(['g','0'], Tab.first   );
   add(['g','^'], Tab.first   );
   add(['g','$'], Tab.last    );

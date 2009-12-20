@@ -17,6 +17,7 @@ var Page = (function(){
 		},
 	  prev : function(){
 	   execMatch(['(上|前)一页','^\\s*Prev(ious)?\\s*$','^<$','(^(<<|‹‹|«))|((<<|‹‹|«)$)']);
-    }
+    },
+		copySelected : function() { Clipboard.copy(getSelected())}
 	};
 })();

@@ -114,9 +114,7 @@ var Search = (function(){
   }
 
   function useSelectedValueAsKeyword() {
-    var value  = window.getSelection().focusNode.data;
-    var range  = window.getSelection().getRangeAt();
-    lastSearch = value.substring(range.startOffset,range.endOffset);
+    lastSearch = getSelected();
 		return lastSearch;
   }
 

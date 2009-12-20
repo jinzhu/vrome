@@ -60,3 +60,9 @@ function runIt(func,args){
     setTimeout(runIt,50);
   }
 }
+
+function getSelected(){
+  var value = window.getSelection().focusNode.data;
+  var range = window.getSelection().getRangeAt();
+  return value.substring(range.startOffset,range.endOffset);
+}

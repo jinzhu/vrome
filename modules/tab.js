@@ -1,13 +1,8 @@
 var Tab = (function(){
 
-  function yankUrl(/*Boolean*/ copy) {
-		if(copy){
-			Clipboard.copy(document.location);
-		}else{
-			Clipboard.yank(document.location);
-		}
+  function copyUrl() {
+		Clipboard.copy(document.location);
   }
-	function copyUrl() { yankUrl(true); }
 
   function reload(){
     location.reload();
@@ -35,7 +30,6 @@ var Tab = (function(){
   function last()  { Post({action: "gotoTab",index : -1}); }
 
 	return {
-    yankUrl   : yankUrl  ,
     copyUrl   : copyUrl	 ,
     reload    : reload   ,
     reloadAll : reloadAll,

@@ -9,16 +9,15 @@ var Clipboard = (function(){
     return textNode; 
   }; 
 
-	function yankCopy(/*String*/ data,/*Boolean*/ copy){
+	function copy(/*String*/ data){
       if (data == null) return; 
       var textNode = createTextArea(data);
       textNode.select();
-      if (copy) document.execCommand('Copy');
+      document.execCommand('Copy');
       document.body.removeChild(textNode); 
 	}
 
   return {
-		yank : function(data) { yankCopy(data); },
-    copy : function(data) { yankCopy(data,true); }
+    copy : function(data) { copy(data); }
   };
 })();
