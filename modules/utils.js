@@ -41,7 +41,7 @@ function clickElement(element,opt) {
 }
 
 function runIt(func,args){
-  initFunction.push([func,args]);
+  if(func) initFunction.push([func,args]);
 
   if(document.body){
     for(var i in initFunction){
@@ -51,7 +51,7 @@ function runIt(func,args){
         func.call();
       }else{
 				if(func[0] instanceof Function){
-					Debug("RunIt:" + func);
+					Debug("RunIt: function" + func[0] + " arguments:" + func[1]);
 					func[0].apply('',func[1]);
 				}
       }

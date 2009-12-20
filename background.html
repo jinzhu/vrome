@@ -10,7 +10,6 @@ function changeStatus(tab){
   var port = chrome.tabs.connect(tab.id, {});
   var disable_sites = (localStorage.disableSites || '').split(' ');
 	localStorage.currentUrl = tab.url;
-  localStorage.tab_id = tab.id;
   for(var i in disable_sites){
     if(disable_sites[i]){
       if(new RegExp(disable_sites[i],'i').test(tab.url)){
@@ -31,6 +30,7 @@ chrome.tabs.getSelected(null, function(tab) {
   last_selected_tab = now_tab || tab;
   now_tab  = tab;
   changeStatus(tab);
+  localStorage.tab_id = tab.id;
 });
 
 chrome.tabs.onSelectionChanged.addListener(function(tabId) {
@@ -38,6 +38,7 @@ chrome.tabs.onSelectionChanged.addListener(function(tabId) {
     last_selected_tab = now_tab || tab;
     now_tab = tab;
     changeStatus(tab);
+    localStorage.tab_id = tab.id;
   });
 });
 

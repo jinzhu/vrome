@@ -15,7 +15,6 @@ function saveData(){
 		data += " " + elements[i].value;
 	}
 	localStorage.disableSites = data;
-	console.log("disableSites : " + localStorage.disableSites);
 }
 
 function addSite(value) {
@@ -76,7 +75,7 @@ function init() {
 	addIcons();
 }
 
-function changeStatus(disable) {
+function changeStatus(/*Boolean|Checked*/ enable) {
   var port = chrome.tabs.connect(Number(localStorage.tab_id), {});
-  port.postMessage({ action : "changeStatus", disable : disable ,force : true});
+  port.postMessage({ action : "changeStatus", disable : !enable ,force : true});
 }

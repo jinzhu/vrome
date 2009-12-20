@@ -133,7 +133,6 @@ chrome.extension.onConnect.addListener(function(port) {
     var tab = port.tab;
     switch(msg.action){
     case "changeStatus":
-      console.log('call back' + msg.disable + ' force' + msg.force);
       Debug("changeStatus - listener:" + msg);
       runIt(KeyEvent.changeStatus, [msg.disable,msg.force]);
       KeyEvent.setLast(msg.currentKeys, msg.times);
