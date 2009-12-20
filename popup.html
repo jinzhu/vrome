@@ -17,17 +17,16 @@
 			h5 {
 				font-size: 12px;
 				margin: 2px;
-				text-align: center;
 			}
 
-			span.header {
+			div.header {
 				margin: 25px 0 5px;
 				font-size: 14px;
 				color : #4B95E8;
 			}
 
       #enable_vimlike {
-        margin: 50px 0 0;
+        display: inline;
       }
 
       #disable_sites_heading {
@@ -52,9 +51,10 @@
 		<h5><a href="http://github.com/jinzhu" target="_blank">ZhangJinzhu</a></h5>
 		<h5><a href="mailto:wosmvp@gmail.com">wosmvp@gmail.com</a></h5>
 		<h5><a href="http://github.com/jinzhu/vimlike-smooziee" target="_blank">http://github.com/jinzhu/vimlike-smooziee</a></h5>
+    <br/>
 
-    <div class="header" id="enable_vimlike"> Enable </h6>
-    <input type="checkbox" />
+    <div class="header" id="enable_vimlike"> Enable </div>
+    <input onclick="changeStatus(!this.checked)" type="checkbox" id="enable_vimlike_checkbox"/>
 
     <div class="header" id="disable_sites_heading"> Disable Sites </div>
     <div id="disable_sites">

@@ -68,6 +68,15 @@ function init() {
 	for(var i in disable_sites){
 		if(!/^\s*$/.test(disable_sites[i])) addSite(disable_sites[i]);
 	}
+  var elem = document.getElementById('enable_vimlike_checkbox');
+  if(elem){
+    elem.checked = (localStorage.currentPageDisabled == 'false');
+  }
 	addSite('');
 	addIcons();
+}
+
+function changeStatus(disable) {
+  var port = chrome.tabs.connect(Number(localStorage.tab_id), {});
+  port.postMessage({ action : "changeStatus", disable : disable ,force : true});
 }

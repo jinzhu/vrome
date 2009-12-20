@@ -10,6 +10,7 @@ function changeStatus(tab){
   var port = chrome.tabs.connect(tab.id, {});
   var disable_sites = (localStorage.disableSites || '').split(' ');
 	localStorage.currentUrl = tab.url;
+  localStorage.tab_id = tab.id;
   for(var i in disable_sites){
     if(disable_sites[i]){
       if(new RegExp(disable_sites[i],'i').test(tab.url)){
@@ -132,12 +133,15 @@ chrome.extension.onConnect.addListener(function(port, name) {
 
     //////////////////////////////////////////////////
     case "setLastCommand":
-      localStorage.currentKeys = msg.currentKey.join(' ');
-      localStorage.times       = msg.times;
+      if (msg.currentKey) localStorage.currentKeys = msg.currentKey.join(' ');
+      if (msg.times) localStorage.times       = msg.times;
       break;
 
     case "debug":
       console.log(tab.url + " : \n" + msg.message);
+      break;
+    case "currentPageDisabled":
+      localStorage.currentPageDisabled = msg.disable;
       break;
     };
   });

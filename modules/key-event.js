@@ -63,9 +63,11 @@ var KeyEvent = (function(){
     Post({action : "enable"})
   }
 
-  function changeStatus(disableSite){
-    if(typeof disableVimlike == "undefined") disableVimlike = disableSite;
+  function changeStatus(disableSite,/*Boolean*/ force){
+    Debug('KeyEvent.changeStatus - disableSite' + disableSite + ' force:' + force);
+    if(typeof disableVimlike == "undefined" || force) disableVimlike = disableSite;
     disableVimlike ? disable() : enable();
+    Post({action : "currentPageDisabled", disable : disableVimlike});
   }
 
   ///////////////////////////////////////////////////
