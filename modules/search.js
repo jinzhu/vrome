@@ -124,7 +124,7 @@ var Search = (function(){
     backward : function() { start(true); },
     prev     : function() { next(-1); },
     next     : function() { next(1);  },
-    forwardCursor  : function() { if(useSelectedValueAsKeyword){ start(); } },
-    backwardCursor : function() { if(useSelectedValueAsKeyword){ start(true); } },
+    forwardCursor  : function() { if(useSelectedValueAsKeyword()){ start(); } },
+    backwardCursor : function() { if(useSelectedValueAsKeyword()){ start(true); } },
   }
 })()
