@@ -57,13 +57,15 @@ var Url = (function(){
   }
 
   function increment() {
+   var count 	 = times();
    if(/^(.*?)(\d+)([^\d]*)$/.test(document.location.href))
-			Post({action: "open_url", url: RegExp.$1 + (Number(RegExp.$2) + 1) + RegExp.$3});
+			Post({action: "open_url", url: RegExp.$1 + (Number(RegExp.$2) + count) + RegExp.$3});
   }
 
   function decrement() {
+   var count 	 = times();
    if(/^(.*?)(\d+)([^\d]*)$/.test(document.location.href))
-			Post({action: "open_url", url: RegExp.$1 + (Number(RegExp.$2) - 1) + RegExp.$3});
+			Post({action: "open_url", url: RegExp.$1 + (Number(RegExp.$2) - count) + RegExp.$3});
   }
 
   return {

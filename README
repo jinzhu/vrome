@@ -94,9 +94,9 @@ gi         focus the first input box in the current page
 C-z        disable vimlike temporary
 C-v        pass through next key
 
-C-a    Increment last number in URL
-C-x    Decrement last number in URL
-gu     Go to the parent directory.
+[count]C-a    Increment last number in URL
+[count]C-x    Decrement last number in URL
+[count]gu     Go to the parent directory.
 gU     Go to the root of the web site.
 
 
