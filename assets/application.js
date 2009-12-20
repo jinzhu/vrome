@@ -8,13 +8,14 @@ addButton.setAttribute('class','add_buttons');
 addButton.setAttribute('onclick','addSite()');
 addButton.setAttribute('src','assets/add.png');
 
-function saveData(){
+function saveData(/*Boolean*/ reinit){
 	var elements = document.getElementsByClassName('disable_site');
 	var data = '';
 	for(var i = 0;i < elements.length;i++){
 		data += " " + elements[i].value;
 	}
 	localStorage.disableSites = data;
+  if(reinit) init();
 }
 
 function addSite(value) {
@@ -23,7 +24,7 @@ function addSite(value) {
 	var newBox = document.createElement('div');
 	newBox.setAttribute('class','disable_site_box');
 	var input  = document.createElement('input')
-	input.setAttribute('onblur','saveData()');
+	input.setAttribute('onblur','saveData(true)');
 	input.setAttribute('class','disable_site');
 
 	newBox.appendChild(input);
@@ -64,6 +65,9 @@ function addIcons() {
 
 function init() {
 	var disable_sites = (localStorage.disableSites || '').split(' ');
+
+  removeElements(document.getElementsByClassName('disable_site_box'));
+
 	for(var i in disable_sites){
 		if(!/^\s*$/.test(disable_sites[i])) addSite(disable_sites[i]);
 	}
