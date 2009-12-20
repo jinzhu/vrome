@@ -67,14 +67,13 @@ $     scroll to last
 [count]C-u         scroll to prev half page
 
 
-
 ### Tab
 r       Tab.reload
 d       Tab.close 
-u       Tab.reopen
-C-p     Prev Tab.prev
-C-n     Next Tab.next
-y       yank current url, (use middle button to copy -- maybe only works on linux)
+[count]u       Tab.reopen
+[count]C-p     Prev Tab.prev
+[count]C-n     Next Tab.next
+y       yank current url (use middle button to copy -- maybe only works on linux)
 Y       copy current url
 g0/g^   Switch to the first tab.
 g$      Switch to the last tab.

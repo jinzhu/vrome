@@ -77,9 +77,13 @@ chrome.extension.onConnect.addListener(function(port, name) {
       break;
     case "reopenTab":
       if (closed_tabs.length > 0) {
-        var last_closed_tab = closed_tabs[closed_tabs.length - 1]
-        closed_tabs.pop();
-        chrome.tabs.create({url: last_closed_tab.url, index: last_closed_tab.index});
+        var index = closed_tabs.length - msg.num;
+        var last_closed_tab = closed_tabs[closed_tabs.length - msg.num];
+        console.log("last_closed_tab: " + last_closed_tab);
+        if(last_closed_tab){
+          closed_tabs.splice(index,1);
+          chrome.tabs.create({url: last_closed_tab.url, index: last_closed_tab.index});
+        }
       }
       break;
     case "gotoTab":

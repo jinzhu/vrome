@@ -22,7 +22,7 @@ var Tab = (function(){
   }
 
   function reopen() {
-		Post({action: "reopenTab"});
+		Post({action: "reopenTab",num : times()});
 	}
 
   function lastSelected() {
