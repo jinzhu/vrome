@@ -35,6 +35,7 @@ http://github.com/jinzhu/vimlike-smooziee/raw/master/vimlike-smooziee.crx
 ### Page
 ]]    Next Page
 [[    Prev Page
+Y     copy selected text
 
 
 ### Url
@@ -51,14 +52,14 @@ T      Show an :tabopen prompt containing the current URL.
 
 ### Scroll
 gg    scroll to top
-G     scroll to bottom 
-0     scroll to first  
-$     scroll to last   
+G     scroll to bottom
+0     scroll to first
+$     scroll to last
 
-[count]k    scroll up       
-[count]j    scroll down     
-[count]h    scroll left     
-[count]l    scroll right    
+[count]k    scroll up
+[count]j    scroll down
+[count]h    scroll left
+[count]l    scroll right
 [count]%    scroll to percent [count]%
 
 [count]C-f         scroll to next page
@@ -69,41 +70,45 @@ $     scroll to last
 
 ### Tab
 r       Tab.reload
-d       Tab.close 
-[count]u       Tab.reopen
-[count]C-p     Prev Tab.prev
-[count]C-n     Next Tab.next
-y       yank current url (use middle button to copy -- maybe only works on linux)
-Y       copy current url
+d       Tab.close
+[count]u       undo closing of a tab
+[count]C-p     prev Tab
+[count]C-n     next Tab
+[count]gt      next Tab
+[count]gT      prev Tab
+y       copy current url
 g0/g^   Switch to the first tab.
 g$      Switch to the last tab.
+C-^     Select the previously tab.
 
 
 ### History
-H        History.back   
-L        History.forward
-C-o      History.back   
-C-i      History.forward
+[count]H        History.back
+[count]L        History.forward
+[count]C-o      History.back
+[count]C-i      History.forward
 
 
-f         start hint mode
-F         start hint mode,open link in new tab.
+### Hint
+f         start QuickHint mode
+F         start QuickHint mode,but open link in a new tab.
 
 
 ### Search
 /          forward search
 ?          backward search
-[count]n   next search result ( out input box )
-[count]N   prev search result ( out input box )
+[count]n   find next ( out input box )
+[count]N   find previous ( out input box )
 
-Enter      next search result ( in input box )
-S-Enter    prev search result ( in input box )
-*          forward search current selected words
-#          backward search current selected words
+Enter      find next ( in input box )
+S-Enter    find previous ( in input box )
+*          Search forward for the selected words
+#          Search backward for the selected words
 
-gi         focus the first input box in the current page
+[count]gi  focus the first input box in the current page
 C-z        disable vimlike temporary
 C-v        pass through next key
+.          Repeat the last command
 
 
 ### Insert Mode
@@ -113,7 +118,7 @@ C-[     blur focus
 C-a    move to first words or select all
 C-e    move to end
 
-C-d    delete forward char 
+C-d    delete forward char
 C-h    delete backward char
 
 C-w    delete backward word

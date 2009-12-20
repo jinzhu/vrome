@@ -6,7 +6,9 @@ var InputMode = (function(){
 	}
 
 	function focusFirstTextInput(){
-		var elem = document.querySelector('input[type="text"],input[type="search"],input:not([type])');
+		var elems = document.querySelectorAll('input[type="text"],input[type="search"],input:not([type])');
+		var elem  = elems[times()-1];
+
 		if (elem) {
 			elem.focus();
 			elem.setSelectionRange(0,elem.value.length);
