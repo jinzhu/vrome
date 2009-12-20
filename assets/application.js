@@ -12,10 +12,6 @@ function saveData(){
 	var elements = document.getElementsByClassName('disable_site');
 	var data = '';
 	for(var i = 0;i < elements.length;i++){
-		if(/\S\s+\S/.test(elements[i].value)){
-			alert("don't allow blank");
-			return;
-		}
 		data += " " + elements[i].value;
 	}
 	localStorage.disableSites = data;
@@ -56,13 +52,12 @@ function addIcons() {
 	for(var i = 0;i < elements.length ; i++){
 		elements[i].appendChild(removeButton.cloneNode());
 
-		// TODO highlight current matched url
-		//var input = elements[i].firstChild;
-		//if(input.value && new RegExp(input.value,'i').test()){
-		//	input.setAttribute('highlight','current');
-		//}else{
-		//	input.removeAttribute('highlight');
-		//}
+		var input = elements[i].firstChild;
+		if(input.value && new RegExp(input.value,'i').test(localStorage.currentUrl || '')){
+			input.setAttribute('highlight','current');
+		}else{
+			input.removeAttribute('highlight');
+		}
 	}
 
 	elements[i-1].appendChild(addButton);
