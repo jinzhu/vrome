@@ -54,6 +54,18 @@ var InsertMode = (function(){
 		elem.setSelectionRange(caret_position,caret_position);
 	}
 
+  function deleteToBegin(){
+		var elem = document.activeElement;
+		elem.value = elem.value.substr(elem.selectionEnd);
+		elem.setSelectionRange(0,0);
+  }
+
+  function deleteToEnd(){
+		var elem = document.activeElement;
+		elem.value = elem.value.substr(0,elem.selectionEnd);
+		elem.setSelectionRange(elem.value.length,elem.value.length);
+  }
+
   return {
     blurFocus              : blurFocus              ,
     focusFirstTextInput    : focusFirstTextInput    ,
@@ -64,5 +76,8 @@ var InsertMode = (function(){
     deleteBackwardChar     : deleteBackwardChar     ,
     deleteForwardWord      : deleteForwardWord      ,
     deleteBackwardWord     : deleteBackwardWord     ,
+
+    deleteToBegin : deleteToBegin,
+    deleteToEnd   : deleteToEnd,
   }
 })()

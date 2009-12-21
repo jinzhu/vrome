@@ -116,9 +116,8 @@ with(KeyEvent) {
   add(['C-w'], InsertMode.deleteBackwardWord    , true );
   add(['M-d'], InsertMode.deleteForwardWord     , true );
 
-  // "C-U"  Delete backward from cursor
-  // "C-K"  Delete to EOL
-  // "M-d"  Delete word
+  add(['C-u'], InsertMode.deleteToBegin    , true );
+  add(['C-k'], InsertMode.deleteToEnd     , true );
   // "M-l"  Move forward word
   // "M-h"  Move backward word
   // "M-k"  Move forward char
