@@ -1,6 +1,15 @@
 var InsertMode = (function(){
+  var caret_position,value;
+
+  function currentElement() {
+    var elem = document.activeElement;
+    caret_position = elem.selectionEnd;
+    value = elem.value;
+    return elem;
+  }
+
 	function blurFocus(){
-		document.activeElement.blur();
+		currentElement().blur();
 	}
 
 	function focusFirstTextInput(){
@@ -13,82 +22,71 @@ var InsertMode = (function(){
 	}
 
 	function moveToFirstOrSelectAll(){
-		var elem = document.activeElement;
-		var caret_position = elem.selectionEnd;
-    elem.setSelectionRange(0,caret_position == 0 ? elem.value.length : 0);
+		var elem = currentElement();
+    elem.setSelectionRange(0,caret_position == 0 ? value.length : 0);
 	}
 
 	function moveToEnd(){
-		var elem = document.activeElement;
-		elem.setSelectionRange(elem.value.length, elem.value.length);
+		var elem = currentElement();
+		elem.setSelectionRange(value.length, value.length);
 	}
 
 	function deleteForwardChar(){
-		var elem = document.activeElement;
-		var caret_position = elem.selectionEnd;
-		elem.value = elem.value.substr(0,caret_position) + elem.value.substr(caret_position + 1);
+		var elem = currentElement();
+		elem.value = value.substr(0,caret_position) + value.substr(caret_position + 1);
 		elem.setSelectionRange(caret_position, caret_position);
 	}
 
 	function deleteBackwardChar(){
-		var elem = document.activeElement;
-		var caret_position = elem.selectionEnd;
-		elem.value = elem.value.substr(0,caret_position - 1) + elem.value.substr(caret_position);
+		var elem = currentElement();
+		elem.value = value.substr(0,caret_position - 1) + value.substr(caret_position);
 		elem.setSelectionRange(caret_position - 1, caret_position - 1);
 	}
 
 	function deleteBackwardWord(){
-		var elem = document.activeElement;
-		var caret_position = elem.selectionEnd;
-    var str = elem.value;
-		elem.value = str.substr(0,caret_position).replace(/[^\s\n.,]*?.\s*$/,'') + str.substr(caret_position);
-		var position = elem.value.length - (str.length - caret_position);
+		var elem = currentElement();
+		elem.value = value.substr(0,caret_position).replace(/[^\s\n.,]*?.\s*$/,'') + value.substr(caret_position);
+		var position = elem.value.length - (value.length - caret_position);
 		elem.setSelectionRange(position,position);
 	}
 
 	function deleteForwardWord(){
-		var elem = document.activeElement;
-		var caret_position = elem.selectionEnd;
-    var str = elem.value;
-		elem.value = str.substr(0,caret_position) + str.substr(caret_position).replace(/^\s*.[^\s\n.,]*/,'');
+		var elem = currentElement();
+		elem.value = value.substr(0,caret_position) + value.substr(caret_position).replace(/^\s*.[^\s\n.,]*/,'');
 		elem.setSelectionRange(caret_position,caret_position);
 	}
 
   function deleteToBegin(){
-		var elem = document.activeElement;
-		elem.value = elem.value.substr(elem.selectionEnd);
+		var elem = currentElement();
+		elem.value = value.substr(caret_position);
 		elem.setSelectionRange(0,0);
   }
 
   function deleteToEnd(){
-		var elem = document.activeElement;
-		elem.value = elem.value.substr(0,elem.selectionEnd);
+		var elem = currentElement();
+		elem.value = value.substr(0,caret_position);
 		elem.setSelectionRange(elem.value.length,elem.value.length);
   }
 
   function MoveBackwardWord() {
-		var elem = document.activeElement;
-		var caret_position = elem.selectionEnd;
-		var value = elem.value.substr(0,caret_position).replace(/[^\s\n.,]*?.\s*$/,'');
-		elem.setSelectionRange(value.length,value.length);
+		var elem = currentElement();
+		var str = value.substr(0,caret_position).replace(/[^\s\n.,]*?.\s*$/,'');
+		elem.setSelectionRange(str.length,str.length);
   }
 
   function MoveForwardWord() {
-		var elem = document.activeElement;
-		var caret_position = elem.selectionEnd;
-		var position = elem.value.length - elem.value.substr(caret_position).replace(/^\s*.[^\s\n.,]*/,'').length;
+		var elem = currentElement();
+		var position = value.length - value.substr(caret_position).replace(/^\s*.[^\s\n.,]*/,'').length;
 		elem.setSelectionRange(position,position);
   }
 
   function MoveBackwardChar(){
-		var elem = document.activeElement;
-		var caret_position = elem.selectionEnd;
+		var elem = currentElement();
 		elem.setSelectionRange(caret_position - 1,caret_position - 1);
   }
 
   function MoveForwardChar(){
-		var elem = document.activeElement;
-		var caret_position = elem.selectionEnd;
+		var elem = currentElement();
 		elem.setSelectionRange(caret_position + 1,caret_position + 1);
   }
 

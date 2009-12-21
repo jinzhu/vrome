@@ -110,14 +110,14 @@ with(KeyEvent) {
   add(['C-a'], InsertMode.moveToFirstOrSelectAll, true );
   add(['C-e'], InsertMode.moveToEnd             , true );
 
-  add(['C-d'], InsertMode.deleteForwardChar     , true );
   add(['C-h'], InsertMode.deleteBackwardChar    , true );
+  add(['C-d'], InsertMode.deleteForwardChar     , true );
 
   add(['C-w'], InsertMode.deleteBackwardWord    , true );
   add(['M-d'], InsertMode.deleteForwardWord     , true );
 
   add(['C-u'], InsertMode.deleteToBegin    , true );
-  add(['C-k'], InsertMode.deleteToEnd     , true );
+  add(['C-k'], InsertMode.deleteToEnd      , true );
 
   add(['M-h'], InsertMode.MoveBackwardWord    , true );
   add(['M-l'], InsertMode.MoveForwardWord     , true );
