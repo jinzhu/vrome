@@ -108,6 +108,15 @@ C-d    delete forward char
 C-h    delete backward char
 
 C-w    delete backward word
+M-d    delete forward word
+
+C-u    delete backward to the beginning of the line.
+C-k    delete forward to the end of the line.
+
+M-h    move back a word
+M-l    move forward a word
+M-j    move back a char
+M-k    move forward a char
 
 ---
 feel free to concact me to ask questions/ report bugs/ request features about vimlike.
