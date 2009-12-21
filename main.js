@@ -118,10 +118,12 @@ with(KeyEvent) {
 
   add(['C-u'], InsertMode.deleteToBegin    , true );
   add(['C-k'], InsertMode.deleteToEnd     , true );
-  // "M-l"  Move forward word
-  // "M-h"  Move backward word
-  // "M-k"  Move forward char
-  // "M-j"  Move backward char
+
+  add(['M-h'], InsertMode.MoveBackwardWord    , true );
+  add(['M-l'], InsertMode.MoveForwardWord     , true );
+
+  add(['M-j'], InsertMode.MoveBackwardChar    , true );
+  add(['M-k'], InsertMode.MoveForwardChar     , true );
 }
 
 // Initial

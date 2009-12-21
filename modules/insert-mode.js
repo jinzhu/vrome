@@ -66,6 +66,20 @@ var InsertMode = (function(){
 		elem.setSelectionRange(elem.value.length,elem.value.length);
   }
 
+  function MoveBackwardWord() {
+		var elem = document.activeElement;
+		var caret_position = elem.selectionEnd;
+		var value = elem.value.substr(0,caret_position).replace(/[^\s\n.,]*?.\s*$/,'');
+		elem.setSelectionRange(value.length,value.length);
+  }
+
+  function MoveForwardWord() {
+		var elem = document.activeElement;
+		var caret_position = elem.selectionEnd;
+		var position = elem.value.length - elem.value.substr(caret_position).replace(/^\s*.[^\s\n.,]*/,'').length;
+		elem.setSelectionRange(position,position);
+  }
+
   return {
     blurFocus              : blurFocus              ,
     focusFirstTextInput    : focusFirstTextInput    ,
@@ -77,7 +91,9 @@ var InsertMode = (function(){
     deleteForwardWord      : deleteForwardWord      ,
     deleteBackwardWord     : deleteBackwardWord     ,
 
-    deleteToBegin : deleteToBegin,
-    deleteToEnd   : deleteToEnd,
+    deleteToBegin          : deleteToBegin          ,
+    deleteToEnd            : deleteToEnd            ,
+    MoveBackwardWord       : MoveBackwardWord       ,
+    MoveForwardWord        : MoveForwardWord        ,
   }
 })()
