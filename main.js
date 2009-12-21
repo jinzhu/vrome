@@ -97,23 +97,23 @@ with(KeyEvent) {
   add(['*']      , Search.forwardCursor  );
   add(['#']      , Search.backwardCursor );
 
-  add(['g','i'], InputMode.focusFirstTextInput );
+  add(['g','i'], InsertMode.focusFirstTextInput );
   add(['C-z'], KeyEvent.disable     );
   add(['C-v'], KeyEvent.passNextKey );
   add(['.'], KeyEvent.runLast);
 
 
-  // InputMode
-  add(['Esc'], InputMode.blurFocus             , true );
-  add(['C-['], InputMode.blurFocus             , true );
+  // InsertMode
+  add(['Esc'], InsertMode.blurFocus             , true );
+  add(['C-['], InsertMode.blurFocus             , true );
 
-  add(['C-a'], InputMode.moveToFirstOrSelectAll, true );
-  add(['C-e'], InputMode.moveToEnd             , true );
+  add(['C-a'], InsertMode.moveToFirstOrSelectAll, true );
+  add(['C-e'], InsertMode.moveToEnd             , true );
 
-  add(['C-d'], InputMode.deleteForwardChar     , true );
-  add(['C-h'], InputMode.deleteBackwardChar    , true );
+  add(['C-d'], InsertMode.deleteForwardChar     , true );
+  add(['C-h'], InsertMode.deleteBackwardChar    , true );
 
-  add(['C-w'], InputMode.deleteBackwardWord    , true );
+  add(['C-w'], InsertMode.deleteBackwardWord    , true );
 
   // "C-U"  Delete backward from cursor
   // "C-K"  Delete to EOL

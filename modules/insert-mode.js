@@ -1,28 +1,21 @@
-//TODO should use focus/click event to active some js binding
-
-var InputMode = (function(){
+var InsertMode = (function(){
 	function blurFocus(){
 		document.activeElement.blur();
 	}
 
 	function focusFirstTextInput(){
 		var elems = document.querySelectorAll('input[type="text"],input[type="search"],input:not([type])');
-		var elem  = elems[times()-1];
+		var elem  = elems[times() - 1];
+    if(!elem) return;
 
-		if (elem) {
-			elem.focus();
-			elem.setSelectionRange(0,elem.value.length);
-		}
+    elem.focus();
+    elem.setSelectionRange(0,elem.value.length);
 	}
 
 	function moveToFirstOrSelectAll(){
 		var elem = document.activeElement;
 		var caret_position = elem.selectionEnd;
-		if (caret_position == 0){
-			elem.setSelectionRange(0, elem.value.length); // select all text
-		}else{
-			elem.setSelectionRange(0, 0);
-		}
+    elem.setSelectionRange(0,caret_position == 0 ? elem.value.length : 0);
 	}
 
 	function moveToEnd(){
