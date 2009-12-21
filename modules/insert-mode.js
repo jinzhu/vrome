@@ -80,6 +80,18 @@ var InsertMode = (function(){
 		elem.setSelectionRange(position,position);
   }
 
+  function MoveBackwardChar(){
+		var elem = document.activeElement;
+		var caret_position = elem.selectionEnd;
+		elem.setSelectionRange(caret_position - 1,caret_position - 1);
+  }
+
+  function MoveForwardChar(){
+		var elem = document.activeElement;
+		var caret_position = elem.selectionEnd;
+		elem.setSelectionRange(caret_position + 1,caret_position + 1);
+  }
+
   return {
     blurFocus              : blurFocus              ,
     focusFirstTextInput    : focusFirstTextInput    ,
@@ -95,5 +107,7 @@ var InsertMode = (function(){
     deleteToEnd            : deleteToEnd            ,
     MoveBackwardWord       : MoveBackwardWord       ,
     MoveForwardWord        : MoveForwardWord        ,
+    MoveBackwardChar       : MoveBackwardChar       ,
+    MoveForwardChar        : MoveForwardChar        ,
   }
 })()
