@@ -26,26 +26,32 @@ var InsertMode = (function(){
 	function deleteForwardChar(){
 		var elem = document.activeElement;
 		var caret_position = elem.selectionEnd;
-		var org_str = elem.value;
-		elem.value = org_str.substring(0, caret_position) + org_str.substring(caret_position + 1, org_str.length);
+		elem.value = elem.value.substr(0,caret_position) + elem.value.substr(caret_position + 1);
 		elem.setSelectionRange(caret_position, caret_position);
 	}
 
 	function deleteBackwardChar(){
 		var elem = document.activeElement;
 		var caret_position = elem.selectionEnd;
-		var org_str = elem.value;
-		elem.value = org_str.substring(0, caret_position - 1) + org_str.substring(caret_position, org_str.length);
+		elem.value = elem.value.substr(0,caret_position - 1) + elem.value.substr(caret_position);
 		elem.setSelectionRange(caret_position - 1, caret_position - 1);
 	}
 
 	function deleteBackwardWord(){
 		var elem = document.activeElement;
 		var caret_position = elem.selectionEnd;
-		var org_str = elem.value;
-		elem.value = org_str.substring(0, caret_position - 1).replace(/\S*\s*$/,'') + org_str.substring(caret_position, org_str.length);
-		var position = elem.value.length - (org_str.length - caret_position);
+    var str = elem.value;
+		elem.value = str.substr(0,caret_position).replace(/[^\s\n.,]*?.\s*$/,'') + str.substr(caret_position);
+		var position = elem.value.length - (str.length - caret_position);
 		elem.setSelectionRange(position,position);
+	}
+
+	function deleteForwardWord(){
+		var elem = document.activeElement;
+		var caret_position = elem.selectionEnd;
+    var str = elem.value;
+		elem.value = str.substr(0,caret_position) + str.substr(caret_position).replace(/^\s*.[^\s\n.,]*/,'');
+		elem.setSelectionRange(caret_position,caret_position);
 	}
 
   return {
@@ -56,6 +62,7 @@ var InsertMode = (function(){
     moveToEnd              : moveToEnd              ,
     deleteForwardChar      : deleteForwardChar      ,
     deleteBackwardChar     : deleteBackwardChar     ,
+    deleteForwardWord      : deleteForwardWord      ,
     deleteBackwardWord     : deleteBackwardWord     ,
   }
 })()

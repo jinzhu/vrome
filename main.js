@@ -114,6 +114,7 @@ with(KeyEvent) {
   add(['C-h'], InsertMode.deleteBackwardChar    , true );
 
   add(['C-w'], InsertMode.deleteBackwardWord    , true );
+  add(['M-d'], InsertMode.deleteForwardWord     , true );
 
   // "C-U"  Delete backward from cursor
   // "C-K"  Delete to EOL
