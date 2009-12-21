@@ -32,13 +32,13 @@ end
 desc "build xml"
 task :build_xml => [:build_manifest] do
   version = JSON.parse(File.read('manifest.json'))['version']
-    xml = Builder::XmlMarkup.new( :target => File.open('vimlike-smooziee-updates.xml','w+') , :indent => 2 )
-     xml.instruct!
-     xml.gupdate(:xmlns => 'http://www.google.com/update2/response',:protocol => '2.0') do |x|
-      x.app(:appid => 'iiffmolbankaonfoniihhpbpclcenokk') do |y|
-        y.updatecheck(:codebase => 'http://github.com/jinzhu/vimlike-smooziee/raw/master/vimlike-smooziee.crx',:version => version)
-      end
+  xml = Builder::XmlMarkup.new( :target => File.open('vimlike-smooziee-updates.xml','w+') , :indent => 2 )
+  xml.instruct!
+  xml.gupdate(:xmlns => 'http://www.google.com/update2/response',:protocol => '2.0') do |x|
+    x.app(:appid => 'iiffmolbankaonfoniihhpbpclcenokk') do |y|
+      y.updatecheck(:codebase => 'http://github.com/jinzhu/vrome/raw/master/vrome.crx',:version => version)
     end
+  end
 end
 
 desc 'install extension'
