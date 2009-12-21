@@ -11,7 +11,7 @@ end
 
 desc 'build extension'
 task :build => [:build_xml] do
-  pem_file = File.join(File.dirname(__FILE__),"vimlike-smooziee.pem")
+  pem_file = File.join(File.dirname(__FILE__),"vrome.pem")
   `ruby #{File.join(File.dirname(__FILE__),'buildex.rb')} --pack-extension=#{File.dirname(__FILE__)} #{File.exist?(pem_file) ? "--pack-extension-key=#{pem_file}" : ""}`
 end
 
@@ -32,7 +32,7 @@ end
 desc "build xml"
 task :build_xml => [:build_manifest] do
   version = JSON.parse(File.read('manifest.json'))['version']
-  xml = Builder::XmlMarkup.new( :target => File.open('vimlike-smooziee-updates.xml','w+') , :indent => 2 )
+  xml = Builder::XmlMarkup.new( :target => File.open('vrome.xml','w+') , :indent => 2 )
   xml.instruct!
   xml.gupdate(:xmlns => 'http://www.google.com/update2/response',:protocol => '2.0') do |x|
     x.app(:appid => 'iiffmolbankaonfoniihhpbpclcenokk') do |y|
@@ -43,5 +43,5 @@ end
 
 desc 'install extension'
 task :install => [:preinstall,:build] do
-  `chromium-browser  #{File.join(File.dirname(__FILE__),'vimlike-smooziee.crx')}`
+  `chromium-browser  #{File.join(File.dirname(__FILE__),'vrome.crx')}`
 end
