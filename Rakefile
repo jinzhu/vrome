@@ -32,7 +32,7 @@ end
 desc "build xml"
 task :build_xml => [:build_manifest] do
   version = JSON.parse(File.read('manifest.json'))['version']
-  xml = Builder::XmlMarkup.new( :target => File.open('vrome.xml','w+') , :indent => 2 )
+  xml = Builder::XmlMarkup.new( :target => File.open('vrome-updates.xml','w+') , :indent => 2 )
   xml.instruct!
   xml.gupdate(:xmlns => 'http://www.google.com/update2/response',:protocol => '2.0') do |x|
     x.app(:appid => 'iiffmolbankaonfoniihhpbpclcenokk') do |y|
