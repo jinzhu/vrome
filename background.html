@@ -111,9 +111,9 @@ chrome.extension.onConnect.addListener(function(port, name) {
       break;
     case "reloadAllTabs":
       chrome.tabs.getAllInWindow(tab.windowId, function(tabs) {
-        for (var i = 0; i < tabs.length; i++) {
-          var jsRunner = {"code": "document.location.reload()"};
-          chrome.tabs.executeScript(tabs[i].id, jsRunner);
+        for (var i in tabs) {
+          var tab = tabs[i];
+          chrome.tabs.update(tab.id, {url: tab.url, selected: tab.selected}, null);
         }
       });
       break;
