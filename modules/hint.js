@@ -5,7 +5,7 @@ var Hint = (function(){
 	var new_tab     = false;
   var matched     = [];
 	var hintMode    = false;
-  var highlight   = 'vimlike_highlight';
+  var highlight   = 'vrome_highlight';
 
   function start(newTab){
 		hintMode    = true;
@@ -15,7 +15,7 @@ var Hint = (function(){
     new_tab = newTab;
     setHints();
     CmdLine.set({title : 'HintMode',pressDown : handleInput,content : ''});
-    document.getElementById('__vimlike_cmd_input_box').focus();
+    document.getElementById('__vrome_cmd_input_box').focus();
   }
 
   function setHints() {

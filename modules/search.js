@@ -3,15 +3,15 @@ var Search = (function(){
   var direction;
   var lastSearch;
 
-  var highlight_class      = '__vimlike_search_highlight';
-  var highlight_current_id = '__vimlike_search_highlight_current';
+  var highlight_class      = '__vrome_search_highlight';
+  var highlight_current_id = '__vrome_search_highlight_current';
 
   function find(keyword,node) {
     if(!keyword) return;
     if(!node)    node = document.body;
 
     // Iterate node childNodes
-    if (node.id != '__vimlike_cmd_box' && node.hasChildNodes() && !/(script|style)/i.test(node.tagName)) {
+    if (node.id != '__vrome_cmd_box' && node.hasChildNodes() && !/(script|style)/i.test(node.tagName)) {
       for (var i = 0;i < node.childNodes.length;i++) {
         find(keyword, node.childNodes[i]);
       }

@@ -71,7 +71,7 @@ function init() {
 	for(var i in disable_sites){
 		if(!/^\s*$/.test(disable_sites[i])) addSite(disable_sites[i]);
 	}
-  var elem = document.getElementById('enable_vimlike_checkbox');
+  var elem = document.getElementById('enable_vrome_checkbox');
   if(elem){
     elem.checked = (localStorage.currentPageDisabled == 'false');
   }

@@ -1,6 +1,6 @@
 var CmdLine = (function(){
-  var box_id        = '__vimlike_cmd_box';
-  var input_box_id  = '__vimlike_cmd_input_box';
+  var box_id        = '__vrome_cmd_box';
+  var input_box_id  = '__vrome_cmd_input_box';
 
 	var pressUpFunction   = function(){};
 	var pressDownFunction = function(){};

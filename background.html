@@ -65,11 +65,11 @@ chrome.extension.onConnect.addListener(function(port, name) {
     switch(msg.action){
     case "enable":
       chrome.browserAction.setIcon({path: 'assets/logo.png'});
-      chrome.browserAction.setTitle({title:"Vimlike (enabled)"});
+      chrome.browserAction.setTitle({title:"Vrome (enabled)"});
       break;
     case "disable":
       chrome.browserAction.setIcon({path: 'assets/logo-disable.png'});
-      chrome.browserAction.setTitle({title:"Vimlike (disabled)"});
+      chrome.browserAction.setTitle({title:"Vrome (disabled)"});
       break;
 
     //////////////////////////////////////////////////

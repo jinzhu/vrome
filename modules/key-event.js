@@ -1,6 +1,6 @@
 var KeyEvent = (function(){
   var times = 0;
-  var disableVimlike,pass_next_key,last_current_keys,last_times,disable_site;
+  var disableVrome,pass_next_key,last_current_keys,last_times,disable_site;
 
   function init() {
     document.addEventListener('keydown',KeyEvent.exec, false);
@@ -50,14 +50,14 @@ var KeyEvent = (function(){
 	function disable(){
     Debug("KeyEvent.disable");
 		CmdLine.set({title : ' -- PASS THROUGH -- ' });
-    disableVimlike = true;
+    disableVrome = true;
     Post({action : "disable"})
 	}
 
   function enable() {
     Debug("KeyEvent.enable");
     CmdLine.remove();
-    disableVimlike = false;
+    disableVrome = false;
     pass_next_key  = false;
     reset();
     Post({action : "enable"})
@@ -66,9 +66,9 @@ var KeyEvent = (function(){
   function changeStatus(disableSite,/*Boolean*/ force){
     disable_site = disableSite;
     Debug('KeyEvent.changeStatus - disableSite' + disable_site + ' force:' + force);
-    if(typeof disableVimlike == "undefined" || force) disableVimlike = disable_site;
-    disableVimlike ? disable() : enable();
-    Post({action : "currentPageDisabled", disable : disableVimlike});
+    if(typeof disableVrome == "undefined" || force) disableVrome = disable_site;
+    disableVrome ? disable() : enable();
+    Post({action : "currentPageDisabled", disable : disableVrome});
   }
 
   ///////////////////////////////////////////////////
@@ -132,8 +132,8 @@ var KeyEvent = (function(){
 		if(/^(Control|Alt|Shift)$/.test(key)) return;
 		currentKeys.push(key);
 
-    // if vimlike set disabled/pass the next, use Esc to enable it again.
-		if ((pass_next_key || disableVimlike) && !insertMode) {
+    // if vrome set disabled/pass the next, use Esc to enable it again.
+		if ((pass_next_key || disableVrome) && !insertMode) {
       if (pass_next_key || key == 'Esc') { enable(); }
 			return;
 		}
