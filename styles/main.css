@@ -1,31 +1,33 @@
 #__vrome_cmd_box{
- position    : fixed;
- bottom      : 0;
- right       : 0;
- width       : 350px;
- background  : #ff0;
- text-align  : left;
- font-size   : 10px;
- color       : green;
- font-weight : bold;
- padding     : 2px 0 0 10px;
- border      : thin solid #f00;
+ position    : fixed !important;
+ bottom      : 0 !important;
+ right       : 0 !important;
+ width       : 300px !important;
+ background  : #ff0 !important;
+ text-align  : left !important;
+ font-size   : 10px !important;
+ color       : green !important;
+ font-weight : bold !important;
+ padding     : 2px 0 0 10px !important;
+ border      : thin solid #f00 !important;
  z-index     : 100000;
 }
 
 #__vrome_cmd_input_box{
+ margin: 2px 0 0 10px;
+ width       : 180px !important;
 }
 
 #__vim_hint_highlight {
 }
 
 #__vim_hint_highlight_span {
-  position: absolute;
-  font-size: 13px;
-  color: white;
-  font-weight: bold;
-  padding: 0px 1px;
-  z-index: 100000;
+  position: absolute !important;
+  font-size: 6px !important;
+  color: #fff !important;
+  font-weight: bold !important;
+  padding: 0px 1px !important;
+  z-index: 100000 !important;
 }
 
 .__vrome_search_highlight {
@@ -41,9 +43,13 @@
 }
 
 a[vrome_highlight=hint_elem] {
-	background-color: yellow;
+	background-color: yellow !important;
+  color: #000 !important;
+  z-index     : 100000;
 }
 
 a[vrome_highlight=hint_active] {
-	background-color: lime
+	background-color: #8f0 !important;
+  color: #000 !important;
+  z-index     : 100000;
 }

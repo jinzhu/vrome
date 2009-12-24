@@ -65,7 +65,7 @@ var CmdLine = (function(){
 
   function get(){
     return {
-      title   : cmdBoxExist ? cmdBox().firstChild.data : '',
+      title   : (cmdBoxExist && cmdBox().firstChild) ? cmdBox().firstChild.data : '',
       content : inputBoxExist ? inputBox().value       : '',
     };
   }

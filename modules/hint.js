@@ -59,7 +59,7 @@ var Hint = (function(){
 
       setHighlight(elem, false);
     }
-    if (elems[0].tagName == 'A') setHighlight(elems[0], true);
+    if (elems[0] && elems[0].tagName == 'A') setHighlight(elems[0], true);
   }
 
   function setHighlight(elem, is_active) {
