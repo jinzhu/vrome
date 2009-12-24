@@ -22,8 +22,9 @@ with(KeyEvent) {
   // Url
   add(['g','u'], Url.parent  );
   add(['g','U'], Url.root    );
-  add(['C-a'], Url.increment );
-  add(['C-x'], Url.decrement );
+  add(['g','f'], Url.viewSource );
+  add(['C-a'], Url.increment    );
+  add(['C-x'], Url.decrement    );
   add(['o'], Url.open                 );
   add(['O'], Url.open_with_default    );
   add(['t'], Url.tabopen              );

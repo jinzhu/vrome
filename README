@@ -29,6 +29,7 @@ Y     copy selected text
 [count]C-x    Decrement last number in URL
 [count]gu     Go to the parent directory.
 gU     Go to the root of the web site.
+gf     view page source
 
 o      Open one or more URLs in the current tab,multiple urls can be separated with ", " Note that the space after the comma is required.
 O      Show an :open prompt containing the current URL.

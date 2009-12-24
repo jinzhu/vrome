@@ -73,12 +73,17 @@ var Url = (function(){
 			Post({action: "open_url", url: RegExp.$1 + (Number(RegExp.$2) - count) + RegExp.$3});
   }
 
+  function viewSource() {
+    location.href = "view-source:" + location.href;
+  }
+
   return {
     parent    : parent,
     root      : root,
     increment : increment,
     decrement : decrement,
     enter     : enter,
+    viewSource : viewSource,
 
     open      : function(){ open(false,false); },
     tabopen   : function(){ open(false,true); },
