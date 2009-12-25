@@ -6,11 +6,11 @@ with(KeyEvent) {
   add(['z', 'r'], Zoom.reduce );
   add(['z', 'z'], Zoom.reset  );
 
-  add(['z', 'I'], Zoom.cur_in    );
-  add(['z', 'O'], Zoom.cur_out   );
-  add(['z', 'M'], Zoom.cur_more  );
-  add(['z', 'R'], Zoom.cur_reduce);
-  add(['z', 'Z'], Zoom.cur_reset );
+  add(['z', 'I'], Zoom.cur_in     );
+  add(['z', 'O'], Zoom.cur_out    );
+  add(['z', 'M'], Zoom.cur_more   );
+  add(['z', 'R'], Zoom.cur_reduce );
+  add(['z', 'Z'], Zoom.cur_reset  );
 
 
   // Page
@@ -20,57 +20,58 @@ with(KeyEvent) {
 
 
   // Url
-  add(['g','u'], Url.parent  );
-  add(['g','U'], Url.root    );
-  add(['g','f'], Url.viewSource );
-  add(['C-a'], Url.increment    );
-  add(['C-x'], Url.decrement    );
-  add(['o'], Url.open                 );
-  add(['O'], Url.open_with_default    );
-  add(['t'], Url.tabopen              );
-  add(['T'], Url.tabopen_with_default );
-  add(['Enter'], Url.enter,true       );
+  add(['g','u'], Url.parent             );
+  add(['g','U'], Url.root               );
+  add(['g','f'], Url.viewSource         );
+  add(['g','F'], Url.viewSourceNewTab   );
+  add(['C-a']  , Url.increment          );
+  add(['C-x']  , Url.decrement          );
+  add(['o']    , Url.open               );
+  add(['O']    , Url.openWithDefault    );
+  add(['t']    , Url.tabopen            );
+  add(['T']    , Url.tabopenWithDefault );
+  add(['Enter'], Url.enter,true         );
 
 
   // Scroll
-  add(['g','g'], Scroll.top      );
-  add(['G']    , Scroll.bottom   );
-  add(['0']    , Scroll.first    );
-  add(['$']    , Scroll.last     );
+  add(['g','g'], Scroll.top          );
+  add(['G']    , Scroll.bottom       );
+  add(['0']    , Scroll.first        );
+  add(['$']    , Scroll.last         );
 
-  add(['k']    , Scroll.up       );
-  add(['j']    , Scroll.down     );
-  add(['h']    , Scroll.left     );
-  add(['l']    , Scroll.right    );
-  add(['%']    , Scroll.toPercent);
+  add(['k']    , Scroll.up           );
+  add(['j']    , Scroll.down         );
+  add(['h']    , Scroll.left         );
+  add(['l']    , Scroll.right        );
+  add(['%']    , Scroll.toPercent    );
 
-  add(['C-f']  , Scroll.nextPage );
-  add(['C-b']  , Scroll.prevPage );
+  add(['C-f']  , Scroll.nextPage     );
+  add(['C-b']  , Scroll.prevPage     );
   add(['C-d']  , Scroll.nextHalfPage );
   add(['C-u']  , Scroll.prevHalfPage );
 
 
   // Tab
-  add(['r']  , Tab.reload    );
-  add(['R']  , Tab.reloadAll );
-  add(['d']  , Tab.close     );
-  add(['u']  , Tab.reopen    );
-  add(['C-p'], Tab.prev      );
-  add(['C-n'], Tab.next      );
-  add(['g','t'],Tab.next     );
-  add(['g','T'],Tab.prev     );
+  add(['r']    , Tab.reload       );
+  add(['R']    , Tab.reloadAll    );
+  add(['d']    , Tab.close        );
+  add(['u']    , Tab.reopen       );
+  add(['C-p']  , Tab.prev         );
+  add(['C-n']  , Tab.next         );
+  add(['g','t'], Tab.next         );
+  add(['g','T'], Tab.prev         );
 
-  add(['y']  , Tab.copyUrl   );
-  add(['g','0'], Tab.first   );
-  add(['g','^'], Tab.first   );
-  add(['g','$'], Tab.last    );
-  add(['C-6'], Tab.lastSelected );
-  add(['C-^'], Tab.lastSelected );
+  add(['y']    , Tab.copyUrl      );
+  add(['g','0'], Tab.first        );
+  add(['g','^'], Tab.first        );
+  add(['g','$'], Tab.last         );
+  add(['C-6']  , Tab.lastSelected );
+  add(['C-^']  , Tab.lastSelected );
 
 
   // History
-  add(['H'],   History.back    );
-  add(['L'],   History.forward );
+  add(['H']  , History.back    );
+  add(['L']  , History.forward );
   add(['C-o'], History.back    );
   add(['C-i'], History.forward );
 
@@ -99,9 +100,9 @@ with(KeyEvent) {
   add(['#']      , Search.backwardCursor );
 
   add(['g','i'], InsertMode.focusFirstTextInput );
-  add(['C-z'], KeyEvent.disable     );
-  add(['C-v'], KeyEvent.passNextKey );
-  add(['.'], KeyEvent.runLast);
+  add(['C-z']  , KeyEvent.disable               );
+  add(['C-v']  , KeyEvent.passNextKey           );
+  add(['.']    , KeyEvent.runLast               );
 
 
   // InsertMode

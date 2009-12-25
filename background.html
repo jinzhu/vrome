@@ -121,8 +121,10 @@ chrome.extension.onConnect.addListener(function(port, name) {
 
     case "open_url":
       var urls      = msg.urls;
+			if(typeof msg.urls == 'string') urls = [msg.urls];
       var first_url = urls.shift();
       var index     = tab.index;
+
       if (msg.newtab) { 
         chrome.tabs.create({url: first_url, index: ++index});
       } else {

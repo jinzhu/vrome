@@ -7,7 +7,7 @@ var Clipboard = (function(){
     textNode.value = data; 
     document.body.appendChild(textNode); 
     return textNode; 
-  }; 
+  }
 
 	function copy(/*String*/ data){
       if (data == null) return; 

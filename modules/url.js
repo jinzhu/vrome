@@ -73,21 +73,24 @@ var Url = (function(){
 			Post({action: "open_url", url: RegExp.$1 + (Number(RegExp.$2) - count) + RegExp.$3});
   }
 
-  function viewSource() {
-    location.href = "view-source:" + location.href;
+  function viewSource(/*Boolean*/ newTab) {
+    var url = "view-source:" + location.href;
+    Post({action: "open_url", urls: url, newtab: newTab});
   }
 
   return {
-    parent    : parent,
-    root      : root,
-    increment : increment,
-    decrement : decrement,
-    enter     : enter,
-    viewSource : viewSource,
+    parent    : parent    ,
+    root      : root      ,
+    increment : increment ,
+    decrement : decrement ,
+    enter     : enter     ,
 
-    open      : function(){ open(false,false); },
-    tabopen   : function(){ open(false,true); },
-    open_with_default    : function(){ open(true,false); },
-    tabopen_with_default : function(){ open(true,true); },
+    viewSource         : viewSource,
+    viewSourceNewTab   : function(){ viewSource(true);  },
+
+    open               : function(){ open(false,false); },
+    tabopen            : function(){ open(false,true);  },
+    openWithDefault    : function(){ open(true,false);  },
+    tabopenWithDefault : function(){ open(true,true);   },
   }
 })()
