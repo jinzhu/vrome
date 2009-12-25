@@ -10,11 +10,12 @@ addButton.setAttribute('src','assets/add.png');
 
 function saveData(/*Boolean*/ reinit){
 	var elements = document.getElementsByClassName('disable_site');
-	var data = '';
+	var data = [];
 	for(var i = 0;i < elements.length;i++){
-		data += " " + elements[i].value;
+		data[data.length] = elements[i].value;
 	}
-	localStorage.disableSites = data;
+
+	Settings.add({disableSites : data});
   if(reinit) init();
 }
 
@@ -53,7 +54,7 @@ function addIcons() {
 		elements[i].appendChild(removeButton.cloneNode());
 
 		var input = elements[i].firstChild;
-		if(input.value && new RegExp(input.value,'i').test(localStorage.currentUrl || '')){
+		if(input.value && new RegExp(input.value,'i').test(Settings.get('currentUrl')){
 			input.setAttribute('highlight','current');
 		}else{
 			input.removeAttribute('highlight');
@@ -64,7 +65,7 @@ function addIcons() {
 }
 
 function init() {
-	var disable_sites = (localStorage.disableSites || '').split(' ');
+	var disable_sites = Settings.get('disableSites');
 
   removeElements(document.getElementsByClassName('disable_site_box'));
 
@@ -73,13 +74,13 @@ function init() {
 	}
   var elem = document.getElementById('enable_vrome_checkbox');
   if(elem){
-    elem.checked = (localStorage.currentPageDisabled == 'false');
+    elem.checked = (Settings.get('currentPageDisabled') == 'false');
   }
 	addSite('');
 	addIcons();
 }
 
 function changeStatus(/*Boolean|Checked*/ enable) {
-  var port = chrome.tabs.connect(Number(localStorage.tab_id), {});
-  port.postMessage({ action : "changeStatus", disable : !enable ,force : true});
+  var port = chrome.tabs.connect(Settings.get('now_tab_id'), {});
+  port.postMessage({ action : "syncSetting", settings : Settings.get() ,force : true});
 }

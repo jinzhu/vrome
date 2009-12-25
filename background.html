@@ -1,63 +1,41 @@
 <html>
 <head>
+
+<script src="modules/settings.js" type="text/javascript" charset="utf-8"></script>
+
 <script type='text/javascript'>
-var closed_tabs = [];
-var now_tab;
-var last_selected_tab;
+var closed_tabs = [],now_tab,last_selected_tab;
 
-function changeStatus(tab){
-  if(!(tab && tab.id)) return;
+function syncSetting(tab){
+	last_selected_tab = now_tab || tab;
+  now_tab = tab;
+	Settings.add({tab_id : tab.id,currentUrl : tab.url,now_tab_id : now_tab.id};
+
   var port = chrome.tabs.connect(tab.id, {});
-  var disable_sites = (localStorage.disableSites || '').split(' ');
-  for(var i in disable_sites){
-    if(disable_sites[i]){
-      if(new RegExp(disable_sites[i],'i').test(tab.url)){
-        var disable = true;
-        break;
-      }
-    }
-  }
-
-  var currentKeys = (localStorage.currentKeys || '').split(' ');
-  var times = Number(localStorage.times || 0);
-
-  console.log("Disable Sites: " + disable_sites.join(', ') + " Url: " + tab.url + " Disabled:" + disable + " currentKeys:" + currentKeys + " times:" + times);
-  port.postMessage({action : "changeStatus", disable : !!disable,currentKeys : currentKeys, times : times});
+  port.postMessage({ action : "syncSetting", settings : Settings.get() });
 }
 
 chrome.tabs.getSelected(null, function(tab) {
-  last_selected_tab = now_tab || tab;
-  now_tab  = tab;
-  changeStatus(tab);
-  localStorage.tab_id = tab.id;
-	localStorage.currentUrl = tab.url;
+  syncSetting(tab);
 });
 
 chrome.tabs.onSelectionChanged.addListener(function(tabId) {
   chrome.tabs.get(tabId, function(tab) {
-    last_selected_tab = now_tab || tab;
-    now_tab = tab;
-    changeStatus(tab);
-    localStorage.tab_id = tab.id;
-    localStorage.currentUrl = tab.url;
+		syncSetting(tab);
   });
 });
 
 chrome.tabs.onUpdated.addListener(function(tabId) {
   chrome.tabs.get(tabId, function(tab) {
-    if (now_tab && now_tab.id == tab.id) {
-      last_selected_tab = tab;
-      now_tab = tab;
-    }
-    changeStatus(tab);
+		// if the tab is updated in the background,just ingore it
+		if(now_tab && now_tab.id == tab.id)	syncSetting(tab);
   });
 });
 
 chrome.tabs.onRemoved.addListener(function(tabId) {
-  if(now_tab) {
-    closed_tabs.push(now_tab);
-  };
+  if(now_tab) { closed_tabs.push(now_tab); };
 }); 
+
 
 chrome.extension.onConnect.addListener(function(port, name) {
   port.onMessage.addListener(function(msg) {
@@ -137,15 +115,15 @@ chrome.extension.onConnect.addListener(function(port, name) {
 
     //////////////////////////////////////////////////
     case "setLastCommand":
-      if (msg.currentKey) localStorage.currentKeys = msg.currentKey.join(' ');
-      if (msg.times) localStorage.times       = msg.times;
+			Settings.add({ currentKeys : msg.currentKey, times : msg.times });
       break;
 
     case "debug":
       console.log(tab.url + " : \n" + msg.message);
       break;
+
     case "currentPageDisabled":
-      localStorage.currentPageDisabled = msg.disable;
+			Settings.add({ currentPageDisabled : msg.disable });
       break;
     };
   });

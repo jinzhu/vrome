@@ -136,8 +136,8 @@ chrome.extension.onConnect.addListener(function(port) {
   port.onMessage.addListener(function(msg) {
     var tab = port.tab;
     switch(msg.action){
-    case "changeStatus":
-      Debug("changeStatus - disable:" + msg.disable + " force:" + msg.force);
+    case "syncSetting":
+			Settings.add('background', msg.settings);
       runIt(KeyEvent.changeStatus, [msg.disable,msg.force]);
       if(msg.currentKeys) KeyEvent.setLast(msg.currentKeys, msg.times);
       break;
