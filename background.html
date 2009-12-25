@@ -10,10 +10,10 @@ var closed_tabs = [], now_tab, last_selected_tab;
 function syncSetting(tab) {
 	last_selected_tab = now_tab || tab;
   now_tab = tab;
-	Settings.add({tab_id : tab.id, currentUrl : tab.url,now_tab_id : now_tab.id});
+	Settings.add({currentUrl : tab.url, now_tab_id : now_tab.id});
 
   var port = chrome.tabs.connect(tab.id, {});
-	port.postMessage({ action : "Settings.add", arguments : [{background : Settings.get()}] });
+	port.postMessage({action : "Settings.add", arguments : {background : Settings.get()}});
 }
 
 chrome.tabs.getSelected(null, function(tab) {

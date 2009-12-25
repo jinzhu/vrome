@@ -5,8 +5,10 @@ chrome.extension.onConnect.addListener(function(port) {
 		var action  = window[actions.shift()];
 
 		while (action && actions[0]) { action = action[actions.shift()]; }
-		if(Debug) Debug("actions" + msg.action + " action" + action + " arguments" + msg.arguments);
 
-		if(action instanceof Function) action.apply('',msg.arguments);
+		if(Debug) Debug("actions" + msg.action + " action" + action + " arguments" + msg.arguments);
+		var argument = (msg.arguments instanceof Array) ? msg.arguments : [msg.arguments];
+
+		if(action instanceof Function) action.apply('', argument);
   });
 })
