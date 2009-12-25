@@ -7,15 +7,18 @@ var Settings = (function() {
    return to;
  }
 
- function set(object) {
-   object = extend(JSON.parse(localStorage[key] || "{}"), object);
+ function currentSetting(){
+   return JSON.parse(localStorage[key] || "{}");
+ }
 
+ function set(object) {
+   object            = extend( currentSetting(), object);
    localStorage[key] = JSON.stringify(object);
    return object;
  }
 
  function get(name) {
-   var object = JSON.parse(localStorage[key]);
+   var object = currentSetting();
    return name ? (object[name] || '') : object;
  }
 

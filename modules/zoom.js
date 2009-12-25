@@ -15,7 +15,7 @@ var Zoom = (function(){
     // index should >= 0 && < levels.length
     index = Math.min(levels.length - 1, Math.max(0,index));
 
-    localStorage.__vrome_zoom_count = index - default_index;
+    Settings.set({zoom_level : index - default_index});
     var topPercent = scrollY / document.height;
 
     document.body.style.zoom  = levels[index];
@@ -38,6 +38,6 @@ var Zoom = (function(){
 		cur_reset  : function() { setZoom( 0, true); },
 
 		current    : function() { return (parseInt(levels[currentLevel()]) / 100); },
-		init       : function() { Zoom.setZoom(localStorage.__vrome_zoom_count); }
+		init       : function() { Zoom.setZoom( Settings.get('zoom_level')); }
 	}
 })()
