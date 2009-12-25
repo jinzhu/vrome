@@ -15,7 +15,7 @@ var Zoom = (function(){
     // index should >= 0 && < levels.length
     index = Math.min(levels.length - 1, Math.max(0,index));
 
-    Settings.set({zoom_level : index - default_index});
+    Settings.add({zoom_level : index - default_index});
     var topPercent = scrollY / document.height;
 
     document.body.style.zoom  = levels[index];

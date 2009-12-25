@@ -1,8 +1,3 @@
-function Post(msg) {
-  var port = chrome.extension.connect();
-  port.postMessage(msg);
-}
-
 chrome.extension.onConnect.addListener(function(port) {
   port.onMessage.addListener(function(msg) {
     var tab = port.tab;

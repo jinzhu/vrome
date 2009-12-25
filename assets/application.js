@@ -54,7 +54,7 @@ function addIcons() {
 		elements[i].appendChild(removeButton.cloneNode());
 
 		var input = elements[i].firstChild;
-		if(input.value && new RegExp(input.value,'i').test(Settings.get('currentUrl')){
+		if(input.value && new RegExp(input.value,'i').test(Settings.get('currentUrl'))){
 			input.setAttribute('highlight','current');
 		}else{
 			input.removeAttribute('highlight');
@@ -82,5 +82,5 @@ function init() {
 
 function changeStatus(/*Boolean|Checked*/ enable) {
   var port = chrome.tabs.connect(Settings.get('now_tab_id'), {});
-  port.postMessage({ action : "syncSetting", settings : Settings.get() ,force : true});
+  port.postMessage({ action : "KeyEvent.changeStatus", arguments : [/*disable*/ !enable,/*force*/ true] });
 }

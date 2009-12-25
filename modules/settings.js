@@ -11,7 +11,7 @@ var Settings = (function() {
    return JSON.parse(localStorage[key] || "{}");
  }
 
- function set(object) {
+ function add(object) {
    object            = extend( currentSetting(), object);
    localStorage[key] = JSON.stringify(object);
    return object;
@@ -22,5 +22,5 @@ var Settings = (function() {
    return name ? (object[name] || '') : object;
  }
 
- return { set : set, get :get }
+ return { add : add, get :get }
 })();
