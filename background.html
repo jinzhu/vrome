@@ -14,6 +14,7 @@ function syncSetting(tab) {
 
   var port = chrome.tabs.connect(tab.id, {});
 	port.postMessage({action : "Settings.add", arguments : {background : Settings.get()}});
+  port.postMessage({action : "KeyEvent.changeStatus"}); // need runIt ?
 }
 
 chrome.tabs.getSelected(null, function(tab) {

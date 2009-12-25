@@ -63,10 +63,23 @@ var KeyEvent = (function(){
     Post({action : "enable"})
   }
 
-  function changeStatus(disableSite,/*Boolean*/ force){
-    disable_site = disableSite;
-    Debug('KeyEvent.changeStatus - disableSite' + disable_site + ' force:' + force);
-    if(typeof disableVrome == "undefined" || force) disableVrome = disable_site;
+  function changeStatus(/*Boolean*/ enableStatus){
+		if(typeof enableStatus == "boolean") {
+			disableVrome = enableStatus;
+
+		}else if (typeof disableVrome == "undefined") {
+			var disable_sites = Settings.get('background.disableSites');
+
+			for(var i in disable_sites){
+				if(disable_sites[i]){
+					if(new RegExp(disable_sites[i],'i').test(location.href)){
+						disableVrome = true;
+						break;
+					}
+				}
+			}
+		}
+
     disableVrome ? disable() : enable();
     Post({action : "currentPageDisabled", disable : disableVrome});
   }

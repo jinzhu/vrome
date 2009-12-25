@@ -82,5 +82,5 @@ function init() {
 
 function changeStatus(/*Boolean|Checked*/ enable) {
   var port = chrome.tabs.connect(Settings.get('now_tab_id'), {});
-  port.postMessage({ action : "KeyEvent.changeStatus", arguments : [/*disable*/ !enable,/*force*/ true] });
+  port.postMessage({ action : "KeyEvent.changeStatus", arguments : enable });
 }
