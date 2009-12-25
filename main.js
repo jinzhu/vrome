@@ -131,16 +131,3 @@ with(KeyEvent) {
 // Initial
 var initFunction = [ Zoom.init, KeyEvent.init];
 runIt();
-
-chrome.extension.onConnect.addListener(function(port) {
-  port.onMessage.addListener(function(msg) {
-    var tab = port.tab;
-    switch(msg.action){
-    case "syncSetting":
-			Settings.add('background', msg.settings);
-      runIt(KeyEvent.changeStatus, [msg.disable,msg.force]);
-      if(msg.currentKeys) KeyEvent.setLast(msg.currentKeys, msg.times);
-      break;
-    }
-  });
-})

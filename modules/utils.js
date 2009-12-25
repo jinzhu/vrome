@@ -4,11 +4,6 @@ var times = function(/*Boolean*/ raw,/*Boolean*/ read) {
   return count;
 };
 
-var Post = function(msg){
-  var port = chrome.extension.connect();
-  port.postMessage(msg);
-}
-
 function isElementVisible(elem) {
   var win_top     = window.scrollY / Zoom.current();
   var win_bottom  = win_top + window.innerHeight;
