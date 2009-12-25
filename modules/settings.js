@@ -17,9 +17,14 @@ var Settings = (function() {
    return object;
  }
 
- function get(name) {
-   var object = currentSetting();
-   return name ? (object[name] || '') : object;
+ function get(names) {
+   var name  = currentSetting();
+   if(!names) return name;
+
+   var names = names.split('.');
+
+   while (name && names[0]) { name = name[names.shift()]; }
+   return (typeof name == 'undefined') ? '' : name;
  }
 
  return { add : add, get :get }
