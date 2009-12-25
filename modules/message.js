@@ -5,7 +5,7 @@ chrome.extension.onConnect.addListener(function(port) {
 		var action  = window[actions.shift()];
 
 		while (action && actions[0]) { action = action[actions.shift()]; }
-		if(Debug) Debug("actions" + msg.action + " action" + action);
+		if(Debug) Debug("actions" + msg.action + " action" + action + " arguments" + msg.arguments);
 
 		if(action instanceof Function) action.apply('',msg.arguments);
   });

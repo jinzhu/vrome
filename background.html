@@ -5,15 +5,15 @@
 <script src="/assets/application.js" type="text/javascript" charset="utf-8"></script>
 
 <script type='text/javascript'>
-var closed_tabs = [],now_tab,last_selected_tab;
+var closed_tabs = [], now_tab, last_selected_tab;
 
-function syncSetting(tab){
+function syncSetting(tab) {
 	last_selected_tab = now_tab || tab;
   now_tab = tab;
-	Settings.add({tab_id : tab.id,currentUrl : tab.url,now_tab_id : now_tab.id});
+	Settings.add({tab_id : tab.id, currentUrl : tab.url,now_tab_id : now_tab.id});
 
   var port = chrome.tabs.connect(tab.id, {});
-  port.postMessage({ action : "syncSetting", settings : Settings.get() });
+	port.postMessage({ action : "Settings.add", arguments : [{background : Settings.get()}] });
 }
 
 chrome.tabs.getSelected(null, function(tab) {
