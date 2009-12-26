@@ -3,9 +3,18 @@
 3, popup
   - chinese pinyin - whole / single / none
 
+- p and P should open selected (or actually copied I guess) text in
+current and new tab respectively ('p' for current tab, 'P' for new
+tab)
+- D should close tab and move focus on tab before closed tab
+- b should be able to switch to first tab that matches text specified
+(so typing 'b' and then 'gm' should switch to tab with gmail)
+- :bdel - ability to close multiple tabs that match specified string
+(either by title or url)
+
+
 
 # Tabs
-p     Open (put) a URL based on the current clipboard contents in a new buffer
 ~     Open home directory
 
 /regexp/ search
