@@ -105,3 +105,28 @@ function debug(msg){
 function currentPageDisabled(msg){
   Settings.add({ currentPageDisabled : msg.disable });
 }
+
+
+var Buffer = (function() {
+  function gotoFirstMatch(msg){
+    var tab = arguments[arguments.length-1],index;
+
+    if ( /^\d+$/.test(msg.keyword) ){
+      Tab.goto({ index : Number(msg.keyword) - 1 });
+    } else {
+      chrome.tabs.getAllInWindow(tab.windowId, function(tabs) {
+        var regexp = new RegExp(msg.keyword,'i');
+        for(var i = 0; i < tabs.length ;i++) {
+          if (regexp.test(tabs[i].url) || regexp.test(tabs[i].title)) {
+            Tab.goto({ index : tabs[i].index });
+            break;
+          }
+        }
+      });
+    }
+  }
+
+  return {
+    gotoFirstMatch : gotoFirstMatch,
+  }
+})()

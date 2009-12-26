@@ -101,6 +101,12 @@ with(KeyEvent) {
   add(['*']      , Search.forwardCursor  );
   add(['#']      , Search.backwardCursor );
 
+
+  // Buffer
+  add(['Enter'], Buffer.gotoFirstMatchHandle,true );
+  add(['b']    , Buffer.gotoFirstMatch );
+
+
   add(['g','i'], InsertMode.focusFirstTextInput );
   add(['C-z']  , KeyEvent.disable               );
   add(['C-v']  , KeyEvent.passNextKey           );
