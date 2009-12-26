@@ -12,8 +12,8 @@ var Tab = (function(){
 		Post({action: "Tab.reloadAll"});
 	}
 
-  function close(/*Boolean*/ focusLast) {
-		Post({action: "Tab.close",focusLast : focusLast});
+  function close(argu) {
+		Post({action: "Tab.close",arguments : argu});
   }
 
   function reopen() {
@@ -40,6 +40,7 @@ var Tab = (function(){
     first     : first    ,
     last      : last     ,
     lastSelected : lastSelected,
-		closeAndFoucsLast : function(){ close(true) },
+		closeAndFoucsLast : function(){ close({focusLast : true}) },
+		closeAndFoucsLeft : function(){ close({offset : -1}) },
 	}
 })()
