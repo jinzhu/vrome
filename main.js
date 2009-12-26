@@ -105,7 +105,8 @@ with(KeyEvent) {
   // Buffer
   add(['Enter'], Buffer.gotoFirstMatchHandle,true );
   add(['b']    , Buffer.gotoFirstMatch );
-
+  add(['Enter'], Buffer.deleteMatchHandle,true );
+  add(['B']    , Buffer.deleteMatch );
 
   add(['g','i'], InsertMode.focusFirstTextInput );
   add(['C-z']  , KeyEvent.disable               );
