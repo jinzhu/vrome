@@ -44,14 +44,14 @@ var KeyEvent = (function(){
   function passNextKey(){
 		CmdLine.set({title : ' -- PASS NEXT KEY -- ',timeout : 2000 });
     pass_next_key  = true;
-    Post({action : "disable"})
+    Post({action : "Vrome.disable"})
   }
 
 	function disable(){
     Debug("KeyEvent.disable");
 		CmdLine.set({title : ' -- PASS THROUGH -- ' });
     disableVrome = true;
-    Post({action : "disable"})
+    Post({action : "Vrome.disable"})
 	}
 
   function enable() {
@@ -60,7 +60,7 @@ var KeyEvent = (function(){
     disableVrome = false;
     pass_next_key  = false;
     reset();
-    Post({action : "enable"})
+    Post({action : "Vrome.enable"})
   }
 
   function changeStatus(/*Boolean*/ enableStatus){
@@ -71,9 +71,10 @@ var KeyEvent = (function(){
 			var disable_sites = Settings.get('background.disableSites');
 
 			for(var i in disable_sites){
-				if(disable_sites[i]){
+				if(disable_sites[i] && disable_sites[i]){
 					if(new RegExp(disable_sites[i],'i').test(location.href)){
 						disableVrome = true;
+            disable_site = true;
 						break;
 					}
 				}
