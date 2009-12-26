@@ -9,25 +9,25 @@ var Tab = (function(){
   }
 
   function reloadAll() {
-		Post({action: "reloadAllTabs"});
+		Post({action: "Tab.reloadAll"});
 	}
 
   function close() {
-		Post({action: "closeTab"});
+		Post({action: "Tab.close"});
   }
 
   function reopen() {
-		Post({action: "reopenTab",num : times()});
+		Post({action: "Tab.reopen",num : times()});
 	}
 
   function lastSelected() {
-		Post({action: "lastSelectedTab"});
+		Post({action: "Tab.lastSelected"});
   }
 
-  function prev()  { Post({action: "gotoTab",offset : -1 * times()}); }
-  function next()  { Post({action: "gotoTab",offset : times()}); }
-  function first() { Post({action: "gotoTab",index  :	0}); }
-  function last()  { Post({action: "gotoTab",index : -1}); }
+  function prev()  { Post({action: "Tab.goto",offset : -1 * times()}); }
+  function next()  { Post({action: "Tab.goto",offset : times()}); }
+  function first() { Post({action: "Tab.goto",index  :	0}); }
+  function last()  { Post({action: "Tab.goto",index  : -1}); }
 
 	return {
     copyUrl   : copyUrl	 ,
