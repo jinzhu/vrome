@@ -6,7 +6,8 @@ chrome.extension.onConnect.addListener(function(port) {
 
 		while (action && actions[0]) { action = action[actions.shift()]; }
 
-		var argument = (msg.arguments instanceof Array) ? msg.arguments : [msg.arguments];
+		var argument = (msg.arguments instanceof Array) ? msg.arguments : [msg];
+    argument[argument.length] = tab;
 
 		if(action instanceof Function) action.apply('', argument);
   });
