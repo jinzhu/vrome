@@ -74,7 +74,7 @@ function init() {
 	}
   var elem = document.getElementById('enable_vrome_checkbox');
   if(elem){
-    elem.checked = (Settings.get('currentPageDisabled') == 'false');
+    elem.checked = !Settings.get('currentPageDisabled');
   }
 	addSite('');
 	addIcons();
