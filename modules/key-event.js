@@ -66,6 +66,7 @@ var KeyEvent = (function(){
   function changeStatus(/*Boolean*/ enableStatus){
 		if(typeof enableStatus == "boolean") {
 			disableVrome = !enableStatus;
+      disable_site = disableVrome;
 
 		}else if (typeof disableVrome == "undefined") {
 			var disable_sites = Settings.get('background.disableSites');
