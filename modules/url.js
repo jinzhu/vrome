@@ -73,8 +73,9 @@ var Url = (function(){
 			Post({action: "open_url", url: RegExp.$1 + (Number(RegExp.$2) - count) + RegExp.$3});
   }
 
-  function viewSource(/*Boolean*/ newTab) {
-    var url = "view-source:" + location.href;
+  function viewSource() {
+		var url = Settings.get('background.currentUrl');
+		url = url.replace(/^(view-source:)?/,/^view-source:/.test(url) ? '' : "view-source:");
     Post({action: "open_url", urls: url, newtab: newTab});
   }
 
