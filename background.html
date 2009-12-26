@@ -7,7 +7,7 @@
 <script src="/assets/background.js" type="text/javascript" charset="utf-8"></script>
 
 <script type='text/javascript'>
-var closed_tabs = [], now_tab, last_selected_tab;
+var closed_tabs = [], now_tab, last_selected_tab, current_closed_tab;
 
 function syncSetting(tab) {
 	last_selected_tab = now_tab || tab;
@@ -37,7 +37,9 @@ chrome.tabs.onUpdated.addListener(function(tabId) {
 });
 
 chrome.tabs.onRemoved.addListener(function(tabId) {
-  if(now_tab) { closed_tabs.push(now_tab); };
+  var tab = current_closed_tab || now_tab;
+  if(tab) { closed_tabs.push(tab); };
+  current_closed_tab = false;
 }); 
 </script>
 </head>

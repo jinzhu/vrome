@@ -55,6 +55,7 @@ with(KeyEvent) {
   add(['r']    , Tab.reload       );
   add(['R']    , Tab.reloadAll    );
   add(['d']    , Tab.close        );
+  add(['D']    , Tab.closeAndFoucsLast );
   add(['u']    , Tab.reopen       );
   add(['C-p']  , Tab.prev         );
   add(['C-n']  , Tab.next         );

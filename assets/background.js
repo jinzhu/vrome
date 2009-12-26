@@ -12,9 +12,11 @@ var Vrome = (function(){
 })()
 
 var Tab = (function(){
-  function close(){
-    var cur_tab = arguments[arguments.length-1];
-    chrome.tabs.remove(cur_tab.id);
+  function close(msg){
+    var tab = arguments[arguments.length-1];
+    current_closed_tab = tab;
+    chrome.tabs.remove(tab.id);
+    if(msg.focusLast) lastSelected(arguments);
   }
 
   function reopen(msg){
@@ -46,7 +48,7 @@ var Tab = (function(){
     });
   }
 
-  function lastSelected(msg){
+  function lastSelected(){
     var tab = arguments[arguments.length-1];
     chrome.tabs.getAllInWindow(tab.windowId, function(tabs) {
       chrome.tabs.update(last_selected_tab.id, {selected: true});
