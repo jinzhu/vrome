@@ -148,3 +148,19 @@ var Buffer = (function() {
     deleteMatch : deleteMatch,
   }
 })()
+
+function externalEditor(msg) {
+  var tab = arguments[arguments.length-1],index;
+  var xhr = new XMLHttpRequest();
+  var url = 'http://localhost:20000?data=' + msg.data;
+  xhr.open("GET", url, true);
+  xhr.onreadystatechange = function() {
+    if(xhr.readyState == 4 && xhr.status == 200) {
+      var port = chrome.tabs.connect(tab.id, {});
+      port.postMessage({ action : "InsertMode.externalEditorCallBack", edit_id : msg.edit_id, value : xhr.responseText });
+    };
+  }
+
+  xhr.setRequestHeader("Content-type", "text/plain");
+  xhr.send();
+}

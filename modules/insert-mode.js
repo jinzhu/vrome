@@ -91,16 +91,16 @@ var InsertMode = (function(){
   }
 
 	function externalEditor(e) {
-		var xhr = new XMLHttpRequest();
-		var url = 'http://localhost:20000?data=data' //+ e.target.value;
-		xhr.open("GET", url, true);
-		xhr.onreadystatechange = function() {
-			if(xhr.readyState == 4 && xhr.status == 200) {
-				console.log(xhr.responseText);
-			};
-		}
-		xhr.send();
+    var elem    = e.target;
+    var edit_id = String(Math.random());
+    elem.setAttribute('vrome_edit_id',edit_id);
+    Post({action : "externalEditor",data : elem.value,edit_id : edit_id});
 	}
+
+  function externalEditorCallBack(msg) {
+    var elem = document.querySelector('input[vrome_edit_id="' + msg.edit_id + '"]');
+    elem.value = msg.value;
+  }
 
   return {
     blurFocus              : blurFocus              ,
@@ -121,5 +121,6 @@ var InsertMode = (function(){
     MoveForwardChar        : MoveForwardChar        ,
 
 		externalEditor 				 : externalEditor,
+    externalEditorCallBack : externalEditorCallBack,
   }
 })()
