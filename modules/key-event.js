@@ -114,8 +114,7 @@ var KeyEvent = (function(){
     for(var i in matched){
       // execute those exactly matched bindings
 			if(matched[i][0].length == keys.length){
-				// plz don't mess up the first argument,err,ugly.need refactor
-        matched[i][1].call('','',e);
+        matched[i][1].call(e);
         exec_length++;
 			}
 		}

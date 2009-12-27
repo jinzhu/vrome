@@ -90,8 +90,8 @@ var InsertMode = (function(){
 		elem.setSelectionRange(caret_position + 1,caret_position + 1);
   }
 
-	function externalEditor(e) {
-    var elem    = e.target;
+	function externalEditor() {
+    var elem    = this.target;
     var edit_id = String(Math.random());
     elem.setAttribute('vrome_edit_id',edit_id);
     elem.setAttribute('readonly','readonly');
