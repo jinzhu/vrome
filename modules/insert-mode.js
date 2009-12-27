@@ -90,6 +90,18 @@ var InsertMode = (function(){
 		elem.setSelectionRange(caret_position + 1,caret_position + 1);
   }
 
+	function externalEditor() {
+		var xhr = new XMLHttpRequest();
+		var url = 'http://localhost:20000';
+		xhr.open("GET", url, true);
+		xhr.onreadystatechange = function() {
+			if(xhr.readyState == 4 && xhr.status == 200) {
+				console.log(xhr.responseText);
+			};
+		}
+		xhr.send();
+	}
+
   return {
     blurFocus              : blurFocus              ,
     focusFirstTextInput    : focusFirstTextInput    ,
@@ -107,5 +119,7 @@ var InsertMode = (function(){
     MoveForwardWord        : MoveForwardWord        ,
     MoveBackwardChar       : MoveBackwardChar       ,
     MoveForwardChar        : MoveForwardChar        ,
+
+		externalEditor 				 : externalEditor,
   }
 })()

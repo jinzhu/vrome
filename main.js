@@ -122,6 +122,7 @@ with(KeyEvent) {
 
 
   // InsertMode
+  add(['C-i'], InsertMode.externalEditor        , true );
   add(['Esc'], InsertMode.blurFocus             , true );
   add(['C-['], InsertMode.blurFocus             , true );
 
