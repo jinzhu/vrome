@@ -94,12 +94,15 @@ var InsertMode = (function(){
     var elem    = e.target;
     var edit_id = String(Math.random());
     elem.setAttribute('vrome_edit_id',edit_id);
+    elem.setAttribute('readonly','readonly');
     Post({action : "externalEditor",data : elem.value,edit_id : edit_id});
 	}
 
   function externalEditorCallBack(msg) {
-    var elem = document.querySelector('input[vrome_edit_id="' + msg.edit_id + '"]');
+    var elem = document.querySelector('[vrome_edit_id="' + msg.edit_id + '"]');
     elem.value = msg.value;
+    elem.removeAttribute('vrome_edit_id');
+    elem.removeAttribute('readonly');
   }
 
   return {

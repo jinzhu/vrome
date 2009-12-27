@@ -152,8 +152,8 @@ var Buffer = (function() {
 function externalEditor(msg) {
   var tab = arguments[arguments.length-1],index;
   var xhr = new XMLHttpRequest();
-  var url = 'http://localhost:20000?data=' + msg.data;
-  xhr.open("GET", url, true);
+  var url = 'http://localhost:20000';
+  xhr.open("POST", url, true);
   xhr.onreadystatechange = function() {
     if(xhr.readyState == 4 && xhr.status == 200) {
       var port = chrome.tabs.connect(tab.id, {});
@@ -162,5 +162,5 @@ function externalEditor(msg) {
   }
 
   xhr.setRequestHeader("Content-type", "text/plain");
-  xhr.send();
+  xhr.send('data=' + msg.data);
 }

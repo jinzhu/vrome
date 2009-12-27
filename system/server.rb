@@ -1,20 +1,29 @@
-require 'socket'
+require 'webrick'
 require 'tempfile'
-require 'cgi'
 
-server = TCPServer.new('localhost', 20000)
+class EditorServer < WEBrick::HTTPServlet::AbstractServlet
 
-while (session = server.accept)
-  # GET /?data='originaltext' HTTP/1.1
-  text = CGI.unescape(session.gets.split[1].split('=',2)[1]);
-  puts "Request: text : #{text}"
+  def do_POST(request, response)
+    status, content_type, body = do_stuff_with(request)
 
-  tmpfile = Tempfile.new('editor')
-  tmpfile.write text
-  tmpfile.flush
-  system("gvim -f #{tmpfile.path}")
-  session.puts File.read(tmpfile.path)
+    response.status          = status
+    response['Content-Type'] = content_type
+    response.body            = body
+  end
 
-  tmpfile.delete
-  session.close
+  def do_stuff_with(request)
+    tmpfile = Tempfile.new('editor')
+    tmpfile.write request.body.split('=',2)[1]
+    tmpfile.flush
+    system("gvim -f #{tmpfile.path}")
+    text = File.read(tmpfile.path)
+    tmpfile.delete
+
+    return 200, "text/plain", text
+  end
 end
+
+server = WEBrick::HTTPServer.new(:Port => 20000)
+server.mount "/", EditorServer
+trap(:INT) { server.shutdown }
+server.start
