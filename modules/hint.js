@@ -9,10 +9,10 @@ var Hint = (function(){
 
   function start(newTab){
 		hintMode    = true;
-    elements    = [];
-    numbers     = 0;
-    currentHint = false;
-    new_tab = newTab;
+		elements    = [];
+		numbers     = 0;
+		currentHint = false;
+		new_tab     = newTab;
     setHints();
     CmdBox.set({title : 'HintMode',pressDown : handleInput,content : ''});
     document.getElementById('__vrome_cmd_input_box').focus();

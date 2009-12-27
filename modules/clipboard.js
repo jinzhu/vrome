@@ -18,6 +18,6 @@ var Clipboard = (function(){
 	}
 
   return {
-    copy : function(data) { copy(data); }
+    copy : copy
   };
 })();
