@@ -19,14 +19,15 @@ var Buffer = (function(){
     }
   }
 
-  function deleteMatchHandle() {
-    if(!bufferMatchMode) return;
-    Post({ action : 'Buffer.deleteMatch', keyword : CmdBox.get().content });
+  // keyword for CmdLine
+  function deleteMatchHandle(keyword) {
+    if(!keyword && !bufferMatchMode) return;
+    Post({ action : 'Buffer.deleteMatch', keyword : keyword || CmdBox.get().content });
     bufferMatchMode = false;
     CmdBox.remove();
   }
 
-  function deleteMatch(){
+  function deleteMatch() {
     bufferMatchMode = true;
     CmdBox.set({ title   : 'Delete Buffer ', content : '' });
   }

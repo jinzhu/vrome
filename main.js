@@ -82,6 +82,12 @@ with(KeyEvent) {
   add(['Esc'], CmdBox.remove     );
   add(['Esc'], CmdBox.remove,true);
 
+
+  // CmdLine
+  add([':']    , CmdLine.start );
+  add(['Enter'], CmdLine.exec , true );
+
+
   // Hint
   add(['f']  , Hint.start         );
   add(['F']  , Hint.new_tab_start );
@@ -107,6 +113,7 @@ with(KeyEvent) {
   add(['b']    , Buffer.gotoFirstMatch );
   add(['Enter'], Buffer.deleteMatchHandle,true );
   add(['B']    , Buffer.deleteMatch );
+
 
   add(['g','i'], InsertMode.focusFirstTextInput );
   add(['C-z']  , KeyEvent.disable               );
@@ -135,6 +142,11 @@ with(KeyEvent) {
 
   add(['M-j'], InsertMode.MoveBackwardChar    , true );
   add(['M-k'], InsertMode.MoveForwardChar     , true );
+}
+
+
+with(CmdLine) {
+  add('bdelete', Buffer.deleteMatchHandle );
 }
 
 // Initial
