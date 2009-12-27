@@ -26,15 +26,15 @@ var Url = (function(){
   }
 
   function enter() {
-    if(urlMode){
-      var urls = fixUrl(CmdLine.get().content);
-      Debug('Url.enter - urls: ' + urls + ' newtab:' + newTab);
+    if(!urlMode) return;
 
-      Post({action: "open_url", urls: urls, newtab: newTab});
+    var urls = fixUrl(CmdLine.get().content);
+    Debug('Url.enter - urls: ' + urls + ' newtab:' + newTab);
 
-      urlMode = false;
-      CmdLine.remove();
-    }
+    Post({action: "open_url", urls: urls, newtab: newTab});
+
+    urlMode = false;
+    CmdLine.remove();
   }
 
   function parent() {
