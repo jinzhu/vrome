@@ -3,9 +3,9 @@ var Buffer = (function(){
 
   function gotoFirstMatchHandle() {
     if(!bufferGotoMode) return;
-    Post({ action : 'Buffer.gotoFirstMatch', keyword : CmdLine.get().content });
+    Post({ action : 'Buffer.gotoFirstMatch', keyword : CmdBox.get().content });
     bufferGotoMode = false;
-    CmdLine.remove();
+    CmdBox.remove();
   }
 
   function gotoFirstMatch() {
@@ -15,20 +15,20 @@ var Buffer = (function(){
       Post({action: "Tab.goto",index : count - 1});
     }else{
       bufferGotoMode = true;
-      CmdLine.set({ title   : 'Buffer ', content : '' });
+      CmdBox.set({ title   : 'Buffer ', content : '' });
     }
   }
 
   function deleteMatchHandle() {
     if(!bufferMatchMode) return;
-    Post({ action : 'Buffer.deleteMatch', keyword : CmdLine.get().content });
+    Post({ action : 'Buffer.deleteMatch', keyword : CmdBox.get().content });
     bufferMatchMode = false;
-    CmdLine.remove();
+    CmdBox.remove();
   }
 
   function deleteMatch(){
     bufferMatchMode = true;
-    CmdLine.set({ title   : 'Delete Buffer ', content : '' });
+    CmdBox.set({ title   : 'Delete Buffer ', content : '' });
   }
 
   return {

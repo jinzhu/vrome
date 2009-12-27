@@ -42,21 +42,21 @@ var KeyEvent = (function(){
 
   ///////////////////////////////////////////////////
   function passNextKey(){
-		CmdLine.set({title : ' -- PASS NEXT KEY -- ',timeout : 2000 });
+		CmdBox.set({title : ' -- PASS NEXT KEY -- ',timeout : 2000 });
     pass_next_key  = true;
     Post({action : "Vrome.disable"})
   }
 
 	function disable(){
     Debug("KeyEvent.disable");
-		CmdLine.set({title : ' -- PASS THROUGH -- ' });
+		CmdBox.set({title : ' -- PASS THROUGH -- ' });
     disableVrome = true;
     Post({action : "Vrome.disable"})
 	}
 
   function enable() {
     Debug("KeyEvent.enable");
-    CmdLine.remove();
+    CmdBox.remove();
     disableVrome = false;
     pass_next_key  = false;
     reset();

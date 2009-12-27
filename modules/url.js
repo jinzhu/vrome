@@ -6,7 +6,7 @@ var Url = (function(){
   function open(/*Boolean*/ withDefault,/*Boolean*/ newtab) {
     urlMode = true;
     newTab  = newtab;
-    CmdLine.set({
+    CmdBox.set({
       title   : newTab ? 'TabOpen: ' : 'Open: ',
       content : withDefault ? location.href : ''
     });
@@ -28,13 +28,13 @@ var Url = (function(){
   function enter() {
     if(!urlMode) return;
 
-    var urls = fixUrl(CmdLine.get().content);
+    var urls = fixUrl(CmdBox.get().content);
     Debug('Url.enter - urls: ' + urls + ' newtab:' + newTab);
 
     Post({action: "open_url", urls: urls, newtab: newTab});
 
     urlMode = false;
-    CmdLine.remove();
+    CmdBox.remove();
   }
 
   function parent() {

@@ -14,7 +14,7 @@ var Hint = (function(){
     currentHint = false;
     new_tab = newTab;
     setHints();
-    CmdLine.set({title : 'HintMode',pressDown : handleInput,content : ''});
+    CmdBox.set({title : 'HintMode',pressDown : handleInput,content : ''});
     document.getElementById('__vrome_cmd_input_box').focus();
   }
 
@@ -78,7 +78,7 @@ var Hint = (function(){
 
   function remove(){
     if(!hintMode) return;
-    CmdLine.remove();
+    CmdBox.remove();
 		hintMode = false;
 
     for (var i = 0; i < elements.length; i++) {
@@ -98,7 +98,7 @@ var Hint = (function(){
       setHighlight(matched[cur],true);
       currentHint = matched[cur];
       e.preventDefault();
-			CmdLine.set({title : 'HintMode (' + numbers + ')'});
+			CmdBox.set({title : 'HintMode (' + numbers + ')'});
 
       if (numbers * 10 > matched.length){
         return execSelect( currentHint );
@@ -113,7 +113,7 @@ var Hint = (function(){
     matched = [];
 
     for(var i in elements){
-      if ( new RegExp(CmdLine.get().content,'im').test(elements[i].innerText) ){
+      if ( new RegExp(CmdBox.get().content,'im').test(elements[i].innerText) ){
         matched.push(elements[i]);
       }
     }

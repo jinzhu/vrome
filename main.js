@@ -78,9 +78,9 @@ with(KeyEvent) {
   add(['C-i'], History.forward );
 
 
-  // CmdLine
-  add(['Esc'], CmdLine.remove     );
-  add(['Esc'], CmdLine.remove,true);
+  // CmdBox
+  add(['Esc'], CmdBox.remove     );
+  add(['Esc'], CmdBox.remove,true);
 
   // Hint
   add(['f']  , Hint.start         );

@@ -92,15 +92,15 @@ var Search = (function(){
     key = getKey(e);
     if( ! /Enter/.test(key) ) remove(); // clear exist highlight before search
 
-    find(CmdLine.get().content);
-    lastSearch = CmdLine.get().content;
+    find(CmdBox.get().content);
+    lastSearch = CmdBox.get().content;
   }
 
   function start(backward){
     searchMode = true;
     direction = backward ? -1 : 1 ;
 
-    CmdLine.set({
+    CmdBox.set({
 			title   : backward ? 'Backward search: ?' : 'Forward search: /',
 			pressUp : handleInput,
 			content : lastSearch || ''
