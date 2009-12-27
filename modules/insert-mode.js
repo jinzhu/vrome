@@ -90,9 +90,9 @@ var InsertMode = (function(){
 		elem.setSelectionRange(caret_position + 1,caret_position + 1);
   }
 
-	function externalEditor() {
+	function externalEditor(e) {
 		var xhr = new XMLHttpRequest();
-		var url = 'http://localhost:20000';
+		var url = 'http://localhost:20000?data=data' //+ e.target.value;
 		xhr.open("GET", url, true);
 		xhr.onreadystatechange = function() {
 			if(xhr.readyState == 4 && xhr.status == 200) {

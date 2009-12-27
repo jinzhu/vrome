@@ -87,7 +87,7 @@ var KeyEvent = (function(){
   }
 
   ///////////////////////////////////////////////////
-  function runCurrentKeys(keys, insertMode, key) {
+  function runCurrentKeys(keys, insertMode, key,e) {
 		// run last command
     if(key == '.' && !insertMode){
 			var old_times = last_times;
@@ -114,7 +114,7 @@ var KeyEvent = (function(){
     for(var i in matched){
       // execute those exactly matched bindings
 			if(matched[i][0].length == keys.length){
-        matched[i][1].call();
+        matched[i][1].call('',e);
         exec_length++;
 			}
 		}
@@ -153,7 +153,7 @@ var KeyEvent = (function(){
 			return;
 		}
 
-    if (runCurrentKeys(currentKeys,insertMode,key)) e.preventDefault();
+    if (runCurrentKeys(currentKeys,insertMode,key,e)) e.preventDefault();
 	}
 
 	return {
