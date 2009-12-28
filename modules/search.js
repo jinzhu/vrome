@@ -1,7 +1,5 @@
 var Search = (function(){
-  var searchMode = false;
-  var direction;
-  var lastSearch;
+  var searchMode,direction,lastSearch;
 
   var highlight_class      = '__vrome_search_highlight';
   var highlight_current_id = '__vrome_search_highlight_current';
@@ -11,7 +9,7 @@ var Search = (function(){
     if(!node)    node = document.body;
 
     // Iterate node childNodes
-    if (node.id != '__vrome_cmd_box' && node.hasChildNodes() && !/(script|style)/i.test(node.tagName)) {
+    if (node.id != '_vrome_cmd_box' && node.hasChildNodes() && !/(script|style)/i.test(node.tagName)) {
       for (var i = 0;i < node.childNodes.length;i++) {
         find(keyword, node.childNodes[i]);
       }
@@ -79,7 +77,7 @@ var Search = (function(){
 
     if(nodes[i]){ // if undefined,then goto next
       nodes[i].setAttribute('id',highlight_current_id);
-      // TODO only move if the node is invisible?
+      // only move if the node is invisible?
       if(!isElementVisible(nodes[i])) nodes[i].scrollIntoView();
     }else{
       next(step);
@@ -88,9 +86,7 @@ var Search = (function(){
 
   function handleInput(e){
 		if(!searchMode) return;
-
-    key = getKey(e);
-    if( ! /Enter/.test(key) ) remove(); // clear exist highlight before search
+    if(!/Enter/.test(getKey(e))) remove();
 
     find(CmdBox.get().content);
     lastSearch = CmdBox.get().content;
