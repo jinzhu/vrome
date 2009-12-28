@@ -34,11 +34,9 @@ var CmdBox = (function(){
 
   function createCmdBoxInput() {
     var cmdbox = cmdBox();
-    var div = document.createElement('div');
     var input = document.createElement('input');
     input.setAttribute('id',input_box_id);
-    div.appendChild(input);
-    cmdbox.appendChild(div);
+    cmdbox.appendChild(input);
     return input;
   }
 
