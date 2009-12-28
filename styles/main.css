@@ -8,6 +8,7 @@
   vertical-align: middle;
   -webkit-border-top-left-radius: 4px;
   -webkit-box-shadow:-1px -1px 4px #888;
+  z-index: 100000;
 }
 
 #_vrome_cmd_box input{
