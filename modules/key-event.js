@@ -42,7 +42,7 @@ var KeyEvent = (function(){
 
   ///////////////////////////////////////////////////
   function passNextKey(){
-		CmdBox.set({title : ' -- PASS NEXT KEY -- ',timeout : 2000 });
+		CmdBox.set({title : ' -- PASS THROUGH (next) -- ',timeout : 2000 });
     pass_next_key  = true;
     Post({action : "Vrome.disable"})
   }
