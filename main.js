@@ -30,6 +30,7 @@ with(KeyEvent) {
   add(['O']    , Url.openWithDefault    );
   add(['t']    , Url.tabopen            );
   add(['T']    , Url.tabopenWithDefault );
+  add(['C-y']  , Url.shortUrl           );
   add(['Enter'], Url.enter,true         );
 
 

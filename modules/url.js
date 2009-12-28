@@ -79,12 +79,23 @@ var Url = (function(){
     Post({action: "open_url", urls: url, newtab: newTab});
   }
 
+  function shortUrl(msg) {
+    if (msg && msg.url) {
+      Clipboard.copy(msg.url);
+      CmdBox.set({ title : "It's copied,the shorten URL: " + msg.url,timeout : 4000 });
+    }else{
+      CmdBox.set({ title : 'shorten the current URL.',timeout : 4000 });
+      Post({action: "shortUrl"})
+    }
+  }
+
   return {
     parent    : parent    ,
     root      : root      ,
     increment : increment ,
     decrement : decrement ,
     enter     : enter     ,
+    shortUrl  : shortUrl  ,
 
     viewSource         : viewSource,
     viewSourceNewTab   : function(){ viewSource(true);  },
