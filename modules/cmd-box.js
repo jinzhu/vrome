@@ -1,54 +1,59 @@
 var CmdBox = (function(){
-  var box_id        = '__vrome_cmd_box';
-  var input_box_id  = '__vrome_cmd_input_box';
+  var box_id        = '_vrome_cmd_box';
+  var input_box_id  = '_vrome_cmd_input_box';
 
 	var pressUpFunction   = function(){};
 	var pressDownFunction = function(){};
 	var pressUp           = function(e) { pressUpFunction.call('',e);  };
 	var pressDown         = function(e) { pressDownFunction.call('',e);};
 
-  function createCmdBox(){
-    var box = document.createElement('div');
-    box.setAttribute('id',box_id);
-    document.body.appendChild(box);
-  }
-
-  function cmdBoxExist(){
-    return !!document.getElementById(box_id);
-  }
-
   function cmdBox() {
-    if(!cmdBoxExist()) createCmdBox();
-    return document.getElementById(box_id);
+    var div = document.getElementById(box_id);
+    if(!div){
+      div = document.createElement('div');
+      div.setAttribute('id',box_id);
+      document.body.appendChild(div);
+    }
+    return div;
   }
 
-  function createInputBox() {
-    var box = document.createElement('input');
-    box.setAttribute('id',input_box_id);
-    box.setAttribute('type','text');
-    cmdBox().appendChild(box);
-
-    cmdBox().addEventListener('keydown',pressDown,false);
-    cmdBox().addEventListener('keyup'  ,pressUp,false);
+  function cmdBoxTitle() {
+    return document.querySelector('#_vrome_cmd_box span');
   }
 
-  function inputBoxExist() {
-    return !!document.getElementById(input_box_id);
+  function createCmdBoxTitle() {
+    var cmdbox = cmdBox();
+    var span = document.createElement('span');
+    cmdbox.appendChild(span);
+    return span;
   }
 
-  function inputBox() {
-    if(!inputBoxExist()) createInputBox();
-    return document.getElementById(input_box_id);
+  function cmdBoxInput() {
+    return document.querySelector('#_vrome_cmd_box input');
+  }
+
+  function createCmdBoxInput() {
+    var cmdbox = cmdBox();
+    var div = document.createElement('div');
+    var input = document.createElement('input');
+    input.setAttribute('id',input_box_id);
+    div.appendChild(input);
+    cmdbox.appendChild(div);
+    return input;
   }
 
   function set(opt) {
-    if(opt.title)
-      cmdBox().firstChild ? cmdBox().firstChild.data = opt.title : cmdBox().innerHTML = opt.title;
+    if(opt.title) {
+      var title = cmdBoxTitle() || createCmdBoxTitle();
+      title.innerText = opt.title;
+    }
     if(typeof(opt.content) == 'string') {
-      elem = inputBox();
-      elem.value = opt.content;
-      elem.focus();
-      elem.setSelectionRange(0,elem.value.length);
+      var input = cmdBoxInput() || createCmdBoxInput();
+      input.value = opt.content;
+      input.focus();
+      input.setSelectionRange(0,input.value.length);
+      input.addEventListener('keydown',pressDown,false);
+      input.addEventListener('keyup'  ,pressUp,false);
     }
 		if(opt.pressUp)
       pressUpFunction = opt.pressUp;
@@ -60,8 +65,8 @@ var CmdBox = (function(){
 
   function get() {
     return {
-      title   : (cmdBoxExist && cmdBox().firstChild) ? cmdBox().firstChild.data : '',
-      content : inputBoxExist ? inputBox().value       : '',
+      title   : cmdBoxTitle() ? cmdBoxTitle().innerText : '',
+      content : cmdBoxInput() ? cmdBoxInput().value     : '',
     };
   }
 

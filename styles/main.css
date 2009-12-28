@@ -1,21 +1,33 @@
-#__vrome_cmd_box{
- position    : fixed !important;
- bottom      : 0 !important;
- right       : 0 !important;
- width       : 300px !important;
- background  : #ff0 !important;
- text-align  : left !important;
- font-size   : 10px !important;
- color       : green !important;
- font-weight : bold !important;
- padding     : 2px 0 0 10px !important;
- border      : thin solid #f00 !important;
- z-index     : 100000;
+#_vrome_cmd_box {
+  height:30px !important;
+  line-height:30px !important;
+  position:fixed !important;
+  background: #7DB9E4 url(chrome-extension://iiffmolbankaonfoniihhpbpclcenokk/asserts/cmd_box_bg.png) repeat-x;
+  bottom:1px;
+  right:1px;
+  padding:0 10px;
+  border:#3f86bb 1px solid !important;
+  -webkit-border-top-left-radius: 4px;
+  -webkit-box-shadow:-1px -1px 4px #888;
 }
 
-#__vrome_cmd_input_box{
- margin: 2px 0 0 10px;
- width       : 180px !important;
+#_vrome_cmd_box div {
+  display: inline;
+  margin: 2px 0 2px 10px;
+  height: 26px;
+}
+
+#_vrome_cmd_box input{
+  background: #eff8ff !important;
+  -webkit-border-radius: 2px;
+  padding:4px 0;
+  width:200px;
+  border:none;
+}
+
+#_vrome_cmd_box span{
+  color:#1c294a;
+  text-shadow: 1px 1px 1px #fff;
 }
 
 #__vim_hint_highlight {

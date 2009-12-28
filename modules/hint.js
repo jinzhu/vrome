@@ -15,7 +15,6 @@ var Hint = (function(){
 		new_tab     = newTab;
     setHints();
     CmdBox.set({title : 'HintMode',pressDown : handleInput,content : ''});
-    document.getElementById('__vrome_cmd_input_box').focus();
   }
 
   function setHints() {
