@@ -1,3 +1,15 @@
+////////////////////////////////////////
+// Tasks For The Upcoming Version
+////////////////////////////////////////
+
+1, open  '/'.
+2, disappear cmd-box after document load.
+3, hint mode delete forward num.
+4, insertMode move cursor .
+
+//////////////////////////////
+
+
 1, next/prev page pattern
 3, popup
   - chinese pinyin - whole / single / none
