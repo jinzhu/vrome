@@ -45,3 +45,5 @@ desc 'install extension'
 task :install => [:preinstall,:build] do
   `chromium-browser  #{File.join(File.dirname(__FILE__),'vrome.crx')}`
 end
+
+task :default => [:install]
