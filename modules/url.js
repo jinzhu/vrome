@@ -16,10 +16,15 @@ var Url = (function(){
     var url = url.split(/, /);
     var urls = [];
     for(var i = 0; i< url.length; i++){
-      if(/\./.test(url[i]) && !/\s/.test(url[i])){
+      if ( /^\//.test(url[i]) && !/\s/.test(url[i])) {
+        urls[urls.length] = location.protocol + '//' + location.host + url[i];
+
+      } else if( /\./.test(url[i]) && !/\s/.test(url[i])) {
         urls[urls.length] = (new RegExp('://','im').test(url[i]) ? "" : "http://") + url[i]
+
       }else{
         urls[urls.length] = "http://www.google.com/search?q=" + url[i];
+
       }
     }
     return urls;
