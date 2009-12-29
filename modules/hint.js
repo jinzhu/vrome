@@ -91,18 +91,20 @@ var Hint = (function(){
   function handleInput(e){
     key = getKey(e);
 
-    if(/^\d$/.test(key)){
-      numbers = numbers * 10 + Number(key);
+    if(/^\d$/.test(key) || (key == 'BackSpace' && numbers != 0)){
+      numbers = (key == 'BackSpace') ? parseInt(numbers / 10) : numbers * 10 + Number(key);
+			CmdBox.set({title : 'HintMode (' + numbers + ')'});
       var cur = numbers - 1;
+
       setHighlight(matched[cur],true);
       currentHint = matched[cur];
       e.preventDefault();
-			CmdBox.set({title : 'HintMode (' + numbers + ')'});
 
       if (numbers * 10 > matched.length){
         return execSelect( currentHint );
       }
     }else{
+			CmdBox.set({title : 'HintMode'});
       if(key != 'Esc') setTimeout(delayToWaitKeyDown,50);
     }
   }
