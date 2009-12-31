@@ -16,7 +16,7 @@ var Url = (function(){
     var url = url.split(/, /);
     var urls = [];
     for(var i = 0; i< url.length; i++){
-      if ( /^\//.test(url[i]) && !/\s/.test(url[i])) {
+      if ( /^\//.test(url[i]) && /^\S+\s*$/.test(url[i])) {
         urls[urls.length] = location.protocol + '//' + location.host + url[i];
 
       } else if( /\./.test(url[i]) && !/\s/.test(url[i])) {
