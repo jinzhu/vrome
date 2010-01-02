@@ -12,10 +12,13 @@ class EditorServer < WEBrick::HTTPServlet::AbstractServlet
   end
 
   def do_stuff_with(request)
+    body = request.body.split('&',2)
+    editor = body[0].split('=')[1]
     tmpfile = Tempfile.new('editor')
-    tmpfile.write request.body.split('=',2)[1]
+    tmpfile.write body[1].split('=',2)[1]
     tmpfile.flush
-    system("gvim -f #{tmpfile.path}")
+    editor = 'gvim -f' if editor == 'gvim' # Foreground: Don't fork when starting GUI
+    system("#{editor} #{tmpfile.path}")
     text = File.read(tmpfile.path)
     tmpfile.delete
 

@@ -78,9 +78,16 @@ function init() {
   }
 	addSite('');
 	addIcons();
+
+  var elem = document.getElementById('vrome_editor');
+  elem.value = Settings.get('editor');
 }
 
 function changeStatus(/*Boolean|Checked*/ enable) {
   var port = chrome.tabs.connect(Settings.get('now_tab_id'), {});
   port.postMessage({ action : "KeyEvent.changeStatus", arguments : enable });
+}
+
+function saveEditor(editor) {
+	Settings.add({editor : editor});
 }

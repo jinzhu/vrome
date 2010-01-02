@@ -159,7 +159,7 @@ function externalEditor(msg) {
   }
 
   xhr.setRequestHeader("Content-type", "text/plain");
-  xhr.send('data=' + msg.data);
+  xhr.send('editor=' + (Settings.get('editor') || 'gvim') + '&data=' + msg.data);
 }
 
 function shortUrl(msg) {
