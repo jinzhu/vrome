@@ -2,11 +2,13 @@ var Vrome = (function(){
   function enable(){
     chrome.browserAction.setIcon({path: 'assets/logo.png'});
     chrome.browserAction.setTitle({title:"Vrome (enabled)"});
+    Settings.add({ currentPageDisabled : false });
   }
 
   function disable(){
     chrome.browserAction.setIcon({path: 'assets/logo-disable.png'});
     chrome.browserAction.setTitle({title:"Vrome (disabled)"});
+    Settings.add({ currentPageDisabled : true });
   }
   return { enable : enable, disable : disable }
 })()
@@ -101,11 +103,6 @@ function debug(msg){
   var tab = arguments[arguments.length-1];
   console.log(tab.url + " : \n" + msg.message);
 }
-
-function currentPageDisabled(msg){
-  Settings.add({ currentPageDisabled : msg.disable });
-}
-
 
 var Buffer = (function() {
   function gotoFirstMatch(msg) {

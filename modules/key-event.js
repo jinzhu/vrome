@@ -83,7 +83,6 @@ var KeyEvent = (function(){
 		}
 
     disableVrome ? disable() : enable();
-    Post({action : "currentPageDisabled", disable : disableVrome});
   }
 
   ///////////////////////////////////////////////////
