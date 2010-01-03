@@ -36,6 +36,7 @@ o      Open one or more URLs in the current tab,multiple urls can be separated w
 O      Show an :open prompt containing the current URL.
 t      Just like :open but also uses a new tab for the first URL.
 T      Show an :tabopen prompt containing the current URL.
+C-y    shorten current url,and copy it into clipboard
 
 
 ### Scroll
@@ -124,6 +125,7 @@ M-h    move back a word
 M-l    move forward a word
 M-j    move back a char
 M-k    move forward a char
+C-i    edit with external editor. you need to run a ruby script(main.rb) to support that,the script is located in the system directory.
 
 ---
 feel free to concact me to ask questions/ report bugs/ request features about Vrome.
