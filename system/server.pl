@@ -86,14 +86,18 @@ sub do_edit
     );
     my $name = $tmp->filename;
 
-    my $got = read($fh, $_, $len);
+    my $all;
+    my $got = read($fh, $all, $len);
     if ($got != $len) {
-    http_header($fh, 500, 'Invalid request -- wrong content-length.');
-    close $fh;
-    return;
+        http_header($fh, 500, 'Invalid request -- wrong content-length.');
+        close $fh;
+        return;
     }
 
-    print $tmp $_;
+    # $all is expected to look like 'editor=gvim&data=content';
+    my ($editor_pair,$data_pair) = split '&', $all,2;
+    my ($data_name,$data_value)  = split '=', $data_pair,2;
+    print $tmp $data_value;
     close $tmp;
 
     my $cmd = sprintf($EDITOR_CMD, $name);
