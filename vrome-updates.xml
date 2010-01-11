@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<gupdate xmlns="http://www.google.com/update2/response" protocol="2.0">
+<gupdate protocol="2.0" xmlns="http://www.google.com/update2/response">
   <app appid="iiffmolbankaonfoniihhpbpclcenokk">
-    <updatecheck codebase="http://github.com/jinzhu/vrome/raw/master/vrome.crx" version="0.3.1"/>
+    <updatecheck codebase="http://github.com/jinzhu/vrome/raw/master/vrome.crx" version="0.3.2"/>
   </app>
 </gupdate>
