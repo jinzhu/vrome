@@ -142,7 +142,7 @@ var KeyEvent = (function(){
 	function exec(e) {
     if(disable_site) return; // if this url belong to disabled sites,do nothing
 		var key        = getKey(e);
-		var insertMode = /^INPUT|TEXTAREA$/.test(e.target.nodeName);
+		var insertMode = /^INPUT|TEXTAREA$/i.test(e.target.nodeName);
 		if(/^(Control|Alt|Shift)$/.test(key)) return;
 		currentKeys.push(key);
 
