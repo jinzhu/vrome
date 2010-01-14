@@ -6,7 +6,7 @@ var Search = (function(){
 
   function find(keyword,node) {
     if(!keyword) return;
-    if(!node)    node = document.body;
+    node = node || document.body;
 
     // Iterate node childNodes
     if (node.id != '_vrome_cmd_box' && node.hasChildNodes() && !/(script|style)/i.test(node.tagName)) {
@@ -46,11 +46,9 @@ var Search = (function(){
 
   function remove() {
     var nodes = document.getElementsByClassName(highlight_class);
-    var length = nodes.length;
-
-    for(var i = 0; i < length; i++){
-      if(nodes[0]){
-        var parentNode = nodes[0].parentNode;
+    for(var i = nodes.length - 1; i >= 0; i--){
+      if(nodes[i]) {
+        var parentNode = nodes[i].parentNode;
         parentNode.innerHTML = parentNode.innerText;
       }
     }
@@ -75,7 +73,7 @@ var Search = (function(){
 
     Debug('Search.next - size:' + nodes.length + ' selected:' + i + ' direction:' + direction + ' offset:' + offset);
 
-    if (nodes[i]) { // if undefined,then goto next
+    if (nodes[i]) { //FIXME if element is invisable
       nodes[i].setAttribute('id',highlight_current_id);
       nodes[i].scrollIntoViewIfNeeded();
     } else {
