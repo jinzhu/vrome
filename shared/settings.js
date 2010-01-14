@@ -18,13 +18,12 @@ var Settings = (function() {
  }
 
  function get(names) {
-   var name  = currentSetting();
+   var object = currentSetting();
    if(!names) return name;
 
    var names = names.split('.');
-
-   while (name && names[0]) { name = name[names.shift()]; }
-   return (typeof name == 'undefined') ? '' : name;
+   while (object && names[0]) { object = object[names.shift()]; }
+   return (typeof object == 'undefined') ? '' : object;
  }
 
  return { add : add, get :get }
