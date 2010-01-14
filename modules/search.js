@@ -75,11 +75,10 @@ var Search = (function(){
 
     Debug('Search.next - size:' + nodes.length + ' selected:' + i + ' direction:' + direction + ' offset:' + offset);
 
-    if(nodes[i]){ // if undefined,then goto next
+    if (nodes[i]) { // if undefined,then goto next
       nodes[i].setAttribute('id',highlight_current_id);
-      // only move if the node is invisible?
-      if(!isElementVisible(nodes[i])) nodes[i].scrollIntoView();
-    }else{
+      nodes[i].scrollIntoViewIfNeeded();
+    } else {
       next(step);
     }
   }
