@@ -99,10 +99,20 @@ Vrome  -- http://github.com/jinzhu/vrome
     *          Search forward for the selected words
     #          Search backward for the selected words
 
+#### Buffer
+    [count]b   goto the [count] tab
+    b          goto the first matched tab
+
+
+#### Other
     [count]gi  focus the first input box in the current page
     C-z        disable Vrome temporary
     C-v        pass through next key
     [count].   Repeat the last command
+
+
+### Command Line Mode
+    bdelete    close all matched tabs. [index,url,title]
 
 
 ### Insert Mode
