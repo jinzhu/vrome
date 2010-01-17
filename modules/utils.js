@@ -4,7 +4,7 @@ var times = function(/*Boolean*/ raw,/*Boolean*/ read) {
   return count;
 };
 
-var Post = function(msg){
+var Post = function(msg) {
   var port = chrome.extension.connect();
   port.postMessage(msg);
 }
@@ -40,7 +40,7 @@ function clickElement(element,opt) {
   element.dispatchEvent(event);
 }
 
-function runIt(func,args){
+function runIt(func,args) {
   if(func) initFunction.push([func,args]);
 
   if(document.body){
@@ -62,6 +62,6 @@ function runIt(func,args){
   }
 }
 
-function getSelected(){
+function getSelected() {
   return window.getSelection().toString();
 }

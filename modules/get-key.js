@@ -1,4 +1,4 @@
-var getKey = (function(){
+var getKey = (function() {
 	var keyId = {
 		"U+0008" : "BackSpace",
 		"U+0009" : "Tab",
@@ -107,22 +107,22 @@ var getKey = (function(){
 
 	function getKey(evt){
 		var key = keyId[evt.keyIdentifier] || evt.keyIdentifier,
-		ctrl = evt.ctrlKey ? 'C-' : '',
-		meta = (evt.metaKey || evt.altKey) ? 'M-' : '',
-		shift = evt.shiftKey ? 'S-' : '';
+		ctrl    = evt.ctrlKey ? 'C-' : '',
+		meta    = (evt.metaKey || evt.altKey) ? 'M-' : '',
+		shift   = evt.shiftKey ? 'S-' : '';
 
 		if (evt.shiftKey){
-			if (/^[a-z]$/.test(key)){
+			if (/^[a-z]$/.test(key)) {
 				return ctrl+meta+key.toUpperCase();
 			}
-			if (shiftNums[key]){
+			if (shiftNums[key]) {
 				return ctrl+meta+shiftNums[key];
 			}
 			if (/^[0-9]$/.test(key)) {
 				if(key == "4") key = "$";
 				return key;
 			}
-			if (/^(Enter|Space|BackSpace|Tab|Esc|Home|End|Left|Right|Up|Down|PageUp|PageDown|F(\d\d?))$/.test(key)){
+			if (/^(Enter|Space|BackSpace|Tab|Esc|Home|End|Left|Right|Up|Down|PageUp|PageDown|F(\d\d?))$/.test(key)) {
 				return ctrl+meta+shift+key;
 			}
 		}

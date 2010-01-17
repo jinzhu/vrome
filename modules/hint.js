@@ -1,15 +1,9 @@
-var Hint = (function(){
-  var elements    = [];
-  var numbers     = 0;
-  var currentHint = false;
-	var new_tab     = false;
-  var matched     = [];
-	var hintMode    = false;
+var Hint = (function() {
+  var currentHint, new_tab, hintMode, numbers, elements, matched;
   var highlight   = 'vrome_highlight';
 
-  function start(newTab){
+  function start(newTab) {
 		hintMode    = true;
-		elements    = [];
 		numbers     = 0;
 		currentHint = false;
 		new_tab     = newTab;
@@ -18,34 +12,33 @@ var Hint = (function(){
   }
 
   function setHints() {
-    var elems = document.body.querySelectorAll('a, input:not([type=hidden]), textarea, select, button,*[onclick]');
+		elements  = [];
+
+    var elems = document.body.querySelectorAll('a, input:not([type=hidden]), textarea, select, button, *[onclick]');
     for (var i = 0; i < elems.length; i++) {
-      if (isElementVisible(elems[i])){
-        elements.push(elems[i]);
-      }
+      if (isElementVisible(elems[i])) { elements.push(elems[i]); }
     }
     setOrder(elements);
     matched = elements;
   }
 
-  function setOrder(elems){
-    // delete old highlight hints
-    for (var i = 0; i < elements.length; i++) {
-      elements[i].removeAttribute(highlight);
-    }
+  function setOrder(elems) {
+    // clean up old highlight.
+    for (var i = 0; i < elements.length; i++) { elements[i].removeAttribute(highlight); }
 
     var div = document.getElementById('__vim_hint_highlight');
-    if(div) document.body.removeChild(div);
+    if (div) document.body.removeChild(div);
+
     div = document.createElement('div');
     div.setAttribute('id', '__vim_hint_highlight');
     document.body.appendChild(div);
 
-    for(var i = 0;i < elems.length; i++){ //TODO need refactor
-      elem          = elems[i];
+    for (var i = 0; i < elems.length; i++) { //TODO need refactor
+      var elem      = elems[i];
       var win_top   = window.scrollY / Zoom.current();
       var win_left  = window.scrollX / Zoom.current();
       var pos       = elem.getBoundingClientRect();
-      var elem_top  = win_top + pos.top;
+      var elem_top  = win_top  + pos.top;
       var elem_left = win_left + pos.left;
 
       var span = document.createElement('span');
@@ -58,25 +51,23 @@ var Hint = (function(){
 
       setHighlight(elem, false);
     }
-    if (elems[0] && elems[0].tagName == 'A') setHighlight(elems[0], true);
+    if (elems[0] && elems[0].tagName == 'A') { setHighlight(elems[0], true); }
   }
 
   function setHighlight(elem, is_active) {
-    if(!elem) { return false; }
+    if (!elem) { return false; }
 
     if (is_active) {
       var active_elem = document.body.querySelector('a[' + highlight + '=hint_active]');
-      if (active_elem){
-        active_elem.setAttribute(highlight, 'hint_elem');
-      }
+      if (active_elem) { active_elem.setAttribute(highlight, 'hint_elem'); }
       elem.setAttribute(highlight, 'hint_active');
     } else {
       elem.setAttribute(highlight, 'hint_elem');
     }
   }
 
-  function remove(){
-    if(!hintMode) return;
+  function remove() {
+    if (!hintMode) return;
     CmdBox.remove();
 		hintMode = false;
 
@@ -88,10 +79,10 @@ var Hint = (function(){
     if (div) { document.body.removeChild(div); }
   }
 
-  function handleInput(e){
+  function handleInput(e) {
     key = getKey(e);
 
-    if(/^\d$/.test(key) || (key == 'BackSpace' && numbers != 0)){
+    if (/^\d$/.test(key) || (key == 'BackSpace' && numbers != 0)) {
       numbers = (key == 'BackSpace') ? parseInt(numbers / 10) : numbers * 10 + Number(key);
 			CmdBox.set({title : 'HintMode (' + numbers + ')'});
       var cur = numbers - 1;
@@ -100,12 +91,12 @@ var Hint = (function(){
       currentHint = matched[cur];
       e.preventDefault();
 
-      if (numbers * 10 > matched.length){
+      if (numbers * 10 > matched.length) {
         return execSelect( currentHint );
       }
-    }else{
-			CmdBox.set({title : 'HintMode'});
-      if(key != 'Esc') setTimeout(delayToWaitKeyDown,50);
+    } else {
+			if (key != 'Enter') CmdBox.set({title : 'HintMode'});
+      if (key != 'Esc') setTimeout(delayToWaitKeyDown,200);
     }
   }
 
@@ -113,8 +104,8 @@ var Hint = (function(){
     numbers = 0;
     matched = [];
 
-    for(var i in elements){
-      if ( new RegExp(CmdBox.get().content,'im').test(elements[i].innerText) ){
+    for (var i in elements) {
+      if ( new RegExp(CmdBox.get().content,'im').test(elements[i].innerText) ) {
         matched.push(elements[i]);
       }
     }
@@ -128,13 +119,13 @@ var Hint = (function(){
   }
 
   function execSelect(elem) {
-    if(!elem){ return false; }
+    if (!elem) { return false; }
     var tag_name = elem.tagName.toLowerCase();
     var type     = elem.type ? elem.type.toLowerCase() : "";
 
     if (tag_name == 'a') {
       setHighlight(elem, true);
-      if(!new_tab){
+      if (!new_tab) {
         var old_target = elem.getAttribute('target');
         elem.removeAttribute('target');
       }
@@ -142,25 +133,22 @@ var Hint = (function(){
       clickElement(elem,{ ctrl : new_tab });
       if (old_target) elem.setAttribute('target',old_target);
 
-    } else if (tag_name == "input" && (type == "submit" || type == "button" || type == "reset" || type == "radio" || type == "checkbox")) {
+    } else if (elem.onclick || (tag_name == 'input' && (type == 'submit' || type == 'button' || type == 'reset' || type == 'radio' || type == 'checkbox'))) {
       clickElement(elem);
 
     } else if (tag_name == 'input' || tag_name == 'textarea') {
-      try{
+      try {
         elem.focus();
         elem.setSelectionRange(elem.value.length, elem.value.length);
-      }catch(e){
+      } catch(e) {
         clickElement(elem); // some website don't use standard submit input.
       }
 
-    } else if (tag_name == 'select'){
+    } else if (tag_name == 'select') {
       elem.focus();
-
-    } else if (elem.onclick) {
-      clickElement(elem);
     }
 
-    remove();
+    setTimeout(remove,200);
   }
 
   return {

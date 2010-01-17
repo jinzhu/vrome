@@ -1,4 +1,4 @@
-var CmdBox = (function(){
+var CmdBox = (function() {
   var box_id        = '_vrome_cmd_box';
   var input_box_id  = '_vrome_cmd_input_box';
 
@@ -53,12 +53,9 @@ var CmdBox = (function(){
       input.addEventListener('keydown',pressDown,false);
       input.addEventListener('keyup'  ,pressUp,false);
     }
-		if(opt.pressUp)
-      pressUpFunction = opt.pressUp;
-    if(opt.pressDown)
-      pressDownFunction = opt.pressDown;
-    if(opt.timeout)
-      setTimeout(remove,Number(opt.timeout));
+		if(opt.pressUp)   { pressUpFunction = opt.pressUp; }
+    if(opt.pressDown) { pressDownFunction = opt.pressDown; }
+    if(opt.timeout)   { setTimeout(remove,Number(opt.timeout)); }
   }
 
   function get() {

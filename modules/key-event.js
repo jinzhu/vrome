@@ -1,6 +1,6 @@
 var KeyEvent = (function(){
   var times = 0;
-  var disableVrome,pass_next_key,last_current_keys,last_times,disable_site;
+  var disableVrome, pass_next_key, last_current_keys, last_times, disable_site;
 
   function init() {
     document.addEventListener('keydown',KeyEvent.exec, false);
@@ -8,16 +8,16 @@ var KeyEvent = (function(){
 
   function returnTimes(/*Boolean*/ read) {
     var old_times = times;
-    if(!read) times = 0; // only read,don't reset it
+    if(!read) times = 0; // reset it except only read
     return old_times;
   }
 
   ///////////////////////////////////////////////////
   // Last Commands
   ///////////////////////////////////////////////////
-  function setLast(/*Array*/ currentKeys,/*Number*/ times){
+  function setLast(/*Array*/ currentKeys,/*Number*/ times) {
     times = times || 0;
-    Post({action : "setLastCommand",currentKey : currentKeys,times : times });
+    Post({action : "setLastCommand",currentKey : currentKeys,times : times});
     last_current_keys = currentKeys;
     last_times        = times;
     Debug("KeyEvent.setLast - currentKeys:" + currentKeys + " times:" + times);
@@ -63,17 +63,17 @@ var KeyEvent = (function(){
     Post({action : "Vrome.enable"})
   }
 
-  function changeStatus(/*Boolean*/ enableStatus){
-		if(typeof enableStatus == "boolean") {
+  function changeStatus(/*Boolean*/ enableStatus) {
+		if (typeof enableStatus == "boolean") {
 			disableVrome = !enableStatus;
       disable_site = disableVrome;
 
-		}else if (typeof disableVrome == "undefined") {
+		} else if (typeof disableVrome == "undefined") {
 			var disable_sites = Settings.get('background.disableSites');
 
-			for(var i in disable_sites){
-				if(disable_sites[i] && disable_sites[i]){
-					if(new RegExp(disable_sites[i],'i').test(location.href)){
+			for (var i in disable_sites) {
+				if (disable_sites[i] && disable_sites[i]) {
+					if (new RegExp(disable_sites[i],'i').test(location.href)) {
 						disableVrome = true;
             disable_site = true;
 						break;
