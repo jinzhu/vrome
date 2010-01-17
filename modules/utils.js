@@ -63,11 +63,5 @@ function runIt(func,args){
 }
 
 function getSelected(){
-  var value  = window.getSelection().focusNode.data;
-  if(!value) return;
-
-  var range  = window.getSelection().getRangeAt();
-  var result = value.substring(range.startOffset,range.endOffset);
-  Debug("getSelected: " + result);
-  return result;
+  return window.getSelection().toString();
 }
