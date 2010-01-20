@@ -130,7 +130,10 @@ var Hint = (function() {
         elem.removeAttribute('target');
       }
 
-      clickElement(elem,{ ctrl : new_tab });
+      var options = {};
+      options[Platform.mac ? 'meta' : 'ctrl'] = new_tab;
+      clickElement(elem,options);
+
       if (old_target) elem.setAttribute('target',old_target);
 
     } else if (elem.onclick || (tag_name == 'input' && (type == 'submit' || type == 'button' || type == 'reset' || type == 'radio' || type == 'checkbox'))) {
