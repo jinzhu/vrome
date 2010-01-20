@@ -1,4 +1,4 @@
-var Buffer = (function(){
+var Buffer = (function() {
   var bufferGotoMode,bufferMatchMode;
 
   function gotoFirstMatchHandle() {

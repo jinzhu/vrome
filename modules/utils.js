@@ -1,10 +1,16 @@
+var Platform = {
+  linux : navigator.userAgent.indexOf("Linux") != -1,
+  mac   : navigator.userAgent.indexOf("Mac") != -1,
+  win   : navigator.userAgent.indexOf("Windows") != -1
+}
+
 var times = function(/*Boolean*/ raw,/*Boolean*/ read) {
   var count = raw ? KeyEvent.times(read) : (KeyEvent.times(read) || 1);
   Debug('KeyEvent.times:' + count);
   return count;
 };
 
-var Post = function(msg){
+var Post = function(msg) {
   var port = chrome.extension.connect();
   port.postMessage(msg);
 }
@@ -40,7 +46,7 @@ function clickElement(element,opt) {
   element.dispatchEvent(event);
 }
 
-function runIt(func,args){
+function runIt(func,args) {
   if(func) initFunction.push([func,args]);
 
   if(document.body){
@@ -62,12 +68,6 @@ function runIt(func,args){
   }
 }
 
-function getSelected(){
-  var value  = window.getSelection().focusNode.data;
-  if(!value) return;
-
-  var range  = window.getSelection().getRangeAt();
-  var result = value.substring(range.startOffset,range.endOffset);
-  Debug("getSelected: " + result);
-  return result;
+function getSelected() {
+  return window.getSelection().toString();
 }

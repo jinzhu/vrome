@@ -1,4 +1,4 @@
-var Clipboard = (function(){
+var Clipboard = (function() {
   function createTextArea(/*String*/ data) {
     var textNode = document.createElement('textarea'); 
     textNode.style.position = "fixed"; 

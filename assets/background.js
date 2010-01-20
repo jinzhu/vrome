@@ -184,3 +184,7 @@ function shortUrl(msg) {
   }
   xhr.send();
 }
+
+function Debug(str) {
+  console.log(str);
+}
