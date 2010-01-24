@@ -4,39 +4,39 @@
     <title>Vrome</title>
   </head>
   <body onload="init()">
+    <script src="shared/settings.js" type="text/javascript" charset="utf-8"></script>
 		<script src="assets/application.js" type="text/javascript" charset="utf-8"></script>
     <style type="text/css">
       body {
         width : 800px;
         margin : 50px auto;
-        text-align: center;
         background: #eee;
       }
 
-      #disable_sites_heading {
-        margin: 50px auto 0;
+      #heading {
+        text-align: center;
       }
 
-      #disable_sites {
-        margin : 10px 0 0 250px;
-        text-align: left;
+      #disable_sites_heading {
+        margin: 20px auto 0;
       }
 
       .disable_site {
         width : 250px;
-        margin: 10px;
+        margin: 10px 10px 0 0;
       }
     </style>
 
     <h3 id="heading">Vrome Options</h3>
-    <h5>
-      <a href="http://github.com/jinzhu" target="_blank">ZhangJinzhu</a>
-      - <a href="mailto:wosmvp@gmail.com">wosmvp@gmail.com</a>
-      - <a href="http://github.com/jinzhu/vrome" target="_blank">http://github.com/jinzhu/vrome</a>
-    </h5>
+		<h5><a href="http://github.com/jinzhu" target="_blank">ZhangJinzhu</a></h5>
+		<h5><a href="mailto:wosmvp@gmail.com">wosmvp@gmail.com</a></h5>
+		<h5><a href="http://github.com/jinzhu/vrome" target="_blank">http://github.com/jinzhu/vrome</a></h5>
+    <br/>
 
-    <h6 id="disable_sites_heading"> Disable Sites </h6>
-    <div id="disable_sites">
-    </div>
+    <div class="header"> Editor </div>
+    <input onchange="saveEditor(this.value)" type="text" id="vrome_editor"/>
+
+    <div class="header" id="disable_sites_heading"> Disable Sites (Regexp) </div>
+    <div id="disable_sites"></div>
   </body>
 </html>
