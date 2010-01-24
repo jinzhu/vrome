@@ -1,3 +1,7 @@
+function Debug(str) {
+  console.log(str);
+}
+
 var Vrome = (function(){
   function enable(){
     chrome.browserAction.setIcon({path: 'assets/logo.png'});
@@ -26,7 +30,7 @@ var Tab = (function(){
     if (closed_tabs.length > 0) {
       var index = closed_tabs.length - msg.num;
       var last_closed_tab = closed_tabs[closed_tabs.length - msg.num];
-      console.log("last_closed_tab: " + last_closed_tab);
+      Debug("last_closed_tab: " + last_closed_tab);
       if(last_closed_tab){
         closed_tabs.splice(index,1);
         chrome.tabs.create({url: last_closed_tab.url, index: last_closed_tab.index});
@@ -45,7 +49,7 @@ var Tab = (function(){
         if (index < 0){ index = index + tabs.length; }
       }
 
-      console.log("gotoTab:" + index + " index:" + msg.index + " offset:" + msg.offset);
+      Debug("gotoTab:" + index + " index:" + msg.index + " offset:" + msg.offset);
       var get_tab = tabs[index] || tab;
       chrome.tabs.update(get_tab.id, {selected: true});
     });
@@ -101,7 +105,7 @@ function setLastCommand(msg) {
 
 function debug(msg){
   var tab = arguments[arguments.length-1];
-  console.log(tab.url + " : \n" + msg.message);
+  Debug(tab.url + " : \n" + msg.message);
 }
 
 var Buffer = (function() {
@@ -183,8 +187,4 @@ function shortUrl(msg) {
     }
   }
   xhr.send();
-}
-
-function Debug(str) {
-  console.log(str);
 }
