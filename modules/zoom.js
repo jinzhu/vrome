@@ -23,6 +23,10 @@ var Zoom = (function(){
   }
 
 
+  // API
+  setZoom.private = true;
+  current.private = true;
+
 	return {
 		setZoom    : setZoom,
 		'in'       : function() { setZoom( 1); },

@@ -105,6 +105,10 @@ var InsertMode = (function(){
     elem.removeAttribute('readonly');
   }
 
+  // API
+	blurFocus.private = true;
+	externalEditorCallBack.private = true;
+
   return {
     blurFocus              : blurFocus              ,
     focusFirstTextInput    : focusFirstTextInput    ,

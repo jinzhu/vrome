@@ -111,6 +111,11 @@ var Search = (function(){
 		return lastSearch;
   }
 
+	// API
+	stop.private  = true;
+	next.bothMode = true;
+	prev.bothMode = true;
+
   return {
     start    : start,
     stop     : stop,

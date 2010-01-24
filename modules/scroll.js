@@ -2,6 +2,7 @@ var Scroll = (function(){
 	var vertical_moment   = 30;
 	var horizontal_moment = 30;
 
+  // API
 	return {
 	  top      : function(){ scrollTo(scrollX, 0);                 },
 	  bottom   : function(){ scrollTo(scrollX, document.height);   },

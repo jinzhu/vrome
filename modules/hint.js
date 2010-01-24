@@ -154,6 +154,9 @@ var Hint = (function() {
     setTimeout(remove,200);
   }
 
+	// API
+	remove.private = true;
+
   return {
     start         : start,
     new_tab_start : function(){ start(true); },

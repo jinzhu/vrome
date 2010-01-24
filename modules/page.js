@@ -11,6 +11,7 @@ var Page = (function(){
 		}
 	}
 
+  // API
 	return {
 		next : function(){
 			execMatch(['(下|后)一页','^\\s*Next\\s*$','^>$','^More$','(^(>>|››|»))|((»|››|>>)$)']);

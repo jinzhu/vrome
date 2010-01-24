@@ -29,6 +29,7 @@ var Tab = (function(){
   function first() { Post({action: "Tab.goto",index  :	0}); }
   function last()  { Post({action: "Tab.goto",index  : -1}); }
 
+  // API
 	return {
     copyUrl   : copyUrl	 ,
     reload    : reload   ,

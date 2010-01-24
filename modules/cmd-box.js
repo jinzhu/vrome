@@ -72,5 +72,9 @@ var CmdBox = (function() {
     if(box) document.body.removeChild(box);
   }
 
+  // API
+  set.private    = true;
+  get.private    = true;
+  remove.private = true;
   return { set : set, get : get, remove : remove };
 })()

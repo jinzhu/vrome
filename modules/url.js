@@ -94,6 +94,9 @@ var Url = (function(){
     }
   }
 
+  // API
+  enter.private = true;
+
   return {
     parent    : parent    ,
     root      : root      ,
