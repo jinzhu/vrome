@@ -19,7 +19,7 @@ var Settings = (function() {
 
  function get(names) {
    var object = currentSetting();
-   if(!names) return name;
+   if(!names) return object;
 
    var names = names.split('.');
    while (object && names[0]) { object = object[names.shift()]; }
