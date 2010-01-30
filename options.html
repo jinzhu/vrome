@@ -39,6 +39,25 @@
     <div class="header"> Disable Sites (Regexp) </div>
     <div id="disable_sites"></div>
 
+    <!-- BEGIN config hotkeys -->
     <div class="header"> HotKeys </div>
+    <textarea id='hotkeys' rows="8" cols="60"></textarea><br/>
+
+    <input id='hotkey-keys' type="TEXT" value="">
+    <select id='hotkey-functions'></select>
+    <input id='hotkey-submit' type="submit" value="Submit" onclick='submitHotkeys();return false;'>
+
+    <script type="text/javascript" charset="utf-8">
+      function addHotkeys(key,value) {
+        var select = document.getElementById('hotkey-functions');
+        select.options[select.options.length] = new Option(key,value);
+      }
+
+      function submitHotkeys() {
+        var fun = document.getElementById('hotkey-keys').value + "\t" + document.getElementById('hotkey-functions').value;
+        document.getElementById('hotkeys').value = document.getElementById('hotkeys').value + "\n" + fun;
+      }
+    </script>
+    <!-- END config hotkeys -->
   </body>
 </html>
