@@ -3,6 +3,7 @@ var KeyEvent = (function(){
   var disableVrome, pass_next_key, last_current_keys, last_times, disable_site;
 
   function init() {
+    // TODO first time user?
     var hotkeys = Settings.get('background.hotkeys');
     for(var i = 0;i < hotkeys.length; i++) {
       var hotkey = hotkeys[i];

@@ -63,12 +63,21 @@
     <!-- BEGIN config hotkeys -->
     <div class="header"> HotKeys </div>
     <textarea id='hotkeys' rows="8" cols="60"></textarea><br/>
-    <input id='hotkey-save' type="submit" value="Save" onclick='saveHotkeys();return false;'><br/><br/>
+    <input id='hotkey-save' type="submit" value="Save" onclick="savHotkeys();"><br/><br/>
 
-    Add HotKey:
+    Add HotKey -- Common Mode:<br/>
     <input id='hotkey-keys' type="TEXT" value="">
     <select id='hotkey-functions'></select>
-    <input id='hotkey-submit' type="submit" value="Submit" onclick='submitHotkeys();return false;'>
+    <input id='hotkey-submit' type="submit" value="Submit" onclick="submitHotkeys();">
+    <br/>
+    Add HotKey -- Insert Mode:<br/>
+    <input id='hotkey-keys' type="TEXT" value="">
+    <select id='hotkey-functions'></select>
+    <input id='hotkey-submit' type="submit" value="Submit" onclick="submitHotkeys();">
+    Add HotKey -- Command Mode:<br/>
+    <input id='hotkey-keys' type="TEXT" value="">
+    <select id='hotkey-functions'></select>
+    <input id='hotkey-submit' type="submit" value="Submit" onclick="submitHotkeys();">
 
     <script type="text/javascript" charset="utf-8">
       function submitHotkeys() {
