@@ -66,17 +66,17 @@
     <input id='hotkey-save' type="submit" value="Save" onclick="savHotkeys();"><br/><br/>
 
     Add HotKey -- Normal Mode:<br/>
-    <input id='hotkey-keys' type="TEXT" value="">
-    <select id='hotkey-functions'></select>
+    <input id='hotkey-keys-normalMode' type="TEXT" value="">
+    <select id='hotkey-functions-normalMode'></select>
     <input id='hotkey-submit' type="submit" value="Submit" onclick="submitHotkeys('normalMode');">
     <br/>
     Add HotKey -- Insert Mode:<br/>
-    <input id='hotkey-keys' type="TEXT" value="">
-    <select id='hotkey-functions'></select>
+    <input id='hotkey-keys-insertMode' type="TEXT" value="">
+    <select id='hotkey-functions-insertMode'></select>
     <input id='hotkey-submit' type="submit" value="Submit" onclick="submitHotkeys('insertMode');">
     Add HotKey -- Command Mode:<br/>
-    <input id='hotkey-keys' type="TEXT" value="">
-    <select id='hotkey-functions'></select>
+    <input id='hotkey-keys-commandMode' type="TEXT" value="">
+    <select id='hotkey-functions-commandMode'></select>
     <input id='hotkey-submit' type="submit" value="Submit" onclick="submitHotkeys('commandMode');">
 
     <script type="text/javascript" charset="utf-8">
@@ -98,10 +98,9 @@
         Settings.add({ hotkeys : hotkeys});
       }
 
-      function addHotkeyFunctions(key,value) {
-        value = value || key;
-        var select = document.getElementById('hotkey-functions');
-        select.options[select.options.length] = new Option(key,value);
+      function addHotkeyFunctions(mode,value) {
+        var select = document.getElementById('hotkey-functions-' + mode);
+        select.options[select.options.length] = new Option(value,value);
       }
 
       function initHotkey() {
@@ -115,7 +114,11 @@
         var modules = ['Buffer','CmdLine','History','Scroll','Search','Zoom','InsertMode','Clipboard','KeyEvent','Tab','CmdBox','Hint','Page','Url'];
         for(var i in modules) {
           for(var j in window[modules[i]]) {
-            addHotkeyFunctions(modules[i] + '.' + j)
+            var value = modules[i] + '.' + j;
+            if (window[modules[i]][j].private)     { continue; }
+            if (window[modules[i]][j].insertMode)  { addHotkeyFunctions('insertMode',value);  }
+            if (window[modules[i]][j].commandMode) { addHotkeyFunctions('commandMode',value); }
+            if (window[modules[i]][j].normalMode)  { addHotkeyFunctions('normalMode',value);  }
           }
         }
       }
