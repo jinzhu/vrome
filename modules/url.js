@@ -118,4 +118,4 @@ var Url = (function(){
 for (var i in Url) {
 	Url[i].normalMode = true;
 }
-Url[i].enter.private = false;
+Url.enter.private = false;

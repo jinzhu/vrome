@@ -63,7 +63,7 @@
     <!-- BEGIN config hotkeys -->
     <div class="header"> HotKeys </div>
     <textarea id='hotkeys' rows="8" cols="60"></textarea><br/>
-    <input id='hotkey-save' type="submit" value="Save" onclick="savHotkeys();"><br/><br/>
+    <input id='hotkey-save' type="submit" value="Save" onclick="saveHotkeys();"><br/><br/>
 
     Add HotKey -- Normal Mode:<br/>
     <input id='hotkey-keys-normalMode' type="TEXT" value="">
@@ -81,7 +81,7 @@
 
     <script type="text/javascript" charset="utf-8">
       function submitHotkeys(mode) {
-        var current_hotkey = document.getElementById('hotkey-keys').value + "\t\t" + document.getElementById('hotkey-functions').value + "\t\t" + mode;
+        var current_hotkey = document.getElementById('hotkey-keys-' + mode).value + "\t\t" + document.getElementById('hotkey-functions-' + mode).value + "\t\t" + mode;
         var original_value = document.getElementById('hotkeys').value;
         var hotkeys        = (original_value ? (original_value + "\n") : '') + current_hotkey;
         // FIXME duplicate key

@@ -26,5 +26,5 @@ var Scroll = (function(){
 })()
 
 for(var i in Scroll) {
-	History[i].normalMode = true;
+	Scroll[i].normalMode = true;
 }

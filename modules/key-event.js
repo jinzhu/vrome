@@ -10,7 +10,13 @@ var KeyEvent = (function(){
       var actions = hotkey[1].split('.');
       var action  = window[actions.shift()];
       while (action && actions[0]) { action = action[actions.shift()]; }
-      add(hotkey[0].split('+'), action);
+      if (hotkey[2] == 'normalMode') {
+        add(hotkey[0].split('+'), action);
+      } else if (hotkey[2] == 'insertMode') {
+        add(hotkey[0].split('+'), action, true);
+      } else if (hotkey[2] == 'commandMode') {
+        CmdLine.add(hotkey[0],action);
+      }
     }
 
     document.addEventListener('keydown',KeyEvent.exec, false);
