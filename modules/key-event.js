@@ -3,6 +3,15 @@ var KeyEvent = (function(){
   var disableVrome, pass_next_key, last_current_keys, last_times, disable_site;
 
   function init() {
+    var hotkeys = Settings.get('background.hotkeys');
+    for(var i = 0;i < hotkeys.length; i++) {
+      var hotkey = hotkeys[i];
+      var actions = hotkey[1].split('.');
+      var action  = window[actions.shift()];
+      while (action && actions[0]) { action = action[actions.shift()]; }
+      add(hotkey[0].split('+'), action);
+    }
+
     document.addEventListener('keydown',KeyEvent.exec, false);
   }
 
