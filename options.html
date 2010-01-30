@@ -72,11 +72,12 @@
 
     <script type="text/javascript" charset="utf-8">
       function submitHotkeys() {
-        var current_hotkey = document.getElementById('hotkey-keys').value + "\t" + document.getElementById('hotkey-functions').value;
+        var current_hotkey = document.getElementById('hotkey-keys').value + "\t\t" + document.getElementById('hotkey-functions').value;
         var original_value = document.getElementById('hotkeys').value;
         var hotkeys        = (original_value ? (original_value + "\n") : '') + current_hotkey;
         // FIXME duplicate key
         document.getElementById('hotkeys').value = hotkeys;
+        saveHotkeys();
       }
 
       function saveHotkeys() {
@@ -98,7 +99,7 @@
         var hotkeys = Settings.get('hotkeys');
         var hotkeys_text = '';
         for(var i = 0;i < hotkeys.length; i++) {
-          hotkeys_text = hotkeys[i][0] + "\t\t" + hotkeys[i][1] + "\n";
+          hotkeys_text += hotkeys[i][0] + "\t\t" + hotkeys[i][1] + "\n";
         }
         document.getElementById('hotkeys').value = hotkeys_text.replace(/\n$/,'');
 
