@@ -112,10 +112,6 @@ var Search = (function(){
   }
 
 	// API
-	stop.private  = true;
-	next.bothMode = true;
-	prev.bothMode = true;
-
   return {
     start    : start,
     stop     : stop,
@@ -126,3 +122,7 @@ var Search = (function(){
     backwardCursor : function() { if(useSelectedValueAsKeyword()){ start(true); } },
   }
 })()
+
+Search.stop.private  = true;
+Search.next.bothMode = true;
+Search.prev.bothMode = true;

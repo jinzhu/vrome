@@ -6,6 +6,27 @@
   <body onload="init()">
     <script src="shared/settings.js" type="text/javascript" charset="utf-8"></script>
 		<script src="assets/application.js" type="text/javascript" charset="utf-8"></script>
+
+		<script src="modules/buffer.js" type="text/javascript" charset="utf-8"></script>
+		<script src="modules/chinese-pinyin.js" type="text/javascript" charset="utf-8"></script>
+		<script src="modules/clipboard.js" type="text/javascript" charset="utf-8"></script>
+    <script src="modules/cmd-box.js" type="text/javascript" charset="utf-8"></script>
+    <script src="modules/cmd-line.js" type="text/javascript" charset="utf-8"></script>
+    <script src="modules/debug.js" type="text/javascript" charset="utf-8"></script>
+    <script src="modules/get-key.js" type="text/javascript" charset="utf-8"></script>
+    <script src="modules/hint.js" type="text/javascript" charset="utf-8"></script>
+    <script src="modules/history.js" type="text/javascript" charset="utf-8"></script>
+    <script src="modules/insert-mode.js" type="text/javascript" charset="utf-8"></script>
+    <script src="modules/key-event.js" type="text/javascript" charset="utf-8"></script>
+    <script src="modules/page.js" type="text/javascript" charset="utf-8"></script>
+    <script src="modules/scroll.js" type="text/javascript" charset="utf-8"></script>
+    <script src="modules/search.js" type="text/javascript" charset="utf-8"></script>
+    <script src="modules/tab.js" type="text/javascript" charset="utf-8"></script>
+    <script src="modules/url.js" type="text/javascript" charset="utf-8"></script>
+    <script src="modules/utils.js" type="text/javascript" charset="utf-8"></script>
+    <script src="modules/zoom.js" type="text/javascript" charset="utf-8"></script>
+
+
     <style type="text/css">
       body {
         width : 800px;
@@ -49,13 +70,21 @@
 
     <script type="text/javascript" charset="utf-8">
       function addHotkeys(key,value) {
+        value = value || key;
         var select = document.getElementById('hotkey-functions');
         select.options[select.options.length] = new Option(key,value);
       }
 
       function submitHotkeys() {
-        var fun = document.getElementById('hotkey-keys').value + "\t" + document.getElementById('hotkey-functions').value;
-        document.getElementById('hotkeys').value = document.getElementById('hotkeys').value + "\n" + fun;
+        var cur_hotkey = document.getElementById('hotkey-keys').value + "\t" + document.getElementById('hotkey-functions').value;
+        var original_value = document.getElementById('hotkeys').value;
+        document.getElementById('hotkeys').value = (original_value ? (original_value + "\n") : '') + cur_hotkey;
+      }
+      var modules = ['Buffer','CmdLine','History','Scroll','Search','Zoom','InsertMode','Clipboard','KeyEvent','Tab','CmdBox','Hint','Page','Url'];
+      for(var i in modules) {
+        for(var j in window[modules[i]]) {
+          addHotkeys(modules[i] + '.' + j)
+        }
       }
     </script>
     <!-- END config hotkeys -->

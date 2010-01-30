@@ -24,8 +24,6 @@ var Zoom = (function(){
 
 
   // API
-  setZoom.private = true;
-  current.private = true;
 
 	return {
 		setZoom    : setZoom,
@@ -45,3 +43,6 @@ var Zoom = (function(){
 		init       : function() { Zoom.setZoom( Settings.get('zoom_level')); }
 	}
 })()
+
+Zoom.setZoom.private = true;
+Zoom.current.private = true;
