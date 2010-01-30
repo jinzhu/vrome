@@ -63,7 +63,7 @@
     <!-- BEGIN config hotkeys -->
     <div class="header"> HotKeys </div>
     <textarea id='hotkeys' rows="8" cols="60"></textarea><br/>
-    <input id='hotkey-save' type="submit" value="Save" onclick='submitHotkeys();return false;'><br/><br/>
+    <input id='hotkey-save' type="submit" value="Save" onclick='saveHotkeys();return false;'><br/><br/>
 
     Add HotKey:
     <input id='hotkey-keys' type="TEXT" value="">
@@ -74,7 +74,7 @@
       function submitHotkeys() {
         var current_hotkey = document.getElementById('hotkey-keys').value + "\t" + document.getElementById('hotkey-functions').value;
         var original_value = document.getElementById('hotkeys').value;
-        var hotkeys        = (original_value ? (original_value + "\n") : '') + cur_hotkey;
+        var hotkeys        = (original_value ? (original_value + "\n") : '') + current_hotkey;
         // FIXME duplicate key
         document.getElementById('hotkeys').value = hotkeys;
       }
@@ -94,12 +94,23 @@
         select.options[select.options.length] = new Option(key,value);
       }
 
-      var modules = ['Buffer','CmdLine','History','Scroll','Search','Zoom','InsertMode','Clipboard','KeyEvent','Tab','CmdBox','Hint','Page','Url'];
-      for(var i in modules) {
-        for(var j in window[modules[i]]) {
-          addHotkeyFunctions(modules[i] + '.' + j)
+      function initHotkey() {
+        var hotkeys = Settings.get('hotkeys');
+        var hotkeys_text = '';
+        for(var i = 0;i < hotkeys.length; i++) {
+          hotkeys_text = hotkeys[i][0] + "\t\t" + hotkeys[i][1] + "\n";
+        }
+        document.getElementById('hotkeys').value = hotkeys_text.replace(/\n$/,'');
+
+        var modules = ['Buffer','CmdLine','History','Scroll','Search','Zoom','InsertMode','Clipboard','KeyEvent','Tab','CmdBox','Hint','Page','Url'];
+        for(var i in modules) {
+          for(var j in window[modules[i]]) {
+            addHotkeyFunctions(modules[i] + '.' + j)
+          }
         }
       }
+
+      initHotkey();
     </script>
     <!-- END config hotkeys -->
   </body>
