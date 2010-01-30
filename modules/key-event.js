@@ -180,3 +180,7 @@ var KeyEvent = (function(){
     runLast : runLast,
   };
 })();
+
+KeyEvent.disable.normalMode     = true;
+KeyEvent.passNextKey.normalMode = true;
+KeyEvent.runLast.normalMode     = true;

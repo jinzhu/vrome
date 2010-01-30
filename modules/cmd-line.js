@@ -24,8 +24,7 @@ var CmdLine = (function() {
     if (matched.length == 1) return matched[0].call('',arg);
   }
 
-	// API
-	exec.private = true;
-	add.private  = true;
   return { start : start, exec : exec , add : add };
 })()
+
+CmdLine.start.normalMode = true;

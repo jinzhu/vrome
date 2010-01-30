@@ -154,12 +154,12 @@ var Hint = (function() {
     setTimeout(remove,200);
   }
 
-	// API
-	remove.private = true;
-
   return {
     start         : start,
     new_tab_start : function(){ start(true); },
     remove        : remove
   };
 })();
+
+Hint.start.normalMode         = true;
+Hint.new_tab_start.normalMode = true;

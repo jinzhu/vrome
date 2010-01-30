@@ -22,3 +22,7 @@ var Page = (function(){
 		copySelected : function() { Clipboard.copy(getSelected())}
 	};
 })();
+
+for (var i in Page) {
+	Page[i].normalMode = true;
+}

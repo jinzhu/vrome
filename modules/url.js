@@ -114,3 +114,8 @@ var Url = (function(){
     tabopenWithDefault : function(){ open(true,true);   },
   }
 })()
+
+for (var i in Url) {
+	Url[i].normalMode = true;
+}
+Url[i].enter.private = false;

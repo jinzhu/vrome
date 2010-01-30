@@ -45,3 +45,7 @@ var Tab = (function(){
 		closeAndFoucsLeft : function(){ close({offset : -1}) },
 	}
 })()
+
+for (var i in Tab) {
+  Tab[i].normalMode = true;
+}

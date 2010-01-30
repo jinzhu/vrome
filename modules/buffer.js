@@ -32,10 +32,6 @@ var Buffer = (function() {
     CmdBox.set({ title   : 'Delete Buffer ', content : '' });
   }
 
-  // API
-  gotoFirstMatchHandle.insertMode = true;
-  deleteMatchHandle.insertMode    = true;
-
   return {
     gotoFirstMatch       : gotoFirstMatch       ,
     gotoFirstMatchHandle : gotoFirstMatchHandle ,
@@ -43,3 +39,7 @@ var Buffer = (function() {
     deleteMatchHandle    : deleteMatchHandle    ,
   }
 })()
+
+Buffer.deleteMatchHandle.commandMode = true;
+Buffer.gotoFirstMatch.normalMode = true;
+Buffer.deleteMatch.normalMode = true;

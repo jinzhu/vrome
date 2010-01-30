@@ -123,6 +123,8 @@ var Search = (function(){
   }
 })()
 
-Search.stop.private  = true;
-Search.next.bothMode = true;
-Search.prev.bothMode = true;
+
+Search.next.insertMode  = true;
+Search.prev.insertMode  = true;
+Search.next.normalMode = true;
+Search.prev.normalMode = true;

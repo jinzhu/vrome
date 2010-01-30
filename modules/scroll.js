@@ -24,3 +24,7 @@ var Scroll = (function(){
     toPercent : function(){ scrollTo(scrollX,times(true) * document.height / 100); },
 	}
 })()
+
+for(var i in Scroll) {
+	History[i].normalMode = true;
+}

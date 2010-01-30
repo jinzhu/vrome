@@ -44,5 +44,8 @@ var Zoom = (function(){
 	}
 })()
 
+for(var i in Zoom) {
+  Zoom[i].normalMode = true;
+}
 Zoom.setZoom.private = true;
 Zoom.current.private = true;
