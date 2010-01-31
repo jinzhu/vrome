@@ -1,14 +1,13 @@
 function submitHotkeys(mode) {
-  var current_hotkey = document.getElementById('hotkey-keys-' + mode).value + "\t\t" + document.getElementById('hotkey-functions-' + mode).value + "\t\t" + mode;
-  var original_value = document.getElementById('hotkeys').value;
+  var current_hotkey = $('#hotkey-keys-' + mode).val() + "\t\t" + $('#hotkey-functions-' + mode).val() + "\t\t" + mode;
+  var original_value = $('#hotkeys').val();
   var hotkeys        = (original_value ? (original_value + "\n") : '') + current_hotkey;
-  // FIXME duplicate key
-  document.getElementById('hotkeys').value = hotkeys;
+  $('#hotkeys').val(hotkeys);
   saveHotkeys();
 }
 
 function saveHotkeys() {
-  var hotkeys_text = document.getElementById('hotkeys').value.split("\n");
+  var hotkeys_text = $('#hotkeys').val().split("\n");
   var hotkeys      = [];
   for(var i in hotkeys_text) {
     hotkeys.push(hotkeys_text[i].split(/\s+/));
@@ -27,7 +26,7 @@ function initHotkey() {
   for(var i = 0;i < hotkeys.length; i++) {
     hotkeys_text += hotkeys[i][0] + "\t\t" + hotkeys[i][1] + "\t\t" + hotkeys[i][2] + "\n";
   }
-  document.getElementById('hotkeys').value = hotkeys_text.replace(/\n$/,'');
+  $('#hotkeys').val(hotkeys_text.replace(/\n$/,''));
 
   var modules = ['Buffer','CmdLine','History','Scroll','Search','Zoom','InsertMode','Clipboard','KeyEvent','Tab','CmdBox','Hint','Page','Url'];
   for(var i in modules) {
@@ -41,3 +40,7 @@ function initHotkey() {
   }
 }
 // getkey directly from keyboard
+$(document).ready(function() {
+  init();
+  initHotkey();
+});
