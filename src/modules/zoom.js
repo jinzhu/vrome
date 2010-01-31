@@ -33,11 +33,11 @@ var Zoom = (function(){
 		reduce     : function() { setZoom(-3); },
 		reset      : function() { setZoom(  ); },
 
-		cur_in     : function() { setZoom( 1, true); },
-		cur_out    : function() { setZoom(-1, true); },
-		cur_more   : function() { setZoom( 3, true); },
-		cur_reduce : function() { setZoom(-3, true); },
-		cur_reset  : function() { setZoom( 0, true); },
+		current_in     : function() { setZoom( 1, true); },
+		current_out    : function() { setZoom(-1, true); },
+		current_more   : function() { setZoom( 3, true); },
+		current_reduce : function() { setZoom(-3, true); },
+		current_reset  : function() { setZoom( 0, true); },
 
 		current    : function() { return (parseInt(levels[currentLevel()]) / 100); },
 		init       : function() { Zoom.setZoom( Settings.get('zoom_level')); }
