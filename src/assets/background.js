@@ -153,7 +153,7 @@ var Buffer = (function() {
 function externalEditor(msg) {
   var tab = arguments[arguments.length-1],index;
   var xhr = new XMLHttpRequest();
-  var url = 'http://localhost:20000';
+  var url = 'http://127.0.0.1:20000';
   xhr.open("POST", url, true);
   xhr.onreadystatechange = function() {
     if(xhr.readyState == 4 && xhr.status == 200) {
