@@ -6,16 +6,21 @@ var KeyEvent = (function(){
     // TODO first time user?
     var hotkeys = Settings.get('background.hotkeys');
     for(var i = 0;i < hotkeys.length; i++) {
-      var hotkey = hotkeys[i];
-      var actions = hotkey[1].split('.');
-      var action  = window[actions.shift()];
-      while (action && actions[0]) { action = action[actions.shift()]; }
-      if (hotkey[2] == 'normalMode') {
-        add(hotkey[0].split('+'), action);
-      } else if (hotkey[2] == 'insertMode') {
-        add(hotkey[0].split('+'), action, true);
-      } else if (hotkey[2] == 'commandMode') {
-        CmdLine.add(hotkey[0],action);
+      try {
+        var hotkey = hotkeys[i];
+        console.log(hotkey);
+        var actions = hotkey[1].split('.');
+        var action  = window[actions.shift()];
+        while (action && actions[0]) { action = action[actions.shift()]; }
+        if (hotkey[2] == 'normalMode') {
+          add(hotkey[0].split('+'), action);
+        } else if (hotkey[2] == 'insertMode') {
+          add(hotkey[0].split('+'), action, true);
+        } else if (hotkey[2] == 'commandMode') {
+          CmdLine.add(hotkey[0],action);
+        }
+      } catch(e) {
+        continue;
       }
     }
 

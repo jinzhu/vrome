@@ -10,7 +10,7 @@ function saveHotkeys() {
   var hotkeys_text = $('#hotkeys').val().split("\n");
   var hotkeys      = [];
   for(var i in hotkeys_text) {
-    hotkeys.push(hotkeys_text[i].split(/\s+/));
+    if(hotkeys_text[i]) { hotkeys.push(hotkeys_text[i].split(/\s+/)); }
   }
   Settings.add({ hotkeys : hotkeys});
 }
