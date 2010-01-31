@@ -83,8 +83,8 @@ var Tab = (function(){
 
 function open_url(msg){
   var tab = arguments[arguments.length-1];
-  var urls      = msg.urls;
-  if(typeof msg.urls == 'string') urls = [msg.urls];
+  var urls      = msg.urls || msg.url;
+  if(typeof urls == 'string') urls = [urls];
   var first_url = urls.shift();
   var index     = tab.index;
 

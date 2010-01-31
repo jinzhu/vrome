@@ -11,7 +11,7 @@ task :preinstall do
 end
 
 desc 'build extension'
-task :build => [:build_xml] do
+task :build => [:build_xml,:build_readme] do
   CrxMake.make(
     :ex_dir     => "src",
     :pkey       => "vrome.pem",
@@ -20,7 +20,10 @@ task :build => [:build_xml] do
   )
 end
 
-desc "build manifest"
+task :build_readme do
+  `bluecloth README.mkd > ./src/README.html`
+end
+
 task :build_manifest do
   file = File.join(File.dirname(__FILE__),'src','manifest.json')
   json = JSON.parse(File.read(file))

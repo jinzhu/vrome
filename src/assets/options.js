@@ -15,11 +15,6 @@ function saveHotkeys() {
   Settings.add({ hotkeys : hotkeys});
 }
 
-function addHotkeyFunctions(mode,value) {
-  var select = document.getElementById('hotkey-functions-' + mode);
-  select.options[select.options.length] = new Option(value,value);
-}
-
 function setHotkeyText(hotkeys) {
   var hotkeys_text = '';
   for(var i = 0;i < hotkeys.length; i++) {
@@ -28,18 +23,36 @@ function setHotkeyText(hotkeys) {
   $('#hotkeys').val(hotkeys_text.replace(/\n$/,''));
 }
 
+function addHotkeyFunctions(fun,value) {
+  if (fun.private)     { return; }
+  if (fun.insertMode)  {
+    addHotkeyFunctions('insertMode',value);
+    var select = document.getElementById('hotkey-functions-insertMode');
+    select.options[select.options.length] = new Option(value,value);
+  }
+  if (fun.commandMode) {
+    var select = document.getElementById('hotkey-functions-commandMode');
+    select.options[select.options.length] = new Option(value,value);
+  }
+  if (fun.normalMode)  {
+    var select = document.getElementById('hotkey-functions-normalMode');
+    select.options[select.options.length] = new Option(value,value);
+  }
+}
+
 function initHotkey() {
   var hotkeys = Settings.get('hotkeys');
   setHotkeyText(hotkeys);
 
-  var modules = ['Buffer','CmdLine','History','Scroll','Search','Zoom','InsertMode','Clipboard','KeyEvent','Tab','CmdBox','Hint','Page','Url'];
+  var modules = ['Buffer','CmdLine','History','Scroll','Search','Zoom','InsertMode','Clipboard','KeyEvent','Tab','CmdBox','Hint','Page','Url','showHelp'];
   for(var i in modules) {
-    for(var j in window[modules[i]]) {
-      var value = modules[i] + '.' + j;
-      if (window[modules[i]][j].private)     { continue; }
-      if (window[modules[i]][j].insertMode)  { addHotkeyFunctions('insertMode',value);  }
-      if (window[modules[i]][j].commandMode) { addHotkeyFunctions('commandMode',value); }
-      if (window[modules[i]][j].normalMode)  { addHotkeyFunctions('normalMode',value);  }
+    if (window[modules[i]] instanceof Function) {
+      addHotkeyFunctions(window[modules[i]], modules[i])
+    } else {
+      for(var j in window[modules[i]]) {
+        var value = modules[i] + '.' + j;
+        addHotkeyFunctions(window[modules[i]][j], value)
+      }
     }
   }
 }

@@ -71,3 +71,8 @@ function runIt(func,args) {
 function getSelected() {
   return window.getSelection().toString();
 }
+
+function showHelp() {
+  Post({action: "open_url", url: chrome.extension.getURL("README.html"),newtab : true});
+}
+showHelp.normalMode = true;
