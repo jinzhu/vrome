@@ -88,7 +88,7 @@ function open_url(msg){
   var first_url = urls.shift();
   var index     = tab.index;
 
-  if (msg.newtab) { 
+  if (msg.newtab) {
     chrome.tabs.create({url: first_url, index: ++index});
   } else {
     chrome.tabs.update(tab.id, {url: first_url});
@@ -188,3 +188,25 @@ function shortUrl(msg) {
   }
   xhr.send();
 }
+
+
+// notify new version
+var appVersion = "0.3.3";
+function checkNewVersion() {
+	if (Settings.get("version") != appVersion) {
+		setIconTitle("You've been updated to a new version (" + appVersion + ")");
+		setIconBadge(appVersion);
+    Settings.add({version : appVersion});
+	}
+}
+
+function setIconTitle(title) {
+	chrome.browserAction.setTitle({ title: title || '' });
+}
+
+function setIconBadge(text) {
+	chrome.browserAction.setBadgeBackgroundColor({ color: [75, 125, 255, 255] });
+	chrome.browserAction.setBadgeText({ text: text || '' });
+}
+
+checkNewVersion(); //add to init
