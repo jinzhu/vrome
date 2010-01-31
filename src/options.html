@@ -1,9 +1,11 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <title>Vrome</title>
+    <title>Vrome Options</title>
   </head>
   <body onload="init()">
+    <link rel="stylesheet" href="styles/options.css" type="text/css">
+
     <script src="shared/settings.js" type="text/javascript" charset="utf-8"></script>
 		<script src="assets/application.js" type="text/javascript" charset="utf-8"></script>
 
@@ -26,58 +28,44 @@
     <script src="modules/utils.js" type="text/javascript" charset="utf-8"></script>
     <script src="modules/zoom.js" type="text/javascript" charset="utf-8"></script>
 
-
-    <style type="text/css">
-      body {
-        width : 800px;
-        margin : 50px auto;
-        background: #eee;
-      }
-
-      #heading {
-        text-align: center;
-      }
-
-      .header {
-        margin: 20px auto 0;
-      }
-
-      .disable_site {
-        width : 250px;
-        margin: 10px 10px 0 0;
-      }
-    </style>
-
+    <!-- Begin Head -->
     <h3 id="heading">Vrome Options</h3>
 		<h5><a href="http://github.com/jinzhu" target="_blank">ZhangJinzhu</a></h5>
 		<h5><a href="mailto:wosmvp@gmail.com">wosmvp@gmail.com</a></h5>
 		<h5><a href="http://github.com/jinzhu/vrome" target="_blank">http://github.com/jinzhu/vrome</a></h5>
     <br/>
+    <!-- End Head -->
 
+    <!-- Begin Editor -->
     <div class="header"> Editor </div>
     <input onchange="saveEditor(this.value)" type="text" id="vrome_editor"/>
+    <!-- End Editor -->
 
+    <!-- Begin Disable -->
     <div class="header"> Disable Sites (Regexp) </div>
     <div id="disable_sites"></div>
+    <!-- End Disable -->
 
     <!-- BEGIN config hotkeys -->
-    <div class="header"> HotKeys </div>
-    <textarea id='hotkeys' rows="8" cols="60"></textarea><br/>
-    <input id='hotkey-save' type="submit" value="Save" onclick="saveHotkeys();"><br/><br/>
+    <div class='hotkeys'>
+      <div class="header"> HotKeys </div>
+      <textarea id='hotkeys' rows="8" cols="60"></textarea><br/>
+      <input id='hotkey-save' type="submit" value="Save" onclick="saveHotkeys();"><br/><br/>
 
-    Add HotKey -- Normal Mode:<br/>
-    <input id='hotkey-keys-normalMode' type="TEXT" value="">
-    <select id='hotkey-functions-normalMode'></select>
-    <input id='hotkey-submit' type="submit" value="Submit" onclick="submitHotkeys('normalMode');">
-    <br/>
-    Add HotKey -- Insert Mode:<br/>
-    <input id='hotkey-keys-insertMode' type="TEXT" value="">
-    <select id='hotkey-functions-insertMode'></select>
-    <input id='hotkey-submit' type="submit" value="Submit" onclick="submitHotkeys('insertMode');"><br/>
-    Add HotKey -- Command Mode:<br/>
-    <input id='hotkey-keys-commandMode' type="TEXT" value="">
-    <select id='hotkey-functions-commandMode'></select>
-    <input id='hotkey-submit' type="submit" value="Submit" onclick="submitHotkeys('commandMode');">
+      Add HotKey -- Normal Mode:<br/>
+      <input id='hotkey-keys-normalMode' type="TEXT" value="">
+      <select id='hotkey-functions-normalMode'></select>
+      <input id='hotkey-submit' type="submit" value="Submit" onclick="submitHotkeys('normalMode');">
+      <br/>
+      Add HotKey -- Insert Mode:<br/>
+      <input id='hotkey-keys-insertMode' type="TEXT" value="">
+      <select id='hotkey-functions-insertMode'></select>
+      <input id='hotkey-submit' type="submit" value="Submit" onclick="submitHotkeys('insertMode');"><br/>
+      Add HotKey -- Command Mode:<br/>
+      <input id='hotkey-keys-commandMode' type="TEXT" value="">
+      <select id='hotkey-functions-commandMode'></select>
+      <input id='hotkey-submit' type="submit" value="Submit" onclick="submitHotkeys('commandMode');">
+    </div>
 
     <script type="text/javascript" charset="utf-8">
       function submitHotkeys(mode) {
