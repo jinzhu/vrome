@@ -1,6 +1,7 @@
 require 'rake'
 require 'rubygems'
 require 'builder'
+require 'crxmake'
 require 'json'
 
 desc 'preinstall'
@@ -11,8 +12,14 @@ end
 
 desc 'build extension'
 task :build => [:build_xml] do
-  pem_file = File.join(File.dirname(__FILE__),"vrome.pem")
-  `ruby #{File.join(File.dirname(__FILE__),'buildex.rb')} --pack-extension=#{File.dirname(__FILE__)} #{File.exist?(pem_file) ? "--pack-extension-key=#{pem_file}" : ""}`
+  CrxMake.make(
+    :ex_dir     => ".",
+    :pkey       => "vrome.pem",
+    :crx_output => "vrome.crx",
+    :verbose    => true,
+    :ignorefile => /\.swp|.*\.crx|.*\.pem|Rakefile|\.gitignore|TODO|preinstall\.sh|Version/,
+    :ignoredir  => /\.git/
+  )
 end
 
 desc "build manifest"
