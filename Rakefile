@@ -13,23 +13,21 @@ end
 desc 'build extension'
 task :build => [:build_xml] do
   CrxMake.make(
-    :ex_dir     => ".",
+    :ex_dir     => "src",
     :pkey       => "vrome.pem",
     :crx_output => "vrome.crx",
-    :verbose    => true,
-    :ignorefile => /\.swp|.*\.crx|.*\.pem|Rakefile|\.gitignore|TODO|preinstall\.sh|Version/,
     :ignoredir  => /\.git/
   )
 end
 
 desc "build manifest"
 task :build_manifest do
-  file = File.join(File.dirname(__FILE__),'manifest.json')
+  file = File.join(File.dirname(__FILE__),'src','manifest.json')
 
   json = JSON.parse(File.read(file))
   json["version"] = File.read('Version').strip
-  json["content_scripts"][0]["js"]  = Dir['shared/*.js'].concat(Dir['modules/*.js']).concat(["main.js" ])
-  json["content_scripts"][0]["css"] = Dir['styles/*.css']
+  json["content_scripts"][0]["js"]  = Dir['src/shared/*.js'].concat(Dir['src/modules/*.js']).concat(["src/main.js" ])
+  json["content_scripts"][0]["css"] = Dir['src/styles/*.css']
 
   File.open(file,'w+') do |f|
     f << json.to_json
@@ -38,7 +36,8 @@ end
 
 desc "build xml"
 task :build_xml => [:build_manifest] do
-  version = JSON.parse(File.read('manifest.json'))['version']
+  file = File.join(File.dirname(__FILE__),'src','manifest.json')
+  version = JSON.parse(File.read(file))['version']
   xml = Builder::XmlMarkup.new( :target => File.open('vrome-updates.xml','w+') , :indent => 2 )
   xml.instruct!
   xml.gupdate(:xmlns => 'http://www.google.com/update2/response',:protocol => '2.0') do |x|
