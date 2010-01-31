@@ -43,4 +43,9 @@ function initHotkey() {
 $(document).ready(function() {
   init();
   initHotkey();
+
+  $('#select_default_hotkey').change(function() {
+    if (this.value) { $('#hotkeys').val($('#' + this.value).val()); }
+    saveHotkeys();
+  });
 });

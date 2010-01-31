@@ -1,4 +1,4 @@
-//with(KeyEvent) {
+with(KeyEvent) {
 //  // Zoom
 //  add(['z', 'i'], Zoom['in']  );
 //  add(['z', 'o'], Zoom.out    );
@@ -31,7 +31,7 @@
 //  add(['t']    , Url.tabopen            );
 //  add(['T']    , Url.tabopenWithDefault );
 //  add(['C-y']  , Url.shortUrl           );
-//  add(['Enter'], Url.enter,true         );
+  add(['Enter'], Url.enter,true         );
 //
 //
 //  // Scroll
@@ -80,39 +80,39 @@
 //
 //
 //  // CmdBox
-//  add(['Esc'], CmdBox.remove     );
-//  add(['Esc'], CmdBox.remove,true);
+  add(['Esc'], CmdBox.remove     );
+  add(['Esc'], CmdBox.remove,true);
 //
 //
 //  // CmdLine
 //  add([':']    , CmdLine.start );
-//  add(['Enter'], CmdLine.exec , true );
+  add(['Enter'], CmdLine.exec , true );
 //
 //
 //  // Hint
 //  add(['f']  , Hint.start         );
 //  add(['F']  , Hint.new_tab_start );
-//  add(['Esc'], Hint.remove        );
-//  add(['Esc'], Hint.remove , true );
+  add(['Esc'], Hint.remove        );
+  add(['Esc'], Hint.remove , true );
 //
 //
 //  // Search
 //  add(['/']      , Search.start          );
 //  add(['?']      , Search.backward       );
 //  add(['n']      , Search.next           );
-//  add(['Enter']  , Search.next    , true );
+  add(['Enter']  , Search.next    , true );
 //  add(['N']      , Search.prev           );
-//  add(['S-Enter'], Search.prev    , true );
-//  add(['Esc']    , Search.stop           );
-//  add(['Esc']    , Search.stop    , true );
+  add(['S-Enter'], Search.prev    , true );
+  add(['Esc']    , Search.stop           );
+  add(['Esc']    , Search.stop    , true );
 //  add(['*']      , Search.forwardCursor  );
 //  add(['#']      , Search.backwardCursor );
 //
 //
 //  // Buffer
-//  add(['Enter'], Buffer.gotoFirstMatchHandle,true );
+  add(['Enter'], Buffer.gotoFirstMatchHandle,true );
 //  add(['b']    , Buffer.gotoFirstMatch );
-//  add(['Enter'], Buffer.deleteMatchHandle,true );
+  add(['Enter'], Buffer.deleteMatchHandle,true );
 //  add(['B']    , Buffer.deleteMatch );
 //
 //
@@ -125,7 +125,7 @@
 //  // InsertMode
 //  add(['C-i'], InsertMode.externalEditor        , true );
 //
-//  add(['Esc'], InsertMode.blurFocus             , true );
+  add(['Esc'], InsertMode.blurFocus             , true );
 //  add(['C-['], InsertMode.blurFocus             , true );
 //
 //  add(['C-a'], InsertMode.moveToFirstOrSelectAll, true );
@@ -145,7 +145,7 @@
 //
 //  add(['M-j'], InsertMode.MoveBackwardChar    , true );
 //  add(['M-k'], InsertMode.MoveForwardChar     , true );
-//}
+}
 //
 //
 //with(CmdLine) {
