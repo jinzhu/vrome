@@ -8,7 +8,6 @@ var KeyEvent = (function(){
     for(var i = 0;i < hotkeys.length; i++) {
       try {
         var hotkey = hotkeys[i];
-        console.log(hotkey);
         var actions = hotkey[1].split('.');
         var action  = window[actions.shift()];
         while (action && actions[0]) { action = action[actions.shift()]; }

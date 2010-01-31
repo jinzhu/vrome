@@ -20,13 +20,17 @@ function addHotkeyFunctions(mode,value) {
   select.options[select.options.length] = new Option(value,value);
 }
 
-function initHotkey() {
-  var hotkeys = Settings.get('hotkeys');
+function setHotkeyText(hotkeys) {
   var hotkeys_text = '';
   for(var i = 0;i < hotkeys.length; i++) {
-    hotkeys_text += hotkeys[i][0] + "\t\t" + hotkeys[i][1] + "\t\t" + hotkeys[i][2] + "\n";
+    hotkeys_text += hotkeys[i][0] + "\t" + hotkeys[i][1] + "\t\t" + hotkeys[i][2] + "\n";
   }
   $('#hotkeys').val(hotkeys_text.replace(/\n$/,''));
+}
+
+function initHotkey() {
+  var hotkeys = Settings.get('hotkeys');
+  setHotkeyText(hotkeys);
 
   var modules = ['Buffer','CmdLine','History','Scroll','Search','Zoom','InsertMode','Clipboard','KeyEvent','Tab','CmdBox','Hint','Page','Url'];
   for(var i in modules) {
@@ -45,7 +49,7 @@ $(document).ready(function() {
   initHotkey();
 
   $('#select_default_hotkey').change(function() {
-    if (this.value) { $('#hotkeys').val($('#' + this.value).val()); }
+    if (this.value) { setHotkeyText(window[this.value]); }
     saveHotkeys();
   });
 });

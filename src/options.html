@@ -53,8 +53,8 @@
     <label> Select Default HotKey </label>
     <select id="select_default_hotkey">
       <option value=""></option>
-      <option value="vim-hotkeys">Vim</option>
-      <option value="emacs-hotkeys">Emacs</option>
+      <option value="defaultVimKeyBindings">Vim</option>
+      <option value="defaultEmacsKeyBindings">Emacs</option>
     </select><br/>
     <textarea id='hotkeys' rows="8" cols="60"></textarea><br/>
     <input id='hotkey-save' type="submit" value="Save" onclick="saveHotkeys();"><br/><br/>
@@ -74,117 +74,5 @@
       <input id='hotkey-submit' type="submit" value="Submit" onclick="submitHotkeys('commandMode');">
     </div>
     <!-- END config hotkeys -->
-    <textarea id='vim-hotkeys' style='display:none'>
-z+i     Zoom.in       normalMode
-z+o     Zoom.out      normalMode
-z+m     Zoom.more     normalMode
-z+r     Zoom.reduce   normalMode
-z+z     Zoom.reset    normalMode
-z+I     Zoom.cur_in   normalMode
-z+O     Zoom.cur_out  normalMode
-z+M     Zoom.cur_more normalMode
-z+R     Zoom.cur_reduce normalMode
-z+Z     Zoom.cur_reset  normalMode
-
-]+]     Page.next         normalMode
-[+[     Page.prev         normalMode
-Y       Page.copySelected normalMode
-
-g+u     Url.parent        normalMode
-g+U     Url.root          normalMode
-g+f     Url.viewSource         normalMode
-g+F     Url.viewSourceNewTab   normalMode
-C-a     Url.increment          normalMode
-C-x     Url.decrement          normalMode
-o       Url.open               normalMode
-O       Url.openWithDefault    normalMode
-t       Url.tabopen            normalMode
-T       Url.tabopenWithDefault normalMode
-C-y     Url.shortUrl           normalMode
-
-g+g     Scroll.top          normalMode
-G       Scroll.bottom       normalMode
-0       Scroll.first        normalMode
-$       Scroll.last         normalMode
-
-k       Scroll.up           normalMode
-j       Scroll.down         normalMode
-h       Scroll.left         normalMode
-l       Scroll.right        normalMode
-%       Scroll.toPercent    normalMode
-
-C-f     Scroll.nextPage     normalMode
-C-b     Scroll.prevPage     normalMode
-C-d     Scroll.nextHalfPage normalMode
-C-u     Scroll.prevHalfPage normalMode
-
-r       Tab.reload          normalMode
-R       Tab.reloadAll       normalMode
-d       Tab.close           normalMode
-D       Tab.closeAndFoucsLeft normalMode
-M-d     Tab.closeAndFoucsLast normalMode
-u       Tab.reopen            normalMode
-C-p     Tab.prev            normalMode
-C-n     Tab.next            normalMode
-g+t     Tab.next            normalMode
-g+T     Tab.prev            normalMode
-
-y       Tab.copyUrl         normalMode
-g+0     Tab.first           normalMode
-g+^     Tab.first           normalMode
-g+$     Tab.last            normalMode
-C-6     Tab.lastSelected    normalMode
-C-^     Tab.lastSelected    normalMode
-
-H       History.back        normalMode
-L       History.forward     normalMode
-C-o     History.back        normalMode
-C-i     History.forward     normalMode
-
-:       CmdLine.start       normalMode
-f       Hint.start          normalMode
-F       Hint.new_tab_start  normalMode
-
-/       Search.start        normalMode
-?       Search.backward     normalMode
-n       Search.next         normalMode
-N       Search.prev         normalMode
-*       Search.forwardCursor  normalMode
-#       Search.backwardCursor normalMode
-b       Buffer.gotoFirstMatch normalMode
-B       Buffer.deleteMatch    normalMode
-g+i     InsertMode.focusFirstTextInput  normalMode
-C-z     KeyEvent.disable                normalMode
-C-v     KeyEvent.passNextKey            normalMode
-.       KeyEvent.runLast                normalMode
-
-C-i     InsertMode.externalEditor       insertMode
-C-[     InsertMode.blurFocus            insertMode
-
-C-a     InsertMode.moveToFirstOrSelectAll insertMode
-C-e     InsertMode.moveToEnd              insertMode
-
-C-h     InsertMode.deleteBackwardChar    insertMode
-C-d     InsertMode.deleteForwardChar     insertMode
-
-C-w     InsertMode.deleteBackwardWord    insertMode
-M-d     InsertMode.deleteForwardWord     insertMode
-
-C-u     InsertMode.deleteToBegin          insertMode
-C-k     InsertMode.deleteToEnd            insertMode
-
-M-h     InsertMode.MoveBackwardWord       insertMode
-M-l     InsertMode.MoveForwardWord        insertMode
-
-M-j     InsertMode.MoveBackwardChar       insertMode
-M-k     InsertMode.MoveForwardChar        insertMode
-bdelete Buffer.deleteMatchHandle          commandMode
-    </textarea>
-    <textarea id='emacs-hotkeys' style='display:none'>
-Haven't been implement now.
-It's would be very helpful if you can submit a patch for that.
-http://github.com/jinzhu/vrome OR wosmvp@gmail.com
-thanks.
-    </textarea>
   </body>
 </html>

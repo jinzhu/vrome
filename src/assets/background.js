@@ -189,9 +189,18 @@ function shortUrl(msg) {
   xhr.send();
 }
 
-
 // notify new version
 var appVersion = "0.3.3";
+function checkFirstTime() {
+	if (!Settings.get("firstTime")) {
+    Settings.add({ firstTime : true});
+    Settings.add({ version : appVersion});
+    Settings.add({ hotkeys : defaultVimKeyBindings });
+    return true;
+	}
+	return false;
+}
+
 function checkNewVersion() {
 	if (Settings.get("version") != appVersion) {
 		setIconTitle("You've been updated to a new version (" + appVersion + ")");
@@ -209,4 +218,4 @@ function setIconBadge(text) {
 	chrome.browserAction.setBadgeText({ text: text || '' });
 }
 
-checkNewVersion(); //add to init
+if (!checkFirstTime()) { checkNewVersion(); } //add to init
