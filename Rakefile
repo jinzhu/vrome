@@ -31,7 +31,7 @@ task :build_manifest do
 
   Dir.chdir('src')
   json["content_scripts"][0]["js"]  = Dir['shared/*.js'].concat(Dir['modules/*.js']).concat(["main.js" ])
-  json["content_scripts"][0]["css"] = Dir['styles/*.css']
+  json["content_scripts"][0]["css"] = ['styles/main.css']
   Dir.chdir('..')
 
   File.open(file,'w+') do |f|
