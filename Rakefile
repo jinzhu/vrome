@@ -21,7 +21,7 @@ task :build => [:build_xml,:build_readme] do
 end
 
 task :build_readme do
-  `bluecloth README.mkd > ./src/README.html`
+  system("bluecloth README.mkd > ./src/README.html")
 end
 
 task :build_manifest do
@@ -54,7 +54,9 @@ end
 
 desc 'install extension'
 task :install => [:preinstall,:build] do
-  `chromium-browser  #{File.join(File.dirname(__FILE__),'vrome.crx')}`
+  system("chromium-browser  #{File.join(File.dirname(__FILE__),'vrome.crx')}") || \
+    system("chromium-bin #{File.join(File.dirname(__FILE__),'vrome.crx')}") || \
+    system("chromium #{File.join(File.dirname(__FILE__),'vrome.crx')}")
 end
 
 task :default => [:install]
