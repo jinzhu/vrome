@@ -1,16 +1,16 @@
-var KeyEvent = (function(){
+var KeyEvent = (function() {
   var times = 0;
   var disableVrome, pass_next_key, last_current_keys, last_times, disable_site;
 
   function init() {
-    // TODO first time user?
     var hotkeys = Settings.get('background.hotkeys');
-    for(var i = 0;i < hotkeys.length; i++) {
+
+    for (var i = 0;i < hotkeys.length; i++) {
       try {
-        var hotkey = hotkeys[i];
+        var hotkey  = hotkeys[i];
         var actions = hotkey[1].split('.');
-        var action  = window[actions.shift()];
-        while (action && actions[0]) { action = action[actions.shift()]; }
+        var action  = window;
+        while (actions.length > 0) { action = action[actions.shift()]; }
         if (hotkey[2] == 'normalMode') {
           add(hotkey[0].split('+'), action);
         } else if (hotkey[2] == 'insertMode') {
@@ -43,7 +43,7 @@ var KeyEvent = (function(){
     Debug("KeyEvent.setLast - currentKeys:" + currentKeys + " times:" + times);
   }
 
-  function runLast(){
+  function runLast() {
     runCurrentKeys(last_current_keys);
   }
 
@@ -180,7 +180,7 @@ var KeyEvent = (function(){
     exec    : exec,
 
     init    : init,
-    times   : function(/*Boolean*/ read){ return returnTimes(read) },
+    times   : returnTimes,
 
     disable : disable,
     passNextKey    : passNextKey,
