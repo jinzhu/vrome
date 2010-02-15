@@ -1,10 +1,10 @@
-var Zoom = (function(){
+var Zoom = (function() {
   var levels = ['30%', '50%', '67%', '80%', '90%', '100%', '110%', '120%', '133%', '150%', '170%', '200%', '240%', '300%'];
   var default_index = levels.indexOf('100%');
 
   function currentLevel() {
-    for(var i in levels){
-      if(levels[i] == (document.body.style.zoom || '100%')){
+    for (var i in levels) {
+      if (levels[i] == (document.body.style.zoom || '100%')) {
         return Number(i);
       }
     }
@@ -44,7 +44,7 @@ var Zoom = (function(){
 	}
 })()
 
-for(var i in Zoom) {
+for (var i in Zoom) {
   Zoom[i].normalMode = true;
 }
 Zoom.setZoom.private = true;
