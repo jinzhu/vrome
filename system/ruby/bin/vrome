@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+# Jinzhu (wosmvp@gmail.com)
+
+load File.join(File.dirname(__FILE__),'..','lib','server.rb')

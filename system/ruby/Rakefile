@@ -1,0 +1,13 @@
+# -*- ruby -*-
+
+require 'rubygems'
+require 'hoe'
+require 'lib/vrome'
+
+Hoe.spec 'vrome' do
+  developer('Jinzhu', 'wosmvp+vrome@gmail.com')
+
+  # self.rubyforge_name = 'vrome' # if different than 'vrome'
+end
+
+# vim: syntax=ruby
