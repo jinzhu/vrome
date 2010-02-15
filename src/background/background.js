@@ -4,13 +4,13 @@ function Debug(str) {
 
 var Vrome = (function() {
   function enable() {
-    chrome.browserAction.setIcon({path: 'assets/logo.png'});
+    chrome.browserAction.setIcon({path: 'images/logo.png'});
     chrome.browserAction.setTitle({title:"Vrome (enabled)"});
     Settings.add({ currentPageDisabled : false });
   }
 
   function disable() {
-    chrome.browserAction.setIcon({path: 'assets/logo-disable.png'});
+    chrome.browserAction.setIcon({path: 'images/logo-disable.png'});
     chrome.browserAction.setTitle({title:"Vrome (disabled)"});
     Settings.add({ currentPageDisabled : true });
   }

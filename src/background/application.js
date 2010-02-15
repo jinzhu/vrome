@@ -1,12 +1,12 @@
 var removeButton = document.createElement('img');
 removeButton.setAttribute('class','remove_buttons');
 removeButton.setAttribute('onclick','removeElements([this.parentNode],true)');
-removeButton.setAttribute('src','assets/remove.png');
+removeButton.setAttribute('src','images/remove.png');
 
 var addButton = document.createElement('img');
 addButton.setAttribute('class','add_buttons');
 addButton.setAttribute('onclick','addSite()');
-addButton.setAttribute('src','assets/add.png');
+addButton.setAttribute('src','images/add.png');
 
 function saveData(/*Boolean*/ reinit) {
 	var elements = document.getElementsByClassName('disable_site');
