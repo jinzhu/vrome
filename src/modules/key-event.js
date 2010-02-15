@@ -1,4 +1,8 @@
 var KeyEvent = (function() {
+  function filterKey(key,mode) {
+    // FIXME map,imap,cmap
+  }
+
   var times = 0;
   var disableVrome, pass_next_key, last_current_keys, last_times, disable_site;
 
