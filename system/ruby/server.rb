@@ -31,9 +31,9 @@ class EditorServer < WEBrick::HTTPServlet::AbstractServlet
     vromeConfig = {:set => {}};
 
     if File.exist?(config_file)
-      File.read(config_file).split("\n").map do |x|
-        array = x.split(/\s+/)
-        case x
+      File.read(config_file).split("\n").map do |line|
+        array = line.split(/\s+/)
+        case line
         when /^imap\s+/
           vromeConfig[:imap] = (vromeConfig[:imap] || []).concat([{ array[1] => array[2] }])
         when /^map\s+/
@@ -41,9 +41,9 @@ class EditorServer < WEBrick::HTTPServlet::AbstractServlet
         when /^cmap\s+/
           vromeConfig[:cmap] = (vromeConfig[:cmap] || []).concat([{ array[1] => array[2] }])
         when /^set\s+/
-          array = x.split(/\s+/,2)
+          array = line.split(/\s+/,2)
           array = array[1].split(/\+?=/,2)
-          vromeConfig[:set][array[0]] = [array[1], x =~ /^set\s+\w+\+=/]
+          vromeConfig[:set][array[0]] = [array[1], line =~ /^set\s+\w+\+=/]
         end
       end
 
