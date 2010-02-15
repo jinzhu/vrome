@@ -30,7 +30,7 @@ task :build_manifest do
   json["version"] = File.read('Version').strip
 
   Dir.chdir('src')
-  json["content_scripts"][0]["js"]  = Dir['shared/*.js'].concat(Dir['modules/*.js']).concat(["main.js" ])
+  json["content_scripts"][0]["js"]  = Dir['shared/*.js'].concat(Dir['frontend/modules/*.js']).concat(["frontend/main.js" ])
   json["content_scripts"][0]["css"] = ['styles/main.css']
   Dir.chdir('..')
 
