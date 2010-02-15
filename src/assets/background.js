@@ -2,14 +2,14 @@ function Debug(str) {
   console.log(str);
 }
 
-var Vrome = (function(){
-  function enable(){
+var Vrome = (function() {
+  function enable() {
     chrome.browserAction.setIcon({path: 'assets/logo.png'});
     chrome.browserAction.setTitle({title:"Vrome (enabled)"});
     Settings.add({ currentPageDisabled : false });
   }
 
-  function disable(){
+  function disable() {
     chrome.browserAction.setIcon({path: 'assets/logo-disable.png'});
     chrome.browserAction.setTitle({title:"Vrome (disabled)"});
     Settings.add({ currentPageDisabled : true });
@@ -17,8 +17,8 @@ var Vrome = (function(){
   return { enable : enable, disable : disable }
 })()
 
-var Tab = (function(){
-  function close(msg){
+var Tab = (function() {
+  function close(msg) {
     var tab = arguments[arguments.length-1];
     current_closed_tab = tab;
     chrome.tabs.remove(tab.id);
@@ -26,7 +26,7 @@ var Tab = (function(){
     if(msg.offset) goto.apply('',arguments);            // close and select left
   }
 
-  function reopen(msg){
+  function reopen(msg) {
     if (closed_tabs.length > 0) {
       var index = closed_tabs.length - msg.num;
       var last_closed_tab = closed_tabs[closed_tabs.length - msg.num];
@@ -38,7 +38,7 @@ var Tab = (function(){
     }
   }
 
-  function goto(msg){
+  function goto(msg) {
     var tab = arguments[arguments.length-1];
     chrome.tabs.getAllInWindow(tab.windowId, function(tabs) {
       if(typeof msg.index != 'undefined') { var index = msg.index; }
@@ -55,14 +55,14 @@ var Tab = (function(){
     });
   }
 
-  function lastSelected(){
+  function lastSelected() {
     var tab = arguments[arguments.length-1];
     chrome.tabs.getAllInWindow(tab.windowId, function(tabs) {
       chrome.tabs.update(last_selected_tab.id, {selected: true});
     });
   }
 
-  function reloadAll(msg){
+  function reloadAll(msg) {
     var tab = arguments[arguments.length-1];
     chrome.tabs.getAllInWindow(tab.windowId, function(tabs) {
       for (var i in tabs) {
@@ -81,7 +81,7 @@ var Tab = (function(){
   }
 })()
 
-function open_url(msg){
+function open_url(msg) {
   var tab = arguments[arguments.length-1];
   var urls      = msg.urls || msg.url;
   if(typeof urls == 'string') urls = [urls];
@@ -103,7 +103,7 @@ function setLastCommand(msg) {
   Settings.add({ currentKeys : msg.currentKey, times : msg.times });
 }
 
-function debug(msg){
+function debug(msg) {
   var tab = arguments[arguments.length-1];
   Debug(tab.url + " : \n" + msg.message);
 }

@@ -8,10 +8,10 @@ addButton.setAttribute('class','add_buttons');
 addButton.setAttribute('onclick','addSite()');
 addButton.setAttribute('src','assets/add.png');
 
-function saveData(/*Boolean*/ reinit){
+function saveData(/*Boolean*/ reinit) {
 	var elements = document.getElementsByClassName('disable_site');
 	var data = [];
-	for(var i = 0;i < elements.length;i++){
+	for (var i = 0;i < elements.length;i++) {
 		data[data.length] = elements[i].value;
 	}
 
@@ -34,13 +34,13 @@ function addSite(value) {
 	value ? (input.value = value) : addIcons();
 }
 
-function removeElements(elements,addicon){
+function removeElements(elements,addicon) {
 	var length  = elements.length;
-	for(var i = 0;i < length;i++){
+	for (var i = 0;i < length;i++) {
 		elements[0].parentNode.removeChild(elements[0]);
 	}
 	saveData();
-	if(addicon) addIcons();
+	if (addicon) addIcons();
 }
 
 function addIcons() {
@@ -50,13 +50,13 @@ function addIcons() {
 	removeElements(document.getElementsByClassName('add_buttons'));
 	removeElements(document.getElementsByClassName('remove_buttons'));
 
-	for(var i = 0;i < elements.length ; i++){
+	for (var i = 0;i < elements.length ; i++) {
 		elements[i].appendChild(removeButton.cloneNode());
 
 		var input = elements[i].firstChild;
-		if(input.value && new RegExp(input.value,'i').test(Settings.get('currentUrl'))){
+		if (input.value && new RegExp(input.value,'i').test(Settings.get('currentUrl'))) {
 			input.setAttribute('highlight','current');
-		}else{
+		} else {
 			input.removeAttribute('highlight');
 		}
 	}
@@ -69,11 +69,11 @@ function init() {
 
   removeElements(document.getElementsByClassName('disable_site_box'));
 
-	for(var i in disable_sites){
+	for (var i in disable_sites) {
 		if(!/^\s*$/.test(disable_sites[i])) addSite(disable_sites[i]);
 	}
   var elem = document.getElementById('enable_vrome_checkbox');
-  if(elem){
+  if (elem) {
     elem.checked = !Settings.get('currentPageDisabled');
   }
 	addSite('');
