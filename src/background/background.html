@@ -10,6 +10,23 @@
     <script type='text/javascript'>
       var closed_tabs = [], now_tab, last_selected_tab, current_closed_tab;
 
+      function getConfigure() {
+        var xhr = new XMLHttpRequest();
+        var url = 'http://127.0.0.1:20000';
+        xhr.open("POST", url, true);
+        xhr.onreadystatechange = function() {
+          if(xhr.readyState == 4 && xhr.status == 200) {
+            Settings.add({ configure : JSON.parse(xhr.responseText) });
+            chrome.tabs.get(tabId, function(tab) { syncSetting(tab); });
+          };
+        }
+
+        xhr.setRequestHeader("Content-type", "text/plain");
+        xhr.send("{'method':'get_configure'}");
+
+      }
+      getConfigure();
+
       function syncSetting(tab) {
         last_selected_tab = now_tab || tab;
         now_tab = tab;

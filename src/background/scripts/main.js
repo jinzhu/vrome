@@ -25,7 +25,7 @@ function open_url(msg) {
   } else {
     chrome.tabs.update(tab.id, {url: first_url});
   }
-  for(var i = 0;i < urls.length;i++){
+  for (var i = 0;i < urls.length;i++) {
     chrome.tabs.create({url: urls[i], index: ++index,selected: false});
   }
 }
