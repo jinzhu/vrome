@@ -5,14 +5,10 @@ var Post = function(tab,message) {
 
 var Vrome = (function() {
   function enable() {
-    chrome.browserAction.setIcon({path: 'images/logo.png'});
-    chrome.browserAction.setTitle({title:"Vrome (enabled)"});
     Settings.add({ currentPageDisabled : false });
   }
 
   function disable() {
-    chrome.browserAction.setIcon({path: 'images/logo-disable.png'});
-    chrome.browserAction.setTitle({title:"Vrome (disabled)"});
     Settings.add({ currentPageDisabled : true });
   }
   return { enable : enable, disable : disable }
@@ -80,32 +76,21 @@ function shortUrl(msg) {
 }
 
 // notify new version
-var appVersion = "0.3.3";
-function checkFirstTime() {
-	if (!Settings.get("firstTime")) {
-    Settings.add({ firstTime : true});
-    Settings.add({ version : appVersion});
-    Settings.add({ hotkeys : defaultVimKeyBindings });
-    return true;
-	}
-	return false;
-}
-
-function checkNewVersion() {
-	if (Settings.get("version") != appVersion) {
-		setIconTitle("You've been updated to a new version (" + appVersion + ")");
-		setIconBadge(appVersion);
-    Settings.add({version : appVersion});
-	}
-}
-
-function setIconTitle(title) {
-	chrome.browserAction.setTitle({ title: title || '' });
-}
-
-function setIconBadge(text) {
-	chrome.browserAction.setBadgeBackgroundColor({ color: [75, 125, 255, 255] });
-	chrome.browserAction.setBadgeText({ text: text || '' });
-}
-
-if (!checkFirstTime()) { checkNewVersion(); } //add to init
+// var appVersion = "0.3.3";
+// function checkFirstTime() {
+// 	if (!Settings.get("firstTime")) {
+//     Settings.add({ firstTime : true});
+//     Settings.add({ version : appVersion});
+//     Settings.add({ hotkeys : defaultVimKeyBindings });
+//     return true;
+// 	}
+// 	return false;
+// }
+//
+// function checkNewVersion() {
+// 	if (Settings.get("version") != appVersion) {
+//     Settings.add({version : appVersion});
+// 	}
+// }
+//
+// if (!checkFirstTime()) { checkNewVersion(); } //add to init

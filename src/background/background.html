@@ -15,11 +15,11 @@
         var url = 'http://127.0.0.1:20000';
         xhr.open("POST", url, true);
         xhr.onreadystatechange = function() {
-          if(xhr.readyState == 4 && xhr.status == 200) {
+          if (xhr.readyState == 4 && xhr.status == 200) {
             Settings.add({ configure : JSON.parse(xhr.responseText) });
             chrome.tabs.getAllInWindow(now_tab.windowId, function(tabs) {
               for (var i in tabs) {
-                Post(tabs[i],{action : "Settings.add", arguments : { background : Settings.get()} });
+                Post(tabs[i],{ action : "Settings.add", arguments : { background : Settings.get()}});
               }
             });
           };
@@ -58,7 +58,7 @@
 
       chrome.tabs.onRemoved.addListener(function(tabId) {
         var tab = current_closed_tab || now_tab;
-        if(tab) { closed_tabs.push(tab); };
+        if (tab) { closed_tabs.push(tab); };
         current_closed_tab = false;
       });
     </script>
