@@ -49,7 +49,7 @@ function externalEditor(msg) {
   }
 
   xhr.setRequestHeader("Content-type", "text/plain");
-  xhr.send("{'method':'open_editor','editor':'" + (Settings.get('editor') || 'gvim') + "', 'data' : '" + msg.data + "'}");
+  xhr.send('{"method":"open_editor","editor":"' + (Settings.get('editor') || 'gvim') + '", "data" : "' + msg.data + '"}');
 }
 
 // notify new version
