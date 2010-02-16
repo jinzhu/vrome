@@ -17,28 +17,30 @@
         xhr.onreadystatechange = function() {
           if(xhr.readyState == 4 && xhr.status == 200) {
             Settings.add({ configure : JSON.parse(xhr.responseText) });
-            chrome.tabs.get(tabId, function(tab) { syncSetting(tab); });
+            chrome.tabs.getAllInWindow(now_tab.windowId, function(tabs) {
+              for (var i in tabs) {
+                Post(tabs[i],{action : "Settings.add", arguments : { background : Settings.get()} });
+              }
+            });
           };
         }
 
         xhr.setRequestHeader("Content-type", "text/plain");
         xhr.send("{'method':'get_configure'}");
-
       }
-      getConfigure();
 
       function syncSetting(tab) {
         last_selected_tab = now_tab || tab;
         now_tab = tab;
         Settings.add({currentUrl : tab.url, now_tab_id : now_tab.id});
 
-        var port = chrome.tabs.connect(tab.id, {});
-        port.postMessage({action : "Settings.add", arguments : {background : Settings.get()}});
-        port.postMessage({action : "KeyEvent.changeStatus"}); // need runIt ?
+        Post(tab,{action : "Settings.add", arguments : { background : Settings.get()} });
+        Post(tab,{action : "KeyEvent.changeStatus"});
       }
 
       chrome.tabs.getSelected(null, function(tab) {
         syncSetting(tab);
+        getConfigure();
       });
 
       chrome.tabs.onSelectionChanged.addListener(function(tabId) {

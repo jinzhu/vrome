@@ -1,3 +1,8 @@
+var Post = function(tab,message) {
+  var port = chrome.tabs.connect(tab.id, {});
+  port.postMessage(message);
+}
+
 var Vrome = (function() {
   function enable() {
     chrome.browserAction.setIcon({path: 'images/logo.png'});
