@@ -1,46 +1,47 @@
 <html>
-<head>
+  <head>
+    <script src="/shared/settings.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/shared/message.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/background/scripts/main.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/background/scripts/modules/tab.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/background/scripts/modules/buffer.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/background/scripts/modules/debug.js" type="text/javascript" charset="utf-8"></script>
 
-<script src="/shared/settings.js" type="text/javascript" charset="utf-8"></script>
-<script src="/shared/message.js" type="text/javascript" charset="utf-8"></script>
-<script src="/assets/application.js" type="text/javascript" charset="utf-8"></script>
-<script src="/assets/background.js" type="text/javascript" charset="utf-8"></script>
+    <script type='text/javascript'>
+      var closed_tabs = [], now_tab, last_selected_tab, current_closed_tab;
 
-<script type='text/javascript'>
-var closed_tabs = [], now_tab, last_selected_tab, current_closed_tab;
+      function syncSetting(tab) {
+        last_selected_tab = now_tab || tab;
+        now_tab = tab;
+        Settings.add({currentUrl : tab.url, now_tab_id : now_tab.id});
 
-function syncSetting(tab) {
-	last_selected_tab = now_tab || tab;
-  now_tab = tab;
-	Settings.add({currentUrl : tab.url, now_tab_id : now_tab.id});
+        var port = chrome.tabs.connect(tab.id, {});
+        port.postMessage({action : "Settings.add", arguments : {background : Settings.get()}});
+        port.postMessage({action : "KeyEvent.changeStatus"}); // need runIt ?
+      }
 
-  var port = chrome.tabs.connect(tab.id, {});
-	port.postMessage({action : "Settings.add", arguments : {background : Settings.get()}});
-  port.postMessage({action : "KeyEvent.changeStatus"}); // need runIt ?
-}
+      chrome.tabs.getSelected(null, function(tab) {
+        syncSetting(tab);
+      });
 
-chrome.tabs.getSelected(null, function(tab) {
-  syncSetting(tab);
-});
+      chrome.tabs.onSelectionChanged.addListener(function(tabId) {
+        chrome.tabs.get(tabId, function(tab) {
+          syncSetting(tab);
+        });
+      });
 
-chrome.tabs.onSelectionChanged.addListener(function(tabId) {
-  chrome.tabs.get(tabId, function(tab) {
-		syncSetting(tab);
-  });
-});
+      chrome.tabs.onUpdated.addListener(function(tabId) {
+        chrome.tabs.get(tabId, function(tab) {
+          // if the tab is updated in the background,just ingore it
+          if(now_tab && now_tab.id == tab.id)	syncSetting(tab);
+        });
+      });
 
-chrome.tabs.onUpdated.addListener(function(tabId) {
-  chrome.tabs.get(tabId, function(tab) {
-		// if the tab is updated in the background,just ingore it
-		if(now_tab && now_tab.id == tab.id)	syncSetting(tab);
-  });
-});
-
-chrome.tabs.onRemoved.addListener(function(tabId) {
-  var tab = current_closed_tab || now_tab;
-  if(tab) { closed_tabs.push(tab); };
-  current_closed_tab = false;
-}); 
-</script>
-</head>
+      chrome.tabs.onRemoved.addListener(function(tabId) {
+        var tab = current_closed_tab || now_tab;
+        if(tab) { closed_tabs.push(tab); };
+        current_closed_tab = false;
+      });
+    </script>
+  </head>
 </html>

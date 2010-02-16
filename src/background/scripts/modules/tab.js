@@ -1,0 +1,63 @@
+var Tab = (function() {
+  function close(msg) {
+    var tab = arguments[arguments.length-1];
+    current_closed_tab = tab;
+    chrome.tabs.remove(tab.id);
+    if(msg.focusLast) lastSelected.apply('',arguments); // close and selects last
+    if(msg.offset) goto.apply('',arguments);            // close and select left
+  }
+
+  function reopen(msg) {
+    if (closed_tabs.length > 0) {
+      var index = closed_tabs.length - msg.num;
+      var last_closed_tab = closed_tabs[closed_tabs.length - msg.num];
+      Debug("last_closed_tab: " + last_closed_tab);
+      if(last_closed_tab){
+        closed_tabs.splice(index,1);
+        chrome.tabs.create({url: last_closed_tab.url, index: last_closed_tab.index});
+      }
+    }
+  }
+
+  function goto(msg) {
+    var tab = arguments[arguments.length-1];
+    chrome.tabs.getAllInWindow(tab.windowId, function(tabs) {
+      if(typeof msg.index != 'undefined') { var index = msg.index; }
+      if(typeof msg.offset != 'undefined'){ var index = tab.index + msg.offset; }
+
+      if(index){
+        index = index % tabs.length;
+        if (index < 0){ index = index + tabs.length; }
+      }
+
+      Debug("gotoTab:" + index + " index:" + msg.index + " offset:" + msg.offset);
+      var get_tab = tabs[index] || tab;
+      chrome.tabs.update(get_tab.id, {selected: true});
+    });
+  }
+
+  function lastSelected() {
+    var tab = arguments[arguments.length-1];
+    chrome.tabs.getAllInWindow(tab.windowId, function(tabs) {
+      chrome.tabs.update(last_selected_tab.id, {selected: true});
+    });
+  }
+
+  function reloadAll(msg) {
+    var tab = arguments[arguments.length-1];
+    chrome.tabs.getAllInWindow(tab.windowId, function(tabs) {
+      for (var i in tabs) {
+        var tab = tabs[i];
+        chrome.tabs.update(tab.id, {url: tab.url, selected: tab.selected}, null);
+      }
+    });
+  }
+
+  return {
+    close        : close,
+    reopen       : reopen,
+    goto         : goto,
+    lastSelected : lastSelected,
+    reloadAll    : reloadAll
+  }
+})()
