@@ -7,25 +7,25 @@ var KeyEvent = (function() {
   var disableVrome, pass_next_key, last_current_keys, last_times, disable_site;
 
   function init() {
-    var hotkeys = Settings.get('background.hotkeys');
+    // var hotkeys = Settings.get('background.hotkeys');
 
-    for (var i = 0;i < hotkeys.length; i++) {
-      try {
-        var hotkey  = hotkeys[i];
-        var actions = hotkey[1].split('.');
-        var action  = window;
-        while (actions.length > 0) { action = action[actions.shift()]; }
-        if (hotkey[2] == 'normalMode') {
-          add(hotkey[0].split('+'), action);
-        } else if (hotkey[2] == 'insertMode') {
-          add(hotkey[0].split('+'), action, true);
-        } else if (hotkey[2] == 'commandMode') {
-          CmdLine.add(hotkey[0],action);
-        }
-      } catch(e) {
-        continue;
-      }
-    }
+    // for (var i = 0;i < hotkeys.length; i++) {
+    //   try {
+    //     var hotkey  = hotkeys[i];
+    //     var actions = hotkey[1].split('.');
+    //     var action  = window;
+    //     while (actions.length > 0) { action = action[actions.shift()]; }
+    //     if (hotkey[2] == 'normalMode') {
+    //       add(hotkey[0].split('+'), action);
+    //     } else if (hotkey[2] == 'insertMode') {
+    //       add(hotkey[0].split('+'), action, true);
+    //     } else if (hotkey[2] == 'commandMode') {
+    //       CmdLine.add(hotkey[0],action);
+    //     }
+    //   } catch(e) {
+    //     continue;
+    //   }
+    // }
 
     document.addEventListener('keydown',KeyEvent.exec, false);
   }
