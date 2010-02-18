@@ -9,8 +9,6 @@
     <script src="/background/scripts/modules/shorturl.js" type="text/javascript" charset="utf-8"></script>
 
     <script type='text/javascript'>
-      var closed_tabs = [], now_tab, last_selected_tab, current_closed_tab;
-
       function getConfigure() {
         var xhr = new XMLHttpRequest();
         var url = 'http://127.0.0.1:20000';
@@ -18,11 +16,14 @@
         xhr.onreadystatechange = function() {
           if (xhr.readyState == 4 && xhr.status == 200) {
             Settings.add({ configure : JSON.parse(xhr.responseText) });
-            chrome.tabs.getAllInWindow(now_tab.windowId, function(tabs) {
-              for (var i in tabs) {
-                Post(tabs[i],{ action : "Settings.add", arguments : { background : Settings.get()}});
-              }
-            });
+            // FIXME refactor
+            if (Tab.now_tab) {
+              chrome.tabs.getAllInWindow(Tab.now_tab.windowId, function(tabs) {
+                for (var i in tabs) {
+                  Post(tabs[i],{ action : "Settings.add", arguments : { background : Settings.get()}});
+                }
+              });
+            }
           };
         }
 
@@ -31,17 +32,15 @@
       }
 
       function syncSetting(tab) {
-        last_selected_tab = now_tab || tab;
-        now_tab = tab;
-        Settings.add({currentUrl : tab.url, now_tab_id : now_tab.id});
+        Tab.last_selected_tab = Tab.now_tab || tab;
+        Tab.now_tab = tab;
+        Settings.add({currentUrl : tab.url, now_tab_id : Tab.now_tab.id});
 
         Post(tab,{action : "Settings.add", arguments : { background : Settings.get()} });
-        Post(tab,{action : "KeyEvent.changeStatus"});
       }
 
       chrome.tabs.getSelected(null, function(tab) {
         syncSetting(tab);
-        getConfigure();
       });
 
       chrome.tabs.onSelectionChanged.addListener(function(tabId) {
@@ -52,15 +51,14 @@
 
       chrome.tabs.onUpdated.addListener(function(tabId) {
         chrome.tabs.get(tabId, function(tab) {
-          // if the tab is updated in the background,just ingore it
-          if(now_tab && now_tab.id == tab.id)	syncSetting(tab);
+          syncSetting(tab);
         });
       });
 
       chrome.tabs.onRemoved.addListener(function(tabId) {
-        var tab = current_closed_tab || now_tab;
-        if (tab) { closed_tabs.push(tab); };
-        current_closed_tab = false;
+        var tab = Tab.current_closed_tab || Tab.now_tab;
+        if (tab) { Tab.closed_tabs.push(tab); };
+        Tab.current_closed_tab = false;
       });
     </script>
   </head>

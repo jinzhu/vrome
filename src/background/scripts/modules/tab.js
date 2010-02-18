@@ -1,19 +1,19 @@
 var Tab = (function() {
   function close(msg) {
     var tab = arguments[arguments.length-1];
-    current_closed_tab = tab;
+    Tab.current_closed_tab = tab;
     chrome.tabs.remove(tab.id);
     if(msg.focusLast) lastSelected.apply('',arguments); // close and selects last
     if(msg.offset) goto.apply('',arguments);            // close and select left
   }
 
   function reopen(msg) {
-    if (closed_tabs.length > 0) {
-      var index = closed_tabs.length - msg.num;
-      var last_closed_tab = closed_tabs[closed_tabs.length - msg.num];
+    if (Tab.closed_tabs.length > 0) {
+      var index = Tab.closed_tabs.length - msg.num;
+      var last_closed_tab = Tab.closed_tabs[Tab.closed_tabs.length - msg.num];
       Debug("last_closed_tab: " + last_closed_tab);
       if(last_closed_tab){
-        closed_tabs.splice(index,1);
+        Tab.closed_tabs.splice(index,1);
         chrome.tabs.create({url: last_closed_tab.url, index: last_closed_tab.index});
       }
     }
@@ -39,7 +39,7 @@ var Tab = (function() {
   function lastSelected() {
     var tab = arguments[arguments.length-1];
     chrome.tabs.getAllInWindow(tab.windowId, function(tabs) {
-      chrome.tabs.update(last_selected_tab.id, {selected: true});
+      chrome.tabs.update(Tab.last_selected_tab.id, {selected: true});
     });
   }
 
@@ -61,3 +61,6 @@ var Tab = (function() {
     reloadAll    : reloadAll
   }
 })()
+
+// Tab.closed_tabs, now_tab, last_selected_tab, current_closed_tab;
+Tab.closed_tabs = [];
