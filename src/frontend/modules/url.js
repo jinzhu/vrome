@@ -36,7 +36,7 @@ var Url = (function(){
     var urls = fixUrl(CmdBox.get().content);
     Debug('Url.enter - urls: ' + urls + ' newtab:' + newTab);
 
-    Post({action: "open_url", urls: urls, newtab: newTab});
+    Post({action: "Tab.open_url", urls: urls, newtab: newTab});
 
     urlMode = false;
     CmdBox.remove();
@@ -59,7 +59,7 @@ var Url = (function(){
 		pathname = pathname.join('/');
 
 		var url = location.protocol + '//' + hostname + (location.port ? (':' + location.port) : '') + pathname;
-		Post({action: "open_url", url: url});
+		Post({action: "Tab.open_url", url: url});
   }
 
   function root() {
@@ -69,19 +69,19 @@ var Url = (function(){
   function increment() {
    var count 	 = times();
    if(/^(.*?)(\d+)([^\d]*)$/.test(document.location.href))
-			Post({action: "open_url", url: RegExp.$1 + (Number(RegExp.$2) + count) + RegExp.$3});
+			Post({action: "Tab.open_url", url: RegExp.$1 + (Number(RegExp.$2) + count) + RegExp.$3});
   }
 
   function decrement() {
    var count 	 = times();
    if(/^(.*?)(\d+)([^\d]*)$/.test(document.location.href))
-			Post({action: "open_url", url: RegExp.$1 + (Number(RegExp.$2) - count) + RegExp.$3});
+			Post({action: "Tab.open_url", url: RegExp.$1 + (Number(RegExp.$2) - count) + RegExp.$3});
   }
 
   function viewSource() {
 		var url = Settings.get('background.currentUrl');
 		url = url.replace(/^(view-source:)?/,/^view-source:/.test(url) ? '' : "view-source:");
-    Post({action: "open_url", urls: url, newtab: newTab});
+    Post({action: "Tab.open_url", urls: url, newtab: newTab});
   }
 
   function shortUrl(msg) {

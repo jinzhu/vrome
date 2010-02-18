@@ -73,6 +73,6 @@ function getSelected() {
 }
 
 function showHelp() {
-  Post({action: "open_url", url: chrome.extension.getURL("README.html"),newtab : true});
+  Post({action: "Tab.open_url", url: chrome.extension.getURL("README.html"),newtab : true});
 }
 showHelp.normalMode = true;

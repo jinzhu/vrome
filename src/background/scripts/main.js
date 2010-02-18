@@ -5,31 +5,14 @@ var Post = function(tab,message) {
 
 var Vrome = (function() {
   function enable() {
-    Settings.add({ currentPageDisabled : false });
+    Settings.add({ disable : false });
   }
 
   function disable() {
-    Settings.add({ currentPageDisabled : true });
+    Settings.add({ disable : true });
   }
   return { enable : enable, disable : disable }
 })()
-
-function open_url(msg) {
-  var tab = arguments[arguments.length-1];
-  var urls      = msg.urls || msg.url;
-  if(typeof urls == 'string') urls = [urls];
-  var first_url = urls.shift();
-  var index     = tab.index;
-
-  if (msg.newtab) {
-    chrome.tabs.create({url: first_url, index: ++index});
-  } else {
-    chrome.tabs.update(tab.id, {url: first_url});
-  }
-  for (var i = 0;i < urls.length;i++) {
-    chrome.tabs.create({url: urls[i], index: ++index,selected: false});
-  }
-}
 
 function setLastCommand(msg) {
   var tab = arguments[arguments.length-1];

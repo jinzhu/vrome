@@ -3,8 +3,8 @@ var Tab = (function() {
     var tab = arguments[arguments.length-1];
     Tab.current_closed_tab = tab;
     chrome.tabs.remove(tab.id);
-    if(msg.focusLast) lastSelected.apply('',arguments); // close and selects last
-    if(msg.offset) goto.apply('',arguments);            // close and select left
+    if (msg.focusLast) lastSelected.apply('',arguments); // close and selects last
+    if (msg.offset) goto.apply('',arguments);            // close and select left
   }
 
   function reopen(msg) {
@@ -53,12 +53,30 @@ var Tab = (function() {
     });
   }
 
+  function open_url(msg) {
+    var tab       = arguments[arguments.length-1];
+    var urls      = msg.urls || msg.url;
+    if (typeof urls == 'string') urls = [urls];
+    var first_url = urls.shift();
+    var index     = tab.index;
+
+    if (msg.newtab) {
+      chrome.tabs.create({url: first_url, index: ++index});
+    } else {
+      chrome.tabs.update(tab.id, {url: first_url});
+    }
+    for (var i = 0;i < urls.length;i++) {
+      chrome.tabs.create({url: urls[i], index: ++index,selected: false});
+    }
+  }
+
   return {
     close        : close,
     reopen       : reopen,
     goto         : goto,
     lastSelected : lastSelected,
-    reloadAll    : reloadAll
+    reloadAll    : reloadAll,
+    open_url     : open_url
   }
 })()
 

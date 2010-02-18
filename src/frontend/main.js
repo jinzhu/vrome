@@ -1,4 +1,4 @@
-with(KeyEvent) {
+with (KeyEvent) {
   // Zoom
   add(['z', 'i'], Zoom['in']  );
   add(['z', 'o'], Zoom.out    );
