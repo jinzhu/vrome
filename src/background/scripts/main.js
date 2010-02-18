@@ -3,20 +3,9 @@ var Post = function(tab,message) {
   port.postMessage(message);
 }
 
-var Vrome = (function() {
-  function enable() {
-    Settings.add({ disable : false });
-  }
-
-  function disable() {
-    Settings.add({ disable : true });
-  }
-  return { enable : enable, disable : disable }
-})()
-
 function setLastCommand(msg) {
   var tab = arguments[arguments.length-1];
-  Settings.add({ currentKeys : msg.currentKey, times : msg.times });
+  Settings.add({ currentKeys : msg.currentKeys, times : msg.times });
 }
 
 function externalEditor(msg) {

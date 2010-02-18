@@ -27,7 +27,7 @@ var Tab = (function() {
 
       if(index){
         index = index % tabs.length;
-        if (index < 0){ index = index + tabs.length; }
+        if (index < 0) { index = index + tabs.length; }
       }
 
       Debug("gotoTab:" + index + " index:" + msg.index + " offset:" + msg.offset);

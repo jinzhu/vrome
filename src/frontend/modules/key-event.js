@@ -1,47 +1,36 @@
 var KeyEvent = (function() {
-  function filterKey(key,mode) {
-    // FIXME map,imap,cmap
-  }
-
   var times = 0;
   var disableVrome, pass_next_key, last_current_keys, last_times, disable_site;
 
   function init() {
-    // var hotkeys = Settings.get('background.hotkeys');
-
-    // for (var i = 0;i < hotkeys.length; i++) {
-    //   try {
-    //     var hotkey  = hotkeys[i];
-    //     var actions = hotkey[1].split('.');
-    //     var action  = window;
-    //     while (actions.length > 0) { action = action[actions.shift()]; }
-    //     if (hotkey[2] == 'normalMode') {
-    //       add(hotkey[0].split('+'), action);
-    //     } else if (hotkey[2] == 'insertMode') {
-    //       add(hotkey[0].split('+'), action, true);
-    //     } else if (hotkey[2] == 'commandMode') {
-    //       CmdLine.add(hotkey[0],action);
-    //     }
-    //   } catch(e) {
-    //     continue;
-    //   }
-    // }
+    // disable site
+    var disable_sites = Settings.get('background.disableSites');
+    for (var i = 0; i < disable_sites.length ; i++) {
+      if (disable_sites[i] && new RegExp(disable_sites[i],'i').test(location.href)) {
+        disableVrome = true;
+        break;
+      }
+    }
 
     document.addEventListener('keydown',KeyEvent.exec, false);
   }
 
-  function returnTimes(/*Boolean*/ read) {
-    var old_times = times;
+  function getTimes(/*Boolean*/ read) {
+    var origin_times = times;
     if(!read) times = 0; // reset it except only read
-    return old_times;
+    return origin_times;
   }
 
   ///////////////////////////////////////////////////
   // Last Commands
   ///////////////////////////////////////////////////
+  function filterKey(key,mode) {
+    // FIXME map,imap,cmap
+  }
+
   function setLast(/*Array*/ currentKeys,/*Number*/ times) {
     times = times || 0;
-    Post({action : "setLastCommand",currentKey : currentKeys,times : times});
+    Post({action : "setLastCommand",currentKeys : currentKeys,times : times});
     last_current_keys = currentKeys;
     last_times        = times;
     Debug("KeyEvent.setLast - currentKeys:" + currentKeys + " times:" + times);
@@ -60,53 +49,27 @@ var KeyEvent = (function() {
 		bindings.push([keys,fun,!!input]);
 	}
 
-	function reset(){
+	function reset() {
 		currentKeys = [];
 	}
 
   ///////////////////////////////////////////////////
-  function passNextKey(){
+  function passNextKey() {
 		CmdBox.set({title : ' -- PASS THROUGH (next) -- ',timeout : 2000 });
     pass_next_key  = true;
     Post({action : "Vrome.disable"})
   }
 
-	function disable(){
-    Debug("KeyEvent.disable");
+	function disable() {
 		CmdBox.set({title : ' -- PASS THROUGH -- ' });
     disableVrome = true;
-    Post({action : "Vrome.disable"})
 	}
 
   function enable() {
-    Debug("KeyEvent.enable");
     CmdBox.remove();
-    disableVrome = false;
-    pass_next_key  = false;
+    disableVrome  = false;
+    pass_next_key = false;
     reset();
-    Post({action : "Vrome.enable"})
-  }
-
-  function changeStatus(/*Boolean*/ enableStatus) {
-		if (typeof enableStatus == "boolean") {
-			disableVrome = !enableStatus;
-      disable_site = disableVrome;
-
-		} else if (typeof disableVrome == "undefined") {
-			var disable_sites = Settings.get('background.disableSites');
-
-			for (var i in disable_sites) {
-				if (disable_sites[i] && disable_sites[i]) {
-					if (new RegExp(disable_sites[i],'i').test(location.href)) {
-						disableVrome = true;
-            disable_site = true;
-						break;
-					}
-				}
-			}
-		}
-
-    disableVrome ? disable() : enable();
   }
 
   ///////////////////////////////////////////////////
@@ -184,7 +147,7 @@ var KeyEvent = (function() {
     exec    : exec,
 
     init    : init,
-    times   : returnTimes,
+    times   : getTimes,
 
     disable : disable,
     passNextKey    : passNextKey,
