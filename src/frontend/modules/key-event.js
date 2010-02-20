@@ -24,16 +24,12 @@ var KeyEvent = (function() {
   ///////////////////////////////////////////////////
   // Last Commands
   ///////////////////////////////////////////////////
-  function filterKey(key,mode) {
-    // FIXME map,imap,cmap
-  }
-
-  function setLast(/*Array*/ currentKeys,/*Number*/ times) {
+  function storeLast(/*Array*/ currentKeys,/*Number*/ times) {
     times = times || 0;
-    Post({action : "setLastCommand",currentKeys : currentKeys,times : times});
+    Post({action : "storeLastCommand",currentKeys : currentKeys,times : times});
     last_current_keys = currentKeys;
     last_times        = times;
-    Debug("KeyEvent.setLast - currentKeys:" + currentKeys + " times:" + times);
+    Debug("KeyEvent.storeLastCommand - currentKeys:" + currentKeys + " times:" + times);
   }
 
   function runLast() {
@@ -44,8 +40,8 @@ var KeyEvent = (function() {
 	var bindings    = [];
 	var currentKeys = [];
 
-	function add(/*Array*/ keys,/*Function*/ fun,/*Boolean*/ input){
-		if(typeof keys == 'string'){ keys = Array(keys); }
+	function add(/*Array*/ keys,/*Function*/ fun,/*Boolean*/ input) {
+		if (typeof keys == 'string') { keys = Array(keys); }
 		bindings.push([keys,fun,!!input]);
 	}
 
@@ -73,33 +69,41 @@ var KeyEvent = (function() {
   }
 
   ///////////////////////////////////////////////////
-  function runCurrentKeys(keys, insertMode, key,e) {
+  function filterKey(key,mode) {
+    // FIXME map,imap,cmap
+    var configure = Settings.get('background.configure');
+    mode = mode ? 'imap' : 'map';
+    return (configure[mode] && configure[mode][key]) || key;
+  }
+
+  function runCurrentKeys(keys, insertMode, e) {
+    var key = getKey(e);
 		// run last command
-    if(key == '.' && !insertMode){
+    if (key == '.' && !insertMode) {
 			var old_times = last_times;
 			times = (last_times || 1) * (times || 1);
 		// some key pressed
-		}else if(key && !insertMode){
+		} else if (key && !insertMode) {
 			var old_times = times;
 		}
 
 		var matched = [];
 
-		binding : for(var i in bindings){
+		binding : for(var i = 0 ;i < bindings.length; i++) {
       // insertMode or not
-      if(!!insertMode != bindings[i][2]) continue binding;
+      if (!!insertMode != bindings[i][2]) continue binding;
 
       // part matched bindings.
-			for(var j in keys){
+			for (var j = 0; j < keys.length ; j++) {
 				if(keys[j] != bindings[i][0][j]) continue binding;
 			}
 			matched.push(bindings[i]);
 		}
 
     var exec_length = 0;
-    for(var i in matched){
+    for (var i in matched) {
       // execute those exactly matched bindings
-			if(matched[i][0].length == keys.length){
+			if (matched[i][0].length == keys.length) {
         matched[i][1].call(e);
         exec_length++;
 			}
@@ -108,7 +112,7 @@ var KeyEvent = (function() {
     Debug("KeyEvent.runCurrentKeys - keys:" + keys + " insertMode:" + insertMode + " times:" + old_times + " matched:" + matched.length + " exec:" + exec_length);
 
     // store current command
-    if(exec_length > 0 && key != '.' && !insertMode) setLast(keys,old_times);
+    if(exec_length > 0 && key != '.' && !insertMode) storeLast(keys,old_times);
 
     // if currentMode is not insertMode,and the key is a number,update times.
     if (!insertMode && /\d/.test(key)){
@@ -138,8 +142,9 @@ var KeyEvent = (function() {
       if (pass_next_key || key == 'Esc') { enable(); }
 			return;
 		}
+    currentKeys = filterKey(currentKeys,insertMode); //FIXME multi modes
 
-    if (runCurrentKeys(currentKeys,insertMode,key,e)) e.preventDefault();
+    if (runCurrentKeys(currentKeys,insertMode,e)) e.preventDefault();
 	}
 
 	return {
@@ -150,14 +155,8 @@ var KeyEvent = (function() {
     times   : getTimes,
 
     disable : disable,
-    passNextKey    : passNextKey,
-    changeStatus   : changeStatus,
+    passNextKey : passNextKey,
 
-    setLast : setLast,
     runLast : runLast,
   };
 })();
-
-KeyEvent.disable.normalMode     = true;
-KeyEvent.passNextKey.normalMode = true;
-KeyEvent.runLast.normalMode     = true;

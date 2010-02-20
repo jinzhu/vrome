@@ -3,7 +3,7 @@ var Post = function(tab,message) {
   port.postMessage(message);
 }
 
-function setLastCommand(msg) {
+function storeLastCommand(msg) {
   var tab = arguments[arguments.length-1];
   Settings.add({ currentKeys : msg.currentKeys, times : msg.times });
 }
