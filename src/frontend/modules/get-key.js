@@ -106,9 +106,9 @@ var getKey = (function() {
 		"-":"_", "=":"+", ";":":", "'":"\"", ",":"<", ".":">",  "/":"?",  "\\":"|" };
 
 	function getKey(evt) {
-		var key   = keyId[evt.keyIdentifier] || evt.keyIdentifier,
-		var ctrl  = evt.ctrlKey ? 'C-' : '',
-		var meta  = (evt.metaKey || evt.altKey) ? 'M-' : '',
+		var key   = keyId[evt.keyIdentifier] || evt.keyIdentifier;
+		var ctrl  = evt.ctrlKey ? 'C-' : '';
+		var meta  = (evt.metaKey || evt.altKey) ? 'M-' : '';
 		var shift = evt.shiftKey ? 'S-' : '';
 
 		if (evt.shiftKey) {
