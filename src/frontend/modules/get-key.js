@@ -106,23 +106,23 @@ var getKey = (function() {
 		"-":"_", "=":"+", ";":":", "'":"\"", ",":"<", ".":">",  "/":"?",  "\\":"|" };
 
 	function getKey(evt) {
-		var key = keyId[evt.keyIdentifier] || evt.keyIdentifier,
-		ctrl    = evt.ctrlKey ? 'C-' : '',
-		meta    = (evt.metaKey || evt.altKey) ? 'M-' : '',
-		shift   = evt.shiftKey ? 'S-' : '';
+		var key   = keyId[evt.keyIdentifier] || evt.keyIdentifier,
+		var ctrl  = evt.ctrlKey ? 'C-' : '',
+		var meta  = (evt.metaKey || evt.altKey) ? 'M-' : '',
+		var shift = evt.shiftKey ? 'S-' : '';
 
-		if (evt.shiftKey){
+		if (evt.shiftKey) {
 			if (/^[a-z]$/.test(key)) {
-				return ctrl+meta+key.toUpperCase();
+        key = key.toUpperCase();
 			}
 			if (shiftNums[key]) {
-				return ctrl+meta+shiftNums[key];
+        key = shiftNums[key];
 			}
 			if (/^(Enter|Space|BackSpace|Tab|Esc|Home|End|Left|Right|Up|Down|PageUp|PageDown|F(\d\d?))$/.test(key)) {
-				return ctrl+meta+shift+key;
+				return '<' + ctrl+meta+shift+key + '>';
 			}
 		}
-		return ctrl+meta+key;
+    return (ctrl || meta) ? ('<' + ctrl+meta+key + '>') : (ctrl+meta+key);
 	}
 
 	return getKey;
