@@ -16,14 +16,6 @@
         xhr.onreadystatechange = function() {
           if (xhr.readyState == 4 && xhr.status == 200) {
             Settings.add({ configure : JSON.parse(xhr.responseText) });
-            // FIXME refactor
-            if (Tab.now_tab) {
-              chrome.tabs.getAllInWindow(Tab.now_tab.windowId, function(tabs) {
-                for (var i in tabs) {
-                  Post(tabs[i],{ action : "Settings.add", arguments : { background : Settings.get()}});
-                }
-              });
-            }
           };
         }
 
