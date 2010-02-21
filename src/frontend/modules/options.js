@@ -2,6 +2,7 @@ var Option = (function() {
   var options = {
     nextpattern : ['(下|后)一页','^\\s*Next\\s*$','^>$','^More$','(^(>>|››|»))|((»|››|>>)$)'],
     previouspattern : ['(上|前)一页','^\\s*Prev(ious)?\\s*$','^<$','(^(<<|‹‹|«))|((<<|‹‹|«)$)'],
+    disablesites : "",
   }
 
   function get(key) {

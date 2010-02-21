@@ -1,10 +1,10 @@
 var KeyEvent = (function() {
   var times = 0;
-  var disableVrome, pass_next_key, last_current_keys, last_times, disable_site;
+  var disableVrome, pass_next_key, last_current_keys, last_times;
 
   function init() {
     // disable site
-    var disable_sites = Settings.get('background.disableSites');
+    var disable_sites = Option.get("disablesites").split(", ");
     for (var i = 0; i < disable_sites.length ; i++) {
       if (disable_sites[i] && new RegExp(disable_sites[i],'i').test(location.href)) {
         disableVrome = true;
