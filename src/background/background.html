@@ -25,6 +25,7 @@
       getConfigure();
 
       function syncSetting(tab) {
+        getConfigure();
         Tab.last_selected_tab = Tab.now_tab || tab;
         Tab.now_tab = tab;
         Settings.add({currentUrl : tab.url, now_tab_id : Tab.now_tab.id});

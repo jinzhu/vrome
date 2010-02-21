@@ -34,17 +34,17 @@ with (KeyEvent) {
   for (var i=0; i < arr.length; i++) {
     var keys = window[arr[i]];
     for (var j=0; j < keys.length; j++) {
-      add(keys[j], window[arr[i] + "Function"]      );
-      add(keys[j], window[arr[i] + "Function"],true );
+      add(keys[j], window[arr[i] + "Function"]       );
+      add(keys[j], window[arr[i] + "Function"], true );
     }
   }
 
   // Zoom
-  add("zi", Zoom["in"]  );
-  add("zo", Zoom.out    );
-  add("zm", Zoom.more   );
-  add("zr", Zoom.reduce );
-  add("zz", Zoom.reset  );
+  add("zi", Zoom["in"]      );
+  add("zo", Zoom.out        );
+  add("zm", Zoom.more       );
+  add("zr", Zoom.reduce     );
+  add("zz", Zoom.reset      );
 
   add("zI", Zoom.cur_in     );
   add("zO", Zoom.cur_out    );
@@ -54,8 +54,8 @@ with (KeyEvent) {
 
 
   // Page
-  add("]]", Page.next );
-  add("[[", Page.prev );
+  add("]]", Page.next         );
+  add("[[", Page.prev         );
   add("Y" , Page.copySelected );
 
 
@@ -119,7 +119,7 @@ with (KeyEvent) {
 
 
   // CmdLine
-  add(":"    , CmdLine.start );
+  add(":"    , CmdLine.start   );
 
 
   // Hint
