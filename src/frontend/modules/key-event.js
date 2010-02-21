@@ -124,6 +124,8 @@ var KeyEvent = (function() {
 
 	function exec(e) {
 		var key        = getKey(e);
+    if (isEscapeKey(key)) return enable();
+
 		var insertMode = /^INPUT|TEXTAREA$/i.test(e.target.nodeName);
 		if (/^<(Control|Alt|Shift)>$/.test(key)) return;
 		currentKeys += key;

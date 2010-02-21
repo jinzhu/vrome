@@ -1,10 +1,10 @@
 var getKey = (function() {
 	var keyId = {
-		"U+0008" : "BackSpace",
-		"U+0009" : "Tab",
-		"U+0018" : "Cancel",
-		"U+001B" : "Esc",
-		"U+0020" : "Space",
+		"U+0008" : "<BackSpace>",
+		"U+0009" : "<Tab>",
+		"U+0018" : "<Cancel>",
+		"U+001B" : "<Esc>",
+		"U+0020" : "<Space>",
 		"U+0021" : "!",
 		"U+0022" : "\"",
 		"U+0023" : "#",
@@ -80,24 +80,8 @@ var getKey = (function() {
 		"U+007B" : "{",
 		"U+007C" : "|",
 		"U+007D" : "}",
-		"U+007F" : "Delete",
+		"U+007F" : "<Delete>",
 		"U+00A1" : "¡",
-		"U+0300" : "CombAcute",
-		"U+0302" : "CombCircum",
-		"U+0303" : "CombTilde",
-		"U+0304" : "CombMacron",
-		"U+0306" : "CombBreve",
-		"U+0307" : "CombDot",
-		"U+0308" : "CombDiaer",
-		"U+030A" : "CombRing",
-		"U+030B" : "CombDblAcute",
-		"U+030C" : "CombCaron",
-		"U+0327" : "CombCedilla",
-		"U+0328" : "CombOgonek",
-		"U+0345" : "CombYpogeg",
-		"U+20AC" : "€",
-		"U+3099" : "CombVoice",
-		"U+309A" : "CombSVoice",
     "U+00C0" : "`",
 	};
 
@@ -118,7 +102,7 @@ var getKey = (function() {
 			if (shiftNums[key]) {
         key = shiftNums[key];
 			}
-			if (/^(Enter|Space|BackSpace|Tab|Esc|Home|End|Left|Right|Up|Down|PageUp|PageDown|F(\d\d?))$/.test(key)) {
+			if (/^<(Enter|Space|BackSpace|Tab|Esc|Home|End|Left|Right|Up|Down|PageUp|PageDown|F(\d\d?))>$/.test(key)) {
 				return '<' + ctrl+meta+shift+key + '>';
 			}
 		}
