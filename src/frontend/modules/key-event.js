@@ -38,14 +38,14 @@ var KeyEvent = (function() {
 
   ///////////////////////////////////////////////////
 	var bindings    = [];
-	var currentKeys = [];
+	var currentKeys = "";
 
 	function add(/*String*/ keys,/*Function*/ fun,/*Boolean*/ input) {
 		bindings.push([keys,fun,!!input]);
 	}
 
 	function reset() {
-		currentKeys = [];
+		currentKeys = "";
 	}
 
   ///////////////////////////////////////////////////
@@ -90,62 +90,54 @@ var KeyEvent = (function() {
       // insertMode or not
       if (!!insertMode != bindings[i][2]) continue;
 
-      // part matched bindings.
-      // var regexp = new RegExp('^(' + bindings[i][0] + ')');
-      // if (regexp.test(keys[j])) {
-      //   keys.replace(regexp,'');
-      // }
+      // escape regexp
+      var regexp = new RegExp('^(' + bindings[i][0].replace(/([(\[{\\^$|)?*+.])/g,"\\$1") + ')');
+      if (regexp.test(keys[j])) {
+        var someFunctionCalled = true;
+        keys.replace(regexp,'');
+        bindings[i][1].call(e);
+      }
 		}
-
-    var exec_length = 0;
-    for (var i in matched) {
-      // execute those exactly matched bindings
-			if (matched[i][0].length == keys.length) {
-        matched[i][1].call(e);
-        exec_length++;
-			}
-		}
-
-    Debug("KeyEvent.runCurrentKeys - keys:" + keys + " insertMode:" + insertMode + " times:" + old_times + " matched:" + matched.length + " exec:" + exec_length);
 
     // store current command
-    if (exec_length > 0 && key != '.' && !insertMode) storeLast(keys,old_times);
+    if (someFunctionCalled && key != '.' && !insertMode) {
+      storeLast(currentKeys, old_times);
+    }
+    if (someFunctionCalled) reset();
 
-    // if currentMode is not insertMode,and the key is a number,update times.
     if (!insertMode && /\d/.test(key)) {
       times = (times || 0) * 10 + Number(key);
     } else {
       // if some function executed and some key pressed, reset the times
       // no key perssed always means,this function is invoked by runLastCommand.
-      if (exec_length != 0 && key) times = 0;
+      if (someFunctionCalled && key) times = 0;
     }
 
-    // reset if all matched bindings has been executed,or the key is Esc,or no key
-		if (matched.length == exec_length || key == 'Esc' || !key) { reset(); }
-
     // if any command executed,and the key is not Enter in insertMode (submit form)
-    return (exec_length > 0 && !(key == 'Enter' && insertMode));
+    if (!(key == '<Enter>' && insertMode)) e.preventDefault();
   }
 
 	function exec(e) {
 		var key        = getKey(e);
 		var insertMode = /^INPUT|TEXTAREA$/i.test(e.target.nodeName);
 		if (/^(Control|Alt|Shift)$/.test(key)) return;
-		currentKeys.push(key);
+		currentKeys += key;
 
     // if vrome set disabled/pass the next, use Esc to enable it again.
 		if ((pass_next_key || disableVrome) && !insertMode) {
-      if (pass_next_key || key == 'Esc') { enable(); }
+      if (pass_next_key || key == '<Esc>')  enable();
 			return;
 		}
 
     currentKeys = filterKey(currentKeys,insertMode); //FIXME multi modes
-    if (runCurrentKeys(currentKeys,insertMode,e)) e.preventDefault();
+    runCurrentKeys(currentKeys,insertMode,e);
 	}
 
 	return {
     add     : add,
     exec    : exec,
+    reset   : reset,
+    enable  : enable,
 
     init    : init,
     times   : getTimes,

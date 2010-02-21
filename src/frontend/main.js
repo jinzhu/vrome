@@ -11,23 +11,25 @@ function AcceptKeyFunction() {
 }
 
 function EscapeKeyFunction() {
+  KeyEvent.enable();
+  CancelKeyFunction();
+}
+
+function CancelKeyFunction() {
   CmdBox.remove();
   Hint.remove();
   Search.stop();
   InsertMode.blurFocus();
-}
-
-function CancelKeyFunction() {
-  EscapeKeyFunction();
+  KeyEvent.reset();
 }
 
 with (KeyEvent) {
   var arr = ['AcceptKey','CancelKey','EscapeKey'];
   for (var i=0; i < arr.length; i++) {
-    var keys = window[ar[i]];
+    var keys = window[arr[i]];
     for (var j=0; j < keys.length; j++) {
-      add(keys[j], window[ar[i] + 'Function']      );
-      add(keys[j], window[ar[i] + 'Function'],true );
+      add(keys[j], window[arr[i] + 'Function']      );
+      add(keys[j], window[arr[i] + 'Function'],true );
     }
   }
 
