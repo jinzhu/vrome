@@ -71,6 +71,7 @@ var KeyEvent = (function() {
   function filterKey(key,insertMode) {
     var configure = Settings.get('background.configure');
     var mode = insertMode ? 'imap' : 'map';
+    if (/\d/.test(key)) { return key; }
     return (configure[mode] && configure[mode][key]) || key;
   }
 
@@ -85,17 +86,21 @@ var KeyEvent = (function() {
 			var old_times = times;
 		}
 
-		var matched = [];
 		for (var i = 0; i < bindings.length; i++) {
       // insertMode or not
       if (!!insertMode != bindings[i][2]) continue;
 
       // escape regexp
       var regexp = new RegExp('^(' + bindings[i][0].replace(/([(\[{\\^$|)?*+.])/g,"\\$1") + ')');
-      if (regexp.test(keys[j])) {
+      if (regexp.test(keys)) {
         var someFunctionCalled = true;
         keys.replace(regexp,'');
         bindings[i][1].call(e);
+      }
+
+      var regexp = new RegExp('^(' + keys.replace(/([(\[{\\^$|)?*+.])/g,"\\$1") + ')');
+      if (regexp.test(bindings[i][0])) {
+        var someBindingMatched = true;
       }
 		}
 
@@ -103,7 +108,7 @@ var KeyEvent = (function() {
     if (someFunctionCalled && key != '.' && !insertMode) {
       storeLast(currentKeys, old_times);
     }
-    if (someFunctionCalled) reset();
+    if (!someBindingMatched || someFunctionCalled) reset();
 
     if (!insertMode && /\d/.test(key)) {
       times = (times || 0) * 10 + Number(key);
@@ -114,13 +119,13 @@ var KeyEvent = (function() {
     }
 
     // if any command executed,and the key is not Enter in insertMode (submit form)
-    if (!(key == '<Enter>' && insertMode)) e.preventDefault();
+    if (someFunctionCalled && !(key == '<Enter>' && insertMode)) e.preventDefault();
   }
 
 	function exec(e) {
 		var key        = getKey(e);
 		var insertMode = /^INPUT|TEXTAREA$/i.test(e.target.nodeName);
-		if (/^(Control|Alt|Shift)$/.test(key)) return;
+		if (/^<(Control|Alt|Shift)>$/.test(key)) return;
 		currentKeys += key;
 
     // if vrome set disabled/pass the next, use Esc to enable it again.
