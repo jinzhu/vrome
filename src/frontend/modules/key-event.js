@@ -76,7 +76,7 @@ var KeyEvent = (function() {
 
   function runCurrentKeys(keys, insertMode, e) {
     var key = getKey(e);
-		// run last command
+		// FIXME run last command
     if (key == '.' && !insertMode) {
 			var old_times = last_times;
 			times = (last_times || 1) * (times || 1);
@@ -86,16 +86,15 @@ var KeyEvent = (function() {
 		}
 
 		var matched = [];
-
-		for (var i = 0 ;i < bindings.length; i++) {
+		for (var i = 0; i < bindings.length; i++) {
       // insertMode or not
       if (!!insertMode != bindings[i][2]) continue;
 
       // part matched bindings.
-      var regexp = new RegExp('^(' + bindings[i][0] + ')');
-      if (regexp.test(keys[j])) {
-        keys.replace(regexp,'');
-      }
+      // var regexp = new RegExp('^(' + bindings[i][0] + ')');
+      // if (regexp.test(keys[j])) {
+      //   keys.replace(regexp,'');
+      // }
 		}
 
     var exec_length = 0;
@@ -110,29 +109,28 @@ var KeyEvent = (function() {
     Debug("KeyEvent.runCurrentKeys - keys:" + keys + " insertMode:" + insertMode + " times:" + old_times + " matched:" + matched.length + " exec:" + exec_length);
 
     // store current command
-    if(exec_length > 0 && key != '.' && !insertMode) storeLast(keys,old_times);
+    if (exec_length > 0 && key != '.' && !insertMode) storeLast(keys,old_times);
 
     // if currentMode is not insertMode,and the key is a number,update times.
-    if (!insertMode && /\d/.test(key)){
+    if (!insertMode && /\d/.test(key)) {
       times = (times || 0) * 10 + Number(key);
-    }else{
+    } else {
       // if some function executed and some key pressed, reset the times
       // no key perssed always means,this function is invoked by runLastCommand.
-      if(exec_length != 0 && key) times = 0;
+      if (exec_length != 0 && key) times = 0;
     }
 
     // reset if all matched bindings has been executed,or the key is Esc,or no key
-		if(matched.length == exec_length || key == 'Esc' || !key){ reset(); }
+		if (matched.length == exec_length || key == 'Esc' || !key) { reset(); }
 
     // if any command executed,and the key is not Enter in insertMode (submit form)
     return (exec_length > 0 && !(key == 'Enter' && insertMode));
   }
 
 	function exec(e) {
-    if(disable_site) return; // if this url belong to disabled sites,do nothing
 		var key        = getKey(e);
 		var insertMode = /^INPUT|TEXTAREA$/i.test(e.target.nodeName);
-		if(/^(Control|Alt|Shift)$/.test(key)) return;
+		if (/^(Control|Alt|Shift)$/.test(key)) return;
 		currentKeys.push(key);
 
     // if vrome set disabled/pass the next, use Esc to enable it again.
@@ -140,8 +138,8 @@ var KeyEvent = (function() {
       if (pass_next_key || key == 'Esc') { enable(); }
 			return;
 		}
-    currentKeys = filterKey(currentKeys,insertMode); //FIXME multi modes
 
+    currentKeys = filterKey(currentKeys,insertMode); //FIXME multi modes
     if (runCurrentKeys(currentKeys,insertMode,e)) e.preventDefault();
 	}
 

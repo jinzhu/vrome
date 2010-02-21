@@ -1,6 +1,7 @@
 ////////////////////////////////////////
 // Tasks For The Upcoming Version
 ////////////////////////////////////////
+sync Setting
 
 2, disappear cmd-box after document load.
 4, insertMode move cursor.

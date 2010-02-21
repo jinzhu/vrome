@@ -1,4 +1,36 @@
+var AcceptKey = ["<Enter>","<C-j>","<C-m>"];
+var CancelKey = ["<Esc>", "<C-[>", "<C-c>"];
+var EscapeKey = ["<Esc>", "<C-[>"];
+
+function AcceptKeyFunction() {
+  Url.enter();
+  CmdLine.exec();
+  Search.next();
+  Buffer.gotoFirstMatchHandle();
+  Buffer.deleteMatchHandle();
+}
+
+function EscapeKeyFunction() {
+  CmdBox.remove();
+  Hint.remove();
+  Search.stop();
+  InsertMode.blurFocus();
+}
+
+function CancelKeyFunction() {
+  EscapeKeyFunction();
+}
+
 with (KeyEvent) {
+  var arr = ['AcceptKey','CancelKey','EscapeKey'];
+  for (var i=0; i < arr.length; i++) {
+    var keys = window[ar[i]];
+    for (var j=0; j < keys.length; j++) {
+      add(keys[j], window[ar[i] + 'Function']      );
+      add(keys[j], window[ar[i] + 'Function'],true );
+    }
+  }
+
   // Zoom
   add('zi', Zoom['in']  );
   add('zo', Zoom.out    );
@@ -31,7 +63,6 @@ with (KeyEvent) {
   add('t'      , Url.tabopen            );
   add('T'      , Url.tabopenWithDefault );
   add('<C-y>'  , Url.shortUrl           );
-  add('<Enter>', Url.enter,true         );
 
 
   // Scroll
@@ -80,20 +111,15 @@ with (KeyEvent) {
 
 
   // CmdBox
-  add('<Esc>', CmdBox.remove     );
-  add('<Esc>', CmdBox.remove,true);
 
 
   // CmdLine
   add(':'    , CmdLine.start );
-  add('<Enter>', CmdLine.exec , true );
 
 
   // Hint
   add('f'  , Hint.start         );
   add('F'  , Hint.new_tab_start );
-  add('<Esc>', Hint.remove        );
-  add('<Esc>', Hint.remove , true );
 
 
   // Search
@@ -103,15 +129,10 @@ with (KeyEvent) {
   add('N'      , Search.prev           );
   add('*'      , Search.forwardCursor  );
   add('#'      , Search.backwardCursor );
-  add('<Enter>'  , Search.next    , true );
-  add('<S-Enter>', Search.prev    , true );
-  add('<Esc>'    , Search.stop           );
-  add('<Esc>'    , Search.stop    , true );
+  add('<S-Enter>', Search.prev,   true );
 
 
   // Buffer
-  add('<Enter>', Buffer.gotoFirstMatchHandle,true );
-  add('<Enter>', Buffer.deleteMatchHandle,true );
   add('b'    , Buffer.gotoFirstMatch );
   add('B'    , Buffer.deleteMatch );
 
@@ -125,8 +146,6 @@ with (KeyEvent) {
   // InsertMode
   add('<C-i>', InsertMode.externalEditor        , true );
 
-  add('<Esc>', InsertMode.blurFocus             , true );
-  add('<C-[>', InsertMode.blurFocus             , true );
 
   add('<C-a>', InsertMode.moveToFirstOrSelectAll, true );
   add('<C-e>', InsertMode.moveToEnd             , true );
@@ -148,7 +167,7 @@ with (KeyEvent) {
 }
 
 
-with(CmdLine) {
+with (CmdLine) {
   add('bdelete', Buffer.deleteMatchHandle );
 }
 

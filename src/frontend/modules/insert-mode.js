@@ -9,7 +9,8 @@ var InsertMode = (function(){
   }
 
 	function blurFocus(){
-		currentElement().blur();
+    var elem = currentElement();
+		if (elem) elem.blur();
 	}
 
 	function focusFirstTextInput(){
