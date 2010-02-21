@@ -43,7 +43,7 @@ class EditorServer < WEBrick::HTTPServlet::AbstractServlet
         when /^set\s+/
           array = line.split(/\s+/,2)
           array = array[1].split(/\+?=/,2)
-          vromeConfig[:set][array[0]] = [array[1], line =~ /^set\s+\w+\+=/]
+          vromeConfig[:set][array[0]] = [array[1], line =~ /^set\s+\w+\+=/ ? true : false]
         end
       end
 
