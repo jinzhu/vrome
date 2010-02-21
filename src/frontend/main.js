@@ -39,6 +39,8 @@ with (KeyEvent) {
     }
   }
 
+  add("<F1>", showHelp );
+
   // Zoom
   add("zi", Zoom["in"]      );
   add("zo", Zoom.out        );
