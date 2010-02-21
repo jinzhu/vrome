@@ -56,31 +56,31 @@ with (KeyEvent) {
   add('gU', Url.root               );
   add('gf', Url.viewSource         );
   add('gF', Url.viewSourceNewTab   );
-  add('<C-a>'  , Url.increment          );
-  add('<C-x>'  , Url.decrement          );
-  add('o'      , Url.open               );
-  add('O'      , Url.openWithDefault    );
-  add('t'      , Url.tabopen            );
-  add('T'      , Url.tabopenWithDefault );
-  add('<C-y>'  , Url.shortUrl           );
+  add('<C-a>' , Url.increment          );
+  add('<C-x>' , Url.decrement          );
+  add('o'     , Url.open               );
+  add('O'     , Url.openWithDefault    );
+  add('t'     , Url.tabopen            );
+  add('T'     , Url.tabopenWithDefault );
+  add('<C-y>' , Url.shortUrl           );
 
 
   // Scroll
-  add('gg', Scroll.top          );
-  add('G' , Scroll.bottom       );
-  add('0' , Scroll.first        );
-  add('$' , Scroll.last         );
+  add('gg', Scroll.top       );
+  add('G' , Scroll.bottom    );
+  add('0' , Scroll.first     );
+  add('$' , Scroll.last      );
 
-  add('k' , Scroll.up           );
-  add('j' , Scroll.down         );
-  add('h' , Scroll.left         );
-  add('l' , Scroll.right        );
-  add('%' , Scroll.toPercent    );
+  add('k' , Scroll.up        );
+  add('j' , Scroll.down      );
+  add('h' , Scroll.left      );
+  add('l' , Scroll.right     );
+  add('%' , Scroll.toPercent );
 
-  add('<C-f>'  , Scroll.nextPage     );
-  add('<C-b>'  , Scroll.prevPage     );
-  add('<C-d>'  , Scroll.nextHalfPage );
-  add('<C-u>'  , Scroll.prevHalfPage );
+  add('<C-f>' , Scroll.nextPage     );
+  add('<C-b>' , Scroll.prevPage     );
+  add('<C-d>' , Scroll.nextHalfPage );
+  add('<C-u>' , Scroll.prevHalfPage );
 
 
   // Tab
@@ -95,12 +95,12 @@ with (KeyEvent) {
   add('gt', Tab.next         );
   add('gT', Tab.prev         );
 
-  add('y'    , Tab.copyUrl      );
-  add('g0', Tab.first        );
-  add('g^', Tab.first        );
-  add('g$', Tab.last         );
-  add('<C-6>'  , Tab.lastSelected );
-  add('<C-^>'  , Tab.lastSelected );
+  add('y'  , Tab.copyUrl      );
+  add('g0' , Tab.first        );
+  add('g^' , Tab.first        );
+  add('g$' , Tab.last         );
+  add('<C-6>' , Tab.lastSelected );
+  add('<C-^>' , Tab.lastSelected );
 
 
   // History
@@ -108,9 +108,6 @@ with (KeyEvent) {
   add('L'  , History.forward );
   add('<C-o>', History.back    );
   add('<C-i>', History.forward );
-
-
-  // CmdBox
 
 
   // CmdLine
@@ -133,14 +130,14 @@ with (KeyEvent) {
 
 
   // Buffer
-  add('b'    , Buffer.gotoFirstMatch );
-  add('B'    , Buffer.deleteMatch );
+  add('b' , Buffer.gotoFirstMatch );
+  add('B' , Buffer.deleteMatch    );
 
 
-  add('gi', InsertMode.focusFirstTextInput );
-  add('<C-z>'  , KeyEvent.disable               );
-  add('<C-v>'  , KeyEvent.passNextKey           );
-  add('.'    , KeyEvent.runLast               );
+  add('gi' , InsertMode.focusFirstTextInput );
+  add('<C-z>' , KeyEvent.disable            );
+  add('<C-v>' , KeyEvent.passNextKey        );
+  add('.'     , KeyEvent.runLast            );
 
 
   // InsertMode
