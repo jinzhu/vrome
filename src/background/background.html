@@ -30,6 +30,7 @@
         xhr.setRequestHeader("Content-type", "text/plain");
         xhr.send('{"method":"get_configure"}');
       }
+      getConfigure();
 
       function syncSetting(tab) {
         Tab.last_selected_tab = Tab.now_tab || tab;

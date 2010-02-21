@@ -28,18 +28,18 @@ class EditorServer < WEBrick::HTTPServlet::AbstractServlet
 
   def get_configure(request)
     config_file = File.join(ENV['HOME'],'.vromerc')
-    vromeConfig = {:set => {}};
+    vromeConfig = {:set => {},:imap => {},:map => {},:cmap => {}};
 
     if File.exist?(config_file)
       File.read(config_file).split("\n").map do |line|
         array = line.split(/\s+/)
         case line
         when /^imap\s+/
-          vromeConfig[:imap] = (vromeConfig[:imap] || []).concat([{ array[1] => array[2] }])
+          vromeConfig[:imap][array[1]] = array[2];
         when /^map\s+/
-          vromeConfig[:map] = (vromeConfig[:map] || []).concat([{ array[1] => array[2] }])
+          vromeConfig[:map][array[1]]  = array[2];
         when /^cmap\s+/
-          vromeConfig[:cmap] = (vromeConfig[:cmap] || []).concat([{ array[1] => array[2] }])
+          vromeConfig[:cmap][array[1]] = array[2];
         when /^set\s+/
           array = line.split(/\s+/,2)
           array = array[1].split(/\+?=/,2)
