@@ -40,8 +40,7 @@ var KeyEvent = (function() {
 	var bindings    = [];
 	var currentKeys = [];
 
-	function add(/*Array*/ keys,/*Function*/ fun,/*Boolean*/ input) {
-		if (typeof keys == 'string') { keys = Array(keys); }
+	function add(/*String*/ keys,/*Function*/ fun,/*Boolean*/ input) {
 		bindings.push([keys,fun,!!input]);
 	}
 
@@ -69,10 +68,9 @@ var KeyEvent = (function() {
   }
 
   ///////////////////////////////////////////////////
-  function filterKey(key,mode) {
-    // FIXME map,imap,cmap
+  function filterKey(key,insertMode) {
     var configure = Settings.get('background.configure');
-    mode = mode ? 'imap' : 'map';
+    var mode = insertMode ? 'imap' : 'map';
     return (configure[mode] && configure[mode][key]) || key;
   }
 
@@ -89,15 +87,15 @@ var KeyEvent = (function() {
 
 		var matched = [];
 
-		binding : for(var i = 0 ;i < bindings.length; i++) {
+		for (var i = 0 ;i < bindings.length; i++) {
       // insertMode or not
-      if (!!insertMode != bindings[i][2]) continue binding;
+      if (!!insertMode != bindings[i][2]) continue;
 
       // part matched bindings.
-			for (var j = 0; j < keys.length ; j++) {
-				if(keys[j] != bindings[i][0][j]) continue binding;
-			}
-			matched.push(bindings[i]);
+      var regexp = new RegExp('^(' + bindings[i][0] + ')');
+      if (regexp.test(keys[j])) {
+        keys.replace(regexp,'');
+      }
 		}
 
     var exec_length = 0;
