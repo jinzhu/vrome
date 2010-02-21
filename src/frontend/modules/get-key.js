@@ -102,7 +102,10 @@ var getKey = (function() {
 			if (shiftNums[key]) {
         key = shiftNums[key];
 			}
-			if (/^<(Enter|Space|BackSpace|Tab|Esc|Home|End|Left|Right|Up|Down|PageUp|PageDown|F(\d\d?))>$/.test(key)) {
+      if (/F(\d\d?)/.test(key)) {
+				return '<' + key + '>';
+      }
+			if (/^<(Enter|Space|BackSpace|Tab|Esc|Home|End|Left|Right|Up|Down|PageUp|PageDown)>$/.test(key)) {
 				return '<' + ctrl+meta+shift+key + '>';
 			}
 		}
