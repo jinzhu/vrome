@@ -76,8 +76,10 @@ var KeyEvent = (function() {
   }
 
   function runCurrentKeys(keys, insertMode, e) {
-    var key = getKey(e);
-		// FIXME run last command
+    if (!keys) return;
+
+    if (e) var key = getKey(e);
+		// run last command
     if (key == '.' && !insertMode) {
 			var old_times = last_times;
 			times = (last_times || 1) * (times || 1);
@@ -105,7 +107,7 @@ var KeyEvent = (function() {
 		}
 
     // store current command
-    if (someFunctionCalled && key != '.' && !insertMode) {
+    if (someFunctionCalled && e && key != '.' && !insertMode) {
       storeLast(currentKeys, old_times);
     }
     if (!someBindingMatched || someFunctionCalled) reset();
@@ -119,7 +121,7 @@ var KeyEvent = (function() {
     }
 
     // if any command executed,and the key is not Enter in insertMode (submit form)
-    if (someFunctionCalled && !(key == '<Enter>' && insertMode)) e.preventDefault();
+    if (e && someFunctionCalled && !(key == '<Enter>' && insertMode)) e.preventDefault();
   }
 
 	function exec(e) {
