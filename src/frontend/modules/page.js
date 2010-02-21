@@ -1,10 +1,9 @@
-var Page = (function(){
-
-	function execMatch(regexps){
+var Page = (function() {
+	function execMatch(regexps) {
 		elems = document.getElementsByTagName('a');
-		for(var i in regexps){
-			for(var cur in elems){
-				if(new RegExp(regexps[i],'i').test(elems[cur].innerText)){
+		for (var i in regexps) {
+			for (var cur in elems) {
+				if (new RegExp(regexps[i],'i').test(elems[cur].innerText)) {
 					return clickElement(elems[cur]);
 				}
 			}
@@ -13,16 +12,12 @@ var Page = (function(){
 
   // API
 	return {
-		next : function(){
+		next : function() {
 			execMatch(['(下|后)一页','^\\s*Next\\s*$','^>$','^More$','(^(>>|››|»))|((»|››|>>)$)']);
 		},
-	  prev : function(){
-	   execMatch(['(上|前)一页','^\\s*Prev(ious)?\\s*$','^<$','(^(<<|‹‹|«))|((<<|‹‹|«)$)']);
+	  prev : function() {
+	    execMatch(['(上|前)一页','^\\s*Prev(ious)?\\s*$','^<$','(^(<<|‹‹|«))|((<<|‹‹|«)$)']);
     },
-		copySelected : function() { Clipboard.copy(getSelected())}
+		copySelected : function() { Clipboard.copy(getSelected()) }
 	};
 })();
-
-for (var i in Page) {
-	Page[i].normalMode = true;
-}

@@ -132,7 +132,3 @@ var InsertMode = (function(){
     externalEditorCallBack : externalEditorCallBack,
   }
 })()
-
-for(var i in InsertMode) {
-	InsertMode[i].insertMode = true;
-}

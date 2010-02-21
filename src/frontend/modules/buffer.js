@@ -39,7 +39,3 @@ var Buffer = (function() {
     deleteMatchHandle    : deleteMatchHandle    ,
   }
 })()
-
-Buffer.deleteMatchHandle.commandMode = true;
-Buffer.gotoFirstMatch.normalMode     = true;
-Buffer.deleteMatch.normalMode        = true;

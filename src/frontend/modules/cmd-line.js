@@ -26,5 +26,3 @@ var CmdLine = (function() {
 
   return { start : start, exec : exec , add : add };
 })()
-
-CmdLine.start.normalMode = true;

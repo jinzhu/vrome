@@ -43,9 +43,3 @@ var Zoom = (function() {
 		init       : function() { Zoom.setZoom( Settings.get('zoom_level')); }
 	}
 })()
-
-for (var i in Zoom) {
-  Zoom[i].normalMode = true;
-}
-Zoom.setZoom.private = true;
-Zoom.current.private = true;

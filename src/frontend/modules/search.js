@@ -122,9 +122,3 @@ var Search = (function(){
     backwardCursor : function() { if(useSelectedValueAsKeyword()){ start(true); } },
   }
 })()
-
-
-Search.next.insertMode  = true;
-Search.prev.insertMode  = true;
-Search.next.normalMode = true;
-Search.prev.normalMode = true;

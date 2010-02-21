@@ -160,6 +160,3 @@ var Hint = (function() {
     remove        : remove
   };
 })();
-
-Hint.start.normalMode         = true;
-Hint.new_tab_start.normalMode = true;
