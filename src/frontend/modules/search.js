@@ -83,7 +83,7 @@ var Search = (function(){
 
   function handleInput(e){
 		if(!searchMode) return;
-    if(!/Enter/.test(getKey(e))) remove();
+    if(!/<Enter>/.test(getKey(e))) remove();
 
     find(CmdBox.get().content);
     lastSearch = CmdBox.get().content;

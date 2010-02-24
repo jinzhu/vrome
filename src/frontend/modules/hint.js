@@ -82,8 +82,8 @@ var Hint = (function() {
   function handleInput(e) {
     key = getKey(e);
 
-    if (/^\d$/.test(key) || (key == 'BackSpace' && numbers != 0)) {
-      numbers = (key == 'BackSpace') ? parseInt(numbers / 10) : numbers * 10 + Number(key);
+    if (/^\d$/.test(key) || (key == '<BackSpace>' && numbers != 0)) {
+      numbers = (key == '<BackSpace>') ? parseInt(numbers / 10) : numbers * 10 + Number(key);
 			CmdBox.set({title : 'HintMode (' + numbers + ')'});
       var cur = numbers - 1;
 
@@ -95,8 +95,8 @@ var Hint = (function() {
         return execSelect( currentHint );
       }
     } else {
-			if (key != 'Enter') CmdBox.set({title : 'HintMode'});
-      if (key != 'Esc') setTimeout(delayToWaitKeyDown,200);
+			if (key != '<Enter>') CmdBox.set({title : 'HintMode'});
+      if (key != '<Esc>') setTimeout(delayToWaitKeyDown,200);
     }
   }
 
@@ -112,7 +112,7 @@ var Hint = (function() {
 
     setOrder(matched);
 
-    if (key == 'Enter' || matched.length == 1) {
+    if (key == '<Enter>' || matched.length == 1) {
       return execSelect(currentHint ? currentHint : matched[0]);
     }
     currentHint = false;
