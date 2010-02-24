@@ -103,7 +103,7 @@ var getKey = (function() {
         key = shiftNums[key];
 			}
     }
-    if (/^<(Enter|Space|BackSpace|Tab|Esc|Home|End|Left|Right|Up|Down|PageUp|PageDown|F(\d\d?))>$/.test(key)) {
+    if (/^(Enter|Space|BackSpace|Tab|Esc|Home|End|Left|Right|Up|Down|PageUp|PageDown|F(\d\d?))$/.test(key)) {
       return (ctrl || meta) ? ('<' + ctrl+meta+key + '>') : ('<' + key + '>');
     }
     return (ctrl || meta) ? ('<' + ctrl+meta+key + '>') : key;
