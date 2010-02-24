@@ -1,7 +1,5 @@
-==============================
-  Vrome
-    -- Vim keybindings extension for Chrome, github.com/jinzhu/vrome
-==============================
+Vrome -- Vim keybindings extension for Chrome, github.com/jinzhu/vrome
+======================================================================
 
 ## Features ##
 ### Insert mode
@@ -18,6 +16,7 @@
     <M-l>    Move forward a word
     <M-j>    Move back a char
     <M-k>    Move forward a char
+
 
 ### Normal mode
     <C-^> Select the alternate tab or the [count]th tab
@@ -101,13 +100,10 @@
     zz Set text zoom value of current web page
 
 
-
 ### Command Mode
     :bdelete  close all matched tabs.
 
 
-
-==============================
 ## Author ##
   Jinzhu
     - github.com/jinzhu
