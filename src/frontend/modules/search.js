@@ -100,7 +100,7 @@ var Search = (function(){
 	  });
   }
 
-  function stop(){
+  function stop() {
 		if(!searchMode) return;
     searchMode = false;
     remove();
