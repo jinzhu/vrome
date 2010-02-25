@@ -66,16 +66,24 @@ var Url = (function(){
     location.pathname = '/';
   }
 
-  function increment() {
-   var count 	 = times();
-   if(/^(.*?)(\d+)([^\d]*)$/.test(document.location.href))
-			Post({action: "Tab.openUrl", url: RegExp.$1 + (Number(RegExp.$2) + count) + RegExp.$3});
+  function increment(dirction) {
+    var count = times() * (dirction || 1);
+
+		if (document.location.href.match(/(.*?)(\d+)(\D*)$/)) {
+			var pre = RegExp.$1 , number = RegExp.$2 , post = RegExp.$3;
+			var newNumber = parseInt(number, 10) + count;
+			var newNumberStr = String(newNumber > 0 ? newNumber : 0);
+			if (number.match(/^0/)) { // add 0009<C-a> should become 0010
+				while (newNumberStr.length < number.length)
+				 newNumberStr = "0" + newNumberStr;
+			}
+
+			Post({ action: "Tab.openUrl", url: pre + newNumberStr + post});
+		}
   }
 
   function decrement() {
-   var count 	 = times();
-   if(/^(.*?)(\d+)([^\d]*)$/.test(document.location.href))
-			Post({action: "Tab.openUrl", url: RegExp.$1 + (Number(RegExp.$2) - count) + RegExp.$3});
+		increment(-1);
   }
 
   function viewSource() {
