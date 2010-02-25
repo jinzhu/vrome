@@ -95,7 +95,7 @@ var Hint = (function() {
         return execSelect( currentHint );
       }
     } else {
-			if (key != '<Enter>') CmdBox.set({title : 'HintMode'});
+			if (isAcceptKey(key)) CmdBox.set({title : 'HintMode'});
       if (!isEscapeKey(key)) setTimeout(delayToWaitKeyDown,200);
     }
   }
@@ -112,7 +112,7 @@ var Hint = (function() {
 
     setOrder(matched);
 
-    if (key == '<Enter>' || matched.length == 1) {
+    if (isAcceptKey(key) || matched.length == 1) {
       return execSelect(currentHint ? currentHint : matched[0]);
     }
     currentHint = false;

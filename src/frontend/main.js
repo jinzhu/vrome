@@ -2,6 +2,12 @@ var AcceptKey = ["<Enter>","<C-j>","<C-m>"];
 var CancelKey = ["<Esc>", "<C-[>", "<C-c>"];
 var EscapeKey = ["<Esc>", "<C-[>"];
 
+function isAcceptKey(key) {
+  for (var i=0;i < AcceptKey.length; i++) {
+    if (AcceptKey[i] == key) return true;
+  }
+}
+
 function AcceptKeyFunction() {
   Url.enter();
   CmdLine.exec();

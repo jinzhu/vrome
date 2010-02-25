@@ -120,7 +120,7 @@ var KeyEvent = (function() {
     }
 
     // if any command executed,and the key is not Enter in insertMode (submit form)
-    if (e && someFunctionCalled && !(key == '<Enter>' && insertMode)) e.preventDefault();
+    if (e && someFunctionCalled && !(isAcceptKey(key) && insertMode)) e.preventDefault();
   }
 
 	function exec(e) {
