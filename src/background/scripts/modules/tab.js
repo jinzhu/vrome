@@ -3,7 +3,7 @@ var Tab = (function() {
     var tab = arguments[arguments.length-1];
     Tab.current_closed_tab = tab;
     chrome.tabs.remove(tab.id);
-    if (msg.focusLast) lastSelected.apply('',arguments); // close and selects last
+    if (msg.focusLast) selectPrevious.apply('',arguments); // close and selects last
     if (msg.offset) goto.apply('',arguments);            // close and select left
   }
 
@@ -12,7 +12,7 @@ var Tab = (function() {
       var index = Tab.closed_tabs.length - msg.num;
       var last_closed_tab = Tab.closed_tabs[Tab.closed_tabs.length - msg.num];
       Debug("last_closed_tab: " + last_closed_tab);
-      if(last_closed_tab){
+      if (last_closed_tab) {
         Tab.closed_tabs.splice(index,1);
         chrome.tabs.create({url: last_closed_tab.url, index: last_closed_tab.index});
       }
@@ -22,10 +22,10 @@ var Tab = (function() {
   function goto(msg) {
     var tab = arguments[arguments.length-1];
     chrome.tabs.getAllInWindow(tab.windowId, function(tabs) {
-      if(typeof msg.index != 'undefined') { var index = msg.index; }
-      if(typeof msg.offset != 'undefined'){ var index = tab.index + msg.offset; }
+      if (typeof msg.index != 'undefined') { var index = msg.index; }
+      if (typeof msg.offset != 'undefined') { var index = tab.index + msg.offset; }
 
-      if(index){
+      if (index) {
         index = index % tabs.length;
         if (index < 0) { index = index + tabs.length; }
       }
@@ -36,7 +36,7 @@ var Tab = (function() {
     });
   }
 
-  function lastSelected() {
+  function selectPrevious() {
     var tab = arguments[arguments.length-1];
     chrome.tabs.getAllInWindow(tab.windowId, function(tabs) {
       chrome.tabs.update(Tab.last_selected_tab.id, {selected: true});
@@ -71,12 +71,12 @@ var Tab = (function() {
   }
 
   return {
-    close        : close,
-    reopen       : reopen,
-    goto         : goto,
-    lastSelected : lastSelected,
-    reloadAll    : reloadAll,
-    open_url     : open_url
+    close          : close,
+    reopen         : reopen,
+    goto           : goto,
+    selectPrevious : selectPrevious,
+    reloadAll      : reloadAll,
+    open_url       : open_url
   }
 })()
 

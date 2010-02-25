@@ -115,8 +115,8 @@ with (KeyEvent) {
   add("g0"    , Tab.first        );
   add("g^"    , Tab.first        );
   add("g$"    , Tab.last         );
-  add("<C-6>" , Tab.lastSelected );
-  add("<C-^>" , Tab.lastSelected );
+  add("<C-6>" , Tab.selectPrevious );
+  add("<C-^>" , Tab.selectPrevious );
 
 
   // History

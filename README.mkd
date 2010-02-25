@@ -19,7 +19,7 @@
 
 
 ### Normal mode
-    <C-^>   Select the alternate tab or the [count]th tab
+    <C-^>   Select the previously selected tab.
     <C-a>   Increment last number in URL
     <C-b>   Scroll up a full page
     <C-d>   Scroll down a half page

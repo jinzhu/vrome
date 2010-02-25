@@ -20,8 +20,8 @@ var Tab = (function(){
 		Post({action: "Tab.reopen",num : times()});
 	}
 
-  function lastSelected() {
-		Post({action: "Tab.lastSelected"});
+  function selectPrevious() {
+		Post({action: "Tab.selectPrevious"});
   }
 
   function prev()  { Post({action: "Tab.goto",offset : -1 * times()}); }
@@ -40,7 +40,7 @@ var Tab = (function(){
     next      : next     ,
     first     : first    ,
     last      : last     ,
-    lastSelected : lastSelected,
+    selectPrevious : selectPrevious,
 		closeAndFoucsLast : function(){ close({focusLast : true}) },
 		closeAndFoucsLeft : function(){ close({offset : -1}) },
 	}
