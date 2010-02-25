@@ -1,103 +1,103 @@
-Vrome -- Vim keybindings extension for Chrome, github.com/jinzhu/vrome
+[Vrome](http://github.com/jinzhu/vrome)     -- Vim keybindings extension for Chrome
 ======================================================================
 
 ## Features ##
 ### Insert mode
-    <C-a>    Move to first words or select all
-    <C-d>    Delete forward char
-    <C-e>    Move to end
-    <C-h>    Delete backward char
-    <C-i>    Launch the external editor
-    <C-k>    Delete forward to the end of the line.
-    <C-w>    Delete backward word
-    <C-u>    Delete backward to the beginning of the line.
-    <M-d>    Delete forward word
-    <M-h>    Move back a word
-    <M-l>    Move forward a word
-    <M-j>    Move back a char
-    <M-k>    Move forward a char
+    <C-a>   Move to first words or select all
+    <C-d>   Delete forward char
+    <C-e>   Move to end
+    <C-h>   Delete backward char
+    <C-i>   Launch the external editor
+    <C-k>   Delete forward to the end of the line.
+    <C-w>   Delete backward word
+    <C-u>   Delete backward to the beginning of the line.
+    <M-d>   Delete forward word
+    <M-h>   Move back a word
+    <M-l>   Move forward a word
+    <M-j>   Move back a char
+    <M-k>   Move forward a char
 
 
 ### Normal mode
-    <C-^> Select the alternate tab or the [count]th tab
-    <C-a> Increment last number in URL
-    <C-b> Scroll up a full page
-    <C-d> Scroll down a half page
-    <C-f> Scroll down a full page
-    <C-i> Go forward in the browser history
-    <C-o> Go back in the browser history
-    <C-u> Scroll up a half page
-    <C-v> Pass through next key
-    <C-x> Decrement last number in URL
-    <C-y> shorten current url,and copy it into clipboard
-    <C-z> Temporarily ignore all Vrome key bindings
+    <C-^>   Select the alternate tab or the [count]th tab
+    <C-a>   Increment last number in URL
+    <C-b>   Scroll up a full page
+    <C-d>   Scroll down a half page
+    <C-f>   Scroll down a full page
+    <C-i>   Go forward in the browser history
+    <C-o>   Go back in the browser history
+    <C-u>   Scroll up a half page
+    <C-v>   Pass through next key
+    <C-x>   Decrement last number in URL
+    <C-y>   shorten current url,and copy it into clipboard
+    <C-z>   Temporarily ignore all Vrome key bindings
 
-    <M-d>	like `d`,but close current tab and selects the last selected tab.
+    <M-d>	  like `d`,but close current tab and selects the last selected tab.
 
-    <F1> Open help window
+    <F1>    Open help window
 
-    0 Scroll to the absolute left of the document
-    $ Scroll to the absolute right of the document
+    0       Scroll to the absolute left of the document
+    $       Scroll to the absolute right of the document
 
-    D	Like d but selects the tab to the left of the deleted tab.
-    F Start QuickHint mode, but open link in a new tab
-    G Go to the end of the document
-    H Go back in the browser history
-    L Go forward in the browser history
-    N Find previous
-    O Open one or more URLs, based on current location
-    R Reload all Tabs
-    T Open one or more URLs in a new tab, based on current location
-    Y Copy selected text
+    D	      Like d but selects the tab to the left of the deleted tab.
+    F       Start QuickHint mode, but open link in a new tab
+    G       Go to the end of the document
+    H       Go back in the browser history
+    L       Go forward in the browser history
+    N       Find previous
+    O       Open one or more URLs, based on current location
+    R       Reload all Tabs
+    T       Open one or more URLs in a new tab, based on current location
+    Y       Copy selected text
 
-    b goto the [count] tab or the first matched tab.
-    d close current tab and selects the tab to the right of the deleted tab.
-    f Start QuickHint mode
-    h Scroll document to the left
-    j Scroll document down
-    k Scroll document up
-    l Scroll document to the right
-    n Find next
-    o Open one or more URLs
-    r Reload the current web page
-    t Open one or more URLs in a new tab
-    u Undo closing of a tab
-    y Yank current location to the clipboard
+    b       goto the [count] tab or the first matched tab.
+    d       close current tab and selects the tab to the right of the deleted tab.
+    f       Start QuickHint mode
+    h       Scroll document to the left
+    j       Scroll document down
+    k       Scroll document up
+    l       Scroll document to the right
+    n       Find next
+    o       Open one or more URLs
+    r       Reload the current web page
+    t       Open one or more URLs in a new tab
+    u       Undo closing of a tab
+    y       Yank current location to the clipboard
 
-    : Enter Command-line mode
+    :       Enter Command-line mode
 
-    / Search forward for a pattern
-    ? Search backwards for a pattern
-    * Find word under cursor
-    # Find word under cursor backwards
+    /       Search forward for a pattern
+    ?       Search backwards for a pattern
+    *       Find word under cursor
+    #       Find word under cursor backwards
 
-    N% Scroll to {count} percent of the document
+    N%      Scroll to {count} percent of the document
 
-    . Repeat the last keyboard command
+    .       Repeat the last keyboard command
 
-    ]] Follow the link labeled 'next' or '>' if it exists
-    [[ Follow the link labeled 'prev', 'previous' or '<' if it exists
+    ]]      Follow the link labeled 'next' or '>' if it exists
+    [[      Follow the link labeled 'prev', 'previous' or '<' if it exists
 
-    g$ Go to the last tab
-    g0 Go to the first tab
-    gT Go to previous tab
-    gU Go to the root of the website
-    gf View source
-    gg Go to the top of the document
-    gi Focus the [count] input field
-    gt Go to the next tab
-    gu Go to parent directory
+    g$      Go to the last tab
+    g0      Go to the first tab
+    gT      Go to previous tab
+    gU      Go to the root of the website
+    gf      View source
+    gg      Go to the top of the document
+    gi      Focus the [count] input field
+    gt      Go to the next tab
+    gu      Go to parent directory
 
-    zI Enlarge full zoom of current web page
-    zM Enlarge full zoom of current web page by a larger amount
-    zO Reduce full zoom of current web page
-    zR Reduce full zoom of current web page by a larger amount
-    zZ Set full zoom value of current web page
-    zi Enlarge text zoom of current web page
-    zm Enlarge text zoom of current web page by a larger amount
-    zo Reduce text zoom of current web page
-    zr Reduce text zoom of current web page by a larger amount
-    zz Set text zoom value of current web page
+    zI      Enlarge full zoom of current web page
+    zM      Enlarge full zoom of current web page by a larger amount
+    zO      Reduce full zoom of current web page
+    zR      Reduce full zoom of current web page by a larger amount
+    zZ      Set full zoom value of current web page
+    zi      Enlarge text zoom of current web page
+    zm      Enlarge text zoom of current web page by a larger amount
+    zo      Reduce text zoom of current web page
+    zr      Reduce text zoom of current web page by a larger amount
+    zz      Set text zoom value of current web page
 
 
 ### Command Mode
