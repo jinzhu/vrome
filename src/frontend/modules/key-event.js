@@ -120,12 +120,15 @@ var KeyEvent = (function() {
     }
 
     // if any command executed,and the key is not Enter in insertMode (submit form)
-    if (e && someFunctionCalled && !(isAcceptKey(key) && insertMode)) e.preventDefault();
+    if (e && someFunctionCalled && !(isAcceptKey(key) && insertMode)) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
   }
 
 	function exec(e) {
 		var key        = getKey(e);
-		var insertMode = /^INPUT|TEXTAREA$/i.test(e.target.nodeName);
+		var insertMode = /^INPUT|TEXTAREA|HTML$/i.test(e.target.nodeName);
 		if (/^<(Control|Alt|Shift)>$/.test(key)) return;
 		currentKeys += key;
 

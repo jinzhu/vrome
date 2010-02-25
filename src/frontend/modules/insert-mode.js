@@ -4,7 +4,7 @@ var InsertMode = (function(){
   function currentElement() {
     var elem = document.activeElement;
     caret_position = elem.selectionEnd;
-    value = elem.value;
+    value = elem.value || elem.innerText;
     return elem;
   }
 
