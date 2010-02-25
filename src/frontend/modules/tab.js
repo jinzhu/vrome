@@ -21,7 +21,13 @@ var Tab = (function(){
 	}
 
   function selectPrevious() {
-		Post({action: "Tab.selectPrevious"});
+    var count = times(/*raw*/ true);
+
+    if (count) {
+      Post({ action : "Tab.goto", index : count - 1});
+    } else {
+      Post({ action : "Tab.selectPrevious" });
+    }
   }
 
   function prev()  { Post({action: "Tab.goto",offset : -1 * times()}); }

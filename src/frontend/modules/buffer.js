@@ -3,7 +3,7 @@ var Buffer = (function() {
 
   function gotoFirstMatchHandle() {
     if (!bufferGotoMode) return;
-    Post({action : 'Buffer.gotoFirstMatch',keyword : CmdBox.get().content});
+    Post({ action : 'Buffer.gotoFirstMatch', keyword : CmdBox.get().content});
     bufferGotoMode = false;
     CmdBox.remove();
   }
@@ -12,10 +12,10 @@ var Buffer = (function() {
     var count = times(/*raw*/ true);
 
     if (count) {
-      Post({action: "Tab.goto",index : count - 1});
+      Post({ action: "Tab.goto", index : count - 1});
     } else {
       bufferGotoMode = true;
-      CmdBox.set({ title   : 'Buffer ', content : '' });
+      CmdBox.set({ title : 'Buffer ', content : '' });
     }
   }
 
@@ -29,7 +29,7 @@ var Buffer = (function() {
 
   function deleteMatch() {
     bufferMatchMode = true;
-    CmdBox.set({ title   : 'Delete Buffer ', content : '' });
+    CmdBox.set({ title : 'Delete Buffer', content : '' });
   }
 
   return {
