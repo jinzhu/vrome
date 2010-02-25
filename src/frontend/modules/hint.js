@@ -96,7 +96,7 @@ var Hint = (function() {
       }
     } else {
 			if (key != '<Enter>') CmdBox.set({title : 'HintMode'});
-      if (key != '<Esc>') setTimeout(delayToWaitKeyDown,200);
+      if (!isEscapeKey(key)) setTimeout(delayToWaitKeyDown,200);
     }
   }
 

@@ -125,15 +125,13 @@ var KeyEvent = (function() {
 
 	function exec(e) {
 		var key        = getKey(e);
-    if (isEscapeKey(key) && disableVrome) return enable();
-
 		var insertMode = /^INPUT|TEXTAREA$/i.test(e.target.nodeName);
 		if (/^<(Control|Alt|Shift)>$/.test(key)) return;
 		currentKeys += key;
 
     // if vrome set disabled/pass the next, use Esc to enable it again.
 		if ((pass_next_key || disableVrome) && !insertMode) {
-      if (pass_next_key || key == '<Esc>')  enable();
+      if (pass_next_key || isEscapeKey(key)) enable();
 			return;
 		}
 
