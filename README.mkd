@@ -7,7 +7,7 @@
     <C-d>   Delete forward char
     <C-e>   Move to end
     <C-h>   Delete backward char
-    <C-i>   Launch the external editor
+    <C-i>   Launch the external editor,default 'editor' is 'gvim -f'.
     <C-k>   Delete forward to the end of the line.
     <C-w>   Delete backward word
     <C-u>   Delete backward to the beginning of the line.
@@ -20,21 +20,21 @@
 
 ### Normal mode
     <C-^>   Select the previously selected tab.If [count] is specified, go to the [count]th tab.
-    <C-a>   Increment last number in URL
-    <C-b>   Scroll up a full page
-    <C-d>   Scroll down a half page
-    <C-f>   Scroll down a full page
-    <C-i>   Go forward in the browser history
-    <C-o>   Go back in the browser history
-    <C-u>   Scroll up a half page
-    <C-v>   Pass through next key
-    <C-x>   Decrement last number in URL
-    <C-y>   shorten current url,and copy it into clipboard
+    <C-a>   ncrements the last number in URL by 1, or by [count] if given.
+    <C-b>   Scroll up [count] full page.
+    <C-d>   Scroll down [count] half page
+    <C-f>   Scroll down [count] full page
+    <C-i>   Go [count] pages forward in the browser history.
+    <C-o>   Go [count] pages back in the browser history.
+    <C-u>   Scroll up [count] half page
+    <C-v>   Pass through the next key
+    <C-x>   Decrements the last number in URL by 1, or by [count] if given.
+    <C-y>   Shorten current url,and copy it into clipboard
     <C-z>   Temporarily ignore all Vrome key bindings
 
     <M-d>	  like `d`,but close current tab and selects the last selected tab.
 
-    <F1>    Open help window
+    <F1>    Open the help page.
 
     0       Scroll to the absolute left of the document
     $       Scroll to the absolute right of the document
@@ -53,50 +53,51 @@
     b       goto the [count] tab or the first matched tab.
     d       close current tab and selects the tab to the right of the deleted tab.
     f       Start QuickHint mode
-    h       Scroll document to the left
-    j       Scroll document down
-    k       Scroll document up
-    l       Scroll document to the right
-    n       Find next
+    h       Scroll document to the left.If [count] is specified then move [count] times as much down.
+    j       Scroll document down. If [count] is specified then move [count] times as much down.
+    k       Scroll document up. If [count] is specified then move [count] times as much down.
+    l       Scroll document to the right. If [count] is specified then move [count] times as much down.
+
+    n       Find the next [count]
     o       Open one or more URLs
     r       Reload the current web page
     t       Open one or more URLs in a new tab
-    u       Undo closing of a tab
+    u       Undo the last closed tab, If a [count] is specified then undo the [count]th last closed tab.
     y       Yank current location to the clipboard
 
     :       Enter Command-line mode
 
-    /       Search forward for a pattern
-    ?       Search backwards for a pattern
+    /       Search forward for the next [count] word for a pattern
+    ?       Search backwards for the next [count] word for a pattern
     *       Find word under cursor
     #       Find word under cursor backwards
 
-    N%      Scroll to {count} percent of the document
+    N%      Scroll to [count] percent of the document
 
-    .       Repeat the last keyboard command
+    .       Repeat the last keyboard mapping [count] times.
 
     ]]      Follow the link labeled 'next' or '>' if it exists
     [[      Follow the link labeled 'prev', 'previous' or '<' if it exists
 
     g$      Go to the last tab
     g0      Go to the first tab
-    gT      Go to previous tab
+    gT      Go to the previous [count] tab
     gU      Go to the root of the website
     gf      View source
     gg      Go to the top of the document
-    gi      Focus the [count] input field
-    gt      Go to the next tab
-    gu      Go to parent directory
+    gi      Focus the [count]th input field
+    gt      Go to the next [count] tab
+    gu      Go to [count]th parent directory
 
-    zI      Enlarge full zoom of current web page
-    zM      Enlarge full zoom of current web page by a larger amount
-    zO      Reduce full zoom of current web page
-    zR      Reduce full zoom of current web page by a larger amount
+    zI      Enlarge full zoom of current web page,[count]
+    zM      Enlarge full zoom of current web page by a larger amount,[count]
+    zO      Reduce full zoom of current web page,[count]
+    zR      Reduce full zoom of current web page by a larger amount,[count]
     zZ      Set full zoom value of current web page
-    zi      Enlarge text zoom of current web page
-    zm      Enlarge text zoom of current web page by a larger amount
-    zo      Reduce text zoom of current web page
-    zr      Reduce text zoom of current web page by a larger amount
+    zi      Enlarge text zoom of current web page,[count]
+    zm      Enlarge text zoom of current web page by a larger amount,[count]
+    zo      Reduce text zoom of current web page,[count]
+    zr      Reduce text zoom of current web page by a larger amount,[count]
     zz      Set text zoom value of current web page
 
 
