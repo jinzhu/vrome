@@ -1,0 +1,11 @@
+map  j <C-f>
+map  k <C-b>
+imap <C-f> <C-a>
+
+set nextpattern+=^NextPage|››$
+set previouspattern+=^PrevPage|‹‹$
+set editor=gvim -f
+set disablesites=mail.google.com, reader.google.com
+
+" plz rename to ~/.vromerc
+" vim: set ft=vim:
