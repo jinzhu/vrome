@@ -3,8 +3,8 @@ var Tab = (function() {
     var tab = arguments[arguments.length-1];
     Tab.current_closed_tab = tab;
     chrome.tabs.remove(tab.id);
-    if (msg.focusLast) selectPrevious.apply('',arguments); // close and selects last
-    if (msg.offset) goto.apply('',arguments);            // close and select left
+    if (msg.focusLast) selectPrevious.apply('',arguments); // close and select last
+    if (msg.offset)    goto.apply('',arguments);           // close and select left
   }
 
   function reopen(msg) {
@@ -22,17 +22,13 @@ var Tab = (function() {
   function goto(msg) {
     var tab = arguments[arguments.length-1];
     chrome.tabs.getAllInWindow(tab.windowId, function(tabs) {
-      if (typeof msg.index != 'undefined') { var index = msg.index; }
+      if (typeof msg.index != 'undefined')  { var index = msg.index; }
       if (typeof msg.offset != 'undefined') { var index = tab.index + msg.offset; }
-
-      if (index) {
-        index = index % tabs.length;
-        if (index < 0) { index = index + tabs.length; }
-      }
+      index = Math.min(Math.max(0,index), tabs.length - 1);
 
       Debug("gotoTab:" + index + " index:" + msg.index + " offset:" + msg.offset);
-      var get_tab = tabs[index] || tab;
-      chrome.tabs.update(get_tab.id, {selected: true});
+      tab = tabs[index] || tab;
+      chrome.tabs.update(tab.id, {selected: true});
     });
   }
 
@@ -53,7 +49,7 @@ var Tab = (function() {
     });
   }
 
-  function open_url(msg) {
+  function openUrl(msg) {
     var tab       = arguments[arguments.length-1];
     var urls      = msg.urls || msg.url;
     if (typeof urls == 'string') urls = [urls];
@@ -76,7 +72,7 @@ var Tab = (function() {
     goto           : goto,
     selectPrevious : selectPrevious,
     reloadAll      : reloadAll,
-    open_url       : open_url
+    openUrl       : openUrl
   }
 })()
 
