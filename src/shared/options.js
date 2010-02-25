@@ -6,7 +6,7 @@ var Option = (function() {
   }
 
   function get(key) {
-    var value  = Settings.get('background.configure.set')[key];
+    var value  = (Settings.get('background.configure.set') || Settings.get('configure.set'))[key];
     var option = options[key];
 
     if (value instanceof Array) {
