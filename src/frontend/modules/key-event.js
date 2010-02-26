@@ -7,7 +7,7 @@ var KeyEvent = (function() {
     var disable_sites = Option.get("disablesites").split(", ");
     for (var i = 0; i < disable_sites.length ; i++) {
       if (disable_sites[i] && new RegExp(disable_sites[i],'i').test(location.href)) {
-        disableVrome = true;
+        disable();
         break;
       }
     }
