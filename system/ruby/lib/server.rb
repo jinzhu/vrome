@@ -2,7 +2,7 @@ require 'webrick'
 require 'tempfile'
 require 'json'
 
-class EditorServer < WEBrick::HTTPServlet::AbstractServlet
+class VromeServer < WEBrick::HTTPServlet::AbstractServlet
 
   def do_POST(request, response)
     request = JSON.parse(request.body)
@@ -53,6 +53,6 @@ class EditorServer < WEBrick::HTTPServlet::AbstractServlet
 end
 
 server = WEBrick::HTTPServer.new(:Port => 20000)
-server.mount "/", EditorServer
+server.mount "/", VromeServer
 trap(:INT) { server.shutdown }
 server.start
