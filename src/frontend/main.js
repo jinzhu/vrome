@@ -1,5 +1,5 @@
 var AcceptKey = ["<Enter>","<C-j>","<C-m>"];
-var CancelKey = ["<Esc>", "<C-[>", "<C-c>"];
+var CancelKey = ["<Esc>", "<C-[>"];
 var EscapeKey = ["<Esc>", "<C-[>"];
 
 function isAcceptKey(key) {
