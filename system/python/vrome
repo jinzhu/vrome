@@ -1,0 +1,88 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# for Vrome (http://github.com/jinzhu/vrome)
+# see README for details 
+# Copyright (c) 2010 pyx a.k.a 8pm
+# This is a reimplementation of Jinzhu's ruby code in python.
+version = (0, 99)
+
+import os
+from tempfile import mkstemp
+try:
+    import json
+except ImportError:
+    try:
+        import simplejson as json
+    except ImportError:
+        import sys
+        sys.exit('either python >= 2.6 or simplejson is needed.')
+
+from BaseHTTPServer import HTTPServer, BaseHTTPRequestHandler
+
+class VromeServer(BaseHTTPRequestHandler):
+    def do_POST(self):
+        length = int(self.headers.getheader('content-length'))
+        request = json.loads(self.rfile.read(length))
+        status, content_type, body = getattr(self, request['method'])(request)
+
+        self.send_response(status)
+        self.send_header('Content-type', content_type)
+        self.end_headers()
+        self.wfile.write(body)
+
+    def open_editor(self, request):
+        editor = request['editor']
+        if editor == 'gvim': editor = 'gvim -f'
+
+        fd, filename = mkstemp()
+        os.write(fd, request['data'].encode('utf-8'))
+        os.close(fd)
+        os.system("%s %s" % (editor, filename))
+        text = open(filename, 'r').read()
+        os.remove(filename)
+        return 200, 'text/plain', text
+
+    def get_configure(self, request):
+        user_home = os.path.expanduser('~') # NOTE: works in *nix and windows
+        config_file_name = '.vromerc'
+        if user_home != '~':
+            config_file_name = os.path.join(user_home, config_file_name)
+        vrome_config = {'cmap': {}, 'imap': {}, 'map': {}, 'set': {}}
+        if os.path.exists(config_file_name):
+            for line in open(config_file_name):
+                tokens = line.split(None, 1)
+                if len(tokens) != 2 or tokens[0] not in vrome_config:
+                    continue
+                action = tokens[0]
+                if action == 'set':
+                    appending = False
+                    option, op, value = tokens[1].partition('+=')
+                    if op:
+                        # that is, op == '+='
+                        # means tokens[1] was like: set option += more value
+                        # op will be empty, otherwise.
+                        appending = True
+                    else:
+                        # then try this syntax: set option = value
+                        option, op, value = tokens[1].partition('=')
+                    # NOTE: no error checking as the original ruby code.
+                    vrome_config[action][option.strip()] = [value.strip(), appending]
+                else:
+                    # NOTE: no error checking as the original ruby code.
+                    value = tokens[1].split()
+                    vrome_config[action][value[0]] = value[1]
+
+        vrome_config = json.dumps(vrome_config)
+        return 200, 'text/plain', vrome_config
+
+def run_server():
+    httpd = HTTPServer(('', 20000), VromeServer)
+    httpd.serve_forever()
+
+if __name__ == '__main__':
+    try:
+        run_server()
+    except KeyboardInterrupt:
+        print 'Server Terminated.'
+
+# -*- vim: set sts=4 sw=4 et fdm=marker tw=72:  ------  vim modeline -*-
