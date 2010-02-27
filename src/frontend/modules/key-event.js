@@ -129,7 +129,7 @@ var KeyEvent = (function() {
 	function exec(e) {
 		var key        = getKey(e);
 		var insertMode = /^INPUT|TEXTAREA|HTML$/i.test(e.target.nodeName);
-		if (/^<(Control|Alt|Shift)>$/.test(key)) return;
+		if (/^(Control|Alt|Shift)$/.test(key)) return;
 		currentKeys += key;
 
     // if vrome set disabled/pass the next, use Esc to enable it again.
