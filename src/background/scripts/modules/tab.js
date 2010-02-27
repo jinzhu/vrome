@@ -22,9 +22,15 @@ var Tab = (function() {
   function goto(msg) {
     var tab = arguments[arguments.length-1];
     chrome.tabs.getAllInWindow(tab.windowId, function(tabs) {
-      if (typeof msg.index != 'undefined')  { var index = msg.index; }
-      if (typeof msg.offset != 'undefined') { var index = tab.index + msg.offset; }
-      index = Math.min(Math.max(0,index), tabs.length - 1);
+      if (typeof msg.index != 'undefined') {
+        var index = Math.min(msg.index, tabs.length-1);
+      }
+
+      if (typeof msg.offset != 'undefined') {
+        var index = tab.index + msg.offset;
+        index = index % tabs.length;
+      }
+      if (index < 0) { index = index + tabs.length; }
 
       Debug("gotoTab:" + index + " index:" + msg.index + " offset:" + msg.offset);
       tab = tabs[index] || tab;
