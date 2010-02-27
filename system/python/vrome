@@ -72,8 +72,7 @@ class VromeServer(BaseHTTPRequestHandler):
                     value = tokens[1].split()
                     vrome_config[action][value[0]] = value[1]
 
-        vrome_config = json.dumps(vrome_config)
-        return 200, 'text/plain', vrome_config
+        return 200, 'text/plain', json.dumps(vrome_config)
 
 def run_server():
     httpd = HTTPServer(('', 20000), VromeServer)

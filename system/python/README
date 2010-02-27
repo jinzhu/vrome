@@ -5,9 +5,13 @@ This is a reimplementation of Jinzhu's ruby code in python.
 Based on "1.0.0 / 2010-02-15" ab7ec4473f37bbe63c59ac6b253c0825f0e04
 Put it somewhere in your $PYTHONPATH, and 'vrome &' to launch.
 
+Requirement
+===========
+To run VromeServer python version, you need either python >= 2.6 or simplejson installed.
+Many Linux distributions come with python pre-installed.
+
 License
 =======
-
 Copyright (c) 2010 pyx a.k.a 8pm
 
 Permission is hereby granted, free of charge, to any person obtaining
