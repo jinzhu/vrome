@@ -21,7 +21,7 @@
         }
 
         xhr.setRequestHeader("Content-type", "text/plain");
-        xhr.send('{"method":"get_configure"}');
+        xhr.send(JSON.stringify({"method":"get_configure"}));
       }
       getConfigure();
 

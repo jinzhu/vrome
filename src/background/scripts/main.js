@@ -21,7 +21,7 @@ function externalEditor(msg) {
   }
 
   xhr.setRequestHeader("Content-type", "text/plain");
-  xhr.send('{"method":"open_editor","editor":"' + Option.get("editor") + '", "data" : "' + msg.data + '"}');
+  xhr.send(JSON.stringify({'method':'open_editor','editor': Option.get("editor"), 'data' : msg.data}));
 }
 
 // notify new version
