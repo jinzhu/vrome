@@ -3,7 +3,7 @@ var Page = (function() {
 		elems = document.getElementsByTagName('a');
 		for (var i in regexps) {
 			for (var cur in elems) {
-				if (new RegExp(regexps[i],'i').test(elems[cur].innerText)) {
+				if (new RegExp(regexps[i],'i').test((elems[cur].innerText || '').replace(/(^(\n|\s)+|(\s|\n)+$)/,''))) {
 					return clickElement(elems[cur]);
 				}
 			}
