@@ -92,11 +92,12 @@ var KeyEvent = (function() {
       if (!!insertMode != bindings[i][2]) continue;
 
       // escape regexp
-      var regexp = new RegExp('^(' + bindings[i][0].replace(/([(\[{\\^$|)?*+.])/g,"\\$1") + ')');
+      var regexp = new RegExp('^(\\d*)(' + bindings[i][0].replace(/([(\[{\\^$|)?*+.])/g,"\\$1") + ')');
       if (regexp.test(keys)) {
         var someFunctionCalled = true;
         keys.replace(regexp,'');
-        bindings[i][1].call(e);
+        var invoke_count = Number(RegExp.$1) || 1;
+        for (var count = 0; count < invoke_count; count++) bindings[i][1].call(e);
       }
 
       var regexp = new RegExp('^(' + keys.replace(/([(\[{\\^$|)?*+.])/g,"\\$1") + ')');
