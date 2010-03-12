@@ -12,16 +12,31 @@ var Url = (function(){
     });
   }
 
+  // need refactor
   function fixUrl(url) {
     var url = url.split(/, /);
     var urls = [];
-    for(var i = 0; i< url.length; i++){
+    outermost : for (var i = 0; i< url.length; i++) {
       if ( /^\//.test(url[i]) && /^\S+\s*$/.test(url[i])) {
         urls[urls.length] = location.protocol + '//' + location.host + url[i];
       } else if( /\./.test(url[i]) && !/\s/.test(url[i])) {
         urls[urls.length] = (new RegExp('://','im').test(url[i]) ? "" : "http://") + url[i]
       }else{
-        urls[urls.length] = Option.get('searchengine').replace("{{keyword}}",url[i]);
+        var searchengines = JSON.parse(Option.get('searchengines'));
+        var searchengine  = url[i].replace(/^(\S+)\s.*$/,"$1");
+        // use the matched searchengine
+        for (var key in searchengines) {
+          if (key == searchengine) {
+            urls[urls.length] = searchengines[key].replace("{{keyword}}",url[i].replace(/^\S+\s+(.*)$/,"$1"));
+            continue outermost;
+          }
+        }
+
+        // use the first searchengine
+        for (var key in searchengines) {
+          urls[urls.length] = searchengines[key].replace("{{keyword}}",url[i]);
+          continue outermost;
+        }
       }
     }
     return urls;

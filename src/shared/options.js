@@ -4,7 +4,7 @@ var Option = (function() {
     previouspattern : ['(上|前)一页','上一頁','^\\s*Prev(ious)?\\s*$','^<$','(^(<<|‹‹|«))|((<<|‹‹|«)$)'],
     disablesites : "",
     editor : "gvim -f",
-    searchengine : "http://www.google.com/search?q={{keyword}}"
+    searchengines : "{'google':'http://www.google.com/search?q={{keyword}}', 'yahoo':'http://search.yahoo.com/search?p={{keyword}}','wikipedia':'http://en.wikipedia.org/wiki/{{keyword}}','answers':'http://www.answers.com/main/ntquery?s={{keyword}}'}"
   }
 
   function get(key) {
