@@ -181,6 +181,7 @@ with (KeyEvent) {
 
 
 with (CmdLine) {
+  add("help", showHelp );
   add("bdelete", Buffer.deleteMatchHandle );
 }
 

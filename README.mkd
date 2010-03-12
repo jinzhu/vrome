@@ -112,7 +112,8 @@
 
 
 ### Command Mode
-    :bdelete  close all matched tabs.
+    :help     Open the help page.
+    :bdelete  Close all matched tabs.
 
 
 ## Author ##

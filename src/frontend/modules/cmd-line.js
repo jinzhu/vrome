@@ -10,7 +10,7 @@ var CmdLine = (function() {
   }
 
   function exec() {
-    /^(\S+)\s+(.*)$/.test(CmdBox.get().content);
+    /^(\S+)\s*(.*)$/.test(CmdBox.get().content);
     var cmd     = RegExp.$1;
     var arg     = RegExp.$2;
     var matched = [];
