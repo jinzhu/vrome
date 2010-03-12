@@ -1,6 +1,16 @@
 [Vrome](http://github.com/jinzhu/vrome)     -- Vim keybindings extension for Chrome
 ======================================================================
 
+### Preface
+    Do you want to customize your hotkeys?
+    Do you want to edit with external editor?
+    Do you want to customize your default search engine?
+    Do you want to customize your default disable sites?
+    ...
+    Checkout here:
+    [http://wiki.github.com/jinzhu/vrome/customize-your-vrome](http://wiki.github.com/jinzhu/vrome/customize-your-vrome)
+    [http://wiki.github.com/jinzhu/vrome/vromerc-example-file](http://wiki.github.com/jinzhu/vrome/vromerc-example-file)
+
 ## Features ##
 ### Insert mode
     <C-a>   Move to first words or select all
