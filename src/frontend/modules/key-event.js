@@ -12,7 +12,7 @@ var KeyEvent = (function() {
       }
     }
 
-    document.addEventListener('keydown',KeyEvent.exec, false);
+    document.addEventListener('keydown',KeyEvent.exec, true);
   }
 
   function getTimes(/*Boolean*/ read) {
@@ -122,6 +122,7 @@ var KeyEvent = (function() {
 
     // if any command executed,and the key is not Enter in insertMode (submit form)
     if (e && someFunctionCalled && !(isAcceptKey(key) && insertMode)) {
+			e.cancelBubble = true;
       e.preventDefault();
       e.stopPropagation();
     }
