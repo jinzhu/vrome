@@ -17,7 +17,7 @@ var Settings = (function() {
      localStorage[key] = JSON.stringify(object);
      return object;
    } else {
-     var name   = arguments[0];
+     var name  = arguments[0];
      var value = arguments[1];
      var old_object = object = currentSetting();
      var name = name.split('.');
