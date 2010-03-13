@@ -8,6 +8,7 @@
     <script src="/background/scripts/modules/buffer.js" type="text/javascript" charset="utf-8"></script>
     <script src="/background/scripts/modules/debug.js" type="text/javascript" charset="utf-8"></script>
     <script src="/background/scripts/modules/shorturl.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/background/scripts/modules/marks.js" type="text/javascript" charset="utf-8"></script>
 
     <script type='text/javascript'>
       function getConfigure() {
@@ -27,8 +28,10 @@
 
       function syncSetting(tab) {
         getConfigure();
-        Tab.last_selected_tab = Tab.now_tab || tab;
-        Tab.now_tab = tab;
+        if (tab != Tab.now_tab) {
+          Tab.last_selected_tab = Tab.now_tab || tab;
+          Tab.now_tab = tab;
+        }
         Settings.add({currentUrl : tab.url, now_tab_id : Tab.now_tab.id});
 
         Post(tab,{action : "Settings.add", arguments : { background : Settings.get()} });

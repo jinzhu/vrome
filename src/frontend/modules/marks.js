@@ -1,48 +1,45 @@
 var Marks = (function() {
   function addQuickMark() {
-    Post({ action: "Marks.addQuickMark",key  : getKey(e),url : location.href });
+    Post({ action: "Marks.addQuickMark",key  : getKey(this),url : location.href });
+    CmdBox.set({title : "Add Quick Mark " + getKey(this) ,timeout : 1000 });
   }
 
   function gotoQuickMark(/*Boolean*/ newtab) {
-    var key = getKey(e);
+    var key = getKey(this);
     var url = Settings.get("background.url_marks")[key];
     Post({ action: "Tab.openUrl", urls: url, newtab: newtab });
   }
 
   function addLocalMark() {
     // TODO zoom
-    var key = getKey(e);
+    var key = getKey(this);
     if (key.match(/^[A-Z]$/)) {
-      Post({ action: "Marks.addLocalMark",key  : getKey(e),position : [scrollX, scrollY]});
+      Post({ action: "Marks.addLocalMark",key  : key,position : [scrollX, scrollY, location.href]});
     } else {
       var local_marks = Settings.get('local_marks') || {};
-      local_marks[msg.key] = [scrollX, scrollY];
-      Settings.add('url_marks',url_marks);
+      local_marks[key] = [scrollX, scrollY];
+      Settings.add('url_marks',local_marks);
     }
+    CmdBox.set({title : "Add Local Mark " + key,timeout : 1000 });
   }
 
-  function gotoLocalMark(/*String*/ key) {
-    var key = getKey(e);
-    var setting_key = key.match(/^[A-Z]$/) ? 'background.url_marks' : 'url_marks';
+  function gotoLocalMark() {
+    var key = getKey(this);
+    var setting_key = key.match(/^[A-Z]$/) ? 'background.local_marks' : 'local_marks';
     var position = Settings.get(setting_key)[key];
-    if (position instanceof Array) scrollTo(position[0],position[1]);
+    console.log(position);
+    if (position instanceof Array) {
+      if (position[2]) location.href = position[2];
+      // FIXME
+      scrollTo(position[0],position[1]);
+    }
   }
 
   return {
     addQuickMark        : addQuickMark,
     gotoQuickMark       : gotoQuickMark,
-    gotoQuickMarkNewTab : function() { gotoQuickMark(true) },
+    gotoQuickMarkNewTab : function() { gotoQuickMark.call(this,true) },
     addLocalMark        : addLocalMark,
     gotoLocalMark       : gotoLocalMark,
   }
-})
-
-
-//// QuickMarks
-// go{a-zA-Z0-9} Jump to a QuickMark in the current tab.
-// gn{a-zA-Z0-9} Jump to a QuickMark in a new tab.
-// M{a-zA-Z0-9}  Add new QuickMark for current URL.
-
-//// Local marks
-// m{a-zA-Z} Set mark at the cursor position. Marks a-z are local to the buffer, whereas A-Z are valid between buffers.
-// '{a-zA-Z} Jump to the mark.
+})()
