@@ -158,16 +158,16 @@ with (KeyEvent) {
   // a-zA-Z
   for (var i = 65; i <= 122; i++) {
     if (i > 90 && i < 97) continue;
-    add("M"  + String.fromCharCode(i), Marks.addQuickMark );
+    add("M"  + String.fromCharCode(i), Marks.addQuickMark  );
     add("go" + String.fromCharCode(i), Marks.gotoQuickMark );
     add("gn" + String.fromCharCode(i), Marks.gotoQuickMarkNewTab );
 
-    add("m" + String.fromCharCode(i), Marks.addLocalMark );
+    add("m" + String.fromCharCode(i), Marks.addLocalMark  );
     add("'" + String.fromCharCode(i), Marks.gotoLocalMark );
   }
   // 0-9
   for (var i = 0; i <= 9; i++) {
-    add("M"  + i, Marks.addQuickMark );
+    add("M"  + i, Marks.addQuickMark  );
     add("go" + i, Marks.gotoQuickMark );
     add("gn" + i, Marks.gotoQuickMarkNewTab );
   }
@@ -175,7 +175,6 @@ with (KeyEvent) {
 
   // InsertMode
   add("<C-i>", InsertMode.externalEditor        , true );
-
 
   add("<C-a>", InsertMode.moveToFirstOrSelectAll, true );
   add("<C-e>", InsertMode.moveToEnd             , true );

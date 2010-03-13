@@ -41,21 +41,21 @@ var CmdBox = (function() {
   }
 
   function set(opt) {
-    if(opt.title) {
+    if (opt.title) {
       var title = cmdBoxTitle() || createCmdBoxTitle();
       title.innerText = opt.title;
     }
-    if(typeof(opt.content) == 'string') {
+    if (typeof(opt.content) == 'string') {
       var input = cmdBoxInput() || createCmdBoxInput();
       input.value = opt.content;
-      input.focus();
-      input.setSelectionRange(0,input.value.length);
+      input.setSelectionRange(0, input.value.length);
       input.addEventListener('keydown',pressDown,false);
       input.addEventListener('keyup'  ,pressUp,false);
+      input.focus();
     }
-		if(opt.pressUp)   { pressUpFunction = opt.pressUp; }
-    if(opt.pressDown) { pressDownFunction = opt.pressDown; }
-    if(opt.timeout)   { setTimeout(remove,Number(opt.timeout)); }
+		if (opt.pressUp)   { pressUpFunction   = opt.pressUp; }
+		if (opt.pressDown) { pressDownFunction = opt.pressDown; }
+    if (opt.timeout)   { setTimeout(remove,Number(opt.timeout)); }
   }
 
   function get() {
