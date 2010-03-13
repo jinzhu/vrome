@@ -121,10 +121,12 @@ var KeyEvent = (function() {
     }
 
     // if any command executed,and the key is not Enter in insertMode (submit form)
-    if (e && someFunctionCalled && !(isAcceptKey(key) && insertMode)) {
+    if (e && someFunctionCalled) {
 			e.cancelBubble = true;
-      e.preventDefault();
-      e.stopPropagation();
+      if (!(isAcceptKey(key) && insertMode)) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
     }
   }
 
