@@ -111,6 +111,14 @@
     zz      Set text zoom value of current web page
 
 
+    go{a-zA-Z0-9}   Jump to a QuickMark in the current tab. Open any QuickMark in the current tab. You can mark any URLs with M{a-zA-Z0-9}. These QuickMarks are persistent across browser sessions.
+    gn{a-zA-Z0-9}   Jump to a QuickMark in a new tab. Works like go{a-zA-Z0-9} but opens the QuickMark in a new tab.
+    M{a-zA-Z0-9}    Add new QuickMark for current URL. You can go to a marked URL in the current tab with go{a-zA-Z0-9} or in a new tab with gn{a-zA-Z0-9}. These QuickMarks are persistent across browser sessions.
+
+    m{a-zA-Z}       Set mark at the cursor position. Marks a-z are local to the buffer, whereas A-Z are valid between buffers.
+    '{a-zA-Z}       Jump to the mark. Marks a-z are local to the buffer, whereas A-Z are valid between buffers.
+
+
 ### Command Mode
     :help     Open the help page.
     :bdelete  Close all matched tabs.
