@@ -4,14 +4,15 @@ var Search = (function(){
   var highlight_class      = '__vrome_search_highlight';
   var highlight_current_id = '__vrome_search_highlight_current';
 
-  function find(keyword,node) {
-    if(!keyword) return;
+  function find(keyword, node) {
+    if (!keyword) return;
     node = node || document.body;
 
     // Iterate node childNodes
     if (node.id != '_vrome_cmd_box' && node.hasChildNodes() && !/(script|style)/i.test(node.tagName)) {
-      for (var i = 0;i < node.childNodes.length;i++) {
-        find(keyword, node.childNodes[i]);
+      var childNodes = node.childNodes;
+      for (var i = 0;i < childNodes.length;i++) {
+        find(keyword, childNodes[i]);
       }
     }
 
@@ -46,22 +47,23 @@ var Search = (function(){
 
   function remove() {
     var nodes = document.getElementsByClassName(highlight_class);
-    for(var i = nodes.length - 1; i >= 0; i--){
-      if(nodes[i]) {
+    for (var i = nodes.length - 1; i >= 0; i--) {
+      if (nodes[i]) {
         var parentNode = nodes[i].parentNode;
-        parentNode.innerHTML = parentNode.innerText;
+        var textNode = document.createTextNode(nodes[i].innerText);
+        parentNode.replaceChild(textNode, nodes[i]);
       }
     }
   }
 
   function next(step) {
-		if(!searchMode) return;
+		if (!searchMode) return;
 
     var offset = direction * step * times();
     var nodes = document.getElementsByClassName(highlight_class);
-    if(nodes.length == 0) return false;
+    if (nodes.length == 0) return false;
 
-    for(var i = 0; i < nodes.length; i++){
+    for (var i = 0; i < nodes.length; i++) {
       if (nodes[i].id == highlight_current_id) {
         nodes[i].removeAttribute('id');
         break;
@@ -82,8 +84,8 @@ var Search = (function(){
   }
 
   function handleInput(e){
-		if(!searchMode) return;
-    if(!isAcceptKey(getKey(e))) remove();
+		if (!searchMode) return;
+    if (!isAcceptKey(getKey(e))) remove();
 
     find(CmdBox.get().content);
     lastSearch = CmdBox.get().content;
@@ -101,7 +103,7 @@ var Search = (function(){
   }
 
   function stop() {
-		if(!searchMode) return;
+		if (!searchMode) return;
     searchMode = false;
     remove();
   }
@@ -118,7 +120,7 @@ var Search = (function(){
     backward : function() { start(true); },
     prev     : function() { next(-1); },
     next     : function() { next(1);  },
-    forwardCursor  : function() { if(useSelectedValueAsKeyword()){ start(); } },
-    backwardCursor : function() { if(useSelectedValueAsKeyword()){ start(true); } },
+    forwardCursor  : function() { if (useSelectedValueAsKeyword()) { start(); } },
+    backwardCursor : function() { if (useSelectedValueAsKeyword()) { start(true); } },
   }
 })()
