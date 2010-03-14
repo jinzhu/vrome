@@ -18,7 +18,7 @@ var Marks = (function() {
     } else {
       var local_marks = Settings.get('local_marks') || {};
       local_marks[key] = [scrollX, scrollY];
-      Settings.add('url_marks',local_marks);
+      Settings.add('local_marks',local_marks);
     }
     CmdBox.set({title : "Add Local Mark " + key,timeout : 1000 });
   }
@@ -27,7 +27,6 @@ var Marks = (function() {
     var key = getKey(this);
     var setting_key = key.match(/^[A-Z]$/) ? 'background.local_marks' : 'local_marks';
     var position = Settings.get(setting_key)[key];
-    console.log(position);
     if (position instanceof Array) {
       if (position[2]) location.href = position[2];
       // FIXME
