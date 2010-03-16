@@ -121,7 +121,7 @@ var KeyEvent = (function() {
     }
 
     // if any command executed,and the key is not Enter in insertMode (submit form)
-    if (e && someFunctionCalled) {
+    if (e && someFunctionCalled && !disableVrome && !pass_next_key) {
 			e.cancelBubble = true;
       if (!(isAcceptKey(key) && insertMode)) {
         e.preventDefault();
