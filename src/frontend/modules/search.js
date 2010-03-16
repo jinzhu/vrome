@@ -50,7 +50,21 @@ var Search = (function(){
     for (var i = nodes.length - 1; i >= 0; i--) {
       if (nodes[i]) {
         var parentNode = nodes[i].parentNode;
-        var textNode = document.createTextNode(nodes[i].innerText);
+        var text = nodes[i].innerText;
+
+        var prevNode   = nodes[i].previousSibling;
+        if (prevNode.nodeType == 3) {
+          text = prevNode.data + text;
+          parentNode.removeChild(prevNode);
+        }
+
+        var nextNode   = nodes[i].nextSibling;
+        if (nextNode.nodeType == 3) {
+          text = text + nextNode.data;
+          parentNode.removeChild(nextNode);
+        }
+
+        var textNode = document.createTextNode(text);
         parentNode.replaceChild(textNode, nodes[i]);
       }
     }
