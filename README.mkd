@@ -30,7 +30,7 @@
 
 ### Normal mode
     <C-^>   Select the previously selected tab.If [count] is specified, go to the [count]th tab.
-    <C-a>   ncrements the last number in URL by 1, or by [count] if given.
+    <C-a>   Increments the last number in URL by 1, or by [count] if given.
     <C-b>   Scroll up [count] full page.
     <C-d>   Scroll down [count] half page
     <C-f>   Scroll down [count] full page
