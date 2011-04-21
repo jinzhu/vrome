@@ -1,0 +1,5 @@
+To automatically run the vrome Python server from launchd on OS X:
+
+- Edit the `path/to/...` strings in `com.github.jinzhu.vrome.plist` to point to the `vrome` executable
+- Copy `com.github.jinzhu.vrome.plist` to `[$HOME]/Library/LaunchAgents`
+- `launchctl load [$HOME]/Library/LaunchAgents/com.github.jinzhu.vrome.plist`
