@@ -32,7 +32,7 @@ task :build_manifest do
   Dir.chdir('src')
   json["content_scripts"][0]["js"]  = Dir['shared/*.js'].concat(Dir['frontend/modules/*.js']).concat(["frontend/main.js" ])
   json["content_scripts"][0]["css"] = ['styles/main.css']
-  json["content_scripts"][1]["js"]  = Dir['shared/*.js'].concat(Dir['frontend/modules/*.js']).concat(["frontend/main.js" ])
+  # json["content_scripts"][1]["js"]  = Dir['shared/*.js'].concat(Dir['frontend/modules/*.js']).concat(["frontend/main.js" ])
   # json["content_scripts"][1]["css"] = ['styles/main.css']
   Dir.chdir('..')
 

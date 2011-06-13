@@ -27,3 +27,6 @@ extended-hints ?
 
 # Buffer
 b
+
+save session
+autorefresh
