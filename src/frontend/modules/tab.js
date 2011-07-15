@@ -1,7 +1,9 @@
 var Tab = (function(){
 
   function copyUrl() {
-		Clipboard.copy(document.location);
+    href = document.location.href;
+		Clipboard.copy(href);
+    CmdBox.set({ title : "It's copied,the URL: " + href, timeout : 4000 });
   }
 
   function reload(){
