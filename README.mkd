@@ -2,14 +2,14 @@
 ======================================================================
 
 ### Preface
-    Do you want to customize your hotkeys?
-    Do you want to edit with external editor?
-    Do you want to customize your default search engine?
-    Do you want to customize your default disable sites?
-    ...
-    Checkout here:
-    [http://wiki.github.com/jinzhu/vrome/customize-your-vrome](http://wiki.github.com/jinzhu/vrome/customize-your-vrome)
-    [http://wiki.github.com/jinzhu/vrome/vromerc-example-file](http://wiki.github.com/jinzhu/vrome/vromerc-example-file)
+Do you want to customize your hotkeys?  
+Do you want to edit with external editor?  
+Do you want to customize your default search engine?  
+Do you want to customize your default disable sites?  
+...
+Checkout here:  
+<http://wiki.github.com/jinzhu/vrome/customize-your-vrome>  
+<http://wiki.github.com/jinzhu/vrome/vromerc-example-file>
 
 ## Features ##
 ### Insert mode
@@ -125,7 +125,7 @@
 
 
 ## Author ##
-  Jinzhu
-    - github.com/jinzhu
-    - wosmvp@gmail.com
-    - twitter.com/zhangjinzhu
+**Jinzhu**
+ * <http://github.com/jinzhu>
+ * <wosmvp@gmail.com>
+ * <http://twitter.com/zhangjinzhu>
