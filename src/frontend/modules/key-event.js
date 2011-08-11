@@ -12,7 +12,11 @@ var KeyEvent = (function() {
       }
     }
 
-    document.addEventListener('keydown',KeyEvent.exec, true);
+    if (! document.vromeEventListenerAdded){
+      Debug("add eventlistener");
+      document.addEventListener('keydown',KeyEvent.exec, true);
+    }
+    document.vromeEventListenerAdded = true;
   }
 
   function getTimes(/*Boolean*/ read) {
