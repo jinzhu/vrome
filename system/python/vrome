@@ -75,7 +75,7 @@ class VromeServer(BaseHTTPRequestHandler):
         return 200, 'text/plain', json.dumps(vrome_config)
 
 def run_server():
-    httpd = HTTPServer(('', 20000), VromeServer)
+    httpd = HTTPServer(('127.0.0.1', 20000), VromeServer)
     httpd.serve_forever()
 
 if __name__ == '__main__':
