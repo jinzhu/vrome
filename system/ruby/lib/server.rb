@@ -1,3 +1,4 @@
+require 'rubygems'
 require 'webrick'
 require 'tempfile'
 require 'json'
@@ -52,7 +53,8 @@ class VromeServer < WEBrick::HTTPServlet::AbstractServlet
   end
 end
 
-server = WEBrick::HTTPServer.new(:Port => 20000)
+server = WEBrick::HTTPServer.new
+server.listen('127.0.0.1', 20000)
 server.mount "/", VromeServer
 trap(:INT) { server.shutdown }
 server.start
