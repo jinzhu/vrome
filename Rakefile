@@ -14,6 +14,9 @@ task :build do
     json["content_scripts"][0]["css"] = ['styles/main.css']
   end
 
+  # json["app"] = {"launch" => { "web_url" => "https://github.com/jinzhu/vrome#readme" }}
+  # json["homepage_url"] = "https://github.com/jinzhu/vrome"
+
   File.open(File.join(File.dirname(__FILE__),'src','manifest.json'),'w+') do |f|
     f << json.to_json
   end

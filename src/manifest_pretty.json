@@ -9,12 +9,6 @@
     "js":[""],
     "matches":["<all_urls>"]
   }],
-  "app": {
-    // "launch": {
-    //   "web_url": "https://github.com/jinzhu/vrome#readme"
-    // }
-  },
-  "homepage_url": "https://github.com/jinzhu/vrome",
   "offline_enabled": true,
   "permissions": [
     "tabs",
