@@ -1,15 +1,8 @@
-[Vrome](http://github.com/jinzhu/vrome)     -- Vim keybindings extension for Chrome
-======================================================================
+[Vrome](http://github.com/jinzhu/vrome)
 
-### Preface
-Do you want to customize your hotkeys?  
-Do you want to edit with external editor?  
-Do you want to customize your default search engine?  
-Do you want to customize your default disable sites?  
-...
-Checkout here:  
-<http://wiki.github.com/jinzhu/vrome/customize-your-vrome>  
-<http://wiki.github.com/jinzhu/vrome/vromerc-example-file>
+The most cool Vim keybindings extension for Chrome you could found!
+
+#FIXME (Rewrite the README) Make it looks pretty!
 
 ## Features ##
 ### Insert mode
