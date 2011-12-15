@@ -1,8 +1,22 @@
-[Vrome](http://github.com/jinzhu/vrome)
+#[Vrome](http://github.com/jinzhu/vrome)
+## The most cool Vim keybindings extension for Chrome you could found!
 
-The most cool Vim keybindings extension for Chrome you could found!
+## How to develop this extension:
 
-#FIXME (Rewrite the README) Make it looks pretty!
+0, Checkout the source code from [http://github.com/jinzhu/vrome](http://github.com/jinzhu/vrome)
+
+1, $ cd vrome-path
+    (make sure you have ruby and bundler installed, more info here http://gembundler.com/)
+  $ bundle install
+  $ rake build
+
+2, Then Go to chrome `Tools > Extensions > Load unpacked extension`, choose the extension's folder and click OK.
+
+3, Hacking.......
+
+4, Restart your browser to test it
+
+####FIXME (Rewrite the README) Make it looks pretty!
 
 ## Features ##
 ### Insert mode
