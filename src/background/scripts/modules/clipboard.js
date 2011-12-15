@@ -15,7 +15,17 @@ var Clipboard = (function() {
     document.body.removeChild(textNode);
 	}
 
+  function read() {
+    var textNode = createTextArea("");
+    textNode.select();
+    document.execCommand('paste');
+    var result = textNode.value;
+    document.body.removeChild(textNode);
+    return result;
+  }
+
   return {
-    copy : copy
+    copy : copy,
+    read : read
   };
 })();
