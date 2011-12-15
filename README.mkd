@@ -81,6 +81,8 @@
     t       Open one or more URLs in a new tab
     u       Undo the last closed tab, If a [count] is specified then undo the [count]th last closed tab.
     y       Yank current location to the clipboard
+    p       Open a URL based on the current clipboard contents in the current tab.
+    P       Open a URL based on the current clipboard contents in a new tab.
 
     :       Enter Command-line mode
 

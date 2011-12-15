@@ -114,6 +114,10 @@ var Url = (function(){
     }
   }
 
+  function openFromClipboard(/*Boolean*/ newtab) {
+    Post({action: "Tab.openFromClipboard", newtab: newtab});
+  }
+
   // API
   enter.private = true;
 
@@ -132,5 +136,9 @@ var Url = (function(){
     tabopen            : function(){ open(false,true);  },
     openWithDefault    : function(){ open(true,false);  },
     tabopenWithDefault : function(){ open(true,true);   },
+    open               : function(){ open(false,false); },
+
+    openFromClipboard  : function() { openFromClipboard(false) },
+    openFromClipboardNewTab  : function() { openFromClipboard(true) }
   }
 })()

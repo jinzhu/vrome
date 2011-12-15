@@ -72,13 +72,19 @@ var Tab = (function() {
     }
   }
 
+  function openFromClipboard(msg) {
+    msg.url = Clipboard.read();
+    openUrl(msg, arguments[arguments.length-1]);
+  }
+
   return {
     close          : close,
     reopen         : reopen,
     goto           : goto,
     selectPrevious : selectPrevious,
     reloadAll      : reloadAll,
-    openUrl       : openUrl
+    openUrl        : openUrl,
+    openFromClipboard : openFromClipboard
   }
 })()
 

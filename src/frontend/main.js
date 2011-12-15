@@ -79,6 +79,8 @@ with (KeyEvent) {
   add("t"     , Url.tabopen            );
   add("T"     , Url.tabopenWithDefault );
   add("<C-y>" , Url.shortUrl           );
+  add("p"     , Url.openFromClipboard  );
+  add("P"     , Url.openFromClipboardNewTab  );
 
 
   // Scroll
