@@ -17,6 +17,8 @@ task :build do
   File.open(File.join(File.dirname(__FILE__),'src','manifest.json'),'w+') do |f|
     f << json.to_json
   end
+
+  system("zip -r vrome.zip src/; cp vrome.zip ~")
 end
 
 task :default => [:build]

@@ -2,7 +2,7 @@
   "name": "Vrome",
   "description": "The most cool Vim keybindings extension for chrome you could found",
   "background_page": "background/background.html",
-  "version": "0.6.0",
+  "version": "0.6.5",
   "content_scripts":[{
     "css":["styles/main.css"],
     "all_frames":true,"run_at":"document_start",
@@ -10,9 +10,9 @@
     "matches":["<all_urls>"]
   }],
   "app": {
-    "launch": {
-      "web_url": "https://github.com/jinzhu/vrome#readme"
-    }
+    // "launch": {
+    //   "web_url": "https://github.com/jinzhu/vrome#readme"
+    // }
   },
   "homepage_url": "https://github.com/jinzhu/vrome",
   "offline_enabled": true,
@@ -25,5 +25,10 @@
     "notifications",
     "proxy",
     "<all_urls>"
-  ]
+  ],
+  "icons": {
+    "16": "images/icons-16.png",
+    "48": "images/logo.png",
+    "128": "images/icons-128.png"
+  }
 }
