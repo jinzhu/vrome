@@ -1,27 +1,24 @@
-////////////////////////////////////////
-// Tasks For The Upcoming Version
-////////////////////////////////////////
-sync Setting
-
-3, popup
-  - chinese pinyin - whole / single / none
-
-# Tabs
-~     Open home directory
-
-/regexp/ search
-
-gh    goto home page
+Update notification
 
 Move Tab
-extended-hints ?
+Pin/Unpin
+F Yark
+
+chinese pinyin - whole / single / none
 
 ]f    Focus next frame
 [f    Focus previous frame
 
-# Buffer
-b
-
 save session
-autorefresh
+auto refresh
 omni box
+
+
+DEPRECATED:
+  getSelected() have been deprecated in chrome16, use chrome.tabs.query()
+  You are no longer required to specify the tabID for the chrome.tabs.update() method. When not provided, the tabID defaults to the selected tab of the current window.  
+
+
+NO AVAILABLE API:
+  ~   Open home directory
+  gh  goto home page
