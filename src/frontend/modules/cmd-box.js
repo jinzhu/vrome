@@ -12,7 +12,7 @@ var CmdBox = (function() {
     if(!div){
       div = document.createElement('div');
       div.setAttribute('id',box_id);
-      document.body.appendChild(div);
+      document.body.insertBefore(div, document.body.childNodes[0]);
     }
     return div;
   }

@@ -3,14 +3,8 @@
 ////////////////////////////////////////
 sync Setting
 
-2, disappear cmd-box after document load.
 3, popup
   - chinese pinyin - whole / single / none
-
-- p and P should open selected (or actually copied I guess) text in
-current and new tab respectively ('p' for current tab, 'P' for new
-tab)
-
 
 # Tabs
 ~     Open home directory
