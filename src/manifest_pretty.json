@@ -13,7 +13,6 @@
   "permissions": [
     "tabs",
     "history",
-    "background",
     "clipboardRead",
     "clipboardWrite",
     "notifications",
