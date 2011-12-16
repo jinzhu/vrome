@@ -23,7 +23,8 @@ var Url = (function(){
         urls[urls.length] = (new RegExp('://','im').test(url[i]) ? "" : "http://") + url[i]
       }else{
         var searchengines = JSON.parse(Option.get('searchengines'));
-        var searchengine  = url[i].replace(/^(\S+)\s.*$/,"$1");
+        var searchengine  = url[i].replace(/^(\S+)\s.*$/,"$1"); // google
+
         // use the matched searchengine
         for (var key in searchengines) {
           if (key == searchengine) {
