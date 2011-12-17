@@ -54,12 +54,11 @@ with (KeyEvent) {
   add("zr", Zoom.reduce     );
   add("zz", Zoom.reset      );
 
-  add("zI", Zoom.cur_in     );
-  add("zO", Zoom.cur_out    );
-  add("zM", Zoom.cur_more   );
-  add("zR", Zoom.cur_reduce );
-  add("zZ", Zoom.cur_reset  );
-
+  add("zI", Zoom.current_in     );
+  add("zO", Zoom.current_out    );
+  add("zM", Zoom.current_more   );
+  add("zR", Zoom.current_reduce );
+  add("zZ", Zoom.current_reset  );
 
   // Page
   add("]]", Page.next         );
