@@ -183,7 +183,7 @@ with (KeyEvent) {
   add("<C-h>", InsertMode.deleteBackwardChar    , true );
   add("<C-d>", InsertMode.deleteForwardChar     , true );
 
-  add("<C-w>", InsertMode.deleteBackwardWord    , true );
+  add("<M-w>", InsertMode.deleteBackwardWord    , true );
   add("<M-d>", InsertMode.deleteForwardWord     , true );
 
   add("<C-u>", InsertMode.deleteToBegin       , true );

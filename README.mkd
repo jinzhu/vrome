@@ -17,119 +17,167 @@
 4, Restart your browser to test it
 
 ## Features ##
-### Insert mode
-    <C-a>   Move to first words or select all
-    <C-d>   Delete forward char
-    <C-e>   Move to end
-    <C-h>   Delete backward char
-    <C-i>   Launch the external editor,default 'editor' is 'gvim -f'.
-    <C-k>   Delete forward to the end of the line.
-    <C-w>   Delete backward word
-    <C-u>   Delete backward to the beginning of the line.
-    <M-d>   Delete forward word
-    <M-h>   Move back a word
-    <M-l>   Move forward a word
-    <M-j>   Move back a char
-    <M-k>   Move forward a char
+
+### Help ###
+            <F1>      Opens help page
 
 
-### Normal mode
-    <C-^>   Select the previously selected tab.If [count] is specified, go to the [count]th tab.
-    <C-a>   Increments the last number in URL by 1, or by [count] if given.
-    <C-b>   Scroll up [count] full page.
-    <C-d>   Scroll down [count] half page
-    <C-f>   Scroll down [count] full page
-    <C-i>   Go [count] pages forward in the browser history.
-    <C-o>   Go [count] pages back in the browser history.
-    <C-u>   Scroll up [count] half page
-    <C-v>   Pass through the next key
-    <C-x>   Decrements the last number in URL by 1, or by [count] if given.
-    <C-y>   Shorten current url,and copy it into clipboard
-    <C-z>   Temporarily ignore all Vrome key bindings
+### Tabs manipulation ###
+            g0, g^    Go to the first tab
+            g$        Go to the last tab
+            <C-^>     Go to the last selected tab. if [count] is specified, go to the [count]th tab.
+    [count] gt        Go to the right [count] tab
+    [count] gT        Go to the left [count] tab
 
-    <M-d>	  like `d`,but close current tab and selects the last selected tab.
+    [count] b         Go to the [count]th tab or the first matched tab.
+                      If no [count] provide, would provide a box to let you input a keyword,
+                      And would goto the first matched tab after you press <Enter>.
+            B         Delete matched tabs. would provide a box let you input a keyword.
 
-    <F1>    Open the help page.
+            d         Close current tab and selects the right tab.
+            <M-d>     Close current tab and selects the last selected tab.
+            D         Close current tab and selects the left tab.
+    [count] u         Reopen the last closed tab.
 
-    0       Scroll to the absolute left of the document
-    $       Scroll to the absolute right of the document
-
-    D	      Like d but selects the tab to the left of the deleted tab.
-    F       Start QuickHint mode, but open link in a new tab
-    G       Go to the end of the document
-    H       Go back in the browser history
-    L       Go forward in the browser history
-    N       Find previous
-    O       Open one or more URLs, based on current location
-    R       Reload all Tabs
-    T       Open one or more URLs in a new tab, based on current location
-    Y       Copy selected text
-
-    b       goto the [count] tab or the first matched tab.
-    d       close current tab and selects the tab to the right of the deleted tab.
-    f       Start QuickHint mode
-    h       Scroll document to the left.If [count] is specified then move [count] times as much down.
-    j       Scroll document down. If [count] is specified then move [count] times as much down.
-    k       Scroll document up. If [count] is specified then move [count] times as much down.
-    l       Scroll document to the right. If [count] is specified then move [count] times as much down.
-
-    n       Find the next [count]
-    o       Open one or more URLs
-    r       Reload the current web page
-    t       Open one or more URLs in a new tab
-    u       Undo the last closed tab, If a [count] is specified then undo the [count]th last closed tab.
-    y       Yank current location to the clipboard
-    p       Open a URL based on the current clipboard contents in the current tab.
-    P       Open a URL based on the current clipboard contents in a new tab.
-
-    :       Enter Command-line mode
-
-    /       Search forward for the next [count] word for a pattern
-    ?       Search backwards for the next [count] word for a pattern
-    *       Find word under cursor
-    #       Find word under cursor backwards
-
-    N%      Scroll to [count] percent of the document
-
-    .       Repeat the last keyboard mapping [count] times.
-
-    ]]      Follow the link labeled 'next' or '>' if it exists
-    [[      Follow the link labeled 'prev', 'previous' or '<' if it exists
-
-    gT      Go to the previous [count] tab
-    gU      Go to the root of the website
-    gf      View source
-    gg      Go to the top of the document
-    gi      Focus the [count]th input field
-    gt      Go to the next [count] tab
-    gu      Go to [count]th parent directory
-
-    g$      Go to the last tab
-    g0      Go to the first tab
-
-    zI      Enlarge full zoom of current web page,[count]
-    zM      Enlarge full zoom of current web page by a larger amount,[count]
-    zO      Reduce full zoom of current web page,[count]
-    zR      Reduce full zoom of current web page by a larger amount,[count]
-    zZ      Set full zoom value of current web page
-    zi      Enlarge text zoom of current web page,[count]
-    zm      Enlarge text zoom of current web page by a larger amount,[count]
-    zo      Reduce text zoom of current web page,[count]
-    zr      Reduce text zoom of current web page by a larger amount,[count]
-    zz      Set text zoom value of current web page
+            r         Reload current tab
+            R         Reload all tabs
 
 
-    go{a-zA-Z0-9}   Jump to a QuickMark in the current tab. Open any QuickMark in the current tab. You can mark any URLs with M{a-zA-Z0-9}. These QuickMarks are persistent across browser sessions.
-    gn{a-zA-Z0-9}   Jump to a QuickMark in a new tab. Works like go{a-zA-Z0-9} but opens the QuickMark in a new tab.
-    M{a-zA-Z0-9}    Add new QuickMark for current URL. You can go to a marked URL in the current tab with go{a-zA-Z0-9} or in a new tab with gn{a-zA-Z0-9}. These QuickMarks are persistent across browser sessions.
+### Scrolling ###
+            gg        Go to top
+            G         Go to bottom
+            0         Go to left
+            $         Go to right
 
-    m{a-zA-Z}       Set mark at the cursor position. Marks a-z are local to the buffer, whereas A-Z are valid between buffers.
-    '{a-zA-Z}       Jump to the mark. Marks a-z are local to the buffer, whereas A-Z are valid between buffers.
+    [count] <C-f>     Scroll down [count] full page
+    [count] <C-d>     Scroll down [count] half page
+    [count] <C-b>     Scroll up [count] full page.
+    [count] <C-u>     Scroll up [count] half page
+
+    [count] j         Scroll down
+    [count] k         Scroll up
+    [count] h         Scroll left
+    [count] l         Scroll right
+
+    [count] %         Scroll to percent of the page
 
 
-### Command Mode
-    :help     Open the help page.
-    :bdelete  Close all matched tabs.
+### Navigation ###
+            ]]        Go to next page. the rule of next page could be customized.
+                      Check here: https://github.com/jinzhu/vrome/wiki/customize-your-vrome
+            [[        Go to previous page
+
+    [count] gu        Go to parent URL
+            gU        Go to the root of the website
+
+            y         Copy current URL to clipboard
+            <C-y>     Copy a shorten URL to clipboard, the URL is shortened by `http://is.gd`
+            p         Open the URL in clipboard in current tab.
+            P         Open the URL in clipboard in new tab.
+
+    [count] <C-a>     Increments the last number in URL by 1, or by [count] if given.
+    [count] <C-x>     Decrements the last number in URL by 1, or by [count] if given.
+
+            o         Opens one or more URL in current tab, urls should be separated with `,`. e.g: google.com, amazon.com
+                      Also You can input a search engine name followed with keyword. e.g: `wikipedia vrome`. then it would search `vrome` with `wikipedia`.
+                      Currently only `google`, `answers`, `yahoo`, `wikipedia` supported here,
+                      You can even omit the search engine name. then it would search the keyword with gogole by default.
+                      Of course, you can customize it by yourself, refer https://github.com/jinzhu/vrome/wiki/customize-your-vrome.
+            O         Opens one or more URL in current tab, based on current location. (refer `o` for more)
+            t         Opens one or more URL in new tab. (refer `o` for more)
+            T         Opens one or more URL in new tab, based on current location. (refer `o` for more)
+
+
+### Zoom ###
+    [count] zi        Zoom in, based on the center of the screen.
+    [count] zI        Zoom in, based on the beginning of the screen.
+    [count] zm        3 times zoom in, based on the center of the screen.
+    [count] zM        3 times zoom in, based on the beginning of the screen.
+
+    [count] zo        Zoom out, based on the center of the screen.
+    [count] zO        Zoom out, based on the beginning of the screen.
+    [count] zr        3 times zoom out, based on the center of the screen.
+    [count] zR        3 times zoom out, based on the beginning of the screen.
+
+            zz        zoom reset, based on the center of the screen.
+            zZ        zoom reset, based on the beginning of the screen.
+
+
+### History ###
+    [count] H         Go [count] pages back.
+    [count] L         Go [count] pages forward.
+    [count] <C-o>     Go [count] pages back.
+    [count] <C-i>     Go [count] pages forward.
+
+
+### Search ###
+            /         Start forward search
+            ?         Start backward search
+            *         Search word under cursor
+            #         Backward Search word under cursor
+    [count] n         Find the next match
+    [count] N         Find the previous match
+
+
+### Hints Mode ###
+            f         Start Hint mode, All visible links would be given a number.
+                      You could filter links with the number given or even keyword match link's text. When there are only one link match, the link would be opend in current tab.
+                      e.g: if there is a link named `Gmail` in current page, you could type `ma` to match it.
+            F         Start Hint mode, but open link in a new tab. (refer `f` for more)
+
+
+### Marks ###
+       M{a-zA-Z0-9}   Save current URL to register. Available value for the register is {a-zA-Z0-9}.
+                      e.g: When you visit `http://github.com`, you could mark it with `Mg`,
+                      then when you visiting in other page, you could use `gog` to open `http://github.com` in current tab.
+                      or use `gng` to open `http://github.com` in a new tab.
+       go{a-zA-Z0-9}  Open marked URL in current tab. (refer M{a-zA-Z0-9} for more)
+       gn{a-zA-Z0-9}  Open marked URL in a new tab. (refer M{a-zA-Z0-9} for more)
+
+       m{a-zA-Z}      Save current cursor position to register, Available value for the register is {a-zA-Z}.
+                      e.g: You are reading the first paragraph of a article, you found some fun stuff want to check it later. you could save the current cursor position with `ma`, after reading, you could jump back to the first paragraph quickly with `'a`.
+                      Please remeber, register {a-z} are only save in current tab, whereas A-Z are available between buffers.
+                      This is means you can't jump back to the first paragraph when you are in other tabs because register the mark with `ma`,
+                      but if you mark it with `mA`, you could jump to the first paragraph of the article in current tab with `'A'
+       '{a-zA-Z}      Jump to register. (refer m{a-zA-Z} for more)
+
+
+### Page ###
+    [count] gi        Focus the [count]th input field
+            gs        View source code in current tab.
+
+
+### Other Stuff ###
+            Y         Copy selected text
+            .         Repeat the last command [count] times.
+
+            <C-v>     Pass the next key
+            <C-z>     Disable Vrome, use <Esc> to re-enable it.
+
+
+### Command Line Mode ###
+            :         Enter Command-line mode
+            :help     Open the help page.
+            :bdelete  Close all matched tabs. like `B` in normal mode
+
+
+### Insert mode ###
+            <C-a>     Move to first words or select all
+            <C-e>     Move to end
+            <C-k>     Delete forward to the end of the line.
+            <C-u>     Delete backward to the beginning of the line.
+
+            <C-d>     Delete forward char
+            <C-h>     Delete backward char
+            <M-w>     Delete backward word
+            <M-d>     Delete forward word
+
+            <M-h>     Move back a word
+            <M-l>     Move forward a word
+            <M-j>     Move back a char
+            <M-k>     Move forward a char
+
+            <C-i>     Launch the external editor,default 'editor' is 'gvim -f'.
 
 
 ## Author ##
