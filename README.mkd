@@ -1,20 +1,8 @@
 #[Vrome](http://github.com/jinzhu/vrome)
-## The most cool, featured Vim keybindings extension for Chrome you could found!
+### The most cool, featured Vim keybindings extension for Chrome you could found!
+### If you love this extension, please consider write blog, tutorial, tweet or any other way you like to make more people know and love it.
+### Thanks!
 
-## How to develop this extension:
-
-0, Checkout the source code from [http://github.com/jinzhu/vrome](http://github.com/jinzhu/vrome)
-
-1, $ cd vrome-path
-    (make sure you have ruby and bundler installed, more info here http://gembundler.com/)
-   $ bundle install
-   $ rake build
-
-2, Then Go to chrome `Tools > Extensions > Load unpacked extension`, choose the extension's folder and click OK.
-
-3, Hacking.......
-
-4, Restart your browser to test it
 
 ## Features ##
 
@@ -178,6 +166,30 @@
             <M-k>     Move forward a char
 
             <C-i>     Launch the external editor,default 'editor' is 'gvim -f'.
+
+
+
+## Develop ##
+
+#### 0, Checkout the source code from [http://github.com/jinzhu/vrome](http://github.com/jinzhu/vrome)
+    $ git clone git://github.com/jinzhu/vrome.git
+
+#### 1, Make sure you have ruby and bundler installed, please refer http://www.ruby-lang.org/, http://gembundler.com/, then run following code in your shell:
+    $ cd vrome-path
+    $ bundle install
+    $ rake build
+
+#### 2, Go to Chrome `Tools > Extensions > Load unpacked extension`, choose the extension's folder and click OK.
+
+#### 3, Restart your browser to install it.
+
+#### 4, Hacking.......
+
+#### 5, Reload Vrome in chrome://settings/extensionSettings when you change background code
+####    Reload all tabs with `R` when you change some foreground code.
+
+#### 6, Test it & Back to Step 4
+
 
 
 ## Author ##
