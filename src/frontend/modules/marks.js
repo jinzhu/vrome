@@ -14,7 +14,7 @@ var Marks = (function() {
     // TODO zoom
     var key = getKey(this);
     if (key.match(/^[A-Z]$/)) {
-      Post({ action: "Marks.addLocalMark",key  : key,position : [scrollX, scrollY, location.href]});
+      Post({action : "Marks.addLocalMark",key : key, position : [scrollX, scrollY, location.href]});
     } else {
       var local_marks = Settings.get('local_marks') || {};
       local_marks[key] = [scrollX, scrollY];
@@ -28,9 +28,11 @@ var Marks = (function() {
     var setting_key = key.match(/^[A-Z]$/) ? 'background.local_marks' : 'local_marks';
     var position = Settings.get(setting_key)[key];
     if (position instanceof Array) {
-      if (position[2]) location.href = position[2];
-      // FIXME
-      scrollTo(position[0],position[1]);
+      if (position[2]) {
+        Post({action: "Tab.update", url: position[2], callback: "scrollTo(" + position[0] + "," + position[1] + ")"})
+      } else {
+        scrollTo(position[0], position[1])
+      }
     }
   }
 

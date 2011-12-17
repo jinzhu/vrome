@@ -1,9 +1,36 @@
 var Tab = (function() {
+  function runWhenComplete(tabId, command) {
+    chrome.tabs.get(tabId, function(tab) {
+      if (tab.status = "complete") {
+        chrome.tabs.executeScript(tabId, command)
+      } else {
+        runWhenComplete(tabId, command)
+      }
+    })
+  }
+
+  // TODO Refact me!
+  function update(msg) {
+    var tab  = arguments[arguments.length-1];
+    var attr = {};
+
+    if (msg.url) attr.url = msg.url;
+    if (msg.active) attr.active = msg.active;
+    if (msg.highlighted) attr.highlighted = msg.highlighted;
+    if (msg.pinned) attr.pinned = msg.pinned;
+
+    chrome.tabs.update(tab.id, attr, function(new_tab) {
+      if (msg.callback) {
+        runWhenComplete(new_tab.id, {code:msg.callback})
+      }
+    })
+  }
+
   function close(msg) {
     var tab = arguments[arguments.length-1];
     Tab.current_closed_tab = tab;
     chrome.tabs.remove(tab.id);
-    if (msg.focusLast) selectPrevious.apply('',arguments); // close and select last
+    if (msg.focusLast) selectPrevious.apply('',arguments); // close and select right
     if (msg.offset)    goto.apply('',arguments);           // close and select left
   }
 
@@ -11,6 +38,7 @@ var Tab = (function() {
     if (Tab.closed_tabs.length > 0) {
       var index = Tab.closed_tabs.length - msg.num;
       var last_closed_tab = Tab.closed_tabs[Tab.closed_tabs.length - msg.num];
+
       Debug("last_closed_tab: " + last_closed_tab);
       if (last_closed_tab) {
         Tab.closed_tabs.splice(index,1);
@@ -78,6 +106,7 @@ var Tab = (function() {
   }
 
   return {
+    update         : update,
     close          : close,
     reopen         : reopen,
     goto           : goto,
