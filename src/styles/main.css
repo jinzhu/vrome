@@ -8,7 +8,7 @@
   vertical-align: middle;
   -webkit-border-top-left-radius: 4px;
   -webkit-box-shadow:-1px -1px 4px #888;
-  z-index: 100000;
+  z-index: 2147483647;
 }
 
 #_vrome_cmd_box input{
@@ -36,7 +36,7 @@
   color: #fff !important;
   font-weight: bold !important;
   padding: 0px 1px !important;
-  z-index: 100000 !important;
+  z-index: 2147483646 !important;
 }
 
 .__vrome_search_highlight {
@@ -54,11 +54,11 @@
 a[vrome_highlight=hint_elem] {
 	background-color: yellow !important;
   color: #000 !important;
-  z-index     : 100000;
+  z-index     : 2147483646;
 }
 
 a[vrome_highlight=hint_active] {
 	background-color: #8f0 !important;
   color: #000 !important;
-  z-index     : 100000;
+  z-index     : 2147483646;
 }
