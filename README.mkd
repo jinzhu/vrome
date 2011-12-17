@@ -1,5 +1,5 @@
 #[Vrome](http://github.com/jinzhu/vrome)
-## The most cool Vim keybindings extension for Chrome you could found!
+## The most cool, featured Vim keybindings extension for Chrome you could found!
 
 ## How to develop this extension:
 
@@ -7,16 +7,14 @@
 
 1, $ cd vrome-path
     (make sure you have ruby and bundler installed, more info here http://gembundler.com/)
-  $ bundle install
-  $ rake build
+   $ bundle install
+   $ rake build
 
 2, Then Go to chrome `Tools > Extensions > Load unpacked extension`, choose the extension's folder and click OK.
 
 3, Hacking.......
 
 4, Restart your browser to test it
-
-####FIXME (Rewrite the README) Make it looks pretty!
 
 ## Features ##
 ### Insert mode
@@ -98,8 +96,6 @@
     ]]      Follow the link labeled 'next' or '>' if it exists
     [[      Follow the link labeled 'prev', 'previous' or '<' if it exists
 
-    g$      Go to the last tab
-    g0      Go to the first tab
     gT      Go to the previous [count] tab
     gU      Go to the root of the website
     gf      View source
@@ -107,6 +103,9 @@
     gi      Focus the [count]th input field
     gt      Go to the next [count] tab
     gu      Go to [count]th parent directory
+
+    g$      Go to the last tab
+    g0      Go to the first tab
 
     zI      Enlarge full zoom of current web page,[count]
     zM      Enlarge full zoom of current web page by a larger amount,[count]

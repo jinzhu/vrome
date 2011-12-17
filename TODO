@@ -1,5 +1,13 @@
 Update notification
 
+dm Delete Match
+do Delete other tabs except current
+dc Delete current tabs
+dl Delete left tabs
+dr Delete right tabs
+
+g0 g$
+
 Move Tab
 Pin/Unpin
 F Yark
