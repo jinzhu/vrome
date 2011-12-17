@@ -7,6 +7,10 @@ var CmdBox = (function() {
 	var pressUp           = function(e) { pressUpFunction.call('',e);  };
 	var pressDown         = function(e) { pressDownFunction.call('',e);};
 
+  function blur() {
+    cmdBoxInput().blur();
+  }
+
   function cmdBox() {
     var div = document.getElementById(box_id);
     if(!div){
@@ -72,5 +76,5 @@ var CmdBox = (function() {
     if(box) document.body.removeChild(box);
   }
 
-  return { set : set, get : get, remove : remove };
+  return { blur : blur, set : set, get : get, remove : remove };
 })()

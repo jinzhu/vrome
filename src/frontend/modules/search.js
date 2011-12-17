@@ -89,6 +89,8 @@ var Search = (function(){
 
     Debug('Search.next - size:' + nodes.length + ' selected:' + i + ' direction:' + direction + ' offset:' + offset);
 
+    CmdBox.blur();
+
     if (nodes[i]) { //FIXME if element is invisable
       nodes[i].setAttribute('id',highlight_current_id);
       nodes[i].scrollIntoViewIfNeeded();
