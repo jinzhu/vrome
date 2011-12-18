@@ -1,6 +1,10 @@
 #[Vrome](http://github.com/jinzhu/vrome)
 ### The most cool, featured Vim keybindings extension for Chrome you could found!
-### If you love this extension, please consider write blog, tutorial, tweet or any other way you like to make more people know and love it.
+### If you love this extension, Please consider write blog, tutorial, record video, tweet, or any other way you like to make more people know and love it!
+### you could add your link to our [WIKI](https://github.com/jinzhu/vrome/wiki/Links) ;)
+
+### Also don't forget to rate the extension in [chrome store](https://chrome.google.com/webstore/detail/godjoomfiimiddapohpmfklhgmbfffjj/details)!
+
 ### Thanks!
 
 
@@ -53,7 +57,7 @@
 ### Navigation ###
             ]]        Go to next page. the rule of next page could be customized.
                       Check here: https://github.com/jinzhu/vrome/wiki/customize-your-vrome
-            [[        Go to previous page
+            [[        Go to previous page, refer ]] for how to customize the rule.
 
     [count] gu        Go to parent URL
             gU        Go to the root of the website
@@ -66,12 +70,19 @@
     [count] <C-a>     Increments the last number in URL by 1, or by [count] if given.
     [count] <C-x>     Decrements the last number in URL by 1, or by [count] if given.
 
-            o         Opens one or more URL in current tab, urls should be separated with `,`. e.g: google.com, amazon.com
-                      Also You can input a search engine name followed with keyword.
-                      e.g: `wikipedia vrome`. then it would search `vrome` with `wikipedia`.
-                      Currently only `google`, `answers`, `yahoo`, `wikipedia` supported here,
-                      You can even omit the search engine name. then it would search the keyword with gogole by default.
-                      Of course, you can customize it by yourself, refer https://github.com/jinzhu/vrome/wiki/customize-your-vrome.
+            o         Opens one or more URL in current tab, urls could be separated with `,` if many. e.g: google.com, amazon.com
+                      There are some fun things here:
+                      1, When visiting `http://github.com/jinzhu/vrome`, type `/admin`       to go `http://github.com/admin`
+                      2, When visiting `http://github.com/jinzhu/vrome`, type `..`           to go `http://github.com/jinzhu`
+                      3, When visiting `http://github.com/jinzhu/vrome`, type `../../rails`  to go `https://github.com/rails`
+                      4, When visiting `http://github.com/jinzhu/vrome`, type `./wiki`       to go `https://github.com/jinzhu/vrome/wiki`
+                      5, Type `google vrome` to search vrome with google. the `google` is the search engine name, `vrome` is the keyword.
+                         Only `google`, `answers`, `yahoo`, `wikipedia` have built in support now, send me a pull request if you want to add more.
+                         Also you could build you own one, please checkout https://github.com/jinzhu/vrome/wiki/customize-your-vrome for how to do that.
+
+                      6, You can even omit the search engine name, then would search the keyword inputed with the first search engine.
+                         It would use Google in vrome's default config, Of course, you could change it also, refer the above link.
+
             O         Opens one or more URL in current tab, based on current location. (refer `o` for more)
             t         Opens one or more URL in new tab. (refer `o` for more)
             T         Opens one or more URL in new tab, based on current location. (refer `o` for more)
