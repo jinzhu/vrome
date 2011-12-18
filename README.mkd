@@ -115,6 +115,16 @@
                       e.g: if there is a link named `Gmail` in current page, you could type `ma` to match it.
             F         Start Hint mode, but open link in a new tab. (refer `f` for more)
 
+            Also there are some nice commands when in the [input box]:
+                ?     Show information about an element.
+                      e.g: Input `?gmail`, it would search all elements match gmail, just like normal Hint Mode.
+                      If there are only one element match keyword `gmail`, it would show the element's details,
+                      mostly, it would be the element's html source.
+                ;     Focus an element. (refer `?` in Hints Mode for more)
+                [     Copy selected element's url if exist. (refer `?` in Hints Mode for more)
+                {     Copy selected element's text. (refer `?` in Hints Mode for more)
+                !     Filter links doesn't match keyword. (refer `?` in Hints Mode for more)
+
 
 ### Marks ###
        M{a-zA-Z0-9}   Save current URL to register. Available value for the register is {a-zA-Z0-9}.
