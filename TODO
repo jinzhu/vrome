@@ -1,25 +1,52 @@
 Update notification
 
+### Search ###
+chinese pinyin - whole / single / none
+
+
+### Hint Mode ###
+; to focus an element
+? to show information about an element (incomplete)
+[ copy url
+{ copy text
+! foobar
+~ foobar
+> 52
+< 52
+
+
+### Tab ###
 dm Delete Match
 do Delete other tabs except current
 dc Delete current tabs
 dl Delete left tabs
 dr Delete right tabs
 
-g0 g$
+gd duplicate tab
+gD Detach tab
+gp Pin
+gP un pin
 
 Move Tab
-Pin/Unpin
-F Yark
 
-chinese pinyin - whole / single / none
 
+### Page ###
 ]f    Focus next frame
 [f    Focus previous frame
+read
 
-save session
+
+### Command Mode ###
+save/list session
 auto refresh
-omni box
+
+
+### Insert Mode ###
+<M-s> Toggles webkit speech
+<M-v> Pass next key // Insert Mode
+
+
+omni box (?)
 
 
 DEPRECATED:
