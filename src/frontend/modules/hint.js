@@ -109,11 +109,47 @@ var Hint = (function() {
 
   function hintMatch(elem, index) {
     var text   = elem.innerText;
-    var filter = CmdBox.get().content;
+    var filter = CmdBox.get().content.trimFirst([';','?','[','{']);
 
     var regexp = new RegExp(filter.trimFirst("!"),'im');
     var result = regexp.test(text) || regexp.test(PinYin.short(text)) || regexp.test(PinYin.full(text))
     return filter.startWith('!') ? !result : result
+  }
+
+  function getCurrentAction() {
+    var filter = CmdBox.get().content;
+
+    if (filter.startWith(';')) {
+      return focusElement
+    } else if (filter.startWith('?')) {
+      return showElementInfo
+    } else if (filter.startWith('[')) {
+      return copyElementUrl
+    } else if (filter.startWith('{')) {
+      return copyElementText
+    } else {
+      return null
+    }
+  }
+
+  function showElementInfo(elem) {
+    CmdBox.set({title : elem.outerHTML});
+  }
+
+  function focusElement(elem) {
+    elem.focus();
+  }
+
+  function copyElementUrl(elem) {
+    var text = elem.getAttribute('href');
+    Clipboard.copy(text)
+    CmdBox.set({title : "[Copied] " + text, timeout : 4000 });
+  }
+
+  function copyElementText(elem) {
+    var text = elem.innerText;
+    Clipboard.copy(text)
+    CmdBox.set({title : "[Copied] " + text, timeout : 4000 });
   }
 
   function delayToWaitKeyDown(){
@@ -136,38 +172,43 @@ var Hint = (function() {
 
   function execSelect(elem) {
     if (!elem) return false;
+    var currentAction = getCurrentAction()
 
     var tag_name = elem.tagName.toLowerCase();
     var type     = elem.type ? elem.type.toLowerCase() : "";
 
-    if (tag_name == 'a') {
-      setHighlight(elem, true);
-      if (!new_tab) {
-        var old_target = elem.getAttribute('target');
-        elem.removeAttribute('target');
-      }
+    if (currentAction) {
+      remove();
+      currentAction(elem);
+    } else {
+      if (tag_name == 'a') {
+          setHighlight(elem, true);
+          if (!new_tab) {
+            var old_target = elem.getAttribute('target');
+            elem.removeAttribute('target');
+          }
 
-      var options = {};
-      options[Platform.mac ? 'meta' : 'ctrl'] = new_tab;
-      clickElement(elem,options);
+          var options = {};
+          options[Platform.mac ? 'meta' : 'ctrl'] = new_tab;
+          clickElement(elem, options);
 
-      if (old_target) elem.setAttribute('target',old_target);
+          if (old_target) elem.setAttribute('target',old_target);
+      } else if (elem.onclick || (tag_name == 'input' && (type == 'submit' || type == 'button' || type == 'reset' || type == 'radio' || type == 'checkbox'))) {
+        clickElement(elem);
 
-    } else if (elem.onclick || (tag_name == 'input' && (type == 'submit' || type == 'button' || type == 'reset' || type == 'radio' || type == 'checkbox'))) {
-      clickElement(elem);
-
-    } else if (tag_name == 'input' || tag_name == 'textarea') {
-      try {
+      } else if (tag_name == 'input' || tag_name == 'textarea') {
+        try {
+          elem.focus();
+          elem.setSelectionRange(elem.value.length, elem.value.length);
+        } catch(e) {
+          clickElement(elem); // some website don't use standard submit input.
+        }
+      } else if (tag_name == 'select') {
         elem.focus();
-        elem.setSelectionRange(elem.value.length, elem.value.length);
-      } catch(e) {
-        clickElement(elem); // some website don't use standard submit input.
       }
-    } else if (tag_name == 'select') {
-      elem.focus();
-    }
 
-    setTimeout(remove,200);
+      setTimeout(remove,200);
+    }
   }
 
   return {
