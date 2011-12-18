@@ -5,8 +5,7 @@ Update notification
 ? to show information about an element (incomplete)
 [ copy url
 { copy text
-! foobar
-~ foobar
+
 > 52
 < 52
 

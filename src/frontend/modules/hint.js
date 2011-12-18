@@ -92,7 +92,7 @@ var Hint = (function() {
 			CmdBox.set({title : 'HintMode (' + selected + ')'});
       var index = selected - 1;
 
-      setHighlight(matched[index],, /* set_active */ true);
+      setHighlight(matched[index], /* set_active */ true);
       currentHint = matched[index];
       e.preventDefault();
 
@@ -107,15 +107,21 @@ var Hint = (function() {
     }
   }
 
+  function hintMatch(elem, index) {
+    var text   = elem.innerText;
+    var filter = CmdBox.get().content;
+
+    var regexp = new RegExp(filter.trimFirst("!"),'im');
+    var result = regexp.test(text) || regexp.test(PinYin.short(text)) || regexp.test(PinYin.full(text))
+    return filter.startWith('!') ? !result : result
+  }
+
   function delayToWaitKeyDown(){
     selected = 0;
     matched  = [];
 
-    var filterRegexp = new RegExp(CmdBox.get().content,'im');
-
-    for (var i in elements) {
-      var text = elements[i].innerText;
-      if (filterRegexp.test(text) || filterRegexp.test(PinYin.short(text)) || filterRegexp.test(PinYin.full(text))) {
+    for (var i=0; i < elements.length; i++) {
+      if (hintMatch(elements[i], i)) {
         matched.push(elements[i]);
       }
     }
