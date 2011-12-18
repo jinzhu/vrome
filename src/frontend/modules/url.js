@@ -1,54 +1,78 @@
 var Url = (function(){
-  var urlMode;
-  var newTab;
+  var urlMode, newTab;
 
-  //TODO auto complete?
   function open(/*Boolean*/ withDefault,/*Boolean*/ newtab) {
     urlMode = true;
     newTab  = newtab;
+
     CmdBox.set({
       title   : newTab ? 'TabOpen: ' : 'Open: ',
       content : withDefault ? location.href : ''
     });
   }
 
-  // need refactor
-  function fixUrl(url) {
-    var url = url.split(/, /);
-    var urls = [];
-    outermost : for (var i = 0; i< url.length; i++) {
-      if ( /^\//.test(url[i]) && /^\S+\s*$/.test(url[i])) {
-        urls[urls.length] = location.protocol + '//' + location.host + url[i];
-      } else if( /\./.test(url[i]) && !/\s/.test(url[i])) {
-        urls[urls.length] = (new RegExp('://','im').test(url[i]) ? "" : "http://") + url[i]
+  function fixRelativePath(url) {
+    // Not relative path
+    if (/:\/\//.test(url)) {
+      return url;
+    } else if (/^\//.test(url)) {
+      return document.location.origin + url;
+    } else {
+      if (url == '..') url = '../';
+      var pathname = document.location.href;
+      var paths = url.split('..');
+      for(var i=0; i < paths.length; i++) {
+        var path = paths[i];
+        if (path.match(/^\//)) {
+          pathname = pathname.replace(/\/[^\/]*\/?$/,'') + path;
+        } else if (path.match(/^.\//)) {
+          pathname = pathname + path.replace(/^.\//,'/');
+        }
+      }
+      return pathname;
+    }
+  }
+
+  function fixUrl(url_str) {
+    var urls   = url_str.split(/, /);
+    var result = [];
+
+    outermost : for (var i = 0; i< urls.length; i++) {
+      url = urls[i].trim();
+      // relative path e.g: .. || ./configure
+      // absolute path e.g: /jinzhu
+      if ( (/^\//.test(url) || /^\.\.?\/?/.test(url)) && /^\S+\s*$/.test(url)) {
+        result.push(fixRelativePath(url))
+      // looks like url, for example: google.com
+      } else if( /\./.test(url) && !/\s/.test(url)) {
+        result.push((url.match("://") ? "" : "http://") + url)
+      // google vrome
       }else{
         var searchengines = JSON.parse(Option.get('searchengines'));
-        var searchengine  = url[i].replace(/^(\S+)\s.*$/,"$1"); // google
+        var searchengine  = url.replace(/^(\S+)\s.*$/,"$1"); // google
 
         // use the matched searchengine
         for (var key in searchengines) {
           if (key == searchengine) {
-            urls[urls.length] = searchengines[key].replace("{{keyword}}",url[i].replace(/^\S+\s+(.*)$/,"$1"));
+            result.push(searchengines[key].replace("{{keyword}}",url.replace(/^\S+\s+(.*)$/,"$1")));
             continue outermost;
           }
         }
 
         // use the first searchengine
         for (var key in searchengines) {
-          urls[urls.length] = searchengines[key].replace("{{keyword}}",url[i]);
+          result.push(searchengines[key].replace("{{keyword}}",url));
           continue outermost;
         }
       }
     }
-    return urls;
+    return result;
   }
 
   function enter() {
     if(!urlMode) return;
 
     var urls = fixUrl(CmdBox.get().content);
-    Debug('Url.enter - urls: ' + urls + ' newtab:' + newTab);
-
     Post({action: "Tab.openUrl", urls: urls, newtab: newTab});
 
     urlMode = false;
@@ -140,6 +164,8 @@ var Url = (function(){
     open               : function(){ open(false,false); },
 
     openFromClipboard  : function() { openFromClipboard(false) },
-    openFromClipboardNewTab  : function() { openFromClipboard(true) }
+    openFromClipboardNewTab  : function() { openFromClipboard(true) },
+
+    fixRelativePath :  fixRelativePath
   }
 })()

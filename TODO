@@ -1,4 +1,10 @@
+Basic help page
 Update notification
+Option Page
+
+### Navigation ###
+subdomain ?
+
 
 ### Hint Mode ###
 Open All ?
@@ -22,17 +28,13 @@ Move Tab
 ### Page ###
 ]f    Focus next frame
 [f    Focus previous frame
+
 read
 
 
 ### Command Mode ###
 save/list session
 auto refresh
-
-
-### Insert Mode ###
-<M-s> Toggles webkit speech
-<M-v> Pass next key // Insert Mode
 
 
 omni box (?)

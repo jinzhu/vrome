@@ -141,7 +141,7 @@ var Hint = (function() {
   }
 
   function copyElementUrl(elem) {
-    var text = elem.getAttribute('href');
+    var text = Url.fixRelativePath(elem.getAttribute('href'));
     Clipboard.copy(text)
     CmdBox.set({title : "[Copied] " + text, timeout : 4000 });
   }
