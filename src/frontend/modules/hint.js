@@ -104,8 +104,11 @@ var Hint = (function() {
     numbers = 0;
     matched = [];
 
+    var filterRegexp = new RegExp(CmdBox.get().content,'im');
+
     for (var i in elements) {
-      if ( new RegExp(CmdBox.get().content,'im').test(elements[i].innerText) ) {
+      var text = elements[i].innerText;
+      if (filterRegexp.test(text) || filterRegexp.test(PinYin.short(text)) || filterRegexp.test(PinYin.full(text))) {
         matched.push(elements[i]);
       }
     }
