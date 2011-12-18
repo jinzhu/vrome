@@ -1,37 +1,45 @@
 var Hint = (function() {
-  var currentHint, new_tab, hintMode, numbers, elements, matched;
-  var highlight   = 'vrome_highlight';
+  var currentHint, new_tab, hintMode, selected, elements, matched;
+  var highlight = 'vrome_highlight';
 
   function start(newTab) {
 		hintMode    = true;
-		numbers     = 0;
+		selected    = 0; // set current selected number
 		currentHint = false;
 		new_tab     = newTab;
-    setHints();
+
+    initHintMode();
     CmdBox.set({title : 'HintMode',pressDown : handleInput,content : ''});
   }
 
-  function setHints() {
+  function initHintMode() {
 		elements  = [];
 
+    // Get all visible elements
     var elems = document.body.querySelectorAll('a, input:not([type=hidden]), textarea, select, button, *[onclick]');
     for (var i = 0; i < elems.length; i++) {
       if (isElementVisible(elems[i])) { elements.push(elems[i]); }
     }
-    setOrder(elements);
+    setHintIndex(elements);
     matched = elements;
   }
 
-  function setOrder(elems) {
-    // clean up old highlight.
+  function removeHighlightBox(/* Boolean */ create_after_remove) {
     for (var i = 0; i < elements.length; i++) { elements[i].removeAttribute(highlight); }
 
     var div = document.getElementById('__vim_hint_highlight');
     if (div) document.body.removeChild(div);
 
-    div = document.createElement('div');
-    div.setAttribute('id', '__vim_hint_highlight');
-    document.body.appendChild(div);
+    if (create_after_remove) {
+      div = document.createElement('div');
+      div.setAttribute('id', '__vim_hint_highlight');
+      document.body.appendChild(div);
+      return div;
+    }
+  }
+
+  function setHintIndex(elems) {
+    var div = removeHighlightBox(/* create_after_remove */ true)
 
     for (var i = 0; i < elems.length; i++) { //TODO need refactor
       var elem      = elems[i];
@@ -46,18 +54,19 @@ var Hint = (function() {
       span.style.left            = elem_left + 'px';
       span.style.top             = elem_top  + 'px';
       span.style.backgroundColor = 'red';
-      span.innerHTML             = Number(i) + 1; // cur
+      span.innerHTML             = i + 1; // set number for available elements
       div.appendChild(span);
 
-      setHighlight(elem, false);
+      setHighlight(elem, /* set_active */ false);
     }
-    if (elems[0] && elems[0].tagName == 'A') { setHighlight(elems[0], true); }
+    if (elems[0] && elems[0].tagName == 'A') { setHighlight(elems[0], /* set_active */ true); }
   }
 
-  function setHighlight(elem, is_active) {
-    if (!elem) { return false; }
+  function setHighlight(elem, set_active) {
+    if (!elem) return false;
 
-    if (is_active) {
+    if (set_active) {
+      // Remove the old active element
       var active_elem = document.body.querySelector('a[' + highlight + '=hint_active]');
       if (active_elem) { active_elem.setAttribute(highlight, 'hint_elem'); }
       elem.setAttribute(highlight, 'hint_active');
@@ -67,42 +76,40 @@ var Hint = (function() {
   }
 
   function remove() {
-    if (!hintMode) return;
+    if (!hintMode) return false;
+
     CmdBox.remove();
+    removeHighlightBox();
 		hintMode = false;
-
-    for (var i = 0; i < elements.length; i++) {
-      elements[i].removeAttribute(highlight);
-    }
-
-    var div = document.getElementById('__vim_hint_highlight');
-    if (div) { document.body.removeChild(div); }
   }
 
   function handleInput(e) {
     key = getKey(e);
 
-    if (/^\d$/.test(key) || (key == '<BackSpace>' && numbers != 0)) {
-      numbers = (key == '<BackSpace>') ? parseInt(numbers / 10) : numbers * 10 + Number(key);
-			CmdBox.set({title : 'HintMode (' + numbers + ')'});
-      var cur = numbers - 1;
+    // If user are inputing number
+    if (/^\d$/.test(key) || (key == '<BackSpace>' && selected != 0)) {
+      selected = (key == '<BackSpace>') ? parseInt(selected / 10) : selected * 10 + Number(key);
+			CmdBox.set({title : 'HintMode (' + selected + ')'});
+      var index = selected - 1;
 
-      setHighlight(matched[cur],true);
-      currentHint = matched[cur];
+      setHighlight(matched[index],, /* set_active */ true);
+      currentHint = matched[index];
       e.preventDefault();
 
-      if (numbers * 10 > matched.length) {
-        return execSelect( currentHint );
+      if (selected * 10 > matched.length) {
+        return execSelect(currentHint);
       }
     } else {
-			if (isAcceptKey(key)) CmdBox.set({title : 'HintMode'});
+      // If key is not Accept key
+			if (!isAcceptKey(key)) CmdBox.set({title : 'HintMode'});
+      // If key is not Escape key
       if (!isEscapeKey(key)) setTimeout(delayToWaitKeyDown,200);
     }
   }
 
   function delayToWaitKeyDown(){
-    numbers = 0;
-    matched = [];
+    selected = 0;
+    matched  = [];
 
     var filterRegexp = new RegExp(CmdBox.get().content,'im');
 
@@ -113,7 +120,7 @@ var Hint = (function() {
       }
     }
 
-    setOrder(matched);
+    setHintIndex(matched);
 
     if (isAcceptKey(key) || matched.length == 1) {
       return execSelect(currentHint ? currentHint : matched[0]);
@@ -122,7 +129,8 @@ var Hint = (function() {
   }
 
   function execSelect(elem) {
-    if (!elem) { return false; }
+    if (!elem) return false;
+
     var tag_name = elem.tagName.toLowerCase();
     var type     = elem.type ? elem.type.toLowerCase() : "";
 
@@ -149,7 +157,6 @@ var Hint = (function() {
       } catch(e) {
         clickElement(elem); // some website don't use standard submit input.
       }
-
     } else if (tag_name == 'select') {
       elem.focus();
     }
