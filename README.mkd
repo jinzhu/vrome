@@ -198,10 +198,14 @@
 #### 0, Checkout the source code from [http://github.com/jinzhu/vrome](http://github.com/jinzhu/vrome)
     $ git clone git://github.com/jinzhu/vrome.git
 
-#### 1, Make sure you have ruby and bundler installed, please refer http://www.ruby-lang.org/, http://gembundler.com/, then run following code in your shell:
+#### 1, Make sure you have ruby and bundler installed (refer http://www.ruby-lang.org, http://gembundler.com), then run below code in terminal:
     $ cd vrome-path
     $ bundle install
     $ rake build
+
+##### Development based on branch `develop`, the `master` branch is only used for release! you may want to checkout the `develop` branch with:
+    $ gem install grb
+    $ grb track develop
 
 #### 2, Go to Chrome `Tools > Extensions > Load unpacked extension`, choose the extension's folder and click OK.
 
@@ -209,8 +213,7 @@
 
 #### 4, Hacking.......
 
-#### 5, Reload Vrome in chrome://settings/extensionSettings when you change background code
-####    Reload all tabs with `R` when you change some foreground code.
+#### 5, Reload Vrome in Extension Setting Page (chrome://settings/extensionSettings), Also reload all tabs with `R`.
 
 #### 6, Test it & Back to Step 4
 

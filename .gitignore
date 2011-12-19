@@ -2,4 +2,5 @@ vrome.crx
 vrome.zip
 Gemfile.lock
 /src/README.html
+/src/manifest.json
 /system/ruby/pkg
