@@ -21,15 +21,29 @@ var Tab = (function(){
   }
 
   function reopen() {
-		Post({action: "Tab.reopen",num: times()});
+		Post({ action: "Tab.reopen", count: times() });
 	}
 
   function pin() {
-		Post({action: "Tab.update",pinned: true});
+		Post({ action: "Tab.update", pinned: true});
   }
 
   function unpin() {
-		Post({action: "Tab.update",pinned: false});
+		Post({ action: "Tab.update", pinned: false });
+  }
+
+  function duplicate() {
+    Post({ action: "Tab.duplicate", count: times() });
+  }
+
+  function detach() {
+		Post({ action: "Tab.detach"});
+  }
+
+  function merge() {
+  }
+
+  function mergeAll() {
   }
 
   function selectPrevious() {
@@ -65,6 +79,9 @@ var Tab = (function(){
     next      : next     ,
     first     : first    ,
     last      : last     ,
-    selectPrevious : selectPrevious
+    selectPrevious : selectPrevious,
+
+    duplicate : duplicate,
+    detach : detach
 	};
 })();

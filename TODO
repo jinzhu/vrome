@@ -7,6 +7,12 @@ cs subdomain
 
 
 ### Tab ###
+gp toggle pin
+gI incognito mode
+
+gm merge tab
+gM merge tabs in current windows
+
 dp Delete all tabs except pinned
 dP Delete all pinned tabs
 
@@ -15,12 +21,6 @@ do Delete other tabs except current
 dc Delete current tabs
 dl Delete left tabs
 dr Delete right tabs
-
-gd duplicate tab
-gD Detach tab
-
-Move Tab
-
 
 ### Page ###
 ]f    Focus next frame

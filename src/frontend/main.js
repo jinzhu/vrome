@@ -119,6 +119,9 @@ with (KeyEvent) {
   add("gt"   , Tab.next         );
   add("gT"   , Tab.prev         );
 
+  add("gd"   , Tab.duplicate    );
+  add("gD"   , Tab.detach       );
+
   add("y"     , Tab.copyUrl      );
   add("g0"    , Tab.first        );
   add("g^"    , Tab.first        );

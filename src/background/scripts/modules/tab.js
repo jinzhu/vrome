@@ -35,8 +35,8 @@ var Tab = (function() {
 
   function reopen(msg) {
     if (Tab.closed_tabs.length > 0) {
-      var index = Tab.closed_tabs.length - msg.num;
-      var last_closed_tab = Tab.closed_tabs[Tab.closed_tabs.length - msg.num];
+      var index = Tab.closed_tabs.length - msg.count;
+      var last_closed_tab = Tab.closed_tabs[Tab.closed_tabs.length - msg.count];
 
       Debug("last_closed_tab: " + last_closed_tab);
       if (last_closed_tab) {
@@ -90,18 +90,31 @@ var Tab = (function() {
     var index     = tab.index;
 
     if (msg.newtab) {
-      chrome.tabs.create({url: first_url, index: ++index});
+      chrome.tabs.create({ url: first_url, index: ++index});
     } else {
       chrome.tabs.update(tab.id, {url: first_url});
     }
     for (var i = 0;i < urls.length;i++) {
-      chrome.tabs.create({url: urls[i], index: ++index,selected: false});
+      chrome.tabs.create({ url: urls[i], index: ++index, selected: false});
     }
   }
 
   function openFromClipboard(msg) {
     msg.url = Clipboard.read();
     openUrl(msg, arguments[arguments.length-1]);
+  }
+
+  function duplicate(msg) {
+    var tab = arguments[arguments.length-1];
+
+    for(var i = 0; i < msg.count; i++) {
+      chrome.tabs.create({ url: tab.url, index: ++tab.index, selected: false});
+    }
+  }
+
+  function detach() {
+    var tab = arguments[arguments.length-1];
+    chrome.windows.create({ tabId: tab.id, incognito: tab.incognito});
   }
 
   return {
@@ -112,7 +125,9 @@ var Tab = (function() {
     selectPrevious : selectPrevious,
     reloadAll      : reloadAll,
     openUrl        : openUrl,
-    openFromClipboard : openFromClipboard
+    openFromClipboard : openFromClipboard,
+    duplicate : duplicate,
+    detach : detach
   }
 })()
 
