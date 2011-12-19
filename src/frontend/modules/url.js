@@ -19,7 +19,7 @@ var Url = (function(){
       return document.location.origin + url;
     } else {
       if (url == '..') url = '../';
-      var pathname = document.location.href;
+      var pathname = document.location.origin + document.location.pathname;
       var paths = url.split('..');
       for(var i=0; i < paths.length; i++) {
         var path = paths[i];
