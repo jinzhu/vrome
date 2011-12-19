@@ -24,12 +24,8 @@ var Tab = (function(){
 		Post({ action: "Tab.reopen", count: times() });
 	}
 
-  function pin() {
-		Post({ action: "Tab.update", pinned: true});
-  }
-
-  function unpin() {
-		Post({ action: "Tab.update", pinned: false });
+  function togglePin() {
+		Post({ action: "Tab.togglePin"});
   }
 
   function duplicate() {
@@ -72,15 +68,13 @@ var Tab = (function(){
 		closeAndFoucsLeft : function(){ close({offset: -1}); },
     reopen    : reopen   ,
 
-    pin       : pin      ,
-    unpin     : unpin    ,
-
     prev      : prev     ,
     next      : next     ,
     first     : first    ,
     last      : last     ,
     selectPrevious : selectPrevious,
 
+    togglePin : togglePin,
     duplicate : duplicate,
     detach : detach
 	};

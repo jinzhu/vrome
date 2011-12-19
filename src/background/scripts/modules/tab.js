@@ -104,6 +104,11 @@ var Tab = (function() {
     openUrl(msg, arguments[arguments.length-1]);
   }
 
+  function togglePin() {
+    var tab = arguments[arguments.length-1];
+    update({pinned: !tab.pinned}, tab)
+  }
+
   function duplicate(msg) {
     var tab = arguments[arguments.length-1];
 
@@ -126,6 +131,7 @@ var Tab = (function() {
     reloadAll      : reloadAll,
     openUrl        : openUrl,
     openFromClipboard : openFromClipboard,
+    togglePin : togglePin,
     duplicate : duplicate,
     detach : detach
   }

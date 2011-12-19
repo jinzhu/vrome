@@ -7,11 +7,10 @@ cs subdomain
 
 
 ### Tab ###
-gp toggle pin
 gI incognito mode
 
 gm merge tab
-gM merge tabs in current windows
+gM merge all tabs in current windows
 
 dp Delete all tabs except pinned
 dP Delete all pinned tabs

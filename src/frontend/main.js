@@ -112,8 +112,7 @@ with (KeyEvent) {
   add("D"    , Tab.closeAndFoucsLeft );
   add("<M-d>", Tab.closeAndFoucsLast );
   add("u"    , Tab.reopen       );
-  add("gp"   , Tab.pin          );
-  add("gP"   , Tab.unpin        );
+  add("gp"   , Tab.togglePin    );
   add("<C-p>", Tab.prev         );
   add("<C-n>", Tab.next         );
   add("gt"   , Tab.next         );
