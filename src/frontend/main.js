@@ -121,6 +121,8 @@ with (KeyEvent) {
   add("gd"   , Tab.duplicate    );
   add("gD"   , Tab.detach       );
   add("gI"   , Tab.openInIncognito);
+  add("gm"   , Tab.merge        );
+  add("gM"   , Tab.mergeAll     );
 
   add("y"     , Tab.copyUrl      );
   add("g0"    , Tab.first        );

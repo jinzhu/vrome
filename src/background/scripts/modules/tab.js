@@ -129,9 +129,27 @@ var Tab = (function() {
     chrome.tabs.query({windowId: tab.windowId}, function(tabs) {
       if (tabs.length == 1) {
         duplicate({count: 1}, tab);
-        Window.moveTabToWindowWithIncognito(tab, incognito, function(tab) { chrome.windows.remove(tab.windowId); });
+        Window.moveTabToWindowWithIncognito(tab, incognito, /* create_mode */ true,
+                                            function(tab) { chrome.windows.remove(tab.windowId); }
+                                           );
       } else {
-        Window.moveTabToWindowWithIncognito(tab, incognito, function(tab) { chrome.tabs.remove(tab.id); });
+        Window.moveTabToWindowWithIncognito(tab, incognito, /* create_mode */ true,
+                                            function(tab) { chrome.tabs.remove(tab.id); }
+                                           );
+      }
+    });
+  }
+
+  function merge() {
+    var tab = arguments[arguments.length-1];
+    Window.moveTabToWindowWithIncognito(tab, tab.incognito);
+  }
+
+  function mergeAll() {
+    var tab = arguments[arguments.length-1];
+    chrome.tabs.query({windowId: tab.windowId}, function(tabs) {
+      for (i=tabs.length-1; i >= 0; i--) {
+        Window.moveTabToWindowWithIncognito(tabs[i], tabs[i].incognito);
       }
     });
   }
@@ -148,7 +166,9 @@ var Tab = (function() {
     togglePin         : togglePin,
     duplicate         : duplicate,
     detach            : detach,
-    openInIncognito   : openInIncognito
+    openInIncognito   : openInIncognito,
+    merge             : merge,
+    mergeAll          : mergeAll
   }
 })()
 

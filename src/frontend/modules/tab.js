@@ -41,9 +41,11 @@ var Tab = (function(){
   }
 
   function merge() {
+		Post({ action: "Tab.merge"});
   }
 
   function mergeAll() {
+		Post({ action: "Tab.mergeAll"});
   }
 
   function selectPrevious() {
@@ -78,9 +80,11 @@ var Tab = (function(){
     last      : last     ,
     selectPrevious : selectPrevious,
 
-    togglePin : togglePin,
-    duplicate : duplicate,
-    detach : detach,
-    openInIncognito : openInIncognito
+    togglePin       : togglePin,
+    duplicate       : duplicate,
+    detach          : detach,
+    openInIncognito : openInIncognito,
+    merge           : merge,
+    mergeAll        : mergeAll
 	};
 })();
