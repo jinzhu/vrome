@@ -21,6 +21,9 @@
     [count] gt        Go to the right [count] tab
     [count] gT        Go to the left [count] tab
 
+            gp        Pin current tab
+            gP        UnPin current tab
+
     [count] b         Go to the [count]th tab or the first matched tab.
                       If no [count] provide, would provide a box to let you input a keyword,
                       And would goto the first matched tab after you press <Enter>.

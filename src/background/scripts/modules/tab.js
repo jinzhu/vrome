@@ -1,37 +1,36 @@
 var Tab = (function() {
   function runWhenComplete(tabId, command) {
     chrome.tabs.get(tabId, function(tab) {
-      if (tab.status = "complete") {
-        chrome.tabs.executeScript(tabId, command)
+      if (tab.status == "complete") {
+        chrome.tabs.executeScript(tabId, command);
       } else {
-        runWhenComplete(tabId, command)
+        runWhenComplete(tabId, command);
       }
-    })
+    });
   }
 
-  // TODO Refact me!
   function update(msg) {
     var tab  = arguments[arguments.length-1];
     var attr = {};
 
-    if (msg.url) attr.url = msg.url;
-    if (msg.active) attr.active = msg.active;
-    if (msg.highlighted) attr.highlighted = msg.highlighted;
-    if (msg.pinned) attr.pinned = msg.pinned;
+    if (typeof msg.url !== "undefined")         { attr.url = msg.url; }
+    if (typeof msg.active !== "undefined")      { attr.active = msg.active; }
+    if (typeof msg.highlighted !== "undefined") { attr.highlighted = msg.highlighted; }
+    if (typeof msg.pinned !== "undefined")      { attr.pinned = msg.pinned; }
 
     chrome.tabs.update(tab.id, attr, function(new_tab) {
       if (msg.callback) {
-        runWhenComplete(new_tab.id, {code:msg.callback})
+        runWhenComplete(new_tab.id, {code:msg.callback});
       }
-    })
+    });
   }
 
   function close(msg) {
     var tab = arguments[arguments.length-1];
     Tab.current_closed_tab = tab;
     chrome.tabs.remove(tab.id);
-    if (msg.focusLast) selectPrevious.apply('',arguments); // close and select right
-    if (msg.offset)    goto.apply('',arguments);           // close and select left
+    if (msg.focusLast) { selectPrevious.apply('',arguments); } // close and select right
+    if (msg.offset)    { goto.apply('',arguments); }           // close and select left
   }
 
   function reopen(msg) {

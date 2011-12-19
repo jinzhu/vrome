@@ -14,13 +14,21 @@ var Tab = (function(){
 		Post({action: "Tab.reloadAll"});
 	}
 
-  function close(argu) {
-		Post({action: "Tab.close",arguments : argu});
+  function close(arg) {
+		Post({action: "Tab.close",arguments : arg});
   }
 
   function reopen() {
 		Post({action: "Tab.reopen",num : times()});
 	}
+
+  function pin() {
+		Post({action: "Tab.update",pinned: true});
+  }
+
+  function unpin() {
+		Post({action: "Tab.update",pinned: false});
+  }
 
   function selectPrevious() {
     var count = times(/*raw*/ true);
@@ -44,6 +52,8 @@ var Tab = (function(){
     reloadAll : reloadAll,
     close     : close    ,
     reopen    : reopen   ,
+    pin       : pin      ,
+    unpin     : unpin    ,
     prev      : prev     ,
     next      : next     ,
     first     : first    ,
