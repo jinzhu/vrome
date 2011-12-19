@@ -27,7 +27,10 @@ function isElementVisible(elem) {
   var elem_left   = win_left + pos.left;
   var elem_right  = win_left + pos.left;
 
-  return pos.height != 0 && pos.width != 0 && elem_bottom >= win_top && elem_top <= win_bottom && elem_left <= win_right && elem_right >= win_left;
+  var in_current_screen = elem_bottom >= win_top && elem_top <= win_bottom && elem_left <= win_right && elem_right >= win_left;
+  var visible_in_current_screen = (pos.height != 0 && pos.width != 0) || (elem.children.length > 0);
+
+  return in_current_screen && visible_in_current_screen;
 }
 
 function clickElement(element,opt) {
