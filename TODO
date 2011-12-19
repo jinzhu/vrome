@@ -6,20 +6,16 @@ Option Page
 cs subdomain
 
 
-### Tab ###
-dp Delete all tabs except pinned
-dP Delete all pinned tabs
-
 ### Page ###
 ]f    Focus next frame
 [f    Focus previous frame
 
-read
+readability ?
 
 
 ### Command Mode ###
-save/list session
-auto refresh
+save/list session ?
+auto refresh ?
 
 
 omni box (?)

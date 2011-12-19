@@ -114,6 +114,9 @@ with (KeyEvent) {
   add("do"   , Tab.closeOtherTabs );
   add("dl"   , Tab.closeLeftTabs  );
   add("dr"   , Tab.closeRightTabs );
+  add("dp"   , Tab.closeUnPinnedTabs );
+  add("dP"   , Tab.closePinnedTabs );
+
 
   add("D"    , Tab.closeAndFoucsLeft );
   add("<M-d>", Tab.closeAndFoucsLast );

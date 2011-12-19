@@ -25,31 +25,51 @@ var Tab = (function() {
     });
   }
 
+  function closeOtherTabs(tab) {
+    chrome.tabs.query({windowId: tab.windowId}, function(tabs) {
+      for (i=0; i < tabs.length; i++) {
+        if (tabs[i].id != tab.id) { chrome.tabs.remove(tabs[i].id); }
+      }
+    });
+  }
+
+  function closeLeftTabs(tab) {
+    chrome.tabs.query({windowId: tab.windowId}, function(tabs) {
+      for (i=0; i < tabs.length; i++) {
+        if (tabs[i].index < tab.index) { chrome.tabs.remove(tabs[i].id); }
+      }
+    });
+  }
+
+  function closeRightTabs(tab) {
+    chrome.tabs.query({windowId: tab.windowId}, function(tabs) {
+      for (i=0; i < tabs.length; i++) {
+        if (tabs[i].index > tab.index) { chrome.tabs.remove(tabs[i].id); }
+      }
+    });
+  }
+
+  function closePinnedTabs(tab, /*Boolean*/ close_unpinned) {
+    chrome.tabs.query({windowId: tab.windowId}, function(tabs) {
+      for (i=0; i < tabs.length; i++) {
+        if (close_unpinned) {
+          if (!tabs[i].pinned) { chrome.tabs.remove(tabs[i].id); }
+        } else {
+          if (tabs[i].pinned) { chrome.tabs.remove(tabs[i].id); }
+        }
+      }
+    });
+  }
+
   function close(msg) {
     var tab = arguments[arguments.length-1];
     Tab.current_closed_tab = tab;
 
-    if (msg.closeOther) {
-      return chrome.tabs.query({windowId: tab.windowId}, function(tabs) {
-        for (i=0; i < tabs.length; i++) {
-          if (tabs[i].id != tab.id) { chrome.tabs.remove(tabs[i].id); }
-        }
-      });
-    }
-    if (msg.closeLeft) {
-      return chrome.tabs.query({windowId: tab.windowId}, function(tabs) {
-        for (i=0; i < tabs.length; i++) {
-          if (tabs[i].index < tab.index) { chrome.tabs.remove(tabs[i].id); }
-        }
-      });
-    }
-    if (msg.closeRight) {
-      return chrome.tabs.query({windowId: tab.windowId}, function(tabs) {
-        for (i=0; i < tabs.length; i++) {
-          if (tabs[i].index > tab.index) { chrome.tabs.remove(tabs[i].id); }
-        }
-      });
-    }
+    if (msg.closeOther)  { return closeOtherTabs(tab); }
+    if (msg.closeLeft)   { return closeLeftTabs(tab);  }
+    if (msg.closeRight)  { return closeRightTabs(tab); }
+    if (msg.closePinned) { return closePinnedTabs(tab); }
+    if (msg.closeUnPinned) { return closePinnedTabs(tab, /* close unpinned */ true); }
 
     chrome.tabs.remove(tab.id);
     if (msg.focusLast) { selectPrevious.apply('',arguments); } // close and select right

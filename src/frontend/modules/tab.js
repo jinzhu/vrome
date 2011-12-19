@@ -70,11 +70,13 @@ var Tab = (function(){
     reloadAll : reloadAll,
 
     close     : close    ,
-		closeAndFoucsLast : function(){ close({focusLast: true}); },
-		closeAndFoucsLeft : function(){ close({offset: -1}); },
-    closeOtherTabs    : function(){ close({closeOther: true}) },
-    closeLeftTabs     : function(){ close({closeLeft: true}) },
-    closeRightTabs    : function(){ close({closeRight: true}) },
+		closeAndFoucsLast : function(){ close({focusLast: true});     },
+		closeAndFoucsLeft : function(){ close({offset: -1});          },
+		closeOtherTabs    : function(){ close({closeOther: true});    },
+		closeLeftTabs     : function(){ close({closeLeft: true});     },
+		closeRightTabs    : function(){ close({closeRight: true});    },
+		closePinnedTabs   : function(){ close({closePinned: true});   },
+		closeUnPinnedTabs : function(){ close({closeUnPinned: true}); },
 
     reopen    : reopen   ,
 

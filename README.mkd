@@ -43,6 +43,8 @@
             do        Close other tabs except current one.
             dl        Close tabs on the left.
             dr        Close tabs on the right.
+            dp        Close unpinned tabs.
+            dP        Close pinned tabs.
 
     [count] u         Reopen the last closed tab.
 
