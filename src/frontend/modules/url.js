@@ -143,9 +143,6 @@ var Url = (function(){
     Post({action: "Tab.openFromClipboard", newtab: newtab});
   }
 
-  // API
-  enter.private = true;
-
   return {
     parent    : parent    ,
     root      : root      ,

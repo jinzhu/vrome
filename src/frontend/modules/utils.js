@@ -15,7 +15,7 @@ var Post = function(msg) {
   port.postMessage(msg);
 }
 
-function isElementVisible(elem) {
+function isElementVisible(elem, /* Boolean */ in_full_page) {
   var win_top     = window.scrollY / Zoom.current();
   var win_bottom  = win_top + window.innerHeight;
   var win_left    = window.scrollX / Zoom.current();
@@ -28,9 +28,13 @@ function isElementVisible(elem) {
   var elem_right  = win_left + pos.left;
 
   var in_current_screen = elem_bottom >= win_top && elem_top <= win_bottom && elem_left <= win_right && elem_right >= win_left;
-  var visible_in_current_screen = (pos.height != 0 && pos.width != 0) || (elem.children.length > 0);
+  var visible_in_screen = (pos.height !== 0 && pos.width !== 0) || (elem.children.length > 0);
 
-  return in_current_screen && visible_in_current_screen;
+	if (in_full_page) {
+		return visible_in_screen;
+	} else {
+		return in_current_screen && visible_in_screen;
+	}
 }
 
 function clickElement(element,opt) {
