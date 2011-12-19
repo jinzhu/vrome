@@ -7,9 +7,6 @@ cs subdomain
 
 
 ### Tab ###
-gm merge tab
-gM merge all tabs in current windows
-
 dp Delete all tabs except pinned
 dP Delete all pinned tabs
 
