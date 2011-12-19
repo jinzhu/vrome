@@ -5,7 +5,7 @@ var KeyEvent = (function() {
   function init() {
     // disable site
     var disable_sites = Option.get("disablesites").split(", ");
-    for (var i = 0; i < disable_sites.length ; i++) {
+    for (i = 0; i < disable_sites.length ; i++) {
       if (disable_sites[i] && new RegExp(disable_sites[i],'i').test(location.href)) {
         disable();
         break;
@@ -21,7 +21,7 @@ var KeyEvent = (function() {
 
   function getTimes(/*Boolean*/ read) {
     var origin_times = times;
-    if(!read) times = 0; // reset it except only read
+    if(!read) { times = 0; } // reset it except only read
     return origin_times;
   }
 
@@ -55,7 +55,7 @@ var KeyEvent = (function() {
   function passNextKey() {
 		CmdBox.set({title : ' -- PASS THROUGH (next) -- ',timeout : 2000 });
     pass_next_key  = true;
-    Post({action : "Vrome.disable"})
+    Post({action : "Vrome.disable"});
   }
 
 	function disable() {
@@ -79,9 +79,9 @@ var KeyEvent = (function() {
   }
 
   function runCurrentKeys(keys, insertMode, e) {
-    if (!keys) return;
+    if (!keys) { return; }
 
-    if (e) var key = getKey(e);
+    if (e) { var key = getKey(e); }
 		// run last command
     if (key == '.' && !insertMode) {
 			var old_times = last_times;

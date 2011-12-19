@@ -1,9 +1,9 @@
 var Tab = (function(){
 
   function copyUrl() {
-    href = document.location.href;
-		Clipboard.copy(href);
-    CmdBox.set({ title : "It's copied,the URL: " + href, timeout : 4000 });
+    var url = document.location.href;
+		Clipboard.copy(url);
+    CmdBox.set({ title : "[Copied] " + url, timeout : 4000 });
   }
 
   function reload(){
@@ -14,12 +14,14 @@ var Tab = (function(){
 		Post({action: "Tab.reloadAll"});
 	}
 
-  function close(arg) {
-		Post({action: "Tab.close",arguments : arg});
+  function close(option) {
+    option = option || {};
+    option.action = 'Tab.close';
+		Post(option);
   }
 
   function reopen() {
-		Post({action: "Tab.reopen",num : times()});
+		Post({action: "Tab.reopen",num: times()});
 	}
 
   function pin() {
@@ -34,9 +36,9 @@ var Tab = (function(){
     var count = times(/*raw*/ true);
 
     if (count) {
-      Post({ action : "Tab.goto", index : count - 1});
+      Post({ action: "Tab.goto", index: count - 1});
     } else {
-      Post({ action : "Tab.selectPrevious" });
+      Post({ action: "Tab.selectPrevious" });
     }
   }
 
@@ -50,16 +52,19 @@ var Tab = (function(){
     copyUrl   : copyUrl	 ,
     reload    : reload   ,
     reloadAll : reloadAll,
+
     close     : close    ,
+		closeAndFoucsLast : function(){ close({focusLast: true}); },
+		closeAndFoucsLeft : function(){ close({offset: -1}); },
     reopen    : reopen   ,
+
     pin       : pin      ,
     unpin     : unpin    ,
+
     prev      : prev     ,
     next      : next     ,
     first     : first    ,
     last      : last     ,
-    selectPrevious : selectPrevious,
-		closeAndFoucsLast : function(){ close({focusLast : true}) },
-		closeAndFoucsLeft : function(){ close({offset : -1}) },
-	}
-})()
+    selectPrevious : selectPrevious
+	};
+})();

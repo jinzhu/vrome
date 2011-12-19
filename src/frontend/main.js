@@ -7,7 +7,7 @@ function isCtrlAcceptKey(key) {
 }
 
 function isAcceptKey(key) {
-  for (var i=0;i < AcceptKey.length;i++) {
+  for (i=0;i < AcceptKey.length;i++) {
     if (AcceptKey[i] == key) { return true; }
   }
 }
@@ -21,14 +21,9 @@ function AcceptKeyFunction() {
 }
 
 function isEscapeKey(key) {
-  for (var i=0;i < EscapeKey.length; i++) {
-    if (EscapeKey[i] == key) return true;
+  for (i=0;i < EscapeKey.length; i++) {
+    if (EscapeKey[i] == key) { return true; }
   }
-}
-
-function EscapeKeyFunction() {
-  KeyEvent.enable();
-  CancelKeyFunction();
 }
 
 function CancelKeyFunction() {
@@ -37,6 +32,12 @@ function CancelKeyFunction() {
   Search.stop();
   InsertMode.blurFocus();
   KeyEvent.reset();
+}
+
+
+function EscapeKeyFunction() {
+  KeyEvent.enable();
+  CancelKeyFunction();
 }
 
 with (KeyEvent) {

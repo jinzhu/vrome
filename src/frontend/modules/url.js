@@ -21,7 +21,7 @@ var Url = (function(){
       if (url == '..') { url = '../'; }
       var pathname = document.location.origin + document.location.pathname;
       var paths = url.split('..');
-      for (var i=0; i < paths.length; i++) {
+      for (i=0; i < paths.length; i++) {
         var path = paths[i];
         if (path.match(/^\//)) {
           pathname = pathname.replace(/\/[^\/]*\/?$/,'') + path;
@@ -37,22 +37,23 @@ var Url = (function(){
     var urls   = url_str.split(/, /);
     var result = [];
 
-    outermost : for (var i = 0; i< urls.length; i++) {
+    outermost : for (i = 0; i< urls.length; i++) {
       url = urls[i].trim();
       // relative path e.g: .. || ./configure
       // absolute path e.g: /jinzhu
       if ( (/^\//.test(url) || /^\.\.?\/?/.test(url)) && /^\S+\s*$/.test(url)) {
-        result.push(fixRelativePath(url))
+        result.push(fixRelativePath(url));
       // looks like url, for example: google.com
       } else if( /\./.test(url) && !/\s/.test(url)) {
-        result.push((url.match("://") ? "" : "http://") + url)
+        result.push((url.match("://") ? "" : "http://") + url);
       // google vrome
       }else{
         var searchengines = JSON.parse(Option.get('searchengines'));
         var searchengine  = url.replace(/^(\S+)\s.*$/,"$1"); // google
 
         // use the matched searchengine
-        for (var key in searchengines) {
+        for (i=0; i < searchengines.length; i++) {
+          var key = searchengines[i];
           if (key == searchengine) {
             result.push(searchengines[key].replace("{{keyword}}",url.replace(/^\S+\s+(.*)$/,"$1")));
             continue outermost;
@@ -60,8 +61,9 @@ var Url = (function(){
         }
 
         // use the first searchengine
-        for (var key in searchengines) {
-          result.push(searchengines[key].replace("{{keyword}}",url));
+        for (i=0; i < searchengines.length; i++) {
+          var key2 = searchengines[i];
+          result.push(searchengines[key2].replace("{{keyword}}", url));
           continue outermost;
         }
       }
@@ -70,7 +72,7 @@ var Url = (function(){
   }
 
   function enter() {
-    if(!urlMode) return;
+    if(!urlMode) { return; }
 
     var urls = fixUrl(CmdBox.get().content);
     Post({action: "Tab.openUrl", urls: urls, newtab: newTab});
@@ -82,13 +84,14 @@ var Url = (function(){
   function parent() {
 		var pathname = location.pathname.split('/');
 		var hostname = location.hostname.split('.');
-		var count 	 = times();
+		var count;
+    count = times();
 
-		for(var i = 0; i < count; i++){
+		for(i = 0; i < count; i++){
 			if(pathname.length <= 1){
 				if ( hostname.length > 2) { hostname.shift(); }
 			}else{
-				if (!pathname.pop()) !pathname.pop();
+				pathname.pop();
 			}
 		}
 
@@ -111,8 +114,9 @@ var Url = (function(){
 			var newNumber = parseInt(number, 10) + count;
 			var newNumberStr = String(newNumber > 0 ? newNumber : 0);
 			if (number.match(/^0/)) { // add 0009<C-a> should become 0010
-				while (newNumberStr.length < number.length)
+				while (newNumberStr.length < number.length) {
 				 newNumberStr = "0" + newNumberStr;
+        }
 			}
 
 			Post({ action: "Tab.openUrl", url: pre + newNumberStr + post});
@@ -132,10 +136,10 @@ var Url = (function(){
   function shortUrl(msg) {
     if (msg && msg.url) {
       Clipboard.copy(msg.url);
-      CmdBox.set({ title : "It's copied,the shorten URL: " + msg.url,timeout : 4000 });
+      CmdBox.set({ title : "[Copied] Shorten URL IS: " + msg.url,timeout : 4000 });
     }else{
-      CmdBox.set({ title : 'shorten the current URL.',timeout : 4000 });
-      Post({action: "shortUrl"})
+      CmdBox.set({ title : 'Shorten the current URL.',timeout : 4000 });
+      Post({action: "shortUrl"});
     }
   }
 
@@ -158,11 +162,10 @@ var Url = (function(){
     tabopen            : function(){ open(false,true);  },
     openWithDefault    : function(){ open(true,false);  },
     tabopenWithDefault : function(){ open(true,true);   },
-    open               : function(){ open(false,false); },
 
-    openFromClipboard  : function() { openFromClipboard(false) },
-    openFromClipboardNewTab  : function() { openFromClipboard(true) },
+    openFromClipboard  : function() { openFromClipboard(false); },
+    openFromClipboardNewTab  : function() { openFromClipboard(true); },
 
     fixRelativePath :  fixRelativePath
-  }
-})()
+  };
+})();

@@ -65,7 +65,7 @@ var CmdBox = (function() {
   function get() {
     return {
       title   : cmdBoxTitle() ? cmdBoxTitle().innerText : '',
-      content : cmdBoxInput() ? cmdBoxInput().value     : '',
+      content : cmdBoxInput() ? cmdBoxInput().value     : ''
     };
   }
 
@@ -73,8 +73,8 @@ var CmdBox = (function() {
 		pressUpFunction   = function(){};
 		pressDownFunction = function(){};
     var box = document.getElementById(box_id);
-    if(box) document.body.removeChild(box);
+    if(box) { document.body.removeChild(box); }
   }
 
   return { blur : blur, set : set, get : get, remove : remove };
-})()
+})();
