@@ -10,12 +10,6 @@ cs subdomain
 dp Delete all tabs except pinned
 dP Delete all pinned tabs
 
-dm Delete Match
-do Delete other tabs except current
-dc Delete current tabs
-dl Delete left tabs
-dr Delete right tabs
-
 ### Page ###
 ]f    Focus next frame
 [f    Focus previous frame

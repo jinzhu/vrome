@@ -72,6 +72,10 @@ var Tab = (function(){
     close     : close    ,
 		closeAndFoucsLast : function(){ close({focusLast: true}); },
 		closeAndFoucsLeft : function(){ close({offset: -1}); },
+    closeOtherTabs    : function(){ close({closeOther: true}) },
+    closeLeftTabs     : function(){ close({closeLeft: true}) },
+    closeRightTabs    : function(){ close({closeRight: true}) },
+
     reopen    : reopen   ,
 
     prev      : prev     ,

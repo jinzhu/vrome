@@ -108,10 +108,18 @@ with (KeyEvent) {
   // Tab
   add("r"    , Tab.reload       );
   add("R"    , Tab.reloadAll    );
-  add("d"    , Tab.close        );
+
+  add("dc"   , Tab.close        );
+  add("dm"   , Buffer.deleteMatch  );
+  add("do"   , Tab.closeOtherTabs );
+  add("dl"   , Tab.closeLeftTabs  );
+  add("dr"   , Tab.closeRightTabs );
+
   add("D"    , Tab.closeAndFoucsLeft );
   add("<M-d>", Tab.closeAndFoucsLast );
+
   add("u"    , Tab.reopen       );
+
   add("<C-p>", Tab.prev         );
   add("<C-n>", Tab.next         );
   add("gt"   , Tab.next         );

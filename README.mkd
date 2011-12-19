@@ -20,6 +20,7 @@
             <C-^>     Go to the last selected tab. if [count] is specified, go to the [count]th tab.
     [count] gt        Go to the right [count] tab
     [count] gT        Go to the left [count] tab
+    [count] <C-p>     Go to the left [count] tab
 
             gp        Toggle Pin current tab. pin tab if it is not, unpin it if pinned.
 
@@ -35,9 +36,14 @@
                       And would goto the first matched tab after you press <Enter>.
             B         Delete matched tabs. would provide a box let you input a keyword.
 
-            d         Close current tab and selects the right tab.
             <M-d>     Close current tab and selects the last selected tab.
             D         Close current tab and selects the left tab.
+            dc        Close current tab and selects the right tab.
+            dm        Close matched tabs. would provide a box to ask keyword.
+            do        Close other tabs except current one.
+            dl        Close tabs on the left.
+            dr        Close tabs on the right.
+
     [count] u         Reopen the last closed tab.
 
             r         Reload current tab

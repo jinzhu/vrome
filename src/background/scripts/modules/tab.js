@@ -28,6 +28,29 @@ var Tab = (function() {
   function close(msg) {
     var tab = arguments[arguments.length-1];
     Tab.current_closed_tab = tab;
+
+    if (msg.closeOther) {
+      return chrome.tabs.query({windowId: tab.windowId}, function(tabs) {
+        for (i=0; i < tabs.length; i++) {
+          if (tabs[i].id != tab.id) { chrome.tabs.remove(tabs[i].id); }
+        }
+      });
+    }
+    if (msg.closeLeft) {
+      return chrome.tabs.query({windowId: tab.windowId}, function(tabs) {
+        for (i=0; i < tabs.length; i++) {
+          if (tabs[i].index < tab.index) { chrome.tabs.remove(tabs[i].id); }
+        }
+      });
+    }
+    if (msg.closeRight) {
+      return chrome.tabs.query({windowId: tab.windowId}, function(tabs) {
+        for (i=0; i < tabs.length; i++) {
+          if (tabs[i].index > tab.index) { chrome.tabs.remove(tabs[i].id); }
+        }
+      });
+    }
+
     chrome.tabs.remove(tab.id);
     if (msg.focusLast) { selectPrevious.apply('',arguments); } // close and select right
     if (msg.offset)    { goto.apply('',arguments); }           // close and select left
