@@ -162,7 +162,8 @@
 
 ### Page ###
     [count] gi        Focus the [count]th input field
-            gs        View source code in current tab.
+            gf        View source code in current tab.
+            gF        View source code in new tab.
 
 
 ### Other Stuff ###

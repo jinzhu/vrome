@@ -18,10 +18,10 @@ var Url = (function(){
     } else if (/^\//.test(url)) {
       return document.location.origin + url;
     } else {
-      if (url == '..') url = '../';
+      if (url == '..') { url = '../'; }
       var pathname = document.location.origin + document.location.pathname;
       var paths = url.split('..');
-      for(var i=0; i < paths.length; i++) {
+      for (var i=0; i < paths.length; i++) {
         var path = paths[i];
         if (path.match(/^\//)) {
           pathname = pathname.replace(/\/[^\/]*\/?$/,'') + path;
@@ -123,9 +123,9 @@ var Url = (function(){
 		increment(-1);
   }
 
-  function viewSource() {
+  function viewSource(newTab) {
 		var url = Settings.get('background.currentUrl');
-		url = url.replace(/^(view-source:)?/,/^view-source:/.test(url) ? '' : "view-source:");
+		url = url.replace(/^(view-source:)?/, /^view-source:/.test(url) ? '' : "view-source:");
     Post({action: "Tab.openUrl", urls: url, newtab: newTab});
   }
 
