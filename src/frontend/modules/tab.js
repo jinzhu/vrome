@@ -36,6 +36,10 @@ var Tab = (function(){
 		Post({ action: "Tab.detach"});
   }
 
+  function openInIncognito() {
+		Post({ action: "Tab.openInIncognito"});
+  }
+
   function merge() {
   }
 
@@ -76,6 +80,7 @@ var Tab = (function(){
 
     togglePin : togglePin,
     duplicate : duplicate,
-    detach : detach
+    detach : detach,
+    openInIncognito : openInIncognito
 	};
 })();

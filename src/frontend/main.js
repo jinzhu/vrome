@@ -112,14 +112,15 @@ with (KeyEvent) {
   add("D"    , Tab.closeAndFoucsLeft );
   add("<M-d>", Tab.closeAndFoucsLast );
   add("u"    , Tab.reopen       );
-  add("gp"   , Tab.togglePin    );
   add("<C-p>", Tab.prev         );
   add("<C-n>", Tab.next         );
   add("gt"   , Tab.next         );
   add("gT"   , Tab.prev         );
 
+  add("gp"   , Tab.togglePin    );
   add("gd"   , Tab.duplicate    );
   add("gD"   , Tab.detach       );
+  add("gI"   , Tab.openInIncognito);
 
   add("y"     , Tab.copyUrl      );
   add("g0"    , Tab.first        );

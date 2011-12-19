@@ -122,6 +122,11 @@ var Tab = (function() {
     chrome.windows.create({ tabId: tab.id, incognito: tab.incognito});
   }
 
+  function openInIncognito() {
+    var tab = arguments[arguments.length-1];
+    chrome.windows.create({ tabId: tab.id, incognito: !tab.incognito});
+  }
+
   return {
     update         : update,
     close          : close,
@@ -131,9 +136,10 @@ var Tab = (function() {
     reloadAll      : reloadAll,
     openUrl        : openUrl,
     openFromClipboard : openFromClipboard,
-    togglePin : togglePin,
-    duplicate : duplicate,
-    detach : detach
+    togglePin         : togglePin,
+    duplicate         : duplicate,
+    detach            : detach,
+    openInIncognito   : openInIncognito
   }
 })()
 
