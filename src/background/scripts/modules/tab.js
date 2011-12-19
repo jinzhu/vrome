@@ -123,8 +123,17 @@ var Tab = (function() {
   }
 
   function openInIncognito() {
-    var tab = arguments[arguments.length-1];
-    chrome.windows.create({ tabId: tab.id, incognito: !tab.incognito});
+    var tab       = arguments[arguments.length-1];
+    var incognito = !tab.incognito;
+
+    chrome.tabs.query({windowId: tab.windowId}, function(tabs) {
+      if (tabs.length == 1) {
+        duplicate({count: 1}, tab);
+        Window.moveTabToWindowWithIncognito(tab, incognito, function(tab) { chrome.windows.remove(tab.windowId); });
+      } else {
+        Window.moveTabToWindowWithIncognito(tab, incognito, function(tab) { chrome.tabs.remove(tab.id); });
+      }
+    });
   }
 
   return {
