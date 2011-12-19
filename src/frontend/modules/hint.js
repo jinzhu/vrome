@@ -164,8 +164,13 @@ var Hint = (function() {
 
     setHintIndex(matched);
 
-    if (isAcceptKey(key) || matched.length == 1) {
-      return execSelect(currentHint ? currentHint : matched[0]);
+    if (isCtrlAcceptKey(key)) {
+      for (var i=0; i < matched.length; i++) {
+        execSelect(matched[i]);
+        new_tab = true;
+      }
+    } else if (isAcceptKey(key) || matched.length == 1) {
+      execSelect(currentHint ? currentHint : matched[0]);
     }
     currentHint = false;
   }

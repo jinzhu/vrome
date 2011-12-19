@@ -123,11 +123,14 @@
 
 
 ### Hints Mode ###
-            f         Start Hint mode, All visible links would be given a number.
-                      You could filter those links with the number given or even keyword match link's text.
-                      When there are only one link match, the link would be opend in current tab.
-                      e.g: if there is a link named `Gmail` in current page, you could type `ma` to match it.
-            F         Start Hint mode, but open link in a new tab. (refer `f` for more)
+            f         Start Hint mode, All visible links/input would be given a number.
+                      You could filter those elements with the number given or even keyword match the element's content.
+                      When there are only one element match, if the element is a link then it would be opened in current tab. otherwise it would be foucsed on.
+                      e.g: if there is a link named `Gmail` in current page, you could type `ma` to filter and open it.
+
+                      You could press <Enter> to open current highlighted element. even press <Ctrl+Enter> to open all hints in current page.
+
+            F         Start Hint mode, but open links in new tabs. (refer `f` for more)
 
             Also there are some nice commands when in the [input box]:
                 ?     Show information about an element.

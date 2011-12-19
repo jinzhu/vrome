@@ -6,11 +6,10 @@ Option Page
 subdomain ?
 
 
-### Hint Mode ###
-Open All ?
-
-
 ### Tab ###
+dp Delete all tabs except pinned
+dP Delete all pinned tabs
+
 dm Delete Match
 do Delete other tabs except current
 dc Delete current tabs

@@ -2,9 +2,13 @@ var AcceptKey = ["<Enter>","<C-j>","<C-m>"];
 var CancelKey = ["<Esc>", "<C-[>"];
 var EscapeKey = ["<Esc>", "<C-[>"];
 
+function isCtrlAcceptKey(key) {
+  if (key == '<C-Enter>') { return true; }
+}
+
 function isAcceptKey(key) {
-  for (var i=0;i < AcceptKey.length; i++) {
-    if (AcceptKey[i] == key) return true;
+  for (var i=0;i < AcceptKey.length;i++) {
+    if (AcceptKey[i] == key) { return true; }
   }
 }
 

@@ -83,7 +83,7 @@ var getKey = (function() {
 		"U+007F" : "<Delete>",
 		"U+00A1" : "¡",
     "U+00C0" : "`",
-    "U+00DE" : "'",
+    "U+00DE" : "'"
 	};
 
 	var shiftNums = { "`":"~",
@@ -111,4 +111,4 @@ var getKey = (function() {
 	}
 
 	return getKey;
-})()
+})();
