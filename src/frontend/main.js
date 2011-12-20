@@ -179,7 +179,12 @@ with (KeyEvent) {
   add("N"      , Search.prev           );
   add("*"      , Search.forwardCursor  );
   add("#"      , Search.backwardCursor );
+  add("<S-Enter>", Search.prev         );
   add("<S-Enter>", Search.prev,   true );
+  add("<C-Enter>", Search.openCurrent  );
+  add("<C-Enter>", Search.openCurrent, true );
+  add("<M-Enter>", Search.openCurrentNewTab  );
+  add("<M-Enter>", Search.openCurrentNewTab, true );
 
 
   // Buffer

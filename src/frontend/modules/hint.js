@@ -189,16 +189,10 @@ var Hint = (function() {
     } else {
       if (tag_name == 'a') {
           setHighlight(elem, true);
-          if (!new_tab) {
-            var old_target = elem.getAttribute('target');
-            elem.removeAttribute('target');
-          }
 
           var options = {};
           options[Platform.mac ? 'meta' : 'ctrl'] = new_tab;
           clickElement(elem, options);
-
-          if (old_target) elem.setAttribute('target',old_target);
       } else if (elem.onclick || (tag_name == 'input' && (type == 'submit' || type == 'button' || type == 'reset' || type == 'radio' || type == 'checkbox'))) {
         clickElement(elem);
 

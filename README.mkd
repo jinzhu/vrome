@@ -132,8 +132,12 @@
             ?         Start backward search
             *         Search word under cursor
             #         Backward Search word under cursor
-    [count] n         Find the next match
-    [count] N         Find the previous match
+    [count] n         Search next
+    [count] N         Search previous
+            <Enter>   Search next
+            <S-Enter> Search previous
+            <C-Enter> Open current select element in current tab.
+            <M-Enter> Open current select element in a new tab.
 
 
 ### Hints Mode ###

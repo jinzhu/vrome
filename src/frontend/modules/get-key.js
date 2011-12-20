@@ -96,6 +96,10 @@ var getKey = (function() {
 		var meta  = (evt.metaKey || evt.altKey) ? 'M-' : '';
 		var shift = evt.shiftKey ? 'S-' : '';
 
+    if (/^(Enter|Space|BackSpace|Tab|Esc|Home|End|Left|Right|Up|Down|PageUp|PageDown|F(\d\d?))$/.test(key)) {
+      return (ctrl || meta || shift) ? ('<' + ctrl+meta+shift+key + '>') : ('<' + key + '>');
+    }
+
 		if (evt.shiftKey) {
 			if (/^[a-z]$/.test(key)) {
         key = key.toUpperCase();
@@ -103,9 +107,6 @@ var getKey = (function() {
 			if (shiftNums[key]) {
         key = shiftNums[key];
 			}
-    }
-    if (/^(Enter|Space|BackSpace|Tab|Esc|Home|End|Left|Right|Up|Down|PageUp|PageDown|F(\d\d?))$/.test(key)) {
-      return (ctrl || meta) ? ('<' + ctrl+meta+key + '>') : ('<' + key + '>');
     }
     return (ctrl || meta) ? ('<' + ctrl+meta+key + '>') : key;
 	}

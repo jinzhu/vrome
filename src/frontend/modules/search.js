@@ -130,6 +130,14 @@ var Search = (function(){
 		return lastSearch;
   }
 
+  function openCurrent(new_tab) {
+    var elem = document.getElementById(highlight_current_id);
+
+    var options = {};
+    if (new_tab) { options[Platform.mac ? 'meta' : 'ctrl'] = new_tab; }
+    clickElement(elem, options);
+  }
+
   return {
     start    : start,
     stop     : stop,
@@ -137,6 +145,8 @@ var Search = (function(){
     prev     : function() { next(-1); },
     next     : function() { next(1);  },
     forwardCursor  : function() { if (useSelectedValueAsKeyword()) { start(); } },
-    backwardCursor : function() { if (useSelectedValueAsKeyword()) { start(true); } }
+    backwardCursor : function() { if (useSelectedValueAsKeyword()) { start(true); } },
+    openCurrent : function() { openCurrent(false) },
+    openCurrentNewTab : function() { openCurrent(true) }
   };
 })();

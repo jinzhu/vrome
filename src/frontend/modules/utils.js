@@ -37,20 +37,29 @@ function isElementVisible(elem, /* Boolean */ in_full_page) {
 	}
 }
 
-function clickElement(element,opt) {
+function clickElement(elem, opt) {
   //event.initMouseEvent(type, canBubble, cancelable, view,
   //                     detail, screenX, screenY, clientX, clientY,
   //                     ctrlKey, altKey, shiftKey, metaKey,
   //                     button, relatedTarget);
   // https://developer.mozilla.org/en/DOM/event.initMouseEvent
   opt = opt || {};
+  var new_tab = opt['meta'] || opt['ctrl'];
+  var old_target = null;
+
+  if (!new_tab) {
+    old_target = elem.getAttribute('target');
+    elem.removeAttribute('target');
+  }
 
   var event = document.createEvent("MouseEvents");
   event.initMouseEvent("click", true, true, window,
       0, 0, 0, 0, 0,
       !!opt.ctrl, !!opt.alt, !!opt.shift, !!opt.meta,
       0, null);
-  element.dispatchEvent(event);
+  elem.dispatchEvent(event);
+
+  if (old_target) elem.setAttribute('target',old_target);
 }
 
 function runIt(func, args) {
