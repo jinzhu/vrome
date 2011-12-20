@@ -13,11 +13,11 @@ CmdBox {
   transparent?
 }
 
-### Navigation ###
-cs subdomain
-
 ### Bookmark ###
 visit
+
+### Navigation ###
+cs subdomain -> magic mode ;) create some subdomain let use choose one from it)
 
 readability ?
 

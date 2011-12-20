@@ -148,6 +148,12 @@ var KeyEvent = (function() {
         e.preventDefault();
       }
     }
+
+		// Compatible with google's new interface
+		if (key.match(/^.+$/) && !insertMode) {
+			e.stopPropagation();
+			e.preventDefault();
+		}
   }
 
 	function exec(e) {
