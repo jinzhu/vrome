@@ -8,6 +8,12 @@ function storeLastCommand(msg) {
   Settings.add({ currentKeys : msg.currentKeys, times : msg.times });
 }
 
+function runScript(msg) {
+  var tab = arguments[arguments.length-1];
+  var code = msg.code;
+  chrome.tabs.executeScript(tab.id, {code: code})
+}
+
 function externalEditor(msg) {
   var tab = arguments[arguments.length-1],index;
   var xhr = new XMLHttpRequest();

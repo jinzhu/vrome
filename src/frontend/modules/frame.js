@@ -24,7 +24,8 @@ var Frame = (function() {
         document.body.style.border = borderWas;
       }, 200);
 
-      CmdBox.set({ title : "Switched to Frame: " + document.location.href,timeout : 2000 });
+      var code = "CmdBox.set({ title : 'Switched Frame To:" + document.location.href + "',timeout : 4000});";
+      Post({ action: "runScript", code: code});
     }
   }
 
