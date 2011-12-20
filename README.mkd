@@ -178,6 +178,8 @@
     [count] gi        Focus the [count]th input field
             gf        View source code in current tab.
             gF        View source code in new tab.
+    [count] ]f        Go to next frame
+    [count] [f        Go to next frame
 
 
 ### Other Stuff ###

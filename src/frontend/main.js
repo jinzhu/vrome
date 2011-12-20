@@ -80,6 +80,7 @@ with (KeyEvent) {
   add("[[", Page.prev         );
   add("Y" , Page.copySelected );
   add("]f", Frame.next        );
+  add("[f", Frame.prev        );
 
 
   // Url

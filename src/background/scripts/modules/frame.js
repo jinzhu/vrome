@@ -20,6 +20,7 @@ var Frame = (function() {
 
       index += msg.count;
 
+      if (index < 0) { index = 0; }
       if (index >= current_frames.length) { index = 0; }
 
       var nextFrameId = current_frames[index].id;

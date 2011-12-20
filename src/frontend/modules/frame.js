@@ -33,9 +33,14 @@ var Frame = (function() {
     Post({ action: "Frame.next", frameId: frameId, count: times() });
   }
 
+  function prev() {
+    Post({ action: "Frame.next", frameId: frameId, count: 0 - times() });
+  }
+
   return {
     register : register,
     select : select,
-    next : next
+    next : next,
+    prev : prev
   };
 })();

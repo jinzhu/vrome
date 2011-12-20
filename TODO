@@ -20,11 +20,7 @@ CmdBox {
 cs subdomain
 
 ### Bookmark ###
-cs subdomain
-
-### Page ###
-]f    Focus next frame
-[f    Focus previous frame
+visit
 
 readability ?
 
