@@ -142,10 +142,9 @@ var KeyEvent = (function() {
 
     // if Vrome is enabled and any functions executed.
     if (e && someFunctionCalled && !disableVrome && !pass_next_key) {
-      e.stopPropagation();
-
       // skip press Enter in insertMode (used to submit form)
       if (!(isAcceptKey(key) && insertMode)) {
+        e.stopPropagation();
         e.preventDefault();
       }
     }

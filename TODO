@@ -9,7 +9,9 @@ Option Page {
   textarea?
 }
 
-prevent popup in insert mode. (fix ? for twitter)
+CmdBox {
+  transparent?
+}
 
 ### Navigation ###
 cs subdomain
@@ -26,6 +28,7 @@ readability ?
 save/list session ?
 auto refresh ?
 
+prevent popup in insert mode. (fix ? for twitter)
 
 omni box (?)
 
