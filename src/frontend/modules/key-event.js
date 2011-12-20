@@ -93,8 +93,10 @@ var KeyEvent = (function() {
       last_times = times;
     }
 
+    for (var i = 0; i < bindings.length; i++) {
+      // 0 is a special command. could be used to scroll left, also could be used as run count.
+      if (times > 0 && keys.match(/^\d$/)) { break }
 
-		for (var i = 0; i < bindings.length; i++) {
       var binding          = bindings[i];
       var binding_command  = binding[0];
       var binding_function = binding[1];
@@ -118,7 +120,7 @@ var KeyEvent = (function() {
       if (regexp.test(binding_command)) {
         var someBindingMatched = true;
       }
-		}
+    }
 
     // If any function invoked, then store it to last run command.
     // (Don't do this when run repeat last command or In InsertMode)
@@ -130,7 +132,7 @@ var KeyEvent = (function() {
     if (!someBindingMatched || someFunctionCalled) reset();
 
     // Set the count time.
-    if (!insertMode && /^\d$/.test(key)) {
+    if (!someFunctionCalled && !insertMode && /^\d$/.test(key)) {
       times = (times || 0) * 10 + Number(key);
     }
 
