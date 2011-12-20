@@ -1,34 +1,28 @@
-Basic help page
+Need for For v1.0:
 
-Update notification {
-  Changelog ?
-}
+1, Update notification { Changelog ?  }
 
-Option Page {
+2, Option Page {
   remote vromerc support
   textarea?
 }
 
-CmdBox {
-  transparent?
-}
-
-### Bookmark ###
-visit
-
-### Navigation ###
-cs subdomain -> magic mode ;) create some subdomain let use choose one from it)
-
-readability ?
+// Share the same UI
+3, Add support for open Bookmark/History
+4, cs subdomain -> magic mode ;) create some subdomain let use choose one from it)
+5, ch hostname
 
 
-### Command Mode ###
-save/list session ?
-auto refresh ?
+TODO ?
 
+CmdBox { transparent ?  }
+Basic help page
+
+readability
+save/list session
+auto refresh
 prevent popup in insert mode. (fix ? for twitter)
-
-omni box (?)
+omni box
 
 
 DEPRECATED:
