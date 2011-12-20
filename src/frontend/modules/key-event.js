@@ -150,7 +150,7 @@ var KeyEvent = (function() {
     }
 
 		// Compatible with google's new interface
-		if (key.match(/^.+$/) && !insertMode) {
+		if (key.match(/^.$/) && !insertMode) {
 			e.stopPropagation();
 			e.preventDefault();
 		}
