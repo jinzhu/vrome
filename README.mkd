@@ -145,6 +145,7 @@
                       You could press <Enter> to open current highlighted element. even press <Ctrl+Enter> to open all hints in current page.
 
             F         Start Hint mode, but open links in new tabs. (refer `f` for more)
+            <M-f>     Start Hint mode, but open multiple links in a new tab. (refer `f` for more)
 
             Also there are some nice commands when in the [input box]:
                 ?     Show information about an element.

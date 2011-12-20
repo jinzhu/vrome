@@ -167,8 +167,9 @@ with (KeyEvent) {
 
 
   // Hint
-  add("f"  , Hint.start         );
-  add("F"  , Hint.new_tab_start );
+  add("f"     , Hint.start            );
+  add("F"     , Hint.new_tab_start    );
+  add("<M-f>" , Hint.multi_mode_start );
 
 
   // Search

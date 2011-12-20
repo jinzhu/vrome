@@ -1,9 +1,10 @@
 var Hint = (function() {
-  var currentHint, new_tab, hintMode, selected, elements, matched;
+  var currentHint, new_tab, multi_mode, hintMode, selected, elements, matched;
   var highlight = 'vrome_highlight';
 
-  function start(newTab) {
+  function start(newTab, multiMode) {
 		hintMode    = true;
+    multi_mode  = multiMode;
 		selected    = 0; // set current selected number
 		currentHint = false;
 		new_tab     = newTab;
@@ -88,7 +89,7 @@ var Hint = (function() {
 
     // If user are inputing number
     if (/^\d$/.test(key) || (key == '<BackSpace>' && selected !== 0)) {
-      selected = (key == '<BackSpace>') ? Number(selected / 10) : selected * 10 + Number(key);
+      selected = (key == '<BackSpace>') ? parseInt(selected / 10) : selected * 10 + Number(key);
 			CmdBox.set({title : 'HintMode (' + selected + ')'});
       var index = selected - 1;
 
@@ -183,7 +184,7 @@ var Hint = (function() {
     var type     = elem.type ? elem.type.toLowerCase() : "";
 
     if (currentAction) {
-      remove();
+      if (!multi_mode) { remove(); }
       currentAction(elem);
     } else {
       if (tag_name == 'a') {
@@ -212,13 +213,14 @@ var Hint = (function() {
         elem.focus();
       }
 
-      setTimeout(remove,200);
+      if (!multi_mode) { setTimeout(remove,200); }
     }
   }
 
   return {
-    start         : start,
-    new_tab_start : function(){ start(true); },
-    remove        : remove
+    start            : start,
+    new_tab_start    : function(){ start(/*new tab*/ true); },
+    multi_mode_start : function(){ start(/*new tab*/ true, /*multi mode*/ true); },
+    remove           : remove
   };
 })();
