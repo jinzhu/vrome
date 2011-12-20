@@ -76,5 +76,9 @@ var CmdBox = (function() {
     if(box) { document.body.removeChild(box); }
   }
 
-  return { blur : blur, set : set, get : get, remove : remove };
+  function isCmdBoxInput(target) {
+    return target.getAttribute('id') === input_box_id;
+  }
+
+  return { blur : blur, set : set, get : get, remove : remove, isCmdBoxInput : isCmdBoxInput };
 })();

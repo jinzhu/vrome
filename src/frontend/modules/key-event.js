@@ -1,9 +1,9 @@
 var KeyEvent = (function() {
   var times = 0;
-  var disableVrome, pass_next_key, last_times;
+  var disableVrome, pass_next_key;
 
   function init() {
-    // disable site
+    // disabled sites
     var disable_sites = Option.get("disablesites").split(", ");
     for (i = 0; i < disable_sites.length ; i++) {
       if (disable_sites[i] && new RegExp(disable_sites[i],'i').test(location.href)) {
@@ -13,15 +13,14 @@ var KeyEvent = (function() {
     }
 
     if (!document.vromeEventListenerAdded) {
-      Debug("add eventlistener");
-      document.addEventListener('keydown',KeyEvent.exec, true);
+      document.addEventListener('keydown', KeyEvent.exec, true);
       document.vromeEventListenerAdded = true;
     }
   }
 
-  function getTimes(/*Boolean*/ read) {
+  function getTimes(/*Boolean*/ only_read) {
     var origin_times = times;
-    if(!read) { times = 0; } // reset it except only read
+    if (!only_read) { times = 0; } // reset count it if used.
     return origin_times;
   }
 
@@ -43,8 +42,8 @@ var KeyEvent = (function() {
 	var bindings    = [];
 	var currentKeys = "";
 
-	function add(/*String*/ keys,/*Function*/ fun,/*Boolean*/ input) {
-		bindings.push([keys,fun,!!input]);
+	function add(/*String*/ keys,/*Function*/ func,/*Boolean*/ insert_mode) {
+		bindings.push([keys, func, !!insert_mode]);
 	}
 
 	function reset() {
@@ -80,56 +79,66 @@ var KeyEvent = (function() {
 
   function runCurrentKeys(keys, insertMode, e) {
     if (!keys) { return; }
+    var key        = null;
+    var old_times  = null;
+    var last_times = Settings.get('background.times');
 
-    if (e) { var key = getKey(e); }
-		// run last command
+    if (e) { key = getKey(e); }
+
+		// when run last command, fix run time.
     if (key == '.' && !insertMode) {
-			var old_times = last_times;
 			times = (last_times || 1) * (times || 1);
-		// some key pressed
-		} else if (key && !insertMode) {
-			var old_times = times;
 		}
 
 		for (var i = 0; i < bindings.length; i++) {
-      // insertMode or not
-      if (!!insertMode != bindings[i][2]) continue;
+      var binding          = bindings[i];
+      var binding_command  = binding[0];
+      var binding_function = binding[1];
+      var binding_mode     = binding[2]; // insert mode or not
+
+      // insertMode match?
+      if (!!insertMode != binding_mode) continue;
 
       // escape regexp
-      var regexp = new RegExp('^(\\d*)(' + bindings[i][0].replace(/([(\[{\\^$|)?*+.])/g,"\\$1") + ')');
+      var regexp = new RegExp('^(\\d*)(' + binding_command.replace(/([(\[{\\^$|)?*+.])/g,"\\$1") + ')');
       if (regexp.test(keys)) {
         var someFunctionCalled = true;
         keys.replace(regexp,'');
         var invoke_count = Number(RegExp.$1) || 1;
-        for (var count = 0; count < invoke_count; count++) bindings[i][1].call(e);
+        for (var count = 0; count < invoke_count; count++) binding_function.call(e);
       }
 
       var regexp = new RegExp('^(' + keys.replace(/([(\[{\\^$|)?*+.])/g,"\\$1") + ')');
-      if (regexp.test(bindings[i][0])) {
+      if (regexp.test(binding_command)) {
         var someBindingMatched = true;
       }
 		}
 
-    // store current command
+    // If currentKeys could invoke any function, then store it to last run command.
+    // (Don't do this when run repeat last command or In InsertMode)
     if (someFunctionCalled && e && key != '.' && !insertMode) {
-      storeLast(currentKeys, old_times);
+      storeLast(currentKeys, times);
     }
+
+    // Reset currentKeys if nothing match or some function called
     if (!someBindingMatched || someFunctionCalled) reset();
 
     if (!insertMode && /\d/.test(key)) {
+      // Set the count time.
       times = (times || 0) * 10 + Number(key);
     } else {
-      // if some function executed and some key pressed, reset the times
-      // no key perssed always means,this function is invoked by runLastCommand.
+      // If some function invoked and key pressed, reset the count
+      // but don't reset it if no key pressed, this should means the function is invoked by runLastCommand.
       if (someFunctionCalled && key) times = 0;
     }
 
-    // if any command executed,and the key is not Enter in insertMode (submit form)
+    // if Vrome is enabled and any functions executed.
     if (e && someFunctionCalled && !disableVrome && !pass_next_key) {
-			e.cancelBubble = true;
+      e.stopPropagation();
+
+      // skip press Enter in insertMode (used to submit form)
       if (!(isAcceptKey(key) && insertMode)) {
         e.preventDefault();
-        e.stopPropagation();
       }
     }
   }
@@ -146,14 +155,14 @@ var KeyEvent = (function() {
 		if (/^(Control|Alt|Shift)$/.test(key)) return;
 		currentKeys += key;
 
-    // if vrome set disabled/pass the next, use Esc to enable it again.
+    // if vrome set disabled or pass the next, use <C-Esc> to enable it.
 		if ((pass_next_key || disableVrome) && !insertMode) {
       if (pass_next_key || isCtrlEscapeKey(key)) enable();
 			return;
 		}
 
-    currentKeys = filterKey(currentKeys,insertMode); //FIXME multi modes
-    runCurrentKeys(currentKeys,insertMode,e);
+    currentKeys = filterKey(currentKeys, insertMode); //FIXME multi modes
+    runCurrentKeys(currentKeys, insertMode, e);
 	}
 
 	return {
