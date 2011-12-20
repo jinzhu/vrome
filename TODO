@@ -1,6 +1,13 @@
 Basic help page
-Update notification
-Option Page
+
+Update notification {
+  Changelog ?
+}
+
+Option Page {
+  remote vromerc support
+  textarea?
+}
 
 prevent popup in insert mode. (fix ? for twitter)
 
