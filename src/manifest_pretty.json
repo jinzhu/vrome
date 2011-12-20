@@ -12,6 +12,7 @@
   "offline_enabled": true,
   "permissions": [
     "tabs",
+		"bookmarks",
     "history",
     "clipboardRead",
     "clipboardWrite",
