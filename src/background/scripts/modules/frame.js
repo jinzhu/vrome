@@ -1,23 +1,10 @@
 var Frame = (function() {
-  var frames = [];
+  var frames = {};
 
   function register(msg) {
     var tab = arguments[arguments.length-1];
     frames[tab.id] = frames[tab.id] || [];
     frames[tab.id].push(msg.frame);
-
-    // loop and select biggest
-    if(frames.length > 1) {
-      var largestFrame = frames[0];
-      var index = 0;
-      for (index=0; index < frames.length; index++) {
-        if (frames[index].area > largestFrame.area) {
-          largestFrame = frames[index];
-        }
-      }
-
-      Post(tab, { action: "Frame.select", frameId: largestFrame.id });
-    }
   }
 
   function next(msg) {
@@ -39,7 +26,6 @@ var Frame = (function() {
       Post(tab, { action: "Frame.select", frameId: nextFrameId });
     }
   }
-
 
   return {
     register : register,

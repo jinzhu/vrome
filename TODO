@@ -13,9 +13,14 @@ CmdBox {
   transparent?
 }
 
+### Hint ###
+<M-f> Multi Hint
+
 ### Navigation ###
 cs subdomain
 
+### Bookmark ###
+cs subdomain
 
 ### Page ###
 ]f    Focus next frame
