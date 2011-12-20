@@ -29,8 +29,9 @@ var KeyEvent = (function() {
   ///////////////////////////////////////////////////
   function storeLast(/*Array*/ currentKeys,/*Number*/ times) {
     times = times || 0;
-    Settings.add("background.currentKeys",currentKeys);
-    Post({action : "storeLastCommand",currentKeys : currentKeys,times : times});
+    Settings.add("background.currentKeys", currentKeys);
+    Settings.add("background.times", times);
+    Post({action : "storeLastCommand", currentKeys : currentKeys, times : times});
     Debug("KeyEvent.storeLastCommand - currentKeys:" + currentKeys + " times:" + times);
   }
 
@@ -70,7 +71,7 @@ var KeyEvent = (function() {
   }
 
   ///////////////////////////////////////////////////
-  function filterKey(key,insertMode) {
+  function filterKey(key, insertMode) {
     var configure = Settings.get('background.configure');
     var mode = insertMode ? 'imap' : 'map';
     if (/\d/.test(key)) { return key; }
@@ -80,32 +81,37 @@ var KeyEvent = (function() {
   function runCurrentKeys(keys, insertMode, e) {
     if (!keys) { return; }
     var key        = null;
-    var old_times  = null;
-    var last_times = Settings.get('background.times');
+    var last_times  = null;
 
     if (e) { key = getKey(e); }
 
 		// when run last command, fix run time.
     if (key == '.' && !insertMode) {
+      last_times = Settings.get('background.times');
 			times = (last_times || 1) * (times || 1);
-		}
+		} else {
+      last_times = times;
+    }
+
 
 		for (var i = 0; i < bindings.length; i++) {
       var binding          = bindings[i];
       var binding_command  = binding[0];
       var binding_function = binding[1];
       var binding_mode     = binding[2]; // insert mode or not
+      var escaped_command  = binding_command.replace(/([(\[{\\^$|)?*+.])/g,"\\$1");  // "[[" -> "\\[\\["
 
       // insertMode match?
       if (!!insertMode != binding_mode) continue;
 
-      // escape regexp
-      var regexp = new RegExp('^(\\d*)(' + binding_command.replace(/([(\[{\\^$|)?*+.])/g,"\\$1") + ')');
+      var regexp = new RegExp('^(\\d*)(' + escaped_command + ')');
       if (regexp.test(keys)) {
         var someFunctionCalled = true;
         keys.replace(regexp,'');
-        var invoke_count = Number(RegExp.$1) || 1;
-        for (var count = 0; count < invoke_count; count++) binding_function.call(e);
+        // map j 3j
+        times = (Number(RegExp.$1) || 1) * times;
+        binding_function.call(e);
+        times = last_times;
       }
 
       var regexp = new RegExp('^(' + keys.replace(/([(\[{\\^$|)?*+.])/g,"\\$1") + ')');
@@ -114,23 +120,23 @@ var KeyEvent = (function() {
       }
 		}
 
-    // If currentKeys could invoke any function, then store it to last run command.
+    // If any function invoked, then store it to last run command.
     // (Don't do this when run repeat last command or In InsertMode)
     if (someFunctionCalled && e && key != '.' && !insertMode) {
-      storeLast(currentKeys, times);
+      storeLast(keys, times);
     }
 
     // Reset currentKeys if nothing match or some function called
     if (!someBindingMatched || someFunctionCalled) reset();
 
-    if (!insertMode && /\d/.test(key)) {
-      // Set the count time.
+    // Set the count time.
+    if (!insertMode && /^\d$/.test(key)) {
       times = (times || 0) * 10 + Number(key);
-    } else {
-      // If some function invoked and key pressed, reset the count
-      // but don't reset it if no key pressed, this should means the function is invoked by runLastCommand.
-      if (someFunctionCalled && key) times = 0;
     }
+
+    // If some function invoked and a key pressed, reset the count
+    // but don't reset it if no key pressed, this should means the function is invoked by runLastCommand.
+    if (someFunctionCalled && key) times = 0;
 
     // if Vrome is enabled and any functions executed.
     if (e && someFunctionCalled && !disableVrome && !pass_next_key) {
