@@ -79,6 +79,7 @@ with (KeyEvent) {
   add("]]", Page.next         );
   add("[[", Page.prev         );
   add("Y" , Page.copySelected );
+  add("]f", Frame.next);
 
 
   // Url
@@ -236,5 +237,5 @@ with (CmdLine) {
 }
 
 // Initial
-var initFunction = [ Zoom.init, KeyEvent.init];
+var initFunction = [ Zoom.init, KeyEvent.init, Frame.register];
 runIt();
