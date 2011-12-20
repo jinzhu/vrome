@@ -8,19 +8,19 @@ function isCtrlAcceptKey(key) {
 }
 
 function isAcceptKey(key) {
-  for (i=0;i < AcceptKey.length;i++) {
+  for (var i=0;i < AcceptKey.length; i++) {
     if (AcceptKey[i] == key) { return true; }
   }
 }
 
 function isEscapeKey(key) {
-  for (i=0;i < EscapeKey.length; i++) {
+  for (var i=0;i < EscapeKey.length; i++) {
     if (EscapeKey[i] == key) { return true; }
   }
 }
 
 function isCtrlEscapeKey(key) {
-  for (i=0;i < CtrlEscapeKey.length; i++) {
+  for (var i=0;i < CtrlEscapeKey.length; i++) {
     if (CtrlEscapeKey[i] == key) { return true; }
   }
 }

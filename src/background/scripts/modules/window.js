@@ -1,7 +1,7 @@
 var Window = (function() {
 	function moveTabToWindowWithIncognito(tab, incognito, create_mode, callback) {
 		chrome.windows.getAll({populate: true}, function(windows) {
-			for (i=0; i < windows.length; i++) {
+			for (var i=0; i < windows.length; i++) {
 				var current_window = windows[i];
 				if (current_window.type == 'normal' && current_window.incognito == incognito && current_window.id != tab.windowId) {
 					if (create_mode) {
@@ -15,12 +15,12 @@ var Window = (function() {
 
 			if (create_mode) {
 				chrome.windows.create({url: tab.url, incognito: incognito});
-				return callback(tab)
+				return callback(tab);
 			}
 		});
 	}
 
 	return {
 		moveTabToWindowWithIncognito : moveTabToWindowWithIncognito
-	}
+	};
 })();

@@ -2,7 +2,7 @@ var Platform = {
   linux : navigator.userAgent.indexOf("Linux") != -1,
   mac   : navigator.userAgent.indexOf("Mac") != -1,
   win   : navigator.userAgent.indexOf("Windows") != -1
-}
+};
 
 var times = function(/*Boolean*/ raw,/*Boolean*/ read) {
   var count = raw ? KeyEvent.times(read) : (KeyEvent.times(read) || 1);
@@ -13,7 +13,7 @@ var times = function(/*Boolean*/ raw,/*Boolean*/ read) {
 var Post = function(msg) {
   var port = chrome.extension.connect();
   port.postMessage(msg);
-}
+};
 
 function isElementVisible(elem, /* Boolean */ in_full_page) {
   var win_top     = window.scrollY / Zoom.current();
@@ -53,25 +53,27 @@ function clickElement(element,opt) {
   element.dispatchEvent(event);
 }
 
-function runIt(func,args) {
-  if(func) initFunction.push([func,args]);
+function runIt(func, args) {
+  if (func) { initFunction.push([func, args]); }
 
-  if(document.body){
-    for(var i = 0;i < initFunction.length; i++){
-      func = initFunction[i];
-      if(func instanceof Function){
-				Debug("RunIt:" + func);
-        func.call();
-      }else{
-				if(func[0] instanceof Function){
-					Debug("RunIt: function" + func[0] + " arguments:" + func[1]);
-					func[0].apply('',func[1]);
-				}
+  if (document.body) {
+    for (var i = 0;i < initFunction.length; i++) {
+      var init_function = initFunction[i];
+
+      if (init_function instanceof Function){
+				Debug("RunIt:" + init_function);
+        init_function.call();
+      } else if (init_function[0] instanceof Function) {
+        Debug("RunIt: function" + init_function[0] + " arguments:" + init_function[1]);
+        init_function[0].apply('', init_function[1]);
+      } else {
+        Debug("RunIt(Not Run): function" + init_function);
       }
     }
+
     initFunction = [];
-  }else{
-    setTimeout(runIt,50);
+  } else {
+    setTimeout(runIt, 50);
   }
 }
 

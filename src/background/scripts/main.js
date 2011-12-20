@@ -1,7 +1,7 @@
 var Post = function(tab,message) {
   var port = chrome.tabs.connect(tab.id, {});
   port.postMessage(message);
-}
+};
 
 function storeLastCommand(msg) {
   var tab = arguments[arguments.length-1];
@@ -17,8 +17,8 @@ function externalEditor(msg) {
     if(xhr.readyState == 4 && xhr.status == 200) {
       var port = chrome.tabs.connect(tab.id, {});
       port.postMessage({ action : "InsertMode.externalEditorCallBack", edit_id : msg.edit_id, value : xhr.responseText });
-    };
-  }
+    }
+  };
 
   xhr.setRequestHeader("Content-type", "text/plain");
   xhr.send(JSON.stringify({'method':'open_editor','editor': Option.get("editor"), 'data' : msg.data}));

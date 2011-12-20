@@ -2,8 +2,8 @@ var Settings = (function() {
  var key = '__vrome_setting';
 
  function extend(to,from) {
-   if (!to) to = {};
-   for(var p in from) to[p] = from[p];
+   if (!to) { to = {}; }
+   for(var p in from) { to[p] = from[p]; }
    return to;
  }
 

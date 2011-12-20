@@ -27,7 +27,7 @@ var Tab = (function() {
 
   function closeOtherTabs(tab) {
     chrome.tabs.query({windowId: tab.windowId}, function(tabs) {
-      for (i=0; i < tabs.length; i++) {
+      for (var i=0; i < tabs.length; i++) {
         if (tabs[i].id != tab.id) { chrome.tabs.remove(tabs[i].id); }
       }
     });
@@ -35,7 +35,7 @@ var Tab = (function() {
 
   function closeLeftTabs(tab) {
     chrome.tabs.query({windowId: tab.windowId}, function(tabs) {
-      for (i=0; i < tabs.length; i++) {
+      for (var i=0; i < tabs.length; i++) {
         if (tabs[i].index < tab.index) { chrome.tabs.remove(tabs[i].id); }
       }
     });
@@ -43,7 +43,7 @@ var Tab = (function() {
 
   function closeRightTabs(tab) {
     chrome.tabs.query({windowId: tab.windowId}, function(tabs) {
-      for (i=0; i < tabs.length; i++) {
+      for (var i=0; i < tabs.length; i++) {
         if (tabs[i].index > tab.index) { chrome.tabs.remove(tabs[i].id); }
       }
     });
@@ -51,7 +51,7 @@ var Tab = (function() {
 
   function closePinnedTabs(tab, /*Boolean*/ close_unpinned) {
     chrome.tabs.query({windowId: tab.windowId}, function(tabs) {
-      for (i=0; i < tabs.length; i++) {
+      for (var i=0; i < tabs.length; i++) {
         if (close_unpinned) {
           if (!tabs[i].pinned) { chrome.tabs.remove(tabs[i].id); }
         } else {
@@ -92,12 +92,14 @@ var Tab = (function() {
   function goto(msg) {
     var tab = arguments[arguments.length-1];
     chrome.tabs.getAllInWindow(tab.windowId, function(tabs) {
+      var index = null;
+
       if (typeof msg.index != 'undefined') {
-        var index = Math.min(msg.index, tabs.length-1);
+        index = Math.min(msg.index, tabs.length-1);
       }
 
       if (typeof msg.offset != 'undefined') {
-        var index = tab.index + msg.offset;
+        index = tab.index + msg.offset;
         index = index % tabs.length;
       }
       if (index < 0) { index = index + tabs.length; }
@@ -118,7 +120,7 @@ var Tab = (function() {
   function reloadAll(msg) {
     var tab = arguments[arguments.length-1];
     chrome.tabs.getAllInWindow(tab.windowId, function(tabs) {
-      for (var i in tabs) {
+      for (var i=0; i < tabs.length; i++) {
         var tab = tabs[i];
         chrome.tabs.update(tab.id, {url: tab.url, selected: tab.selected}, null);
       }
@@ -128,7 +130,8 @@ var Tab = (function() {
   function openUrl(msg) {
     var tab       = arguments[arguments.length-1];
     var urls      = msg.urls || msg.url;
-    if (typeof urls == 'string') urls = [urls];
+    if (typeof urls == 'string') { urls = [urls]; }
+
     var first_url = urls.shift();
     var index     = tab.index;
 
@@ -149,13 +152,13 @@ var Tab = (function() {
 
   function togglePin() {
     var tab = arguments[arguments.length-1];
-    update({pinned: !tab.pinned}, tab)
+    update({pinned: !tab.pinned}, tab);
   }
 
   function duplicate(msg) {
     var tab = arguments[arguments.length-1];
 
-    for(var i = 0; i < msg.count; i++) {
+    for (var i = 0; i < msg.count; i++) {
       chrome.tabs.create({ url: tab.url, index: ++tab.index, selected: false});
     }
   }
@@ -191,7 +194,7 @@ var Tab = (function() {
   function mergeAll() {
     var tab = arguments[arguments.length-1];
     chrome.tabs.query({windowId: tab.windowId}, function(tabs) {
-      for (i=tabs.length-1; i >= 0; i--) {
+      for (var i=tabs.length-1; i >= 0; i--) {
         Window.moveTabToWindowWithIncognito(tabs[i], tabs[i].incognito);
       }
     });
@@ -212,8 +215,8 @@ var Tab = (function() {
     openInIncognito   : openInIncognito,
     merge             : merge,
     mergeAll          : mergeAll
-  }
-})()
+  };
+})();
 
 // Tab.closed_tabs, now_tab, last_selected_tab, current_closed_tab;
 Tab.closed_tabs = [];

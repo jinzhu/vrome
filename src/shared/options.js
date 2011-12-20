@@ -21,5 +21,5 @@ var Option = (function() {
     return option;
   }
 
-  return { get : get }
-})()
+  return { get : get };
+})();

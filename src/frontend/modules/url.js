@@ -21,7 +21,7 @@ var Url = (function(){
       if (url == '..') { url = '../'; }
       var pathname = document.location.origin + document.location.pathname;
       var paths = url.split('..');
-      for (i=0; i < paths.length; i++) {
+      for (var i=0; i < paths.length; i++) {
         var path = paths[i];
         if (path.match(/^\//)) {
           pathname = pathname.replace(/\/[^\/]*\/?$/,'') + path;
@@ -37,7 +37,7 @@ var Url = (function(){
     var urls   = url_str.split(/, /);
     var result = [];
 
-    outermost : for (i = 0; i< urls.length; i++) {
+    outermost : for (var i = 0; i< urls.length; i++) {
       url = urls[i].trim();
       // relative path e.g: .. || ./configure
       // absolute path e.g: /jinzhu
@@ -48,22 +48,20 @@ var Url = (function(){
         result.push((url.match("://") ? "" : "http://") + url);
       // google vrome
       }else{
-        var searchengines = JSON.parse(Option.get('searchengines'));
+        var searchengines = JSON.parse(Option.get('searchengines')); // object
         var searchengine  = url.replace(/^(\S+)\s.*$/,"$1"); // google
 
         // use the matched searchengine
-        for (i=0; i < searchengines.length; i++) {
-          var key = searchengines[i];
-          if (key == searchengine) {
-            result.push(searchengines[key].replace("{{keyword}}",url.replace(/^\S+\s+(.*)$/,"$1")));
+        for (var j in searchengines) {
+          if (j == searchengine) {
+            result.push(searchengines[j].replace("{{keyword}}",url.replace(/^\S+\s+(.*)$/,"$1")));
             continue outermost;
           }
         }
 
         // use the first searchengine
-        for (i=0; i < searchengines.length; i++) {
-          var key2 = searchengines[i];
-          result.push(searchengines[key2].replace("{{keyword}}", url));
+        for (var j in searchengines) {
+          result.push(searchengines[j].replace("{{keyword}}", url));
           continue outermost;
         }
       }
@@ -87,7 +85,7 @@ var Url = (function(){
 		var count;
     count = times();
 
-		for(i = 0; i < count; i++){
+		for(var i = 0; i < count; i++){
 			if(pathname.length <= 1){
 				if ( hostname.length > 2) { hostname.shift(); }
 			}else{

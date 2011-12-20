@@ -17,7 +17,7 @@ var InsertMode = (function(){
 		var elems = document.querySelectorAll('input[type="text"],input[type="password"],input[type="search"],input:not([type])');
     var valid_elems = [];
 
-    for (i=0; i < elems.length; i++) {
+    for (var i=0; i < elems.length; i++) {
       if (isElementVisible(elems[i], /* in full screen */ true)) {
         valid_elems.push(elems[i]);
       }

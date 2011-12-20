@@ -17,6 +17,6 @@ function shortUrl(msg) {
         sendBackCurrentUrl();
       }
     }
-  }
+  };
   xhr.send();
 }

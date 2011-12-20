@@ -17,7 +17,7 @@ var Hint = (function() {
 
     // Get all visible elements
     var elems = document.body.querySelectorAll('a, input:not([type=hidden]), textarea, select, button, *[onclick]');
-    for (i = 0; i < elems.length; i++) {
+    for (var i=0; i < elems.length; i++) {
       if (isElementVisible(elems[i])) { elements.push(elems[i]); }
     }
     setHintIndex(elements);
@@ -25,7 +25,7 @@ var Hint = (function() {
   }
 
   function removeHighlightBox(/* Boolean */ create_after_remove) {
-    for (i = 0; i < elements.length; i++) { elements[i].removeAttribute(highlight); }
+    for (var i = 0; i < elements.length; i++) { elements[i].removeAttribute(highlight); }
 
     var div = document.getElementById('__vim_hint_highlight');
     if (div) { document.body.removeChild(div); }
@@ -41,7 +41,7 @@ var Hint = (function() {
   function setHintIndex(elems) {
     var div = removeHighlightBox(/* create_after_remove */ true);
 
-    for (i = 0; i < elems.length; i++) { //TODO need refactor
+    for (var i = 0; i < elems.length; i++) { //TODO need refactor
       var elem      = elems[i];
       var win_top   = window.scrollY / Zoom.current();
       var win_left  = window.scrollX / Zoom.current();
@@ -88,7 +88,7 @@ var Hint = (function() {
 
     // If user are inputing number
     if (/^\d$/.test(key) || (key == '<BackSpace>' && selected !== 0)) {
-      selected = (key == '<BackSpace>') ? parseInt(selected / 10) : selected * 10 + Number(key);
+      selected = (key == '<BackSpace>') ? Number(selected / 10) : selected * 10 + Number(key);
 			CmdBox.set({title : 'HintMode (' + selected + ')'});
       var index = selected - 1;
 
@@ -156,7 +156,7 @@ var Hint = (function() {
     selected = 0;
     matched  = [];
 
-    for (i=0; i < elements.length; i++) {
+    for (var i=0; i < elements.length; i++) {
       if (hintMatch(elements[i], i)) {
         matched.push(elements[i]);
       }
@@ -165,7 +165,7 @@ var Hint = (function() {
     setHintIndex(matched);
 
     if (isCtrlAcceptKey(key)) {
-      for (i=0; i < matched.length; i++) {
+      for (var i=0; i < matched.length; i++) {
         execSelect(matched[i]);
         new_tab = true;
       }

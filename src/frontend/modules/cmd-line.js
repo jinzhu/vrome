@@ -18,7 +18,7 @@ var CmdLine = (function() {
     var arg     = RegExp.$2;
     var matched = [];
 
-    for (i = 0; i < commands.length; i++) {
+    for (var i = 0; i < commands.length; i++) {
       if (new RegExp('^' + cmd).test(commands[i][0])) {
         if (cmd == commands[i][0]) { return commands[i][1].call('',arg); }
         matched.push(commands[i][1]);

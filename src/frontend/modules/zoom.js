@@ -3,7 +3,7 @@ var Zoom = (function() {
   var default_index = levels.indexOf('100%');
 
   function currentLevel() {
-    for (var i in levels) {
+    for (var i=0; i < levels.length; i++) {
       if (levels[i] == (document.body.style.zoom || '100%')) {
         return Number(i);
       }
@@ -11,7 +11,7 @@ var Zoom = (function() {
   }
 
   function setZoom(/*Number*/ count,/*Boolean*/ keepCurrentPage) {
-		var index = count ? (currentLevel() + (times() * Number(count))) : default_index
+		var index = count ? (currentLevel() + (times() * Number(count))) : default_index;
     // index should >= 0 && < levels.length
     index = Math.min(levels.length - 1, Math.max(0,index));
 
@@ -19,11 +19,8 @@ var Zoom = (function() {
     var topPercent = scrollY / document.height;
 
     document.body.style.zoom  = levels[index];
-    if(keepCurrentPage) scrollTo(0,topPercent * document.height);
+    if (keepCurrentPage) { scrollTo(0,topPercent * document.height); }
   }
-
-
-  // API
 
 	return {
 		setZoom    : setZoom,
@@ -41,5 +38,5 @@ var Zoom = (function() {
 
 		current    : function() { return (parseInt(levels[currentLevel()]) / 100); },
 		init       : function() { Zoom.setZoom( Settings.get('zoom_level')); }
-	}
-})()
+	};
+})();

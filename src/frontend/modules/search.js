@@ -5,7 +5,7 @@ var Search = (function(){
   var highlight_current_id = '__vrome_search_highlight_current';
 
   function find(keyword, node) {
-    if (!keyword) return;
+    if (!keyword) { return; }
     node = node || document.body;
 
     // Iterate node childNodes
@@ -71,11 +71,11 @@ var Search = (function(){
   }
 
   function next(step) {
-		if (!searchMode) return;
+		if (!searchMode) { return; }
 
     var offset = direction * step * times();
     var nodes = document.getElementsByClassName(highlight_class);
-    if (nodes.length == 0) return false;
+    if (nodes.length === 0) { return false; }
 
     for (var i = 0; i < nodes.length; i++) {
       if (nodes[i].id == highlight_current_id) {
@@ -84,14 +84,15 @@ var Search = (function(){
       }
     }
 
-		i = (i + offset) % nodes.length
-		if (i < 0) i +=	nodes.length;
+    // TODO refact me!
+		i = (i + offset) % nodes.length;
+		if (i < 0) { i +=	nodes.length; }
 
     Debug('Search.next - size:' + nodes.length + ' selected:' + i + ' direction:' + direction + ' offset:' + offset);
 
     CmdBox.blur();
 
-    if (nodes[i]) { //FIXME if element is invisable
+    if (nodes[i] && isElementVisible(nodes[i], /* In full page*/ true)) {
       nodes[i].setAttribute('id',highlight_current_id);
       nodes[i].scrollIntoViewIfNeeded();
     } else {
@@ -100,8 +101,8 @@ var Search = (function(){
   }
 
   function handleInput(e){
-		if (!searchMode) return;
-    if (!isAcceptKey(getKey(e))) remove();
+		if (!searchMode) { return; }
+    if (!isAcceptKey(getKey(e))) { remove(); }
 
     find(CmdBox.get().content);
     lastSearch = CmdBox.get().content;
@@ -119,7 +120,7 @@ var Search = (function(){
   }
 
   function stop() {
-		if (!searchMode) return;
+		if (!searchMode) { return; }
     searchMode = false;
     remove();
   }
@@ -129,7 +130,6 @@ var Search = (function(){
 		return lastSearch;
   }
 
-	// API
   return {
     start    : start,
     stop     : stop,
@@ -137,6 +137,6 @@ var Search = (function(){
     prev     : function() { next(-1); },
     next     : function() { next(1);  },
     forwardCursor  : function() { if (useSelectedValueAsKeyword()) { start(); } },
-    backwardCursor : function() { if (useSelectedValueAsKeyword()) { start(true); } },
-  }
-})()
+    backwardCursor : function() { if (useSelectedValueAsKeyword()) { start(true); } }
+  };
+})();
