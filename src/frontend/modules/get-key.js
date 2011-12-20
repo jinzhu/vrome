@@ -1,10 +1,10 @@
 var getKey = (function() {
 	var keyId = {
-		"U+0008" : "<BackSpace>",
-		"U+0009" : "<Tab>",
-		"U+0018" : "<Cancel>",
-		"U+001B" : "<Esc>",
-		"U+0020" : "<Space>",
+		"U+0008" : "BackSpace",
+		"U+0009" : "Tab",
+		"U+0018" : "Cancel",
+		"U+001B" : "Esc",
+		"U+0020" : "Space",
 		"U+0021" : "!",
 		"U+0022" : "\"",
 		"U+0023" : "#",
@@ -80,7 +80,7 @@ var getKey = (function() {
 		"U+007B" : "{",
 		"U+007C" : "|",
 		"U+007D" : "}",
-		"U+007F" : "<Delete>",
+		"U+007F" : "Delete",
 		"U+00A1" : "¡",
     "U+00C0" : "`",
     "U+00DE" : "'"

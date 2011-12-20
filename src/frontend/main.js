@@ -1,6 +1,7 @@
-var AcceptKey = ["<Enter>","<C-j>","<C-m>"];
-var CancelKey = ["<Esc>", "<C-[>"];
-var EscapeKey = ["<Esc>", "<C-[>"];
+var AcceptKey     = ["<Enter>","<C-j>","<C-m>"];
+var CancelKey     = ["<Esc>", "<C-[>"];
+var EscapeKey     = ["<Esc>", "<C-[>"];
+var CtrlEscapeKey = ["<C-Esc>"];
 
 function isCtrlAcceptKey(key) {
   if (key == '<C-Enter>') { return true; }
@@ -12,18 +13,24 @@ function isAcceptKey(key) {
   }
 }
 
+function isEscapeKey(key) {
+  for (i=0;i < EscapeKey.length; i++) {
+    if (EscapeKey[i] == key) { return true; }
+  }
+}
+
+function isCtrlEscapeKey(key) {
+  for (i=0;i < CtrlEscapeKey.length; i++) {
+    if (CtrlEscapeKey[i] == key) { return true; }
+  }
+}
+
 function AcceptKeyFunction() {
   Url.enter();
   CmdLine.exec();
   Search.next();
   Buffer.gotoFirstMatchHandle();
   Buffer.deleteMatchHandle();
-}
-
-function isEscapeKey(key) {
-  for (i=0;i < EscapeKey.length; i++) {
-    if (EscapeKey[i] == key) { return true; }
-  }
 }
 
 function CancelKeyFunction() {
@@ -34,14 +41,17 @@ function CancelKeyFunction() {
   KeyEvent.reset();
 }
 
-
 function EscapeKeyFunction() {
-  KeyEvent.enable();
   CancelKeyFunction();
 }
 
+function CtrlEscapeKeyFunction() {
+  KeyEvent.enable();
+  EscapeKeyFunction();
+}
+
 with (KeyEvent) {
-  var arr = ["AcceptKey","CancelKey","EscapeKey"];
+  var arr = ["AcceptKey","CancelKey","EscapeKey", "CtrlEscapeKey"];
   for (var i=0; i < arr.length; i++) {
     var keys = window[arr[i]];
     for (var j=0; j < keys.length; j++) {

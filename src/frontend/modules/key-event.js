@@ -148,7 +148,7 @@ var KeyEvent = (function() {
 
     // if vrome set disabled/pass the next, use Esc to enable it again.
 		if ((pass_next_key || disableVrome) && !insertMode) {
-      if (pass_next_key || isEscapeKey(key)) enable();
+      if (pass_next_key || isCtrlEscapeKey(key)) enable();
 			return;
 		}
 
