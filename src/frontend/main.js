@@ -35,13 +35,14 @@ function AcceptKeyFunction() {
 }
 
 function CancelKeyFunction() {
-  CmdBox.remove();
   Hint.remove();
   Search.stop();
   InsertMode.blurFocus();
   KeyEvent.reset();
 	Dialog.remove();
 	Bookmark.stop();
+  Url.close();
+  CmdBox.remove();
 }
 
 function EscapeKeyFunction() {

@@ -11,6 +11,7 @@
   -webkit-box-shadow:-1px -1px 4px #888 !important;
   z-index: 2147483647 !important;
   opacity: 0.85 !important;
+  width: auto !important;
 }
 
 #_vrome_cmd_box input{
@@ -81,7 +82,7 @@ a[vrome_highlight=hint_active] {
   border-radius: 4px !important;
   font-family: Lucida Grande, Arial, Sans !important;
   width:600px !important;
-  height:600px !important;
+  max-height: 90% !important;
   opacity: 0.9 !important;
   bottom: 0 !important;
   right: 0 !important;

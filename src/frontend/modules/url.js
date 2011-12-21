@@ -145,6 +145,10 @@ var Url = (function(){
     Post({action: "Tab.openFromClipboard", newtab: newtab});
   }
 
+  function close() {
+    urlMode = false;
+  }
+
   return {
     parent    : parent    ,
     root      : root      ,
@@ -164,6 +168,7 @@ var Url = (function(){
     openFromClipboard  : function() { openFromClipboard(false); },
     openFromClipboardNewTab  : function() { openFromClipboard(true); },
 
-    fixRelativePath :  fixRelativePath
+    fixRelativePath :  fixRelativePath,
+    close : close
   };
 })();

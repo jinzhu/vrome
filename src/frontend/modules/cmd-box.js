@@ -73,7 +73,7 @@ var CmdBox = (function() {
 		pressUpFunction   = function(){};
 		pressDownFunction = function(){};
     var box = document.getElementById(box_id);
-    if(box) { document.body.removeChild(box); }
+    if (box) { document.body.removeChild(box); }
   }
 
   function isCmdBoxInput(target) {
