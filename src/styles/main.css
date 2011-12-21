@@ -1,6 +1,6 @@
 #_vrome_cmd_box {
   position:fixed !important;
-  background: #7DB9E4 url(chrome-extension://iiffmolbankaonfoniihhpbpclcenokk/asserts/cmd_box_bg.png) repeat-x;
+  background: #7DB9E4 url(../images/cmd_box_bg.png) repeat-x;
   bottom:1px;
   right:1px;
   padding:4px 10px;
