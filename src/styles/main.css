@@ -73,7 +73,7 @@ a[vrome_highlight=hint_active] {
 #__vrome_dialog {
   position: fixed !important;
   background-color: #E2F0FB !important;
-  z-index: 99999998 !important;
+  z-index: 2147483646 !important;
   border: 1px solid #3f86bb !important;
   font-size: 12px !important;
   text-align:left !important;
@@ -81,12 +81,30 @@ a[vrome_highlight=hint_active] {
   padding:10px !important;
   border-radius: 4px !important;
   font-family: Lucida Grande, Arial, Sans !important;
-  width:600px !important;
+  width:750px !important;
   max-height: 90% !important;
   opacity: 0.9 !important;
   bottom: 0 !important;
   right: 0 !important;
   overflow: auto !important;
+  border-bottom: 0px !important;
+}
+
+#__vrome_dialog_notice {
+  position: fixed !important;
+  background-color: #E2F0FB !important;
+  z-index: 2147483647 !important;
+  border: 1px solid #3f86bb !important;
+  border-top: 0px !important;
+  font-size: 12px !important;
+  font-weight:700 !important;
+  text-align:left !important;
+  color: black !important;
+  padding:3px 3px !important;
+  border-radius: 4px !important;
+  font-family: Lucida Grande, Arial, Sans !important;
+  opacity: 0.9 !important;
+  overflow: hidden !important;
 }
 
 #__vrome_dialog a {

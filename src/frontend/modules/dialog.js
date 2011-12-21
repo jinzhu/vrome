@@ -3,6 +3,7 @@ var Dialog = (function() {
 	var box_id = "__vrome_dialog";
 	var search_results_id = "__vrome_searchResults";
 	var selected_class = "__vrome_selected";
+	var notice_id = "__vrome_dialog_notice";
 
 	function DialogBox() {
     var box = document.getElementById(box_id);
@@ -10,7 +11,7 @@ var Dialog = (function() {
     if (!box) {
       box = document.createElement('div');
       box.setAttribute('id', box_id);
-      box.style.bottom = cmdBox.offsetHeight + "px !important";
+      box.style.bottom = cmdBox.clientHeight + "px !important";
       document.body.insertBefore(box, document.body.childNodes[0]);
     }
 		return box;
@@ -72,6 +73,7 @@ var Dialog = (function() {
 			} else {
 				result.setAttribute('class', selected_class);
         result.scrollIntoViewIfNeeded();
+        notice(current().getAttribute("href"));
 			}
 		}
 	}
@@ -83,8 +85,26 @@ var Dialog = (function() {
 
 	function remove() {
     var box = DialogBox();
-    if(box) { document.body.removeChild(box); }
+    if (box) { document.body.removeChild(box); }
+    var box = document.getElementById(notice_id);
+    if (box) { document.body.removeChild(box); }
 	}
+
+  function notice(msg) {
+    var box = document.getElementById(notice_id);
+    var cmdBox = CmdBox.cmdBox();
+    if (!box) {
+      box = document.createElement('div');
+      box.setAttribute('id', notice_id);
+      box.style.bottom = "0 !important";
+      box.style.right  = cmdBox.clientWidth + "px !important";
+      // 8 is the padding for cmdbox
+      box.style.height = (cmdBox.clientHeight - 4) + "px !important";
+      box.style.width  = (DialogBox().clientWidth - cmdBox.clientWidth + 8) + "px !important";
+      document.body.insertBefore(box, document.body.childNodes[0]);
+    }
+    box.innerHTML = msg;
+  }
 
 	return {
 		draw    : draw,
