@@ -1,15 +1,16 @@
+/* Cmd Box */
 #_vrome_cmd_box {
   position:fixed !important;
-  background: #7DB9E4 url(../images/cmd_box_bg.png) repeat-x;
-  bottom:1px;
-  right:1px;
-  padding:4px 10px;
-  border:#3f86bb 1px solid !important;
+  background: #A6CEEC repeat-x;
+  bottom: 1px;
+  right: 1px;
+  padding: 4px 10px;
+  border: #3f86bb 1px solid !important;
   vertical-align: middle;
   -webkit-border-top-left-radius: 4px;
   -webkit-box-shadow:-1px -1px 4px #888;
   z-index: 2147483647;
-  opacity: 0.8;
+  opacity: 0.85;
 }
 
 #_vrome_cmd_box input{
@@ -19,16 +20,17 @@
   height:16px;
   width:200px;
   border:none;
-  opacity: 0.9;
+  opacity: 0.85;
   margin-left:6px;
 }
 
 #_vrome_cmd_box span{
-  color:#1c294a;
+  color: #100E35;
   font-weight:700;
   text-shadow: 1px 1px 1px #fff;
 }
 
+/* Hint Mode */
 #__vim_hint_highlight {
 }
 
@@ -41,6 +43,7 @@
   z-index: 2147483646 !important;
 }
 
+/* Search Mode */
 .__vrome_search_highlight {
   display:inline;
   background-color:yellow !important;
@@ -63,4 +66,37 @@ a[vrome_highlight=hint_active] {
 	background-color: #8f0 !important;
   color: #000 !important;
   z-index     : 2147483646;
+}
+
+/* Dialog */
+#__vrome_dialog {
+  position: fixed;
+  background-color: #E2F0FB;
+  z-index: 99999998;
+  border: 1px solid #3f86bb;
+  font-size: 12px;
+  text-align:left;
+  color: black;
+  padding:10px;
+  border-radius: 4px;
+  font-family: Lucida Grande, Arial, Sans;
+  width:400px;
+  opacity: 0.85;
+  bottom: 0px;
+}
+
+#__vrome_searchResults .vrome_selected {
+  background-color: #8ABEE6;
+  border-radius: 4px;
+  opacity: 0.85;
+}
+
+#__vrome_searchResults div {
+  padding:5px;
+  opacity: 0.85;
+}
+
+#__vrome_searchResults div strong {
+  color: black;
+  font-weight:bold;
 }
