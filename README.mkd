@@ -125,7 +125,12 @@
     [count] L         Go [count] pages forward.
     [count] <C-o>     Go [count] pages back.
     [count] <C-i>     Go [count] pages forward.
+            gh        Filter History with keyword. use <Up>/<Down>/<Tab>/<S-Tab> to select, <Enter> to open current selected in current tab.
+            gH        Filter History with keyword, but open in new tab. (refer `gh` for more)
 
+### Bookmark ###
+            gb        Filter bookmarks with keyword. use <Up>/<Down>/<Tab>/<S-Tab> to select, <Enter> to open current selected in current tab.
+            gB        Filter bookmarks with keyword, but open in new tab. (refer `gb` for more)
 
 ### Search ###
             /         Start forward search

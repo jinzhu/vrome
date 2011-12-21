@@ -30,9 +30,6 @@ var Bookmark = (function() {
       KeyEvent.stopPropagation(e);
       return;
     }
-    if (isAcceptKey(key)) {
-      return openCurrent();
-    }
     if (!isEscapeKey(key)) { setTimeout(delayToWaitKeyDown,200); }
   }
 

@@ -8,13 +8,13 @@ Need for For v1.0:
 }
 
 // Share the same UI
-3, Add support for open Bookmark/History
 4, cs subdomain -> magic mode ;) create some subdomain let use choose one from it)
 5, ch hostname
 
 FIXME
-1, time fail to sync?
+1, times fail to sync?
 2, only show notice in top window.
+3, hightlight when search history, bookmarks
 
 TODO ?
 
