@@ -144,17 +144,20 @@ var KeyEvent = (function() {
     if (e && someFunctionCalled && !disableVrome && !pass_next_key) {
       // skip press Enter in insertMode (used to submit form)
       if (!(isAcceptKey(key) && insertMode)) {
-        e.stopPropagation();
-        e.preventDefault();
+				stopPropagation(e)
       }
     }
 
 		// Compatible with google's new interface
 		if (key.match(/^.$/) && !insertMode) {
-			e.stopPropagation();
-			e.preventDefault();
+			stopPropagation(e)
 		}
   }
+
+	function stopPropagation(e) {
+		e.stopPropagation();
+		e.preventDefault();
+	}
 
 	function exec(e) {
 		var key        = getKey(e);
@@ -191,5 +194,7 @@ var KeyEvent = (function() {
     passNextKey : passNextKey,
 
     runLast : runLast,
+
+		stopPropagation : stopPropagation
   };
 })();

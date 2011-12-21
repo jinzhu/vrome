@@ -1,5 +1,5 @@
 var Bookmark = (function() {
-  var isEnabled, newTab, multiMode, bookmarks;
+  var isEnabled, newTab, multiMode, bookmarks, last_keyword;
 
   function start(new_tab, multi_mode) {
     isEnabled = true;
@@ -10,6 +10,8 @@ var Bookmark = (function() {
   }
 
   function openCurrent() {
+    if (!isEnabled) { return false; }
+
     var options = {};
     options[Platform.mac ? 'meta' : 'ctrl'] = newTab;
     clickElement(Dialog.current(), options);
@@ -18,19 +20,39 @@ var Bookmark = (function() {
   function handleInput(e) {
     var key = getKey(e);
 
-    if ((key == '<Up>') || (key == '<S-Tab>')) { return Dialog.prev(); }
-    if ((key == '<Down>') || (key == '<Tab>')) { return Dialog.next(); }
-    if (isAcceptKey(key)) { return openCurrent(); }
+    if ((key == '<Up>') || (key == '<S-Tab>')) {
+      Dialog.prev();
+      KeyEvent.stopPropagation(e);
+      return;
+    }
+    if ((key == '<Down>') || (key == '<Tab>')) {
+      Dialog.next();
+      KeyEvent.stopPropagation(e);
+      return;
+    }
+    if (isAcceptKey(key)) {
+      return openCurrent();
+    }
     if (!isEscapeKey(key)) { setTimeout(delayToWaitKeyDown,200); }
   }
 
   function delayToWaitKeyDown() {
-    Post({action: "Bookmark.search", keyword: CmdBox.get().content});
+    var keyword = CmdBox.get().content;
+    if (last_keyword !== keyword) {
+      Post({action: "Bookmark.search", keyword: CmdBox.get().content});
+      last_keyword = keyword;
+    }
+  }
+
+  function stop() {
+    isEnabled = false;
   }
 
   return {
     start : start,
     new_tab_start    : function(){ start(/*new tab*/ true); },
-    multi_mode_start : function(){ start(/*new tab*/ true, /*multi mode*/ true); }
+    multi_mode_start : function(){ start(/*new tab*/ true, /*multi mode*/ true); },
+    openCurrent : openCurrent,
+    stop : stop
   }
 })();

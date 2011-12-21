@@ -78,10 +78,16 @@ var Dialog = (function() {
 		if (selected_box) { return selected_box.children[0] }
 	}
 
+	function remove() {
+    var box = DialogBox();
+    if(box) { document.body.removeChild(box); }
+	}
+
 	return {
 		draw    : draw,
 		next    : next,
 		prev    : prev,
-		current : current
+		current : current,
+		remove  : remove
 	};
 })();

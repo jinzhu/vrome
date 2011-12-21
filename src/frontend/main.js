@@ -29,6 +29,7 @@ function AcceptKeyFunction() {
   Url.enter();
   CmdLine.exec();
   Search.next();
+	Bookmark.openCurrent();
   Buffer.gotoFirstMatchHandle();
   Buffer.deleteMatchHandle();
 }
@@ -39,6 +40,8 @@ function CancelKeyFunction() {
   Search.stop();
   InsertMode.blurFocus();
   KeyEvent.reset();
+	Dialog.remove();
+	Bookmark.stop();
 }
 
 function EscapeKeyFunction() {
