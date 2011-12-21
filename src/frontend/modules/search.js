@@ -131,10 +131,11 @@ var Search = (function(){
   }
 
   function openCurrent(new_tab) {
+		if (!searchMode) { return; }
     var elem = document.getElementById(highlight_current_id);
 
     var options = {};
-    if (new_tab) { options[Platform.mac ? 'meta' : 'ctrl'] = new_tab; }
+		options[Platform.mac ? 'meta' : 'ctrl'] = new_tab;
     clickElement(elem, options);
   }
 

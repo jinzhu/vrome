@@ -197,6 +197,9 @@ with (KeyEvent) {
   add("<C-v>" , KeyEvent.passNextKey        );
   add("."     , KeyEvent.runLast            );
 
+	// Bookmark
+  add("gb" , Bookmark.start );
+
   // a-zA-Z
   for (var i = 65; i <= 122; i++) {
     if (i > 90 && i < 97) continue;
