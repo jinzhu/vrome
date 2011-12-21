@@ -71,6 +71,7 @@ var Dialog = (function() {
 				result.removeAttribute('class');
 			} else {
 				result.setAttribute('class', selected_class);
+        result.scrollIntoViewIfNeeded();
 			}
 		}
 	}
