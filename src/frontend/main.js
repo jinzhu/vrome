@@ -30,6 +30,7 @@ function AcceptKeyFunction() {
   CmdLine.exec();
   Search.next();
 	Bookmark.openCurrent();
+  History.openCurrent();
   Buffer.gotoFirstMatchHandle();
   Buffer.deleteMatchHandle();
 }
@@ -41,6 +42,7 @@ function CancelKeyFunction() {
   KeyEvent.reset();
 	Dialog.remove();
 	Bookmark.stop();
+  History.stop();
   Url.close();
   CmdBox.remove();
 }
@@ -164,6 +166,8 @@ with (KeyEvent) {
   add("L"    , History.forward );
   add("<C-o>", History.back    );
   add("<C-i>", History.forward );
+  add("gh"   , History.start );
+  add("gH"   , History.new_tab_start );
 
 
   // CmdLine
@@ -203,6 +207,7 @@ with (KeyEvent) {
 
 	// Bookmark
   add("gb" , Bookmark.start );
+  add("gB" , Bookmark.new_tab_start );
 
   // a-zA-Z
   for (var i = 65; i <= 122; i++) {

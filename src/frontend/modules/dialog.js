@@ -43,7 +43,7 @@ var Dialog = (function() {
 		for (var i=0; i < sources.length; i++) {
 			var source = sources[i];
 			var result = document.createElement('div');
-			result.innerHTML = "<a href='" + source.url + "'> " + source.title + "</a>";
+			result.innerHTML = "<a href='" + source.url + "'> " + (source.title || source.url) + "</a>";
 			results_box.appendChild(result);
 		}
 		next();
