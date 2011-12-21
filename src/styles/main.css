@@ -82,12 +82,16 @@ a[vrome_highlight=hint_active] {
   font-family: Lucida Grande, Arial, Sans !important;
   width:400px !important;
   opacity: 0.9 !important;
-  bottom: 0px !important;
+  bottom: 0 !important;
+  right: 0 !important;
 }
 
 #__vrome_dialog a {
   color: black !important;
 	text-decoration:none !important;
+  font-family: Lucida Grande, Arial, Sans !important;
+  font-size:inherit !important;
+  font-weight:normal !important;
 }
 
 #__vrome_searchResults .__vrome_selected {

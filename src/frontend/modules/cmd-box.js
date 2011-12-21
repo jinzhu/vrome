@@ -80,5 +80,5 @@ var CmdBox = (function() {
     return target.getAttribute('id') === input_box_id;
   }
 
-  return { blur : blur, set : set, get : get, remove : remove, isCmdBoxInput : isCmdBoxInput };
+  return { blur : blur, set : set, get : get, remove : remove, isCmdBoxInput : isCmdBoxInput, cmdBox : cmdBox };
 })();

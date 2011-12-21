@@ -6,9 +6,11 @@ var Dialog = (function() {
 
 	function DialogBox() {
     var box = document.getElementById(box_id);
+    var cmdBox = CmdBox.cmdBox();
     if (!box) {
       box = document.createElement('div');
       box.setAttribute('id', box_id);
+      box.style.bottom = cmdBox.offsetHeight + "px !important";
       document.body.insertBefore(box, document.body.childNodes[0]);
     }
 		return box;
