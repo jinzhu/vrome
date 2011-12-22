@@ -91,7 +91,7 @@ var Dialog = (function() {
 			} else {
 				result.setAttribute('class', selected_class);
         result.scrollIntoViewIfNeeded();
-        notice(current().getAttribute("href"));
+        if (current()) { notice(current().getAttribute("href")); }
 			}
 		}
 	}

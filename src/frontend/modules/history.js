@@ -14,6 +14,8 @@ var History = (function() {
 
   function openCurrent() {
     if (!isEnabled) { return false; }
+    var elem = Dialog.current();
+    if (!elem) { return false; }
 
     var options = {};
     options[Platform.mac ? 'meta' : 'ctrl'] = newTab;
