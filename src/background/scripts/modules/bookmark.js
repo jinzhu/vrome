@@ -5,7 +5,7 @@ var Bookmark = (function() {
     var keyword = msg.keyword;
 
     chrome.bookmarks.search(keyword, function(bookmarks) {
-      Post(tab, { action: "Dialog.draw", sources: bookmarks });
+      Post(tab, { action: "Dialog.draw", urls: bookmarks, keyword: keyword });
     })
 	}
 	// dateAdded: 1292228084838

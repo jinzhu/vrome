@@ -124,6 +124,7 @@ a[vrome_highlight=hint_active] {
 #__vrome_searchResults div {
   padding:5px !important;
   opacity: 0.9 !important;
+  border-bottom: 1px solid #b3b3b3;
 }
 
 #__vrome_searchResults div strong {

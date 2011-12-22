@@ -5,7 +5,7 @@ var History = (function() {
     var keyword = msg.keyword;
 
     chrome.history.search({text: keyword}, function(historys) {
-      Post(tab, { action: "Dialog.draw", sources: historys });
+      Post(tab, { action: "Dialog.draw", urls: historys, keyword: keyword });
     })
 	}
   // dateAdded: 1292228084838

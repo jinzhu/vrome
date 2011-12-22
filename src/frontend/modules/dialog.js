@@ -1,5 +1,6 @@
 var Dialog = (function() {
-  var isEnabled, selected, sources;
+  var isEnabled, selected, sources, diaLogMode;
+
 	var box_id = "__vrome_dialog";
 	var search_results_id = "__vrome_searchResults";
 	var selected_class = "__vrome_selected";
@@ -29,25 +30,37 @@ var Dialog = (function() {
 	}
 
 	function draw(msg) {
+    if (msg.urls) { diaLogMode = 'url'; }
+
 		var results_box = freshResultBox();
-		sources = msg.sources;
 		selected = 0;
 
-		if (sources.length === 0) {
-			var result = document.createElement('div');
-			result.innerHTML = "No results found!";
-			results_box.appendChild(result);
-			return;
-		}
+    sources = msg.urls || msg.sources;
+
+    if (sources.length === 0) {
+      var result = document.createElement('div');
+      result.innerHTML = "No results found!";
+      results_box.appendChild(result);
+      return;
+    }
 
 		for (var i=0; i < sources.length; i++) {
 			var source = sources[i];
 			var result = document.createElement('div');
-			result.innerHTML = "<a href='" + source.url + "'> " + (source.title || source.url) + "</a>";
+      if (diaLogMode == 'url') {
+        result.innerHTML = "<a href='" + source.url + "'> " + highlight(msg.keyword, source.title, source.url) + "</a>";
+      } else {
+        result.innerHTML = highlight(msg.keyword, source);
+      }
 			results_box.appendChild(result);
 		}
 		next();
 	}
+
+  function highlight(keyword, text, addition) {
+    if (addition) { text += "\t--\t" + addition; }
+    return text.slice(0, 75).replace(RegExp(keyword,'g'), "<strong>" + keyword + "</strong>");
+  }
 
 	function next() {
 		selected += 1;

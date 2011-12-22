@@ -13,12 +13,10 @@ Need for For v1.0:
 
 FIXME
 1, times fail to sync?
-2, only show notice in top window.
-3, hightlight when search history, bookmarks
+2, only show notice in top window (frames).
+
 
 TODO ?
-
-CmdBox { transparent ?  }
 Basic help page
 
 readability
