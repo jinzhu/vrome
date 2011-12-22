@@ -5,6 +5,7 @@ var History = (function() {
     isEnabled = true;
     newTab    = new_tab;
     multiMode = multi_mode;
+    last_keyword = null;
 
     Dialog.start();
     CmdBox.set({title : 'History',pressDown : handleInput,content : ''});
