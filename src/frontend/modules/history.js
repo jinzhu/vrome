@@ -7,6 +7,7 @@ var History = (function() {
     multiMode = multi_mode;
 
     CmdBox.set({title : 'History',pressDown : handleInput,content : ''});
+    search("");
   }
 
   function openCurrent() {
@@ -36,9 +37,13 @@ var History = (function() {
   function delayToWaitKeyDown() {
     var keyword = CmdBox.get().content;
     if (last_keyword !== keyword) {
-      Post({action: "History.search", keyword: CmdBox.get().content});
+      search(keyword);
       last_keyword = keyword;
     }
+  }
+
+  function search(keyword) {
+    Post({action: "History.search", keyword: keyword});
   }
 
   function stop() {

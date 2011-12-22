@@ -33,7 +33,7 @@ var Dialog = (function() {
 		sources = msg.sources;
 		selected = 0;
 
-		if (sources.length == 0) {
+		if (sources.length === 0) {
 			var result = document.createElement('div');
 			result.innerHTML = "No results found!";
 			results_box.appendChild(result);
