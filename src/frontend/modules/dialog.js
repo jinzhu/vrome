@@ -6,6 +6,10 @@ var Dialog = (function() {
 	var selected_class = "__vrome_selected";
 	var notice_id = "__vrome_dialog_notice";
 
+  function start() {
+    isEnabled = true;
+  }
+
 	function DialogBox() {
     var box = document.getElementById(box_id);
     var cmdBox = CmdBox.cmdBox();
@@ -30,6 +34,7 @@ var Dialog = (function() {
 	}
 
 	function draw(msg) {
+    if (!isEnabled) { return false; }
     if (msg.urls) { diaLogMode = 'url'; }
 
 		var results_box = freshResultBox();
@@ -96,11 +101,12 @@ var Dialog = (function() {
 		if (selected_box) { return selected_box.children[0] }
 	}
 
-	function remove() {
+	function stop() {
     var box = DialogBox();
     if (box) { document.body.removeChild(box); }
     var box = document.getElementById(notice_id);
     if (box) { document.body.removeChild(box); }
+    isEnabled = false;
 	}
 
   function notice(msg) {
@@ -124,6 +130,7 @@ var Dialog = (function() {
 		next    : next,
 		prev    : prev,
 		current : current,
-		remove  : remove
+    start : start,
+		stop  : stop
 	};
 })();

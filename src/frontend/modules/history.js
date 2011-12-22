@@ -6,6 +6,7 @@ var History = (function() {
     newTab    = new_tab;
     multiMode = multi_mode;
 
+    Dialog.start();
     CmdBox.set({title : 'History',pressDown : handleInput,content : ''});
     search("");
   }
@@ -47,6 +48,7 @@ var History = (function() {
   }
 
   function stop() {
+    Dialog.stop();
     isEnabled = false;
   }
 

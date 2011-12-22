@@ -37,12 +37,13 @@ function AcceptKeyFunction() {
 
 function CancelKeyFunction() {
   Hint.remove();
-  Search.stop();
   InsertMode.blurFocus();
   KeyEvent.reset();
-	Dialog.remove();
+
+  Search.stop();
 	Bookmark.stop();
   History.stop();
+
   Url.close();
   CmdBox.remove();
 }

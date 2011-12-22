@@ -6,6 +6,7 @@ var Bookmark = (function() {
     newTab    = new_tab;
     multiMode = multi_mode;
 
+    Dialog.start();
     CmdBox.set({title : 'Bookmark',pressDown : handleInput,content : ''});
   }
 
@@ -42,6 +43,7 @@ var Bookmark = (function() {
   }
 
   function stop() {
+    Dialog.stop();
     isEnabled = false;
   }
 
