@@ -6,7 +6,6 @@ var Platform = {
 
 var times = function(/*Boolean*/ raw,/*Boolean*/ read) {
   var count = raw ? KeyEvent.times(read) : (KeyEvent.times(read) || 1);
-  Debug('KeyEvent.times:' + count);
   return count;
 };
 
@@ -70,10 +69,8 @@ function runIt(func, args) {
       var init_function = initFunction[i];
 
       if (init_function instanceof Function){
-				Debug("RunIt:" + init_function);
         init_function.call();
       } else if (init_function[0] instanceof Function) {
-        Debug("RunIt: function" + init_function[0] + " arguments:" + init_function[1]);
         init_function[0].apply('', init_function[1]);
       } else {
         Debug("RunIt(Not Run): function" + init_function);

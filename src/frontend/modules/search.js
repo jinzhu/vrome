@@ -88,8 +88,6 @@ var Search = (function(){
 		i = (i + offset) % nodes.length;
 		if (i < 0) { i +=	nodes.length; }
 
-    Debug('Search.next - size:' + nodes.length + ' selected:' + i + ' direction:' + direction + ' offset:' + offset);
-
     CmdBox.blur();
 
     if (nodes[i] && isElementVisible(nodes[i], /* In full page*/ true)) {

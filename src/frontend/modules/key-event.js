@@ -32,7 +32,6 @@ var KeyEvent = (function() {
     Settings.add("background.currentKeys", currentKeys);
     Settings.add("background.times", times);
     Post({action : "storeLastCommand", currentKeys : currentKeys, times : times});
-    Debug("KeyEvent.storeLastCommand - currentKeys:" + currentKeys + " times:" + times);
   }
 
   function runLast() {

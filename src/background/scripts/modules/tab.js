@@ -81,7 +81,6 @@ var Tab = (function() {
       var index = Tab.closed_tabs.length - msg.count;
       var last_closed_tab = Tab.closed_tabs[Tab.closed_tabs.length - msg.count];
 
-      Debug("last_closed_tab: " + last_closed_tab);
       if (last_closed_tab) {
         Tab.closed_tabs.splice(index,1);
         chrome.tabs.create({url: last_closed_tab.url, index: last_closed_tab.index});
@@ -104,7 +103,6 @@ var Tab = (function() {
       }
       if (index < 0) { index = index + tabs.length; }
 
-      Debug("gotoTab:" + index + " index:" + msg.index + " offset:" + msg.offset);
       tab = tabs[index] || tab;
       chrome.tabs.update(tab.id, {selected: true});
     });
