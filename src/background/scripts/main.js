@@ -49,3 +49,43 @@ function externalEditor(msg) {
 // }
 //
 // if (!checkFirstTime()) { checkNewVersion(); } //add to init
+
+////////////////////////////////////////////////////////////////////////////////
+// Popup Page
+////////////////////////////////////////////////////////////////////////////////
+function closePopup() {
+	window.close();
+}
+
+function openOptions() {
+	closePopup();
+	extension.openOptions();
+}
+
+function openHelpWebsite() {
+	closePopup();
+	chrome.tabs.create({
+		url: "https://github.com/jinzhu/vrome#readme"
+	});
+}
+
+function openChromeStore() {
+	closePopup();
+	chrome.tabs.create({
+		url: "https://chrome.google.com/webstore/detail/godjoomfiimiddapohpmfklhgmbfffjj/details"
+	});
+}
+
+function openIssuesPage() {
+	closePopup();
+	chrome.tabs.create({
+		url: "https://github.com/jinzhu/vrome/issues"
+	});
+}
+
+function openSourcePage() {
+	closePopup();
+	chrome.tabs.create({
+		url: "https://github.com/jinzhu/vrome"
+	});
+}

@@ -27,7 +27,7 @@
     "128": "images/icons-128.png"
   },
   "browser_action": {
-    "popup": "popup.html",
+    "popup": "background/popup.html",
     "default_icon": "images/logo.png",
     "default_title": "Vrome"
   }

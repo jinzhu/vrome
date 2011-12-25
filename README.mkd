@@ -3,7 +3,7 @@
 ### If you love this extension, Please consider write blog, tutorial, record video, tweet, or any other way you like to make more people know and love it!
 ### you could add your link to our [WIKI](https://github.com/jinzhu/vrome/wiki/Links) ;)
 
-### Also don't forget to rate the extension in [chrome store](https://chrome.google.com/webstore/detail/godjoomfiimiddapohpmfklhgmbfffjj/details)!
+### Also don't forget to rate the extension in [chrome store](https://chrome.google.com/webstore/detail/godjoomfiimiddapohpmfklhgmbfffjj/details) !
 
 ### Thanks!
 
