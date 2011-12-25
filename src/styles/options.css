@@ -27,7 +27,7 @@ nav ul#tabs li a { border-top-left-radius: 2px 2px; border-top-right-radius: 2px
 nav ul#tabs li a:hover { text-decoration: none; color: #000000; background-color: #F1F0ee; background: -webkit-gradient( linear, left bottom, left top, color-stop(1, rgb(218,229,230)), color-stop(0, rgb(255,255,255))); }
 nav ul#tabs li a.selected { margin-left: 1px; border-left: 1px solid #DDD; border-right: 1px solid #DDD; border-top: 1px solid #DDD; padding: 0 20px; margin-right: 2px; margin-top: 1px; float: left; background: -webkit-gradient( linear, left bottom, left top, color-stop(1, rgb(255,255,255)), color-stop(0, rgb(255,255,255))); repeat-x left top; cursor: pointer; border-bottom: 0; height: 33px; line-height: 32px; position: relative; z-index: 100; }
 div.tabContent { padding: 0em; }
-div.tabContent.hide { display: none; }
+.hide { display: none; }
 .description { font-size: 12px; font-family: Arial, sans-serif; }
 form { margin: 0px; padding: 0px; font-size: 12px; }
 p { font-family: Arial, sans-serif; font-size: small; }
