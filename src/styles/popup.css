@@ -24,9 +24,10 @@ hr {
 }
 
 a {
-  text-decoration: none; 
+  text-decoration: none;
+	color: #40505F;
 }
-  
+
 
 .ltr, .ltr * {
 	direction: ltr !important;
@@ -48,7 +49,7 @@ a {
 	margin: 0px 2px;
 	white-space: nowrap;
 	cursor: pointer;
-	?text-shadow: #ccc -1px 0px 2px;	
+	?text-shadow: #ccc -1px 0px 2px;
 }
 
 #menu .item:hover {
@@ -58,7 +59,7 @@ a {
 	border: solid 1px #bcd;
 	border-radius: 3px;
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #f0f5fc), color-stop(1, #e0e9f4));
-	background: -webkit-gradient(linear, left top, left bottom, 
+	background: -webkit-gradient(linear, left top, left bottom,
 		color-stop(0, #fff),  color-stop(0.4, hsl(215, 67%, 97%)), color-stop(0.41, hsl(213, 48%, 95%)));
 
 	?border: solid 1px #c5cdd3;
@@ -76,7 +77,7 @@ a {
 }
 
 #menu .item img {
-	vertical-align: text-top;	
+	vertical-align: text-top;
 }
 
 #menu .blue {
@@ -130,7 +131,7 @@ a {
 }
 
 #about .header {
-	text-shadow: #ccc 1px 1px 3px;	
+	text-shadow: #ccc 1px 1px 3px;
 }
 
 #about .header td {
@@ -225,7 +226,7 @@ a {
 	border-bottom: solid 1px #eef;
 	border: solid 1px #acb;
 	border-radius: 2px;
-	?background: -webkit-gradient(linear, left top, left bottom, 
+	?background: -webkit-gradient(linear, left top, left bottom,
 				color-stop(0, #fff),  color-stop(0.4, hsl(115, 67%, 97%)), color-stop(0.41, hsl(113, 48%, 94%)));
 }
 

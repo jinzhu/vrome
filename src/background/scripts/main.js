@@ -95,3 +95,8 @@ function openVromerc() {
 		url: "https://github.com/jinzhu/vrome/wiki/vromerc-example-file"
 	});
 }
+
+function openOptions() {
+	closePopup();
+  chrome.tabs.create({ url: chrome.extension.getURL("/background/options.html") });
+}
