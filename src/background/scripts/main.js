@@ -89,3 +89,9 @@ function openSourcePage() {
 		url: "https://github.com/jinzhu/vrome"
 	});
 }
+
+function openVromerc() {
+	chrome.tabs.create({
+		url: "https://github.com/jinzhu/vrome/wiki/vromerc-example-file"
+	});
+}

@@ -30,5 +30,6 @@
     "popup": "background/popup.html",
     "default_icon": "images/logo.png",
     "default_title": "Vrome"
-  }
+  },
+  "options_page": "background/options.html"
 }
