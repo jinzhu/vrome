@@ -48,6 +48,7 @@ var KeyEvent = (function() {
 
 	function reset() {
 		currentKeys = "";
+    times = 0;
 	}
 
   ///////////////////////////////////////////////////
@@ -128,7 +129,7 @@ var KeyEvent = (function() {
     }
 
     // Reset currentKeys if nothing match or some function called
-    if (!someBindingMatched || someFunctionCalled) reset();
+    if (!someBindingMatched || someFunctionCalled) currentKeys = "";
 
     // Set the count time.
     if (!someFunctionCalled && !insertMode && /^\d$/.test(key)) {
@@ -148,7 +149,7 @@ var KeyEvent = (function() {
     }
 
 		// Compatible with google's new interface
-		if (key.match(/^.$/) && !insertMode) {
+		if (key && key.match(/^.$/) && !insertMode) {
 			stopPropagation(e)
 		}
   }

@@ -44,8 +44,8 @@
         Post(tab, {action : "Settings.add", arguments : { background : Settings.get()} });
       }
 
-      chrome.tabs.onCreated.addListener(function(tabId) {
-        chrome.tabs.get(tabId, function(tab) {
+      chrome.tabs.onCreated.addListener(function(tab) {
+        chrome.tabs.get(tab.id, function(tab) {
           syncSetting(tab);
         });
       });
