@@ -111,7 +111,7 @@ var KeyEvent = (function() {
         var someFunctionCalled = true;
         keys.replace(regexp,'');
         // map j 3j
-        times = (Number(RegExp.$1) || 1) * times;
+        times = (Number(RegExp.$1) || 1) * (times || 1);
         binding_function.call(e);
         times = last_times;
       }
