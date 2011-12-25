@@ -22,7 +22,7 @@
         xhr.open("POST", url, true);
         xhr.onreadystatechange = function() {
           if (xhr.readyState == 4 && xhr.status == 200) {
-            Settings.add({ configure : JSON.parse(xhr.responseText) });
+            Settings.add({configure: JSON.parse(xhr.responseText) });
           };
         }
 
@@ -33,26 +33,30 @@
 
       function syncSetting(tab) {
         getConfigure();
+
         if (tab != Tab.now_tab) {
           Tab.last_selected_tab = Tab.now_tab || tab;
           Tab.now_tab = tab;
         }
+
         Settings.add({currentUrl : tab.url, now_tab_id : Tab.now_tab.id});
 
-        Post(tab,{action : "Settings.add", arguments : { background : Settings.get()} });
+        Post(tab, {action : "Settings.add", arguments : { background : Settings.get()} });
       }
 
-      chrome.tabs.getSelected(null, function(tab) {
-        syncSetting(tab);
-      });
-
-      chrome.tabs.onSelectionChanged.addListener(function(tabId) {
+      chrome.tabs.onCreated.addListener(function(tabId) {
         chrome.tabs.get(tabId, function(tab) {
           syncSetting(tab);
         });
       });
 
       chrome.tabs.onUpdated.addListener(function(tabId) {
+        chrome.tabs.get(tabId, function(tab) {
+          syncSetting(tab);
+        });
+      });
+
+      chrome.tabs.onActiveChanged.addListener(function(tabId) {
         chrome.tabs.get(tabId, function(tab) {
           syncSetting(tab);
         });
