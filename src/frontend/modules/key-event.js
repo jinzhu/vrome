@@ -111,9 +111,10 @@ var KeyEvent = (function() {
         var someFunctionCalled = true;
         keys.replace(regexp,'');
         // map j 3j
-        times = (Number(RegExp.$1) || 1) * (times || 1);
+        var map_times = Number(RegExp.$1);
+        if (map_times > 0) { times = map_times * (times || 1); }
         binding_function.call(e);
-        times = last_times;
+        if (map_times > 0) { times = last_times; }
       }
 
       var regexp = new RegExp('^(' + keys.replace(/([(\[{\\^$|)?*+.])/g,"\\$1") + ')');
