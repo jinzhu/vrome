@@ -34,6 +34,14 @@ a {
 	text-align: left !important;
 }
 
+.header {
+  text-shadow: #ccc 1px 1px 3px;
+  font-size: 20pt;
+  margin: 8px;
+  direction: ltr;
+  font-weight: bold;
+}
+
 #menu {
 	margin: 2px 0px;
 }
@@ -50,6 +58,11 @@ a {
 	white-space: nowrap;
 	cursor: pointer;
 	?text-shadow: #ccc -1px 0px 2px;
+}
+
+#menu .item a {
+  width: 100%;
+  display: block;
 }
 
 #menu .item:hover {
@@ -100,14 +113,6 @@ a {
 	color: #a407be;
 }
 
-#menu .icon {
-	display: inline-block;
-	width: 16px;
-	height: 16px;
-	vertical-align: middle;
-	?background: url(../images/checked.png);
-}
-
 #menu .separator {
 	height: 0px;
 	margin: 3px 2px;
@@ -115,133 +120,9 @@ a {
 	border-top: 1px solid #ddd;
 }
 
-#about {
-	font-size: 10pt;
-	padding: 10px;
-	display: none;
-}
-
-#about * {
-	color: #578;
-	cursor: default;
-}
-
-#about a {
-	cursor: pointer;
-}
-
-#about .header {
-	text-shadow: #ccc 1px 1px 3px;
-}
-
-#about .header td {
-	padding: 0px 10px;
-	-webkit-padding-start: 0px;
-}
-
-#about .header .title {
-	font-size: 26pt;
-	margin-top: -6px;
-	direction: ltr;
-}
-
-#about .header .titleTable {
-	border-collapse: collapse;
-	border-spacing: 0px;
-}
-
-#about .header .titleTable td {
-	padding: 0px;
-}
-
-#about .header .version {
-	font-size: 11pt;
-	?margin-top: -6px;
-	padding: 0px;
-	text-shadow: #ddd 1px 1px 2px;
-	-webkit-padding-start: 3px !important;
-	-webkit-user-select: text;
-}
-
-#about .header .versionNumber {
+.versionNumber {
 	font-weight: bold;
 	?font-size: 80%;
 	-webkit-padding-start: 5px;
-}
-
-#about .header img {
-	vertical-align: middle;
-}
-
-#about .body {
-	padding: 10px 8px;
-	white-space: nowrap;
-	-webkit-user-select: text;
-}
-
-#about .body * {
-	color: #679;
-}
-
-#about .body span {
-	white-space: nowrap;
-}
-
-#about .footer {
-	height: 15px;
-	color: #789;
-	margin: 5px;
-	padding-top: 3px;
-	border-top: solid 1px #eef;
-	white-space: nowrap;
-}
-
-#about .footer div {
-	?margin: 0px 10px;
-}
-
-#about .close img {
-	cursor: pointer;
-}
-
-#developer {
-	padding-bottom: 12px;
-}
-
-#developer .name {
-	padding: 5px 0px;
-}
-
-#developer .name * {
-	font-size: 10pt;
-}
-
-#changeLog {
-	display: none;
-	padding: 5px;
-	padding-bottom: 12px;
-	margin: 8px 0px;
-	white-space: nowrap;
-	font-size: 100%;
-	border-bottom: solid 1px #eef;
-	border: solid 1px #acb;
-	border-radius: 2px;
-	?background: -webkit-gradient(linear, left top, left bottom,
-				color-stop(0, #fff),  color-stop(0.4, hsl(115, 67%, 97%)), color-stop(0.41, hsl(113, 48%, 94%)));
-}
-
-#changeLog * {
-	direction: ltr;
-	text-align: start;
-	color: #080 !important;
-}
-
-#changeLog .title {
-	margin-bottom: 8px;
-	font-weight: bold;
-}
-
-#changeLog .item {
-	margin-top: 4px;
-	font-size: 90%;
+	padding: 4px 6px;
 }
