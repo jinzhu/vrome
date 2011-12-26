@@ -30,73 +30,62 @@ function externalEditor(msg) {
   xhr.send(JSON.stringify({'method':'open_editor','editor': Option.get("editor"), 'data' : msg.data}));
 }
 
-// notify new version
-// var appVersion = "0.3.3";
-// function checkFirstTime() {
-// 	if (!Settings.get("firstTime")) {
-//     Settings.add({ firstTime : true});
-//     Settings.add({ version : appVersion});
-//     Settings.add({ hotkeys : defaultVimKeyBindings });
-//     return true;
-// 	}
-// 	return false;
-// }
-//
-// function checkNewVersion() {
-// 	if (Settings.get("version") != appVersion) {
-//     Settings.add({version : appVersion});
-// 	}
-// }
-//
-// if (!checkFirstTime()) { checkNewVersion(); } //add to init
+// Notify new version
+var manifestRequest = new XMLHttpRequest();
+manifestRequest.open("GET", chrome.extension.getURL("manifest.json"), false);
+manifestRequest.send(null);
+var currentVersion = JSON.parse(manifestRequest.responseText).version;
 
-////////////////////////////////////////////////////////////////////////////////
-// Popup Page
-////////////////////////////////////////////////////////////////////////////////
-function closePopup() {
-	window.close();
+if (Settings.get("version") !== currentVersion) {
+  if (Settings.get("version")) {
+    openOptions('changelog');
+  } else {
+    openOptions('firsttime');
+  }
+  Settings.add({version : currentVersion});
 }
 
-function openOptions() {
-	closePopup();
-	extension.openOptions();
-}
-
+// Open Pages
 function openHelpWebsite() {
-	closePopup();
-	chrome.tabs.create({
-		url: "https://github.com/jinzhu/vrome#readme"
-	});
+	openOrSelectUrl("https://github.com/jinzhu/vrome#readme");
 }
 
 function openChromeStore() {
-	closePopup();
-	chrome.tabs.create({
-		url: "https://chrome.google.com/webstore/detail/godjoomfiimiddapohpmfklhgmbfffjj/details"
-	});
+	openOrSelectUrl("https://chrome.google.com/webstore/detail/godjoomfiimiddapohpmfklhgmbfffjj/details");
 }
 
 function openIssuesPage() {
-	closePopup();
-	chrome.tabs.create({
-		url: "https://github.com/jinzhu/vrome/issues"
-	});
+	openOrSelectUrl("https://github.com/jinzhu/vrome/issues");
 }
 
 function openSourcePage() {
-	closePopup();
-	chrome.tabs.create({
-		url: "https://github.com/jinzhu/vrome"
-	});
+  openOrSelectUrl("https://github.com/jinzhu/vrome");
 }
 
 function openVromerc() {
-	chrome.tabs.create({
-		url: "https://github.com/jinzhu/vrome/wiki/vromerc-example-file"
-	});
+	openOrSelectUrl("https://github.com/jinzhu/vrome/wiki/vromerc-example-file");
 }
 
-function openOptions() {
-	closePopup();
-  chrome.tabs.create({ url: chrome.extension.getURL("/background/options.html") });
+function openOptions(params) {
+	var url = "background/options.html";
+	if (params) { url += "?" + params + "=true" }
+	openOrSelectUrl(chrome.extension.getURL(url));
+}
+
+function openOrSelectUrl(url) {
+	chrome.tabs.getAllInWindow(null, function(tabs) {
+		for (var i in tabs) { // check if Options page is open already
+			var tab = tabs[i];
+			if (tab.url == url) {
+				chrome.tabs.update(tab.id, { selected: true }); // select the tab
+				return;
+			}
+		}
+		chrome.tabs.getSelected(null, function(tab) { // open a new tab next to currently selected tab
+			chrome.tabs.create({
+				url: url,
+				index: tab.index + 1
+			});
+		});
+	});
 }
