@@ -6,8 +6,12 @@ function shortUrl(msg) {
     port.postMessage({ action : "Url.shortUrl", url : tab.url });
   }
 
+  var api_key = Option.get('google_api_key');
   var xhr = new XMLHttpRequest();
-  xhr.open("POST", "https://www.googleapis.com/urlshortener/v1/url", false);
+  var server_url = "https://www.googleapis.com/urlshortener/v1/url";
+  if (api_key) { server_url += "?key=" + api_key; }
+
+  xhr.open("POST", server_url, false);
   xhr.onerror = sendBackCurrentUrl;
   xhr.setRequestHeader("Content-type","application/json");
   xhr.onreadystatechange = function() {

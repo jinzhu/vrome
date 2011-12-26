@@ -28,7 +28,7 @@ function parseVromerc(text) {
         var config_left = config.trimFirst(array[0]);
         var setting_key = config_left.split(/\+?=/)[0];
         var setting_value = config_left.trimFirst(setting_key + "=").trimFirst(setting_key + "+=");
-        var plus =~ /^\s*set\s+\w+\+=/ ? true : false
+        var plus = (config.match(/^\s*set\s+\w+\+=/) ? true : false);
         setting.set[setting_key] = [setting_value, plus];
       break;
       default:
