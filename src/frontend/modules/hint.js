@@ -104,7 +104,7 @@ var Hint = (function() {
       // If key is not Accept key
 			if (!isAcceptKey(key)) { CmdBox.set({title : 'HintMode'}); }
       // If key is not Escape key
-      if (!isEscapeKey(key)) { setTimeout(delayToWaitKeyDown,200); }
+      if (!isEscapeKey(key)) { setTimeout(delayToWaitKeyDown,20); }
     }
   }
 

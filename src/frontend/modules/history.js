@@ -35,7 +35,7 @@ var History = (function() {
       KeyEvent.stopPropagation(e);
       return;
     }
-    if (!isEscapeKey(key)) { setTimeout(delayToWaitKeyDown,200); }
+    if (!isEscapeKey(key)) { setTimeout(delayToWaitKeyDown,20); }
   }
 
   function delayToWaitKeyDown() {

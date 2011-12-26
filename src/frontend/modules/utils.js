@@ -79,7 +79,7 @@ function runIt(func, args) {
 
     initFunction = [];
   } else {
-    setTimeout(runIt, 50);
+    setTimeout(runIt, 10);
   }
 }
 
