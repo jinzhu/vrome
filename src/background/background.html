@@ -1,9 +1,11 @@
 <html>
   <head>
+    <script src="/shared/extend.js"></script>
     <script src="/shared/settings.js" type="text/javascript" charset="utf-8"></script>
     <script src="/shared/message.js" type="text/javascript" charset="utf-8"></script>
     <script src="/shared/options.js" type="text/javascript" charset="utf-8"></script>
     <script src="/background/scripts/main.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/background/scripts/modules/vromerc.js" type="text/javascript" charset="utf-8"></script>
     <script src="/background/scripts/modules/frame.js" type="text/javascript" charset="utf-8"></script>
     <script src="/background/scripts/modules/tab.js" type="text/javascript" charset="utf-8"></script>
     <script src="/background/scripts/modules/window.js" type="text/javascript" charset="utf-8"></script>
@@ -16,6 +18,8 @@
     <script src="/background/scripts/modules/history.js" type="text/javascript" charset="utf-8"></script>
 
     <script type='text/javascript'>
+      Vromerc.loadOnline(/*scheduleNextReload*/ true);
+
       function getConfigure() {
         var xhr = new XMLHttpRequest();
         var url = 'http://127.0.0.1:20000';

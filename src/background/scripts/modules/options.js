@@ -2,12 +2,30 @@ function initOptionPage() {
 	var text = Settings.get('vromerc');
 	var elem = document.getElementById('vromerc');
 	elem.value = text;
+
+  var onlineUrl = Settings.get('onlineVromercUrl');
+  document.getElementById('onlineVromercUrl').value = onlineUrl;
+
+  var reloadInterval = Settings.get("onlineVromercReloadInterval");
+  document.getElementById('onlineVromercReloadInterval').value = reloadInterval;
+
+  var lastUpdatedAt = Settings.get("onlineVromercLastUpdatedAt");
+  document.getElementById('onlineVromercLastUpdatedAt').innerHTML = lastUpdatedAt;
+}
+
+function saveOnlineVromerc() {
+  Settings.add({onlineVromercUrl: document.getElementById('onlineVromercUrl').value});
+  Settings.add({onlineVromercReloadInterval: document.getElementById('onlineVromercReloadInterval').value});
 }
 
 function saveOptions() {
 	var elem = document.getElementById('vromerc');
-	elem.value = parseVromerc(elem.value);
+	elem.value = Vromerc.parse(elem.value);
   Settings.add({vromerc: elem.value});
+
+  saveOnlineVromerc();
+  Vromerc.loadOnline();
+  initOptionPage();
 }
 
 function tabClick(num) {
