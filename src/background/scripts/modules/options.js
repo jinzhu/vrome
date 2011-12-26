@@ -11,6 +11,9 @@ function initOptionPage() {
 
   var lastUpdatedAt = Settings.get("onlineVromercLastUpdatedAt");
   document.getElementById('onlineVromercLastUpdatedAt').innerHTML = lastUpdatedAt;
+
+  var params = getQueryParams();
+  switchTab(params['goto'] || 'setting');
 }
 
 function saveOnlineVromerc() {
@@ -28,12 +31,24 @@ function saveOptions() {
   initOptionPage();
 }
 
-function tabClick(num) {
-	var show_num = num;
-	var oppose_num = (num == 1 ?  2 : 1);
+function switchTab(tab_name) {
+  var tab_navs = document.body.querySelectorAll('nav #tabs li a')
+  for (var i=0; i < tab_navs.length; i++) {
+    var tab_nav = tab_navs[i];
+    if (tab_nav.getAttribute('ref') != tab_name) {
+      tab_nav.setAttribute("class", "");
+    } else {
+      tab_nav.setAttribute("class", "selected");
+    }
+  }
 
-	document.getElementById('sel' + show_num).setAttribute("class", "selected");
-	document.getElementById('sel' + oppose_num).setAttribute("class", "");
-	document.getElementById('tab' + show_num).setAttribute("class", "");
-	document.getElementById('tab' + oppose_num).setAttribute("class", "hide");
+  var tab_sections = document.body.querySelectorAll('section .tabContent')
+  for (var i=0; i < tab_sections.length; i++) {
+    var tab_section = tab_sections[i];
+    if (tab_section.id != tab_name) {
+      tab_section.style.display = 'none';
+    } else {
+      tab_section.style.display = 'block';
+    }
+  }
 }

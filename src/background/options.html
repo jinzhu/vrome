@@ -27,106 +27,28 @@
 
     <nav>
       <ul id="tabs">
-        <li><a id="sel1" href="#" onclick="tabClick(1);" class="selected"><span id="settings">Settings</span></a></li>
-        <li><a id="sel2" href="#" onclick="tabClick(2);" class=""><span id="donate">Donates</span></a></li>
+        <li><a href="#" ref="dashboard" onclick="switchTab('dashboard');"><span>Dashboard</span></a></li>
+        <li><a href="#" ref="setting" onclick="switchTab('setting');"><span>Settings</span></a></li>
+        <li><a href="#" ref="features" onclick="switchTab('features');"><span>Features</span></a></li>
+        <li><a href="#" ref="changelog" onclick="switchTab('changelog');"><span>ChangeLog</span></a></li>
+        <li><a href="#" ref="donates" onclick="switchTab('donates');"><span>Donates</span></a></li>
       </ul>
     </nav>
 
     <section>
-      <div id="tab1" class="tabContent">
-        <div class="group">
-          <table style="width: 100%; height: 40px;" cellpadding="0" cellspacing="0">
-            <tbody>
-              <tr>
-                <td colspan="3">
-                  <h2>Online .Vromerc</h2> (<a href="javascript:openVromerc()">example file</a>)
-                </td>
-              </tr>
-              <tr><td colspan="2">&nbsp;</td></tr>
-              <tr>
-                <td>
-                  <input type="text" id="onlineVromercUrl" style="width:500px;" placeholder="// e.g: https://raw.github.com/jinzhu/configure/master/.vromerc">
-                  LoadEvery
-									<select id="onlineVromercReloadInterval">
-										<option value="15">15 Minutes</option>
-										<option value="30">30 Minutes</option>
-										<option value="45">45 Minutes</option>
-										<option value="60">1 Hour</option>
-										<option value="180">3 Hours</option>
-										<option value="360">6 Hours</option>
-										<option value="720">12 Hours</option>
-										<option value="1440">Everyday</option>
-									</select>
-                  <input type="submit" value="Load Now" onclick="saveOptions();">
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  Last updated at: <span id="onlineVromercLastUpdatedAt"></span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="group">
-          <table style="width: 100%; height: 40px;" cellpadding="0" cellspacing="0">
-            <tbody>
-              <tr>
-                <td colspan="3">
-                  <h2>.Vromerc</h2> (<a href="javascript:openVromerc()">example file</a>)
-                </td>
-              </tr>
-              <tr><td colspan="2">&nbsp;</td></tr>
-              <tr>
-                <td>
-                  <textarea id="vromerc" style="width:600px;height:200px;" placeholder="// e.g: `map j 10j`, more please check above example file"></textarea>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <br/>
-        <div id="savecancelpanel">
-          <button id="save" class="bluebutton" onclick="saveOptions();">Save</button>
-          <button id="cancel" class="bluebutton" onclick="self.close();">Cancel</button>
-        </div>
-      </div>
-
-      <div id="tab2" class="tabContent hide">
-        <h2 style="margin:5px 0px 10px;">Thank you for your donates!</h2>
-        <form name="_donations" action="https://www.paypal.com/cgi-bin/webscr" method="post">
-          <div class="donateborder">
-            <input type="hidden" name="cmd" value="_donations">
-            <input type="hidden" name="business" value="wosmvp@gmail.com">
-            <input type="hidden" name="item_name" value="Vrome - Chrome">
-            <input type="hidden" name="currency_code" value="USD">
-            <input type="radio" name="amount" value="3" id="r3" checked><label for="r3"> $3</label><br>
-            <input type="radio" name="amount" value="5" id="r5"><label for="r5"> $5</label><br>
-            <input type="radio" name="amount" value="10" id="r10"><label for="r10"> $10</label><br>
-            <input type="radio" name="amount" value="15" id="r15"><label for="r15"> $15</label><br>
-            <input type="radio" name="amount" id="r00"><label for="r00"> $ </label><input name="amount" type="text" size="6">
-          </div>
-          <table cellpadding="0" cellspacing="0" style="width: 100%; margin-top:10px;">
-            <tbody>
-              <tr>
-                <td class="style_left">
-                  <input type="submit" name="Submit" value="Donate securely" alt="Donate Me" style="width:150px;" class="bluebutton">
-                </td>
-                <td>
-                  <img alt="" height="16" src="/images/ok.png" width="16">
-                </td>
-                <td>
-                  <span class="style_bold">Paypal (Official account: wosmvp@gmail.com)</span>
-                </td>
-                <td class="style_right"><img width="54" height="35" src="/images/paypal.png"></td>
-              </tr>
-            </tbody>
-          </table>
-        </form>
-        <br/><br/>
-      </div>
+      <div id="dashboard" class="tabContent"></div>
+      <div id="setting" class="tabContent"></div>
+      <div id="features" class="tabContent"></div>
+      <div id="changelog" class="tabContent"></div>
+      <div id="donates" class="tabContent"></div>
     </section>
+
+    <script>
+      render(document.getElementById('dashboard'), "/files/dashboard.html")
+      render(document.getElementById('setting'), "/files/setting.html")
+      render(document.getElementById('donates'), "/files/donates.html")
+      render(document.getElementById('changelog'), "/files/changelog.html")
+      render(document.getElementById('features'), "/README.html")
+    </script>
   </body>
 </html>

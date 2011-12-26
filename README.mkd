@@ -17,7 +17,8 @@
 ### Tabs manipulation ###
             g0, g^    Go to the first tab
             g$        Go to the last tab
-            <C-^>     Go to the last selected tab. if [count] is specified, go to the [count]th tab.
+    [count] <C-^>     Go to the last selected tab. if [count] is specified, go to the [count]th tab.
+            gl        Go to the last created tab.
     [count] gt        Go to the right [count] tab
     [count] gT        Go to the left [count] tab
     [count] <C-p>     Go to the left [count] tab

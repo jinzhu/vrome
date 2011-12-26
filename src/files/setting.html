@@ -1,0 +1,58 @@
+<div class="group">
+  <table style="width: 100%; height: 40px;" cellpadding="0" cellspacing="0">
+    <tbody>
+      <tr>
+        <td colspan="3">
+          <h2>Online .Vromerc</h2> (<a href="javascript:openVromerc()">example file</a>)
+        </td>
+      </tr>
+      <tr><td colspan="2">&nbsp;</td></tr>
+      <tr>
+        <td>
+          <input type="text" id="onlineVromercUrl" style="width:500px;" placeholder="// e.g: https://raw.github.com/jinzhu/configure/master/.vromerc">
+          LoadEvery
+          <select id="onlineVromercReloadInterval">
+            <option value="15">15 Minutes</option>
+            <option value="30">30 Minutes</option>
+            <option value="45">45 Minutes</option>
+            <option value="60">1 Hour</option>
+            <option value="180">3 Hours</option>
+            <option value="360">6 Hours</option>
+            <option value="720">12 Hours</option>
+            <option value="1440">Everyday</option>
+          </select>
+          <input type="submit" value="Load Now" onclick="saveOptions();">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Last updated at: <span id="onlineVromercLastUpdatedAt"></span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="group">
+  <table style="width: 100%; height: 40px;" cellpadding="0" cellspacing="0">
+    <tbody>
+      <tr>
+        <td colspan="3">
+          <h2>.Vromerc</h2> (<a href="javascript:openVromerc()">example file</a>)
+        </td>
+      </tr>
+      <tr><td colspan="2">&nbsp;</td></tr>
+      <tr>
+        <td>
+          <textarea id="vromerc" style="width:600px;height:200px;" placeholder="// e.g: `map j 10j`, more please check above example file"></textarea>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<br/>
+<div id="savecancelpanel">
+  <button id="save" class="bluebutton" onclick="saveOptions();">Save</button>
+  <button id="cancel" class="bluebutton" onclick="self.close();">Cancel</button>
+</div>

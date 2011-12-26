@@ -40,7 +40,7 @@ if (Settings.get("version") !== currentVersion) {
   if (Settings.get("version")) {
     openOptions('changelog');
   } else {
-    openOptions('firsttime');
+    openOptions('dashboard');
   }
   Settings.add({version : currentVersion});
 }
@@ -68,7 +68,7 @@ function openVromerc() {
 
 function openOptions(params) {
 	var url = "background/options.html";
-	if (params) { url += "?" + params + "=true" }
+	if (params) { url += "?goto=" + params }
 	openOrSelectUrl(chrome.extension.getURL(url));
 }
 
@@ -88,4 +88,27 @@ function openOrSelectUrl(url) {
 			});
 		});
 	});
+}
+
+function render(elem, template) {
+  var xhr = new XMLHttpRequest();
+  xhr.open("GET", chrome.extension.getURL(template), false);
+  xhr.send(null);
+  elem.innerHTML = xhr.responseText;
+}
+
+function getQueryParams() {
+	var query = document.location.search || "";
+	if (query.indexOf("?") == 0)
+		query = query.substring(1);
+
+	query = query.split("&");
+
+	var params = [];
+	for (i in query) {
+		var pair = query[i].split("=");
+		params[pair[0]] = pair[1];
+	}
+
+	return params;
 }
