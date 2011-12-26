@@ -7,16 +7,17 @@ function shortUrl(msg) {
   }
 
   var xhr = new XMLHttpRequest();
-  xhr.open("GET", "http://is.gd/api.php?longurl=" + tab.url, false);
+  xhr.open("POST", "https://www.googleapis.com/urlshortener/v1/url", false);
   xhr.onerror = sendBackCurrentUrl;
+  xhr.setRequestHeader("Content-type","application/json");
   xhr.onreadystatechange = function() {
     if (xhr.readyState == 4) {
       if (xhr.status == 200) {
-        port.postMessage({ action : "Url.shortUrl", url : xhr.responseText });
+        port.postMessage({ action : "Url.shortUrl", url : JSON.parse(xhr.responseText).id });
       } else {
         sendBackCurrentUrl();
       }
     }
   };
-  xhr.send();
+  xhr.send(JSON.stringify({longUrl: encodeURI(tab.url)}));
 }

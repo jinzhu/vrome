@@ -47,7 +47,7 @@ var Url = (function(){
       } else if( /\./.test(url) && !/\s/.test(url)) {
         result.push((url.match("://") ? "" : "http://") + url);
       // google vrome
-      }else{
+      } else {
         var searchengines = JSON.parse(Option.get('searchengines')); // object
         var searchengine  = url.replace(/^(\S+)\s.*$/,"$1"); // google
 
