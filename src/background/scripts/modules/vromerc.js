@@ -35,12 +35,10 @@ function parseVromerc(text) {
         if (config.match(/^\s*$/)) {
           new_configs.push(config);
         } else {
-          new_configs.push("// " + config);
+          new_configs.push(config.replace(/^\/?\/?\s*/, "// "));
         }
     }
   }
-
-  console.log(new_configs);
 
   Settings.add({configure: setting});
   return new_configs.join("\n");
