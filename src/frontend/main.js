@@ -158,6 +158,7 @@ with (KeyEvent) {
   add("g0"    , Tab.first        );
   add("g^"    , Tab.first        );
   add("g$"    , Tab.last         );
+  add("gl"    , Tab.selectLastOpen );
   add("<C-6>" , Tab.selectPrevious );
   add("<C-^>" , Tab.selectPrevious );
 

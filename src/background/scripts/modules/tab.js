@@ -115,6 +115,12 @@ var Tab = (function() {
     });
   }
 
+  function selectLastOpen(msg) {
+    var index = Tab.last_open_tabs.length - msg.count;
+    var tab = Tab.last_open_tabs[index]
+    update({active: true}, tab)
+  }
+
   function reloadAll(msg) {
     var tab = arguments[arguments.length-1];
     chrome.tabs.getAllInWindow(tab.windowId, function(tabs) {
@@ -204,6 +210,7 @@ var Tab = (function() {
     reopen         : reopen,
     goto           : goto,
     selectPrevious : selectPrevious,
+    selectLastOpen : selectLastOpen,
     reloadAll      : reloadAll,
     openUrl        : openUrl,
     openFromClipboard : openFromClipboard,
@@ -218,3 +225,4 @@ var Tab = (function() {
 
 // Tab.closed_tabs, now_tab, last_selected_tab, current_closed_tab;
 Tab.closed_tabs = [];
+Tab.last_open_tabs = [];

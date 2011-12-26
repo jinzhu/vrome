@@ -58,6 +58,10 @@ var Tab = (function(){
     }
   }
 
+  function selectLastOpen() {
+    Post({ action: "Tab.selectLastOpen", count: times() });
+  }
+
   function prev()  { Post({action: "Tab.goto",offset : -1 * times()}); }
   function next()  { Post({action: "Tab.goto",offset : times()}); }
   function first() { Post({action: "Tab.goto",index  :	0}); }
@@ -85,6 +89,7 @@ var Tab = (function(){
     first     : first    ,
     last      : last     ,
     selectPrevious : selectPrevious,
+    selectLastOpen : selectLastOpen,
 
     togglePin       : togglePin,
     duplicate       : duplicate,
