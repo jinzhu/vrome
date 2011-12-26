@@ -109,6 +109,5 @@ function getQueryParams() {
 		var pair = query[i].split("=");
 		params[pair[0]] = pair[1];
 	}
-
 	return params;
 }
