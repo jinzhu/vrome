@@ -9,8 +9,6 @@ ch hostname
 
 Basic help page
 
-readability
-save/list session
 auto refresh
 prevent popup in insert mode. (fix ? for twitter)
 omni box

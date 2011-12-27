@@ -25,10 +25,10 @@ You can also install it from source. please refer [Develop Guide](https://github
 
 ### Custom
 
-  After Install Vrome. you could customize the keybindings in Vrome's option page.
+  After Install Vrome. you could customize the keybindings, disable sites, external editor and other settings in Vrome's option page.
 
-  * Vrome's icon would be show on the right of main Google Chrome toolbar after install
-  * Click on the icon you would get a popup, click "Option" to navigate to Vrome's option page
+  * A icon of Vrome would be shown on the right of main Google Chrome toolbar after install
+  * Click on the icon you would get a popup, then click "Option" to navigate to Vrome's option page
   * In the option page, you could save your config in the textarea we provided. even upload your config to a remote server, then import the config automatically from the url. It would be useful if you have multiple computers. (I uploaded my config to [github](https://raw.github.com/jinzhu/configure/master/.vromerc))
 
   Example [.vromerc](http://wiki.github.com/jinzhu/vrome/vromerc-example-file)
@@ -55,7 +55,7 @@ You can also install it from source. please refer [Develop Guide](https://github
 
 ##### Make more people know and love Vrome
   * Using SNS to tell Vrome to your friends. e.g: Twitter, Facebook, Google+...
-  * Reply other's questions or confusions about Vrome
+  * Answer other's questions or confusions about Vrome
   * Rate Vrome in [Chrome Web Store](https://chrome.google.com/webstore/detail/godjoomfiimiddapohpmfklhgmbfffjj/details)
 
 #### Thanks!
