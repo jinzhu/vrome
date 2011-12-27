@@ -1,9 +1,22 @@
 #!/usr/bin/env ruby
 
+$LOAD_PATH << File.join(File.dirname(__FILE__), "..", "lib")
+
+require "vrome"
+
 require 'rubygems'
 require 'webrick'
 require 'tempfile'
 require 'json'
+
+port = 20000
+
+if ARGV[0] == '-v'
+  puts "Vrome Version: #{Vrome::VERSION}"
+  exit
+else ARGV[0] =~ /^\d+$/
+  port = ARGV[0].to_i
+end
 
 class VromeServer < WEBrick::HTTPServlet::AbstractServlet
 
@@ -58,7 +71,7 @@ end
 puts "Starting Vrome server..."
 
 server = WEBrick::HTTPServer.new
-server.listen('127.0.0.1', 20000)
+server.listen('127.0.0.1', port)
 server.mount "/", VromeServer
 trap(:INT) { server.shutdown }
 server.start
