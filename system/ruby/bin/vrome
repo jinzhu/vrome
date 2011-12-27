@@ -1,9 +1,5 @@
 #!/usr/bin/env ruby
 
-$LOAD_PATH << File.join(File.dirname(__FILE__), "..", "lib")
-
-require "vrome"
-
 require 'rubygems'
 require 'webrick'
 require 'tempfile'
@@ -11,10 +7,7 @@ require 'json'
 
 port = 20000
 
-if ARGV[0] == '-v'
-  puts "Vrome Version: #{Vrome::VERSION}"
-  exit
-else ARGV[0] =~ /^\d+$/
+if ARGV[0] =~ /^\d+$/
   port = ARGV[0].to_i
 end
 
@@ -30,48 +23,25 @@ class VromeServer < WEBrick::HTTPServlet::AbstractServlet
   end
 
   def open_editor(request)
-    editor = request['editor']
+    editor  = request['editor']
+
     tmpfile = Tempfile.new('editor')
     tmpfile.write request['data']
     tmpfile.flush
+
     editor = 'gvim -f' if editor == 'gvim' # Foreground: Don't fork when starting GUI
     system("#{editor} #{tmpfile.path}")
     text = File.read(tmpfile.path)
+
     tmpfile.delete
 
     return 200, "text/plain", text
-  end
-
-  def get_configure(request)
-    config_file = File.join(ENV['HOME'],'.vromerc')
-    vromeConfig = {:set => {},:imap => {},:map => {},:cmap => {}};
-
-    if File.exist?(config_file)
-      File.read(config_file).split("\n").map do |line|
-        array = line.split(/\s+/)
-        case line
-        when /^imap\s+/
-          vromeConfig[:imap][array[1]] = array[2];
-        when /^map\s+/
-          vromeConfig[:map][array[1]]  = array[2];
-        when /^cmap\s+/
-          vromeConfig[:cmap][array[1]] = array[2];
-        when /^set\s+/
-          array = line.split(/\s+/,2)
-          array = array[1].split(/\+?=/,2)
-          vromeConfig[:set][array[0]] = [array[1], line =~ /^set\s+\w+\+=/ ? true : false]
-        end
-      end
-
-      return 200, "text/plain", vromeConfig.to_json
-    end
   end
 end
 
 puts "Starting Vrome server..."
 
-server = WEBrick::HTTPServer.new
-server.listen('127.0.0.1', port)
+server = WEBrick::HTTPServer.new(:BindAddress => '127.0.0.1', :Port => port)
 server.mount "/", VromeServer
 trap(:INT) { server.shutdown }
 server.start
