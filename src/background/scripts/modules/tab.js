@@ -150,7 +150,20 @@ var Tab = (function() {
   }
 
   function openFromClipboard(msg) {
-    msg.url = Clipboard.read();
+    url = Clipboard.read();
+
+    // Refact me
+    if ( /\./.test(url) && !/\s/.test(url)) {
+      url = (url.match("://") ? "" : "http://") + url;
+    } else if (!url.match(/:\/\//)) {
+      var searchengines = Option.get('searchengines');
+      for (var j in searchengines) {
+        url = searchengines[j].replace("{{keyword}}", url);
+        break;
+      }
+    }
+
+    msg.url = url
     openUrl(msg, arguments[arguments.length-1]);
   }
 
