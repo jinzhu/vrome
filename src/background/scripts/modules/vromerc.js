@@ -60,8 +60,8 @@ var Vromerc = (function() {
     xhr.onreadystatechange = function() {
       if (xhr.readyState == 4) {
         if (xhr.status == 200) {
-          var vromerc = "\n\n// Begin Online Vromerc generated\n" + xhr.responseText + "\n// End Online Vromerc generated";
-          vromerc = Settings.get('vromerc').replace(/\n?\n?\/\/ Begin Online Vromerc generated\n(.|\n)+\n\/\/ End Online Vromerc generated/gm,'') + vromerc;
+          var vromerc = "// Begin Online Vromerc generated\n" + xhr.responseText + "\n// End Online Vromerc generated\n\n";
+          vromerc = vromerc + Settings.get('vromerc').replace(/\/\/ Begin Online Vromerc generated\n(.|\n)+\n\/\/ End Online Vromerc generated\n?\n?/gm,'');
           Settings.add({vromerc: parse(vromerc)});
           Settings.add({onlineVromercLastUpdatedAt: new Date().toString()});
         }
