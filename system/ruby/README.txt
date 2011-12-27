@@ -1,10 +1,30 @@
-= vrome
+= Vrome
+
+  Vrome is a external server for vrome, a Vim keybindings extension for chrome.(https://chrome.google.com/webstore/detail/godjoomfiimiddapohpmfklhgmbfffjj/details)
+
+  It is writen with ruby. so ruby is required. (ruby-lang.org)
+
+== Install It As Gem
+  $ sudo gem install vrome
+  $ sudo vrome
+
+== Run It As Script
+  $ sudo path/to/vrome/system/ruby/bin/vrome
+
+== Auto start after login
+  // Linux
+    Add
+      "nohup sudo vrome > /dev/null &"
+    OR
+      "nohup sudo path/to/vrome/system/ruby/bin/vrome > /dev/null &"
+    To ~/.xprofile or other xinit file.
+
 
 == LICENSE:
 
 (The MIT License)
 
-Copyright (c) 2010 Jinzhu
+Copyright (c) 2010 ~ Jinzhu
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the

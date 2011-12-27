@@ -1,3 +1,5 @@
-class Vrome
-  VERSION = '1.0.1'
+require "vrome/version"
+
+module Vrome
+  # Your code goes here...
 end
