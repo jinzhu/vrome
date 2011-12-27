@@ -1,16 +1,20 @@
 body { font: normal 12px Verdana, Arial, Helvetica, sans-serif; padding: 0px; margin: 0px; background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#333333), to(#444444)); background-repeat: no-repeat; background-attachment: fixed; }
 header,nav,section,footer { display: block; }
-header { width: 800px; margin: 10px auto 5px auto; padding-bottom: 5px;}
-nav { width: 822px; margin: 10px auto 0px auto; }
-section { padding: 10px; width: 800px; margin: 0px auto 5px auto; background: #FFFFFF; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px; -webkit-box-shadow: rgba(0, 0, 0, 0.296875) 0px 1px 3px; }
-footer { padding: 10px; width: 800px; margin: 10px auto 5px auto; clear: both; color: #999; text-align: center; }
+header { width: 900px; margin: 10px auto 5px auto; padding-bottom: 5px;}
+nav { width: 922px; margin: 10px auto 0px auto; }
+section { padding: 10px; width: 900px; margin: 0px auto 5px auto; background: #FFFFFF; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px; -webkit-box-shadow: rgba(0, 0, 0, 0.296875) 0px 1px 3px; overflow: auto;}
+footer { padding: 10px; width: 900px; margin: 10px auto 5px auto; clear: both; color: #999; text-align: center; }
 #icon { float: left; }
 #savecancelpanel { text-align: center; padding-top: 10px; height: 30px; }
 .group { border-radius: 5px; border: thin #DDD solid; margin-top: 5px; margin-bottom: 5px; padding: 5px; }
 /* style content */
 h1 { color: #fff; text-shadow: #CCC 0px 0px 1px; font-family: Arial, sans-serif; margin: 0; padding: 3px 0px 0px 38px; }
-h2 { color: #444444; font-family: Arial, sans-serif; margin: 0; padding: 0px; }
-h3 { color: #666666; font-family: Arial, sans-serif; margin: 0; padding: 5px 0 0 0; }
+h2 { color: #444444; font-family: Arial, sans-serif; margin: 0; padding: 5px 0 15px 0; }
+h3 { font-size: 1.3em; color: #444; font-family: Arial, sans-serif; margin: 0; padding: 5px 0 0 0; }
+h4 { font-size: 1.2em; }
+h5 { font-size: 1.1em; color: #666; margin: 0.8em;}
+a  {color: inherit;}
+
 .bluebutton { cursor: pointer; width:100px; height:30px; padding: 3px 15px; color: #FFF; font-size: 14px; font-weight: bold; border: 1px solid #2469BD; border-radius: 3px; background: -webkit-gradient(linear, left top, left bottom, from(#88AFE6), to(#5B8CDC))0; margin-right: 8px; margin-left: 8px;}
 .color { padding-left: 5px; padding-right: 5px; }
 .bordertopbottom { position: relative; border-top: 1px solid #DDD; border-top-width: 1px; border-bottom-width: 1px; border-top-style: solid; border-bottom-style: solid; border-top-color: #DDD; border-bottom-color: #DDD; }

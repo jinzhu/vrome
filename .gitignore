@@ -4,3 +4,5 @@ Gemfile.lock
 /src/README.html
 /src/manifest.json
 /system/ruby/pkg
+/src/files/features.html
+/src/files/changelog.html
