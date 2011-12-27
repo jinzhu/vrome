@@ -3,6 +3,7 @@
 ##### *NOTE* Chrome does not allow extensions to run on Chrome Webstore, Setting page and New Tab page!
 ##### *NOTE* Vrome is a open source project. It's Reliable. We won't use your personal information! All permissions required are used for features. You could check the source code here: [http://github.com/jinzhu/vrome](http://github.com/jinzhu/vrome)
 ##### *NOTE* You need to refresh all tabs to enable all Vrome features after install. Tip: use "\<C-r\>" (Control + R) to refresh one tab, then try Vrome command "R" to refresh all.
+##### *NOTE* Vrome would only works in incognito mode and file URLs after you allow it. You could allow it in [chrome://extensions](chrome://extensions) page.
 ##### *NOTE* Type \<F1\> to show help document.
 
 
