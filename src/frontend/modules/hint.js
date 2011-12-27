@@ -1,5 +1,5 @@
 var Hint = (function() {
-  var currentHint, new_tab, multi_mode, hintMode, selected, elements, matched;
+  var currentHint, new_tab, multi_mode, hintMode, selected, elements, matched, key;
   var highlight = 'vrome_highlight';
 
   function start(newTab, multiMode) {
@@ -10,7 +10,7 @@ var Hint = (function() {
 		new_tab     = newTab;
 
     initHintMode();
-    CmdBox.set({title : 'HintMode',pressDown : handleInput,content : ''});
+    CmdBox.set({title : 'HintMode',pressDown : handleInput, content : ''});
   }
 
   function initHintMode() {
@@ -209,6 +209,9 @@ var Hint = (function() {
 
       if (!multi_mode) { setTimeout(remove,200); }
     }
+
+    selected = 0;
+    CmdBox.set({title : 'HintMode'});
   }
 
   return {

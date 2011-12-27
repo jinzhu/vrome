@@ -53,13 +53,13 @@ var CmdBox = (function() {
       var input = cmdBoxInput() || createCmdBoxInput();
       input.value = opt.content;
       input.setSelectionRange(0, input.value.length);
-      input.addEventListener('keydown',pressDown,false);
-      input.addEventListener('keyup'  ,pressUp,false);
+      input.addEventListener('keydown', pressDown, true);
+      input.addEventListener('keyup'  , pressUp, true);
       input.focus();
     }
 		if (opt.pressUp)   { pressUpFunction   = opt.pressUp; }
 		if (opt.pressDown) { pressDownFunction = opt.pressDown; }
-    if (opt.timeout)   { setTimeout(remove,Number(opt.timeout)); }
+    if (opt.timeout)   { setTimeout(remove, Number(opt.timeout)); }
   }
 
   function get() {
