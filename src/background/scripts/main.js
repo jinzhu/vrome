@@ -15,10 +15,15 @@ function runScript(msg) {
 }
 
 function externalEditor(msg) {
-  var tab = arguments[arguments.length-1],index;
+  var tab = arguments[arguments.length-1];
   var xhr = new XMLHttpRequest();
   var url = 'http://127.0.0.1:20000';
   xhr.open("POST", url, true);
+  xhr.onerror = function() {
+    runScript({code: "CmdBox.set({title : 'Failed to open external Editor, Please check Vrome WIKI opened in new tab for how to do',timeout : 15000});"}, tab);
+    chrome.tabs.create({ url: "https://github.com/jinzhu/vrome/wiki/Support-External-Editor", index: tab.index + 1, selected: false});
+  };
+
   xhr.onreadystatechange = function() {
     if(xhr.readyState == 4 && xhr.status == 200) {
       var port = chrome.tabs.connect(tab.id, {});
