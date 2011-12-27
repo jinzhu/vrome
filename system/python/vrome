@@ -7,7 +7,9 @@
 version = (0, 99)
 
 import os
+import sys
 from tempfile import mkstemp
+
 try:
     import json
 except ImportError:
@@ -42,40 +44,13 @@ class VromeServer(BaseHTTPRequestHandler):
         os.remove(filename)
         return 200, 'text/plain', text
 
-    def get_configure(self, request):
-        user_home = os.path.expanduser('~') # NOTE: works in *nix and windows
-        config_file_name = '.vromerc'
-        if user_home != '~':
-            config_file_name = os.path.join(user_home, config_file_name)
-        vrome_config = {'cmap': {}, 'imap': {}, 'map': {}, 'set': {}}
-        if os.path.exists(config_file_name):
-            for line in open(config_file_name):
-                tokens = line.split(None, 1)
-                if len(tokens) != 2 or tokens[0] not in vrome_config:
-                    continue
-                action = tokens[0]
-                if action == 'set':
-                    appending = False
-                    option, op, value = tokens[1].partition('+=')
-                    if op:
-                        # that is, op == '+='
-                        # means tokens[1] was like: set option += more value
-                        # op will be empty, otherwise.
-                        appending = True
-                    else:
-                        # then try this syntax: set option = value
-                        option, op, value = tokens[1].partition('=')
-                    # NOTE: no error checking as the original ruby code.
-                    vrome_config[action][option.strip()] = [value.strip(), appending]
-                else:
-                    # NOTE: no error checking as the original ruby code.
-                    value = tokens[1].split()
-                    vrome_config[action][value[0]] = value[1]
-
-        return 200, 'text/plain', json.dumps(vrome_config)
-
 def run_server():
-    httpd = HTTPServer(('127.0.0.1', 20000), VromeServer)
+    if len(sys.argv) < 2:
+        port = 20000
+    else:
+        port = int(sys.argv[1])
+
+    httpd = HTTPServer(('127.0.0.1', port), VromeServer)
     httpd.serve_forever()
 
 if __name__ == '__main__':

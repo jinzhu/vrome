@@ -2,13 +2,31 @@ VromeServer
 ===========
 VERSION 0.99
 This is a reimplementation of Jinzhu's ruby code in python.
-Based on "1.0.0 / 2010-02-15" ab7ec4473f37bbe63c59ac6b253c0825f0e04
 
-Put it somewhere in your $PYTHONPATH, and 'vrome &' to launch.
+
+Put it somewhere in your $PATH, and use 'vrome &' to launch.
+
+  $ wget https://raw.github.com/jinzhu/vrome/master/system/python/vrome
+  $ chmod +x vrome
+  $ sudo mv vrome /usr/bin/vrome
+
+By default, it would running on port 20000, If you want to run it on a different port.
+You need to update Vrome (chrome extension)'s option first. (How TO: https://github.com/jinzhu/vrome/wiki/customize-your-vrome)
+For example: If you want to run on port 30000. then you could add `set server_port=30000` to your config.
+
+Then use `vrome 30000 &` to launch it on port 30000.
+
+
+Auto Start
+==========
+1, Mac Users: Please refer `README-launchd` for more
+2, Linux Users: Put `nohup vrome > /dev/null &` to your ~/.xprofile or other xinit files.
+3, Windows Users: ?
+
 
 Requirement
 ===========
-To run VromeServer python version, you need either python >= 2.6 or simplejson installed.
+To run VromeServer python version, you need either 3 > python >= 2.6 or simplejson installed.
 Many Linux distributions come with python pre-installed.
 
 License

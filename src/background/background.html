@@ -20,24 +20,7 @@
     <script type='text/javascript'>
       Vromerc.loadOnline(/*scheduleNextReload*/ true);
 
-      function getConfigure() {
-        var xhr = new XMLHttpRequest();
-        var url = 'http://127.0.0.1:' + Option.get('server_port');
-        xhr.open("POST", url, true);
-        xhr.onreadystatechange = function() {
-          if (xhr.readyState == 4 && xhr.status == 200) {
-            Settings.add({configure: JSON.parse(xhr.responseText) });
-          };
-        }
-
-        xhr.setRequestHeader("Content-type", "text/plain");
-        xhr.send(JSON.stringify({"method":"get_configure"}));
-      }
-      getConfigure();
-
       function syncSetting(tab) {
-        getConfigure();
-
         if (tab != Tab.now_tab) {
           Tab.last_selected_tab = Tab.now_tab || tab;
           Tab.now_tab = tab;
