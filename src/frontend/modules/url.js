@@ -48,7 +48,7 @@ var Url = (function(){
         result.push((url.match("://") ? "" : "http://") + url);
       // google vrome
       } else {
-        var searchengines = JSON.parse(Option.get('searchengines')); // object
+        var searchengines = Option.get('searchengines');
         var searchengine  = url.replace(/^(\S+)\s.*$/,"$1"); // google
 
         // use the matched searchengine
