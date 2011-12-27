@@ -12,21 +12,23 @@ var Url = (function(){
   }
 
   function fixRelativePath(url) {
-    // Not relative path
+    // http://google.com
     if (/:\/\//.test(url)) {
       return url;
+    // /admin
     } else if (/^\//.test(url)) {
       return document.location.origin + url;
+    // ../users || ./products
     } else {
       if (url == '..') { url = '../'; }
-      var pathname = document.location.origin + document.location.pathname;
+      var pathname = document.location.origin + document.location.pathname.replace(/\/+/g,'/');
       var paths = url.split('..');
       for (var i=0; i < paths.length; i++) {
         var path = paths[i];
         if (path.match(/^\//)) {
           pathname = pathname.replace(/\/[^\/]*\/?$/,'') + path;
         } else if (path.match(/^.\//)) {
-          pathname = pathname + path.replace(/^.\//,'/');
+          pathname = pathname.replace(/\/$/,'') + path.replace(/^.\//,'/');
         }
       }
       return pathname;
