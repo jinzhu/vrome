@@ -62,13 +62,9 @@ function openSourcePage() {
   openOrSelectUrl("https://github.com/jinzhu/vrome");
 }
 
-function openVromerc() {
-	openOrSelectUrl("https://github.com/jinzhu/vrome/wiki/vromerc-example-file");
-}
-
 function openOptions(params) {
 	var url = "background/options.html";
-	if (params) { url += "?goto=" + params }
+	if (params) { url += "#" + params; }
 	openOrSelectUrl(chrome.extension.getURL(url));
 }
 
@@ -95,19 +91,4 @@ function render(elem, template) {
   xhr.open("GET", chrome.extension.getURL(template), false);
   xhr.send(null);
   elem.innerHTML = xhr.responseText;
-}
-
-function getQueryParams() {
-	var query = document.location.search || "";
-	if (query.indexOf("?") == 0)
-		query = query.substring(1);
-
-	query = query.split("&");
-
-	var params = [];
-	for (i in query) {
-		var pair = query[i].split("=");
-		params[pair[0]] = pair[1];
-	}
-	return params;
 }

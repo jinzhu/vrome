@@ -27,28 +27,28 @@
 
     <nav>
       <ul id="tabs">
-        <li><a href="#" ref="dashboard" onclick="switchTab('dashboard');"><span>Dashboard</span></a></li>
-        <li><a href="#" ref="setting" onclick="switchTab('setting');"><span>Options</span></a></li>
-        <li><a href="#" ref="features" onclick="switchTab('features');"><span>Features</span></a></li>
-        <li><a href="#" ref="changelog" onclick="switchTab('changelog');"><span>ChangeLog</span></a></li>
-        <li><a href="#" ref="donates" onclick="switchTab('donates');"><span>Donates</span></a></li>
+        <li><a href="#dashboard" onclick="switchTab('dashboard');"><span>Dashboard</span></a></li>
+        <li><a href="#setting" onclick="switchTab('setting');"><span>Options</span></a></li>
+        <li><a href="#features" onclick="switchTab('features');"><span>Features</span></a></li>
+        <li><a href="#changelog" onclick="switchTab('changelog');"><span>ChangeLog</span></a></li>
+        <li><a href="#donates" onclick="switchTab('donates');"><span>Donates</span></a></li>
       </ul>
     </nav>
 
     <section>
-      <div id="dashboard" class="tabContent"></div>
-      <div id="setting" class="tabContent"></div>
-      <div id="features" class="tabContent"></div>
-      <div id="changelog" class="tabContent"></div>
-      <div id="donates" class="tabContent"></div>
+      <div id="dashboardContent" class="tabContent"></div>
+      <div id="settingContent" class="tabContent"></div>
+      <div id="featuresContent" class="tabContent"></div>
+      <div id="changelogContent" class="tabContent"></div>
+      <div id="donatesContent" class="tabContent"></div>
     </section>
 
     <script>
-      render(document.getElementById('dashboard'), "/README.html")
-      render(document.getElementById('setting'), "/files/setting.html")
-      render(document.getElementById('donates'), "/files/donates.html")
-      render(document.getElementById('changelog'), "/files/changelog.html")
-      render(document.getElementById('features'), "/files/features.html")
+      render(document.getElementById('dashboardContent'), "/README.html")
+      render(document.getElementById('settingContent'), "/files/setting.html")
+      render(document.getElementById('donatesContent'), "/files/donates.html")
+      render(document.getElementById('changelogContent'), "/files/changelog.html")
+      render(document.getElementById('featuresContent'), "/files/features.html")
     </script>
   </body>
 </html>
