@@ -4,6 +4,8 @@ var Vromerc = (function() {
     setting.imap    = {};
     setting.map     = {};
     setting.cmap    = {};
+    setting.unmap   = {};
+    setting.iunmap  = {};
     setting.set     = {};
     var new_configs = [];
 
@@ -23,6 +25,14 @@ var Vromerc = (function() {
         case 'cmap':
           new_configs.push(config);
           setting.cmap[array[1]] = array[2];
+          break;
+        case 'unmap':
+          new_configs.push(config);
+          setting.unmap[array[1]] = true;
+          break;
+        case 'iunmap':
+          new_configs.push(config);
+          setting.iunmap[array[1]] = true;
           break;
         case 'set':
           new_configs.push(config);

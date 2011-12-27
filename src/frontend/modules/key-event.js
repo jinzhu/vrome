@@ -78,6 +78,12 @@ var KeyEvent = (function() {
     return (configure[mode] && configure[mode][key]) || key;
   }
 
+  function ignoreKey(key, insertMode) {
+    var configure = Settings.get('background.configure');
+    var mode = insertMode ? 'iunmap' : 'unmap';
+    if (configure[mode] && configure[mode][key]) { return true; }
+  }
+
   function runCurrentKeys(keys, insertMode, e) {
     if (!keys) { return; }
     var key        = null;
@@ -179,6 +185,7 @@ var KeyEvent = (function() {
 		}
 
     currentKeys = filterKey(currentKeys, insertMode); //FIXME multi modes
+    if (ignoreKey(currentKeys, insertMode)) { return; }
     runCurrentKeys(currentKeys, insertMode, e);
 	}
 
