@@ -112,7 +112,7 @@ var KeyEvent = (function() {
       // insertMode match?
       if (!!insertMode != binding_mode) continue;
 
-      var regexp = new RegExp('^(\\d*)(' + escaped_command + ')');
+      var regexp = new RegExp('^(\\d*)(' + escaped_command + ')$');
       if (regexp.test(keys)) {
         var someFunctionCalled = true;
         keys.replace(regexp,'');
