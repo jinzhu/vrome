@@ -1,24 +1,30 @@
 function shortUrl(msg) {
-  var tab = arguments[arguments.length-1],index;
+  var tab = arguments[arguments.length-1];
   var port = chrome.tabs.connect(tab.id, {});
 
   function sendBackCurrentUrl() {
     port.postMessage({ action : "Url.shortUrl", url : tab.url });
   }
 
-  var api_key = Option.get('google_api_key');
+	var auth = oauth.hasToken();
+
   var xhr = new XMLHttpRequest();
   var server_url = "https://www.googleapis.com/urlshortener/v1/url";
-  if (api_key) { server_url += "?key=" + api_key; }
-
   xhr.open("POST", server_url, false);
-  xhr.onerror = sendBackCurrentUrl;
+
+	if(auth) xhr.setRequestHeader('Authorization', oauth.getAuthorizationHeader(server_url, 'POST'));
   xhr.setRequestHeader("Content-type","application/json");
+  xhr.onerror = sendBackCurrentUrl;
+
   xhr.onreadystatechange = function() {
+    var response = JSON.parse(xhr.responseText);
     if (xhr.readyState == 4) {
       if (xhr.status == 200) {
-        port.postMessage({ action : "Url.shortUrl", url : JSON.parse(xhr.responseText).id });
+        port.postMessage({ action : "Url.shortUrl", url : response.id });
       } else {
+        if (response.error.code == '401') {
+          oauth.clearTokens();
+        }
         sendBackCurrentUrl();
       }
     }

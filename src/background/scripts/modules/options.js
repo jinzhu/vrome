@@ -33,6 +33,7 @@ function initOptionPage() {
   var lastUpdatedAt = Settings.get("onlineVromercLastUpdatedAt");
   document.getElementById('onlineVromercLastUpdatedAt').innerHTML = lastUpdatedAt;
 
+	changeAccessButtonStatus(oauth.hasToken());
   switchTab(document.location.hash.replace(/^#/,"") || 'setting');
 }
 

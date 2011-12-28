@@ -17,10 +17,16 @@
     <script src="/background/scripts/modules/bookmark.js" type="text/javascript" charset="utf-8"></script>
     <script src="/background/scripts/modules/history.js" type="text/javascript" charset="utf-8"></script>
 
+		<script type="text/javascript" src="/oauth/chrome_ex_oauthsimple.js"></script>
+		<script type="text/javascript" src="/oauth/chrome_ex_oauth.js"></script>
+		<script type="text/javascript" src="/oauth/oauth.js"></script>
+
     <script type='text/javascript'>
       Vromerc.loadOnline(/*scheduleNextReload*/ true);
 
       function syncSetting(tab) {
+        if (!tab) { return false; }
+
         if (tab != Tab.now_tab) {
           Tab.last_selected_tab = Tab.now_tab || tab;
           Tab.now_tab = tab;
