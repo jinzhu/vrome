@@ -44,6 +44,16 @@ function clickElement(elem, opt) {
   // https://developer.mozilla.org/en/DOM/event.initMouseEvent
   opt = opt || {};
   var new_tab = opt['meta'] || opt['ctrl'];
+
+  // Define method length, then we thought it is an Array
+  if (elem.length) {
+    for (var i=0; i < elem.length; i++) {
+      if (i >0) opt['ctrl'] = true;
+      clickElement(elem[i], opt);
+    }
+    return;
+  }
+
   var old_target = null;
 
   if (!new_tab) {

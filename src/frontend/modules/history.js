@@ -20,6 +20,8 @@ var History = (function() {
     var options = {};
     options[Platform.mac ? 'meta' : 'ctrl'] = newTab;
     clickElement(Dialog.current(), options);
+
+    stop();
   }
 
   function handleInput(e) {

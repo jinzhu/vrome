@@ -9,6 +9,25 @@ var Tab = (function() {
     });
   }
 
+
+  function autoComplete(msg) {
+    var tab     = arguments[arguments.length-1];
+    var keyword = msg.keyword;
+    var return_urls = [];
+
+    if (msg.default_urls) {
+      var default_url = {}
+      default_url.url = msg.default_urls;
+      return_urls.push(default_url);
+    }
+
+    chrome.bookmarks.search(keyword, function(bookmarks) {
+      chrome.history.search({text: keyword}, function(historys) {
+        Post(tab, { action: "Dialog.draw", urls: return_urls.concat(bookmarks.concat(historys)), keyword: keyword });
+      })
+    })
+  }
+
   function update(msg) {
     var tab  = arguments[arguments.length-1];
     var attr = {};
@@ -232,7 +251,8 @@ var Tab = (function() {
     detach            : detach,
     openInIncognito   : openInIncognito,
     merge             : merge,
-    mergeAll          : mergeAll
+    mergeAll          : mergeAll,
+    autoComplete : autoComplete
   };
 })();
 

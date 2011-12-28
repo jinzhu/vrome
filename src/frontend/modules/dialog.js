@@ -53,7 +53,16 @@ var Dialog = (function() {
 			var source = sources[i];
 			var result = document.createElement('div');
       if (diaLogMode == 'url') {
-        result.innerHTML = "<a href='" + source.url + "'> " + highlight(msg.keyword, source.title, source.url) + "</a>";
+        if (source.url instanceof Array) {
+          var values = [];
+          for (var j=0; j < source.url.length; j++) {
+            var url = source.url[j];
+            values.push("<a href='" + url + "'> " + highlight(msg.keyword, url) + "</a>");
+          }
+          result.innerHTML = values.join(', ');
+        } else {
+          result.innerHTML = "<a href='" + source.url + "'> " + highlight(msg.keyword, source.title, source.url) + "</a>";
+        }
       } else {
         result.innerHTML = highlight(msg.keyword, source);
       }
@@ -63,8 +72,12 @@ var Dialog = (function() {
 	}
 
   function highlight(keyword, text, addition) {
-    if (addition) { text += "\t--\t" + addition; }
-    return text.slice(0, 75).replace(RegExp(keyword,'g'), "<strong>" + keyword + "</strong>");
+    if (!text) {
+      text = addition;
+    } else if (addition) {
+      text += "\t--\t" + addition;
+    }
+    return text.slice(0, 75).replace(RegExp(RegExp.escape(keyword),'g'), "<strong>" + keyword + "</strong>");
   }
 
 	function next() {
@@ -91,14 +104,26 @@ var Dialog = (function() {
 			} else {
 				result.setAttribute('class', selected_class);
         result.scrollIntoViewIfNeeded();
-        if (current()) { notice(current().getAttribute("href")); }
+        var current_elements = current();
+        if (current_elements) {
+          // Acts as array. (Actually it is HTMLCollection)
+          if (current_elements.length) {
+            var values = []
+            for(var j=0; j < current_elements.length; j++) {
+              values.push(current_elements[j].getAttribute("href"));
+            }
+            notice(values.join(','));
+          } else {
+            notice(current_elements.getAttribute("href"));
+          }
+        }
 			}
 		}
 	}
 
 	function current() {
 		var selected_box = document.getElementsByClassName(selected_class)[0];
-		if (selected_box) { return selected_box.children[0] }
+		if (selected_box) { return selected_box.children }
 	}
 
 	function stop() {

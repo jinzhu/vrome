@@ -6,7 +6,6 @@ var Option = (function() {
     editor : "gvim -f",
     server_port: 20000,
     searchengines : {"google":"http://www.google.com/search?q={{keyword}}", "yahoo":"http://search.yahoo.com/search?p={{keyword}}", "bing":"http://www.bing.com/search?q={{keyword}}", "wikipedia":"http://en.wikipedia.org/wiki/{{keyword}}","answers":"http://www.answers.com/main/ntquery?s={{keyword}}", "twitter":"https://twitter.com/search/{{keyword}}"},
-    google_api_key : null
   }
 
   function get(key) {

@@ -1,14 +1,46 @@
 var Url = (function(){
-  var urlMode, newTab;
+  var urlMode, newTab, last_keyword;
 
   function open(/*Boolean*/ withDefault,/*Boolean*/ newtab) {
     urlMode = true;
     newTab  = newtab;
+    last_keyword = null;
 
     CmdBox.set({
       title   : newTab ? 'TabOpen: ' : 'Open: ',
+      pressDown : handleInput,
       content : withDefault ? location.href : ''
     });
+
+    Dialog.start();
+  }
+
+  function handleInput(e) {
+    var key = getKey(e);
+
+    if ((key == '<Up>') || (key == '<S-Tab>')) {
+      Dialog.prev();
+      KeyEvent.stopPropagation(e);
+      return;
+    }
+    if ((key == '<Down>') || (key == '<Tab>')) {
+      Dialog.next();
+      KeyEvent.stopPropagation(e);
+      return;
+    }
+    if (!isEscapeKey(key)) { setTimeout(delayToWaitKeyDown,20); }
+  }
+
+  function delayToWaitKeyDown() {
+    var keyword = CmdBox.get().content;
+    if (last_keyword !== keyword) {
+      search(keyword);
+      last_keyword = keyword;
+    }
+  }
+
+  function search(keyword) {
+    Post({action: "Tab.autoComplete", keyword: CmdBox.get().content, default_urls: fixUrl(CmdBox.get().content)});
   }
 
   function fixRelativePath(url) {
@@ -20,7 +52,7 @@ var Url = (function(){
       return document.location.origin + url;
     // ../users || ./products
     } else {
-      if (url == '..') { url = '../'; }
+      if (url.match(/\/?\.\.$/)) { url += '/'; }
       var pathname = document.location.origin + document.location.pathname.replace(/\/+/g,'/');
       var paths = url.split('..');
       for (var i=0; i < paths.length; i++) {
@@ -74,10 +106,12 @@ var Url = (function(){
   function enter() {
     if(!urlMode) { return; }
 
-    var urls = fixUrl(CmdBox.get().content);
-    Post({action: "Tab.openUrl", urls: urls, newtab: newTab});
+    var options = {};
+    options[Platform.mac ? 'meta' : 'ctrl'] = newTab;
+    clickElement(Dialog.current(), options);
 
     urlMode = false;
+    Dialog.stop();
     CmdBox.remove();
   }
 
