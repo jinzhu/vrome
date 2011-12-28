@@ -22,7 +22,8 @@ var Tab = (function() {
     }
 
     chrome.bookmarks.search(keyword, function(bookmarks) {
-      chrome.history.search({text: keyword}, function(historys) {
+      // Search start from one month ago
+      chrome.history.search({text: keyword, startTime: (new Date().getTime() - 1000 * 60 * 60 * 24 * 30)}, function(historys) {
         Post(tab, { action: "Dialog.draw", urls: return_urls.concat(bookmarks.concat(historys)), keyword: keyword });
       })
     })

@@ -4,7 +4,7 @@ var History = (function() {
     var tab     = arguments[arguments.length-1],index;
     var keyword = msg.keyword;
 
-    chrome.history.search({text: keyword}, function(historys) {
+      chrome.history.search({text: keyword, startTime: 0}, function(historys) {
       Post(tab, { action: "Dialog.draw", urls: historys, keyword: keyword });
     })
 	}
