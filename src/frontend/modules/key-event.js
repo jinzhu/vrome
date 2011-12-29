@@ -169,11 +169,7 @@ var KeyEvent = (function() {
 	function exec(e) {
 		var key        = getKey(e);
 
-    if ((document.location.host == "plus.google.com") && e.target.className.indexOf('editable') != -1) {
-      var insertMode = true;
-    } else {
-      var insertMode = /^INPUT|TEXTAREA|HTML$/i.test(e.target.nodeName);
-    }
+    var insertMode = (/^INPUT|TEXTAREA$/i.test(e.target.nodeName) || e.target.getAttribute('contenteditable') != null);
 
 		if (/^(Control|Alt|Shift)$/.test(key)) return;
 		currentKeys += key;
