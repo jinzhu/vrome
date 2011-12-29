@@ -17,10 +17,12 @@ var Option = (function() {
         if (option instanceof Array) {
           option = option.concat(value[0]);
         } else if (option instanceof Object) {
-          var obj = JSON.parse(value[0]);
-          for(var i in obj) {
-            option[i] = obj[i];
-          }
+          try {
+            var obj = JSON.parse(value[0]);
+            for (var i in obj) {
+              option[i] = obj[i];
+            }
+          } catch(e) { }
         } else {
           option = options + value[0];
         }

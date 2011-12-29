@@ -8,7 +8,12 @@ var Settings = (function() {
  }
 
  function currentSetting(){
-   return JSON.parse(localStorage[key] || "{}");
+   try {
+     return JSON.parse(localStorage[key] || "{}");
+   } catch(e) {
+     localStorage[key] = "{}"
+     return {};
+   }
  }
 
  function add(object) {
