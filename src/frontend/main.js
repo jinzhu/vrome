@@ -26,11 +26,13 @@ function isCtrlEscapeKey(key) {
 }
 
 function AcceptKeyFunction() {
-  Url.enter();
   CmdLine.exec();
   Search.next();
+
+  Url.openCurrent();
 	Bookmark.openCurrent();
   History.openCurrent();
+
   Buffer.gotoFirstMatchHandle();
   Buffer.deleteMatchHandle();
 }
@@ -104,6 +106,8 @@ with (KeyEvent) {
   add("<C-y>" , Url.shortUrl           );
   add("p"     , Url.openFromClipboard  );
   add("P"     , Url.openFromClipboardNewTab  );
+  add("<C-Enter>", Url.openCurrentNewTab );
+  add("<C-Enter>", Url.openCurrentNewTab, true);
 
 
   // Scroll

@@ -9,7 +9,6 @@ var Tab = (function() {
     });
   }
 
-
   function autoComplete(msg) {
     var tab     = arguments[arguments.length-1];
     var keyword = msg.keyword;

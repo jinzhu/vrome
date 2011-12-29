@@ -1,7 +1,7 @@
 var Url = (function(){
   var urlMode, newTab, last_keyword;
 
-  function open(/*Boolean*/ withDefault,/*Boolean*/ newtab) {
+  function start(/*Boolean*/ withDefault,/*Boolean*/ newtab) {
     urlMode = true;
     newTab  = newtab;
     last_keyword = null;
@@ -13,6 +13,22 @@ var Url = (function(){
     });
 
     Dialog.start();
+  }
+
+  function openCurrent(/*Boolean*/ keep_open) {
+    if(!urlMode) { return; }
+
+    var options = {};
+    options[Platform.mac ? 'meta' : 'ctrl'] = keep_open || newTab;
+    clickElement(Dialog.current(), options);
+
+    if (!keep_open) { stop(); }
+  }
+
+  function stop() {
+    urlMode = false;
+    Dialog.stop();
+    CmdBox.remove();
   }
 
   function handleInput(e) {
@@ -103,18 +119,6 @@ var Url = (function(){
     return result;
   }
 
-  function enter() {
-    if(!urlMode) { return; }
-
-    var options = {};
-    options[Platform.mac ? 'meta' : 'ctrl'] = newTab;
-    clickElement(Dialog.current(), options);
-
-    urlMode = false;
-    Dialog.stop();
-    CmdBox.remove();
-  }
-
   function parent() {
 		var pathname = location.pathname.split('/');
 		var hostname = location.hostname.split('.');
@@ -186,20 +190,21 @@ var Url = (function(){
   }
 
   return {
-    parent    : parent    ,
-    root      : root      ,
-    increment : increment ,
-    decrement : decrement ,
-    enter     : enter     ,
-    shortUrl  : shortUrl  ,
+    parent      : parent    ,
+    root        : root      ,
+    increment   : increment ,
+    decrement   : decrement ,
+    shortUrl    : shortUrl  ,
+    openCurrent : openCurrent ,
+    openCurrentNewTab : function() { openCurrent(true) },
 
     viewSource         : viewSource,
     viewSourceNewTab   : function(){ viewSource(true);  },
 
-    open               : function(){ open(false,false); },
-    tabopen            : function(){ open(false,true);  },
-    openWithDefault    : function(){ open(true,false);  },
-    tabopenWithDefault : function(){ open(true,true);   },
+    open               : function(){ start(false,false); },
+    tabopen            : function(){ start(false,true);  },
+    openWithDefault    : function(){ start(true,false);  },
+    tabopenWithDefault : function(){ start(true,true);   },
 
     openFromClipboard  : function() { openFromClipboard(false); },
     openFromClipboardNewTab  : function() { openFromClipboard(true); },
