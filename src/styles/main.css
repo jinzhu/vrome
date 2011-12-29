@@ -131,3 +131,8 @@ a[vrome_highlight=hint_active] {
   color: black !important;
   font-weight:bold !important;
 }
+
+.__vrome_selected_quick_index {
+	color:red !important;
+	margin-left: -1em !important;
+}

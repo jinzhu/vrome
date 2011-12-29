@@ -1,10 +1,11 @@
 var Dialog = (function() {
   var isEnabled, selected, sources, dialog_mode, last_keyword, search, newTab;
 
-	var box_id            = "__vrome_dialog";
-	var search_results_id = "__vrome_searchResults";
-	var selected_class    = "__vrome_selected";
-	var notice_id         = "__vrome_dialog_notice";
+	var box_id             = "__vrome_dialog";
+	var search_results_id  = "__vrome_searchResults";
+	var selected_class     = "__vrome_selected";
+	var selected_quick_num = "__vrome_selected_quick_index";
+	var notice_id          = "__vrome_dialog_notice";
 
   function start(title, content, search_callback, newtab) {
     isEnabled    = true;
@@ -13,6 +14,7 @@ var Dialog = (function() {
     search       = search_callback;
 
     CmdBox.set({title: title, pressDown: handleInput, content: content});
+    search("");
   }
 
 	function DialogBox() {
@@ -85,26 +87,36 @@ var Dialog = (function() {
     return text.slice(0, 75).replace(RegExp(RegExp.escape(keyword),'g'), "<strong>" + keyword + "</strong>");
   }
 
-	function next() {
-		selected += 1;
-		if (selected > sources.length) { selected = 1; }
+	function next(dirction) {
+		selected += (dirction || 1);
+    selected = selected % sources.length;
+    if (selected < 0) { selected = selected + selected.length; }
 		drawSelected();
 	}
 
-	function prev() {
-		selected -= 1;
-		if (selected <= 0) { selected = sources.length }
-		drawSelected();
+	function prev(dirction) {
+		next(0 - (dirction || 1));
 	}
 
 	function drawSelected() {
-		if (selected === 0) { return; }
-
 		var results = document.body.querySelectorAll('#' + search_results_id + ' div');
+		var quick_num_elems = document.body.querySelectorAll('.' + selected_quick_num);
+    for (var i=0; i < quick_num_elems.length; i++) {
+      quick_num_elems[i].parentNode.removeChild(quick_num_elems[i])
+    }
 
     for (var i = 0; i < results.length; i++) {
 			var result = results[i];
-			if ((i + 1) !== selected) {
+
+      var d_value = i - selected;
+      if ((d_value > 0) && (d_value < 10)) {
+        var span = document.createElement('span');
+        span.setAttribute('class', selected_quick_num);
+        span.innerHTML = d_value;
+        result.insertBefore(span, result.childNodes[0]);
+      }
+
+			if (i !== selected) {
 				result.removeAttribute('class');
 			} else {
 				result.setAttribute('class', selected_class);
@@ -161,17 +173,21 @@ var Dialog = (function() {
   function handleInput(e) {
     var key = getKey(e);
 
-    if ((key == '<Up>') || (key == '<S-Tab>')) {
-      prev();
+    if (key.match(/<C-(\d)>|<Up>|<S-Tab>|<Down>|<Tab>|Control/)) {
+      if (key.match(/<C-(\d)>/)) {
+        next(Number(RegExp.$1));
+        openCurrent();
+      }
+      if (key == '<Up>') prev();
+      if (key == '<S-Tab>') prev(10);
+      if (key == '<Down>') next();
+      if (key == '<Tab>') next(10);
+
       KeyEvent.stopPropagation(e);
       return;
     }
-    if ((key == '<Down>') || (key == '<Tab>')) {
-      next();
-      KeyEvent.stopPropagation(e);
-      return;
-    }
-    if (!isEscapeKey(key)) { setTimeout(delayToWaitKeyDown,20); }
+
+    if (!isEscapeKey(key)) { setTimeout(delayToWaitKeyDown, 20); }
   }
 
   function delayToWaitKeyDown() {
