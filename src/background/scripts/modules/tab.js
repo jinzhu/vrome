@@ -16,17 +16,21 @@ var Tab = (function() {
     var return_urls = [];
 
     if (msg.default_urls) {
-      var default_url = {}
+      var default_url = {};
       default_url.url = msg.default_urls;
       return_urls.push(default_url);
     }
 
-    chrome.bookmarks.search(keyword, function(bookmarks) {
-      // Search start from one month ago
-      chrome.history.search({text: keyword, startTime: (new Date().getTime() - 1000 * 60 * 60 * 24 * 30)}, function(historys) {
-        Post(tab, { action: "Dialog.draw", urls: return_urls.concat(bookmarks.concat(historys)), keyword: keyword });
-      })
-    })
+    if (Option.get('noautocomplete')) {
+      Post(tab, { action: "Dialog.draw", urls: return_urls, keyword: keyword });
+    } else {
+      chrome.bookmarks.search(keyword, function(bookmarks) {
+        // Search start from 20 days ago
+        chrome.history.search({text: keyword, maxResults: 30, startTime: (new Date().getTime() - 1000 * 60 * 60 * 24 * 20)}, function(historys) {
+          Post(tab, { action: "Dialog.draw", urls: return_urls.concat(bookmarks.concat(historys)), keyword: keyword });
+        });
+      });
+    }
   }
 
   function update(msg) {
