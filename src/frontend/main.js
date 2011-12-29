@@ -29,9 +29,7 @@ function AcceptKeyFunction() {
   CmdLine.exec();
   Search.next();
 
-  Url.openCurrent();
-	Bookmark.openCurrent();
-  History.openCurrent();
+  Dialog.openCurrent();
 
   Buffer.gotoFirstMatchHandle();
   Buffer.deleteMatchHandle();
@@ -41,12 +39,8 @@ function CancelKeyFunction() {
   Hint.remove();
   InsertMode.blurFocus();
   KeyEvent.reset();
-
   Search.stop();
-	Bookmark.stop();
-  History.stop();
-
-  Url.close();
+  Dialog.stop();
   CmdBox.remove();
 }
 
@@ -106,8 +100,9 @@ with (KeyEvent) {
   add("<C-y>" , Url.shortUrl           );
   add("p"     , Url.openFromClipboard  );
   add("P"     , Url.openFromClipboardNewTab  );
-  add("<C-Enter>", Url.openCurrentNewTab );
-  add("<C-Enter>", Url.openCurrentNewTab, true);
+
+  add("<C-Enter>", Dialog.openCurrentNewTab );
+  add("<C-Enter>", Dialog.openCurrentNewTab, true);
 
 
   // Scroll

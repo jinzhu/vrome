@@ -1,13 +1,18 @@
 var Dialog = (function() {
-  var isEnabled, selected, sources, diaLogMode;
+  var isEnabled, selected, sources, dialog_mode, last_keyword, search, newTab;
 
-	var box_id = "__vrome_dialog";
+	var box_id            = "__vrome_dialog";
 	var search_results_id = "__vrome_searchResults";
-	var selected_class = "__vrome_selected";
-	var notice_id = "__vrome_dialog_notice";
+	var selected_class    = "__vrome_selected";
+	var notice_id         = "__vrome_dialog_notice";
 
-  function start() {
-    isEnabled = true;
+  function start(title, content, search_callback, newtab) {
+    isEnabled    = true;
+    last_keyword = null;
+    newTab       = newtab;
+    search       = search_callback;
+
+    CmdBox.set({title: title, pressDown: handleInput, content: content});
   }
 
 	function DialogBox() {
@@ -35,7 +40,7 @@ var Dialog = (function() {
 
 	function draw(msg) {
     if (!isEnabled) { return false; }
-    if (msg.urls) { diaLogMode = 'url'; }
+    if (msg.urls) { dialog_mode = 'url'; }
 
 		var results_box = freshResultBox();
 		selected = 0;
@@ -52,7 +57,7 @@ var Dialog = (function() {
 		for (var i=0; i < sources.length; i++) {
 			var source = sources[i];
 			var result = document.createElement('div');
-      if (diaLogMode == 'url') {
+      if (dialog_mode == 'url') {
         if (source.url instanceof Array) {
           var values = [];
           for (var j=0; j < source.url.length; j++) {
@@ -127,11 +132,14 @@ var Dialog = (function() {
 	}
 
 	function stop() {
+    if (!isEnabled) { return false; }
+
     var box = DialogBox();
     if (box) { document.body.removeChild(box); }
     var box = document.getElementById(notice_id);
     if (box) { document.body.removeChild(box); }
     isEnabled = false;
+    CmdBox.remove();
 	}
 
   function notice(msg) {
@@ -150,12 +158,47 @@ var Dialog = (function() {
     box.innerHTML = msg;
   }
 
+  function handleInput(e) {
+    var key = getKey(e);
+
+    if ((key == '<Up>') || (key == '<S-Tab>')) {
+      prev();
+      KeyEvent.stopPropagation(e);
+      return;
+    }
+    if ((key == '<Down>') || (key == '<Tab>')) {
+      next();
+      KeyEvent.stopPropagation(e);
+      return;
+    }
+    if (!isEscapeKey(key)) { setTimeout(delayToWaitKeyDown,20); }
+  }
+
+  function delayToWaitKeyDown() {
+    var keyword = CmdBox.get().content;
+    if (last_keyword !== keyword) {
+      search(keyword);
+      last_keyword = keyword;
+    }
+  }
+
+  function openCurrent(/*Boolean*/ keep_open) {
+    if (!isEnabled) { return false; }
+    var elem = current();
+    if (!elem) { return false; }
+
+    var options = {};
+    options[Platform.mac ? 'meta' : 'ctrl'] = keep_open || newTab;
+    clickElement(elem, options);
+
+    if (!keep_open) { stop(); }
+  }
+
 	return {
-		draw    : draw,
-		next    : next,
-		prev    : prev,
-		current : current,
     start : start,
+		draw    : draw,
+    openCurrent : openCurrent ,
+    openCurrentNewTab : function() { openCurrent(true) },
 		stop  : stop
 	};
 })();

@@ -1,62 +1,12 @@
 var Url = (function(){
-  var urlMode, newTab, last_keyword;
-
-  function start(/*Boolean*/ withDefault,/*Boolean*/ newtab) {
-    urlMode = true;
-    newTab  = newtab;
-    last_keyword = null;
-
-    CmdBox.set({
-      title   : newTab ? 'TabOpen: ' : 'Open: ',
-      pressDown : handleInput,
-      content : withDefault ? location.href : ''
-    });
-
-    Dialog.start();
-  }
-
-  function openCurrent(/*Boolean*/ keep_open) {
-    if(!urlMode) { return; }
-
-    var options = {};
-    options[Platform.mac ? 'meta' : 'ctrl'] = keep_open || newTab;
-    clickElement(Dialog.current(), options);
-
-    if (!keep_open) { stop(); }
-  }
-
-  function stop() {
-    urlMode = false;
-    Dialog.stop();
-    CmdBox.remove();
-  }
-
-  function handleInput(e) {
-    var key = getKey(e);
-
-    if ((key == '<Up>') || (key == '<S-Tab>')) {
-      Dialog.prev();
-      KeyEvent.stopPropagation(e);
-      return;
-    }
-    if ((key == '<Down>') || (key == '<Tab>')) {
-      Dialog.next();
-      KeyEvent.stopPropagation(e);
-      return;
-    }
-    if (!isEscapeKey(key)) { setTimeout(delayToWaitKeyDown,20); }
-  }
-
-  function delayToWaitKeyDown() {
-    var keyword = CmdBox.get().content;
-    if (last_keyword !== keyword) {
-      search(keyword);
-      last_keyword = keyword;
-    }
+  function start(/*Boolean*/ with_default,/*Boolean*/ new_tab) {
+    var title   = new_tab ? 'TabOpen: ' : 'Open: ';
+    var content = with_default ? location.href : '';
+    Dialog.start(title, content, search, new_tab);
   }
 
   function search(keyword) {
-    Post({action: "Tab.autoComplete", keyword: CmdBox.get().content, default_urls: fixUrl(CmdBox.get().content)});
+    Post({action: "Tab.autoComplete", keyword: keyword, default_urls: fixUrl(keyword)});
   }
 
   function fixRelativePath(url) {
@@ -122,13 +72,12 @@ var Url = (function(){
   function parent() {
 		var pathname = location.pathname.split('/');
 		var hostname = location.hostname.split('.');
-		var count;
-    count = times();
+		var count    = times();
 
-		for(var i = 0; i < count; i++){
-			if(pathname.length <= 1){
+		for (var i = 0; i < count; i++) {
+			if (pathname.length <= 1) {
 				if ( hostname.length > 2) { hostname.shift(); }
-			}else{
+			} else {
 				pathname.pop();
 			}
 		}
@@ -174,19 +123,15 @@ var Url = (function(){
   function shortUrl(msg) {
     if (msg && msg.url) {
       Clipboard.copy(msg.url);
-      CmdBox.set({ title : "[Copied] Shorten URL IS: " + msg.url,timeout : 4000 });
-    }else{
-      CmdBox.set({ title : 'Shorten the current URL.',timeout : 4000 });
+      CmdBox.set({ title : "[Copied] Shortened URL: " + msg.url,timeout : 4000 });
+    } else {
+      CmdBox.set({ title : 'Shortening current URL',timeout : 4000 });
       Post({action: "shortUrl"});
     }
   }
 
-  function openFromClipboard(/*Boolean*/ newtab) {
-    Post({action: "Tab.openFromClipboard", newtab: newtab});
-  }
-
-  function close() {
-    urlMode = false;
+  function openFromClipboard(/*Boolean*/ new_tab) {
+    Post({action: "Tab.openFromClipboard", newtab: new_tab});
   }
 
   return {
@@ -195,8 +140,6 @@ var Url = (function(){
     increment   : increment ,
     decrement   : decrement ,
     shortUrl    : shortUrl  ,
-    openCurrent : openCurrent ,
-    openCurrentNewTab : function() { openCurrent(true) },
 
     viewSource         : viewSource,
     viewSourceNewTab   : function(){ viewSource(true);  },
@@ -209,7 +152,6 @@ var Url = (function(){
     openFromClipboard  : function() { openFromClipboard(false); },
     openFromClipboardNewTab  : function() { openFromClipboard(true); },
 
-    fixRelativePath :  fixRelativePath,
-    close : close
+    fixRelativePath :  fixRelativePath
   };
 })();
