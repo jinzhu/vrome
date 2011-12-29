@@ -1,5 +1,10 @@
 ##[Vrome](http://github.com/jinzhu/vrome) - The most cool, featured Vim keybindings extension for Chrome you could found!
 
+Vrome is a Vim keybindings extension for chrome, It is used to give you a more efficient browsing. Proudly recommend it to all Vim and Chrome users.
+
+It conver features about Navigation, Tab manipulation, Marks, Hint Mode, Scrolling, Zoom, History, Bookmark, Search, Shorten URL, InsertMode...
+
+
 ##### *NOTE* Chrome does not allow extensions to run on Chrome Webstore, Setting page and New Tab page!
 ##### *NOTE* Vrome is a open source project. It's Reliable. We won't use your personal information! All permissions required are used for features. You could check the source code here: [http://github.com/jinzhu/vrome](http://github.com/jinzhu/vrome)
 ##### *NOTE* You need to refresh all tabs to enable all Vrome features after install. Tip: use "\<C-r\>" (Control + R) to refresh one tab, then try Vrome command "R" to refresh all.
@@ -13,30 +18,35 @@
 
 You can also install it from source. please refer [Develop Guide](https://github.com/jinzhu/vrome/wiki/Develop-Guide) in our [WIKI](https://github.com/jinzhu/vrome/wiki)
 
+
 ### Features
 
   Vrome is a vim keybindings extension for Chrome, inspiration from the Vim text editor and Vimperator for Firefox. So it works almost like Vim and Vimperator.
 
-  But there are some additions! Maybe it would be the reason you love Vrome!
+	But there are some additions! Believe there would be some features surprise you! ;)
 
-  Too much features can't list all of them here, But If you want to be more effective with Vrome, Definitely you need to checkout the [Features List](https://github.com/jinzhu/vrome/blob/master/Features.mkd)
+  Lots of features can't list all them here. But if you want to be more effective with Vrome, Definitely you need to check them out! [Features List](https://github.com/jinzhu/vrome/blob/master/Features.mkd)
 
-  [https://github.com/jinzhu/vrome/blob/master/Features.mkd](https://github.com/jinzhu/vrome/blob/master/Features.mkd)
+	Go ahead and enjoy!
 
 
 ### Custom
 
-  After Install Vrome. you could customize the keybindings, disable sites, external editor and other settings in Vrome's option page.
+  After install Vrome. you could customize the keybindings, disable sites, external editor and other settings in Vrome's option page.
 
-  * A icon of Vrome would be shown on the right of main Google Chrome toolbar after install
-  * Click on the icon you would get a popup, then click "Option" to navigate to Vrome's option page
-  * In the option page, you could save your config in the textarea we provided. even upload your config to a remote server, then import the config automatically from the url. It would be useful if you have multiple computers. (I uploaded my config to [github](https://raw.github.com/jinzhu/configure/master/.vromerc))
+  * Click the Vrome icon on the right of main Google Chrome toolbar after install
+  * In popup page, click "Option" to navigate to Vrome's option page
+  * You can save your config in the textarea named `.Vromerc`.
+		Vrome even support remotely config, you just need to input the URL into the `Online .Vromerc` field.
+		It would be the kill feature if you are using multiple computers like me. (I uploaded my very own one to [github](https://raw.github.com/jinzhu/configure/master/.vromerc))
 
-  Example [.vromerc](http://wiki.github.com/jinzhu/vrome/vromerc-example-file)
+  * Checkout our example [.Vromerc](http://wiki.github.com/jinzhu/vrome/vromerc-example-file) for available options
+
 
 ### ChangeLog
 
   [https://github.com/jinzhu/vrome/blob/master/ChangeLog.mkd](https://github.com/jinzhu/vrome/blob/master/ChangeLog.mkd)
+
 
 ### Contributing
 
@@ -47,15 +57,15 @@ You can also install it from source. please refer [Develop Guide](https://github
 ##### Bugfix or Implement new features
   * Checkout bugs or feature requests on [GitHub Issue Tracking](https://github.com/jinzhu/vrome/issues)
   * If you found some interesting things want to work on, fork vrome and start hacking! When you're done, send a pull request on Github
-  * ([Develop Guide](https://github.com/jinzhu/vrome/wiki/Develop-Guide))
+  * Checkout our [Develop Guide](https://github.com/jinzhu/vrome/wiki/Develop-Guide) for start
 
 ##### Contributing to Documentation
-  * Find errors in README? Fix it according Bugfix Guide or send an email to let me know
-  * Edit [WIKI pages](https://github.com/jinzhu/vrome/wiki)
-  * Write blog, tutorial or even record videos. don't forget to add your link to our [WIKI](https://github.com/jinzhu/vrome/wiki)
+  * Find errors in README? Fix it according Bugfix way or send an email to let me know (wosmvp@gmail.com)
+  * Correct our [WIKI](https://github.com/jinzhu/vrome/wiki) or Add more useful things
+  * Write blog, tutorial or even record videos. Don't forget add your link to our [WIKI](https://github.com/jinzhu/vrome/wiki) ;)
 
 ##### Make more people know and love Vrome
-  * Using SNS to tell Vrome to your friends. e.g: Twitter, Facebook, Google+...
+  * Tell Vrome to your friends with Twitter, Facebook, Google+...
   * Answer other's questions or confusions about Vrome
   * Rate Vrome in [Chrome Web Store](https://chrome.google.com/webstore/detail/godjoomfiimiddapohpmfklhgmbfffjj/details)
 

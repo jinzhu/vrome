@@ -1,11 +1,23 @@
 map  j <C-f>
-map  k <C-b>
-imap <C-f> <C-a>
+map  j 10j
+unmap <C-f>
+
+imap <M-h> <M-w>
+iunmap <M-w>
+
+" the server port is for external server running on
+" the external server is used to support launch the external editor
+" refer Support External Editor https://github.com/jinzhu/vrome/wiki/Support-External-Editor for more
+set server_port=30000
 
 set nextpattern+=^NextPage|››$
 set previouspattern+=^PrevPage|‹‹$
+
 set editor=gvim -f
 set disablesites=mail.google.com, reader.google.com
 
-" plz rename to ~/.vromerc
+set searchengines+={"baidu":"http://www.baidu.com/s?wd={{keyword}}"}
+
+set noautocomplete
+
 " vim: set ft=vim:

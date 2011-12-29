@@ -1,1 +1,9 @@
 1.0 (2012/01/01)
+
+- The first public and stable release after two more years of development!
+
+  We did a big improve in this release, so suggest you read the README again.
+
+  But I would like to list some changed hotkey here:
+    `d` is not supported to close current now. use `dc` for that.
+    `Esc` can't be used to re-enable Vrome after disabled it with <C-z>. use `<C-Esc>` (Control+Esc) for that.

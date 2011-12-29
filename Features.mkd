@@ -3,19 +3,60 @@
 ## Features ##
 
 ### Help ###
-            <F1>      Opens help page
+            <F1>      Open help page
+
+
+### Navigation ###
+            o         Open one or more URLs in current tab. Multiple URLs can be separated with ','.
+                      The first URL is opened in the current tab, and all other URLs are opened in new tabs.
+
+                      1, AutoComplete is supported here, but you could turn off it by change option.
+                      In the AutoComplete list, <Up>, <Down> could be used to navigate, or you can use <Tab>, <S-Tab> to select the next/prev 10th.
+                      Press <Enter> to open selected link in current tab.
+                      or <C-Enter> to open this link in new tab and keep the AutoComplete list open for your next choice.
+                      Btw, There are some red number in the list, those numbers are the relative index according to current link.
+                      You can use <C-5> to open the link have number 5, or <C-7> to open the 7th one.
+
+                      2, Relative path is also supported here.
+                      Please try type '/jinzhu', '..', '../..', '../../rails', './wiki' when visiting `http://github.com/jinzhu/vrome`
+
+                      3, You could also search a keyword with a search engine here.
+                      try to type `google vrome` to search vrome with google. `google` is the search engine name, `vrome` is the keyword.
+                      `google`, `answers`, `yahoo`, `wikipedia`, `bing`, `twitter` are build in search engines.
+                      you could define you own one here, please checkout [Customize Your Vrome](https://github.com/jinzhu/vrome/wiki/customize-your-vrome) for how to.
+
+            O         Opens one or more URL in current tab, based on current location. (refer `o` for more)
+            t         Opens one or more URL in new tab. (refer `o` for more)
+            T         Opens one or more URL in new tab, based on current location. (refer `o` for more)
+
+            ]]        Go to next page. Want to customize the rule
+                      Checkout [Customize Your Vrome](https://github.com/jinzhu/vrome/wiki/customize-your-vrome)
+            [[        Go to previous page, refer ]] for how to customize it.
+
+    [count] gu        Go to parent URL
+            gU        Go to the root of the website
+
+            y         Copy current URL to clipboard
+            <C-y>     Copy a shorten URL to clipboard, the URL is shortened by `http://goo.gl`
+                      After grand the access to your Google URL Shortener,
+                      The shortened url would be shown on your dashboard on http://goo.gl
+            p         Open the URL in clipboard in current tab.
+            P         Open the URL in clipboard in new tab.
+
+    [count] <C-a>     Increments the last number in URL by 1, or by [count] if given.
+    [count] <C-x>     Decrements the last number in URL by 1, or by [count] if given.
 
 
 ### Tabs manipulation ###
             g0, g^    Go to the first tab
             g$        Go to the last tab
-    [count] <C-^>     Go to the last selected tab. if [count] is specified, go to the [count]th tab.
-            gl        Go to the last created tab.
+    [count] <C-^>     Go to the last selected tab. if [count] is specified, go to the [count]th tab
+            gl        Go to the last created tab
     [count] gt        Go to the right [count] tab
     [count] gT        Go to the left [count] tab
     [count] <C-p>     Go to the left [count] tab
 
-            gp        Toggle Pin current tab. pin tab if it is not, unpin it if pinned.
+            gp        Toggle Pin current tab. pin tab if unpinned, unpin it if pinned.
 
     [count] gd        Duplicate current tab in a new tab.
             gD        Detach current tab to a new window.
@@ -25,14 +66,14 @@
             gM        Merge all tabs in current windows to another window have the same incognito mode.
 
     [count] b         Go to the [count]th tab or the first matched tab.
-                      If no [count] provide, would provide a box to let you input a keyword,
-                      And would goto the first matched tab after you press <Enter>.
-            B         Delete matched tabs. would provide a box let you input a keyword.
+                      If no [count] provide, would have a box to ask keyword,
+                      And would goto the first matched tab when press <Enter>.
+            B         Delete all matched tabs. would have a box to ask keyword.
 
             <M-d>     Close current tab and selects the last selected tab.
             D         Close current tab and selects the left tab.
             dc        Close current tab and selects the right tab.
-            dm        Close matched tabs. would provide a box to ask keyword.
+            dm        Close matched tabs. would have a box to ask keyword.
             do        Close other tabs except current one.
             dl        Close tabs on the left.
             dr        Close tabs on the right.
@@ -45,6 +86,46 @@
             R         Reload all tabs
 
 
+### Marks ###
+       M{a-zA-Z0-9}   Save current URL to register. Available value for the register is {a-zA-Z0-9}.
+                      e.g: When you visit `http://github.com`, you could mark it with `Mg`,
+                      then when you visiting in other page, you could use `gog` to open `http://github.com` in current tab.
+                      or use `gng` to open `http://github.com` in a new tab.
+       go{a-zA-Z0-9}  Open marked URL in current tab. (refer M{a-zA-Z0-9} for more)
+       gn{a-zA-Z0-9}  Open marked URL in a new tab. (refer M{a-zA-Z0-9} for more)
+
+       m{a-zA-Z}      Save current cursor position to a register, Available value for the register is {a-zA-Z}.
+                      e.g: When You are reading the first paragraph of a article, if you found some fun want to check back later.
+                      You could save the current cursor position with `ma`.
+                      After finish reading, you could jump back to the first paragraph quickly with `'a`.
+                      Please remeber, register {a-z} isn't shared between buffers, whereas A-Z are available between buffers.
+                      So you can only jump back the the position in register `a` in current tab.
+                      But you can jump back in other tabs with `'A` if you stored the position in register 'A'
+       '{a-zA-Z}      Jump to the position in register {a-zA-Z}. (refer m{a-zA-Z} for more)
+
+
+### Hints Mode ###
+            f         Start Hint mode, All visible links/input would be given a number.
+                      You could filter those elements with the number given or keyword match the element's content.
+                      When there are only one element match, the element would be opened in current tab if it is a link.
+                      Otherwise it would be foucsed on or clicked.
+
+                      e.g: if there is a link named `Gmail`, you can type `ma` to filter and open it.
+                      You could press <Enter> to open current highlighted element. or <Ctrl+Enter> to open all hints in current page.
+
+            F         Start Hint mode, but open links in new tabs. (refer `f` for more)
+            <M-f>     Start Hint mode, but open multiple links in a new tab. (refer `f` for more)
+
+            Also there are some nice commands when in the [input box]:
+                ?     Show information about an element.
+                      For example, type `?gmail` in the input box, it would search all elements match gmail, just like normal.
+                      If there are one element matched, it would show the element's details, usually it is the element's html.
+                ;     Focus an element. (refer `?` in Hints Mode for more)
+                [     Copy selected element's url if exist. why use [ ? it looks like C(opy) ^.^ (refer `?` in Hints Mode for more)
+                {     Copy selected element's text. { is also looks like C(opy) (refer `?` in Hints Mode for more)
+                !     Filter links doesn't match keyword. (refer `?` in Hints Mode for more)
+
+
 ### Scrolling ###
             gg        Go to top
             G         Go to bottom
@@ -53,7 +134,7 @@
 
     [count] <C-f>     Scroll down [count] full page
     [count] <C-d>     Scroll down [count] half page
-    [count] <C-b>     Scroll up [count] full page.
+    [count] <C-b>     Scroll up [count] full page
     [count] <C-u>     Scroll up [count] half page
 
     [count] j         Scroll down
@@ -62,40 +143,6 @@
     [count] l         Scroll right
 
     [count] %         Scroll to percent of the page
-
-
-### Navigation ###
-            ]]        Go to next page. the rule of next page could be customized.
-                      Check here: https://github.com/jinzhu/vrome/wiki/customize-your-vrome
-            [[        Go to previous page, refer ]] for how to customize the rule.
-
-    [count] gu        Go to parent URL
-            gU        Go to the root of the website
-
-            y         Copy current URL to clipboard
-            <C-y>     Copy a shorten URL to clipboard, the URL is shortened by `http://is.gd`
-            p         Open the URL in clipboard in current tab.
-            P         Open the URL in clipboard in new tab.
-
-    [count] <C-a>     Increments the last number in URL by 1, or by [count] if given.
-    [count] <C-x>     Decrements the last number in URL by 1, or by [count] if given.
-
-            o         Opens one or more URL in current tab, urls could be separated with `,` if many. e.g: google.com, amazon.com
-                      There are some fun things here:
-                      1, When visiting `http://github.com/jinzhu/vrome`, type `/admin`       to go `http://github.com/admin`
-                      2, When visiting `http://github.com/jinzhu/vrome`, type `..`           to go `http://github.com/jinzhu`
-                      3, When visiting `http://github.com/jinzhu/vrome`, type `../../rails`  to go `https://github.com/rails`
-                      4, When visiting `http://github.com/jinzhu/vrome`, type `./wiki`       to go `https://github.com/jinzhu/vrome/wiki`
-                      5, Type `google vrome` to search vrome with google. the `google` is the search engine name, `vrome` is the keyword.
-                         Only `google`, `answers`, `yahoo`, `wikipedia` have built in support now, send me a pull request if you want to add more.
-                         Also you could build you own one, please checkout https://github.com/jinzhu/vrome/wiki/customize-your-vrome for how to do that.
-
-                      6, You can even omit the search engine name, then would search the keyword inputed with the first search engine.
-                         It would use Google in vrome's default config, Of course, you could change it also, refer the above link.
-
-            O         Opens one or more URL in current tab, based on current location. (refer `o` for more)
-            t         Opens one or more URL in new tab. (refer `o` for more)
-            T         Opens one or more URL in new tab, based on current location. (refer `o` for more)
 
 
 ### Zoom ###
@@ -118,11 +165,13 @@
     [count] L         Go [count] pages forward.
     [count] <C-o>     Go [count] pages back.
     [count] <C-i>     Go [count] pages forward.
-            gh        Filter History with keyword. use <Up>/<Down>/<Tab>/<S-Tab> to select, <Enter> to open current selected in current tab.
+            gh        Filter History with keyword. <Up>/<Down>/<Tab>/<S-Tab>/<Enter>/<c-Enter> could be used here.
+                      Refer `o`'s AutoComplete part for more.
             gH        Filter History with keyword, but open in new tab. (refer `gh` for more)
 
 ### Bookmark ###
-            gb        Filter bookmarks with keyword. use <Up>/<Down>/<Tab>/<S-Tab> to select, <Enter> to open current selected in current tab.
+            gb        Filter bookmarks with keyword. <Up>/<Down>/<Tab>/<S-Tab>/<Enter>/<c-Enter> could be used here.
+                      Refer `o`'s AutoComplete part for more.
             gB        Filter bookmarks with keyword, but open in new tab. (refer `gb` for more)
 
 ### Search ###
@@ -138,45 +187,6 @@
             <M-Enter> Open current select element in a new tab.
 
 
-### Hints Mode ###
-            f         Start Hint mode, All visible links/input would be given a number.
-                      You could filter those elements with the number given or even keyword match the element's content.
-                      When there are only one element match, if the element is a link then it would be opened in current tab. otherwise it would be foucsed on.
-                      e.g: if there is a link named `Gmail` in current page, you could type `ma` to filter and open it.
-
-                      You could press <Enter> to open current highlighted element. even press <Ctrl+Enter> to open all hints in current page.
-
-            F         Start Hint mode, but open links in new tabs. (refer `f` for more)
-            <M-f>     Start Hint mode, but open multiple links in a new tab. (refer `f` for more)
-
-            Also there are some nice commands when in the [input box]:
-                ?     Show information about an element.
-                      e.g: Input `?gmail`, it would search all elements match gmail, just like normal Hint Mode.
-                      If there are only one element match keyword `gmail`, it would show the element's details,
-                      mostly, it would be the element's html source.
-                ;     Focus an element. (refer `?` in Hints Mode for more)
-                [     Copy selected element's url if exist. (refer `?` in Hints Mode for more)
-                {     Copy selected element's text. (refer `?` in Hints Mode for more)
-                !     Filter links doesn't match keyword. (refer `?` in Hints Mode for more)
-
-
-### Marks ###
-       M{a-zA-Z0-9}   Save current URL to register. Available value for the register is {a-zA-Z0-9}.
-                      e.g: When you visit `http://github.com`, you could mark it with `Mg`,
-                      then when you visiting in other page, you could use `gog` to open `http://github.com` in current tab.
-                      or use `gng` to open `http://github.com` in a new tab.
-       go{a-zA-Z0-9}  Open marked URL in current tab. (refer M{a-zA-Z0-9} for more)
-       gn{a-zA-Z0-9}  Open marked URL in a new tab. (refer M{a-zA-Z0-9} for more)
-
-       m{a-zA-Z}      Save current cursor position to register, Available value for the register is {a-zA-Z}.
-                      e.g: When You are reading the first paragraph of a article, if you found some fun stuff want to check it later.
-                      you could save the current cursor position with `ma`, after reading, you could jump back to the first paragraph quickly with `'a`.
-                      Please remeber, register {a-z} are only shared in current tab, whereas A-Z are available between buffers.
-                      This is means you can't jump back to the first paragraph when you are in other tabs,
-                      but if the position is registed with `mA`, you could jump back to the article in current tab with `'A'
-       '{a-zA-Z}      Jump to the position in register {a-zA-Z}. (refer m{a-zA-Z} for more)
-
-
 ### Page ###
     [count] gi        Focus the [count]th input field
             gf        View source code in current tab.
@@ -190,7 +200,7 @@
             .         Repeat the last command [count] times.
 
             <C-v>     Pass the next key
-            <C-z>     Disable Vrome, use <Esc> to re-enable it.
+            <C-z>     Disable Vrome, use <C-Esc> to re-enable it.
 
 
 ### Command Line Mode ###
