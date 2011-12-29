@@ -169,7 +169,7 @@ var KeyEvent = (function() {
 	function exec(e) {
 		var key        = getKey(e);
 
-    var insertMode = (/^INPUT|TEXTAREA$/i.test(e.target.nodeName) || e.target.getAttribute('contenteditable') != null);
+    var insertMode = (/^INPUT|TEXTAREA|SELECT$/i.test(e.target.nodeName) || e.target.getAttribute('contenteditable') != null);
 
 		if (/^(Control|Alt|Shift)$/.test(key)) return;
 		currentKeys += key;
