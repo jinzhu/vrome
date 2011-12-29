@@ -134,5 +134,6 @@ a[vrome_highlight=hint_active] {
 
 .__vrome_selected_quick_index {
 	color:red !important;
+  font-weight:700 !important;
 	margin-left: -1em !important;
 }

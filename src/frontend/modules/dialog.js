@@ -75,7 +75,7 @@ var Dialog = (function() {
       }
 			results_box.appendChild(result);
 		}
-		next();
+    drawSelected();
 	}
 
   function highlight(keyword, text, addition) {
@@ -89,7 +89,7 @@ var Dialog = (function() {
 
 	function next(dirction) {
 		selected += (dirction || 1);
-    selected = selected % sources.length;
+    if (selected > sources.length) { selected = 0; }
     if (selected < 0) { selected = selected + selected.length; }
 		drawSelected();
 	}
@@ -109,7 +109,7 @@ var Dialog = (function() {
 			var result = results[i];
 
       var d_value = i - selected;
-      if ((d_value > 0) && (d_value < 10)) {
+      if ((d_value >= 0) && (d_value < 10)) {
         var span = document.createElement('span');
         span.setAttribute('class', selected_quick_num);
         span.innerHTML = d_value;
@@ -120,7 +120,8 @@ var Dialog = (function() {
 				result.removeAttribute('class');
 			} else {
 				result.setAttribute('class', selected_class);
-        result.scrollIntoViewIfNeeded();
+        var quick_selects = document.body.querySelectorAll('.' + selected_quick_num);
+        quick_selects[quick_selects.length-1].scrollIntoViewIfNeeded();
         var current_elements = current();
         if (current_elements) {
           // Acts as array. (Actually it is HTMLCollection)
