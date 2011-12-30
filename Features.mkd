@@ -9,40 +9,48 @@
 ### Navigation ###
             o         Open one or more URLs in current tab. Multiple URLs can be separated with ','.
                       The first URL is opened in the current tab, and all other URLs are opened in new tabs.
+                      There are some powerful features here:
+                      1, AutoComplete support:
+                      <Down>,<Up>   Navigate next/previous link.
+                      <Tab>,<S-Tab> Navigate the next/previous 10th link.
+                      <Enter>       Open selected link in current tab.
+                      <C-Enter>     Open selected link in new tab. and keep AutoComplete list open so you can open another link.
+                      <C-[0-9]>     Open links marked with red number.
+                                    The red number is the relative index of the currently selected link.
+                                    E.g: you can use <C-5> the open the 5th link, <C-7> to open the 7th one.
+                                    It would be really cool when works with <Tab>, <S-Tab>
 
-                      1, AutoComplete is supported here, but you could turn off it by change option.
-                      In the AutoComplete list, <Up>, <Down> could be used to navigate, or you can use <Tab>, <S-Tab> to select the next/prev 10th.
-                      Press <Enter> to open selected link in current tab.
-                      or <C-Enter> to open this link in new tab and keep the AutoComplete list open for your next choice.
-                      Btw, There are some red number in the list, those numbers are the relative index according to current link.
-                      You can use <C-5> to open the link have number 5, or <C-7> to open the 7th one.
+                      Btw, you could turn off AutoComplete if you want. Please refer Wiki for how to.
 
-                      2, Relative path is also supported here.
-                      Please try type '/jinzhu', '..', '../..', '../../rails', './wiki' when visiting `http://github.com/jinzhu/vrome`
+                      2, Relative path support:
+                      Try to type '/admin', '..', '../..', '../../rails', './wiki' when visiting `http://github.com/jinzhu/vrome`
+                      It is supposed to open http://github.com/admin, http://github.com/jinzhu ... for you.
+                      I believe it would be really useful for website administrator, developer or even everyone.
 
-                      3, You could also search a keyword with a search engine here.
-                      try to type `google vrome` to search vrome with google. `google` is the search engine name, `vrome` is the keyword.
-                      `google`, `answers`, `yahoo`, `wikipedia`, `bing`, `twitter` are build in search engines.
-                      you could define you own one here, please checkout [Customize Your Vrome](https://github.com/jinzhu/vrome/wiki/customize-your-vrome) for how to.
+                      3, Search Engine:
+                      You can type `google vrome` to search vrome with google. `google` is the search engine name, `vrome` is the keyword.
+                      `google`, `answers`, `yahoo`, `wikipedia`, `bing`, `twitter` are built in search engines.
+                      You could define you own one, checkout [Customize Your Vrome](https://github.com/jinzhu/vrome/wiki/customize-your-vrome) for how to.
+
+                      You can even omit the search engines name, then it would use the default search engine to search it.
 
             O         Opens one or more URL in current tab, based on current location. (refer `o` for more)
             t         Opens one or more URL in new tab. (refer `o` for more)
             T         Opens one or more URL in new tab, based on current location. (refer `o` for more)
 
-            ]]        Go to next page. Want to customize the rule
-                      Checkout [Customize Your Vrome](https://github.com/jinzhu/vrome/wiki/customize-your-vrome)
-            [[        Go to previous page, refer ]] for how to customize it.
+            ]]        Go to next page. You can customize the rule in Vrome option page.
+            [[        Go to previous page.
 
     [count] gu        Go to parent URL
             gU        Go to the root of the website
 
             y         Copy current URL to clipboard
             <C-y>     Copy a shorten URL to clipboard, the URL is shortened by `http://goo.gl`
-                      After grand the access to your Google URL Shortener,
-                      The shortened url would be shown on your dashboard on http://goo.gl
-            p         Open a URL based on the current selected or clipboard contents in current tab.
-                      Would search the content with default search engine if it is not a valid URL.
-            P         Open a URL based on the current selected or clipboard contents in new tab. (refer `p` for more)
+                      You can show the shortened URL on your dashboard on http://goo.gl, Refer Vrome option page for how to.
+
+            p         Open a URL based on the selected or clipboard contents in current tab.
+                      Would search the content with default search engine if it is not a URL.
+            P         Open a URL based on the selected or clipboard contents in new tab. (refer `p` for more)
 
     [count] <C-a>     Increments the last number in URL by 1, or by [count] if given.
     [count] <C-x>     Decrements the last number in URL by 1, or by [count] if given.

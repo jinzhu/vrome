@@ -38,10 +38,10 @@ p { font-family: Arial, sans-serif; font-size: small; }
 li { font-family: Arial, sans-serif; font-size: small; margin-bottom: 0.4em; }
 #dont-turn-off-the-lights { z-index: 1000; position: relative; visibility: visible; }
 /* donate */
-.donateborder {border: 1px #88AFE6 solid; border-radius: 5px; padding: 5px; margin-bottom: 5px; background: #dde; }
+.donateborder {border: 1px #88AFE6 solid; border-radius: 5px; padding: 5px; margin-bottom: 5px; background: #E5F1FB; }
 .donateborder label{font-size:14px;font-family:arial;line-height:20px;color:green;font-weight:bold;}
 .donateborder input{margin-bottom:10px;}
-.donatepromo { color: #333; font-family: Tahoma, sans-serif; font-size: 12px; border: thin orange solid; border-radius: 5px; padding: 5px; margin-bottom: 5px; background: #FFEDCC; }
+.donatepromo { color: #333; font-family: Tahoma, sans-serif; font-size: 12px; border: thin orange solid; border-radius: 5px; padding: 5px; margin-bottom: 5px; background: #B3D5EF; }
 .donateclose { float: right; cursor:pointer; width: 10px; margin-right: 3px; margin-bottom: 0px; margin-left: 0px; background-repeat: no-repeat; }
 .donatepromo h4{margin:0px 0px;}
 .donatepromo ul li{float:left;margin-left:20px;}
