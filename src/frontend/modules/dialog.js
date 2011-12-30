@@ -14,7 +14,7 @@ var Dialog = (function() {
     search       = search_callback;
 
     CmdBox.set({title: title, pressDown: handleInput, content: content});
-    search("");
+    search(CmdBox.get().content);
   }
 
 	function DialogBox() {
@@ -90,7 +90,10 @@ var Dialog = (function() {
 	function next(dirction) {
 		selected += (dirction || 1);
     if (selected > sources.length) { selected = 0; }
-    if (selected < 0) { selected = selected + selected.length; }
+    if (selected < 0) {
+      selected = selected + sources.length;
+      if (selected < 0) selected = 0;
+    }
 		drawSelected();
 	}
 
