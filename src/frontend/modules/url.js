@@ -131,7 +131,12 @@ var Url = (function(){
   }
 
   function openFromClipboard(/*Boolean*/ new_tab) {
-    Post({action: "Tab.openFromClipboard", newtab: new_tab});
+    var selected_value = getSelected();
+    if (selected_value !== "") {
+      Post({action: "Tab.openUrl", url: fixUrl(selected_value), newtab: new_tab});
+    } else {
+      Post({action: "Tab.openFromClipboard", newtab: new_tab});
+    }
   }
 
   return {

@@ -40,8 +40,9 @@
             <C-y>     Copy a shorten URL to clipboard, the URL is shortened by `http://goo.gl`
                       After grand the access to your Google URL Shortener,
                       The shortened url would be shown on your dashboard on http://goo.gl
-            p         Open the URL in clipboard in current tab.
-            P         Open the URL in clipboard in new tab.
+            p         Open a URL based on the current selected or clipboard contents in current tab.
+                      Would search the content with default search engine if it is not a valid URL.
+            P         Open a URL based on the current selected or clipboard contents in new tab. (refer `p` for more)
 
     [count] <C-a>     Increments the last number in URL by 1, or by [count] if given.
     [count] <C-x>     Decrements the last number in URL by 1, or by [count] if given.
