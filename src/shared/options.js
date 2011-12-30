@@ -13,21 +13,37 @@ var Option = (function() {
     var option = options[key];
 
     if (value instanceof Array) {
-      if (value[1]) {
-        if (option instanceof Array) {
-          option = option.concat(value[0]);
-        } else if (option instanceof Object) {
+      var new_value = value[0];
+      var plus_it   = value[1];
+
+      if (option instanceof Array) {
+        if (new_value.startWith('[')) {
           try {
-            var obj = JSON.parse(value[0]);
-            for (var i in obj) {
-              option[i] = obj[i];
-            }
-          } catch(e) { }
+            new_value = eval(new_value);
+          } catch(e) {
+            new_value = [];
+          }
         } else {
-          option = options + value[0];
+          new_value = [new_value];
+        }
+        // += or =
+        option = plus_it ? option.concat(new_value) : new_value;
+      } else if (option instanceof Object) {
+        try {
+          new_value = JSON.parse(new_value);
+        } catch(e) {
+          new_value = {};
+        }
+
+        if (plus_it) {
+          for (var i in new_value) {
+            option[i] = new_value[i];
+          }
+        } else {
+          option = new_value;
         }
       } else {
-        option = value[0];
+        option = plus_it ? (option + new_value) : new_value;
       }
     }
     return option;
