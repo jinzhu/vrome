@@ -184,7 +184,7 @@ var Hint = (function() {
     var type     = elem.type ? elem.type.toLowerCase() : "";
 
     if (currentAction) {
-      if (!multi_mode) { remove(); }
+      remove(); // No multi_mode for extend mode
       currentAction(elem);
     } else {
       if (tag_name == 'a') {
@@ -207,11 +207,13 @@ var Hint = (function() {
         elem.focus();
       }
 
-      if (!multi_mode) { setTimeout(remove,200); }
+      if (!multi_mode) {
+        setTimeout(remove,200);
+      } else {
+        selected = 0;
+        CmdBox.set({title : 'HintMode'});
+      }
     }
-
-    selected = 0;
-    CmdBox.set({title : 'HintMode'});
   }
 
   return {
