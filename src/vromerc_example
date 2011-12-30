@@ -1,23 +1,42 @@
+""" .vromerc example file
+
+" Change key mapping in normal mode, please check Vrome Features for available key mapping
 map  j <C-f>
 map  j 10j
+
+" Remove key mapping in normal mode
 unmap <C-f>
 
+" Change key mapping in insert mode
 imap <M-h> <M-w>
+
+" Remove key mapping in insert mode
 iunmap <M-w>
 
-" the server port is for external server running on
-" the external server is used to support launch the external editor
-" refer Support External Editor https://github.com/jinzhu/vrome/wiki/Support-External-Editor for more
-set server_port=30000
-
+" Rule for next/prev page. (Should written in RegExp)
 set nextpattern+=^NextPage|››$
 set previouspattern+=^PrevPage|‹‹$
 
+" Change external editor, default is GVim
 set editor=gvim -f
-set disablesites=mail.google.com, reader.google.com
 
+" Disable Vrome in those sites, Multiple URLs can be separated with ','
+set disablesites=mail.google.com, reader.google.com // don't run Vrome in those sites
+
+" Define search engines. the value should be valid json looks like below.
+" Please remeber the first searchengine is the default one. in the below one, it is google
+set searchengines={"google":"http://www.google.com/search?q={{keyword}}", "yahoo":"http://search.yahoo.com/search?p={{keyword}}","wikipedia":"http://en.wikipedia.org/wiki/{{keyword}}","answers":"http://www.answers.com/main/ntquery?s={{keyword}}","yubnub":"http://yubnub.org/parser/parse?command={{keyword}}"}
+
+" You could also add some new searchengines without overwrite build in.
 set searchengines+={"baidu":"http://www.baidu.com/s?wd={{keyword}}"}
 
+" Disable autocomplete
 set noautocomplete
+
+
+" The server port is what external server running on
+" The external server is used to support launch the external editor in insert mode.
+" Please refer "Support External Editor" https://github.com/jinzhu/vrome/wiki/Support-External-Editor for more
+set server_port=30000
 
 " vim: set ft=vim:
