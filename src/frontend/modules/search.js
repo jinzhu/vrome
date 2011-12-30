@@ -113,7 +113,7 @@ var Search = (function(){
     CmdBox.set({
 			title   : backward ? 'Backward search: ?' : 'Forward search: /',
 			pressUp : handleInput,
-			content : lastSearch || ''
+			content : getSelected() || lastSearch || ''
 	  });
   }
 

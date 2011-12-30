@@ -112,7 +112,7 @@
                       Otherwise it would be foucsed on or clicked.
 
                       e.g: if there is a link named `Gmail`, you can type `ma` to filter and open it.
-                      You could press <Enter> to open current highlighted element. or <Ctrl+Enter> to open all hints in current page.
+                      You could press <Enter> to open current highlighted element. or <C-Enter> to open all hints in current page.
 
             F         Start Hint mode, but open links in new tabs. (refer `f` for more)
             <M-f>     Start Hint mode, but open multiple links in a new tab. (refer `f` for more)
@@ -166,12 +166,12 @@
     [count] L         Go [count] pages forward.
     [count] <C-o>     Go [count] pages back.
     [count] <C-i>     Go [count] pages forward.
-            gh        Filter History with keyword. <Up>/<Down>/<Tab>/<S-Tab>/<Enter>/<c-Enter> could be used here.
+            gh        Filter History with keyword. <Up>/<Down>/<Tab>/<S-Tab>/<Enter>/<C-Enter> could be used here.
                       Refer `o`'s AutoComplete part for more.
             gH        Filter History with keyword, but open in new tab. (refer `gh` for more)
 
 ### Bookmark ###
-            gb        Filter bookmarks with keyword. <Up>/<Down>/<Tab>/<S-Tab>/<Enter>/<c-Enter> could be used here.
+            gb        Filter bookmarks with keyword. <Up>/<Down>/<Tab>/<S-Tab>/<Enter>/<C-Enter> could be used here.
                       Refer `o`'s AutoComplete part for more.
             gB        Filter bookmarks with keyword, but open in new tab. (refer `gb` for more)
 
@@ -183,8 +183,8 @@
     [count] n         Search next
     [count] N         Search previous
             <Enter>   Search next
-            <S-Enter> Search previous
-            <C-Enter> Open current select element in current tab.
+            <C-Enter> Search previous
+            <S-Enter> Open current select element in current tab.
             <M-Enter> Open current select element in a new tab.
 
 
