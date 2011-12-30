@@ -30,6 +30,9 @@ set searchengines={"google":"http://www.google.com/search?q={{keyword}}", "yahoo
 " You could also add some new searchengines without overwrite build in.
 set searchengines+={"baidu":"http://www.baidu.com/s?wd={{keyword}}"}
 
+" Change default search engine, default is google.
+set defaultsearch=yahoo
+
 " Disable autocomplete
 set noautocomplete
 

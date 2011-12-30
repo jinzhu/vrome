@@ -33,6 +33,7 @@
                       You could define you own one, checkout [Customize Your Vrome](https://github.com/jinzhu/vrome/wiki/customize-your-vrome) for how to.
 
                       You can even omit the search engines name, then it would use the default search engine to search it.
+                      Default search engine is google, you can change it also in Vrome's option page.
 
             O         Opens one or more URL in current tab, based on current location. (refer `o` for more)
             t         Opens one or more URL in new tab. (refer `o` for more)

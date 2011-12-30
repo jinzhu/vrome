@@ -5,7 +5,8 @@ var Option = (function() {
     disablesites : "",
     editor : "gvim -f",
     server_port: 20000,
-    searchengines : {"google":"http://www.google.com/search?q={{keyword}}", "yahoo":"http://search.yahoo.com/search?p={{keyword}}", "bing":"http://www.bing.com/search?q={{keyword}}", "wikipedia":"http://en.wikipedia.org/wiki/{{keyword}}","answers":"http://www.answers.com/main/ntquery?s={{keyword}}", "twitter":"https://twitter.com/search/{{keyword}}"}
+    searchengines : {"google":"http://www.google.com/search?q={{keyword}}", "yahoo":"http://search.yahoo.com/search?p={{keyword}}", "bing":"http://www.bing.com/search?q={{keyword}}", "wikipedia":"http://en.wikipedia.org/wiki/{{keyword}}","answers":"http://www.answers.com/main/ntquery?s={{keyword}}", "twitter":"https://twitter.com/search/{{keyword}}"},
+    defaultsearch: 'google'
   };
 
   function get(key) {
@@ -49,5 +50,21 @@ var Option = (function() {
     return option;
   }
 
-  return { get : get };
+  function default_search_url(url) {
+    var searchengines = Option.get('searchengines');
+    var searchengine  = searchengines[Option.get('defaultsearch')];
+
+    if (searchengine) {
+      url = searchengine.replace("{{keyword}}", url);
+    } else {
+      for (var j in searchengines) {
+        url = searchengines[j].replace("{{keyword}}", url);
+        break;
+      }
+    }
+
+    return url
+  }
+
+  return { get : get, default_search_url : default_search_url };
 })();

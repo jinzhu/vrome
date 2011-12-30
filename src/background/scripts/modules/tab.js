@@ -179,11 +179,7 @@ var Tab = (function() {
     if ( /\./.test(url) && !/\s/.test(url)) {
       url = (url.match("://") ? "" : "http://") + url;
     } else if (!url.match(/:\/\//)) {
-      var searchengines = Option.get('searchengines');
-      for (var j in searchengines) {
-        url = searchengines[j].replace("{{keyword}}", url);
-        break;
-      }
+      url = Option.default_search_url(url)
     }
 
     msg.url = url

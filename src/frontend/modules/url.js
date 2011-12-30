@@ -49,7 +49,7 @@ var Url = (function(){
       // google vrome
       } else {
         var searchengines = Option.get('searchengines');
-        var searchengine  = url.replace(/^(\S+)\s.*$/,"$1"); // google
+        var searchengine  = url.replace(/^(\S+)\s.*$/,"$1"); // searchengine name: e.g: google
 
         // use the matched searchengine
         for (var j in searchengines) {
@@ -59,11 +59,8 @@ var Url = (function(){
           }
         }
 
-        // use the first searchengine
-        for (var j in searchengines) {
-          result.push(searchengines[j].replace("{{keyword}}", url));
-          continue outermost;
-        }
+        result.push(Option.default_search_url(url));
+        continue outermost;
       }
     }
     return result;
