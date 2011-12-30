@@ -28,12 +28,12 @@
                       I believe it would be really useful for website administrator, developer or even everyone.
 
                       3, Search Engine:
-                      You can type `google vrome` to search vrome with google. `google` is the search engine name, `vrome` is the keyword.
+                      Try `google vrome` to search vrome with google. `google` is the search engine name, `vrome` is the keyword.
                       `google`, `answers`, `yahoo`, `wikipedia`, `bing`, `twitter` are built in search engines.
                       You could define you own one, checkout [Customize Your Vrome](https://github.com/jinzhu/vrome/wiki/customize-your-vrome) for how to.
 
-                      You can even omit the search engines name, then it would use the default search engine to search it.
-                      Default search engine is google, you can change it also in Vrome's option page.
+                      You can even omit the search engines name, then would search it with the default search engine.
+                      The default one is google, you can change it in Vrome's option page.
 
             O         Opens one or more URL in current tab, based on current location. (refer `o` for more)
             t         Opens one or more URL in new tab. (refer `o` for more)
@@ -71,6 +71,7 @@
     [count] gd        Duplicate current tab in a new tab.
             gD        Detach current tab to a new window.
             gI        Toggle incognito mode for current tab.
+                      (You need to enable Vrome in incognito mode, Could be done in chrome://extensions/ page)
 
             gm        Merge current tab to another window have the same incognito mode.
             gM        Merge all tabs in current windows to another window have the same incognito mode.
@@ -97,21 +98,19 @@
 
 
 ### Marks ###
-       M{a-zA-Z0-9}   Save current URL to register. Available value for the register is {a-zA-Z0-9}.
-                      e.g: When you visit `http://github.com`, you could mark it with `Mg`,
-                      then when you visiting in other page, you could use `gog` to open `http://github.com` in current tab.
-                      or use `gng` to open `http://github.com` in a new tab.
+       M{a-zA-Z0-9}   Add new QuickMark for current URL.
+                      You can go to a marked URL in the current tab with go{a-zA-Z0-9} or in a new tab with gn{a-zA-Z0-9}.
+                      e.g: When you visiting `http://github.com`, you could add `github.com` to quick mark `g` with `Mg`,
+                      Then you can use `gog` to open `http://github.com` in current tab. or `gng` to open it in a new tab.
        go{a-zA-Z0-9}  Open marked URL in current tab. (refer M{a-zA-Z0-9} for more)
        gn{a-zA-Z0-9}  Open marked URL in a new tab. (refer M{a-zA-Z0-9} for more)
 
-       m{a-zA-Z}      Save current cursor position to a register, Available value for the register is {a-zA-Z}.
+       m{a-zA-Z}      Set mark at the cursor position. Marks a-z are local to the buffer, whereas A-Z are valid between buffers.
                       e.g: When You are reading the first paragraph of a article, if you found some fun want to check back later.
                       You could save the current cursor position with `ma`.
                       After finish reading, you could jump back to the first paragraph quickly with `'a`.
-                      Please remeber, register {a-z} isn't shared between buffers, whereas A-Z are available between buffers.
-                      So you can only jump back the the position in register `a` in current tab.
-                      But you can jump back in other tabs with `'A` if you stored the position in register 'A'
-       '{a-zA-Z}      Jump to the position in register {a-zA-Z}. (refer m{a-zA-Z} for more)
+       '{a-zA-Z}      Jump to the mark. Marks a-z are local to the buffer, whereas A-Z are valid between buffers.
+                      (refer m{a-zA-Z} for more)
 
 
 ### Hints Mode ###
@@ -121,18 +120,21 @@
                       Otherwise it would be foucsed on or clicked.
 
                       e.g: if there is a link named `Gmail`, you can type `ma` to filter and open it.
-                      You could press <Enter> to open current highlighted element. or <C-Enter> to open all hints in current page.
+                      One more thing, Press <Enter> would open current highlighted element.
+                      <C-Enter> would open all available hints in current page.
 
             F         Start Hint mode, but open links in new tabs. (refer `f` for more)
             <M-f>     Start Hint mode, but open multiple links in a new tab. (refer `f` for more)
 
-            Also there are some nice commands when in the [input box]:
+            Also there are some extend commands when in the [input box]:
                 ?     Show information about an element.
-                      For example, type `?gmail` in the input box, it would search all elements match gmail, just like normal.
+                      For example, type `?gmail` in the input box, it would search all elements match gmail like normal.
                       If there are one element matched, it would show the element's details, usually it is the element's html.
-                ;     Focus an element. (refer `?` in Hints Mode for more)
-                [     Copy selected element's url if exist. why use [ ? it looks like C(opy) ^.^ (refer `?` in Hints Mode for more)
-                {     Copy selected element's text. { is also looks like C(opy) (refer `?` in Hints Mode for more)
+                ;     Focus an element. (refer `?` in Hints extend Mode for more)
+                [     Copy selected element's url if exist. [hint] `[` looks like the C in Copy.
+                      (refer `?` in Hints extend Mode for more)
+                {     Copy selected element's text. [hint] `{` also looks like the C in Copy.
+                      (refer `?` in Hints Mode for more)
                 !     Filter links doesn't match keyword. (refer `?` in Hints Mode for more)
 
 
@@ -176,12 +178,12 @@
     [count] <C-o>     Go [count] pages back.
     [count] <C-i>     Go [count] pages forward.
             gh        Filter History with keyword. <Up>/<Down>/<Tab>/<S-Tab>/<Enter>/<C-Enter> could be used here.
-                      Refer `o`'s AutoComplete part for more.
+                      Refer Navigation:`o` - AutoComplete for more.
             gH        Filter History with keyword, but open in new tab. (refer `gh` for more)
 
 ### Bookmark ###
             gb        Filter bookmarks with keyword. <Up>/<Down>/<Tab>/<S-Tab>/<Enter>/<C-Enter> could be used here.
-                      Refer `o`'s AutoComplete part for more.
+                      Refer Navigation:`o` - AutoComplete for more.
             gB        Filter bookmarks with keyword, but open in new tab. (refer `gb` for more)
 
 ### Search ###
