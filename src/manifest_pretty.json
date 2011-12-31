@@ -12,16 +12,24 @@
   "offline_enabled": true,
   "permissions": [
     "tabs",
+		"bookmarks",
     "history",
     "clipboardRead",
     "clipboardWrite",
     "notifications",
     "proxy",
+    "contextMenus",
     "<all_urls>"
   ],
   "icons": {
     "16": "images/icons-16.png",
     "48": "images/logo.png",
     "128": "images/icons-128.png"
-  }
+  },
+  "browser_action": {
+    "popup": "background/popup.html",
+    "default_icon": "images/logo.png",
+    "default_title": "Vrome"
+  },
+  "options_page": "background/options.html"
 }

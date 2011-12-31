@@ -1,10 +1,10 @@
 String.prototype.startWith = function(str) {
-  return (this.match("^" + RegExp.escape(str))==str)
+  return (this.match("^" + RegExp.escape(str))==str);
 }
 
 String.prototype.trimFirst = function(/* String || Array */ str) {
   if (typeof str == 'string') {
-    return this.replace(new RegExp("^" + RegExp.escape(str)), "").trim()
+    return this.replace(new RegExp("^" + RegExp.escape(str)), "").trim();
   } else {
     var result = this;
     for(var i=0; i < str.length; i++) {

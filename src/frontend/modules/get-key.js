@@ -1,10 +1,10 @@
 var getKey = (function() {
 	var keyId = {
-		"U+0008" : "<BackSpace>",
-		"U+0009" : "<Tab>",
-		"U+0018" : "<Cancel>",
-		"U+001B" : "<Esc>",
-		"U+0020" : "<Space>",
+		"U+0008" : "BackSpace",
+		"U+0009" : "Tab",
+		"U+0018" : "Cancel",
+		"U+001B" : "Esc",
+		"U+0020" : "Space",
 		"U+0021" : "!",
 		"U+0022" : "\"",
 		"U+0023" : "#",
@@ -80,10 +80,10 @@ var getKey = (function() {
 		"U+007B" : "{",
 		"U+007C" : "|",
 		"U+007D" : "}",
-		"U+007F" : "<Delete>",
+		"U+007F" : "Delete",
 		"U+00A1" : "¡",
     "U+00C0" : "`",
-    "U+00DE" : "'",
+    "U+00DE" : "'"
 	};
 
 	var shiftNums = { "`":"~",
@@ -96,6 +96,10 @@ var getKey = (function() {
 		var meta  = (evt.metaKey || evt.altKey) ? 'M-' : '';
 		var shift = evt.shiftKey ? 'S-' : '';
 
+    if (/^(Enter|Space|BackSpace|Tab|Esc|Home|End|Left|Right|Up|Down|PageUp|PageDown|F(\d\d?))$/.test(key)) {
+      return (ctrl || meta || shift) ? ('<' + ctrl+meta+shift+key + '>') : ('<' + key + '>');
+    }
+
 		if (evt.shiftKey) {
 			if (/^[a-z]$/.test(key)) {
         key = key.toUpperCase();
@@ -104,11 +108,8 @@ var getKey = (function() {
         key = shiftNums[key];
 			}
     }
-    if (/^(Enter|Space|BackSpace|Tab|Esc|Home|End|Left|Right|Up|Down|PageUp|PageDown|F(\d\d?))$/.test(key)) {
-      return (ctrl || meta) ? ('<' + ctrl+meta+key + '>') : ('<' + key + '>');
-    }
     return (ctrl || meta) ? ('<' + ctrl+meta+key + '>') : key;
 	}
 
 	return getKey;
-})()
+})();

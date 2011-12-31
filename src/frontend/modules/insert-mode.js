@@ -1,69 +1,77 @@
 var InsertMode = (function(){
-  var caret_position,value;
+  var caret_position, value;
 
   function currentElement() {
-    var elem = document.activeElement;
+    var elem       = document.activeElement;
     caret_position = elem.selectionEnd;
-    value = elem.value || elem.innerText;
+    value          = elem.value || elem.innerText;
     return elem;
   }
 
-	function blurFocus(){
+	function blurFocus() {
     var elem = currentElement();
-		if (elem) elem.blur();
+		if (elem) { elem.blur(); }
 	}
 
-	function focusFirstTextInput(){
-		var elems = document.querySelectorAll('input[type="text"],input[type="search"],input:not([type])');
-		var elem  = elems[times() - 1];
-    if(!elem) return;
+	function focusFirstTextInput() {
+		var elems = document.querySelectorAll('input[type="text"],input[type="password"],input[type="search"],input:not([type])');
+    var valid_elems = [];
+
+    for (var i=0; i < elems.length; i++) {
+      if (isElementVisible(elems[i], /* in full screen */ true)) {
+        valid_elems.push(elems[i]);
+      }
+    }
+
+		var elem  = valid_elems[times() - 1];
+    if(!elem) { return false; }
 
     elem.focus();
     elem.setSelectionRange(0,elem.value.length);
 	}
 
-	function moveToFirstOrSelectAll(){
+	function moveToFirstOrSelectAll() {
 		var elem = currentElement();
-    elem.setSelectionRange(0,caret_position == 0 ? value.length : 0);
+    elem.setSelectionRange(0, caret_position === 0 ? value.length : 0);
 	}
 
-	function moveToEnd(){
+	function moveToEnd() {
 		var elem = currentElement();
 		elem.setSelectionRange(value.length, value.length);
 	}
 
-	function deleteForwardChar(){
+	function deleteForwardChar() {
 		var elem = currentElement();
 		elem.value = value.substr(0,caret_position) + value.substr(caret_position + 1);
 		elem.setSelectionRange(caret_position, caret_position);
 	}
 
-	function deleteBackwardChar(){
+	function deleteBackwardChar() {
 		var elem = currentElement();
 		elem.value = value.substr(0,caret_position - 1) + value.substr(caret_position);
 		elem.setSelectionRange(caret_position - 1, caret_position - 1);
 	}
 
-	function deleteBackwardWord(){
+	function deleteBackwardWord() {
 		var elem = currentElement();
 		elem.value = value.substr(0,caret_position).replace(/[^\s\n.,]*?.\s*$/,'') + value.substr(caret_position);
 		var position = elem.value.length - (value.length - caret_position);
 		elem.setSelectionRange(position,position);
 	}
 
-	function deleteForwardWord(){
+	function deleteForwardWord() {
 		var elem = currentElement();
 		elem.value = value.substr(0,caret_position) + value.substr(caret_position).replace(/^\s*.[^\s\n.,]*/,'');
 		elem.setSelectionRange(caret_position,caret_position);
 	}
 
-  function deleteToBegin(){
+  function deleteToBegin() {
 		var elem = currentElement();
 		elem.value = value.substr(caret_position);
 		elem.setSelectionRange(0,0);
   }
 
-  function deleteToEnd(){
+  function deleteToEnd() {
 		var elem = currentElement();
 		elem.value = value.substr(0,caret_position);
 		elem.setSelectionRange(elem.value.length,elem.value.length);
@@ -81,12 +89,12 @@ var InsertMode = (function(){
 		elem.setSelectionRange(position,position);
   }
 
-  function MoveBackwardChar(){
+  function MoveBackwardChar() {
 		var elem = currentElement();
 		elem.setSelectionRange(caret_position - 1,caret_position - 1);
   }
 
-  function MoveForwardChar(){
+  function MoveForwardChar() {
 		var elem = currentElement();
 		elem.setSelectionRange(caret_position + 1,caret_position + 1);
   }
@@ -95,7 +103,7 @@ var InsertMode = (function(){
     var elem    = this.target;
     var edit_id = String(Math.random());
     elem.setAttribute('vrome_edit_id',edit_id);
-    elem.setAttribute('readonly','readonly');
+    // elem.setAttribute('readonly','readonly');
     Post({action : "externalEditor",data : elem.value,edit_id : edit_id});
 	}
 
@@ -103,12 +111,8 @@ var InsertMode = (function(){
     var elem = document.querySelector('[vrome_edit_id="' + msg.edit_id + '"]');
     elem.value = msg.value;
     elem.removeAttribute('vrome_edit_id');
-    elem.removeAttribute('readonly');
+    // elem.removeAttribute('readonly');
   }
-
-  // API
-	blurFocus.private = true;
-	externalEditorCallBack.private = true;
 
   return {
     blurFocus              : blurFocus              ,
@@ -128,7 +132,7 @@ var InsertMode = (function(){
     MoveBackwardChar       : MoveBackwardChar       ,
     MoveForwardChar        : MoveForwardChar        ,
 
-		externalEditor 				 : externalEditor,
-    externalEditorCallBack : externalEditorCallBack,
-  }
-})()
+		externalEditor 				 : externalEditor         ,
+    externalEditorCallBack : externalEditorCallBack
+  };
+})();

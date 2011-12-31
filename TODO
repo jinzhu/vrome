@@ -1,43 +1,12 @@
+TODO ?
+cs subdomain -> magic mode ;) create some subdomain let use choose one from it)
+ch hostname
+
 Basic help page
-Update notification
-Option Page
 
-### Navigation ###
-subdomain ?
-
-
-### Hint Mode ###
-Open All ?
-
-
-### Tab ###
-dm Delete Match
-do Delete other tabs except current
-dc Delete current tabs
-dl Delete left tabs
-dr Delete right tabs
-
-gd duplicate tab
-gD Detach tab
-gp Pin
-gP un pin
-
-Move Tab
-
-
-### Page ###
-]f    Focus next frame
-[f    Focus previous frame
-
-read
-
-
-### Command Mode ###
-save/list session
 auto refresh
-
-
-omni box (?)
+prevent popup in insert mode. (fix ? for twitter)
+omni box
 
 
 DEPRECATED:

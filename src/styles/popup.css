@@ -1,0 +1,128 @@
+body {
+	margin: 0px;
+	color: #345;
+	font: menu;
+	font-size: 9pt;
+	-webkit-user-select: none;
+}
+
+body, td, th, input, select, textarea, button {
+	font: menu;
+	font-size: 9pt;
+}
+
+body * {
+	white-space: nowrap;
+	?outline: solid 1px #abc;
+}
+
+hr {
+	height: 0px;
+	margin: 0px 0px;
+	border: none;
+	border-top: solid 1px #eef;
+}
+
+a {
+  text-decoration: none;
+	color: #40505F;
+}
+
+
+.ltr, .ltr * {
+	direction: ltr !important;
+	text-align: left !important;
+}
+
+.header {
+  text-shadow: #ccc 1px 1px 3px;
+  font-size: 20pt;
+  margin: 8px;
+  direction: ltr;
+  font-weight: bold;
+}
+
+#menu {
+	margin: 2px 0px;
+}
+
+#menu .templateItem {
+	display: none;
+}
+
+#menu .item {
+	?padding: 4px 25px 4px 6px;
+	padding: 4px 25px;
+	-webkit-padding-start: 6px;
+	margin: 0px 2px;
+	white-space: nowrap;
+	cursor: pointer;
+	?text-shadow: #ccc -1px 0px 2px;
+}
+
+#menu .item a {
+  width: 100%;
+  display: block;
+}
+
+#menu .item:hover {
+	?padding: 3px 24px 3px 5px;
+	padding: 3px 24px;
+	-webkit-padding-start: 5px;
+	border: solid 1px #bcd;
+	border-radius: 3px;
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #f0f5fc), color-stop(1, #e0e9f4));
+	background: -webkit-gradient(linear, left top, left bottom,
+		color-stop(0, #fff),  color-stop(0.4, hsl(215, 67%, 97%)), color-stop(0.41, hsl(213, 48%, 95%)));
+
+	?border: solid 1px #c5cdd3;
+	?background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #f5f9fe), color-stop(1, #e8f1f9));
+}
+
+#menu .item:active {
+	?padding: 3px 24px 3px 5px;
+	padding: 3px 24px;
+	-webkit-padding-start: 5px;
+	border: solid 1px #abc;
+	border-radius: 3px;
+	background: #dde7f2 none;
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #e8eef4), color-stop(1, #f5f9f4));
+}
+
+#menu .item img {
+	vertical-align: text-top;
+}
+
+#menu .blue {
+	color: #47b;
+}
+
+#menu .green {
+	color: #5b5;
+}
+
+#menu .red {
+	color: #d63;
+}
+
+#menu .yellow {
+	color: #ca0;
+}
+
+#menu .purple {
+	color: #a407be;
+}
+
+#menu .separator {
+	height: 0px;
+	margin: 3px 2px;
+	border: 0;
+	border-top: 1px solid #ddd;
+}
+
+.versionNumber {
+	font-weight: bold;
+	?font-size: 80%;
+	-webkit-padding-start: 5px;
+	padding: 4px 6px;
+}

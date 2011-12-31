@@ -1,54 +1,56 @@
 <html>
   <head>
+    <script src="/shared/extend.js"></script>
     <script src="/shared/settings.js" type="text/javascript" charset="utf-8"></script>
     <script src="/shared/message.js" type="text/javascript" charset="utf-8"></script>
     <script src="/shared/options.js" type="text/javascript" charset="utf-8"></script>
     <script src="/background/scripts/main.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/background/scripts/modules/vromerc.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/background/scripts/modules/frame.js" type="text/javascript" charset="utf-8"></script>
     <script src="/background/scripts/modules/tab.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/background/scripts/modules/window.js" type="text/javascript" charset="utf-8"></script>
     <script src="/background/scripts/modules/buffer.js" type="text/javascript" charset="utf-8"></script>
     <script src="/background/scripts/modules/debug.js" type="text/javascript" charset="utf-8"></script>
     <script src="/background/scripts/modules/shorturl.js" type="text/javascript" charset="utf-8"></script>
     <script src="/background/scripts/modules/marks.js" type="text/javascript" charset="utf-8"></script>
     <script src="/background/scripts/modules/clipboard.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/background/scripts/modules/bookmark.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/background/scripts/modules/history.js" type="text/javascript" charset="utf-8"></script>
+
+		<script type="text/javascript" src="/oauth/chrome_ex_oauthsimple.js"></script>
+		<script type="text/javascript" src="/oauth/chrome_ex_oauth.js"></script>
+		<script type="text/javascript" src="/oauth/oauth.js"></script>
 
     <script type='text/javascript'>
-      function getConfigure() {
-        var xhr = new XMLHttpRequest();
-        var url = 'http://127.0.0.1:20000';
-        xhr.open("POST", url, true);
-        xhr.onreadystatechange = function() {
-          if (xhr.readyState == 4 && xhr.status == 200) {
-            Settings.add({ configure : JSON.parse(xhr.responseText) });
-          };
-        }
-
-        xhr.setRequestHeader("Content-type", "text/plain");
-        xhr.send(JSON.stringify({"method":"get_configure"}));
-      }
-      getConfigure();
+      Vromerc.loadOnline(/*scheduleNextReload*/ true);
 
       function syncSetting(tab) {
-        getConfigure();
+        if (!tab) { return false; }
+
         if (tab != Tab.now_tab) {
           Tab.last_selected_tab = Tab.now_tab || tab;
           Tab.now_tab = tab;
         }
+
         Settings.add({currentUrl : tab.url, now_tab_id : Tab.now_tab.id});
 
-        Post(tab,{action : "Settings.add", arguments : { background : Settings.get()} });
+        Post(tab, {action : "Settings.add", arguments : { background : Settings.get()} });
       }
 
-      chrome.tabs.getSelected(null, function(tab) {
-        syncSetting(tab);
+      chrome.tabs.onCreated.addListener(function(tab) {
+        chrome.tabs.get(tab.id, function(tab) {
+          syncSetting(tab);
+          Tab.last_open_tabs.push(tab);
+        });
       });
 
-      chrome.tabs.onSelectionChanged.addListener(function(tabId) {
+      chrome.tabs.onUpdated.addListener(function(tabId) {
         chrome.tabs.get(tabId, function(tab) {
           syncSetting(tab);
         });
       });
 
-      chrome.tabs.onUpdated.addListener(function(tabId) {
+      chrome.tabs.onActiveChanged.addListener(function(tabId) {
         chrome.tabs.get(tabId, function(tab) {
           syncSetting(tab);
         });

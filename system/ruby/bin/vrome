@@ -1,4 +1,47 @@
 #!/usr/bin/env ruby
-# Jinzhu (wosmvp@gmail.com)
 
-load File.join(File.dirname(__FILE__),'..','lib','server.rb')
+require 'rubygems'
+require 'webrick'
+require 'tempfile'
+require 'json'
+
+port = 20000
+
+if ARGV[0] =~ /^\d+$/
+  port = ARGV[0].to_i
+end
+
+class VromeServer < WEBrick::HTTPServlet::AbstractServlet
+
+  def do_POST(request, response)
+    request = JSON.parse(request.body)
+    status, content_type, body = self.send(request['method'].to_sym,request)
+
+    response.status          = status
+    response['Content-Type'] = content_type
+    response.body            = body
+  end
+
+  def open_editor(request)
+    editor  = request['editor']
+
+    tmpfile = Tempfile.new('editor')
+    tmpfile.write request['data']
+    tmpfile.flush
+
+    editor = 'gvim -f' if editor == 'gvim' # Foreground: Don't fork when starting GUI
+    system("#{editor} #{tmpfile.path}")
+    text = File.read(tmpfile.path)
+
+    tmpfile.delete
+
+    return 200, "text/plain", text
+  end
+end
+
+puts "Starting Vrome server..."
+
+server = WEBrick::HTTPServer.new(:BindAddress => '127.0.0.1', :Port => port)
+server.mount "/", VromeServer
+trap(:INT) { server.shutdown }
+server.start

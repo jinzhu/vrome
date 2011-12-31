@@ -1,15 +1,16 @@
 var Hint = (function() {
-  var currentHint, new_tab, hintMode, selected, elements, matched;
+  var currentHint, new_tab, multi_mode, hintMode, selected, elements, matched, key;
   var highlight = 'vrome_highlight';
 
-  function start(newTab) {
+  function start(newTab, multiMode) {
 		hintMode    = true;
+    multi_mode  = multiMode;
 		selected    = 0; // set current selected number
 		currentHint = false;
 		new_tab     = newTab;
 
     initHintMode();
-    CmdBox.set({title : 'HintMode',pressDown : handleInput,content : ''});
+    CmdBox.set({title : 'HintMode',pressDown : handleInput, content : ''});
   }
 
   function initHintMode() {
@@ -17,7 +18,7 @@ var Hint = (function() {
 
     // Get all visible elements
     var elems = document.body.querySelectorAll('a, input:not([type=hidden]), textarea, select, button, *[onclick]');
-    for (var i = 0; i < elems.length; i++) {
+    for (var i=0; i < elems.length; i++) {
       if (isElementVisible(elems[i])) { elements.push(elems[i]); }
     }
     setHintIndex(elements);
@@ -28,7 +29,7 @@ var Hint = (function() {
     for (var i = 0; i < elements.length; i++) { elements[i].removeAttribute(highlight); }
 
     var div = document.getElementById('__vim_hint_highlight');
-    if (div) document.body.removeChild(div);
+    if (div) { document.body.removeChild(div); }
 
     if (create_after_remove) {
       div = document.createElement('div');
@@ -39,7 +40,7 @@ var Hint = (function() {
   }
 
   function setHintIndex(elems) {
-    var div = removeHighlightBox(/* create_after_remove */ true)
+    var div = removeHighlightBox(/* create_after_remove */ true);
 
     for (var i = 0; i < elems.length; i++) { //TODO need refactor
       var elem      = elems[i];
@@ -63,7 +64,7 @@ var Hint = (function() {
   }
 
   function setHighlight(elem, set_active) {
-    if (!elem) return false;
+    if (!elem) { return false; }
 
     if (set_active) {
       // Remove the old active element
@@ -76,7 +77,7 @@ var Hint = (function() {
   }
 
   function remove() {
-    if (!hintMode) return false;
+    if (!hintMode) { return false; }
 
     CmdBox.remove();
     removeHighlightBox();
@@ -87,7 +88,7 @@ var Hint = (function() {
     key = getKey(e);
 
     // If user are inputing number
-    if (/^\d$/.test(key) || (key == '<BackSpace>' && selected != 0)) {
+    if (/^\d$/.test(key) || (key == '<BackSpace>' && selected !== 0)) {
       selected = (key == '<BackSpace>') ? parseInt(selected / 10) : selected * 10 + Number(key);
 			CmdBox.set({title : 'HintMode (' + selected + ')'});
       var index = selected - 1;
@@ -101,9 +102,9 @@ var Hint = (function() {
       }
     } else {
       // If key is not Accept key
-			if (!isAcceptKey(key)) CmdBox.set({title : 'HintMode'});
+			if (!isAcceptKey(key)) { CmdBox.set({title : 'HintMode'}); }
       // If key is not Escape key
-      if (!isEscapeKey(key)) setTimeout(delayToWaitKeyDown,200);
+      if (!isEscapeKey(key)) { setTimeout(delayToWaitKeyDown,20); }
     }
   }
 
@@ -112,23 +113,23 @@ var Hint = (function() {
     var filter = CmdBox.get().content.trimFirst([';','?','[','{']);
 
     var regexp = new RegExp(filter.trimFirst("!"),'im');
-    var result = regexp.test(text) || regexp.test(PinYin.short(text)) || regexp.test(PinYin.full(text))
-    return filter.startWith('!') ? !result : result
+    var result = regexp.test(text) || regexp.test(PinYin.short(text)) || regexp.test(PinYin.full(text));
+    return filter.startWith('!') ? !result : result;
   }
 
   function getCurrentAction() {
     var filter = CmdBox.get().content;
 
     if (filter.startWith(';')) {
-      return focusElement
+      return focusElement;
     } else if (filter.startWith('?')) {
-      return showElementInfo
+      return showElementInfo;
     } else if (filter.startWith('[')) {
-      return copyElementUrl
+      return copyElementUrl;
     } else if (filter.startWith('{')) {
-      return copyElementText
+      return copyElementText;
     } else {
-      return null
+      return null;
     }
   }
 
@@ -142,13 +143,13 @@ var Hint = (function() {
 
   function copyElementUrl(elem) {
     var text = Url.fixRelativePath(elem.getAttribute('href'));
-    Clipboard.copy(text)
+    Clipboard.copy(text);
     CmdBox.set({title : "[Copied] " + text, timeout : 4000 });
   }
 
   function copyElementText(elem) {
     var text = elem.innerText;
-    Clipboard.copy(text)
+    Clipboard.copy(text);
     CmdBox.set({title : "[Copied] " + text, timeout : 4000 });
   }
 
@@ -164,35 +165,34 @@ var Hint = (function() {
 
     setHintIndex(matched);
 
-    if (isAcceptKey(key) || matched.length == 1) {
-      return execSelect(currentHint ? currentHint : matched[0]);
+    if (isCtrlAcceptKey(key)) {
+      for (var i=0; i < matched.length; i++) {
+        execSelect(matched[i]);
+        new_tab = true;
+      }
+    } else if (isAcceptKey(key) || matched.length == 1) {
+      execSelect(currentHint ? currentHint : matched[0]);
     }
     currentHint = false;
   }
 
   function execSelect(elem) {
-    if (!elem) return false;
-    var currentAction = getCurrentAction()
+    if (!elem) { return false; }
+    var currentAction = getCurrentAction();
 
     var tag_name = elem.tagName.toLowerCase();
     var type     = elem.type ? elem.type.toLowerCase() : "";
 
     if (currentAction) {
-      remove();
+      remove(); // No multi_mode for extend mode
       currentAction(elem);
     } else {
       if (tag_name == 'a') {
           setHighlight(elem, true);
-          if (!new_tab) {
-            var old_target = elem.getAttribute('target');
-            elem.removeAttribute('target');
-          }
 
           var options = {};
           options[Platform.mac ? 'meta' : 'ctrl'] = new_tab;
           clickElement(elem, options);
-
-          if (old_target) elem.setAttribute('target',old_target);
       } else if (elem.onclick || (tag_name == 'input' && (type == 'submit' || type == 'button' || type == 'reset' || type == 'radio' || type == 'checkbox'))) {
         clickElement(elem);
 
@@ -207,13 +207,19 @@ var Hint = (function() {
         elem.focus();
       }
 
-      setTimeout(remove,200);
+      if (!multi_mode) {
+        setTimeout(remove,200);
+      } else {
+        selected = 0;
+        CmdBox.set({title : 'HintMode'});
+      }
     }
   }
 
   return {
-    start         : start,
-    new_tab_start : function(){ start(true); },
-    remove        : remove
+    start            : start,
+    new_tab_start    : function(){ start(/*new tab*/ true); },
+    multi_mode_start : function(){ start(/*new tab*/ true, /*multi mode*/ true); },
+    remove           : remove
   };
 })();

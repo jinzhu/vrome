@@ -1,26 +1,40 @@
-= vrome
+= Vrome
+
+  Vrome is a external server for Vrome: a Vim keybindings extension for chrome.(https://chrome.google.com/webstore/detail/godjoomfiimiddapohpmfklhgmbfffjj/details)
+
+  The server is writen with ruby. so ruby is required. (Install Ruby: http://www.ruby-lang.org/en/downloads/)
+
+=== Install vrome as RubyGem
+  $ (sudo) gem install vrome
+
+=== Install vrome from Script
+  $ wget https://raw.github.com/jinzhu/vrome/master/system/ruby/bin/vrome
+  $ chmod +x vrome
+  $ sudo mv vrome /usr/bin/vrome
+
+=== Run It
+  $ vrome
+
+=== Running on a different port?
+
+  By default, the service running on port 20000, If you want to run it on a different port.
+  You need to update your Vrome(chrome extension)'s option first. (How TO: https://github.com/jinzhu/vrome/wiki/customize-your-vrome)
+
+  For example: If you want to run on port 30000. then you could add `set server_port=30000` to your config.
+
+  Then you can run the service on port 30000 with following command:
+  $ vrome 30000
+
+=== Auto start
+  // Linux
+    Add  `nohup vrome > /dev/null &` to your ~/.xprofile or other xinit files.
+  // Mac
+
+  // Windows
+
 
 == LICENSE:
+  Same As Vrome <Chrome Extension>
 
-(The MIT License)
 
-Copyright (c) 2010 Jinzhu
-
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-'Software'), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
-
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+Copyright (c) 2010~Now Jinzhu (wosmvp@gmail.com)

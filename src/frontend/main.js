@@ -1,42 +1,60 @@
-var AcceptKey = ["<Enter>","<C-j>","<C-m>"];
-var CancelKey = ["<Esc>", "<C-[>"];
-var EscapeKey = ["<Esc>", "<C-[>"];
+var AcceptKey     = ["<Enter>","<C-j>","<C-m>"];
+var CancelKey     = ["<Esc>", "<C-[>"];
+var EscapeKey     = ["<Esc>", "<C-[>"];
+var CtrlEscapeKey = ["<C-Esc>"];
+
+function isCtrlAcceptKey(key) {
+  if (key == '<C-Enter>') { return true; }
+}
 
 function isAcceptKey(key) {
   for (var i=0;i < AcceptKey.length; i++) {
-    if (AcceptKey[i] == key) return true;
+    if (AcceptKey[i] == key) { return true; }
   }
-}
-
-function AcceptKeyFunction() {
-  Url.enter();
-  CmdLine.exec();
-  Search.next();
-  Buffer.gotoFirstMatchHandle();
-  Buffer.deleteMatchHandle();
 }
 
 function isEscapeKey(key) {
   for (var i=0;i < EscapeKey.length; i++) {
-    if (EscapeKey[i] == key) return true;
+    if (EscapeKey[i] == key) { return true; }
   }
 }
 
-function EscapeKeyFunction() {
-  KeyEvent.enable();
-  CancelKeyFunction();
+function isCtrlEscapeKey(key) {
+  for (var i=0;i < CtrlEscapeKey.length; i++) {
+    if (CtrlEscapeKey[i] == key) { return true; }
+  }
+}
+
+function AcceptKeyFunction() {
+  CmdLine.exec();
+  Search.next();
+
+  Dialog.openCurrent();
+
+  Buffer.gotoFirstMatchHandle();
+  Buffer.deleteMatchHandle();
 }
 
 function CancelKeyFunction() {
-  CmdBox.remove();
   Hint.remove();
-  Search.stop();
   InsertMode.blurFocus();
   KeyEvent.reset();
+  Search.stop();
+  Dialog.stop();
+  CmdBox.remove();
+}
+
+function EscapeKeyFunction() {
+  CancelKeyFunction();
+}
+
+function CtrlEscapeKeyFunction() {
+  KeyEvent.enable();
+  EscapeKeyFunction();
 }
 
 with (KeyEvent) {
-  var arr = ["AcceptKey","CancelKey","EscapeKey"];
+  var arr = ["AcceptKey","CancelKey","EscapeKey", "CtrlEscapeKey"];
   for (var i=0; i < arr.length; i++) {
     var keys = window[arr[i]];
     for (var j=0; j < keys.length; j++) {
@@ -64,6 +82,8 @@ with (KeyEvent) {
   add("]]", Page.next         );
   add("[[", Page.prev         );
   add("Y" , Page.copySelected );
+  add("]f", Frame.next        );
+  add("[f", Frame.prev        );
 
 
   // Url
@@ -80,6 +100,9 @@ with (KeyEvent) {
   add("<C-y>" , Url.shortUrl           );
   add("p"     , Url.openFromClipboard  );
   add("P"     , Url.openFromClipboardNewTab  );
+
+  add("<C-Enter>", Dialog.openCurrentNewTab );
+  add("<C-Enter>", Dialog.openCurrentNewTab, true);
 
 
   // Scroll
@@ -103,19 +126,38 @@ with (KeyEvent) {
   // Tab
   add("r"    , Tab.reload       );
   add("R"    , Tab.reloadAll    );
-  add("d"    , Tab.close        );
+
+  add("dc"   , Tab.close        );
+  add("dm"   , Buffer.deleteMatch  );
+  add("do"   , Tab.closeOtherTabs );
+  add("dl"   , Tab.closeLeftTabs  );
+  add("dr"   , Tab.closeRightTabs );
+  add("dp"   , Tab.closeUnPinnedTabs );
+  add("dP"   , Tab.closePinnedTabs );
+
+
   add("D"    , Tab.closeAndFoucsLeft );
   add("<M-d>", Tab.closeAndFoucsLast );
+
   add("u"    , Tab.reopen       );
+
   add("<C-p>", Tab.prev         );
   add("<C-n>", Tab.next         );
   add("gt"   , Tab.next         );
   add("gT"   , Tab.prev         );
 
+  add("gp"   , Tab.togglePin    );
+  add("gd"   , Tab.duplicate    );
+  add("gD"   , Tab.detach       );
+  add("gI"   , Tab.openInIncognito);
+  add("gm"   , Tab.merge        );
+  add("gM"   , Tab.mergeAll     );
+
   add("y"     , Tab.copyUrl      );
   add("g0"    , Tab.first        );
   add("g^"    , Tab.first        );
   add("g$"    , Tab.last         );
+  add("gl"    , Tab.selectLastOpen );
   add("<C-6>" , Tab.selectPrevious );
   add("<C-^>" , Tab.selectPrevious );
 
@@ -125,6 +167,8 @@ with (KeyEvent) {
   add("L"    , History.forward );
   add("<C-o>", History.back    );
   add("<C-i>", History.forward );
+  add("gh"   , History.start );
+  add("gH"   , History.new_tab_start );
 
 
   // CmdLine
@@ -132,8 +176,9 @@ with (KeyEvent) {
 
 
   // Hint
-  add("f"  , Hint.start         );
-  add("F"  , Hint.new_tab_start );
+  add("f"     , Hint.start            );
+  add("F"     , Hint.new_tab_start    );
+  add("<M-f>" , Hint.multi_mode_start );
 
 
   // Search
@@ -143,7 +188,12 @@ with (KeyEvent) {
   add("N"      , Search.prev           );
   add("*"      , Search.forwardCursor  );
   add("#"      , Search.backwardCursor );
-  add("<S-Enter>", Search.prev,   true );
+  add("<C-Enter>", Search.prev         );
+  add("<C-Enter>", Search.prev,   true );
+  add("<S-Enter>", Search.openCurrent  );
+  add("<S-Enter>", Search.openCurrent, true );
+  add("<M-Enter>", Search.openCurrentNewTab  );
+  add("<M-Enter>", Search.openCurrentNewTab, true );
 
 
   // Buffer
@@ -155,6 +205,10 @@ with (KeyEvent) {
   add("<C-z>" , KeyEvent.disable            );
   add("<C-v>" , KeyEvent.passNextKey        );
   add("."     , KeyEvent.runLast            );
+
+	// Bookmark
+  add("gb" , Bookmark.start );
+  add("gB" , Bookmark.new_tab_start );
 
   // a-zA-Z
   for (var i = 65; i <= 122; i++) {
@@ -203,5 +257,5 @@ with (CmdLine) {
 }
 
 // Initial
-var initFunction = [ Zoom.init, KeyEvent.init];
+var initFunction = [ Zoom.init, KeyEvent.init, Frame.register];
 runIt();

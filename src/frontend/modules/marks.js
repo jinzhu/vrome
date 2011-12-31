@@ -29,9 +29,9 @@ var Marks = (function() {
     var position = Settings.get(setting_key)[key];
     if (position instanceof Array) {
       if (position[2]) {
-        Post({action: "Tab.update", url: position[2], callback: "scrollTo(" + position[0] + "," + position[1] + ")"})
+        Post({action: "Tab.update", url: position[2], callback: "scrollTo(" + position[0] + "," + position[1] + ")"});
       } else {
-        scrollTo(position[0], position[1])
+        scrollTo(position[0], position[1]);
       }
     }
   }
@@ -39,8 +39,8 @@ var Marks = (function() {
   return {
     addQuickMark        : addQuickMark,
     gotoQuickMark       : gotoQuickMark,
-    gotoQuickMarkNewTab : function() { gotoQuickMark.call(this,true) },
+    gotoQuickMarkNewTab : function() { gotoQuickMark.call(this,true); },
     addLocalMark        : addLocalMark,
-    gotoLocalMark       : gotoLocalMark,
-  }
-})()
+    gotoLocalMark       : gotoLocalMark
+  };
+})();

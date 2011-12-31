@@ -1,9 +1,9 @@
 var Tab = (function(){
 
   function copyUrl() {
-    href = document.location.href;
-		Clipboard.copy(href);
-    CmdBox.set({ title : "It's copied,the URL: " + href, timeout : 4000 });
+    var url = document.location.href;
+		Clipboard.copy(url);
+    CmdBox.set({ title : "[Copied] " + url, timeout : 4000 });
   }
 
   function reload(){
@@ -14,22 +14,52 @@ var Tab = (function(){
 		Post({action: "Tab.reloadAll"});
 	}
 
-  function close(argu) {
-		Post({action: "Tab.close",arguments : argu});
+  function close(option) {
+    option = option || {};
+    option.action = 'Tab.close';
+		Post(option);
   }
 
   function reopen() {
-		Post({action: "Tab.reopen",num : times()});
+		Post({ action: "Tab.reopen", count: times() });
 	}
+
+  function togglePin() {
+		Post({ action: "Tab.togglePin"});
+  }
+
+  function duplicate() {
+    Post({ action: "Tab.duplicate", count: times() });
+  }
+
+  function detach() {
+		Post({ action: "Tab.detach"});
+  }
+
+  function openInIncognito() {
+		Post({ action: "Tab.openInIncognito"});
+  }
+
+  function merge() {
+		Post({ action: "Tab.merge"});
+  }
+
+  function mergeAll() {
+		Post({ action: "Tab.mergeAll"});
+  }
 
   function selectPrevious() {
     var count = times(/*raw*/ true);
 
     if (count) {
-      Post({ action : "Tab.goto", index : count - 1});
+      Post({ action: "Tab.goto", index: count - 1});
     } else {
-      Post({ action : "Tab.selectPrevious" });
+      Post({ action: "Tab.selectPrevious" });
     }
+  }
+
+  function selectLastOpen() {
+    Post({ action: "Tab.selectLastOpen", count: times() });
   }
 
   function prev()  { Post({action: "Tab.goto",offset : -1 * times()}); }
@@ -42,14 +72,30 @@ var Tab = (function(){
     copyUrl   : copyUrl	 ,
     reload    : reload   ,
     reloadAll : reloadAll,
+
     close     : close    ,
+		closeAndFoucsLast : function(){ close({focusLast: true});     },
+		closeAndFoucsLeft : function(){ close({offset: -1});          },
+		closeOtherTabs    : function(){ close({closeOther: true});    },
+		closeLeftTabs     : function(){ close({closeLeft: true});     },
+		closeRightTabs    : function(){ close({closeRight: true});    },
+		closePinnedTabs   : function(){ close({closePinned: true});   },
+		closeUnPinnedTabs : function(){ close({closeUnPinned: true}); },
+
     reopen    : reopen   ,
+
     prev      : prev     ,
     next      : next     ,
     first     : first    ,
     last      : last     ,
     selectPrevious : selectPrevious,
-		closeAndFoucsLast : function(){ close({focusLast : true}) },
-		closeAndFoucsLeft : function(){ close({offset : -1}) },
-	}
-})()
+    selectLastOpen : selectLastOpen,
+
+    togglePin       : togglePin,
+    duplicate       : duplicate,
+    detach          : detach,
+    openInIncognito : openInIncognito,
+    merge           : merge,
+    mergeAll        : mergeAll
+	};
+})();

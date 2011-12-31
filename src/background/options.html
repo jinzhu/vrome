@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Vrome - Options</title>
+    <link href="/styles/options.css" rel="stylesheet" type="text/css">
+    <script src="/shared/settings.js"></script>
+    <script src="/shared/options.js"></script>
+    <script src="/background/scripts/main.js"></script>
+    <script src="/background/scripts/modules/vromerc.js"></script>
+    <script src="/background/scripts/modules/options.js"></script>
+    <script src="/shared/extend.js"></script>
+
+		<script type="text/javascript" src="/oauth/chrome_ex_oauthsimple.js"></script>
+		<script type="text/javascript" src="/oauth/chrome_ex_oauth.js"></script>
+		<script type="text/javascript" src="/oauth/oauth.js"></script>
+  </head>
+
+  <body onload="initOptionPage()">
+    <header>
+      <table style="width: 100%" cellpadding="0" cellspacing="0">
+        <tbody><tr>
+            <td>
+              <img id="icon" alt="" height="32" src="/images/logo.png" width="32">
+              <h1 id="head1">Vrome - Options</h1>
+            </td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </header>
+
+    <nav>
+      <ul id="tabs">
+        <li><a href="#dashboard" onclick="switchTab('dashboard');"><span>Dashboard</span></a></li>
+        <li><a href="#setting" onclick="switchTab('setting');"><span>Options</span></a></li>
+        <li><a href="#features" onclick="switchTab('features');"><span>Features</span></a></li>
+        <li><a href="#changelog" onclick="switchTab('changelog');"><span>ChangeLog</span></a></li>
+        <li><a href="#donates" onclick="switchTab('donates');"><span>Donates</span></a></li>
+      </ul>
+    </nav>
+
+    <section>
+      <div id="dashboardContent" class="tabContent"></div>
+      <div id="settingContent" class="tabContent"></div>
+      <div id="featuresContent" class="tabContent"></div>
+      <div id="changelogContent" class="tabContent"></div>
+      <div id="donatesContent" class="tabContent"></div>
+    </section>
+
+    <script>
+      render(document.getElementById('dashboardContent'), "/README.html")
+      render(document.getElementById('settingContent'), "/files/setting.html")
+      render(document.getElementById('donatesContent'), "/files/donates.html")
+      render(document.getElementById('changelogContent'), "/files/changelog.html")
+      render(document.getElementById('featuresContent'), "/files/features.html")
+    </script>
+  </body>
+</html>

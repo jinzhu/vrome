@@ -31,12 +31,12 @@ var Buffer = (function() {
           }
         }
       }
-    })
+    });
   }
 
   return {
     gotoFirstMatch : gotoFirstMatch,
-    deleteMatch : deleteMatch,
-  }
-})()
+    deleteMatch : deleteMatch
+  };
+})();
 

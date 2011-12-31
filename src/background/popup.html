@@ -1,0 +1,58 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <link rel="stylesheet" href="/styles/popup.css" type="text/css">
+    <script src="/shared/extend.js"></script>
+    <script src="/shared/settings.js"></script>
+    <script src="/background/scripts/main.js" type="text/javascript"></script>
+  </head>
+  <body>
+    <div id="menu">
+      <h3 class="header">Vrome</h3>
+
+      <div class="item">
+        <a href="#" onclick="openOptions('features')">Features</a>
+      </div>
+
+      <div class="separator"></div>
+      <div class="item">
+        <a href="#" onclick="openOptions('setting')">Options</a>
+      </div>
+
+      <div class="separator"></div>
+      <div class="item">
+        <a href="#" onclick="openOptions('changelog')">ChangeLog</a>
+      </div>
+
+      <div class="separator"></div>
+      <div class="item">
+        <a href="#" onclick="openSourcePage()">Source Code</a>
+      </div>
+
+      <div class="separator"></div>
+      <div class="item">
+        <a href="#" onclick="openChromeStore();">Enjoy Vrome? Rate it in Chrome's offical store</a>
+      </div>
+
+      <div class="separator"></div>
+      <div class="item">
+        <a href="#" onclick="openIssuesPage()">Found a bug? Click to report</a>
+      </div>
+
+      <div class="separator"></div>
+      <div class="item">
+        <a href="#" onclick="openOptions('donates')">Donate to support further development</a>
+      </div>
+
+      <div class="separator"></div>
+      <div class="versionNumber">
+        Current Version: <span class='version'>1.0.0</span>
+      </div>
+      <script type="text/javascript">
+        var elems = document.getElementsByClassName('version');
+        for(var i=0; i < elems.length; i++) {
+          elems[i].innerText = Settings.get('version');
+        }
+      </script>
+    </div>
+  </body>
+</html>

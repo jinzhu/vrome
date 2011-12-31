@@ -2,7 +2,7 @@ var Buffer = (function() {
   var bufferGotoMode,bufferMatchMode;
 
   function gotoFirstMatchHandle() {
-    if (!bufferGotoMode) return;
+    if (!bufferGotoMode) { return; }
     Post({ action : 'Buffer.gotoFirstMatch', keyword : CmdBox.get().content});
     bufferGotoMode = false;
     CmdBox.remove();
@@ -21,7 +21,7 @@ var Buffer = (function() {
 
   // keyword for CmdLine
   function deleteMatchHandle(keyword) {
-    if (!keyword && !bufferMatchMode) return;
+    if (!keyword && !bufferMatchMode) { return; }
     Post({ action : 'Buffer.deleteMatch', keyword : keyword || CmdBox.get().content });
     bufferMatchMode = false;
     CmdBox.remove();
@@ -36,6 +36,6 @@ var Buffer = (function() {
     gotoFirstMatch       : gotoFirstMatch       ,
     gotoFirstMatchHandle : gotoFirstMatchHandle ,
     deleteMatch          : deleteMatch          ,
-    deleteMatchHandle    : deleteMatchHandle    ,
-  }
-})()
+    deleteMatchHandle    : deleteMatchHandle
+  };
+})();

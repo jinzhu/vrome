@@ -53,19 +53,19 @@ var CmdBox = (function() {
       var input = cmdBoxInput() || createCmdBoxInput();
       input.value = opt.content;
       input.setSelectionRange(0, input.value.length);
-      input.addEventListener('keydown',pressDown,false);
-      input.addEventListener('keyup'  ,pressUp,false);
+      input.addEventListener('keydown', pressDown, true);
+      input.addEventListener('keyup'  , pressUp, true);
       input.focus();
     }
 		if (opt.pressUp)   { pressUpFunction   = opt.pressUp; }
 		if (opt.pressDown) { pressDownFunction = opt.pressDown; }
-    if (opt.timeout)   { setTimeout(remove,Number(opt.timeout)); }
+    if (opt.timeout)   { setTimeout(remove, Number(opt.timeout)); }
   }
 
   function get() {
     return {
       title   : cmdBoxTitle() ? cmdBoxTitle().innerText : '',
-      content : cmdBoxInput() ? cmdBoxInput().value     : '',
+      content : cmdBoxInput() ? cmdBoxInput().value     : ''
     };
   }
 
@@ -73,8 +73,12 @@ var CmdBox = (function() {
 		pressUpFunction   = function(){};
 		pressDownFunction = function(){};
     var box = document.getElementById(box_id);
-    if(box) document.body.removeChild(box);
+    if (box) { document.body.removeChild(box); }
   }
 
-  return { blur : blur, set : set, get : get, remove : remove };
-})()
+  function isCmdBoxInput(target) {
+    return target.getAttribute('id') === input_box_id;
+  }
+
+  return { blur : blur, set : set, get : get, remove : remove, isCmdBoxInput : isCmdBoxInput, cmdBox : cmdBox };
+})();
