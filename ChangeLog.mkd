@@ -1,3 +1,7 @@
+1.0.1 (2012/02/09)
+
+- Fix scroll issues with 'G' that caused by chrome's update
+
 1.0.0 (2012/01/01)
 
 - The first public and stable release after two more years of development!

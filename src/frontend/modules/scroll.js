@@ -5,11 +5,11 @@ var Scroll = (function(){
   // API
 	return {
 	  top      : function () { scrollTo(scrollX, 0);                 },
-	  bottom   : function () { scrollTo(scrollX, document.height);   },
+	  bottom   : function () { scrollTo(scrollX, document.body.scrollHeight);   },
     first    : function () {
                  if (times(/*read*/true,/*keep*/true) === 0) { scrollTo(0, scrollY); }
                },
-	  last     : function () { scrollTo(document.width, scrollY);    },
+	  last     : function () { scrollTo(document.body.scrollWidth, scrollY);    },
 
 	  up       : function () { scrollBy(0,times() * -vertical_moment);   },
 	  down     : function () { scrollBy(0,times() * vertical_moment);   },
