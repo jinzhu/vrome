@@ -1,51 +1,75 @@
 var Search = (function(){
-  var searchMode,direction,lastSearch;
+  var searchMode,direction,lastSearch,findTimeoutID;
 
   var highlight_class      = '__vrome_search_highlight';
   var highlight_current_id = '__vrome_search_highlight_current';
 
-  function find(keyword, node) {
-    if (!keyword) { return; }
-    node = node || document.body;
-
-    // Iterate node childNodes
-    if (node.id != '_vrome_cmd_box' && node.hasChildNodes() && !/(script|style)/i.test(node.tagName)) {
-      var childNodes = node.childNodes;
-      for (var i = 0;i < childNodes.length;i++) {
-        find(keyword, childNodes[i]);
-      }
-    }
-
-    if (node.nodeType == 3) { // text node
-      var caseSensitive = /[A-Z]/.test(keyword);
-      var key   = caseSensitive ? keyword   : keyword.toUpperCase();
-      var text  = caseSensitive ? node.data : node.data.toUpperCase();
-      var index = text.indexOf(key);
-
-      if (index != -1) {
-        var parentNode = node.parentNode;
-
-        if (parentNode.className != highlight_class) {
-          var nodeData = node.data;
-
-          var before = document.createTextNode(nodeData.substr(0,index));
-          var match  = document.createTextNode(nodeData.substr(index,keyword.length));
-          var after  = document.createTextNode(nodeData.substr(index + keyword.length));
-
-          var span = document.createElement("span");
-          span.setAttribute('class',highlight_class);
-          span.appendChild(match);
-
-          parentNode.insertBefore(before, node);
-          parentNode.insertBefore(span  , node);
-          parentNode.insertBefore(after , node);
-          parentNode.removeChild(node);
-        }
-      }
+  function kill_find() {
+    if (findTimeoutID) {
+      clearTimeout(findTimeoutID);
+      findTimeoutID = undefined;
     }
   }
 
+  function find(keyword) {
+    if (!keyword) { return; }
+    kill_find();
+
+    function do_find(keyword, node) {
+      var processedNodes = 0;
+      while (true) {
+        while (node.hasChildNodes() && node.id != '_vrome_cmd_box' && !/(script|style)/i.test(node.tagName)) {
+          node = node.firstChild;
+        }
+        if (node.nodeType == 3) { // text node
+          var caseSensitive = /[A-Z]/.test(keyword);
+          var key   = caseSensitive ? keyword   : keyword.toUpperCase();
+          var text  = caseSensitive ? node.data : node.data.toUpperCase();
+          var index = text.indexOf(key);
+
+          if (index != -1) {
+            processedNodes++;
+            var parentNode = node.parentNode;
+
+            if (parentNode.className != highlight_class) {
+              var nodeData = node.data;
+
+              var before = document.createTextNode(nodeData.substr(0,index));
+              var match  = document.createTextNode(nodeData.substr(index,keyword.length));
+              var after  = document.createTextNode(nodeData.substr(index + keyword.length));
+
+              var span = document.createElement("span");
+              span.setAttribute('class',highlight_class);
+              span.appendChild(match);
+
+              parentNode.insertBefore(before, node);
+              parentNode.insertBefore(span  , node);
+              parentNode.insertBefore(after , node);
+              parentNode.removeChild(node);
+              node = span;
+            }
+          }
+        }
+        while (!node.nextSibling) {
+          node = node.parentNode;
+          if (node === document.body) {
+            findTimeoutID = undefined;
+            return;
+          }
+        }
+        node = node.nextSibling;
+        if (processedNodes > 100) {
+          findTimeoutID = setTimeout(do_find, 25, keyword, node);
+          return;
+        }
+      }
+    }
+    findTimeoutID = setTimeout(do_find, 25, keyword, document.body);
+  }
+
   function remove() {
+    kill_find();
+
     var nodes = document.getElementsByClassName(highlight_class);
     for (var i = nodes.length - 1; i >= 0; i--) {
       if (nodes[i]) {
