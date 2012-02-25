@@ -36,7 +36,7 @@ var Search = (function(){
             parentNode.insertBefore(span  , node);
             parentNode.insertBefore(after , node);
             parentNode.removeChild(node);
-            node = after;
+            node = span;
           }
         }
       }
