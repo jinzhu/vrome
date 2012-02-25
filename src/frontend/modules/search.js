@@ -8,40 +8,45 @@ var Search = (function(){
     if (!keyword) { return; }
     node = node || document.body;
 
-    // Iterate node childNodes
-    if (node.id != '_vrome_cmd_box' && node.hasChildNodes() && !/(script|style)/i.test(node.tagName)) {
-      var childNodes = node.childNodes;
-      for (var i = 0;i < childNodes.length;i++) {
-        find(keyword, childNodes[i]);
-      }
-    }
-
-    if (node.nodeType == 3) { // text node
-      var caseSensitive = /[A-Z]/.test(keyword);
-      var key   = caseSensitive ? keyword   : keyword.toUpperCase();
-      var text  = caseSensitive ? node.data : node.data.toUpperCase();
-      var index = text.indexOf(key);
-
-      if (index != -1) {
-        var parentNode = node.parentNode;
-
-        if (parentNode.className != highlight_class) {
-          var nodeData = node.data;
-
-          var before = document.createTextNode(nodeData.substr(0,index));
-          var match  = document.createTextNode(nodeData.substr(index,keyword.length));
-          var after  = document.createTextNode(nodeData.substr(index + keyword.length));
-
-          var span = document.createElement("span");
-          span.setAttribute('class',highlight_class);
-          span.appendChild(match);
-
-          parentNode.insertBefore(before, node);
-          parentNode.insertBefore(span  , node);
-          parentNode.insertBefore(after , node);
-          parentNode.removeChild(node);
+    while (true) {
+        while (node.hasChildNodes() && node.id != '_vrome_cmd_box' && !/(script|style)/i.test(node.tagName)) {
+            node = node.firstChild;
         }
-      }
+        if (node.nodeType == 3) { // text node
+          var caseSensitive = /[A-Z]/.test(keyword);
+          var key   = caseSensitive ? keyword   : keyword.toUpperCase();
+          var text  = caseSensitive ? node.data : node.data.toUpperCase();
+          var index = text.indexOf(key);
+
+          if (index != -1) {
+            var parentNode = node.parentNode;
+
+            if (parentNode.className != highlight_class) {
+              var nodeData = node.data;
+
+              var before = document.createTextNode(nodeData.substr(0,index));
+              var match  = document.createTextNode(nodeData.substr(index,keyword.length));
+              var after  = document.createTextNode(nodeData.substr(index + keyword.length));
+
+              var span = document.createElement("span");
+              span.setAttribute('class',highlight_class);
+              span.appendChild(match);
+
+              parentNode.insertBefore(before, node);
+              parentNode.insertBefore(span  , node);
+              parentNode.insertBefore(after , node);
+              parentNode.removeChild(node);
+              node = after;
+            }
+          }
+        }
+        while (!node.nextSibling) {
+            node = node.parentNode;
+            if (node === document.body) {
+                return;
+            }
+        }
+        node = node.nextSibling;
     }
   }
 
