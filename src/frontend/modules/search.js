@@ -99,7 +99,7 @@ var Search = (function(){
         parentNode.replaceChild(textNode, nodes[i]);
       }
     }
-    return Number(total_length / 100) * 25 + 5;
+    return parseInt(total_length / 100) * 25 + 5;
   }
 
   function next(step, totally_steps) {
