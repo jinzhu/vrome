@@ -16,3 +16,5 @@ Contributors:
       - format README.mkd
   - Vincent Aravantinos
       - Bug Fix: `F` should open links in a new tab.(Mac)
+  - Yuriy Taraday / <github> YorikSar
+      - Faster Search
