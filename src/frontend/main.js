@@ -20,6 +20,9 @@ function isEscapeKey(key) {
 }
 
 function isCtrlEscapeKey(key) {
+  if (Option.get('enable_vrome_key') == key) {
+    return true;
+  }
   for (var i=0;i < CtrlEscapeKey.length; i++) {
     if (CtrlEscapeKey[i] == key) { return true; }
   }
