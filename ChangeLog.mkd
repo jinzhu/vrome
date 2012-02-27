@@ -1,3 +1,11 @@
+1.0.2 (2012/02/27)
+
+- Faster Search (Thanks YorikSar)
+- In order to Fix \<C-Esc\> is mapped to open Start menu in Windows, make the enable Vrome key customizable.
+  You need to add something like below to your .Vromerc from option page.
+
+   set enable\_vrome\_key=\<Esc\>
+
 1.0.1 (2012/02/09)
 
 - Fix scroll issues with 'G' that caused by chrome's update

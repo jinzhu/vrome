@@ -36,6 +36,8 @@ set defaultsearch=yahoo
 " Disable autocomplete
 set noautocomplete
 
+" Change enable vrome keybinding, default is <C-Esc>
+set enable_vrome_key=<Esc>
 
 " The server port is what external server running on
 " The external server is used to support launch the external editor in insert mode.

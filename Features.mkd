@@ -213,6 +213,7 @@
 
             <C-v>     Pass the next key
             <C-z>     Disable Vrome, use <C-Esc> to re-enable it.
+                      The enable key is customizable in Option page.
 
 
 ### Command Line Mode ###
