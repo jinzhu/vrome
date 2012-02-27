@@ -71,7 +71,14 @@ var Search = (function(){
     kill_find();
 
     var nodes = document.getElementsByClassName(highlight_class);
-    for (var i = nodes.length - 1; i >= 0; i--) {
+    var total_length = nodes.length;
+    var from_length = total_length;
+    if (from_length > 100) {
+      from_length = 100
+      setTimeout(remove, 25);
+    }
+
+    for (var i = from_length; i >= 0; i--) {
       if (nodes[i]) {
         var parentNode = nodes[i].parentNode;
         var text = nodes[i].innerText;
@@ -92,10 +99,12 @@ var Search = (function(){
         parentNode.replaceChild(textNode, nodes[i]);
       }
     }
+    return Number(total_length / 100) * 25 + 5;
   }
 
-  function next(step) {
+  function next(step, totally_steps) {
 		if (!searchMode) { return; }
+    totally_steps = totally_steps || 0
 
     var offset = direction * step * times();
     var nodes = document.getElementsByClassName(highlight_class);
@@ -117,16 +126,17 @@ var Search = (function(){
     if (nodes[i] && isElementVisible(nodes[i], /* In full page*/ true)) {
       nodes[i].setAttribute('id',highlight_current_id);
       nodes[i].scrollIntoViewIfNeeded();
-    } else {
-      next(step);
+    } else if (totally_steps < nodes.length) {
+      setTimeout(next, 5, step, totally_steps + step);
     }
   }
 
   function handleInput(e){
+    var wait_time = 0;
 		if (!searchMode) { return; }
-    if (!isAcceptKey(getKey(e))) { remove(); }
+    if (!isAcceptKey(getKey(e))) { wait_time = remove(); }
 
-    find(CmdBox.get().content);
+    setTimeout(find, wait_time, CmdBox.get().content);
     lastSearch = CmdBox.get().content;
   }
 
