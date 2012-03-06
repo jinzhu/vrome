@@ -128,6 +128,7 @@ with (KeyEvent) {
 
   // Tab
   add("r"    , Tab.reload       );
+  add("<C-r>", Tab.reloadWithoutCache);
   add("R"    , Tab.reloadAll    );
 
   add("dc"   , Tab.close        );
