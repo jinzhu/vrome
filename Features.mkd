@@ -95,6 +95,7 @@
 
             r         Reload current tab
             R         Reload all tabs
+        <C-r>         Refresh page without cached content
 
 
 ### Marks ###
