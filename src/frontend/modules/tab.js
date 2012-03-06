@@ -14,6 +14,10 @@ var Tab = (function(){
 		Post({action: "Tab.reloadAll"});
 	}
 
+  function reloadWithoutCache() {
+      Post({action: "Tab.reloadWithoutCache"});
+  }
+
   function close(option) {
     option = option || {};
     option.action = 'Tab.close';
@@ -72,6 +76,7 @@ var Tab = (function(){
     copyUrl   : copyUrl	 ,
     reload    : reload   ,
     reloadAll : reloadAll,
+    reloadWithoutCache : reloadWithoutCache,
 
     close     : close    ,
 		closeAndFoucsLast : function(){ close({focusLast: true});     },
