@@ -154,6 +154,12 @@ var Tab = (function() {
     });
   }
 
+  function reloadWithoutCache(msg) {
+    var tab = arguments[arguments.length-1];
+
+    chrome.tabs.reload(tab.id, {bypassCache: true});
+  }
+
   function openUrl(msg) {
     var tab       = arguments[arguments.length-1];
     var urls      = msg.urls || msg.url;
@@ -243,6 +249,7 @@ var Tab = (function() {
     goto           : goto,
     selectPrevious : selectPrevious,
     selectLastOpen : selectLastOpen,
+    reloadWithoutCache: reloadWithoutCache,
     reloadAll      : reloadAll,
     openUrl        : openUrl,
     openFromClipboard : openFromClipboard,
