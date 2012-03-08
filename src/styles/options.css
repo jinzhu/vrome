@@ -2,7 +2,7 @@ body { font: normal 12px Verdana, Arial, Helvetica, sans-serif; padding: 0px; ma
 header,nav,section,footer { display: block; }
 header { width: 900px; margin: 10px auto 5px auto; padding-bottom: 5px;}
 nav { width: 922px; margin: 10px auto 0px auto; }
-section { padding: 10px; width: 900px; margin: 0px auto 5px auto; background: #FFFFFF; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px; -webkit-box-shadow: rgba(0, 0, 0, 0.296875) 0px 1px 3px; overflow: auto;}
+section { padding: 10px; width: 900px; margin: 0px auto 5px auto; background: #FFFFFF; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px; -webkit-box-shadow: rgba(0, 0, 0, 0.296875) 0px 1px 3px; overflow: visible;}
 footer { padding: 10px; width: 900px; margin: 10px auto 5px auto; clear: both; color: #999; text-align: center; }
 #icon { float: left; }
 #savecancelpanel { text-align: center; padding-top: 10px; height: 30px; }
