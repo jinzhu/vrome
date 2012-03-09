@@ -98,5 +98,5 @@ function getSelected() {
 }
 
 function showHelp() {
-  Post({action: "Tab.openUrl", url: "https://github.com/jinzhu/vrome/blob/master/Features.mkd#readme", newtab: true});
+  Post({action: "openOptions", 'arguments': 'features'});
 }
