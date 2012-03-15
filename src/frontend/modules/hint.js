@@ -41,11 +41,10 @@ var Hint = (function() {
 
   function setHintIndex(elems) {
     var div = removeHighlightBox(/* create_after_remove */ true);
-
+    var win_top   = window.scrollY / Zoom.current();
+    var win_left  = window.scrollX / Zoom.current();
     for (var i = 0; i < elems.length; i++) { //TODO need refactor
       var elem      = elems[i];
-      var win_top   = window.scrollY / Zoom.current();
-      var win_left  = window.scrollX / Zoom.current();
       var pos       = elem.getBoundingClientRect();
       var elem_top  = win_top  + pos.top;
       var elem_left = win_left + pos.left;
