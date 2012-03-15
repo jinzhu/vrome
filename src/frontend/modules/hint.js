@@ -43,6 +43,7 @@ var Hint = (function() {
     var div = removeHighlightBox(/* create_after_remove */ true);
     var win_top   = window.scrollY / Zoom.current();
     var win_left  = window.scrollX / Zoom.current();
+    var frag = document.createDocumentFragment();
     for (var i = 0; i < elems.length; i++) { //TODO need refactor
       var elem      = elems[i];
       var pos       = elem.getBoundingClientRect();
@@ -55,10 +56,11 @@ var Hint = (function() {
       span.style.top             = elem_top  + 'px';
       span.style.backgroundColor = 'red';
       span.innerHTML             = i + 1; // set number for available elements
-      div.appendChild(span);
+      frag.appendChild(span);
 
       setHighlight(elem, /* set_active */ false);
     }
+    div.appendChild(frag);
     if (elems[0] && elems[0].tagName == 'A') { setHighlight(elems[0], /* set_active */ true); }
   }
 
