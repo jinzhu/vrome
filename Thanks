@@ -18,5 +18,7 @@ Contributors:
       - Bug Fix: `F` should open links in a new tab.(Mac)
   - Yuriy Taraday / <github> YorikSar
       - Faster Search
-  -  Lukasz Wrzosek / <github> wrzoski
+  - Lukasz Wrzosek / <github> wrzoski
       - <C-r> refresh page without cached content
+  - Keryn Knight / <github> kezabelle
+      - Faster Hint Mode

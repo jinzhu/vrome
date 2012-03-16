@@ -1,3 +1,5 @@
+- Faster Hint Mode (Thanks Keryn Knight)
+
 1.0.3 (2012/03/06)
 
 - <C-r> refresh page without cached content (Thanks Lukasz Wrzosek)
