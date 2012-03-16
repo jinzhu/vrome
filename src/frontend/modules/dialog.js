@@ -189,8 +189,8 @@ var Dialog = (function() {
         openCurrent();
       }
       if (key == '<Up>') prev();
-      if (key == '<S-Tab>') prev(10);
       if (key == '<Down>') next();
+      if (key == '<S-Tab>') prev(10);
       if (key == '<Tab>') next(10);
 
       KeyEvent.stopPropagation(e);
@@ -220,11 +220,15 @@ var Dialog = (function() {
     if (!keep_open) { stop(); }
   }
 
+  function open(/*Boolean*/ keep_open) {
+    setTimeout(openCurrent, 500, keep_open);
+  }
+
 	return {
     start : start,
 		draw    : draw,
-    openCurrent : openCurrent ,
-    openCurrentNewTab : function() { openCurrent(true) },
+    openCurrent : open,
+    openCurrentNewTab : function() { open(true) },
 		stop  : stop
 	};
 })();

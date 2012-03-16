@@ -24,8 +24,8 @@ var Tab = (function() {
       Post(tab, { action: "Dialog.draw", urls: return_urls, keyword: keyword });
     } else {
       chrome.bookmarks.search(keyword, function(bookmarks) {
-        // Search start from 20 days ago
-        chrome.history.search({text: keyword, maxResults: 30, startTime: (new Date().getTime() - 1000 * 60 * 60 * 24 * 20)}, function(historys) {
+        // Search start from 10 days ago
+        chrome.history.search({text: keyword, maxResults: 30, startTime: (new Date().getTime() - 1000 * 60 * 60 * 24 * 10)}, function(historys) {
           Post(tab, { action: "Dialog.draw", urls: return_urls.concat(bookmarks.concat(historys)), keyword: keyword });
         });
       });
