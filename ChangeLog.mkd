@@ -1,4 +1,6 @@
 - Faster Hint Mode (Thanks Keryn Knight)
+- Escape special characters when search it
+- Recognize "localhost" as valid URL
 
 1.0.3 (2012/03/06)
 

@@ -46,6 +46,9 @@ var Url = (function(){
       // looks like url, for example: google.com
       } else if( /\./.test(url) && !/\s/.test(url)) {
         result.push((url.match("://") ? "" : "http://") + url);
+      // looks like local URL, for example: localhost:3000
+      } else if(/localhost(\z|\/|\:)/.test(url)) {
+        result.push((url.match("://") ? "" : "http://") + url);
       // google vrome
       } else {
         url = escape(url)
