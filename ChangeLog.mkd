@@ -1,3 +1,5 @@
+1.1.0 (2012/03/16)
+
 - [Hint] Faster Hint Mode (Thanks Keryn Knight)
 - [Open] Escape special characters when open a url (issue #117)
 - [Open] Recognize "localhost" as valid URL (issue #118)

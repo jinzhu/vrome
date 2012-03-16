@@ -11,8 +11,8 @@
                       The first URL is opened in the current tab, and all other URLs are opened in new tabs.
                       There are some powerful features here:
                       1, AutoComplete support:
-                      <Down>,<Up>   Navigate next/previous link.
-                      <Tab>,<S-Tab> Navigate the next/previous 10th link.
+                      <Down>,<Up>   Navigate next/previous link. (You can change the behavior in config, please see http://goo.gl/koFEh)
+                      <Tab>,<S-Tab> Navigate the next/previous 10th link. (You can change the behavior in config, please see http://goo.gl/koFEh)
                       <Enter>       Open selected link in current tab.
                       <C-Enter>     Open selected link in new tab. and keep AutoComplete list open so you can open another link.
                       <C-[0-9]>     Open links marked with red number.
