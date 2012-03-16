@@ -48,6 +48,7 @@ var Url = (function(){
         result.push((url.match("://") ? "" : "http://") + url);
       // google vrome
       } else {
+        url = escape(url)
         var searchengines = Option.get('searchengines');
         var searchengine  = url.replace(/^(\S+)\s.*$/,"$1"); // searchengine name: e.g: google
 
