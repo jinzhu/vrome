@@ -1,10 +1,11 @@
-- Faster Hint Mode (Thanks Keryn Knight)
-- Escape special characters when search it
-- Recognize "localhost" as valid URL
+- [Hint] Faster Hint Mode (Thanks Keryn Knight)
+- [Open] Escape special characters when open a url (issue #117)
+- [Open] Recognize "localhost" as valid URL (issue #118)
+- [Open] Fix open part of the URL you inputed when you input very fast or search very slow (issue #116)
 
 1.0.3 (2012/03/06)
 
-- <C-r> refresh page without cached content (Thanks Lukasz Wrzosek)
+- <C-r> Refresh page without cached content (Thanks Lukasz Wrzosek)
 
 1.0.2 (2012/02/27)
 
@@ -20,11 +21,11 @@
 
 1.0.0 (2012/01/01)
 
-- The first public and stable release after two more years of development!
+- The first public and stable release after two more years development!
 
-  We did a big improve in this release, so suggest you read the README again.
+  We did lots of changes in this release, suggest you to read the README once again.
 
-  But I would like to list those abandon hotkeys existed in old versions:
+  But I would like to list those abandon key binding from old versions:
   *  "d" is not supported to close current tab now. use "dc" for that.
 
      (Because we have added some hotkeys started with "d".  "dc", "dm", "do", "dl", "dr", "dp", "dP". refer Features for detail)

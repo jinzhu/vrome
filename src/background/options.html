@@ -36,6 +36,7 @@
         <li><a href="#setting" onclick="switchTab('setting');"><span>Options</span></a></li>
         <li><a href="#features" onclick="switchTab('features');"><span>Features</span></a></li>
         <li><a href="#changelog" onclick="switchTab('changelog');"><span>ChangeLog</span></a></li>
+        <li><a href="#thanks" onclick="switchTab('thanks');"><span>Thanks</span></a></li>
         <li><a href="#donates" onclick="switchTab('donates');"><span>Donates</span></a></li>
       </ul>
     </nav>
@@ -45,6 +46,7 @@
       <div id="settingContent" class="tabContent"></div>
       <div id="featuresContent" class="tabContent"></div>
       <div id="changelogContent" class="tabContent"></div>
+      <div id="thanksContent" class="tabContent"></div>
       <div id="donatesContent" class="tabContent"></div>
     </section>
 
@@ -53,6 +55,7 @@
       render(document.getElementById('settingContent'), "/files/setting.html")
       render(document.getElementById('donatesContent'), "/files/donates.html")
       render(document.getElementById('changelogContent'), "/files/changelog.html")
+      render(document.getElementById('thanksContent'), "/files/thanks.html")
       render(document.getElementById('featuresContent'), "/files/features.html")
     </script>
   </body>

@@ -5,6 +5,7 @@ task :build do
   system("bundle exec bluecloth README.mkd > ./src/README.html")
   system("bundle exec bluecloth Features.mkd > ./src/files/features.html")
   system("bundle exec bluecloth ChangeLog.mkd > ./src/files/changelog.html")
+  system("bundle exec bluecloth Thanks.mkd > ./src/files/thanks.html")
 
   file = File.join(File.dirname(__FILE__),'src','manifest_pretty.json')
 
