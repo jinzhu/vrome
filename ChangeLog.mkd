@@ -2,6 +2,7 @@
 - [Open] Escape special characters when open a url (issue #117)
 - [Open] Recognize "localhost" as valid URL (issue #118)
 - [Open] Fix open part of the URL you inputed when you input very fast or search very slow (issue #116)
+- [Vromerc] Fix can't use Function keys as map key in .Vromerc (issue #109)
 
 1.0.3 (2012/03/06)
 

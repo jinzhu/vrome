@@ -74,7 +74,7 @@ var KeyEvent = (function() {
   function filterKey(key, insertMode) {
     var configure = Settings.get('background.configure');
     var mode = insertMode ? 'imap' : 'map';
-    if (/\d/.test(key)) { return key; }
+    if (/^\d$/.test(key)) { return key; }
     return (configure[mode] && configure[mode][key]) || key;
   }
 
@@ -126,6 +126,19 @@ var KeyEvent = (function() {
       var regexp = new RegExp('^(' + keys.replace(/([(\[{\\^$|)?*+.])/g,"\\$1") + ')');
       if (regexp.test(binding_command)) {
         var someBindingMatched = true;
+      }
+    }
+    // TODO Refact me
+    if ((someBindingMatched == undefined) && !keys.match(/^\d$/)) {
+      var configure = Settings.get('background.configure');
+      var mode = insertMode ? 'imap' : 'map';
+      if (configure[mode]) {
+        for (var i in configure[mode]) {
+          var regexp = new RegExp('^(' + keys.replace(/([(\[{\\^$|)?*+.])/g,"\\$1") + ')');
+          if (regexp.test(i)) {
+            var someBindingMatched = true;
+          }
+        }
       }
     }
 
