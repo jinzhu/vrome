@@ -1,8 +1,9 @@
 - [Hint] Faster Hint Mode (Thanks Keryn Knight)
 - [Open] Escape special characters when open a url (issue #117)
 - [Open] Recognize "localhost" as valid URL (issue #118)
-- [Open] Fix open part of the URL you inputed when you input very fast or search very slow (issue #116)
+- [Open] Fix open part of the URL you inputed when you input very fast or search history very slow (issue #116)
 - [Vromerc] Fix can't use Function keys as map key in .Vromerc (issue #109)
+- [AutoComplete/Vromerc] Available to change the hotkey to go to the next/previous/next 10/previous 10 matched item. Example: http://goo.gl/koFEh (issue #102)
 
 1.0.3 (2012/03/06)
 

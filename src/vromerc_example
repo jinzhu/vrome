@@ -13,6 +13,12 @@ imap <M-h> <M-w>
 " Remove key mapping in insert mode
 iunmap <M-w>
 
+" Change hotkey for go next / previous / next 10 / previous 10 matched item in autocomplete
+set autocomplete_prev=<S-Tab>
+set autocomplete_next=<Tab>
+set autocomplete_prev_10=<Up>
+set autocomplete_next_10=<Down>
+
 " Rule for next/prev page. (Should written in RegExp)
 set nextpattern+=^NextPage|››$
 set previouspattern+=^PrevPage|‹‹$

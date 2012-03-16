@@ -188,10 +188,11 @@ var Dialog = (function() {
         next(Number(RegExp.$1));
         openCurrent();
       }
-      if (key == '<Up>') prev();
-      if (key == '<Down>') next();
-      if (key == '<S-Tab>') prev(10);
-      if (key == '<Tab>') next(10);
+
+      if (key == Option.get('autocomplete_prev')) prev();
+      if (key == Option.get('autocomplete_next')) next();
+      if (key == Option.get('autocomplete_prev_10')) prev(10);
+      if (key == Option.get('autocomplete_next_10')) next(10);
 
       KeyEvent.stopPropagation(e);
       return;

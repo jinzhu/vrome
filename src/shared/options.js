@@ -7,7 +7,11 @@ var Option = (function() {
     server_port: 20000,
     searchengines : {"google":"http://www.google.com/search?q={{keyword}}", "yahoo":"http://search.yahoo.com/search?p={{keyword}}", "bing":"http://www.bing.com/search?q={{keyword}}", "wikipedia":"http://en.wikipedia.org/wiki/{{keyword}}","answers":"http://www.answers.com/main/ntquery?s={{keyword}}", "twitter":"https://twitter.com/search/{{keyword}}"},
     defaultsearch: 'google',
-    enable_vrome_key: '<C-Esc>'
+    enable_vrome_key: '<C-Esc>',
+    autocomplete_next: "<Down>",
+    autocomplete_prev: "<Up>",
+    autocomplete_next_10: "<Tab>",
+    autocomplete_prev_10: "<S-Tab>"
   };
 
   function get(key) {
