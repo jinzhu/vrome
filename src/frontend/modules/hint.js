@@ -18,7 +18,7 @@ var Hint = (function() {
 
     // Get all visible elements
     var elems = document.body.querySelectorAll('a, input:not([type=hidden]), textarea, select, button, *[onclick]');
-    for (var i=0; i < elems.length; i++) {
+    for (var i = 0, j = elems.length; i < j; i++) {
       if (isElementVisible(elems[i])) { elements.push(elems[i]); }
     }
     setHintIndex(elements);
@@ -26,7 +26,7 @@ var Hint = (function() {
   }
 
   function removeHighlightBox(/* Boolean */ create_after_remove) {
-    for (var i = 0; i < elements.length; i++) { elements[i].removeAttribute(highlight); }
+    for (var i = 0, j = elements.length; i < j; i++) { elements[i].removeAttribute(highlight); }
 
     var div = document.getElementById('__vim_hint_highlight');
     if (div) { document.body.removeChild(div); }
@@ -41,11 +41,11 @@ var Hint = (function() {
 
   function setHintIndex(elems) {
     var div = removeHighlightBox(/* create_after_remove */ true);
-
-    for (var i = 0; i < elems.length; i++) { //TODO need refactor
+    var win_top   = window.scrollY / Zoom.current();
+    var win_left  = window.scrollX / Zoom.current();
+    var frag = document.createDocumentFragment();
+    for (var i = 0, j = elems.length; i < j; i++) { //TODO need refactor
       var elem      = elems[i];
-      var win_top   = window.scrollY / Zoom.current();
-      var win_left  = window.scrollX / Zoom.current();
       var pos       = elem.getBoundingClientRect();
       var elem_top  = win_top  + pos.top;
       var elem_left = win_left + pos.left;
@@ -56,10 +56,11 @@ var Hint = (function() {
       span.style.top             = elem_top  + 'px';
       span.style.backgroundColor = 'red';
       span.innerHTML             = i + 1; // set number for available elements
-      div.appendChild(span);
+      frag.appendChild(span);
 
       setHighlight(elem, /* set_active */ false);
     }
+    div.appendChild(frag);
     if (elems[0] && elems[0].tagName == 'A') { setHighlight(elems[0], /* set_active */ true); }
   }
 
@@ -157,7 +158,7 @@ var Hint = (function() {
     selected = 0;
     matched  = [];
 
-    for (var i=0; i < elements.length; i++) {
+    for (var i = 0, j = elements.length; i < j; i++) {
       if (hintMatch(elements[i], i)) {
         matched.push(elements[i]);
       }
@@ -166,7 +167,7 @@ var Hint = (function() {
     setHintIndex(matched);
 
     if (isCtrlAcceptKey(key)) {
-      for (var i=0; i < matched.length; i++) {
+      for (var i = 0, j = matched.length; i < j; i++) {
         execSelect(matched[i]);
         new_tab = true;
       }
