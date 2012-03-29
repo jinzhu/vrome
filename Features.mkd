@@ -124,6 +124,21 @@
                       One more thing, Press <Enter> would open current highlighted element.
                       <C-Enter> would open all available hints in current page.
 
+                      You can use the `hintkeys` vromerc setting to change the characters used for 'numbering', the default value
+                      for this setting is 0123456789. So, for example, `set hintkeys=asdfghjkl;` would label the hints using
+                      the keys of the home row. Values for hintkey do not need to be 10 characters long: `set hintkeys=asdf`
+                      will also work.
+
+                      Tip: Any keys not listed in hintkeys can be used for filtering. Filtering is not case-sensitive, but
+                      hintkeys are. So if your hintkeys are "asdfg" you can use filtering to select the `Gmail` link in 
+                      the above example by typing `MA`, and if your hintkeys are 'ASDF' you can type `ma` to select the `Gmail` 
+                      link and you would need to type `GA` to select the link tagged with those keys.
+
+                      Finally, you can set hintkeysdisplayuppercase if you want the hintkey 'numbers' to be converted to 
+                      uppercase before they're displayed, but to still act like lowercase hintkeys. This is helpful for 
+                      readability The default value for this setting is 0. If you add `set hintkeysdisplayuppercase=1`
+                      in your vromerc the links will be 'numbered' A,S,D,F... but you will still type a,s,d,f,... to select them. 
+
             F         Start Hint mode, but open links in new tabs. (refer `f` for more)
             <M-f>     Start Hint mode, but open multiple links in a new tab. (refer `f` for more)
 
