@@ -58,13 +58,13 @@
 }
 
 a[vrome_highlight=hint_elem] {
-	background-color: yellow !important;
+	background-color: #F8F893 !important;
   color: #000 !important;
-  z-index     : 2147483646 !important;
+  z-index: 2147483646 !important;
 }
 
 a[vrome_highlight=hint_active] {
-	background-color: #8f0 !important;
+	background-color: #63CC63 !important;
   color: #000 !important;
   z-index     : 2147483646 !important;
 }
