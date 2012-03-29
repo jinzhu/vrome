@@ -26,7 +26,10 @@
       - \<C-r\> refresh page without cached content
   - Keryn Knight / \<github\> kezabelle
       - Faster Hint Mode
+  - Brandon Goldsworthy / \<github\> bgoldsworthy
+      - Configurable hintkeys
 
 ## Sponsors:
 
   - 駒場 大樹
+  - Ian Taylor

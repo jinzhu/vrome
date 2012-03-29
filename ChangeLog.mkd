@@ -1,3 +1,7 @@
+1.1.1 (2012/03/29)
+
+- [Hint] Configurable hintkeys, e.g: http://goo.gl/d7EQ0, refer Features -\> Hints Mode for more (Thanks Brandon Goldsworthy)
+
 1.1.0 (2012/03/16)
 
 - [Hint] Faster Hint Mode (Thanks Keryn Knight)

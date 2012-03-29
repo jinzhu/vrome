@@ -50,4 +50,9 @@ set enable_vrome_key=<Esc>
 " Please refer "Support External Editor" https://github.com/jinzhu/vrome/wiki/Support-External-Editor for more
 set server_port=30000
 
+" Set your hintkeys instead of the default 0123456789
+set hintkeys=asdfghjkl;
+" converted hintkeys to uppercase when they're displayed
+set hintkeysdisplayuppercase=1
+
 " vim: set ft=vim:
