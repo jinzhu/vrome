@@ -1,6 +1,12 @@
 require "bundler/setup"
 require 'json'
 
+desc "Init the development environment"
+task :init do
+  `git submodule init`
+  `git submodule update`
+end
+
 desc "Build Vrome"
 task :build do
   system("bundle exec bluecloth README.mkd > ./src/README.html")
@@ -37,7 +43,7 @@ task :format_js do
   end
 
   javascript_files.map do |file|
-    formated_content = `js-beautify -s 2 #{file}`
+    formated_content = `js-beautify/python/js-beautify -s 2 #{file}`
     File.open(file, 'w') {|f| f.write(formated_content) }
   end
 end
