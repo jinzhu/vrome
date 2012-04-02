@@ -1,6 +1,7 @@
 require "bundler/setup"
 require 'json'
 
+desc "Build Vrome"
 task :build do
   system("bundle exec bluecloth README.mkd > ./src/README.html")
   system("bundle exec bluecloth Features.mkd > ./src/files/features.html")
@@ -25,6 +26,20 @@ task :build do
   end
 
   system("zip -r vrome.zip src/; cp vrome.zip ~")
+end
+
+desc "Format javascript files, use `rake format_js _the_file_need_to_format` to format some file or `rake format_js` to format all javascript files"
+task :format_js do
+  if ARGV.length > 1
+    javascript_files = ARGV[1..-1]
+  else
+    javascript_files = `find -iwholename '*background*js' -o -iwholename '*frontend*js' -o -iwholename '*shared*js'`.split("\n")
+  end
+
+  javascript_files.map do |file|
+    formated_content = `js-beautify -s 2 #{file}`
+    File.open(file, 'w') {|f| f.write(formated_content) }
+  end
 end
 
 task :default => [:build]
