@@ -1,4 +1,4 @@
-##[Vrome](http://github.com/jinzhu/vrome) - The most cool, featured Vim keybindings extension for Chrome you could found!
+##[Vrome](http://github.com/jinzhu/vrome) - Bringing Vim's elegance to Chrome
 
 ## Features ##
 
