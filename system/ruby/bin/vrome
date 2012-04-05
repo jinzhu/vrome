@@ -20,6 +20,11 @@ class VromeServer < WEBrick::HTTPServlet::AbstractServlet
     response.status          = status
     response['Content-Type'] = content_type
     response.body            = body
+    response['Content-Type'] = "text/plain"
+    response['Access-Control-Allow-Origin'] = '*'
+    response['Access-Control-Allow-Methods'] = 'POST'
+    response['Access-Control-Allow-Headers'] = 'Content-Type, Cache-Control'
+    response['Access-Control-Max-Age'] = 5
   end
 
   def open_editor(request)
@@ -37,6 +42,14 @@ class VromeServer < WEBrick::HTTPServlet::AbstractServlet
 
     return 200, "text/plain", text
   end
+ 
+  def get_latest_version(request)
+    filename = File.dirname(File.expand_path(__FILE__)) + "/../../../utils/version.txt"
+    version = (File.read(filename)) if File.exists?(filename)
+    return 200, "text/plain", version
+  end
+
+
 end
 
 puts "Starting Vrome server..."

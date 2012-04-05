@@ -1,6 +1,6 @@
 {
   "name": "Vrome",
-  "description": "The most cool, featured Vim keybindings extension for Chrome you could found!",
+  "description": "Bringing Vim's elegance to Chrome",
   "background_page": "background/background.html",
   "version": "0.6.5",
   "content_scripts":[{
@@ -12,7 +12,7 @@
   "offline_enabled": true,
   "permissions": [
     "tabs",
-		"bookmarks",
+    "bookmarks",
     "history",
     "clipboardRead",
     "clipboardWrite",
