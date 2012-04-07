@@ -4,11 +4,16 @@ var Bookmark = (function() {
   }
 
   function search(keyword) {
-    Post({action: "Bookmark.search", keyword: keyword});
+    Post({
+      action: "Bookmark.search",
+      keyword: keyword
+    });
   }
 
   return {
-    start : start,
-    new_tab_start : function(){ start(/*new tab*/ true); }
+    start: start,
+    new_tab_start: function() {
+      start( /*new tab*/ true);
+    }
   }
 })();

@@ -1,11 +1,15 @@
 var CmdBox = (function() {
-  var box_id        = '_vrome_cmd_box';
-  var input_box_id  = '_vrome_cmd_input_box';
+  var box_id = '_vrome_cmd_box';
+  var input_box_id = '_vrome_cmd_input_box';
 
-	var pressUpFunction   = function(){};
-	var pressDownFunction = function(){};
-	var pressUp           = function(e) { pressUpFunction.call('',e);  };
-	var pressDown         = function(e) { pressDownFunction.call('',e);};
+  var pressUpFunction = function() {};
+  var pressDownFunction = function() {};
+  var pressUp = function(e) {
+      pressUpFunction.call('', e);
+    };
+  var pressDown = function(e) {
+      pressDownFunction.call('', e);
+    };
 
   function blur() {
     cmdBoxInput().blur();
@@ -13,9 +17,9 @@ var CmdBox = (function() {
 
   function cmdBox() {
     var div = document.getElementById(box_id);
-    if(!div){
+    if (!div) {
       div = document.createElement('div');
-      div.setAttribute('id',box_id);
+      div.setAttribute('id', box_id);
       document.body.insertBefore(div, document.body.childNodes[0]);
     }
     return div;
@@ -39,7 +43,7 @@ var CmdBox = (function() {
   function createCmdBoxInput() {
     var cmdbox = cmdBox();
     var input = document.createElement('input');
-    input.setAttribute('id',input_box_id);
+    input.setAttribute('id', input_box_id);
     cmdbox.appendChild(input);
     return input;
   }
@@ -54,31 +58,46 @@ var CmdBox = (function() {
       input.value = opt.content;
       input.setSelectionRange(0, input.value.length);
       input.addEventListener('keydown', pressDown, true);
-      input.addEventListener('keyup'  , pressUp, true);
+      input.addEventListener('keyup', pressUp, true);
       input.focus();
     }
-		if (opt.pressUp)   { pressUpFunction   = opt.pressUp; }
-		if (opt.pressDown) { pressDownFunction = opt.pressDown; }
-    if (opt.timeout)   { setTimeout(remove, Number(opt.timeout)); }
+    if (opt.pressUp) {
+      pressUpFunction = opt.pressUp;
+    }
+    if (opt.pressDown) {
+      pressDownFunction = opt.pressDown;
+    }
+    if (opt.timeout) {
+      setTimeout(remove, Number(opt.timeout));
+    }
   }
 
   function get() {
     return {
-      title   : cmdBoxTitle() ? cmdBoxTitle().innerText : '',
-      content : cmdBoxInput() ? cmdBoxInput().value     : ''
+      title: cmdBoxTitle() ? cmdBoxTitle().innerText : '',
+      content: cmdBoxInput() ? cmdBoxInput().value : ''
     };
   }
 
   function remove() {
-		pressUpFunction   = function(){};
-		pressDownFunction = function(){};
+    pressUpFunction = function() {};
+    pressDownFunction = function() {};
     var box = document.getElementById(box_id);
-    if (box) { document.body.removeChild(box); }
+    if (box) {
+      document.body.removeChild(box);
+    }
   }
 
   function isCmdBoxInput(target) {
     return target.getAttribute('id') === input_box_id;
   }
 
-  return { blur : blur, set : set, get : get, remove : remove, isCmdBoxInput : isCmdBoxInput, cmdBox : cmdBox };
+  return {
+    blur: blur,
+    set: set,
+    get: get,
+    remove: remove,
+    isCmdBoxInput: isCmdBoxInput,
+    cmdBox: cmdBox
+  };
 })();

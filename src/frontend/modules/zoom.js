@@ -3,40 +3,68 @@ var Zoom = (function() {
   var default_index = levels.indexOf('100%');
 
   function currentLevel() {
-    for (var i=0; i < levels.length; i++) {
+    for (var i = 0; i < levels.length; i++) {
       if (levels[i] == (document.body.style.zoom || '100%')) {
         return Number(i);
       }
     }
   }
 
-  function setZoom(/*Number*/ count,/*Boolean*/ keepCurrentPage) {
-		var index = count ? (currentLevel() + (times() * Number(count))) : default_index;
+  function setZoom( /*Number*/ count, /*Boolean*/ keepCurrentPage) {
+    var index = count ? (currentLevel() + (times() * Number(count))) : default_index;
     // index should >= 0 && < levels.length
-    index = Math.min(levels.length - 1, Math.max(0,index));
+    index = Math.min(levels.length - 1, Math.max(0, index));
 
-    Settings.add({zoom_level : index - default_index});
+    Settings.add({
+      zoom_level: index - default_index
+    });
     var topPercent = scrollY / document.height;
 
-    document.body.style.zoom  = levels[index];
-    if (keepCurrentPage) { scrollTo(0,topPercent * document.height); }
+    document.body.style.zoom = levels[index];
+    if (keepCurrentPage) {
+      scrollTo(0, topPercent * document.height);
+    }
   }
 
-	return {
-		setZoom    : setZoom,
-		'in'       : function() { setZoom( 1); },
-		out        : function() { setZoom(-1); },
-		more       : function() { setZoom( 3); },
-		reduce     : function() { setZoom(-3); },
-		reset      : function() { setZoom(  ); },
+  return {
+    setZoom: setZoom,
+    'in': function() {
+      setZoom(1);
+    },
+    out: function() {
+      setZoom(-1);
+    },
+    more: function() {
+      setZoom(3);
+    },
+    reduce: function() {
+      setZoom(-3);
+    },
+    reset: function() {
+      setZoom();
+    },
 
-		current_in     : function() { setZoom( 1, true); },
-		current_out    : function() { setZoom(-1, true); },
-		current_more   : function() { setZoom( 3, true); },
-		current_reduce : function() { setZoom(-3, true); },
-		current_reset  : function() { setZoom( 0, true); },
+    current_in: function() {
+      setZoom(1, true);
+    },
+    current_out: function() {
+      setZoom(-1, true);
+    },
+    current_more: function() {
+      setZoom(3, true);
+    },
+    current_reduce: function() {
+      setZoom(-3, true);
+    },
+    current_reset: function() {
+      setZoom(0, true);
+    },
 
-		current    : function() { return (parseInt(levels[currentLevel()]) / 100); },
-		init       : function() { Zoom.setZoom( Settings.get('zoom_level')); }
-	};
+    current: function() {
+      return (parseInt(levels[currentLevel()]) / 100);
+    },
+    init: function() {
+      Zoom.setZoom(Settings.get('zoom_level'));
+    }
+  };
 })();

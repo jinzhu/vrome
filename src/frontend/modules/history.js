@@ -4,13 +4,22 @@ var History = (function() {
   }
 
   function search(keyword) {
-    Post({action: "History.search", keyword: keyword});
+    Post({
+      action: "History.search",
+      keyword: keyword
+    });
   }
 
   return {
-    back    : function(){ history.go(-1 * times()); },
-    forward : function(){ history.go( 1 * times()); },
-    start : start,
-    new_tab_start : function(){ start(/*new tab*/ true); }
+    back: function() {
+      history.go(-1 * times());
+    },
+    forward: function() {
+      history.go(1 * times());
+    },
+    start: start,
+    new_tab_start: function() {
+      start( /*new tab*/ true);
+    }
   };
 })();

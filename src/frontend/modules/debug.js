@@ -1,6 +1,9 @@
-var Debug = (function(){
+var Debug = (function() {
   return function(str) {
     // console.log(str);
-    Post({action : 'debug' , message : str});
+    Post({
+      action: 'debug',
+      message: str
+    });
   };
 })();
