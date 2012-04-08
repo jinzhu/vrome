@@ -271,3 +271,4 @@ with(CmdLine) {
 // Initial
 var initFunction = [Zoom.init, KeyEvent.init, Frame.register];
 runIt();
+runCustomJS();

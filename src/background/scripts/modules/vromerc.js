@@ -1,5 +1,34 @@
 var Vromerc = (function() {
+
+  var customJSBegin = 'begin_custom_js';
+  var customJSEnd = 'end_custom_js';
+
+  // extract custom JS block
+  function extractCustomJS(text) {
+    var res = '';
+
+    if (text.indexOf(customJSBegin) != -1) {
+      res = text.substring(text.indexOf(customJSBegin), text.indexOf(customJSEnd));
+      res += customJSEnd;
+    }
+
+    return res;
+  }
+
+  // extract JS only from custom JS block
+  function extractJS(text) {
+    var res = '';
+
+    if (text.indexOf(customJSBegin) != -1) {
+      res = text.substring(text.indexOf(customJSBegin) + customJSBegin.length, text.indexOf(customJSEnd));
+    }
+
+    return res;
+  }
+
   function parse(text) {
+    var res = null;
+
     var setting = {};
     setting.imap = {};
     setting.map = {};
@@ -7,7 +36,12 @@ var Vromerc = (function() {
     setting.unmap = {};
     setting.iunmap = {};
     setting.set = {};
+    setting.js = {};
+
     var new_configs = [];
+
+    var customJS = extractCustomJS(text);
+    setting.js = extractJS(customJS);
 
     var configs = text.split("\n");
     for (var i = 0; i < configs.length; i++) {
@@ -54,7 +88,14 @@ var Vromerc = (function() {
     Settings.add({
       configure: setting
     });
-    return new_configs.join("\n");
+
+    res = new_configs.join("\n");
+
+    // fix custom JS block so it is not in comments
+    var commentedJs = extractCustomJS(res);
+    res = res.replace(commentedJs, commentedJs.split("\n\" ").join("\n"));
+
+    return res;
   }
 
   function loadOnline( /*Boolean*/ scheduleNextReload) {

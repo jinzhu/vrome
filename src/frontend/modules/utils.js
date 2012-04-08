@@ -92,6 +92,16 @@ function runIt(func, args) {
   }
 }
 
+function runCustomJS() {
+  try {
+    var customJS = Settings.get('background.configure.js');
+    eval(customJS);
+    frontendExec();
+  } catch (e) {
+    console.debug("Custom JS failed to load", e);
+  }
+}
+
 function getSelected() {
   return window.getSelection().toString();
 }

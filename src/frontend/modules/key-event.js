@@ -93,6 +93,7 @@ var KeyEvent = (function() {
     if (/^\d$/.test(key)) {
       return key;
     }
+    window.bindings = bindings;
     return (configure[mode] && configure[mode][key]) || key;
   }
 
