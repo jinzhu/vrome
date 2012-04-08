@@ -1,5 +1,8 @@
 <html>
   <head>
+    <script src="/shared/underscore.js"></script>
+    <script src="/shared/jquery.js"></script>
+    <script src="/shared/utils.js"></script>
     <script src="/shared/extend.js"></script>
     <script src="/shared/settings.js" type="text/javascript" charset="utf-8"></script>
     <script src="/shared/message.js" type="text/javascript" charset="utf-8"></script>
@@ -17,50 +20,10 @@
     <script src="/background/scripts/modules/bookmark.js" type="text/javascript" charset="utf-8"></script>
     <script src="/background/scripts/modules/history.js" type="text/javascript" charset="utf-8"></script>
 
-		<script type="text/javascript" src="/oauth/chrome_ex_oauthsimple.js"></script>
-		<script type="text/javascript" src="/oauth/chrome_ex_oauth.js"></script>
-		<script type="text/javascript" src="/oauth/oauth.js"></script>
+    <script type="text/javascript" src="/oauth/chrome_ex_oauthsimple.js"></script>
+    <script type="text/javascript" src="/oauth/chrome_ex_oauth.js"></script>
+    <script type="text/javascript" src="/oauth/oauth.js"></script>
 
-    <script type='text/javascript'>
-      Vromerc.loadOnline(/*scheduleNextReload*/ true);
-
-      function syncSetting(tab) {
-        if (!tab) { return false; }
-
-        if (tab != Tab.now_tab) {
-          Tab.last_selected_tab = Tab.now_tab || tab;
-          Tab.now_tab = tab;
-        }
-
-        Settings.add({currentUrl : tab.url, now_tab_id : Tab.now_tab.id});
-
-        Post(tab, {action : "Settings.add", arguments : { background : Settings.get()} });
-      }
-
-      chrome.tabs.onCreated.addListener(function(tab) {
-        chrome.tabs.get(tab.id, function(tab) {
-          syncSetting(tab);
-          Tab.last_open_tabs.push(tab);
-        });
-      });
-
-      chrome.tabs.onUpdated.addListener(function(tabId) {
-        chrome.tabs.get(tabId, function(tab) {
-          syncSetting(tab);
-        });
-      });
-
-      chrome.tabs.onActiveChanged.addListener(function(tabId) {
-        chrome.tabs.get(tabId, function(tab) {
-          syncSetting(tab);
-        });
-      });
-
-      chrome.tabs.onRemoved.addListener(function(tabId) {
-        var tab = Tab.current_closed_tab || Tab.now_tab;
-        if (tab) { Tab.closed_tabs.push(tab); };
-        Tab.current_closed_tab = false;
-      });
-    </script>
+    <script type='text/javascript' src="/background/scripts/background.js"></script>
   </head>
 </html>

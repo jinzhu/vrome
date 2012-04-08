@@ -3,25 +3,31 @@ var Vromerc = (function() {
   var customJSBegin = 'begin_custom_js';
   var customJSEnd = 'end_custom_js';
 
-  // extract custom JS block
-  function extractCustomJS(text) {
-    var res = '';
 
-    if (text.indexOf(customJSBegin) != -1) {
-      res = text.substring(text.indexOf(customJSBegin), text.indexOf(customJSEnd));
-      res += customJSEnd;
+  function extractCustomJS(text) {
+    // extract custom JS block
+    var res = [];
+
+    var start = text.indexOf(customJSBegin, 0);
+    while (start != -1) {
+      var str = text.substring(start, text.indexOf(customJSEnd, start));
+      str += customJSEnd;
+      res.push(str);
+
+      start = text.indexOf(customJSBegin, start + 1);
     }
 
     return res;
   }
 
-  // extract JS only from custom JS block
-  function extractJS(text) {
+
+  function extractJS(customJSArray) {
+    // extract JS only from custom JS block
     var res = '';
 
-    if (text.indexOf(customJSBegin) != -1) {
-      res = text.substring(text.indexOf(customJSBegin) + customJSBegin.length, text.indexOf(customJSEnd));
-    }
+    _.each(customJSArray, function(v) {
+      res += v.substring(v.indexOf(customJSBegin) + customJSBegin.length, v.indexOf(customJSEnd));
+    })
 
     return res;
   }
@@ -40,8 +46,8 @@ var Vromerc = (function() {
 
     var new_configs = [];
 
-    var customJS = extractCustomJS(text);
-    setting.js = extractJS(customJS);
+    var customJSArray = extractCustomJS(text);
+    setting.js = extractJS(customJSArray);
 
     var configs = text.split("\n");
     for (var i = 0; i < configs.length; i++) {
@@ -92,10 +98,33 @@ var Vromerc = (function() {
     res = new_configs.join("\n");
 
     // fix custom JS block so it is not in comments
-    var commentedJs = extractCustomJS(res);
-    res = res.replace(commentedJs, commentedJs.split("\n\" ").join("\n"));
+    var commentedJsArray = extractCustomJS(res);
+    _.each(commentedJsArray, function(v) {
+      res = res.replace(v, v.split("\n\" ").join("\n"));
+    });
 
     return res;
+  }
+
+  function loadAll() {
+    loadOnline();
+    loadLocal();
+  }
+
+  function loadLocal() {
+    // local .vromerc file using server
+    $.ajax({
+      url: getLocalServerUrl()
+    }).done(function(data) {
+
+      if (data) {
+        var vromerc = "\" Begin Local Vromerc generated\n" + data + "\n\" End Local Vromerc generated\n\n";
+        vromerc = vromerc + Settings.get('vromerc').replace(/" Begin Local Vromerc generated\n(.|\n)+\n" End Local Vromerc generated\n?\n?/gm, '');
+        Settings.add({
+          vromerc: parse(vromerc)
+        });
+      }
+    });
   }
 
   function loadOnline( /*Boolean*/ scheduleNextReload) {
@@ -133,6 +162,8 @@ var Vromerc = (function() {
 
   return {
     parse: parse,
-    loadOnline: loadOnline
+    loadOnline: loadOnline,
+    loadAll: loadAll,
+    loadLocal: loadLocal
   };
 })();

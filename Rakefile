@@ -45,7 +45,7 @@ task :format_js do
   javascript_files.map do |file|
     formated_content = `js-beautify/python/js-beautify -s 2 #{file}`
     # add your own formatter here. Do not forget to switch back to approved formatter.
-#    formated_content = `js-beautify/python/js-beautify --brace-style=expand -s 4 #{file}`
+#    formated_content = `js-beautify/python/js-beautify --brace-style=expand -s 2 #{file}`
     File.open(file, 'w') {|f| f.write(formated_content) }
   end
 end

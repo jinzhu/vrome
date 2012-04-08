@@ -55,6 +55,6 @@ function saveOptions() {
   });
 
   saveOnlineVromerc();
-  Vromerc.loadOnline();
+  Vromerc.loadAll();
   initOptionPage();
 }

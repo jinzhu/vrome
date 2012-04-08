@@ -22,8 +22,7 @@ function runScript(msg) {
 function externalEditor(msg) {
   var tab = arguments[arguments.length - 1];
   var xhr = new XMLHttpRequest();
-  var url = 'http://127.0.0.1:' + Option.get('server_port');
-  xhr.open("POST", url, true);
+  xhr.open("POST", getLocalServerUrl(), true);
   xhr.onerror = function() {
     runScript({
       code: "CmdBox.set({title : 'Failed to open external Editor, Please check Vrome WIKI opened in new tab for how to do',timeout : 15000});"

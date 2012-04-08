@@ -49,6 +49,15 @@ class VromeServer < WEBrick::HTTPServlet::AbstractServlet
     return 200, "text/plain", version
   end
 
+  def do_GET(request, response)
+    body = ""
+    filename = ENV['HOME'] + '/.vromerc'
+    body = File.read(filename) if File.exists?(filename) rescue ""
+
+    response.status          = 200
+    response['Content-Type'] = "text/plain"
+    response.body            = body
+  end
 
 end
 
