@@ -29,7 +29,9 @@
               <img id="icon" alt="" height="32" src="/images/logo.png" width="32">
               <h1 id="head1">Vrome - Options</h1>
             </td>
-            <td></td>
+            <td>
+              Server Status: <img id="server_status" src="/images/server_offline.png"/>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -62,6 +64,10 @@
       render(document.getElementById('changelogContent'), "/files/changelog.html")
       render(document.getElementById('thanksContent'), "/files/thanks.html")
       render(document.getElementById('featuresContent'), "/files/features.html")
+
+      // display if server is online or offline
+      window.setInterval('checkServerStatus()', 1000);
+      checkServerStatus();
     </script>
   </body>
 </html>
