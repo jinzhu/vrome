@@ -57,4 +57,7 @@ function saveOptions() {
   saveOnlineVromerc();
   Vromerc.loadAll();
   initOptionPage();
+
+  $('#saved').show();
+  $('#saved').fadeOut(3000);
 }
