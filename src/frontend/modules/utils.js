@@ -96,7 +96,9 @@ function runCustomJS() {
   try {
     var customJS = Settings.get('background.configure.js');
     eval(customJS);
-    frontendExec();
+    if (typeof frontendExec != "undefined") {
+      frontendExec();
+    }
   } catch (e) {
     console.debug("Custom JS failed to load", e);
   }
