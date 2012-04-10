@@ -1,3 +1,7 @@
+1.1.2 (2012/04/10)
+
+- [Url] Fix open, search multibyte characters (Thanks Takashi Sakai)
+
 1.1.1 (2012/03/29)
 
 - [Hint] Configurable hintkeys, e.g: http://goo.gl/d7EQ0, refer Features -\> Hints Mode for more (Thanks Brandon Goldsworthy)
