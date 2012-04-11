@@ -1,0 +1,90 @@
+<html>
+    <head>
+        <link href="styles/main.css" media="screen" rel="stylesheet" type="text/css" />
+
+
+
+        <script type="text/javascript" src="shared/utils.js"></script>
+        <script type="text/javascript" src="shared/extend.js"></script>
+        <script type="text/javascript" src="shared/options.js"></script>
+        <script type="text/javascript" src="shared/message.js"></script>
+        <script type="text/javascript" src="shared/underscore.js"></script>
+        <script type="text/javascript" src="shared/jquery.js"></script>
+        <script type="text/javascript" src="shared/settings.js"></script>
+        <script type="text/javascript" src="frontend/modules/get-key.js"></script>
+        <script type="text/javascript" src="frontend/modules/buffer.js"></script>
+        <script type="text/javascript" src="frontend/modules/marks.js"></script>
+        <script type="text/javascript" src="frontend/modules/hint.js"></script>
+        <script type="text/javascript" src="frontend/modules/hints.js"></script>
+        <script type="text/javascript" src="frontend/modules/cmd-line.js"></script>
+        <script type="text/javascript" src="frontend/modules/chinese-pinyin.js"></script>
+        <script type="text/javascript" src="frontend/modules/utils.js"></script>
+        <script type="text/javascript" src="frontend/modules/frame.js"></script>
+        <script type="text/javascript" src="frontend/modules/scroll.js"></script>
+        <script type="text/javascript" src="frontend/modules/page.js"></script>
+        <script type="text/javascript" src="frontend/modules/history.js"></script>
+        <script type="text/javascript" src="frontend/modules/insert-mode.js"></script>
+        <script type="text/javascript" src="frontend/modules/url.js"></script>
+        <script type="text/javascript" src="frontend/modules/tab.js"></script>
+        <script type="text/javascript" src="frontend/modules/key-event.js"></script>
+        <script type="text/javascript" src="frontend/modules/debug.js"></script>
+        <script type="text/javascript" src="frontend/modules/dialog.js"></script>
+        <script type="text/javascript" src="frontend/modules/zoom.js"></script>
+        <script type="text/javascript" src="frontend/modules/bookmark.js"></script>
+        <script type="text/javascript" src="frontend/modules/cmd-box.js"></script>
+        <script type="text/javascript" src="frontend/modules/clipboard.js"></script>
+        <script type="text/javascript" src="frontend/modules/search.js"></script>
+        <script type="text/javascript" src="frontend/main.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="tests/lib/jasmine/jasmine.css">
+  <script type="text/javascript" src="tests/lib/jasmine/jasmine.js"></script>
+  <script type="text/javascript" src="tests/lib/jasmine/jasmine-html.js"></script>
+
+  <!-- include source files here... -->
+  <script type="text/javascript" src="tests/spec/HintSpec.js"></script>
+
+  <!-- include spec files here... -->
+
+  <script type="text/javascript">
+    (function() {
+      var jasmineEnv = jasmine.getEnv();
+      jasmineEnv.updateInterval = 1000;
+
+      var htmlReporter = new jasmine.HtmlReporter();
+
+      jasmineEnv.addReporter(htmlReporter);
+
+      jasmineEnv.specFilter = function(spec) {
+        return htmlReporter.specFilter(spec);
+      };
+
+      var currentWindowOnload = window.onload;
+
+      window.onload = function() {
+        if (currentWindowOnload) {
+          currentWindowOnload();
+        }
+        execJasmine();
+      };
+
+      function execJasmine() {
+        jasmineEnv.execute();
+      }
+
+    })();
+  </script>
+  
+    </head>
+    <body>
+
+        chrome-extension://fecemdkpacpnmlbkjfadknbkfhadnnjm/all.html
+
+        asd
+
+
+
+
+        <input type="text"/>
+
+    </body>
+</html>

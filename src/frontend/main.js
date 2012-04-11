@@ -48,6 +48,7 @@ function AcceptKeyFunction() {
 
 function CancelKeyFunction() {
   Hint.remove();
+  Hints.remove();
   InsertMode.blurFocus();
   KeyEvent.reset();
   Search.stop();
@@ -191,6 +192,11 @@ with(KeyEvent) {
   add("f", Hint.start);
   add("F", Hint.new_tab_start);
   add("<M-f>", Hint.multi_mode_start);
+
+//  add("f", Hints.start_string);
+//  add("c", Hints.new_tab_start_string);
+//  add("<M-s>", Hints.new_tab_start_string_repeat);
+//  add("<M-f>", Hints.start);
 
 
   // Search

@@ -35,13 +35,21 @@
 #__vim_hint_highlight {
 }
 
-#__vim_hint_highlight_span {
+.__vim_hint_highlight_span {
+  background-color: black !important;
   position: absolute !important;
-  font-size: 12px !important;
-  color: #fff !important;
+  font-size: 13px !important;
+  border:1px solid #E3BE23;
+  color: white !important;
   font-weight: bold !important;
   padding: 0px 1px !important;
   z-index: 2147483646 !important;
+  line-height: 100%;
+  width: auto;
+  display: block;
+  font-family:"Helvetica Neue", "Helvetica", "Arial", "Sans";
+  top: -1px;
+  left: -1px;
 }
 
 /* Search Mode */

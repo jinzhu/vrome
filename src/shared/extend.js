@@ -2,6 +2,18 @@ String.prototype.startWith = function(str) {
   return (this.match("^" + RegExp.escape(str)) == str);
 }
 
+String.prototype.trim = function() {
+  return (this.replace(/^[\s\xA0]+/, "").replace(/[\s\xA0]+$/, ""))
+}
+
+String.prototype.startsWith = function(str) {
+  return (this.match("^" + str) == str)
+}
+
+String.prototype.endsWith = function(str) {
+  return (this.match(str + "$") == str)
+}
+
 String.prototype.trimFirst = function( /* String || Array */ str) {
   if (typeof str == 'string') {
     return this.replace(new RegExp("^" + RegExp.escape(str)), "").trim();
