@@ -35,6 +35,15 @@
 #__vim_hint_highlight {
 }
 
+#__vim_hint_highlight_span {
+  position: absolute !important;
+  font-size: 12px !important;
+  color: #fff !important;
+  font-weight: bold !important;
+  padding: 0px 1px !important;
+  z-index: 2147483646 !important;
+}
+
 .__vim_hint_highlight_span {
   background-color: black !important;
   position: absolute !important;
