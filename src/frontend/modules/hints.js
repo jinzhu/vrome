@@ -471,7 +471,7 @@ var Hints = (function() {
     });
 
     currentAction = null;
-    Hint.remove();
+    Hints.remove();
   }
 
   function copyTextAction(elem) {
@@ -481,7 +481,29 @@ var Hints = (function() {
     });
 
     currentAction = null;
-    Hint.remove();
+    Hints.remove();
+  }
+
+  function getSimilarityPercent(str1, str2) {
+    // str1 always > than str2
+    if (str1.length < str2.length) {
+      var tmp = str2;
+      str2 = str1;
+      str1 = tmp;
+    }
+
+    var nbInvalids = 0;
+    for (var i = 0; i < str1.length; i++) {
+      var c1 = str1.charAt(i);
+      var c2 = str2.charAt(i);
+
+      //        if(c2 === "")
+      //            break;
+      if (c1 != c2) nbInvalids++;
+    }
+
+    var percent = (str2.length - nbInvalids) / str1.length * 100;
+    return percent;
   }
 
   return {
