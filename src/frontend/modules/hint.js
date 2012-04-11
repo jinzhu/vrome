@@ -5,12 +5,9 @@ var Hint = (function() {
   function start(newTab, multiMode) {
     hintMode = true;
     multi_mode = multiMode;
-    selected = ""; // set current selected hint
+    selected = 0; // set current selected number
     currentHint = false;
     new_tab = newTab;
-    hintKeys = Option.get("hintkeys");
-    numKeys = hintKeys.length;
-    hintKeysUppercase = Option.get("hintkeysdisplayuppercase");
 
     initHintMode();
     CmdBox.set({
@@ -52,33 +49,6 @@ var Hint = (function() {
     }
   }
 
-  function numberToHintKeys( /* int */ number) {
-    var r = "";
-    while (true) {
-      r = hintKeys[number % numKeys] + r;
-      if (number < numKeys) {
-        break;
-      }
-      number = parseInt(number / numKeys);
-    }
-
-    if (hintKeysUppercase) return r.toUpperCase();
-    else return r;
-  }
-
-  function hintKeysToNumber( /* string */ searchKeys) {
-    var d, r = 0;
-    while (true) {
-      d = searchKeys.slice(0, 1);
-      searchKeys = searchKeys.slice(1);
-      r = (r * numKeys) + hintKeys.indexOf(d);
-      if (searchKeys == "") {
-        break;
-      }
-    }
-    return r;
-  }
-
   function setHintIndex(elems) {
     var div = removeHighlightBox( /* create_after_remove */ true);
     var win_top = window.scrollY / Zoom.current();
@@ -95,7 +65,7 @@ var Hint = (function() {
       span.style.left = elem_left + 'px';
       span.style.top = elem_top + 'px';
       span.style.backgroundColor = 'red';
-      span.innerHTML = numberToHintKeys(i + 1) // set number for available elements
+      span.innerHTML = i + 1; // set number for available elements
       frag.appendChild(span);
 
       setHighlight(elem, /* set_active */ false);
@@ -136,19 +106,19 @@ var Hint = (function() {
   function handleInput(e) {
     key = getKey(e);
 
-    // If user are inputing hintkey
-    if (new RegExp("^[" + hintKeys + "]$").test(key) || (key == '<BackSpace>' && selected !== "")) {
-      selected = (key == '<BackSpace>') ? selected.slice(0, -1) : selected + key;
+    // If user are inputing number
+    if (/^\d$/.test(key) || (key == '<BackSpace>' && selected !== 0)) {
+      selected = (key == '<BackSpace>') ? parseInt(selected / 10) : selected * 10 + Number(key);
       CmdBox.set({
         title: 'HintMode (' + selected + ')'
       });
-      var index = hintKeysToNumber(selected) - 1;
+      var index = selected - 1;
 
       setHighlight(matched[index], /* set_active */ true);
       currentHint = matched[index];
       e.preventDefault();
 
-      if (index * numKeys > matched.length) {
+      if (selected * 10 > matched.length) {
         return execSelect(currentHint);
       }
     } else {
@@ -219,7 +189,7 @@ var Hint = (function() {
   }
 
   function delayToWaitKeyDown() {
-    selected = "";
+    selected = 0;
     matched = [];
 
     for (var i = 0, j = elements.length; i < j; i++) {
@@ -277,7 +247,7 @@ var Hint = (function() {
       if (!multi_mode) {
         setTimeout(remove, 200);
       } else {
-        selected = "";
+        selected = 0;
         CmdBox.set({
           title: 'HintMode'
         });

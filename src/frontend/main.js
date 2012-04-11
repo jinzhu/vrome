@@ -48,7 +48,7 @@ function AcceptKeyFunction() {
 
 function CancelKeyFunction() {
   Hint.remove();
-  Hints.remove();
+//  Hints.remove();
   InsertMode.blurFocus();
   KeyEvent.reset();
   Search.stop();

@@ -3,8 +3,6 @@ var Option = (function() {
     nextpattern: ['(下|后)一页', '下一頁', '^\\s*Next\\s*$', '^>$', '^More$', '(^(>>|››|»))|((»|››|>>)$)'],
     previouspattern: ['(上|前)一页', '上一頁', '^\\s*Prev(ious)?\\s*$', '^<$', '(^(<<|‹‹|«))|((<<|‹‹|«)$)'],
     disablesites: "",
-    hintkeys: "0123456789",
-    hintkeysdisplayuppercase: 0,
     editor: "gvim -f",
     server_port: 20000,
     searchengines: {
