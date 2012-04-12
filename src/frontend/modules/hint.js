@@ -1,5 +1,5 @@
 var Hint = (function() {
-  var currentHint, new_tab, multi_mode, hintMode, selected, elements, matched, key;
+  var currentHint, new_tab, multi_mode, hintMode, selected, elements, matched, key, clickedElems;
   var highlight = 'vrome_highlight';
 
   function start(newTab, multiMode) {
@@ -8,6 +8,7 @@ var Hint = (function() {
     selected = 0; // set current selected number
     currentHint = false;
     new_tab = newTab;
+    clickedElems = []
 
     initHintMode();
     CmdBox.set({
@@ -212,7 +213,7 @@ var Hint = (function() {
   }
 
   function execSelect(elem) {
-    if (!elem) {
+    if (!elem || (elem && _.include(clickedElems, elem))) {
       return false;
     }
     var currentAction = getCurrentAction();
@@ -243,6 +244,8 @@ var Hint = (function() {
       } else if (tag_name == 'select') {
         elem.focus();
       }
+
+      clickedElems.push(elem);
 
       if (!multi_mode) {
         setTimeout(remove, 200);
