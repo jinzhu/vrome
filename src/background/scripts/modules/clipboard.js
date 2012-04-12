@@ -24,8 +24,19 @@ var Clipboard = (function() {
     return result;
   }
 
+  function getContent(msg) {
+    var tab = arguments[arguments.length - 1];
+    console.log(msg);
+    Post(tab, {
+      action: msg.redirect,
+      data: Clipboard.read()
+    });
+
+  }
+
   return {
     copy: copy,
-    read: read
+    read: read,
+    getContent: getContent
   };
 })();

@@ -1,7 +1,15 @@
 describe("Hints", function() {
 
-  beforeEach(function() {
-    });
+
+  beforeEach(function() {});
+
+  it("", function() {
+    $("#linkHintsContainer").show();
+    $("#HTMLReporter").hide();
+
+    CancelKeyFunction();
+  })
+
 
   it("should display hintmode input", function() {
     $("#linkHintsContainer").show();
@@ -35,30 +43,52 @@ describe("Hints", function() {
 
   });
 
+  it("should open multiple links in a new tab", function() {
+    var wait = 500
+    CancelKeyFunction()
+
+    waits(2000);
+
+    closeOtherTabs(function(tab) {
+      Hint.multi_mode_start()
+      simulateKey('3')
+      simulateKey('4')
+
+      setTimeout(function() {
+        chrome.tabs.query({
+          windowId: tab.windowId
+        }, function(tabs) {
+          expect(tabs.length).toEqual(3)
+
+          closeOtherTabs(function(tab) {})
+
+        })
+      }, wait);
+    })
+  })
+
   it("should open one link in a new tab", function() {
     var wait = 500
     CancelKeyFunction()
 
-
-
     waits(2000);
 
-    closeOtherTabs(function(tab){
+    closeOtherTabs(function(tab) {
       Hint.new_tab_start()
       simulateKey('3')
 
-      setTimeout(function(){
+      setTimeout(function() {
         chrome.tabs.query({
           windowId: tab.windowId
         }, function(tabs) {
           expect(tabs.length).toEqual(2)
           expect(tabs[1].url).toEqual($('#uri1').attr('href'))
 
-          closeOtherTabs(function(tab){
+          closeOtherTabs(function(tab) {
             Hint.new_tab_start()
             simulateTyping('vr')
 
-            setTimeout(function(){
+            setTimeout(function() {
               chrome.tabs.query({
                 windowId: tab.windowId
               }, function(tabs) {
@@ -74,36 +104,92 @@ describe("Hints", function() {
   });
 
 
-  it("should open multiple links in a new tab", function() {
-    var wait = 500
+
+
+  it("should show information about an element ", function() {
+    var info = '<a id="uri2" href="https://github.com/jinzhu/vrome">Vrome page</a>'
     CancelKeyFunction()
 
-    waits(2000);
+    Hint.start()
+    simulateKey('?')
+    simulateKey('4')
 
-    closeOtherTabs(function(tab){
-      Hint.multi_mode_start()
-      simulateKey('3')
-      simulateKey('4')
+    expect(CmdBox.get().title).toEqual(info)
 
-      setTimeout(function(){
-        chrome.tabs.query({
-          windowId: tab.windowId
-        }, function(tabs) {
-          expect(tabs.length).toEqual(3)
+  })
 
-          reset();
+  it("should focus on an element ", function() {
+    CancelKeyFunction()
 
-        })
-      }, wait);
-    })
+    Hint.start()
+    simulateKey(';')
+    simulateKey('3')
+
+    expect(document.activeElement.id).toEqual('uri1')
+
+  })
+
+  it("should copy the URL", function() {
+    CancelKeyFunction()
+
+    Hint.start()
+    simulateTyping('[4')
+
+    waits(300)
+
+
+    Post({
+      action: "Clipboard.getContent",
+      redirect: "HintSubActionsTest.testSubActionCopy"
+    });
+
+
+  })
+
+  it("should copy the text", function() {
+    CancelKeyFunction()
+
+    Hint.start()
+    simulateTyping('{4')
+
+    waits(300)
+
+
+    Post({
+      action: "Clipboard.getContent",
+      redirect: "HintSubActionsTest.testSubActionCopyText"
+    });
+
+
+  })
+
+  it("", function() {
+    reset()
   })
 
   function reset() {
-    closeOtherTabs(function(tab){
+    closeOtherTabs(function(tab) {
       CancelKeyFunction()
       $(".testContainer").hide();
       $("#HTMLReporter").show();
     })
   }
 
+
 });
+
+
+var HintSubActionsTest = (function() {
+  function testSubActionCopy(msg) {
+    expect(msg.data).toEqual('https://github.com/jinzhu/vrome')
+  }
+
+  function testSubActionCopyText(msg) {
+    expect(msg.data).toEqual('Vrome page')
+  }
+
+  return {
+    testSubActionCopy: testSubActionCopy,
+    testSubActionCopyText: testSubActionCopyText
+  };
+})();
