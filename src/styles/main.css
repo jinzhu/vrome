@@ -42,6 +42,7 @@
   font-weight: bold !important;
   padding: 0px 1px !important;
   z-index: 2147483646 !important;
+  text-transform:uppercase;
 }
 
 .__vim_hint_highlight_span {
@@ -55,6 +56,7 @@
   z-index: 2147483646 !important;
   line-height: 100%;
   width: auto;
+  text-transform:uppercase;
   display: block;
   font-family:"Helvetica Neue", "Helvetica", "Arial", "Sans";
   top: -1px;

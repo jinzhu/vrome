@@ -7,6 +7,8 @@ describe("Hints", function() {
     $("#linkHintsContainer").show();
     $("#HTMLReporter").hide();
 
+    Option.defaultOptions['hintkeys'] = 'af'
+
     CancelKeyFunction();
   })
 
@@ -45,35 +47,11 @@ describe("Hints", function() {
 
   });
 
-  it("should open multiple links in a new tab", function() {
-    var wait = 500
-    CancelKeyFunction()
-
-    waits(2000);
-
-    closeOtherTabs(function(tab) {
-      Hint.multi_mode_start()
-      simulateKey('3')
-      simulateKey('4')
-
-      setTimeout(function() {
-        chrome.tabs.query({
-          windowId: tab.windowId
-        }, function(tabs) {
-          expect(tabs.length).toEqual(3)
-
-          closeOtherTabs(function(tab) {})
-
-        })
-      }, wait);
-    })
-  })
-
   it("should open one link in a new tab", function() {
     var wait = 500
     CancelKeyFunction()
 
-    waits(3000);
+    waits(2000);
 
     closeOtherTabs(function(tab) {
       Hint.new_tab_start()
@@ -156,12 +134,92 @@ describe("Hints", function() {
 
     waits(300)
 
-
     Post({
       action: "Clipboard.getContent",
       redirect: "HintSubActionsTest.testSubActionCopyText"
     });
+  })
 
+    it("should open multiple links in a new tab", function() {
+    var wait = 500
+    CancelKeyFunction()
+
+    waits(2000);
+
+    closeOtherTabs(function(tab) {
+      Hint.multi_mode_start()
+      simulateKey('3')
+      simulateKey('4')
+
+      setTimeout(function() {
+        chrome.tabs.query({
+          windowId: tab.windowId
+        }, function(tabs) {
+          expect(tabs.length).toEqual(3)
+
+          closeOtherTabs(function(tab) {})
+
+        })
+      }, wait);
+    })
+  })
+
+  it("should start hint mode using strings", function() {
+    CancelKeyFunction()
+    Hint.start_string()
+    expect($('#__vim_hint_highlight_span').text()).toEqual('aa')
+  })
+
+  it("should update the mnemonics as I type", function() {
+    expect($('#__vim_hint_highlight').children().length).toEqual(4)
+
+    simulateTyping('a')
+    expect($('#__vim_hint_highlight_span').text()).toEqual('a')
+    expect($('#__vim_hint_highlight').children().length).toEqual(2)
+
+    simulateTyping('a')
+    expect(document.activeElement.id).toEqual('i1')
+  })
+
+
+  it("should use letters OR numbers based on custom configuration", function() {
+    CancelKeyFunction()
+
+    Hint.start()
+    expect($('#__vim_hint_highlight_span').text()).toEqual('1')
+
+    Option.defaultOptions['useletters'] = 1
+
+    Hint.start()
+    expect($('#__vim_hint_highlight_span').text()).toEqual('aa')
+
+    Option.defaultOptions['useletters'] = 0
+  })
+
+
+  it("should open links in a new tab using letters ", function() {
+    CancelKeyFunction()
+
+    waits(2000)
+
+    closeOtherTabs(function(tab){
+      Hint.new_tab_start_string()
+      simulateTyping('af')
+      setTimeout(function() {
+        chrome.tabs.query({
+          windowId: tab.windowId
+        }, function(tabs) {
+          expect(tabs.length).toEqual(2)
+                    expect(tabs[1].url).toEqual($('#uri1').attr('href'))
+
+          closeOtherTabs(function(tab) {
+            // TODO: it should open multiple links + update the cmd-box as we type
+//            Hint.multi_mode_start_string()
+          })
+
+        })
+      })
+    })
 
   })
 

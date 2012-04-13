@@ -18,7 +18,9 @@ var Option = (function() {
     autocomplete_next: "<Down>",
     autocomplete_prev: "<Up>",
     autocomplete_next_10: "<Tab>",
-    autocomplete_prev_10: "<S-Tab>"
+    autocomplete_prev_10: "<S-Tab>",
+    hintkeys: 'jlkhfsdagwerui',
+    useletters: 0
   };
 
   function get(key) {
@@ -80,6 +82,7 @@ var Option = (function() {
 
   return {
     get: get,
-    default_search_url: default_search_url
+    default_search_url: default_search_url,
+    defaultOptions: options
   };
 })();

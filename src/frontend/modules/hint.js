@@ -1,5 +1,5 @@
 var Hint = (function() {
-  var currentHint, new_tab, multi_mode, hintMode, selected, elements, matched, key, clickedElems;
+  var currentHint, new_tab, multi_mode, hintMode, selected, elements, matched, key, clickedElems, isStringMode, hintKeys, subMatched;
   var highlight = 'vrome_highlight';
 
   var subActions = {
@@ -9,20 +9,33 @@ var Hint = (function() {
     '{': copyElementText
   }
 
-  function start(newTab, multiMode) {
+  function start(newTab, multiMode, stringMode) {
+    isStringMode = false;
     hintMode = true;
     multi_mode = multiMode;
     selected = 0; // set current selected number
     currentHint = false;
     new_tab = newTab;
     clickedElems = []
+    isStringMode = stringMode || Option.get('useletters') == 1
+    hintKeys = Option.get('hintkeys')
+    subMatched = []
 
     initHintMode();
-    CmdBox.set({
-      title: 'HintMode',
-      pressDown: handleInput,
-      content: ''
-    });
+
+    if (isStringMode) {
+      CmdBox.set({
+        title: 'HintMode',
+        pressUp: handleInput,
+        content: ''
+      });
+    } else {
+      CmdBox.set({
+        title: 'HintMode',
+        pressDown: handleInput,
+        content: ''
+      });
+    }
   }
 
   function initHintMode() {
@@ -63,6 +76,14 @@ var Hint = (function() {
     var win_top = window.scrollY / Zoom.current();
     var win_left = window.scrollX / Zoom.current();
     var frag = document.createDocumentFragment();
+    var currentString = getCurrentString()
+
+    var hintStrings = null;
+    if (isStringMode) {
+      hintStrings = StringModeHelper.hintStrings(elems.length)
+      subMatched = []
+    }
+
     for (var i = 0, j = elems.length; i < j; i++) { //TODO need refactor
       var elem = elems[i];
       var pos = elem.getBoundingClientRect();
@@ -74,11 +95,34 @@ var Hint = (function() {
       span.style.left = elem_left + 'px';
       span.style.top = elem_top + 'px';
       span.style.backgroundColor = 'red';
-      span.innerHTML = i + 1; // set number for available elements
-      frag.appendChild(span);
 
+      if (isStringMode) {
+        var mnemonic = hintStrings[i];
+        subMatched[i] = mnemonic;
+
+        // TODO refactor into its own function
+        // filter based on input
+        if (currentString !== null && currentString.length > 0) {
+          currentString = currentString.toLowerCase();
+
+          if (mnemonic.startsWith(currentString)) {
+            mnemonic = mnemonic.replace(currentString, '');
+          } else {
+            mnemonic = '';
+            continue; // do not add to frag if empty
+          }
+        }
+
+        span.innerHTML = mnemonic;
+      } else {
+        span.innerHTML = i + 1; // set number for available elements
+      }
+
+
+      frag.appendChild(span);
       setHighlight(elem, /* set_active */ false);
     }
+
     div.appendChild(frag);
     if (elems[0] && elems[0].tagName == 'A') {
       setHighlight(elems[0], /* set_active */ true);
@@ -112,6 +156,36 @@ var Hint = (function() {
     hintMode = false;
   }
 
+  function getCurrentString() {
+    var content = CmdBox.get().content;
+
+    //        for(actionStarter in actions) {
+    //            if(content.startsWith(actionStarter)) {
+    //                currentAction = actions[actionStarter];
+    //                content= content.substr(1);
+    //                break;
+    //            }
+    //        }
+    return content;
+  }
+
+  /*
+   * retrieves matched elements using string (string mode only)
+   */
+
+  function getMatchedElementsByString(str) {
+    str = str.toLowerCase();
+    var newMatched = [];
+    for (var i = 0; i < subMatched.length; i++) {
+      var mnemonic = subMatched[i];
+      if (mnemonic.startsWith(str)) {
+        newMatched.push(elements[i]);
+      }
+    }
+
+    return newMatched;
+  }
+
   function handleInput(e) {
     key = getKey(e);
 
@@ -128,6 +202,18 @@ var Hint = (function() {
       e.preventDefault();
 
       if (selected * 10 > matched.length) {
+        return execSelect(currentHint);
+      }
+    } else if (isStringMode) {
+      var currentString = getCurrentString()
+      var newMatched = getMatchedElementsByString(currentString);
+      setHintIndex(elements);
+
+      if (newMatched.length == 1) {
+        currentHint = newMatched[0];
+        e.preventDefault();
+
+        // TODO refactor to have _one_ execSelect call
         return execSelect(currentHint);
       }
     } else {
@@ -256,6 +342,83 @@ var Hint = (function() {
     }
   }
 
+  var StringModeHelper = {
+
+    logXOfBase: function(x, base) {
+      return Math.log(x) / Math.log(base);
+    },
+
+    /*
+     * Returns a list of hint strings which will uniquely identify the given number of links. The hint strings
+     * may be of different lengths.
+     */
+    hintStrings: function(linkCount) {
+      var linkHintCharacters = hintKeys;
+
+      // Determine how many digits the link hints will require in the worst case. Usually we do not need
+      // all of these digits for every link single hint, so we can show shorter hints for a few of the links.
+      var digitsNeeded = Math.ceil(this.logXOfBase(linkCount, linkHintCharacters.length));
+
+      // Short hints are the number of hints we can possibly show which are (digitsNeeded - 1) digits in length.
+      var shortHintCount = Math.floor(
+      (Math.pow(linkHintCharacters.length, digitsNeeded) - linkCount) / linkHintCharacters.length);
+      var longHintCount = linkCount - shortHintCount;
+
+      var hintStrings = [];
+
+      if (digitsNeeded > 1) for (var i = 0; i < shortHintCount; i++)
+      hintStrings.push(this.numberToHintString(i, digitsNeeded - 1, linkHintCharacters));
+
+      var start = shortHintCount * linkHintCharacters.length;
+      for (i = start; i < start + longHintCount; i++)
+      hintStrings.push(this.numberToHintString(i, digitsNeeded, linkHintCharacters));
+
+      return this.shuffleHints(hintStrings, linkHintCharacters.length);
+    },
+
+    /*
+     * This shuffles the given set of hints so that they're scattered -- hints starting with the same character
+     * will be spread evenly throughout the array.
+     */
+    shuffleHints: function(hints, characterSetLength) {
+      var buckets = [],
+        i = 0;
+      for (i = 0; i < characterSetLength; i++)
+      buckets[i] = []
+      for (i = 0; i < hints.length; i++)
+      buckets[i % buckets.length].push(hints[i]);
+      var result = [];
+      for (i = 0; i < buckets.length; i++)
+      result = result.concat(buckets[i]);
+      return result;
+    },
+
+
+    /*
+     * Converts a number like "8" into a hint string like "JK". This is used to sequentially generate all of
+     * the hint text. The hint string will be "padded with zeroes" to ensure its length is equal to numHintDigits.
+     */
+    numberToHintString: function(number, numHintDigits, characterSet) {
+      var base = characterSet.length;
+      var hintString = [];
+      var remainder = 0;
+      do {
+        remainder = number % base;
+        hintString.unshift(characterSet[remainder]);
+        number -= remainder;
+        number /= Math.floor(base);
+      } while (number > 0);
+
+      // Pad the hint string we're returning so that it matches numHintDigits.
+      // Note: the loop body changes hintString.length, so the original length must be cached!
+      var hintStringLength = hintString.length;
+      for (var i = 0; i < numHintDigits - hintStringLength; i++)
+      hintString.unshift(characterSet[0]);
+
+      return hintString.join("");
+    }
+  }
+
   return {
     start: start,
     new_tab_start: function() {
@@ -263,6 +426,15 @@ var Hint = (function() {
     },
     multi_mode_start: function() {
       start( /*new tab*/ true, /*multi mode*/ true);
+    },
+    start_string: function() {
+      start(false, false, true)
+    },
+    new_tab_start_string: function() {
+      start(true, false, true)
+    },
+    multi_mode_start_string: function() {
+      start(true, true, true)
     },
     remove: remove
   };
