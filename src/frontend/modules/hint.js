@@ -2,6 +2,13 @@ var Hint = (function() {
   var currentHint, new_tab, multi_mode, hintMode, selected, elements, matched, key, clickedElems;
   var highlight = 'vrome_highlight';
 
+  var subActions = {
+    ';': focusElement,
+    '?': showElementInfo,
+    '[': copyElementUrl,
+    '{': copyElementText
+  }
+
   function start(newTab, multiMode) {
     hintMode = true;
     multi_mode = multiMode;
@@ -23,11 +30,11 @@ var Hint = (function() {
 
     // Get all visible elements
     var elems = document.body.querySelectorAll('a, input:not([type=hidden]), textarea, select, button, *[onclick]');
-    for (var i = 0, j = elems.length; i < j; i++) {
-      if (isElementVisible(elems[i])) {
-        elements.push(elems[i]);
-      }
-    }
+
+    elements = _.select(elems, function(v) {
+      return isElementVisible(v)
+    })
+
     setHintIndex(elements);
     matched = elements;
   }
@@ -49,6 +56,7 @@ var Hint = (function() {
       return div;
     }
   }
+
 
   function setHintIndex(elems) {
     var div = removeHighlightBox( /* create_after_remove */ true);
@@ -141,24 +149,14 @@ var Hint = (function() {
     var filter = CmdBox.get().content.trimFirst([';', '?', '[', '{']);
 
     var regexp = new RegExp(filter.trimFirst("!"), 'im');
-    var result = regexp.test(text) || regexp.test(PinYin.short(text)) || regexp.test(PinYin.full(text));
+    var result = regexp.test(text) || regexp.test(PinYin.shortcut(text)) || regexp.test(PinYin.full(text));
     return filter.startWith('!') ? !result : result;
   }
 
   function getCurrentAction() {
     var filter = CmdBox.get().content;
 
-    if (filter.startWith(';')) {
-      return focusElement;
-    } else if (filter.startWith('?')) {
-      return showElementInfo;
-    } else if (filter.startWith('[')) {
-      return copyElementUrl;
-    } else if (filter.startWith('{')) {
-      return copyElementText;
-    } else {
-      return null;
-    }
+    return subActions[filter.substring(0, 1)];
   }
 
   function showElementInfo(elem) {

@@ -20,6 +20,8 @@ describe("Hints", function() {
     expect(getCmd().css('display')).toBeUndefined()
     Hint.start()
 
+    expect($('#__vim_hint_highlight').children().length).toBeGreaterThan(0)
+
 
     expect(getCmd().css('display')).toEqual('inline-block')
     expect(getCmd().val()).toEqual('')
@@ -71,7 +73,7 @@ describe("Hints", function() {
     var wait = 500
     CancelKeyFunction()
 
-    waits(2000);
+    waits(3000);
 
     closeOtherTabs(function(tab) {
       Hint.new_tab_start()
