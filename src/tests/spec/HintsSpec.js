@@ -285,3 +285,31 @@ var HintSubActionsTest = (function() {
     testSubActionCopyText: testSubActionCopyText
   };
 })();
+
+// Hack to handle __nested__ asynchronous calls in Jasmine
+var Thread = {
+  start: 0,
+  stop: 0,
+  fn: function() {},
+
+  run: function() {
+    if(!Thread.start) {
+      Thread.start = 1
+      Thread.fn.call('')
+    }
+   
+    return Thread.stop
+  }
+}
+
+// Simple example
+
+//    Thread.fn = function() {
+//     closeOtherTabs(function(tab){
+//        console.log('asd')
+//        expect(false).toBeTruthy()
+//       Thread.stop = 1
+//      })
+//    }
+//
+//waitsFor(Thread.run)
