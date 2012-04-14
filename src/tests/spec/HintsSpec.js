@@ -1,5 +1,6 @@
 describe("Hints", function() {
 
+  var wait = 500;
 
   beforeEach(function() {});
 
@@ -48,7 +49,6 @@ describe("Hints", function() {
   });
 
   it("should open one link in a new tab", function() {
-    var wait = 500
     CancelKeyFunction()
 
     waits(2000);
@@ -87,7 +87,8 @@ describe("Hints", function() {
 
 
   it("should show information about an element ", function() {
-    var info = '<a id="uri2" href="https://github.com/jinzhu/vrome">Vrome page</a>'
+    // '<a id="uri2" href="https://github.com/jinzhu/vrome">Vrome page</a>'
+    var info = document.getElementById('uri2').outerHTML
     CancelKeyFunction()
 
     Hint.start()
@@ -140,8 +141,7 @@ describe("Hints", function() {
     });
   })
 
-    it("should open multiple links in a new tab", function() {
-    var wait = 500
+  it("should open multiple links in a new tab", function() {
     CancelKeyFunction()
 
     waits(2000);
@@ -200,9 +200,9 @@ describe("Hints", function() {
   it("should open links in a new tab using letters ", function() {
     CancelKeyFunction()
 
-    waits(2000)
+    waits(20000)
 
-    closeOtherTabs(function(tab){
+    closeOtherTabs(function(tab) {
       Hint.new_tab_start_string()
       simulateTyping('af')
       setTimeout(function() {
@@ -210,15 +210,47 @@ describe("Hints", function() {
           windowId: tab.windowId
         }, function(tabs) {
           expect(tabs.length).toEqual(2)
-                    expect(tabs[1].url).toEqual($('#uri1').attr('href'))
+          expect(tabs[1].url).toEqual($('#uri1').attr('href'))
 
           closeOtherTabs(function(tab) {
-            // TODO: it should open multiple links + update the cmd-box as we type
-//            Hint.multi_mode_start_string()
+            // it should open multiple links + update the cmd-box as we type
+            CancelKeyFunction()
+            Hint.multi_mode_start_string()
+            simulateTyping('af')
+            simulateTyping('ff')
+
+            setTimeout(function() {
+              chrome.tabs.query({
+                windowId: tab.windowId
+              }, function(tabs) {
+                expect(tabs.length).toEqual(3)
+
+                // it should open multiple tabs + keep the first upper case letter
+                closeOtherTabs(function(tab) {
+                  CancelKeyFunction()
+                  Hint.new_tab_start_string()
+                  simulateTyping('Af')
+                  simulateTyping('f')
+
+                  setTimeout(function() {
+                    chrome.tabs.query({
+                      windowId: tab.windowId
+                    }, function(tabs) {
+                      expect(tabs.length).toEqual(3)
+                    })
+                  }, wait)
+
+                })
+
+              })
+
+            }, wait);
+
+
           })
 
         })
-      })
+      }, wait)
     })
 
   })
@@ -241,7 +273,7 @@ describe("Hints", function() {
 
 var HintSubActionsTest = (function() {
   function testSubActionCopy(msg) {
-    expect(msg.data).toEqual('https://github.com/jinzhu/vrome')
+    expect(msg.data).toEqual($('#uri2').attr('href'))
   }
 
   function testSubActionCopyText(msg) {

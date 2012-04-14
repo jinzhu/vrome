@@ -9,7 +9,7 @@ var Hint = (function() {
     '{': copyElementText
   }
 
-  function start(newTab, multiMode, stringMode) {
+  function start(newTab, multiMode, stringMode, prevContent) {
     isStringMode = false;
     hintMode = true;
     multi_mode = multiMode;
@@ -20,6 +20,8 @@ var Hint = (function() {
     isStringMode = stringMode || Option.get('useletters') == 1
     hintKeys = Option.get('hintkeys')
     subMatched = []
+    elements = []
+    matched = []
 
     initHintMode();
 
@@ -27,7 +29,8 @@ var Hint = (function() {
       CmdBox.set({
         title: 'HintMode',
         pressUp: handleInput,
-        content: ''
+        content: prevContent ? prevContent : '',
+        noHighlight: inRepeatMode(prevContent)
       });
     } else {
       CmdBox.set({
@@ -100,17 +103,10 @@ var Hint = (function() {
         var mnemonic = hintStrings[i];
         subMatched[i] = mnemonic;
 
-        // TODO refactor into its own function
-        // filter based on input
-        if (currentString !== null && currentString.length > 0) {
-          currentString = currentString.toLowerCase();
+        mnemonic = StringModeHelper.updateMnemonic(mnemonic, currentString)
 
-          if (mnemonic.startsWith(currentString)) {
-            mnemonic = mnemonic.replace(currentString, '');
-          } else {
-            mnemonic = '';
-            continue; // do not add to frag if empty
-          }
+        if (mnemonic.length === 0) {
+          continue; // do not add to frag if empty
         }
 
         span.innerHTML = mnemonic;
@@ -189,6 +185,8 @@ var Hint = (function() {
   function handleInput(e) {
     key = getKey(e);
 
+    var exec = false;
+
     // If user are inputing number
     if (/^\d$/.test(key) || (key == '<BackSpace>' && selected !== 0)) {
       selected = (key == '<BackSpace>') ? parseInt(selected / 10) : selected * 10 + Number(key);
@@ -198,23 +196,18 @@ var Hint = (function() {
       var index = selected - 1;
 
       setHighlight(matched[index], /* set_active */ true);
-      currentHint = matched[index];
-      e.preventDefault();
 
       if (selected * 10 > matched.length) {
-        return execSelect(currentHint);
+        currentHint = matched[index];
+        exec = true;
       }
     } else if (isStringMode) {
-      var currentString = getCurrentString()
-      var newMatched = getMatchedElementsByString(currentString);
+      var newMatched = getMatchedElementsByString(getCurrentString());
       setHintIndex(elements);
 
       if (newMatched.length == 1) {
         currentHint = newMatched[0];
-        e.preventDefault();
-
-        // TODO refactor to have _one_ execSelect call
-        return execSelect(currentHint);
+        exec = true;
       }
     } else {
       // If key is not Accept key
@@ -227,6 +220,11 @@ var Hint = (function() {
       if (!isEscapeKey(key)) {
         setTimeout(delayToWaitKeyDown, 20);
       }
+    }
+
+    if (exec) {
+      e.preventDefault();
+      return execSelect(currentHint)
     }
   }
 
@@ -331,15 +329,40 @@ var Hint = (function() {
 
       clickedElems.push(elem);
 
-      if (!multi_mode) {
-        setTimeout(remove, 200);
-      } else {
+      var oldContent = getCurrentString();
+      if (isStringMode && (inRepeatMode(oldContent))) {
+        // repeat if the first character is uppercase or we are in multi mode
+        repeatHintMode()
+      } else if (multi_mode && !isStringMode) {
         selected = 0;
         CmdBox.set({
           title: 'HintMode'
         });
+      } else {
+        setTimeout(remove, 200);
       }
     }
+  }
+
+  function inRepeatMode(currentString) {
+    if (!currentString) {
+      currentString = getCurrentString()
+    }
+
+    return (new_tab && currentString.charAt(0).isUpperCase()) || multi_mode;
+  }
+
+  function repeatHintMode() {
+    var currentString = getCurrentString()
+    CancelKeyFunction()
+
+    var res = _.select(currentString.split(''), function(v) {
+      return v.isUpperCase()
+    }).join('')
+
+    start(true, multi_mode, true, res)
+    getMatchedElementsByString(res);
+    setHintIndex(elements);
   }
 
   var StringModeHelper = {
@@ -416,6 +439,20 @@ var Hint = (function() {
       hintString.unshift(characterSet[0]);
 
       return hintString.join("");
+    },
+
+    updateMnemonic: function(mnemonic, currentString) {
+      if (currentString !== null && currentString.length > 0) {
+        currentString = currentString.toLowerCase();
+
+        if (mnemonic.startsWith(currentString)) {
+          mnemonic = mnemonic.replace(currentString, '');
+        } else {
+          mnemonic = '';
+        }
+      }
+
+      return mnemonic;
     }
   }
 

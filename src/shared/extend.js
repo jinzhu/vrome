@@ -26,6 +26,14 @@ String.prototype.trimFirst = function( /* String || Array */ str) {
   }
 }
 
+String.prototype.isUpperCase = function() {
+  return (this == this.toUpperCase());
+}
+
+String.prototype.isLowerCase = function() {
+  return (this == this.toLowerCase());
+}
+
 RegExp.escape = function(text) {
   if (!arguments.callee.sRE) {
     var specials = ['/', '.', '*', '+', '?', '|', '(', ')', '[', ']', '{', '}', '\\'];
