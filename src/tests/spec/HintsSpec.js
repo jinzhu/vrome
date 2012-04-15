@@ -1,6 +1,7 @@
 describe("Hints", function() {
 
   var wait = 500;
+  var delay = 20000;
 
   beforeEach(function() {});
 
@@ -51,40 +52,40 @@ describe("Hints", function() {
   it("should open one link in a new tab", function() {
     CancelKeyFunction()
 
-    waits(2000);
+    Thread.fn = function() {
+      closeOtherTabs(function(tab) {
+        Hint.new_tab_start()
+        simulateKey('3')
 
-    closeOtherTabs(function(tab) {
-      Hint.new_tab_start()
-      simulateKey('3')
+        setTimeout(function() {
+          chrome.tabs.query({
+            windowId: tab.windowId
+          }, function(tabs) {
+            expect(tabs.length).toEqual(2)
+            expect(tabs[1].url).toEqual($('#uri1').attr('href'))
 
-      setTimeout(function() {
-        chrome.tabs.query({
-          windowId: tab.windowId
-        }, function(tabs) {
-          expect(tabs.length).toEqual(2)
-          expect(tabs[1].url).toEqual($('#uri1').attr('href'))
+            closeOtherTabs(function(tab) {
+              Hint.new_tab_start()
+              simulateTyping('vr')
 
-          closeOtherTabs(function(tab) {
-            Hint.new_tab_start()
-            simulateTyping('vr')
+              setTimeout(function() {
+                chrome.tabs.query({
+                  windowId: tab.windowId
+                }, function(tabs) {
+                  expect(tabs.length).toEqual(2)
+                  expect(tabs[1].url).toEqual($('#uri2').attr('href'))
+                  Thread.stop()
+                })
+              }, wait)
+            })
 
-            setTimeout(function() {
-              chrome.tabs.query({
-                windowId: tab.windowId
-              }, function(tabs) {
-                expect(tabs.length).toEqual(2)
-                expect(tabs[1].url).toEqual($('#uri2').attr('href'))
-              })
-            }, wait)
           })
+        }, wait);
+      })
+    }
 
-        })
-      }, wait);
-    })
+    waitsFor(Thread.run, '', delay)
   });
-
-
-
 
   it("should show information about an element ", function() {
     // '<a id="uri2" href="https://github.com/jinzhu/vrome">Vrome page</a>'
@@ -116,15 +117,14 @@ describe("Hints", function() {
     Hint.start()
     simulateTyping('[4')
 
-    waits(300)
+    Thread.fn = function() {
+      Post({
+        action: "Clipboard.getContent",
+        redirect: "HintSubActionsTest.testSubActionCopy"
+      });
+    }
 
-
-    Post({
-      action: "Clipboard.getContent",
-      redirect: "HintSubActionsTest.testSubActionCopy"
-    });
-
-
+    waitsFor(Thread.run, '', delay)
   })
 
   it("should copy the text", function() {
@@ -133,35 +133,41 @@ describe("Hints", function() {
     Hint.start()
     simulateTyping('{4')
 
-    waits(300)
 
-    Post({
-      action: "Clipboard.getContent",
-      redirect: "HintSubActionsTest.testSubActionCopyText"
-    });
+    Thread.fn = function() {
+
+      Post({
+        action: "Clipboard.getContent",
+        redirect: "HintSubActionsTest.testSubActionCopyText"
+      });
+    }
+
+    waitsFor(Thread.run, '', delay)
   })
 
   it("should open multiple links in a new tab", function() {
     CancelKeyFunction()
 
-    waits(2000);
+    Thread.fn = function() {
+      closeOtherTabs(function(tab) {
+        Hint.multi_mode_start()
+        simulateKey('3')
+        simulateKey('4')
 
-    closeOtherTabs(function(tab) {
-      Hint.multi_mode_start()
-      simulateKey('3')
-      simulateKey('4')
+        setTimeout(function() {
+          chrome.tabs.query({
+            windowId: tab.windowId
+          }, function(tabs) {
+            expect(tabs.length).toEqual(3)
+            closeOtherTabs(function(tab) {
+              Thread.stop()
+            })
+          })
+        }, wait);
+      })
+    }
 
-      setTimeout(function() {
-        chrome.tabs.query({
-          windowId: tab.windowId
-        }, function(tabs) {
-          expect(tabs.length).toEqual(3)
-
-          closeOtherTabs(function(tab) {})
-
-        })
-      }, wait);
-    })
+    waitsFor(Thread.run, '', delay)
   })
 
   it("should start hint mode using strings", function() {
@@ -196,62 +202,81 @@ describe("Hints", function() {
     Option.defaultOptions['useletters'] = 0
   })
 
+  it("should open one link in a new tab using letters ", function() {
 
-  it("should open links in a new tab using letters ", function() {
+    CancelKeyFunction()
+    Thread.fn = function() {
+      closeOtherTabs(function(tab) {
+        Hint.new_tab_start_string()
+        simulateTyping('af')
+        setTimeout(function() {
+          chrome.tabs.query({
+            windowId: tab.windowId
+          }, function(tabs) {
+            expect(tabs.length).toEqual(2)
+            expect(tabs[1].url).toEqual($('#uri1').attr('href'))
+            Thread.stop()
+          })
+        }, wait)
+      })
+    }
+
+    waitsFor(Thread.run, '', delay)
+  })
+
+  it("should open multiple links + update the cmd-box as we type", function() {
     CancelKeyFunction()
 
-    waits(20000)
 
-    closeOtherTabs(function(tab) {
-      Hint.new_tab_start_string()
-      simulateTyping('af')
-      setTimeout(function() {
-        chrome.tabs.query({
-          windowId: tab.windowId
-        }, function(tabs) {
-          expect(tabs.length).toEqual(2)
-          expect(tabs[1].url).toEqual($('#uri1').attr('href'))
+    Thread.fn = function() {
+      closeOtherTabs(function(tab) {
 
-          closeOtherTabs(function(tab) {
-            // it should open multiple links + update the cmd-box as we type
-            CancelKeyFunction()
-            Hint.multi_mode_start_string()
-            simulateTyping('af')
-            simulateTyping('ff')
+        Hint.multi_mode_start_string()
+        simulateTyping('af')
+        // box must have automatically updated in order for this next command to work
+        simulateTyping('ff')
 
-            setTimeout(function() {
-              chrome.tabs.query({
-                windowId: tab.windowId
-              }, function(tabs) {
-                expect(tabs.length).toEqual(3)
+        setTimeout(function() {
+          chrome.tabs.query({
+            windowId: tab.windowId
+          }, function(tabs) {
+            expect(tabs.length).toEqual(3)
+            Thread.stop()
+          })
+        }, wait)
+      })
+    }
+    waitsFor(Thread.run, '', delay)
+  })
 
-                // it should open multiple tabs + keep the first upper case letter
-                closeOtherTabs(function(tab) {
-                  CancelKeyFunction()
-                  Hint.new_tab_start_string()
-                  simulateTyping('Af')
-                  simulateTyping('f')
+  it("should open multiple tabs + keep the first upper case letter", function() {
+    CancelKeyFunction()
 
-                  setTimeout(function() {
-                    chrome.tabs.query({
-                      windowId: tab.windowId
-                    }, function(tabs) {
-                      expect(tabs.length).toEqual(3)
-                    })
-                  }, wait)
 
-                })
+    Thread.fn = function() {
 
-              })
 
-            }, wait);
+      // it should open multiple tabs + keep the first upper case letter
+      closeOtherTabs(function(tab) {
+        CancelKeyFunction()
+        Hint.new_tab_start_string()
+        simulateTyping('Af')
+        simulateTyping('f')
 
+        setTimeout(function() {
+          chrome.tabs.query({
+            windowId: tab.windowId
+          }, function(tabs) {
+            expect(tabs.length).toEqual(3)
+            Thread.stop()
 
           })
+        }, wait)
 
-        })
-      }, wait)
-    })
+      })
+    }
+
+    waitsFor(Thread.run, '', delay)
 
   })
 
@@ -260,11 +285,19 @@ describe("Hints", function() {
   })
 
   function reset() {
-    closeOtherTabs(function(tab) {
-      CancelKeyFunction()
-      $(".testContainer").hide();
-      $("#HTMLReporter").show();
-    })
+    CancelKeyFunction()
+
+    Thread.fn = function() {
+
+      closeOtherTabs(function(tab) {
+        CancelKeyFunction()
+        $(".testContainer").hide();
+        $("#HTMLReporter").show();
+        Thread.stop()
+      })
+    }
+
+    waitsFor(Thread.run, '', delay)
   }
 
 
@@ -274,10 +307,13 @@ describe("Hints", function() {
 var HintSubActionsTest = (function() {
   function testSubActionCopy(msg) {
     expect(msg.data).toEqual($('#uri2').attr('href'))
+    Thread.stop()
   }
 
   function testSubActionCopyText(msg) {
     expect(msg.data).toEqual('Vrome page')
+
+    Thread.stop()
   }
 
   return {
@@ -288,28 +324,37 @@ var HintSubActionsTest = (function() {
 
 // Hack to handle __nested__ asynchronous calls in Jasmine
 var Thread = {
-  start: 0,
-  stop: 0,
+  _start: 0,
+  _stop: 0,
+  start: function() {
+    Thread._start = 1;
+    Thread._stop = 0
+  },
+  stop: function() {
+    Thread._stop = 1;
+  },
   fn: function() {},
 
   run: function() {
-    if(!Thread.start) {
-      Thread.start = 1
+    if (!Thread._start) {
+      Thread.start()
       Thread.fn.call('')
     }
-   
-    return Thread.stop
+
+    var res = Thread._stop
+    if (Thread._stop) {
+      Thread.reset()
+    }
+
+    return res
+  },
+
+  reset: function() {
+    Thread._start = 0
+    Thread._stop = 0
   }
 }
 
-// Simple example
-
-//    Thread.fn = function() {
-//     closeOtherTabs(function(tab){
-//        console.log('asd')
-//        expect(false).toBeTruthy()
-//       Thread.stop = 1
-//      })
-//    }
-//
-//waitsFor(Thread.run)
+// Notes: Use
+// expect(false).toBeTruthy()
+// to test if Jasmine didn't interrupt your asynchronous call
