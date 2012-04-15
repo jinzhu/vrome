@@ -92,6 +92,15 @@ function runIt(func, args) {
   }
 }
 
+function loadCustomCSS() {
+  try {
+    var customCSS = Settings.get('background.configure.css');
+    $('style').text(customCSS).appendTo($('head'))
+  } catch (e) {
+    console.debug("Custom CSS failed to load", e);
+  }
+}
+
 function runCustomJS() {
   try {
     var customJS = Settings.get('background.configure.js');

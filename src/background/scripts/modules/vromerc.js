@@ -1,35 +1,12 @@
 var Vromerc = (function() {
 
-  var customJSBegin = 'begin_custom_js';
-  var customJSEnd = 'end_custom_js';
-
-
-  function extractCustomJS(text) {
-    // extract custom JS block
-    var res = [];
-
-    var start = text.indexOf(customJSBegin, 0);
-    while (start != -1) {
-      var str = text.substring(start, text.indexOf(customJSEnd, start));
-      str += customJSEnd;
-      res.push(str);
-
-      start = text.indexOf(customJSBegin, start + 1);
-    }
-
-    return res;
-  }
-
-
-  function extractJS(customJSArray) {
-    // extract JS only from custom JS block
-    var res = '';
-
-    _.each(customJSArray, function(v) {
-      res += v.substring(v.indexOf(customJSBegin) + customJSBegin.length, v.indexOf(customJSEnd));
-    })
-
-    return res;
+  // all tokens related to config here. -- in case we need to change them
+  // TODO: refactor existing tokens + make this available via /shared/
+  var Tokens = {
+    customJSBegin: 'begin_custom_js',
+    customJSEnd: 'end_custom_js',
+    customCSSBegin: 'begin_custom_css',
+    customCSSEnd: 'end_custom_css'
   }
 
   function parse(text) {
@@ -46,8 +23,8 @@ var Vromerc = (function() {
 
     var new_configs = [];
 
-    var customJSArray = extractCustomJS(text);
-    setting.js = extractJS(customJSArray);
+    setting.js = text.extractStringBetweenBlocks(Tokens.customJSBegin, Tokens.customJSEnd);
+    setting.css = text.extractStringBetweenBlocks(Tokens.customCSSBegin, Tokens.customCSSEnd);
 
     var configs = text.split("\n");
     for (var i = 0; i < configs.length; i++) {
@@ -97,9 +74,22 @@ var Vromerc = (function() {
 
     res = new_configs.join("\n");
 
-    // fix custom JS block so it is not in comments
-    var commentedJsArray = extractCustomJS(res);
-    _.each(commentedJsArray, function(v) {
+    res = fixCustomBlocks(res)
+
+    return res;
+  }
+
+  // fix custom JS block so it is not in comments
+
+
+  function fixCustomBlocks(res) {
+
+    _.each(res.extractStringBetweenBlocks(Tokens.customJSBegin, Tokens.customJSEnd, true), function(v) {
+      res = res.replace(v, v.split("\n\" ").join("\n"));
+    });
+
+
+    _.each(res.extractStringBetweenBlocks(Tokens.customCSSBegin, Tokens.customCSSEnd, true), function(v) {
       res = res.replace(v, v.split("\n\" ").join("\n"));
     });
 

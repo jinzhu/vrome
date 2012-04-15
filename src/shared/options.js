@@ -20,11 +20,17 @@ var Option = (function() {
     autocomplete_next_10: "<Tab>",
     autocomplete_prev_10: "<S-Tab>",
     hintkeys: 'jlkhfsdagwerui',
-    useletters: 0
+    useletters: 0,
+    test_mode: 0
   };
 
   function get(key) {
     var value = (Settings.get('background.configure.set') || Settings.get('configure.set'))[key];
+    
+    // use default options when testing. Otherwise, the custom config might break the tests
+    if(options['test_mode'])
+      value = options[key]
+
     var option = options[key];
 
     if (value instanceof Array) {

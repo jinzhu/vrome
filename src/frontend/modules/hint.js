@@ -102,6 +102,7 @@ var Hint = (function() {
       if (isStringMode) {
         var mnemonic = hintStrings[i];
         subMatched[i] = mnemonic;
+        span.setAttribute('class', '__vim_hint_highlight_span');
 
         mnemonic = StringModeHelper.updateMnemonic(mnemonic, currentString)
 

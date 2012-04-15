@@ -9,6 +9,7 @@ describe("Hints", function() {
     $("#linkHintsContainer").show();
     $("#HTMLReporter").hide();
 
+    Option.defaultOptions['test_mode'] = 1
     Option.defaultOptions['hintkeys'] = 'af'
 
     CancelKeyFunction();
