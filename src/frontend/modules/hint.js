@@ -397,7 +397,8 @@ var Hint = (function() {
       for (i = start; i < start + longHintCount; i++)
       hintStrings.push(this.numberToHintString(i, digitsNeeded, linkHintCharacters));
 
-      return this.shuffleHints(hintStrings, linkHintCharacters.length);
+      //      return this.shuffleHints(hintStrings, linkHintCharacters.length);
+      return hintStrings;
     },
 
     /*
