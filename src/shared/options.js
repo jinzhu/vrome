@@ -26,10 +26,9 @@ var Option = (function() {
 
   function get(key) {
     var value = (Settings.get('background.configure.set') || Settings.get('configure.set'))[key];
-    
+
     // use default options when testing. Otherwise, the custom config might break the tests
-    if(options['test_mode'])
-      value = options[key]
+    if (options['test_mode']) value = options[key]
 
     var option = options[key];
 

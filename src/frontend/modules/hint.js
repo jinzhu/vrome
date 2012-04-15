@@ -6,7 +6,8 @@ var Hint = (function() {
     ';': focusElement,
     '?': showElementInfo,
     '[': copyElementUrl,
-    '{': copyElementText
+    '{': copyElementText,
+    '/': 'search'
   }
 
   function start(newTab, multiMode, stringMode, prevContent) {
@@ -155,14 +156,13 @@ var Hint = (function() {
 
   function getCurrentString() {
     var content = CmdBox.get().content;
+    content = content.trim()
 
-    //        for(actionStarter in actions) {
-    //            if(content.startsWith(actionStarter)) {
-    //                currentAction = actions[actionStarter];
-    //                content= content.substr(1);
-    //                break;
-    //            }
-    //        }
+    var actionName = content.substring(0, 1)
+    if (subActions[actionName]) {
+      content = content.substring(1)
+    }
+
     return content;
   }
 
@@ -188,6 +188,7 @@ var Hint = (function() {
 
     var exec = false;
 
+
     // If user are inputing number
     if (/^\d$/.test(key) || (key == '<BackSpace>' && selected !== 0)) {
       selected = (key == '<BackSpace>') ? parseInt(selected / 10) : selected * 10 + Number(key);
@@ -203,12 +204,16 @@ var Hint = (function() {
         exec = true;
       }
     } else if (isStringMode) {
-      var newMatched = getMatchedElementsByString(getCurrentString());
-      setHintIndex(elements);
+      if (getCurrentAction() === 'search') {
+        setTimeout(delayToWaitKeyDown, 20);
+      } else {
+        var newMatched = getMatchedElementsByString(getCurrentString());
+        setHintIndex(elements);
 
-      if (newMatched.length == 1) {
-        currentHint = newMatched[0];
-        exec = true;
+        if (newMatched.length == 1) {
+          currentHint = newMatched[0];
+          exec = true;
+        }
       }
     } else {
       // If key is not Accept key
@@ -232,6 +237,10 @@ var Hint = (function() {
   function hintMatch(elem, index) {
     var text = elem.innerText;
     var filter = CmdBox.get().content.trimFirst([';', '?', '[', '{']);
+
+    if (isStringMode && getCurrentAction() === 'search') {
+      filter = getCurrentString()
+    }
 
     var regexp = new RegExp(filter.trimFirst("!"), 'im');
     var result = regexp.test(text) || regexp.test(PinYin.shortcut(text)) || regexp.test(PinYin.full(text));
@@ -304,7 +313,7 @@ var Hint = (function() {
     var tag_name = elem.tagName.toLowerCase();
     var type = elem.type ? elem.type.toLowerCase() : "";
 
-    if (currentAction) {
+    if (currentAction && _.isFunction(currentAction)) {
       remove(); // No multi_mode for extend mode
       currentAction(elem);
     } else {

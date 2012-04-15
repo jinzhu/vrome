@@ -81,7 +81,6 @@ var Vromerc = (function() {
 
   // fix custom JS block so it is not in comments
 
-
   function fixCustomBlocks(res) {
 
     _.each(res.extractStringBetweenBlocks(Tokens.customJSBegin, Tokens.customJSEnd, true), function(v) {

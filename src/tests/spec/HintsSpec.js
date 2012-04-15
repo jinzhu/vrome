@@ -66,6 +66,7 @@ describe("Hints", function() {
             expect(tabs[1].url).toEqual($('#uri1').attr('href'))
 
             closeOtherTabs(function(tab) {
+              CancelKeyFunction()
               Hint.new_tab_start()
               simulateTyping('vr')
 
@@ -75,7 +76,22 @@ describe("Hints", function() {
                 }, function(tabs) {
                   expect(tabs.length).toEqual(2)
                   expect(tabs[1].url).toEqual($('#uri2').attr('href'))
-                  Thread.stop()
+                  closeOtherTabs(function(tab) {
+
+                    CancelKeyFunction()
+                    Hint.new_tab_start_string()
+                    simulateTyping('/vr')
+                    setTimeout(function() {
+                      chrome.tabs.query({
+                        windowId: tab.windowId
+                      }, function(tabs) {
+                        expect(tabs.length).toEqual(2)
+                        expect(tabs[1].url).toEqual($('#uri2').attr('href'))
+                        Thread.stop()
+                      })
+
+                    }, wait)
+                  })
                 })
               }, wait)
             })
@@ -99,6 +115,12 @@ describe("Hints", function() {
 
     expect(CmdBox.get().title).toEqual(info)
 
+    CancelKeyFunction()
+
+    Hint.start_string()
+    simulateTyping('?ff')
+
+    expect(CmdBox.get().title).toEqual(info)
   })
 
   it("should focus on an element ", function() {
@@ -110,6 +132,13 @@ describe("Hints", function() {
 
     expect(document.activeElement.id).toEqual('uri1')
 
+
+    CancelKeyFunction()
+
+    Hint.start_string()
+    simulateTyping(';fa')
+
+    expect(document.activeElement.id).toEqual('uri1')
   })
 
   it("should copy the URL", function() {
@@ -122,6 +151,39 @@ describe("Hints", function() {
       Post({
         action: "Clipboard.getContent",
         redirect: "HintSubActionsTest.testSubActionCopy"
+      });
+    }
+
+    waitsFor(Thread.run, '', delay)
+  })
+
+  it("should copy the URL using letters", function() {
+    CancelKeyFunction()
+
+    Hint.start_string()
+    simulateTyping('[ff')
+
+    Thread.fn = function() {
+      Post({
+        action: "Clipboard.getContent",
+        redirect: "HintSubActionsTest.testSubActionCopy"
+      });
+    }
+
+    waitsFor(Thread.run, '', delay)
+  })
+
+  it("should copy the text using letters", function() {
+    CancelKeyFunction()
+
+    Hint.start_string()
+    simulateTyping('{ff')
+
+    Thread.fn = function() {
+
+      Post({
+        action: "Clipboard.getContent",
+        redirect: "HintSubActionsTest.testSubActionCopyText"
       });
     }
 
