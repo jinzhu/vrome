@@ -30,10 +30,36 @@ function isElementVisible(elem, /* Boolean */ in_full_page) {
   var visible_in_screen = (pos.height !== 0 && pos.width !== 0) || (elem.children.length > 0);
 
   if (in_full_page) {
-    return visible_in_screen;
+    return visible_in_screen && isDomElementVisible(elem);
   } else {
-    return in_current_screen && visible_in_screen;
+    return in_current_screen && visible_in_screen && isDomElementVisible(elem);
   }
+}
+
+function isDomElementVisible(obj) {
+
+  if (obj == document) return true
+
+  if (!obj) return false
+  if (!obj.parentNode) return false
+  if (obj.style) {
+    if (obj.style.display == 'none' || obj.style.visibility == 'hidden') return false
+  }
+
+  //Try the computed style in a standard way
+  var style = null;
+  if (window.getComputedStyle) {
+    style = window.getComputedStyle(obj, "");
+    if (style.display == 'none' || style.visibility == 'hidden') return false
+  }
+
+  //Or get the computed style using IE's silly proprietary way
+  style = obj.currentStyle;
+  if (style && (style['display'] == 'none' || style['visibility'] == 'hidden')) {
+    return false
+  }
+
+  return isDomElementVisible(obj.parentNode)
 }
 
 function clickElement(elem, opt) {
