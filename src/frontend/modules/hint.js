@@ -228,6 +228,7 @@ var Hint = (function() {
       }
     }
 
+    e.stopPropagation();
     if (exec) {
       e.preventDefault();
       return execSelect(currentHint)

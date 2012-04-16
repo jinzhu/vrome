@@ -214,7 +214,10 @@ var KeyEvent = (function() {
 
     var insertMode = (/^INPUT|TEXTAREA|SELECT$/i.test(e.target.nodeName) || e.target.getAttribute('contenteditable') != null);
 
-    if (/^(Control|Alt|Shift)$/.test(key)) return;
+    if (/^(Control|Alt|Shift)$/.test(key)) {
+      stopPropagation(e)
+      return
+    }
     currentKeys += key;
 
     // if vrome set disabled or pass the next, use <C-Esc> to enable it.
@@ -225,9 +228,23 @@ var KeyEvent = (function() {
 
     currentKeys = filterKey(currentKeys, insertMode); //FIXME multi modes
     if (ignoreKey(currentKeys, insertMode)) {
+      // stop the propagation of commands that start by an unmapped key e.g unmap `t` BUT user adds commands like `tcc`, `tce` and when typing `t`, it will be ignored
+      // e.g http://oscarotero.com/jquery/ where the page grabs the focus whenever we type something that doesn't match a command'
+      var currentKeysBindings = getBindingsStartingBy(currentKeys, insertMode)
+
+      if (currentKeysBindings.length > 1) {
+        stopPropagation(e)
+      }
+
       return;
     }
     runCurrentKeys(currentKeys, insertMode, e);
+  }
+
+  function getBindingsStartingBy(currentKeys, insertMode) {
+    return _.filter(bindings, function(v) {
+      return v[0].startWith(currentKeys) && v[2] === insertMode
+    })
   }
 
   return {
