@@ -11,3 +11,6 @@ function checkServerStatus() {
     $('#server_status').attr('alt', 'Server Offline. Run ./vrome');
   })
 }
+
+var c = console;
+c.l = console.log;

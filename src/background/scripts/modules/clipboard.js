@@ -26,7 +26,6 @@ var Clipboard = (function() {
 
   function getContent(msg) {
     var tab = arguments[arguments.length - 1];
-    console.log(msg);
     Post(tab, {
       action: msg.redirect,
       data: Clipboard.read()

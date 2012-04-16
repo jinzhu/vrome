@@ -49,7 +49,7 @@ var Hint = (function() {
     var elems = document.body.querySelectorAll('a, input:not([type=hidden]), textarea, select, button, *[onclick]');
 
     elements = _.select(elems, function(v) {
-      return isElementVisible(v)
+      return isElementVisible(v) && v && v.id != '_vrome_cmd_input_box'
     })
 
     setHintIndex(elements);
@@ -388,6 +388,17 @@ var Hint = (function() {
      */
     hintStrings: function(linkCount) {
       var linkHintCharacters = hintKeys;
+
+      // provided two sets of hint keys e.g dsafrewq,tgcx  We try to use the first for combinations as much as possible
+      // second set is for keys that are too far away but necessary to avoid 3 letters combinations
+      if (hintKeys.indexOf(',') != -1) {
+        var arrhintKeys = hintKeys.split(',');
+        if (linkCount <= arrhintKeys[0].length) {
+          linkHintCharacters = arrhintKeys[0]
+        } else {
+          linkHintCharacters = arrhintKeys[1] + arrhintKeys[0]
+        }
+      }
 
       // Determine how many digits the link hints will require in the worst case. Usually we do not need
       // all of these digits for every link single hint, so we can show shorter hints for a few of the links.

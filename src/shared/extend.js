@@ -26,6 +26,10 @@ String.prototype.trimFirst = function( /* String || Array */ str) {
   }
 }
 
+String.prototype.reverse = function() {
+  return this.split('').reverse().join('')
+}
+
 // This could be replaced by  Regex
 // extracts a string betwen two blocks of text
 // include = true : will include the string in the block + return every block as an array
