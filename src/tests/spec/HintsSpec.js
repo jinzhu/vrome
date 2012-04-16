@@ -344,6 +344,57 @@ describe("Hints", function() {
 
   })
 
+  it("should display the same hints if the links are similar", function() {
+    CancelKeyFunction()
+    $('.testContainer').hide()
+    $('#linkHintsContainer2').show()
+
+    expect($('#uri5').attr('href')).toEqual($('#uri3').attr('href'))
+
+    Hint.start_string()
+    expect($('#__vim_hint_highlight').children().length).toEqual(3)
+    expect($('#__vim_hint_highlight').children()[0].innerText).toEqual($('#__vim_hint_highlight').children()[2].innerText)
+
+    // add onclick
+    $('#uri5').attr('onclick', 'asd()')
+
+    CancelKeyFunction();
+    Hint.start_string()
+    expect($('#__vim_hint_highlight').children().length).toEqual(3)
+    expect($('#__vim_hint_highlight').children()[0].innerText).not.toEqual($('#__vim_hint_highlight').children()[2].innerText)
+
+    document.getElementById('uri3').onclick = function() {
+      asd()
+    }
+
+    CancelKeyFunction();
+    Hint.start_string()
+    expect($('#__vim_hint_highlight').children().length).toEqual(3)
+    expect($('#__vim_hint_highlight').children()[0].innerText).not.toEqual($('#__vim_hint_highlight').children()[2].innerText)
+
+    // add listeners
+
+
+    function asd() {
+
+    }
+
+    document.getElementById('uri3').onclick = null
+    document.getElementById('uri5').onclick = null
+    document.getElementById('uri3').addEventListener('click', asd)
+    document.getElementById('uri5').addEventListener('click', asd)
+
+    CancelKeyFunction();
+    Hint.start_string()
+    expect($('#__vim_hint_highlight').children().length).toEqual(3)
+    expect($('#__vim_hint_highlight').children()[0].innerText).toEqual($('#__vim_hint_highlight').children()[2].innerText)
+
+    document.getElementById('uri3').removeEventListener('click', asd)
+    document.getElementById('uri5').removeEventListener('click', asd)
+
+    CancelKeyFunction()
+  })
+
   it("", function() {
     reset()
   })

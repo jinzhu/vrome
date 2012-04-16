@@ -84,7 +84,10 @@ var Hint = (function() {
 
     var hintStrings = null;
     if (isStringMode) {
-      hintStrings = StringModeHelper.hintStrings(elems.length)
+      // index of similar links so we generate the same hints for duplicates
+      var dupElements = StringModeHelper.getDuplicatedElements(elems)
+
+      hintStrings = StringModeHelper.hintStrings(elems.length - Object.keys(dupElements).length);
       subMatched = []
     }
 
@@ -101,7 +104,7 @@ var Hint = (function() {
       span.style.backgroundColor = 'red';
 
       if (isStringMode) {
-        var mnemonic = hintStrings[i];
+        var mnemonic = dupElements[i] !== undefined ? hintStrings[dupElements[i]] : hintStrings[i]
         subMatched[i] = mnemonic;
         span.setAttribute('class', '__vim_hint_highlight_span');
 
@@ -377,6 +380,39 @@ var Hint = (function() {
   }
 
   var StringModeHelper = {
+
+    getDuplicatedElements: function(elems) {
+      var res = {}
+      var hrefs = {}
+      for (var i = 0, j = elems.length; i < j; i++) {
+        var elem = elems[i]
+        if (elem && elem.tagName == 'A') {
+          var href = elem.getAttribute('href')
+          // same link found
+          if (hrefs[href] !== undefined) {
+            var oriElem = elements[hrefs[href]]
+
+            // same onclick code + same event listeners. This is the exact same element. Use same hints
+            if (oriElem && oriElem.onclick === elem.onclick && typeof oriElem.listEventListeners === typeof elem.listEventListeners) {
+
+              if (oriElem.listEventListeners && elem.listEventListeners) {
+                if (Object.keys(oriElem.listEventListeners).length === Object.keys(elem.listEventListeners).length && _.difference(Object.keys(oriElem.listEventListeners), Object.keys(elem.listEventListeners)).length === 0) {
+                  res[i] = hrefs[href]
+                }
+
+              } else {
+
+                res[i] = hrefs[href]
+              }
+            }
+          } else {
+            hrefs[href] = i;
+          }
+        }
+      }
+
+      return res;
+    },
 
     logXOfBase: function(x, base) {
       return Math.log(x) / Math.log(base);
