@@ -1,5 +1,5 @@
 var Hint = (function() {
-  var currentHint, new_tab, multi_mode, hintMode, selected, elements, matched, key, clickedElems, isStringMode, hintKeys, subMatched;
+  var currentHint, new_tab, multi_mode, hintMode, selected, elements, matched, key, clickedElems, isStringMode, hintKeys, subMatched, dupElements;
   var highlight = 'vrome_highlight';
 
   var subActions = {
@@ -23,6 +23,7 @@ var Hint = (function() {
     subMatched = []
     elements = []
     matched = []
+    dupElements = {}
 
     initHintMode();
 
@@ -85,11 +86,12 @@ var Hint = (function() {
     var hintStrings = null;
     if (isStringMode) {
       // index of similar links so we generate the same hints for duplicates
-      var dupElements = StringModeHelper.getDuplicatedElements(elems)
+      dupElements = StringModeHelper.getDuplicatedElements(elems)
+      hintStrings = StringModeHelper.hintStrings(elems.length)
 
-      hintStrings = StringModeHelper.hintStrings(elems.length - Object.keys(dupElements).length);
       subMatched = []
     }
+
 
     for (var i = 0, j = elems.length; i < j; i++) { //TODO need refactor
       var elem = elems[i];
@@ -104,7 +106,8 @@ var Hint = (function() {
       span.style.backgroundColor = 'red';
 
       if (isStringMode) {
-        var mnemonic = dupElements[i] !== undefined ? hintStrings[dupElements[i]] : hintStrings[i]
+        var mnemonic = hintStrings[i]
+
         subMatched[i] = mnemonic;
         span.setAttribute('class', '__vim_hint_highlight_span');
 
@@ -176,9 +179,15 @@ var Hint = (function() {
   function getMatchedElementsByString(str) {
     str = str.toLowerCase();
     var newMatched = [];
+
+    var dupKeys = _.map(_.keys(dupElements), function(v) {
+      return parseInt(v);
+    })
+
     for (var i = 0; i < subMatched.length; i++) {
       var mnemonic = subMatched[i];
-      if (mnemonic.startsWith(str)) {
+      // don't push the duplicates
+      if (mnemonic.startsWith(str) && _.include(dupKeys, i) === false) {
         newMatched.push(elements[i]);
       }
     }
@@ -379,6 +388,12 @@ var Hint = (function() {
     setHintIndex(elements);
   }
 
+  function isExperimental() {
+    // runs experimental code. not yet 100% stable for production
+    // code using isExperimental can be easily refactored later on
+    return hintKeys.indexOf(',') !== -1;
+  }
+
   var StringModeHelper = {
 
     getDuplicatedElements: function(elems) {
@@ -454,8 +469,20 @@ var Hint = (function() {
       for (i = start; i < start + longHintCount; i++)
       hintStrings.push(this.numberToHintString(i, digitsNeeded, linkHintCharacters));
 
-      //      return this.shuffleHints(hintStrings, linkHintCharacters.length);
+      hintStrings = this.fixDuplicates(hintStrings);
       return hintStrings;
+    },
+
+    fixDuplicates: function(hintStrings) {
+      // remove any duplicates
+      return _.map(hintStrings, function(v, k) {
+        if (dupElements[k] !== undefined) {
+          return hintStrings[dupElements[k]]
+        } else {
+          return hintStrings[k]
+        }
+      })
+
     },
 
     /*
