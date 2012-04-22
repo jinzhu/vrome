@@ -30,10 +30,36 @@ function isElementVisible(elem, /* Boolean */ in_full_page) {
   var visible_in_screen = (pos.height !== 0 && pos.width !== 0) || (elem.children.length > 0);
 
   if (in_full_page) {
-    return visible_in_screen;
+    return visible_in_screen && isDomElementVisible(elem);
   } else {
-    return in_current_screen && visible_in_screen;
+    return in_current_screen && visible_in_screen && isDomElementVisible(elem);
   }
+}
+
+function isDomElementVisible(obj) {
+
+  if (obj == document) return true
+
+  if (!obj) return false
+  if (!obj.parentNode) return false
+  if (obj.style) {
+    if (obj.style.display == 'none' || obj.style.visibility == 'hidden') return false
+  }
+
+  //Try the computed style in a standard way
+  var style = null;
+  if (window.getComputedStyle) {
+    style = window.getComputedStyle(obj, "");
+    if (style.display == 'none' || style.visibility == 'hidden') return false
+  }
+
+  //Or get the computed style using IE's silly proprietary way
+  style = obj.currentStyle;
+  if (style && (style['display'] == 'none' || style['visibility'] == 'hidden')) {
+    return false
+  }
+
+  return isDomElementVisible(obj.parentNode)
 }
 
 function clickElement(elem, opt) {
@@ -92,6 +118,17 @@ function runIt(func, args) {
   }
 }
 
+function loadCustomCSS() {
+  try {
+    var customCSS = Settings.get('background.configure.css');
+    var style = document.createElement('style')
+    style.innerHTML = customCSS
+    document.getElementsByTagName('head')[0].appendChild(style)
+  } catch (e) {
+    console.debug("Custom CSS failed to load", e);
+  }
+}
+
 function runCustomJS() {
   try {
     var customJS = Settings.get('background.configure.js');
@@ -114,4 +151,41 @@ function showHelp() {
     url: "https://github.com/jinzhu/vrome/blob/master/Features.mkd#readme",
     newtab: true
   });
+}
+
+function getSimilarityScore(str1, str2) {
+  if (!str1 || !str2 || str1 === "" || str2 === "") {
+    return null;
+  }
+
+  var strl = null
+  var strs = null
+
+  // find long + short string
+  if (str1.length >= str2.length) {
+    strl = str1;
+    strs = str2;
+  } else {
+    strl = str2
+    strs = str1
+  }
+
+  var nbInvalids = 0;
+  var matches = {}
+
+  for (var i = 0; i < strl.length; i++) {
+    var strlc = strl.charAt(i)
+
+    var start = 0;
+    if (matches[strlc]) start = matches[strlc]
+
+    var posi = strs.indexOf(strlc, start)
+
+    if (posi === -1) {
+      nbInvalids++;
+    }
+  }
+
+  var score = (strs.length - nbInvalids) / strl.length * 100;
+  return score;
 }

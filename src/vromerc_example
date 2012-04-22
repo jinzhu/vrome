@@ -1,4 +1,5 @@
 """ .vromerc example file
+" Note: sync with wiki
 
 " Change key mapping in normal mode, please check Vrome Features for available key mapping
 map  j <C-f>
@@ -30,7 +31,7 @@ set editor=gvim -f
 set disablesites=mail.google.com, reader.google.com // don't run Vrome in those sites
 
 " Define search engines. the value should be valid json looks like below.
-" Please remeber the first searchengine is the default one. in the below one, it is google
+" Please remember the first searchengine is the default one. in the below one, it is google
 set searchengines={"google":"http://www.google.com/search?q={{keyword}}", "yahoo":"http://search.yahoo.com/search?p={{keyword}}","wikipedia":"http://en.wikipedia.org/wiki/{{keyword}}","answers":"http://www.answers.com/main/ntquery?s={{keyword}}","yubnub":"http://yubnub.org/parser/parse?command={{keyword}}"}
 
 " You could also add some new searchengines without overwrite build in.
@@ -51,8 +52,46 @@ set enable_vrome_key=<Esc>
 set server_port=30000
 
 " Set your hintkeys instead of the default 0123456789
-set hintkeys=asdfghjkl;
-" converted hintkeys to uppercase when they're displayed
-set hintkeysdisplayuppercase=1
+set hintkeys=jlkhfsdagwerui
+
+" Alternative: creates two sets of hint keys separated by a semicolon. First set uses keys close to the home row to create combinations, second set is used as a last resort
+" Note: this trigger the smart sorting in multi mode. Matching elements by level of similarity
+set hintkeys=dsafrewq,tgcx
+
+" overwrites the sub actions by your own set of actions
+set hint_actions={"`": "[", ",": "{"}
+
+" by default, hints use numbers. You can have both numbers AND strings (view custom JS below). Or you can use strings only as hints and overwrite the number commands
+set useletters=1
+
+begin_custom_js
+// in case you have a frontendExec in a remote file + a frontendExec in your local filesystem. This way, they don't overwrite each other
+var remoteExists = typeof frontendExec != "undefined";
+if(remoteExists)
+  oldexec = frontendExec;
+
+// this function is called whenever you load a page
+frontendExec = function() {
+  if(remoteExists)
+    oldexec();
+
+  // examples of overwrites
+  with(KeyEvent) {
+    add("tcm", Buffer.deleteMatch);
+    add("tcc", Tab.closeOtherTabs);
+    add("tcq", Tab.closeLeftTabs);
+    add("tce", Tab.closeRightTabs);
+    add("tcp", Tab.closeUnPinnedTabs);
+    add("yy", Tab.copyUrl);
+    add("tw", Tab.closeAndFoucsLeft);
+    add("f", Hint.start_string);
+    add("c", Hint.new_tab_start_string);
+    add("<M-s>", Hint.multi_mode_start_string);
+    add("<M-f>", Hint.start);
+    }
+}
+
+end_custom_js
+
 
 " vim: set ft=vim:

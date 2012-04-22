@@ -39,7 +39,7 @@ task :format_js do
   if ARGV.length > 1
     javascript_files = ARGV[1..-1]
   else
-    javascript_files = `find -iwholename '*background*js' -o -iwholename '*frontend*js' -o -iwholename '*shared*js'`.split("\n")
+    javascript_files = `find -iwholename '*background*js' -o -iwholename '*frontend*js' -o -iwholename '*shared*js' -o -iwholename '*tests*js'`.split("\n")
   end
 
   javascript_files.map do |file|

@@ -123,22 +123,24 @@
                       One more thing, Press <Enter> would open current highlighted element.
                       <C-Enter> would open all available hints in current page.
 
-                      Use the `hintkeys` vromerc setting to change the characters used for 'numbering', the default value
-                      for this setting is 0123456789. So, for example, `set hintkeys=asdfghjkl;` would label the hints using
-                      the keys of the home row. Values for hintkey do not need to be 10 characters long: `set hintkeys=asdf`
-                      will also work.
+                      We support hint mode with numbers (default) and strings/letters
 
-                      Tip: Any keys not listed in hintkeys can be used for filtering. Filtering is not case-sensitive, but
-                      hintkeys are. So if your hintkeys are "asdfg" you can use filtering to select the `Gmail` link in 
-                      the above example by typing `MA`, and if your hintkeys are 'ASDF' you can type `ma` to select the `Gmail` 
-                      link and you would need to type `GA` to select the link tagged with those keys.
+                      You can switch to strings instead of numbers by:
+                      `set useletters=1`
 
-                      Finally, you can set hintkeysdisplayuppercase if you want the hintkey 'numbers' to be converted to 
-                      uppercase before they're displayed, but to still act like lowercase hintkeys. This is helpful for 
-                      readability The default value for this setting is 0. If you add `set hintkeysdisplayuppercase=1`
-                      in your vromerc the links will be 'numbered' A,S,D,F... but you will still type a,s,d,f,... to select them. 
+                      If you want to customize the hint keys sequence:
+                      `set hintkeys=jlkhfsdagwerui`
+
+                      If you need both numbers AND strings available. You need to map the commands to different keys. [Example](https://github.com/jinzhu/vrome/wiki/vromerc-example-file)
+
+                      If you need to change the font-size or background-color. You can inject CSS using
+                      `custom_begin_css and custom_end_css` [Example](https://github.com/jinzhu/vrome/wiki/vromerc-example-file)
 
             F         Start Hint mode, but open links in new tabs. (check `f` for more)
+                       Note you can use the first letter as upper-case to open multiple links in a row
+                       Example: if we have hints such as `FA` `FS` `FD`
+                       You can enter hint mode and type `Fa` then simply enter `s` `d`
+
             <M-f>     Start Hint mode, but open multiple links in a new tab. (check `f` for more)
 
             Also there are some extra commands when in the [input box]:

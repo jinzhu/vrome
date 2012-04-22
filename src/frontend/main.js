@@ -192,7 +192,10 @@ with(KeyEvent) {
   add("F", Hint.new_tab_start);
   add("<M-f>", Hint.multi_mode_start);
 
-
+  //  add("f", Hints.start_string);
+  //  add("c", Hints.new_tab_start_string);
+  //  add("<M-s>", Hints.new_tab_start_string_repeat);
+  //  add("<M-f>", Hints.start);
   // Search
   add("/", Search.start);
   add("?", Search.backward);
@@ -269,6 +272,9 @@ with(CmdLine) {
 }
 
 // Initial
-var initFunction = [Zoom.init, KeyEvent.init, Frame.register];
+var initFunction = [Zoom.init, KeyEvent.init, Frame.register, runCustomJS];
 runIt();
-runCustomJS();
+
+$(document).ready(function() {
+  loadCustomCSS();
+})

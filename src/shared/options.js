@@ -3,8 +3,6 @@ var Option = (function() {
     nextpattern: ['(下|后)一页', '下一頁', '^\\s*Next\\s*$', '^>$', '^More$', '(^(>>|››|»))|((»|››|>>)$)'],
     previouspattern: ['(上|前)一页', '上一頁', '^\\s*Prev(ious)?\\s*$', '^<$', '(^(<<|‹‹|«))|((<<|‹‹|«)$)'],
     disablesites: "",
-    hintkeys: "0123456789",
-    hintkeysdisplayuppercase: 0,
     editor: "gvim -f",
     server_port: 20000,
     searchengines: {
@@ -20,11 +18,18 @@ var Option = (function() {
     autocomplete_next: "<Down>",
     autocomplete_prev: "<Up>",
     autocomplete_next_10: "<Tab>",
-    autocomplete_prev_10: "<S-Tab>"
+    autocomplete_prev_10: "<S-Tab>",
+    hintkeys: 'jlkhfsdagwerui',
+    useletters: 0,
+    test_mode: 0
   };
 
   function get(key) {
     var value = (Settings.get('background.configure.set') || Settings.get('configure.set'))[key];
+
+    // use default options when testing. Otherwise, the custom config might break the tests
+    if (options['test_mode']) value = options[key]
+
     var option = options[key];
 
     if (value instanceof Array) {
@@ -82,6 +87,7 @@ var Option = (function() {
 
   return {
     get: get,
-    default_search_url: default_search_url
+    default_search_url: default_search_url,
+    defaultOptions: options
   };
 })();

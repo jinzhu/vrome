@@ -467,6 +467,6 @@ var PinYin = (function() {
 
   return {
     full: CC2FULLPY,
-    short: CC2PY
+    shortcut: CC2PY
   };
 })();
