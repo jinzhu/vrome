@@ -272,9 +272,8 @@ with(CmdLine) {
 }
 
 // Initial
-var initFunction = [Zoom.init, KeyEvent.init, Frame.register];
+var initFunction = [Zoom.init, KeyEvent.init, Frame.register, runCustomJS];
 runIt();
-runCustomJS();
 
 $(document).ready(function() {
   loadCustomCSS();
