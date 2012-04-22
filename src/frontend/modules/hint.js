@@ -163,8 +163,7 @@ var Hint = (function() {
     var content = CmdBox.get().content;
     content = content.trim()
 
-    var actionName = content.substring(0, 1)
-    if (subActions[actionName]) {
+    if (getCurrentAction(content)) {
       content = content.substring(1)
     }
 
@@ -248,7 +247,7 @@ var Hint = (function() {
 
   function hintMatch(elem, index) {
     var text = elem.innerText;
-    var filter = CmdBox.get().content.trimFirst([';', '?', '[', '{']);
+    var filter = CmdBox.get().content.trimFirst(getCurrentActionNames());
 
     if (isStringMode && getCurrentAction() === 'search') {
       filter = getCurrentString()
@@ -259,10 +258,24 @@ var Hint = (function() {
     return filter.startWith('!') ? !result : result;
   }
 
-  function getCurrentAction() {
-    var filter = CmdBox.get().content;
+  function getCurrentActionNames() {
+    var names = _.keys(subActions);
 
-    return subActions[filter.substring(0, 1)];
+    var aliases = (Option.get('hint_actions') && JSON.parse(Option.get('hint_actions'))) || []
+    names = _.uniq(_.union(aliases, names))
+
+    return names;
+  }
+
+  function getCurrentAction(content) {
+    var filter = content || CmdBox.get().content;
+    var actionName = filter.substring(0, 1);
+
+    // get the alias associated to this action e.g use @ instead of [
+    var aliases = Option.get('hint_actions') && JSON.parse(Option.get('hint_actions'))
+    actionName = (aliases && aliases[actionName]) || actionName
+
+    return subActions[actionName];
   }
 
   function showElementInfo(elem) {
@@ -542,17 +555,12 @@ var Hint = (function() {
       return index
     },
 
+    // sort elements by a similarity score and assigns hints starting by the same letter
+    // e.g links like "comments (20)", "comments (50)", "comments (55)" will start by the same letter e.g S
+    // this way the user can open multiple links highly related very quickly
     sortBySimilarity: function(hintStrings, elems) {
       var index = this.buildSimilarityIndex(elems)
 
-      // debug TODO remove it
-      //      var di = {}
-      //      _.each(index, function(v, k) {
-      //        di[k] = []
-      //        _.each(v, function(vi) {
-      //          di[k].push(elems[vi].href)
-      //        })
-      //      })
       // create an index matching the new keys to the elements
       if (_.size(index) > 0) {
         var hindex = {}

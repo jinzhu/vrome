@@ -7,11 +7,16 @@ String.prototype.trim = function() {
 }
 
 String.prototype.startsWith = function(str) {
-  return (this.match("^" + str) == str)
+  return this.startWith(str);
 }
 
 String.prototype.endsWith = function(str) {
   return (this.match(str + "$") == str)
+}
+
+String.prototype.escapeRegExp = function() {
+  // From MooTools core 1.2.4
+  return this.replace(/([-.*+?^${}()|[\]\/\\])/g, '\\$1');
 }
 
 String.prototype.trimFirst = function( /* String || Array */ str) {

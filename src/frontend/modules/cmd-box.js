@@ -49,6 +49,7 @@ var CmdBox = (function() {
   }
 
   function set(opt) {
+    CmdBox.opt = opt
     if (opt.title) {
       var title = cmdBoxTitle() || createCmdBoxTitle();
       title.innerText = opt.title;
@@ -70,7 +71,7 @@ var CmdBox = (function() {
       pressDownFunction = opt.pressDown;
     }
     if (opt.timeout) {
-      setTimeout(remove, Number(opt.timeout));
+      setTimeout(remove, Number(opt.timeout), [true]);
     }
   }
 
@@ -81,12 +82,15 @@ var CmdBox = (function() {
     };
   }
 
-  function remove() {
-    pressUpFunction = function() {};
-    pressDownFunction = function() {};
-    var box = document.getElementById(box_id);
-    if (box) {
-      document.body.removeChild(box);
+  function remove(usesTimeout) {
+    // necessary because if we send a message with a timeout e.g 4000 then start the box again, it will disappear after 4000
+    if (usesTimeout === undefined || (usesTimeout && CmdBox.opt.timeout)) {
+      pressUpFunction = function() {};
+      pressDownFunction = function() {};
+      var box = document.getElementById(box_id);
+      if (box) {
+        document.body.removeChild(box);
+      }
     }
   }
 
@@ -103,3 +107,5 @@ var CmdBox = (function() {
     cmdBox: cmdBox
   };
 })();
+
+CmdBox.opt;

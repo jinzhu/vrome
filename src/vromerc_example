@@ -52,7 +52,15 @@ set enable_vrome_key=<Esc>
 set server_port=30000
 
 " Set your hintkeys instead of the default 0123456789
-set hintkeys=jlkhfsdagwerui;
+set hintkeys=jlkhfsdagwerui
+
+" Alternative: creates two sets of hint keys separated by a semicolon. First set uses keys close to the home row to create combinations, second set is used as a last resort
+" Note: this trigger the smart sorting in multi mode. Matching elements by level of similarity
+set hintkeys=dsafrewq,tgcx
+
+" overwrites the sub actions by your own set of actions
+set hint_actions={"`": "[", ",": "{"}
+
 " by default, hints use numbers. You can have both numbers AND strings (view custom JS below). Or you can use strings only as hints and overwrite the number commands
 set useletters=1
 
