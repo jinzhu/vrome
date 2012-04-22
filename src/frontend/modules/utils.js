@@ -152,3 +152,40 @@ function showHelp() {
     newtab: true
   });
 }
+
+function getSimilarityScore(str1, str2) {
+  if (!str1 || !str2 || str1 === "" || str2 === "") {
+    return null;
+  }
+
+  var strl = null
+  var strs = null
+
+  // find long + short string
+  if (str1.length >= str2.length) {
+    strl = str1;
+    strs = str2;
+  } else {
+    strl = str2
+    strs = str1
+  }
+
+  var nbInvalids = 0;
+  var matches = {}
+
+  for (var i = 0; i < strl.length; i++) {
+    var strlc = strl.charAt(i)
+
+    var start = 0;
+    if (matches[strlc]) start = matches[strlc]
+
+    var posi = strs.indexOf(strlc, start)
+
+    if (posi === -1) {
+      nbInvalids++;
+    }
+  }
+
+  var score = (strs.length - nbInvalids) / strl.length * 100;
+  return score;
+}

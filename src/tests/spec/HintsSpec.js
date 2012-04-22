@@ -374,7 +374,6 @@ describe("Hints", function() {
 
     // add listeners
 
-
     function asd() {
 
     }

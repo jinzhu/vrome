@@ -86,8 +86,7 @@ var Hint = (function() {
     var hintStrings = null;
     if (isStringMode) {
       // index of similar links so we generate the same hints for duplicates
-      dupElements = StringModeHelper.getDuplicatedElements(elems)
-      hintStrings = StringModeHelper.hintStrings(elems.length)
+      hintStrings = StringModeHelper.hintStrings(elems)
 
       subMatched = []
     }
@@ -336,7 +335,7 @@ var Hint = (function() {
         var options = {};
         options[Platform.mac ? 'meta' : 'ctrl'] = new_tab;
         clickElement(elem, options);
-      } else if (elem.onclick || (tag_name == 'input' && (type == 'submit' || type == 'button' || type == 'reset' || type == 'radio' || type == 'checkbox'))) {
+      } else if (elem.onclick || (tag_name == 'input' && (type == 'submit' || type == 'button' || type == 'reset' || type == 'radio' || type == 'checkbox')) || tag_name == 'button') {
         clickElement(elem);
 
       } else if (tag_name == 'input' || tag_name == 'textarea') {
@@ -437,7 +436,8 @@ var Hint = (function() {
      * Returns a list of hint strings which will uniquely identify the given number of links. The hint strings
      * may be of different lengths.
      */
-    hintStrings: function(linkCount) {
+    hintStrings: function(elems) {
+      var linkCount = elems.length;
       var linkHintCharacters = hintKeys;
 
       // provided two sets of hint keys e.g dsafrewq,tgcx  We try to use the first for combinations as much as possible
@@ -469,7 +469,143 @@ var Hint = (function() {
       for (i = start; i < start + longHintCount; i++)
       hintStrings.push(this.numberToHintString(i, digitsNeeded, linkHintCharacters));
 
+      dupElements = StringModeHelper.getDuplicatedElements(elems)
+
+      if (multi_mode && isExperimental()) {
+        hintStrings = this.sortBySimilarity(hintStrings, elems);
+      }
+
       hintStrings = this.fixDuplicates(hintStrings);
+
+      return hintStrings;
+    },
+
+    buildSimilarityIndex: function(elems) {
+      var maxScore = 70;
+      var index = {}
+
+      // loop through elements + group them by similarity
+      _.each(elems, function(v, k) {
+        var pushed = false
+        _.each(index, function(iv, ik) {
+          if (pushed || v.tagName !== elems[ik].tagName) return;
+          var score1 = 0;
+
+          if (v.tagName === 'A') {
+            score1 = parseInt(getSimilarityScore(elems[ik].getAttribute('href'), v.getAttribute('href')))
+            var score2 = parseInt(getSimilarityScore(elems[ik].innerText, v.innerText))
+            if (score2 > maxScore) score1 = (score1 + score2) / 2
+          } else {
+            score1 = parseInt(getSimilarityScore(elems[ik].outerHTML, v.outerHTML))
+          }
+          if (score1 > maxScore) {
+            index[ik].push(k)
+            pushed = true
+          }
+        })
+        index[k] = []
+      })
+
+
+      // remove empty ones from index -- no similar matches
+      _.each(index, function(v, k) {
+        if (v.length === 0) {
+          delete index[k];
+        }
+      })
+
+      // merge similar groups + close matches
+      _.each(index, function(v, k) {
+        for (var i = 0; i < v.length; i++) {
+          var id = v[i];
+          if (index[id]) {
+            v.push(index[id]);
+            delete index[id];
+          } else {
+            _.each(index, function(v2, k2) {
+              if (k2 != k && _.include(v2, id)) {
+                v.push(index[k2])
+                v.push(k2);
+                delete index[k2];
+              }
+            })
+          }
+        }
+      })
+
+      // flatten it + make them unique
+      _.each(index, function(v, k) {
+        index[k] = _.unique(_.flatten(v))
+        index[k].push(parseInt(k))
+      })
+
+      return index
+    },
+
+    sortBySimilarity: function(hintStrings, elems) {
+      var index = this.buildSimilarityIndex(elems)
+
+      // debug TODO remove it
+      //      var di = {}
+      //      _.each(index, function(v, k) {
+      //        di[k] = []
+      //        _.each(v, function(vi) {
+      //          di[k].push(elems[vi].href)
+      //        })
+      //      })
+      // create an index matching the new keys to the elements
+      if (_.size(index) > 0) {
+        var hindex = {}
+        var usedLetters = []
+
+        var done = false;
+        while (!done) {
+          done = true;
+          var ids = _.max(index, function(v) {
+            return v.length;
+          })
+          if (ids !== undefined) {
+            var lastHs = null;
+            _.each(hintStrings, function(hs, hsk) {
+              if (hs.length > 1 && !_.include(usedLetters, hs.charAt(0)) && !_.include(_.values(hindex), hsk) && ids.length > 0) {
+                var id = _.first(ids);
+                hindex[parseInt(id)] = parseInt(hsk)
+                delete index[id]
+                ids.shift()
+                lastHs = hs;
+                done = false
+              }
+            })
+
+            if (lastHs) {
+              usedLetters.push(lastHs.charAt(0))
+            }
+          }
+        }
+
+        // rebuild the hint strings using the new matches
+        var hs = {}
+        var newhs = []
+
+        _.each(hindex, function(v, k) {
+          hs[k] = hintStrings[v]
+        })
+
+        // add whatever is left
+        var remaining = _.difference(hintStrings, _.values(hs))
+        _.times(hintStrings.length, function(k) {
+          if (hs[k] === undefined) {
+            hs[k] = remaining.shift()
+          }
+        })
+
+        _.times(_.size(hs), function(k) {
+          newhs.push(hs[k])
+        })
+
+        hintStrings = newhs;
+      }
+
       return hintStrings;
     },
 
