@@ -262,7 +262,7 @@ var Hint = (function() {
     var names = _.keys(subActions);
 
     var aliases = (Option.get('hint_actions') && JSON.parse(Option.get('hint_actions'))) || []
-    names = _.uniq(_.union(aliases, names))
+    names = _.uniq(_.union(_.keys(aliases), names))
 
     return names;
   }
