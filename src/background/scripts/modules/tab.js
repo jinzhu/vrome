@@ -70,87 +70,40 @@ var Tab = (function() {
     });
   }
 
-  function closeOtherTabs(tab) {
-    chrome.tabs.query({
-      windowId: tab.windowId
-    }, function(tabs) {
-      for (var i = 0; i < tabs.length; i++) {
-        if (tabs[i].id != tab.id) {
-          chrome.tabs.remove(tabs[i].id);
-        }
-      }
-    });
-  }
-
-  function closeLeftTabs(tab) {
-    chrome.tabs.query({
-      windowId: tab.windowId
-    }, function(tabs) {
-      for (var i = 0; i < tabs.length; i++) {
-        if (tabs[i].index < tab.index) {
-          chrome.tabs.remove(tabs[i].id);
-        }
-      }
-    });
-  }
-
-  function closeRightTabs(tab) {
-    chrome.tabs.query({
-      windowId: tab.windowId
-    }, function(tabs) {
-      for (var i = 0; i < tabs.length; i++) {
-        if (tabs[i].index > tab.index) {
-          chrome.tabs.remove(tabs[i].id);
-        }
-      }
-    });
-  }
-
-  function closePinnedTabs(tab, /*Boolean*/ close_unpinned) {
-    chrome.tabs.query({
-      windowId: tab.windowId
-    }, function(tabs) {
-      for (var i = 0; i < tabs.length; i++) {
-        if (close_unpinned) {
-          if (!tabs[i].pinned) {
-            chrome.tabs.remove(tabs[i].id);
-          }
-        } else {
-          if (tabs[i].pinned) {
-            chrome.tabs.remove(tabs[i].id);
-          }
-        }
-      }
-    });
-  }
-
   function close(msg) {
     var tab = arguments[arguments.length - 1];
     Tab.current_closed_tab = tab;
 
-    if (msg.closeOther) {
-      return closeOtherTabs(tab);
-    }
-    if (msg.closeLeft) {
-      return closeLeftTabs(tab);
-    }
-    if (msg.closeRight) {
-      return closeRightTabs(tab);
-    }
-    if (msg.closePinned) {
-      return closePinnedTabs(tab);
-    }
-    if (msg.closeUnPinned) {
-      return closePinnedTabs(tab, /* close unpinned */ true);
+    var closeMap = {
+      closeOther: 'v.id != tab.id && !v.pinned',
+      closeLeft: 'v.index < tab.index && !v.pinned',
+      closeRight: 'v.index > tab.index && !v.pinned',
+      closePinned: 'v.pinned',
+      closeUnPinned: '!v.pinned'
     }
 
-    chrome.tabs.remove(tab.id);
-    if (msg.focusLast) {
-      selectPrevious.apply('', arguments);
-    } // close and select right
-    if (msg.offset) {
-      goto.apply('', arguments);
-    } // close and select left
+    var cond = _.chain(_.intersect(_.keys(msg), _.keys(closeMap))).first().value()
+
+    if (cond) {
+      chrome.tabs.query({
+        windowId: tab.windowId
+      }, function(tabs) {
+        tabs = _.filter(tabs, function(v) {
+          return eval(closeMap[cond])
+        })
+        _.each(tabs, function(v) {
+          chrome.tabs.remove(v.id)
+        })
+      });
+    } else {
+      chrome.tabs.remove(tab.id);
+      if (msg.focusLast) {
+        selectPrevious.apply('', arguments);
+      } // close and select right
+      if (msg.offset) {
+        goto.apply('', arguments);
+      } // close and select left
+    }
   }
 
   function reopen(msg) {
@@ -209,16 +162,23 @@ var Tab = (function() {
     }, tab)
   }
 
+  function filterUnpinnedTabs(tabs) {
+    // only returns unpinned tabs
+    // This way we don't reload, close or affect tabs that are pinned -- like chrome behaves
+    return _.filter(tabs, function(tab) {
+      return !tab.pinned;
+    })
+  }
+
   function reloadAll(msg) {
     var tab = arguments[arguments.length - 1];
     chrome.tabs.getAllInWindow(tab.windowId, function(tabs) {
-      for (var i = 0; i < tabs.length; i++) {
-        var tab = tabs[i];
+      _.each(filterUnpinnedTabs(tabs), function(tab) {
         chrome.tabs.update(tab.id, {
           url: tab.url,
           selected: tab.selected
         }, null);
-      }
+      })
     });
   }
 

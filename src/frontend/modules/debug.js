@@ -7,3 +7,11 @@ var Debug = (function() {
     });
   };
 })();
+
+var D = (function() {
+  return {
+    log: function(msg) {
+      console.log(msg.m);
+    }
+  }
+})();
