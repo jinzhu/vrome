@@ -135,12 +135,14 @@ var Tab = (function() {
     close: close,
     closeAndFoucsLast: function() {
       close({
-        focusLast: true
+        focusLast: true,
+        count: times()
       });
     },
     closeAndFoucsLeft: function() {
       close({
-        offset: -1
+        offset: -1,
+        count: times()
       });
     },
     closeOtherTabs: function() {

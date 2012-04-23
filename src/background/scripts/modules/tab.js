@@ -74,24 +74,30 @@ var Tab = (function() {
     var tab = arguments[arguments.length - 1];
     Tab.current_closed_tab = tab;
 
+    if (msg.count == 1) {
+      delete msg.count;
+    }
+
     var closeMap = {
       closeOther: 'v.id != tab.id && !v.pinned',
       closeLeft: 'v.index < tab.index && !v.pinned',
       closeRight: 'v.index > tab.index && !v.pinned',
       closePinned: 'v.pinned',
-      closeUnPinned: '!v.pinned'
+      closeUnPinned: '!v.pinned',
+      count: 'v.index >= tab.index'
     }
 
     var cond = _.chain(_.intersect(_.keys(msg), _.keys(closeMap))).first().value()
 
-    if (cond) {
+    if (cond || msg.count > 1) {
       chrome.tabs.query({
         windowId: tab.windowId
       }, function(tabs) {
         tabs = _.filter(tabs, function(v) {
           return eval(closeMap[cond])
         })
-        _.each(tabs, function(v) {
+        _.each(tabs, function(v, k) {
+          if (msg.count && k > msg.count) return;
           chrome.tabs.remove(v.id)
         })
       });

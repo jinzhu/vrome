@@ -2,7 +2,12 @@
 //simulateKey('f');
 //simulateKey('Down');
 
-function simulateKey(keyChar) {
+function simulateKey(keyChar, control, alt, shift, meta) {
+  control = control || false
+  alt = alt || false
+  shift = shift || false
+  meta = meta || false
+
   var insertMode = /^INPUT|TEXTAREA|SELECT|HTML$/i.test(document.activeElement.nodeName);
   if (insertMode) {
     evt = document.createEvent('TextEvent');
@@ -11,16 +16,16 @@ function simulateKey(keyChar) {
   }
 
   var k = document.createEvent("KeyboardEvent")
-  k.initKeyboardEvent("keydown", true, true, null, keyChar, false, false, false, false, false);
+  k.initKeyboardEvent("keydown", true, true, null, keyChar, false, control, alt, shift, meta)
   document.activeElement.dispatchEvent(k);
 
 
   k = document.createEvent("KeyboardEvent")
-  k.initKeyboardEvent("keyup", true, true, null, keyChar, false, false, false, false, false);
+  k.initKeyboardEvent("keyup", true, true, null, keyChar, false, control, alt, shift, meta)
   document.activeElement.dispatchEvent(k);
 
   k = document.createEvent("KeyboardEvent")
-  k.initKeyboardEvent("keypress", true, true, null, keyChar, false, false, false, false, false);
+  k.initKeyboardEvent("keypress", true, true, null, keyChar, false, control, alt, shift, meta)
   document.activeElement.dispatchEvent(k);
 }
 
