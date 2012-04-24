@@ -170,6 +170,7 @@ with(KeyEvent) {
   add("ge", Tab.moveRight)
   add("gP", Tab.unpinAllTabsInCurrentWindow)
   add("WP", Tab.unpinAllTabsInAllWindows)
+  add("gW", Tab.closeOtherWindows)
 
   add("y", Tab.copyUrl);
   add("g0", Tab.first);

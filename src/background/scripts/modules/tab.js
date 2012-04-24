@@ -103,23 +103,32 @@ var Tab = (function() {
       closeRight: 'v.index > tab.index && !v.pinned',
       closePinned: 'v.pinned',
       closeUnPinned: '!v.pinned',
+      otherWindows: 'v.windowId != tab.windowId && !v.pinned',
       count: 'v.index >= tab.index'
     }
 
     var cond = _.chain(_.intersect(_.keys(msg), _.keys(closeMap))).first().value()
 
     if (cond || msg.count > 1) {
-      chrome.tabs.query({
-        windowId: tab.windowId
-      }, function(tabs) {
-        tabs = _.filter(tabs, function(v) {
-          return eval(closeMap[cond])
+      chrome.windows.getAll({
+        populate: true
+      }, function(windows) {
+        if (!msg.otherWindows) {
+          windows = _.filter(windows, function(w) {
+            return w.id === tab.windowId;
+          })
+        }
+        _.each(windows, function(w) {
+          var tabs = w.tabs
+          tabs = _.filter(tabs, function(v) {
+            return eval(closeMap[cond])
+          })
+          _.each(tabs, function(v, k) {
+            if (msg.count && k > msg.count) return;
+            chrome.tabs.remove(v.id)
+          })
         })
-        _.each(tabs, function(v, k) {
-          if (msg.count && k > msg.count) return;
-          chrome.tabs.remove(v.id)
-        })
-      });
+      })
     } else {
       chrome.tabs.remove(tab.id);
       if (msg.focusLast) {
@@ -264,13 +273,15 @@ var Tab = (function() {
     chrome.windows.getAll({
       populate: true
     }, function(windows) {
+      if (!msg.allWindows) {
+        windows = _.filter(windows, function(w) {
+          return w.id === tab.windowId
+        })
+      }
       _.each(windows, function(w) {
         var tabs = _.filter(w.tabs, function(v) {
           return v.pinned;
         })
-        if (!msg.allWindows && w.id != tab.windowId) {
-          return;
-        }
         _.each(tabs, function(t) {
           update({
             pinned: false

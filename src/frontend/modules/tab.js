@@ -181,6 +181,11 @@ var Tab = (function() {
         closeUnPinned: true
       });
     },
+    closeOtherWindows: function() {
+      close({
+        otherWindows: true
+      })
+    },
     moveLeft: function() {
       move({
         direction: "left",
