@@ -182,7 +182,11 @@ var Tab = (function() {
   function selectPrevious() {
     var tab = arguments[arguments.length - 1];
     chrome.tabs.getAllInWindow(tab.windowId, function(tabs) {
-      chrome.tabs.update(Tab.last_selected_tab.id, {
+      var lastSelectedId = Tab.last_selected_tab.id
+      if (lastSelectedId === tab.id) {
+        lastSelectedId = tab.openerTabId
+      }
+      chrome.tabs.update(lastSelectedId, {
         selected: true
       });
     });
