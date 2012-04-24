@@ -70,6 +70,25 @@ var Tab = (function() {
     });
   }
 
+  function move(msg) {
+    var tab = arguments[arguments.length - 1];
+    var times = msg.count
+    chrome.tabs.query({
+      windowId: tab.windowId
+    }, function(tabs) {
+      if (tabs.length === 1) return;
+
+      var direction = msg.direction === "left" ? -1 : 1;
+      var newIndex = (tab.index + times * direction)
+
+      if (newIndex < 0 || newIndex >= tabs.length) newIndex = newIndex + tabs.length * (direction * -1);
+
+      chrome.tabs.move(tab.id, {
+        index: newIndex
+      });
+    })
+  }
+
   function close(msg) {
     var tab = arguments[arguments.length - 1];
     Tab.current_closed_tab = tab;
@@ -307,6 +326,7 @@ var Tab = (function() {
   return {
     update: update,
     close: close,
+    move: move,
     reopen: reopen,
     goto: goto,
     selectPrevious: selectPrevious,

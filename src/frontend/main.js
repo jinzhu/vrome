@@ -165,6 +165,10 @@ with(KeyEvent) {
   add("gm", Tab.merge);
   add("gM", Tab.mergeAll);
 
+  // TODO: provide new shortcuts + update documentation
+  add("tq", Tab.moveLeft)
+  add("te", Tab.moveRight)
+
   add("y", Tab.copyUrl);
   add("g0", Tab.first);
   add("g^", Tab.first);

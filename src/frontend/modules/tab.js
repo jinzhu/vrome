@@ -25,6 +25,11 @@ var Tab = (function() {
     });
   }
 
+  function move(option) {
+    option.action = 'Tab.move';
+    Post(option);
+  }
+
   function close(option) {
     option = option || {};
     option.action = 'Tab.close';
@@ -169,6 +174,20 @@ var Tab = (function() {
       close({
         closeUnPinned: true
       });
+    },
+    moveLeft: function() {
+      move({
+        direction: "left",
+        count: times()
+      })
+    },
+
+    moveRight: function() {
+      c.l('asdww')
+      move({
+        direction: "right",
+        count: times()
+      })
     },
 
     reopen: reopen,
