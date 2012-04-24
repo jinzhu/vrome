@@ -25,6 +25,12 @@ var Tab = (function() {
     });
   }
 
+  function unpinAll(option) {
+    option = option || {};
+    option.action = 'Tab.unpinAll';
+    Post(option);
+  }
+
   function move(option) {
     option.action = 'Tab.move';
     Post(option);
@@ -183,7 +189,6 @@ var Tab = (function() {
     },
 
     moveRight: function() {
-      c.l('asdww')
       move({
         direction: "right",
         count: times()
@@ -191,6 +196,15 @@ var Tab = (function() {
     },
 
     reopen: reopen,
+    unpinAllTabsInCurrentWindow: function() {
+      unpinAll()
+    },
+
+    unpinAllTabsInAllWindows: function() {
+      unpinAll({
+        allWindows: true
+      })
+    },
 
     prev: prev,
     next: next,

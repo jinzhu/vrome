@@ -166,8 +166,10 @@ with(KeyEvent) {
   add("gM", Tab.mergeAll);
 
   // TODO: provide new shortcuts + update documentation
-  add("tq", Tab.moveLeft)
-  add("te", Tab.moveRight)
+  add("gq", Tab.moveLeft)
+  add("ge", Tab.moveRight)
+  add("gP", Tab.unpinAllTabsInCurrentWindow)
+  add("WP", Tab.unpinAllTabsInAllWindows)
 
   add("y", Tab.copyUrl);
   add("g0", Tab.first);

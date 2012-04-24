@@ -258,6 +258,28 @@ var Tab = (function() {
     openUrl(msg, arguments[arguments.length - 1]);
   }
 
+  function unpinAll(msg) {
+    var tab = arguments[arguments.length - 1];
+
+    chrome.windows.getAll({
+      populate: true
+    }, function(windows) {
+      _.each(windows, function(w) {
+        var tabs = _.filter(w.tabs, function(v) {
+          return v.pinned;
+        })
+        if (!msg.allWindows && w.id != tab.windowId) {
+          return;
+        }
+        _.each(tabs, function(t) {
+          update({
+            pinned: false
+          }, t)
+        })
+      })
+    })
+  }
+
   function togglePin() {
     var tab = arguments[arguments.length - 1];
     update({
@@ -336,6 +358,7 @@ var Tab = (function() {
     openUrl: openUrl,
     openFromClipboard: openFromClipboard,
     togglePin: togglePin,
+    unpinAll: unpinAll,
     duplicate: duplicate,
     detach: detach,
     openInIncognito: openInIncognito,
