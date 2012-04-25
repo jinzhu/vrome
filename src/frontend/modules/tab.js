@@ -74,6 +74,12 @@ var Tab = (function() {
     });
   }
 
+  function markForMerging(opt) {
+    opt = opt || {}
+    opt.action = "Tab.markForMerging"
+    Post(opt);
+  }
+
   function merge() {
     Post({
       action: "Tab.merge"
@@ -201,10 +207,7 @@ var Tab = (function() {
     },
 
     reopen: reopen,
-    unpinAllTabsInCurrentWindow: function() {
-      unpinAll()
-    },
-
+    unpinAllTabsInCurrentWindow: unpinAll,
     unpinAllTabsInAllWindows: function() {
       unpinAll({
         allWindows: true
@@ -223,6 +226,17 @@ var Tab = (function() {
     detach: detach,
     openInIncognito: openInIncognito,
     merge: merge,
-    mergeAll: mergeAll
+    mergeAll: mergeAll,
+    markForMerging: markForMerging,
+    markAllForMerging: function() {
+      markForMerging({
+        all: true
+      });
+    },
+    putMarkedTabs: function() {
+      Post({
+        action: "Tab.putMarkedTabs"
+      })
+    }
   };
 })();

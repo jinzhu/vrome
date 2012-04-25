@@ -344,10 +344,68 @@ var Tab = (function() {
     });
   }
 
+  /*
+   * adds tab ids to a list of tabs waiting to be merged in a new window
+   */
+
+  function markForMerging(msg) {
+    var tab = arguments[arguments.length - 1];
+
+    // add tab or all tabs in window as marked_tabs
+    chrome.tabs.query({
+      windowId: tab.windowId
+    }, function(tabs) {
+      tabs = _.filter(tabs, function(v) {
+        return !v.pinned;
+      })
+
+      // limit to current tab
+      if (!msg.all) {
+        tabs = [tab]
+      }
+
+      _.each(tabs, function(v) {
+        Tab.marked_tabs.push(v.id)
+        Post(v, {
+          action: "CmdBox.set",
+          title: tabs.length + ' Tab(s) marked',
+          timeout: 4000
+        })
+      })
+    })
+  }
+
+  function putMarkedTabs() {
+    var tab = arguments[arguments.length - 1];
+
+    if (Tab.marked_tabs.length > 0) {
+
+      chrome.tabs.move(Tab.marked_tabs, {
+        windowId: tab.windowId,
+        index: tab.index + 1
+      }, function(tmp) {
+        Post(tab, {
+          action: "CmdBox.set",
+          title: tmp.length + ' Tab(s) moved',
+          timeout: 4000
+        })
+        Tab.marked_tabs = []
+      })
+    }
+  }
+
+  /**
+   * @deprecated using markForMerging instead
+   */
+
   function merge() {
     var tab = arguments[arguments.length - 1];
     Window.moveTabToWindowWithIncognito(tab, tab.incognito);
   }
+
+  /**
+   * @deprecated using markForMerging instead
+   */
 
   function mergeAll() {
     var tab = arguments[arguments.length - 1];
@@ -379,10 +437,13 @@ var Tab = (function() {
     openInIncognito: openInIncognito,
     merge: merge,
     mergeAll: mergeAll,
-    autoComplete: autoComplete
+    autoComplete: autoComplete,
+    markForMerging: markForMerging,
+    putMarkedTabs: putMarkedTabs
   };
 })();
 
 // Tab.closed_tabs, now_tab, last_selected_tab, current_closed_tab;
 Tab.closed_tabs = [];
 Tab.last_open_tabs = [];
+Tab.marked_tabs = [];

@@ -162,15 +162,18 @@ with(KeyEvent) {
   add("gd", Tab.duplicate);
   add("gD", Tab.detach);
   add("gI", Tab.openInIncognito);
-  add("gm", Tab.merge);
-  add("gM", Tab.mergeAll);
-
-  // TODO: provide new shortcuts + update documentation
+  // TODO: provide new shortcuts + update documentation + remove old commands (in comments)
+  //  add("gm", Tab.merge);
+  //  add("gM", Tab.mergeAll);
+  
   add("gq", Tab.moveLeft)
   add("ge", Tab.moveRight)
   add("gP", Tab.unpinAllTabsInCurrentWindow)
   add("WP", Tab.unpinAllTabsInAllWindows)
-  add("gW", Tab.closeOtherWindows)
+  add("dW", Tab.closeOtherWindows)
+  add("gm", Tab.markForMerging)
+  add("gM", Tab.markAllForMerging)
+  add("gv", Tab.putMarkedTabs)
 
   add("y", Tab.copyUrl);
   add("g0", Tab.first);
