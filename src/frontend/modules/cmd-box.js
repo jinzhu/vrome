@@ -94,6 +94,10 @@ var CmdBox = (function() {
     }
   }
 
+  function isActive() {
+    return document.activeElement && document.activeElement.id === input_box_id
+  }
+
   function isCmdBoxInput(target) {
     return target.getAttribute('id') === input_box_id;
   }
@@ -104,7 +108,8 @@ var CmdBox = (function() {
     get: get,
     remove: remove,
     isCmdBoxInput: isCmdBoxInput,
-    cmdBox: cmdBox
+    cmdBox: cmdBox,
+    isActive: isActive
   };
 })();
 

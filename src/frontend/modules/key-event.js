@@ -256,11 +256,11 @@ var KeyEvent = (function() {
   }
 
   function removeStatusLine() {
-    if (Option.get('showstatus')) CmdBox.remove()
+    if (Option.get('showstatus') && !CmdBox.isActive()) CmdBox.remove()
   }
 
   function showStatusLine(currentKeys) {
-    if ((Option.get('showstatus'))) {
+    if (Option.get('showstatus') && !CmdBox.isActive()) {
       var tmp = getTimes(true) || ''
       CmdBox.set({
         title: tmp + currentKeys

@@ -96,5 +96,10 @@ frontendExec = function() {
 
 end_custom_js
 
+begin_custom_css
+.__vim_hint_highlight_span {
+text-transform: uppercase;
+}
+end_custom_css
 
 " vim: set ft=vim:
