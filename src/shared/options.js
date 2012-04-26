@@ -21,7 +21,8 @@ var Option = (function() {
     autocomplete_prev_10: "<S-Tab>",
     hintkeys: 'jlkhfsdagwerui',
     useletters: 0,
-    test_mode: 0
+    test_mode: 0,
+    showstatus: 1
   };
 
   function get(key) {

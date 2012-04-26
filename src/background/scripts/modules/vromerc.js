@@ -56,6 +56,9 @@ var Vromerc = (function() {
         var config_left = config.trimFirst(array[0]);
         var setting_key = config_left.split(/\+?=/)[0];
         var setting_value = config_left.trimFirst(setting_key + "=").trimFirst(setting_key + "+=");
+        if (!isNaN(setting_value)) {
+          setting_value = Number(setting_value)
+        }
         var plus = (config.match(/^\s*set\s+\w+\+=/) ? true : false);
         setting.set[setting_key] = [setting_value, plus];
         break;

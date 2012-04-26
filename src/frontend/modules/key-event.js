@@ -256,11 +256,11 @@ var KeyEvent = (function() {
   }
 
   function removeStatusLine() {
-    if (!Settings.get('background.nostatus')) CmdBox.remove()
+    if (Option.get('showstatus')) CmdBox.remove()
   }
 
   function showStatusLine(currentKeys) {
-    if (!Settings.get('background.nostatus')) {
+    if ((Option.get('showstatus'))) {
       var tmp = getTimes(true) || ''
       CmdBox.set({
         title: tmp + currentKeys
