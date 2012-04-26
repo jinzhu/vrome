@@ -140,6 +140,7 @@ var KeyEvent = (function() {
 
       var regexp = new RegExp('^(\\d*)(' + escaped_command + ')$');
       if (regexp.test(keys)) {
+        removeStatusLine()
         var someFunctionCalled = true;
         keys.replace(regexp, '');
         // map j 3j
@@ -170,6 +171,11 @@ var KeyEvent = (function() {
           }
         }
       }
+    }
+
+    // hide status line if no binding matched && no function called
+    if (!someBindingMatched && !someFunctionCalled) {
+      removeStatusLine()
     }
 
     // If any function invoked, then store it to last run command.
@@ -227,6 +233,8 @@ var KeyEvent = (function() {
     }
 
     currentKeys = filterKey(currentKeys, insertMode); //FIXME multi modes
+    showStatusLine(currentKeys)
+
     if (ignoreKey(currentKeys, insertMode)) {
       // stop the propagation of commands that start by an unmapped key e.g unmap `t` BUT user adds commands like `tcc`, `tce` and when typing `t`, it will be ignored
       // e.g http://oscarotero.com/jquery/ where the page grabs the focus whenever we type something that doesn't match a command'
@@ -245,6 +253,19 @@ var KeyEvent = (function() {
     return _.filter(bindings, function(v) {
       return v[0].startWith(currentKeys) && v[2] === insertMode
     })
+  }
+
+  function removeStatusLine() {
+    if (!Settings.get('background.nostatus')) CmdBox.remove()
+  }
+
+  function showStatusLine(currentKeys) {
+    if (!Settings.get('background.nostatus')) {
+      var tmp = getTimes(true) || ''
+      CmdBox.set({
+        title: tmp + currentKeys
+      })
+    }
   }
 
   return {
