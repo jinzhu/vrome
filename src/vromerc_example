@@ -24,6 +24,9 @@ set autocomplete_next_10=<Down>
 set nextpattern+=^NextPage|››$
 set previouspattern+=^PrevPage|‹‹$
 
+" set no status line -- i.e keys don't show as you type. enabled by default
+set showstatus=0
+
 " Change external editor, default is GVim
 set editor=gvim -f
 
