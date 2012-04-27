@@ -28,6 +28,8 @@
       - Faster Hint Mode
   - Brandon Goldsworthy / \<github\> bgoldsworthy
       - Configurable hintkeys
+  - Takashi Sakai / \<github\> kabostime
+      - Fix open, search multibyte characters
 
 ## Sponsors:
 
