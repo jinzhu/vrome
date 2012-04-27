@@ -57,17 +57,17 @@ var Url = (function() {
         result.push((url.match("://") ? "" : "http://") + url);
         // google vrome
       } else {
-        url = escape(url)
         var searchengines = Option.get('searchengines');
         var searchengine = url.replace(/^(\S+)\s.*$/, "$1"); // searchengine name: e.g: google
         // use the matched searchengine
         for (var j in searchengines) {
           if (j == searchengine) {
-            result.push(searchengines[j].replace("{{keyword}}", url.replace(/^\S+\s+(.*)$/, "$1")));
+            result.push(searchengines[j].replace("{{keyword}}", encodeURIComponent(url.replace(/^\S+\s+(.*)$/, "$1"))));
             continue outermost;
           }
         }
 
+        url = encodeURIComponent(url);
         result.push(Option.default_search_url(url));
         continue outermost;
       }

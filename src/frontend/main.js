@@ -165,7 +165,6 @@ with(KeyEvent) {
   // TODO: provide new shortcuts + update documentation + remove old commands (in comments)
   //  add("gm", Tab.merge);
   //  add("gM", Tab.mergeAll);
-  
   add("gq", Tab.moveLeft)
   add("ge", Tab.moveRight)
   add("gP", Tab.unpinAllTabsInCurrentWindow)
