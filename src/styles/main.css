@@ -47,9 +47,10 @@
 .__vim_hint_highlight_span {
   background-color: black !important;
   position: absolute !important;
-  font-size: 13px !important;
-  border:1px dashed #E3BE23;
+  font-size: 14px !important;
+  border:1px dotted #E3BE23;
   color: white !important;
+  border-radius: 4px;
   font-weight: bold !important;
   padding: 0px 1px !important;
   z-index: 2147483646 !important;
