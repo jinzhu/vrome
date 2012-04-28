@@ -154,6 +154,14 @@ var Marks = (function() {
     }
   }
 
+  function deleteQuickMark(keyword) {
+    marks = Settings.get('background.url_marks') || {}
+    if (marks[keyword]) {
+      delete marks[keyword]
+      Settings.add('background.url_marks', marks);
+    }
+  }
+
   return {
     addQuickMark: addQuickMark,
     gotoQuickMark: gotoQuickMark,
@@ -161,6 +169,7 @@ var Marks = (function() {
       gotoQuickMark.call(this, true);
     },
     addLocalMark: addLocalMark,
-    gotoLocalMark: gotoLocalMark
+    gotoLocalMark: gotoLocalMark,
+    deleteQuickMark: deleteQuickMark,
   };
 })();

@@ -266,6 +266,7 @@ with(KeyEvent) {
 with(CmdLine) {
   add("help", "show help ", showHelp);
   add("bdelete", "buffer delete match", Buffer.deleteMatchHandle, true);
+  add("mdelete", "mark delete match", Marks.deleteQuickMark, true);
 }
 
 // Initial
