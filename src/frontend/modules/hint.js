@@ -493,6 +493,43 @@ var Hint = (function() {
       return hintStrings;
     },
 
+    getSimilarityScore: function(str1, str2) {
+      if (!str1 || !str2 || str1 === "" || str2 === "") {
+        return null;
+      }
+
+      var strl = null
+      var strs = null
+
+      // find long + short string
+      if (str1.length >= str2.length) {
+        strl = str1;
+        strs = str2;
+      } else {
+        strl = str2
+        strs = str1
+      }
+
+      var nbInvalids = 0;
+      var matches = {}
+
+      for (var i = 0; i < strl.length; i++) {
+        var strlc = strl.charAt(i)
+
+        var start = 0;
+        if (matches[strlc]) start = matches[strlc]
+
+        var posi = strs.indexOf(strlc, start)
+
+        if (posi === -1) {
+          nbInvalids++;
+        }
+      }
+
+      var score = (strs.length - nbInvalids) / strl.length * 100;
+      return score;
+    },
+
     buildSimilarityIndex: function(elems) {
       var maxScore = 70;
       var index = {}
@@ -505,11 +542,11 @@ var Hint = (function() {
           var score1 = 0;
 
           if (v.tagName === 'A') {
-            score1 = parseInt(getSimilarityScore(elems[ik].getAttribute('href'), v.getAttribute('href')))
-            var score2 = parseInt(getSimilarityScore(elems[ik].innerText, v.innerText))
+            score1 = parseInt(StringModeHelper.getSimilarityScore(elems[ik].getAttribute('href'), v.getAttribute('href')))
+            var score2 = parseInt(StringModeHelper.getSimilarityScore(elems[ik].innerText, v.innerText))
             if (score2 > maxScore) score1 = (score1 + score2) / 2
           } else {
-            score1 = parseInt(getSimilarityScore(elems[ik].outerHTML, v.outerHTML))
+            score1 = parseInt(StringModeHelper.getSimilarityScore(elems[ik].outerHTML, v.outerHTML))
           }
           if (score1 > maxScore) {
             index[ik].push(k)
