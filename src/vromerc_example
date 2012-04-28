@@ -67,6 +67,13 @@ set hint_actions={"`": "[", ",": "{"}
 " by default, hints use numbers. You can have both numbers AND strings (view custom JS below). Or you can use strings only as hints and overwrite the number commands
 set useletters=1
 
+" add custom quick marks
+set qm_e=chrome://extensions
+" custom quick marks longer than one key
+set qm_hn=http://news.ycombinator.com
+" custom quick mark triggering JS (view below)
+set qm_r=::javascript::CustomMark.readLater();
+
 begin_custom_js
 // in case you have a frontendExec in a remote file + a frontendExec in your local filesystem. This way, they don't overwrite each other
 var remoteExists = typeof frontendExec != "undefined";
@@ -92,6 +99,20 @@ frontendExec = function() {
     add("<M-s>", Hint.multi_mode_start_string);
     add("<M-f>", Hint.start);
     }
+}
+
+window.CustomMark = {
+    readLater: function() {
+        var d=document,z=d.createElement('scr'+'ipt'),b=d.body,l=d.location;
+        try{
+            if(!b)throw(0);
+            d.title='(Saving...) '+d.title;
+            z.setAttribute('src',l.protocol+'//www.instapaper.com/j/OxGMe632WAee?u='+encodeURIComponent(l.href)+'&t='+(new Date().getTime()));
+            b.appendChild(z);
+        }catch(e){
+            alert('Please wait until the page has loaded.');
+        }
+    },
 }
 
 end_custom_js
