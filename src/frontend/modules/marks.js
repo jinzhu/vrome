@@ -95,11 +95,19 @@ var Marks = (function() {
 
       // open marks
       _.each(sortedKeys, function(k) {
-        Post({
-          action: "Tab.openUrl",
-          urls: marks[k],
-          newtab: new_tab
-        });
+        var value = marks[k]
+        if (value.startsWith('::javascript::')) {
+          try {} catch (e) {
+            console.debug("failed to execute JS quick mark " + keyword, e);
+          }
+
+        } else {
+          Post({
+            action: "Tab.openUrl",
+            urls: value,
+            newtab: new_tab
+          });
+        }
       })
 
       return true;
