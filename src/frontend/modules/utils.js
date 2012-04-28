@@ -168,7 +168,7 @@ var Migration = (function() {
       _.each(data, function(v, k) {
         var args = {}
         args[k] = v
-        Settings.add(args, true)
+        Settings.add(args, null, true)
         delete localStorage[k]
       })
     }

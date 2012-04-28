@@ -20,7 +20,7 @@ var Settings = (function() {
     }
   }
 
-  function add(object, perHost) {
+  function add(object, val, perHost) {
     var res = null;
     if (perHost === true && object instanceof Object) {
 

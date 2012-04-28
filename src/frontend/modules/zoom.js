@@ -21,7 +21,7 @@ var Zoom = (function() {
     if (level !== 0) {
       Settings.add({
         zoom_level: level
-      }, true)
+      }, null, true)
     }
 
     var topPercent = scrollY / document.height;
