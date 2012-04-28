@@ -70,14 +70,19 @@
     [count] <C-p>     Go to left [count] tab
 
             gp        Toggle Pin current tab. pin tab if unpinned, unpin it if pinned.
+            gP        Unpin all tabs in current window
+            WP        Unpin all tabs in all windows
 
     [count] gd        Duplicate current tab
+    [count] ge        Move tab right
+    [count] gq        Move tab left
             gD        Detach current tab to a new window.
             gI        Toggle incognito mode for current tab.
                       (You need to enable Vrome in incognito mode, check chrome://extensions/)
 
-            gm        Merge current tab to another window (must be in same mode (incognito or regular))
-            gM        Merge all tabs in current windows to another window (must be in same mode (incognito or regular))
+            gm        Marks tab for merging (can mark multiple tabs)
+            gM        Marks all tabs in current window for merging
+            gv        Moves marked tab(s) (merges)
 
     [count] b         Go to  [count]th tab or the first matched tab.
                       If no [count] is provided, search input will appear
@@ -93,6 +98,7 @@
             dr        Close tabs on the right.
             dp        Close unpinned tabs.
             dP        Close pinned tabs.
+            dW        Close other windows
 
     [count] u         Reopen the last closed tab.
 

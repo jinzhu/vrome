@@ -162,9 +162,6 @@ with(KeyEvent) {
   add("gd", Tab.duplicate);
   add("gD", Tab.detach);
   add("gI", Tab.openInIncognito);
-  // TODO: provide new shortcuts + update documentation + remove old commands (in comments)
-  //  add("gm", Tab.merge);
-  //  add("gM", Tab.mergeAll);
   add("gq", Tab.moveLeft)
   add("ge", Tab.moveRight)
   add("gP", Tab.unpinAllTabsInCurrentWindow)
