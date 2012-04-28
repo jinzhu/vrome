@@ -1,5 +1,5 @@
 var Dialog = (function() {
-  var isEnabled, selected, sources, dialog_mode, last_keyword, search, newTab;
+  var isEnabled, selected, sources, dialog_mode, last_keyword, search, newTab, keydown_callback;
 
   var box_id = "__vrome_dialog";
   var search_results_id = "__vrome_searchResults";
@@ -7,15 +7,18 @@ var Dialog = (function() {
   var selected_quick_num = "__vrome_selected_quick_index";
   var notice_id = "__vrome_dialog_notice";
 
-  function start(title, content, search_callback, newtab) {
+  function start(title, content, search_callback, newtab, keydowncallback) {
     isEnabled = true;
     last_keyword = null;
     newTab = newtab;
     search = search_callback;
+    keydown_callback = keydowncallback
 
     CmdBox.set({
       title: title,
       pressDown: handleInput,
+      // TODO: consider renaming/refactoring this
+      pressUp: keydown_callback,
       content: content
     });
     search(CmdBox.get().content);
@@ -167,21 +170,19 @@ var Dialog = (function() {
     }
   }
 
-  function stop() {
-    if (!isEnabled) {
-      return false;
+  function stop(force) {
+    if (!isEnabled || force) {
+      var box = DialogBox();
+      if (box) {
+        document.body.removeChild(box);
+      }
+      var box = document.getElementById(notice_id);
+      if (box) {
+        document.body.removeChild(box);
+      }
+      isEnabled = false;
+      CmdBox.remove();
     }
-
-    var box = DialogBox();
-    if (box) {
-      document.body.removeChild(box);
-    }
-    var box = document.getElementById(notice_id);
-    if (box) {
-      document.body.removeChild(box);
-    }
-    isEnabled = false;
-    CmdBox.remove();
   }
 
   function notice(msg) {
@@ -202,6 +203,13 @@ var Dialog = (function() {
 
   function handleInput(e) {
     var key = getKey(e);
+
+    // execute callback and if callback return true, we are done
+    if (keydown_callback && keydown_callback(e)) {
+      isEnabled = false;
+      KeyEvent.stopPropagation(e);
+      return;
+    }
 
     if (key.match(/<C-(\d)>|<Up>|<S-Tab>|<Down>|<Tab>|Control/)) {
       if (key.match(/<C-(\d)>/)) {

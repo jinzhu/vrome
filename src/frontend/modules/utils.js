@@ -159,7 +159,6 @@ var Migration = (function() {
   // migrates the data from the local storage to the background local storage
   // necessary so we can export data + sync it across computers
 
-
   function migrateData() {
     var data = _.clone(Settings.get());
     delete data['background']

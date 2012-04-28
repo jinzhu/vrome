@@ -60,7 +60,14 @@ var Vromerc = (function() {
           setting_value = Number(setting_value)
         }
         var plus = (config.match(/^\s*set\s+\w+\+=/) ? true : false);
-        setting.set[setting_key] = [setting_value, plus];
+
+        if (setting_key.startsWith('qm_')) {
+          var url_marks = Settings.get('url_marks') || {};
+          url_marks[setting_key.replace('qm_', '')] = setting_value
+          Settings.add('url_marks', url_marks);
+        } else {
+          setting.set[setting_key] = [setting_value, plus];
+        }
         break;
       default:
         if (config.match(/^\s*$/)) {
