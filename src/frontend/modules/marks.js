@@ -1,18 +1,14 @@
 var Marks = (function() {
   var gotoNewTab = false;
+  var marks;
 
   function addQuickMark() {
+    marks = Settings.get('background.url_marks') || {}
     Dialog.start('Add Quick Mark', '', filterQuickMarks, false, handleEnterKey);
   }
 
   function filterQuickMarks(string) {
-    var marks = Settings.get('background.url_marks') || {}
-
-    // sort + filter
-    var sortedKeys = _.keys(marks).sort()
-    sortedKeys = _.filter(sortedKeys, function(k) {
-      return k.startsWith(string)
-    })
+    var sortedKeys = getFilteredMarks(string)
 
     // create data for dialog
     var cuteMarks = []
@@ -29,17 +25,22 @@ var Marks = (function() {
     })
   }
 
+  function getFilteredMarks(keyword) {
+    // marks starting by input
+    var sortedKeys = _.filter(_.keys(marks), function(k) {
+      return k.startsWith(keyword)
+    })
+
+    return sortedKeys.sort();
+  }
+
   function handleEnterKey(e) {
     var key = getKey(e)
     var keyword = CmdBox.get().content
 
     if (isAcceptKey(key)) {
-      var marks = Settings.get('background.url_marks') || {}
-
       // marks starting by input
-      var sortedKeys = _.filter(_.keys(marks), function(k) {
-        return k.startsWith(keyword)
-      })
+      var sortedKeys = getFilteredMarks(keyword)
 
       // allow overwrite if it is the same mark
       if (sortedKeys.length > 0 && (sortedKeys.length !== 1 && sortedKeys[0] != keyword)) {
@@ -67,21 +68,17 @@ var Marks = (function() {
   }
 
   function gotoQuickMark( /*Boolean*/ newtab) {
+    marks = Settings.get('background.url_marks') || {}
     gotoNewTab = newtab
-    var str = gotoNewTab ? 'Open Quick Mark (new tab)' : 'Open Quick Mark'
-    Dialog.start(str, '', filterQuickMarks, newtab, handleGotoKeydown)
+    var title = gotoNewTab ? 'Open Quick Mark (new tab)' : 'Open Quick Mark'
+    Dialog.start(title, '', filterQuickMarks, newtab, handleGotoKeydown)
   }
 
   function handleGotoKeydown(e) {
     var key = getKey(e)
     var keyword = CmdBox.get().content
 
-    var marks = Settings.get('background.url_marks') || {}
-
-    // filter marks -- consider abstracting the sorting + filtering if we add "top marks + most frequent/most recent marks"
-    var sortedKeys = _.filter(_.keys(marks).sort(), function(k) {
-      return k.startsWith(keyword)
-    })
+    var sortedKeys = getFilteredMarks(keyword)
 
     if (keyword.length > 0 && (isCtrlAcceptKey(key) || isAcceptKey(key) || sortedKeys.length === 1)) {
       var new_tab = gotoNewTab
@@ -98,7 +95,7 @@ var Marks = (function() {
         var value = marks[k]
         if (value.startsWith('::javascript::')) {
           try {
-              eval(value.replace('::javascript::', ''))
+            eval(value.replace('::javascript::', ''))
           } catch (e) {
             console.debug("failed to execute JS quick mark " + keyword, e);
           }
