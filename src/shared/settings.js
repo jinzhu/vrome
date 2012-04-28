@@ -28,12 +28,13 @@ var Settings = (function() {
       var args = currentSetting()
       args = args['background'] || args
       args['hosts'] = args['hosts'] || {}
-      args["hosts"][window.location.host] = args["hosts"][window.location.host] || {}
+      var hostname = getHostname()
+      args["hosts"][hostname] = args["hosts"][hostname] || {}
       _.each(_.keys(object), function(k) {
         if (_.isObject(object[k])) {
-          args["hosts"][window.location.host][k] = _.extend(args["hosts"][window.location.host][k] || {}, object[k])
+          args["hosts"][hostname][k] = _.extend(args["hosts"][hostname][k] || {}, object[k])
         } else {
-          args["hosts"][window.location.host][k] = object[k]
+          args["hosts"][hostname][k] = object[k]
         }
       })
 
@@ -71,7 +72,7 @@ var Settings = (function() {
     var object = currentSetting();
     if (perHost === true) {
       try {
-        object = object["background"]["hosts"][window.location.host] || {}
+        object = object["background"]["hosts"][getHostname()] || {}
       } catch (e) {}
     }
     if (!names) return object;
