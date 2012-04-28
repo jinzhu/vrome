@@ -42,6 +42,8 @@
 
             ]]        Go to next page (Customizable)
             [[        Go to previous page.
+            Sd        Switch Chrome Default look -- requires server (check ccc_file option in [Example](https://github.com/jinzhu/vrome/wiki/vromerc-example-file))
+
 
     [count] gu        Go to parent URL
             gU        Go to the root of the website

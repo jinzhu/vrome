@@ -74,6 +74,11 @@ set qm_hn=http://news.ycombinator.com
 " custom quick mark triggering JS (view below)
 set qm_r=::javascript::CustomMark.readLater();
 
+" load a custom css file into chrome  -- server must be enabled. Toggle betwen custom css file and default chrome look using `Sd`
+set chrome_custom_css_file=/home/user/files/custom.css
+" also accepts URLs  (ccc_file = chrome_custom_css_file)
+set ccc_file=http://voeb.ca/dark.css
+
 begin_custom_js
 // in case you have a frontendExec in a remote file + a frontendExec in your local filesystem. This way, they don't overwrite each other
 var remoteExists = typeof frontendExec != "undefined";

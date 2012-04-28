@@ -20,6 +20,27 @@ var Page = (function() {
     });
   }
 
+  function styleDisable() {
+    var cssFile = Option.get('chrome_custom_css_file') || Option.get('ccc_file')
+    if (cssFile) {
+      $.ajax({
+        type: "POST",
+        url: getLocalServerUrl(),
+        data: JSON.stringify({
+          method: 'switch_chrome_css',
+          filename: cssFile
+        })
+      }).done(function(data) {
+        if (data) {
+          CmdBox.set({
+            title: data,
+            timeout: 1000
+          })
+        }
+      })
+    }
+  }
+
   return {
     next: function() {
       execMatch(Option.get('nextpattern'));
@@ -27,6 +48,7 @@ var Page = (function() {
     prev: function() {
       execMatch(Option.get('previouspattern'));
     },
-    copySelected: copySelected
+    copySelected: copySelected,
+    styleDisable: styleDisable
   };
 })();

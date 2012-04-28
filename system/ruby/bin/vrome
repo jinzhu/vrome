@@ -4,6 +4,7 @@ require 'rubygems'
 require 'webrick'
 require 'tempfile'
 require 'json'
+require 'open-uri'
 
 port = 20000
 
@@ -49,9 +50,46 @@ class VromeServer < WEBrick::HTTPServlet::AbstractServlet
     return 200, "text/plain", version
   end
 
+  def switch_chrome_css(request)
+    res = ''
+    if(request['filename'])
+      content = open(request['filename']) {|f| f.read }
+      dir = ENV['HOME'] + "/.config/google-chrome/Default/User StyleSheets/".gsub("/", File::SEPARATOR)
+      # update/create vrome.css file with new content
+      vrome_filename = dir + "vrome.css"
+      if(content)
+        File.open(vrome_filename, 'w') {|f| f.write(content) }
+      end
+      if File.exists? vrome_filename
+        original_filename = dir + "Custom.css"
+
+        # create backup if it doesn't already exist
+        content = open(original_filename) {|f| f.read }
+        chrome_bak = dir + "chrome.bak.css"
+
+        File.open(chrome_bak, 'w') {|f| f.write(content) } if !File.exists?(chrome_bak)
+
+        # switch files
+        bak_content = open(chrome_bak) {|f| f.read }
+        if content == bak_content
+          # switch content of files vrome => original
+          content = open(vrome_filename) {|f| f.read }
+          res = "enabled"
+        else
+          content = bak_content
+          res = "disabled"
+        end
+        File.open(original_filename, 'w') {|f| f.write(content) }
+      else
+        res = "permission issues"
+      end
+    end
+    return 200, "text/plain", res
+  end
+
   def do_GET(request, response)
     body = ""
-    filename = ENV['HOME'] + '/.vromerc'
+    filename = ENV['HOME'] + File::SEPARATOR + '.vromerc'
     body = File.read(filename) if File.exists?(filename) rescue ""
 
     response.status          = 200

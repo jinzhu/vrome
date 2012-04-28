@@ -1,5 +1,17 @@
 Vromerc.loadAll( /*scheduleNextReload*/ true);
 
+function syncSettingAllTabs() {
+  chrome.windows.getAll({
+    populate: true
+  }, function(windows) {
+    _.each(windows, function(w) {
+      _.each(w.tabs, function(tab) {
+        syncSetting(tab)
+      })
+    })
+  })
+}
+
 function syncSetting(tab) {
   Vromerc.loadLocal();
   if (!tab) {

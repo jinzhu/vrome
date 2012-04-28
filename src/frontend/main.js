@@ -89,6 +89,7 @@ with(KeyEvent) {
   add("zZ", Zoom.current_reset);
 
   // Page
+  add("Sd", Page.styleDisable)
   add("]]", Page.next);
   add("[[", Page.prev);
   add("Y", Page.copySelected);
