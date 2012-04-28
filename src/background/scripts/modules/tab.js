@@ -241,7 +241,8 @@ var Tab = (function() {
     if (msg.newtab) {
       chrome.tabs.create({
         url: first_url,
-        index: ++index
+        index: ++index,
+        selected: false
       });
     } else {
       chrome.tabs.update(tab.id, {

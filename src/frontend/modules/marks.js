@@ -67,8 +67,9 @@ var Marks = (function() {
   }
 
   function gotoQuickMark( /*Boolean*/ newtab) {
-    gotoNewTab = newtab || true // no undefined
-    Dialog.start('Add Quick Mark', '', filterQuickMarks, newtab, handleGotoKeydown)
+    gotoNewTab = newtab
+    var str = gotoNewTab ? 'Open Quick Mark (new tab)' : 'Open Quick Mark'
+    Dialog.start(str, '', filterQuickMarks, newtab, handleGotoKeydown)
   }
 
   function handleGotoKeydown(e) {
@@ -90,14 +91,15 @@ var Marks = (function() {
         new_tab = sortedKeys.length > 1
       } else {
         sortedKeys = [sortedKeys[0]]
-        new_tab = false
       }
 
       // open marks
       _.each(sortedKeys, function(k) {
         var value = marks[k]
         if (value.startsWith('::javascript::')) {
-          try {} catch (e) {
+          try {
+              eval(value.replace('::javascript::', ''))
+          } catch (e) {
             console.debug("failed to execute JS quick mark " + keyword, e);
           }
 
