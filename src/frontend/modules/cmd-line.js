@@ -1,44 +1,82 @@
 var CmdLine = (function() {
-  var commands = [];
+  var commands = {}
   var CmdLineMode;
 
-  function add( /*String*/ command, /*Function*/ fun) {
-    commands.push([command, fun]);
+  function add( /*String*/ command, description, /*Function*/ fun, acceptArgs) {
+    commands[command] = {
+      description: description,
+      func: fun,
+      hasArgs: acceptArgs
+    }
   }
 
   function start() {
     CmdLineMode = true;
-    CmdBox.set({
-      content: ''
-    });
+    Dialog.start('Command-line', '', filterCommands, false, handleEnterKey);
   }
 
-  function exec() {
-    if (!CmdLineMode) {
-      return;
-    }
-    /^(\S+)\s*(.*)$/.test(CmdBox.get().content);
-    var cmd = RegExp.$1;
-    var arg = RegExp.$2;
-    var matched = [];
+  function getFilteredCommands(keyword) {
+    var commandNames = _.keys(commands).sort()
+    var keywords = keyword.split(' ')
+    var strcmd = keywords.shift()
 
-    for (var i = 0; i < commands.length; i++) {
-      if (new RegExp('^' + cmd).test(commands[i][0])) {
-        if (cmd == commands[i][0]) {
-          return commands[i][1].call('', arg);
-        }
-        matched.push(commands[i][1]);
+    commandNames = _.filter(commandNames, function(v) {
+      return v.startsWith(strcmd)
+    })
+
+    return commandNames;
+  }
+
+  function filterCommands(keyword) {
+    var cuteCommands = []
+
+    var commandNames = getFilteredCommands(keyword)
+
+    _.each(commandNames, function(name) {
+      cuteCommands.push({
+        title: name,
+        url: commands[name].description
+      })
+    })
+
+    Dialog.draw({
+      urls: cuteCommands,
+      keyword: ''
+    })
+  }
+
+  function handleEnterKey(e) {
+    var key = getKey(e)
+    var string = CmdBox.get().content
+
+    var commandNames = getFilteredCommands(string)
+
+    if (isAcceptKey(key) || (commandNames.length === 1 && commands[commandNames[0]].hasArgs !== true)) {
+      Dialog.stop(true)
+      if (commandNames.length > 1) {
+        commandNames = [commandNames[0]]
       }
+
+      var cmdname = commandNames[0]
+      var cmd = commands[cmdname]
+      var fn = cmd.func
+      var args = ''
+      if (cmd.hasArgs) {
+        args = string.substring(string.indexOf(' ')).trim()
+      }
+      if (CmdLineMode) {
+        fn.call('', args)
+        CmdLineMode = false;
+      }
+
+      return true;
     }
-    if (matched.length == 1) {
-      return matched[0].call('', arg);
-    }
-    CmdLineMode = false;
+
+    return false;
   }
 
   return {
     start: start,
-    exec: exec,
     add: add
   };
 })();

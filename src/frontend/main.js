@@ -37,7 +37,6 @@ function isCtrlEscapeKey(key) {
 }
 
 function AcceptKeyFunction() {
-  CmdLine.exec();
   Search.next();
 
   Dialog.openCurrent();
@@ -265,8 +264,8 @@ with(KeyEvent) {
 
 
 with(CmdLine) {
-  add("help", showHelp);
-  add("bdelete", Buffer.deleteMatchHandle);
+  add("help", "show help ", showHelp);
+  add("bdelete", "buffer delete match", Buffer.deleteMatchHandle, true);
 }
 
 // Initial
