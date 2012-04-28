@@ -152,3 +152,30 @@ function showHelp() {
     newtab: true
   });
 }
+
+var Migration = (function() {
+
+  // 1.1.2
+  // migrates the data from the local storage to the background local storage
+  // necessary so we can export data + sync it across computers
+
+
+  function migrateData() {
+    var data = _.clone(Settings.get());
+    delete data['background']
+    // transfer the rest to the background localstorage
+    if (_.size(data) > 0) {
+      _.each(data, function(v, k) {
+        var args = {}
+        args[k] = v
+        Settings.add(args, true)
+        delete localStorage[k]
+      })
+    }
+
+  }
+
+  return {
+    exec: migrateData
+  };
+})()

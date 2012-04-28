@@ -20,30 +20,63 @@ var Settings = (function() {
     }
   }
 
-  function add(object) {
-    if (object instanceof Object) {
+  function add(object, perHost) {
+    var res = null;
+    if (perHost === true && object instanceof Object) {
+
+      // add this property to the background localstorage
+      var args = currentSetting()
+      args = args['background'] || args
+      args['hosts'] = args['hosts'] || {}
+      args["hosts"][window.location.host] = args["hosts"][window.location.host] || {}
+      _.each(_.keys(object), function(k) {
+        if (_.isObject(object[k])) {
+          args["hosts"][window.location.host][k] = _.extend(args["hosts"][window.location.host][k] || {}, object[k])
+        } else {
+          args["hosts"][window.location.host][k] = object[k]
+        }
+      })
+
+      // send it to background localstorage
+      Post({
+        action: "Settings.add",
+        arguments: args
+      })
+
+      // save it locally too
+      localStorage[key] = JSON.stringify({
+        background: args
+      })
+    } else if (object instanceof Object) {
       object = extend(currentSetting(), object);
       localStorage[key] = JSON.stringify(object);
-      return object;
+      res = object
     } else {
       var name = arguments[0];
       var value = arguments[1];
       var old_object = object = currentSetting();
-      var name = name.split('.');
+      name = name.split('.');
       while (name.length > 1) {
         object = object[name.shift()];
       }
       object[name.shift()] = value;
       localStorage[key] = JSON.stringify(old_object);
-      return old_object;
+      res = old_object
     }
+
+    return res;
   }
 
-  function get(names) {
+  function get(names, perHost) {
     var object = currentSetting();
+    if (perHost === true) {
+      try {
+        object = object["background"]["hosts"][window.location.host] || {}
+      } catch (e) {}
+    }
     if (!names) return object;
 
-    var names = names.split('.');
+    names = names.split('.');
     while (object && names[0]) {
       object = object[names.shift()];
     }

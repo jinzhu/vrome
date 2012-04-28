@@ -201,10 +201,6 @@ with(KeyEvent) {
   add("F", Hint.new_tab_start);
   add("<M-f>", Hint.multi_mode_start);
 
-  //  add("f", Hints.start_string);
-  //  add("c", Hints.new_tab_start_string);
-  //  add("<M-s>", Hints.new_tab_start_string_repeat);
-  //  add("<M-f>", Hints.start);
   // Search
   add("/", Search.start);
   add("?", Search.backward);
@@ -251,7 +247,6 @@ with(KeyEvent) {
     add("gn" + i, Marks.gotoQuickMarkNewTab);
   }
 
-
   // InsertMode
   add("<C-i>", InsertMode.externalEditor, true);
 
@@ -281,7 +276,7 @@ with(CmdLine) {
 }
 
 // Initial
-var initFunction = [Zoom.init, KeyEvent.init, Frame.register, runCustomJS];
+var initFunction = [Migration.exec, Zoom.init, KeyEvent.init, Frame.register, runCustomJS];
 runIt();
 
 $(document).ready(function() {
