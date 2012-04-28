@@ -49,7 +49,9 @@ function externalEditor(msg) {
   xhr.send(JSON.stringify({
     'method': 'open_editor',
     'editor': Option.get("editor"),
-    'data': msg.data
+    'data': msg.data,
+    col: msg.col,
+    line: msg.line
   }));
 }
 

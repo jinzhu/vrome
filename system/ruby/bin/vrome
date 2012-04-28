@@ -30,16 +30,16 @@ class VromeServer < WEBrick::HTTPServlet::AbstractServlet
 
   def open_editor(request)
     editor  = request['editor']
+    line = request['line']
+    column = request['col']
 
     tmpfile = Tempfile.new('editor')
     tmpfile.write request['data']
     tmpfile.flush
 
     editor = 'gvim -f' if editor == 'gvim' # Foreground: Don't fork when starting GUI
-    system("#{editor} #{tmpfile.path}")
+    system("#{editor} #{tmpfile.path} -c 'call cursor(#{line}, #{column})'")
     text = File.read(tmpfile.path)
-
-    tmpfile.delete
 
     return 200, "text/plain", text
   end

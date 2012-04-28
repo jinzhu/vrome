@@ -106,14 +106,19 @@ var InsertMode = (function() {
   }
 
   function externalEditor() {
-    var elem = this.target;
+    var elem = currentElement()
     var edit_id = String(Math.random());
+    var text = elem.value.substr(0, elem.selectionStart)
+    var line = 1 + text.replace(/[^\n]/g, "").length;
+    var column = 1 + text.replace(/[^]*\n/, "").length;
+
     elem.setAttribute('vrome_edit_id', edit_id);
-    // elem.setAttribute('readonly','readonly');
     Post({
       action: "externalEditor",
       data: elem.value,
-      edit_id: edit_id
+      edit_id: edit_id,
+      line: line,
+      col: column
     });
   }
 

@@ -29,6 +29,10 @@ var Settings = (function() {
       args = args['background'] || args
       args['hosts'] = args['hosts'] || {}
       var hostname = getHostname()
+
+      // test pages could create a recursive local storage
+      if (hostname === "ecemdkpacpnmlbkjfadknbkfhadnnjm") return;
+
       args["hosts"][hostname] = args["hosts"][hostname] || {}
       _.each(_.keys(object), function(k) {
         if (_.isObject(object[k])) {
