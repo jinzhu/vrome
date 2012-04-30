@@ -160,7 +160,7 @@ var Migration = (function() {
   // necessary so we can export data + sync it across computers
 
   function migrateData() {
-    if(window.location.href.startsWith('chrome-extension://')) {
+    if (window.location.href.startsWith('chrome-extension://')) {
       return;
     }
     var data = _.clone(Settings.get());
