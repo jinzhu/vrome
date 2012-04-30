@@ -28,7 +28,7 @@ function syncSetting(tab) {
     now_tab_id: Tab.now_tab.id
   });
 
-  if (!tab.url.startsWith('chrome://settings') && !tab.url.startsWith('chrome-extension://')) {
+  if (!tab.url.startsWith('chrome://') && !tab.url.startsWith('chrome-extension://')) {
     Post(tab, {
       action: "Settings.add",
       arguments: {

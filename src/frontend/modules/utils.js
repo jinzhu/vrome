@@ -160,6 +160,9 @@ var Migration = (function() {
   // necessary so we can export data + sync it across computers
 
   function migrateData() {
+    if(window.location.href.startsWith('chrome-extension://')) {
+      return;
+    }
     var data = _.clone(Settings.get());
     delete data['background']
     // transfer the rest to the background localstorage
@@ -180,7 +183,7 @@ var Migration = (function() {
 })()
 
 
-var StringModeHelper = {
+var Dropbox = {
   isAuthorized: function() {
     if (!window.location.href.startsWith("https://www.dropbox.com/1/oauth/authorize")) {
       return;

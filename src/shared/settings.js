@@ -31,7 +31,7 @@ var Settings = (function() {
       var hostname = getHostname()
 
       // test pages could create a recursive local storage
-      if (hostname === "ecemdkpacpnmlbkjfadknbkfhadnnjm") return;
+      if (hostname === "fecemdkpacpnmlbkjfadknbkfhadnnjm") return;
 
       args["hosts"][hostname] = args["hosts"][hostname] || {}
       _.each(_.keys(object), function(k) {
