@@ -71,6 +71,16 @@ String.prototype.isLowerCase = function() {
   return (this == this.toLowerCase());
 }
 
+String.prototype.isValidURL = function() {
+  var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+  return this.match(exp) !== null
+}
+
+String.prototype.transformURL = function() {
+  var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+  return this.replace(exp, "<a href='$1'>$1</a>");
+}
+
 RegExp.escape = function(text) {
   if (!arguments.callee.sRE) {
     var specials = ['/', '.', '*', '+', '?', '|', '(', ')', '[', ']', '{', '}', '\\'];

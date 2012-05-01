@@ -41,6 +41,10 @@ var Page = (function() {
     }
   }
 
+  function transformURLs() {
+    document.body.innerHTML = document.body.innerHTML.transformURL()
+  }
+
   return {
     next: function() {
       execMatch(Option.get('nextpattern'));
@@ -49,6 +53,7 @@ var Page = (function() {
       execMatch(Option.get('previouspattern'));
     },
     copySelected: copySelected,
-    styleDisable: styleDisable
+    styleDisable: styleDisable,
+    transformURLs: transformURLs
   };
 })();
