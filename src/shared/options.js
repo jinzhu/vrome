@@ -20,9 +20,14 @@ var Option = (function() {
     autocomplete_next_10: "<Tab>",
     autocomplete_prev_10: "<S-Tab>",
     hintkeys: 'jlkhfsdagwerui',
+    // used to overwrite numbers and use hint string instead
     useletters: 0,
+    // used by automated tests
     test_mode: 0,
-    showstatus: 1
+    // shows keys + matches them to commands as you type
+    showstatus: 1,
+    // allows numeric keys to propagate
+    allow_numeric: 0
   };
 
   function get(key) {

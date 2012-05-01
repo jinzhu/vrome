@@ -206,7 +206,7 @@ var KeyEvent = (function() {
     }
 
     // Compatible with google's new interface
-    if (key && key.match(/^.$/) && !insertMode) {
+    if (key && key.match(/^.$/) && !insertMode && !(/^\d$/.test(key) && Option.get('allow_numeric'))) {
       stopPropagation(e)
     }
   }

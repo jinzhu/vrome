@@ -27,6 +27,9 @@ set previouspattern+=^PrevPage|‹‹$
 " set no status line -- i.e keys don't show as you type. enabled by default
 set showstatus=0
 
+" allows numeric keys to work on the page + be used for count
+set allow_numeric=1
+
 " Change external editor, default is GVim
 set editor=gvim -f
 
