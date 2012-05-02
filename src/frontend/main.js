@@ -265,7 +265,8 @@ with(CmdLine) {
   add("help", "show help ", showHelp);
   add("bdelete", "buffer delete match", Buffer.deleteMatchHandle, true);
   add("mdelete", "mark delete match", Marks.deleteQuickMark, true);
-  add("makelinks", "transforms URLs into clickable links", Page.transformURLs);
+  add("make-links", "transforms URLs into clickable links", Page.transformURLs);
+  add("dld-links", "opens all links matching a URL (match begin;end)  e.g dld-links mp4 2;10", Page.openURLs, true);
 }
 
 // Initial

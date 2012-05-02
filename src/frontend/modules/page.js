@@ -45,6 +45,35 @@ var Page = (function() {
     document.body.innerHTML = document.body.innerHTML.transformURL()
   }
 
+  function openURLs(args) {
+    if (args.split(' ').length !== 2) {
+      CmdBox.set({
+        title: "Usage: dld-links [match] [begin;end]<br/> e.g dld-links mp4 3;20"
+      })
+
+      return false;
+    }
+
+    var match = args.split(' ')[0]
+    var pagination = args.split(' ')[1]
+    var begin = parseInt(pagination.split(';')[0])
+    var end = parseInt(pagination.split(';')[1])
+
+    var all = document.getElementsByTagName('a');
+    all = _.filter(all, function(v) {
+      return v.href && v.href.indexOf(match) !== -1;
+    })
+
+    _.each(all, function(v, k) {
+      if (!((k + 1) >= begin && (k + 1) <= end)) return false;
+      clickElement(v, {
+        ctrl: true
+      })
+    })
+
+    return true;
+  }
+
   return {
     next: function() {
       execMatch(Option.get('nextpattern'));
@@ -54,6 +83,7 @@ var Page = (function() {
     },
     copySelected: copySelected,
     styleDisable: styleDisable,
-    transformURLs: transformURLs
+    transformURLs: transformURLs,
+    openURLs: openURLs
   };
 })();
