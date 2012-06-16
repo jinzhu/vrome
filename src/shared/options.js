@@ -1,7 +1,10 @@
 var Option = (function() {
   var options = {
+    // == search
     nextpattern: ['(下|后)一页', '下一頁', '^\\s*Next\\s*$', '^>$', '^More$', '(^(>>|››|»))|((»|››|>>)$)'],
     previouspattern: ['(上|前)一页', '上一頁', '^\\s*Prev(ious)?\\s*$', '^<$', '(^(<<|‹‹|«))|((<<|‹‹|«)$)'],
+
+    // == global
     disablesites: "",
     editor: "gvim -f",
     server_port: 20000,
@@ -14,20 +17,26 @@ var Option = (function() {
       "twitter": "https://twitter.com/search/{{keyword}}"
     },
     defaultsearch: 'google',
+    // used by automated tests
+    test_mode: 0,
+
+    // == autocomplete boxes
     enable_vrome_key: '<C-Esc>',
     autocomplete_next: "<Down>",
     autocomplete_prev: "<Up>",
     autocomplete_next_10: "<Tab>",
     autocomplete_prev_10: "<S-Tab>",
+
+    // == hint mode
     hintkeys: 'jlkhfsdagwerui',
     // used to overwrite numbers and use hint string instead
     useletters: 0,
-    // used by automated tests
-    test_mode: 0,
-    // shows keys + matches them to commands as you type
-    showstatus: 1,
     // allows numeric keys to propagate
-    allow_numeric: 0
+    allow_numeric: 0,
+
+    // == command line
+    // shows keys + matches them to commands as you type
+    showstatus: 1
   };
 
   function get(key) {
