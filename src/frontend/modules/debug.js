@@ -11,7 +11,8 @@ var Debug = (function() {
 var D = (function() {
   return {
     log: function(msg) {
-      console.log(msg.m);
+      if (msg) console.log(msg.m);
+      else console.log(msg);
     }
   }
 })();

@@ -31,9 +31,7 @@ function syncSetting(tab) {
   if (!tab.url.startsWith('chrome://') && !tab.url.startsWith('chrome-extension://')) {
     Post(tab, {
       action: "Settings.add",
-      arguments: {
-        background: Settings.get()
-      }
+      arguments: Settings.get()
     });
   }
 }

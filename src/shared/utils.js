@@ -20,6 +20,11 @@ function getHostname() {
 
 var c = console;
 c.l = console.log;
+c.e = function() {
+  if (typeof vv == "function") {
+    vv(arguments[0]);
+  }
+}
 
 
 function object2table(data) {
