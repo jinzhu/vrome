@@ -31,7 +31,7 @@ var Settings = (function() {
       return SettingsUtils.getSettings(keyMap['background'])
     },
 
-    // return prefix if it exists in keyMap and is a valid prefix
+    // given a string, it returns the valid prefix from that string
     getPrefix: function(value) {
       if (!_.isString(value)) return null
 
@@ -137,7 +137,6 @@ var Settings = (function() {
 
   // called from the background page to sync settings to the current tab
 
-
   function syncTabStorage(tab) {
     _.each(_.keys(keyMap), function(v) {
       var obj = SettingsUtils.getCurrentSettings(v)
@@ -156,8 +155,6 @@ var Settings = (function() {
       });
 
     })
-
-
   }
 
   /**
@@ -209,7 +206,6 @@ var Settings = (function() {
         action: "Settings.syncBackgroundStorage",
         arguments: [obj, prefix]
       })
-
     }
   }
 

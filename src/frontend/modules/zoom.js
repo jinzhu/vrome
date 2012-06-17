@@ -18,11 +18,7 @@ var Zoom = (function() {
     var level = index - default_index
 
     // 0 is default value. no need to set it for every site
-    if (level !== 0) {
-      Settings.add({
-        zoom_level: level
-      }, null, true)
-    }
+    Settings.add('hosts.zoom_level', level)
 
     var topPercent = scrollY / document.height;
 
@@ -70,7 +66,7 @@ var Zoom = (function() {
       return (parseInt(levels[currentLevel()]) / 100);
     },
     init: function() {
-      Zoom.setZoom(Settings.get('zoom_level', true));
+      Zoom.setZoom(Settings.get('hosts.zoom_level'));
     }
   };
 })();
