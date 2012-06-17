@@ -270,7 +270,7 @@ with(CmdLine) {
 }
 
 // Initial
-var initFunction = [Zoom.init, KeyEvent.init, Frame.register, runCustomJS];
+var initFunction = [Migration.exec, Zoom.init, KeyEvent.init, Frame.register, runCustomJS];
 runIt();
 
 $(document).ready(function() {

@@ -144,7 +144,7 @@ var Settings = (function() {
       // transform object
       switch (v) {
       case 'hosts':
-        obj = obj[window.location.host]
+        obj = obj[getHostname(tab.url)]
         break;
       }
 
@@ -197,7 +197,7 @@ var Settings = (function() {
     obj = SettingsUtils.mergeValues(obj, obj2)
 
     // save in local storage
-    localStorage[SettingsUtils.getStorageName(value)] = JSON.stringify(obj)
+    localStorage[SettingsUtils.getStorageName(prefix)] = JSON.stringify(obj)
 
     // sync in background storage
     if (typeof syncSettingAllTabs !== "function") {

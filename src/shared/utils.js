@@ -14,8 +14,16 @@ function checkServerStatus() {
 
 // returns hostname or "file" for file:// urls
 
-function getHostname() {
-  return window.location.host || "file"
+function getHostname(href) {
+  var res = window.location.host || "file"
+
+  if (href) {
+    var a = document.createElement("a")
+    a.href = href
+    res = a.host
+  }
+
+  return res
 }
 
 var c = console;

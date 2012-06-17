@@ -29,10 +29,8 @@ function syncSetting(tab) {
   });
 
   Settings.syncTabStorage(tab)
-  Post(tab, {
-    action: "Settings.add",
-    arguments: Settings.get()
-  });
+
+  return true
 }
 
 chrome.tabs.onCreated.addListener(function(tab) {
