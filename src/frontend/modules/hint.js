@@ -32,7 +32,8 @@ var Hint = (function() {
         title: 'HintMode',
         pressUp: handleInput,
         content: prevContent ? prevContent : '',
-        noHighlight: inRepeatMode(prevContent)
+        noHighlight: inRepeatMode(prevContent),
+        stopAllPropagation: true
       });
     } else {
       CmdBox.set({

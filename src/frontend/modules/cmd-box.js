@@ -1,15 +1,26 @@
 var CmdBox = (function() {
   var box_id = '_vrome_cmd_box';
   var input_box_id = '_vrome_cmd_input_box';
+  var stopAllPropagation = false;
 
   var pressUpFunction = function() {};
   var pressDownFunction = function() {};
+  var pressPressFunction = function() {};
   var pressUp = function(e) {
       pressUpFunction.call('', e);
+      if(stopAllPropagation)
+        e.stopPropagation()
     };
   var pressDown = function(e) {
       pressDownFunction.call('', e);
+      if(stopAllPropagation)
+        e.stopPropagation()
     };
+    var pressPress = function(e) {
+      pressPressFunction.call('', e)
+      if(stopAllPropagation)
+        e.stopPropagation()
+    }
 
   function blur() {
     cmdBoxInput().blur();
@@ -62,6 +73,7 @@ var CmdBox = (function() {
       }
       input.addEventListener('keydown', pressDown, true);
       input.addEventListener('keyup', pressUp, true);
+      input.addEventListener('keypress', pressPress, true);
       input.focus();
     }
     if (opt.pressUp) {
@@ -70,9 +82,14 @@ var CmdBox = (function() {
     if (opt.pressDown) {
       pressDownFunction = opt.pressDown;
     }
+    if(opt.pressPress) {
+      pressPressFunction = opt.pressPress
+    }
     if (opt.timeout) {
       setTimeout(remove, Number(opt.timeout), [true]);
     }
+    if(opt.stopAllPropagation)
+      stopAllPropagation = opt.stopAllPropagation
   }
 
   function get() {
