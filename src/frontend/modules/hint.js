@@ -415,7 +415,10 @@ var Hint = (function() {
       for (var i = 0, j = elems.length; i < j; i++) {
         var elem = elems[i]
         if (elem && elem.tagName == 'A') {
-          var href = elem.getAttribute('href')
+          var href = elem.href || ""
+          if (!href.isValidURL()) {
+            continue;
+          }
           // same link found
           if (hrefs[href] !== undefined) {
             var oriElem = elements[hrefs[href]]

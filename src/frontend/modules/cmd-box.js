@@ -8,18 +8,15 @@ var CmdBox = (function() {
   var pressPressFunction = function() {};
   var pressUp = function(e) {
       pressUpFunction.call('', e);
-      if(stopAllPropagation)
-        e.stopPropagation()
+      if (stopAllPropagation) e.stopPropagation()
     };
   var pressDown = function(e) {
       pressDownFunction.call('', e);
-      if(stopAllPropagation)
-        e.stopPropagation()
+      if (stopAllPropagation) e.stopPropagation()
     };
-    var pressPress = function(e) {
+  var pressPress = function(e) {
       pressPressFunction.call('', e)
-      if(stopAllPropagation)
-        e.stopPropagation()
+      if (stopAllPropagation) e.stopPropagation()
     }
 
   function blur() {
@@ -82,14 +79,13 @@ var CmdBox = (function() {
     if (opt.pressDown) {
       pressDownFunction = opt.pressDown;
     }
-    if(opt.pressPress) {
+    if (opt.pressPress) {
       pressPressFunction = opt.pressPress
     }
     if (opt.timeout) {
       setTimeout(remove, Number(opt.timeout), [true]);
     }
-    if(opt.stopAllPropagation)
-      stopAllPropagation = opt.stopAllPropagation
+    if (opt.stopAllPropagation) stopAllPropagation = opt.stopAllPropagation
   }
 
   function get() {
