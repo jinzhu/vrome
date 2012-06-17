@@ -488,7 +488,7 @@ var Hint = (function() {
 
       dupElements = StringModeHelper.getDuplicatedElements(elems)
 
-      if (multi_mode && isExperimental()) {
+      if (multi_mode) {
         hintStrings = this.sortBySimilarity(hintStrings, elems);
       }
 
