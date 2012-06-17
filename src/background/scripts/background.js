@@ -28,12 +28,11 @@ function syncSetting(tab) {
     now_tab_id: Tab.now_tab.id
   });
 
-  if (!tab.url.startsWith('chrome://') && !tab.url.startsWith('chrome-extension://')) {
-    Post(tab, {
-      action: "Settings.add",
-      arguments: Settings.get()
-    });
-  }
+  Settings.syncTabStorage(tab)
+  Post(tab, {
+    action: "Settings.add",
+    arguments: Settings.get()
+  });
 }
 
 chrome.tabs.onCreated.addListener(function(tab) {

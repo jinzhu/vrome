@@ -125,11 +125,9 @@ var Marks = (function() {
         position: [scrollX, scrollY, location.href]
       });
     } else {
-      var local_marks = Settings.get('local_marks', true) || {};
+      var local_marks = Settings.get('hosts.local_marks') || {};
       local_marks[key] = [scrollX, scrollY];
-      Settings.add({
-        'local_marks': local_marks
-      }, null, true)
+      Settings.add('hosts.local_marks', local_marks)
     }
     CmdBox.set({
       title: "Added Local Mark " + key,
@@ -139,7 +137,7 @@ var Marks = (function() {
 
   function gotoLocalMark() {
     var key = getKey(this);
-    var setting_key = key.match(/^[A-Z]$/) ? 'background.local_marks' : 'local_marks';
+    var setting_key = key.match(/^[A-Z]$/) ? 'background.local_marks' : 'hosts.local_marks';
     var position = key.match(/^[A-Z]$/) ? Settings.get(setting_key)[key] : Settings.get(setting_key, true)[key];
     if (position instanceof Array) {
       if (position[2]) {

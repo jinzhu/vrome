@@ -33,11 +33,15 @@ var Settings = (function() {
 
     // return prefix if it exists in keyMap and is a valid prefix
     getPrefix: function(value) {
+      if (!_.isString(value)) return null
+
       var res = null
+
+      var prefix = value
       if (value.indexOf('.') !== -1) {
-        var prefix = value.substring(0, value.indexOf('.'))
-        res = _.chain(keyMap).keys().contains(prefix).value() ? prefix : null
+        prefix = value.substring(0, value.indexOf('.'))
       }
+      res = _.chain(keyMap).keys().contains(prefix).value() ? prefix : null
 
       return res
     },
@@ -62,6 +66,7 @@ var Settings = (function() {
     // merges values from object2 into object1
     mergeValues: function(object1, object2) {
       var res = object1
+
       // Note(hbt): no need for recursive checks because no data is left out when storing in background or locally
       if (_.isObject(object1) && _.isObject(object2)) {
         for (var i in object2) {
@@ -73,23 +78,28 @@ var Settings = (function() {
     },
 
     // removes prefix from string or Object
-    fixValue: function(value) {
+    removePrefixFromValue: function(value) {
       var res = value
+
       if (_.isString(value)) {
+
         // remove prefix if there is one
         var prefix = SettingsUtils.getPrefix(value)
         res = prefix ? value.replace(prefix + '.', '') : value
-      } else {
+      } else if (_.isObject(value)) {
         // do we have at least one key in the Object that's in the map'
-        if (_.chain(value).keys().intersection(keyMap).size().value() !== 0) {
+        var keyMapKeys = _.keys(keyMap)
+        if (_.chain(value).keys().intersection(keyMapKeys).value() !== 0) {
           res = {}
           for (var i in value) {
             if (_.contains(keyMap, i)) {
+
               // move value to top level
               for (var j in value[i]) {
                 res[j] = value[i][j]
               }
             } else {
+
               // copy the rest
               res[i] = value[i]
             }
@@ -98,7 +108,56 @@ var Settings = (function() {
       }
 
       return res
+    },
+
+    // adds custom prefix to object e.g host name
+    transformObject: function(obj, prefix) {
+      var res = {}
+
+      // if this is host information, add the host name at the top level
+      if (prefix === 'hosts') {
+        var tmp = {}
+        tmp[window.location.host] = obj
+        obj = tmp
+      }
+
+      res = obj
+      return res
     }
+
+  }
+
+  // called from the front page to update the local storage in the background page
+
+  function syncBackgroundStorage(value, prefix) {
+    var obj = SettingsUtils.getCurrentSettings(prefix)
+    obj = SettingsUtils.mergeValues(obj, value)
+    localStorage[SettingsUtils.getStorageName(prefix)] = JSON.stringify(obj)
+  }
+
+  // called from the background page to sync settings to the current tab
+
+
+  function syncTabStorage(tab) {
+    _.each(_.keys(keyMap), function(v) {
+      var obj = SettingsUtils.getCurrentSettings(v)
+
+      // transform object
+      switch (v) {
+      case 'hosts':
+        obj = obj[window.location.host]
+        break;
+      }
+
+      // send it
+      Post(tab, {
+        action: "Settings.add",
+        arguments: [obj, v]
+      });
+
+    })
+
+
   }
 
   /**
@@ -107,14 +166,26 @@ var Settings = (function() {
    */
 
   function add(value) {
-    var arg = _.isString(value) ? arguments[1] : undefined;
+    var arg, prefix
+
+    // arg is the value, prefix is extracted
+    if (_.isString(value)) {
+      arg = arguments[1]
+      prefix = SettingsUtils.getPrefix(value) || 'background'
+    } else if (_.isObject(value) && arguments.length > 1) {
+
+      // prefix is passed from background page
+      prefix = arguments[1]
+    }
+
     // get data based on prefix
-    var obj = SettingsUtils.getCurrentSettings(value)
+    var obj = SettingsUtils.getCurrentSettings(prefix)
 
     // transform string to object
-    var fvalue = SettingsUtils.fixValue(value, arg)
+    var fvalue = SettingsUtils.removePrefixFromValue(value)
 
     var obj2 = fvalue
+
     // create object
     if (_.isString(fvalue)) {
       obj2 = {}
@@ -128,34 +199,37 @@ var Settings = (function() {
     // merge
     obj = SettingsUtils.mergeValues(obj, obj2)
 
-
     // save in local storage
     localStorage[SettingsUtils.getStorageName(value)] = JSON.stringify(obj)
 
     // sync in background storage
-    // TODO: simplify + refactor into sync function
-    //    if (typeof syncSettingAllTabs !== "function") {
-    //      Post({
-    //          action: "Settings.add",
-    //          arguments: obj
-    //        })
-    //    }
+    if (typeof syncSettingAllTabs !== "function") {
+      obj = SettingsUtils.transformObject(obj, prefix)
+      Post({
+        action: "Settings.syncBackgroundStorage",
+        arguments: [obj, prefix]
+      })
+
+    }
   }
 
   function get(names) {
     var object = SettingsUtils.getCurrentSettings(names)
     if (!names) return object;
 
-    names = SettingsUtils.fixValue(names)
+    names = SettingsUtils.removePrefixFromValue(names)
     names = names.split('.');
     while (object && names[0]) {
       object = object[names.shift()];
     }
+
     return (typeof object == 'undefined') ? '' : object;
   }
 
   return {
     add: add,
-    get: get
+    get: get,
+    syncBackgroundStorage: syncBackgroundStorage,
+    syncTabStorage: syncTabStorage
   }
 })();
