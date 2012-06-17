@@ -1,19 +1,28 @@
 var CmdBox = (function() {
   var box_id = '_vrome_cmd_box';
   var input_box_id = '_vrome_cmd_input_box';
+  // stops all propagations of all events
   var stopAllPropagation = false;
 
+  // title events
+  var mouseOverTitleFunction = function() {};
+  var mouseOverTitle = function(e) {
+      mouseOverTitleFunction.call('', e)
+      if (stopAllPropagation) e.stopPropagation()
+    }
+
+    // input events
   var pressUpFunction = function() {};
-  var pressDownFunction = function() {};
-  var pressPressFunction = function() {};
   var pressUp = function(e) {
       pressUpFunction.call('', e);
       if (stopAllPropagation) e.stopPropagation()
     };
+  var pressDownFunction = function() {};
   var pressDown = function(e) {
       pressDownFunction.call('', e);
       if (stopAllPropagation) e.stopPropagation()
     };
+  var pressPressFunction = function() {};
   var pressPress = function(e) {
       pressPressFunction.call('', e)
       if (stopAllPropagation) e.stopPropagation()
@@ -61,6 +70,8 @@ var CmdBox = (function() {
     if (opt.title) {
       var title = cmdBoxTitle() || createCmdBoxTitle();
       title.innerText = opt.title;
+      title.addEventListener('mouseover', mouseOverTitle, true)
+      if (opt.mouseOverTitle) mouseOverTitleFunction = opt.mouseOverTitle
     }
     if (typeof(opt.content) == 'string') {
       var input = cmdBoxInput() || createCmdBoxInput();
@@ -73,18 +84,11 @@ var CmdBox = (function() {
       input.addEventListener('keypress', pressPress, true);
       input.focus();
     }
-    if (opt.pressUp) {
-      pressUpFunction = opt.pressUp;
-    }
-    if (opt.pressDown) {
-      pressDownFunction = opt.pressDown;
-    }
-    if (opt.pressPress) {
-      pressPressFunction = opt.pressPress
-    }
-    if (opt.timeout) {
-      setTimeout(remove, Number(opt.timeout), [true]);
-    }
+
+    if (opt.pressUp) pressUpFunction = opt.pressUp;
+    if (opt.pressDown) pressDownFunction = opt.pressDown;
+    if (opt.pressPress) pressPressFunction = opt.pressPress
+    if (opt.timeout) setTimeout(remove, Number(opt.timeout), [true]);
     if (opt.stopAllPropagation) stopAllPropagation = opt.stopAllPropagation
   }
 

@@ -73,7 +73,10 @@ var KeyEvent = (function() {
 
   function disable() {
     CmdBox.set({
-      title: ' -- PASS THROUGH -- '
+      title: ' -- PASS THROUGH -- ',
+      mouseOverTitle: function(e) {
+        CmdBox.remove()
+      }
     });
     disableVrome = true;
   }
