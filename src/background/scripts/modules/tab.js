@@ -259,12 +259,9 @@ var Tab = (function() {
   }
 
   function openFromClipboard(msg) {
-    url = Clipboard.read();
+    var url = Clipboard.read();
 
-    // Refact me
-    if (/\./.test(url) && !/\s/.test(url)) {
-      url = (url.match("://") ? "" : "http://") + url;
-    } else if (!url.match(/:\/\//)) {
+    if(!url.isValidURL()) {
       url = Option.default_search_url(url)
     }
 
