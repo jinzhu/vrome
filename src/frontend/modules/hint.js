@@ -7,6 +7,7 @@ var Hint = (function() {
     '?': showElementInfo,
     '[': copyElementUrl,
     '{': copyElementText,
+    '\\': openUrlIncognito,
     '/': 'search'
   }
 
@@ -303,6 +304,23 @@ var Hint = (function() {
       title: "[Copied] " + text,
       timeout: 4000
     });
+  }
+
+  function openUrlIncognito(elem) {
+    new_tab = true
+    execSelect(elem)
+    CancelKeyFunction()
+    CmdBox.set({
+      title: "Opened URL into incognito window",
+      timeout: 3000
+    });
+    Post({
+
+    })
+    Post({
+      action: "Tab.makeLastTabIncognito"
+    });
+
   }
 
   function copyElementText(elem) {

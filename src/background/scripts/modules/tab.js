@@ -322,6 +322,13 @@ var Tab = (function() {
     });
   }
 
+  function makeLastTabIncognito() {
+    var tab = Tab.last_open_tabs[Tab.last_open_tabs.length - 1]
+    if (tab) {
+      openInIncognito(tab)
+    }
+  }
+
   function openInIncognito() {
     var tab = arguments[arguments.length - 1];
     var incognito = !tab.incognito;
@@ -467,7 +474,8 @@ var Tab = (function() {
     autoComplete: autoComplete,
     markForMerging: markForMerging,
     putMarkedTabs: putMarkedTabs,
-    initializeCurrentTabs: initializeCurrentTabs
+    initializeCurrentTabs: initializeCurrentTabs,
+    makeLastTabIncognito: makeLastTabIncognito
   };
 })();
 
