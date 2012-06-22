@@ -18,7 +18,7 @@ var Buffer = (function() {
 
     if (count) {
       Post({
-        action: "Tab.goto",
+        action: "Tab.select",
         index: count - 1
       });
     } else {

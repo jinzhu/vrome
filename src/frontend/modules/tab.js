@@ -97,7 +97,7 @@ var Tab = (function() {
 
     if (count) {
       Post({
-        action: "Tab.goto",
+        action: "Tab.select",
         index: count - 1
       });
     } else {
@@ -116,28 +116,28 @@ var Tab = (function() {
 
   function prev() {
     Post({
-      action: "Tab.goto",
+      action: "Tab.select",
       offset: -1 * times()
     });
   }
 
   function next() {
     Post({
-      action: "Tab.goto",
+      action: "Tab.select",
       offset: times()
     });
   }
 
   function first() {
     Post({
-      action: "Tab.goto",
+      action: "Tab.select",
       index: 0
     });
   }
 
   function last() {
     Post({
-      action: "Tab.goto",
+      action: "Tab.select",
       index: -1
     });
   }

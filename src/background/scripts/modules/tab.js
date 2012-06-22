@@ -135,7 +135,7 @@ var Tab = (function() {
         selectPrevious.apply('', arguments);
       } // close and select right
       if (msg.offset) {
-        goto.apply('', arguments);
+        select.apply('', arguments);
       } // close and select left
     }
   }
@@ -155,7 +155,7 @@ var Tab = (function() {
     }
   }
 
-  function goto(msg) {
+  function select(msg) {
     var tab = arguments[arguments.length - 1];
     chrome.tabs.getAllInWindow(tab.windowId, function(tabs) {
       var index = null;
@@ -284,9 +284,17 @@ var Tab = (function() {
         var tabs = _.filter(w.tabs, function(v) {
           return v.pinned;
         })
+
+        // no unpinned, then pin all of them
+        var pinned = false
+        if (tabs.length === 0) {
+          tabs = w.tabs
+          pinned = true
+        }
+
         _.each(tabs, function(t) {
           update({
-            pinned: false
+            pinned: pinned
           }, t)
         })
       })
@@ -421,7 +429,7 @@ var Tab = (function() {
     close: close,
     move: move,
     reopen: reopen,
-    goto: goto,
+    select: select,
     selectPrevious: selectPrevious,
     selectLastOpen: selectLastOpen,
     reloadWithoutCache: reloadWithoutCache,

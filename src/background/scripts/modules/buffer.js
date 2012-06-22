@@ -4,7 +4,7 @@ var Buffer = (function() {
       index;
 
     if (/^\d+$/.test(msg.keyword)) {
-      Tab.goto({
+      Tab.select({
         index: Number(msg.keyword) - 1
       });
     } else {
@@ -12,7 +12,7 @@ var Buffer = (function() {
         var regexp = new RegExp(msg.keyword, 'i');
         for (var i = 0; i < tabs.length; i++) {
           if (regexp.test(tabs[i].url) || regexp.test(tabs[i].title)) {
-            Tab.goto({
+            Tab.select({
               index: tabs[i].index
             });
             break;
