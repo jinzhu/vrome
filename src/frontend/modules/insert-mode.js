@@ -115,6 +115,7 @@ var InsertMode = (function() {
     elem.setAttribute('vrome_edit_id', edit_id);
     Post({
       action: "externalEditor",
+      callbackAction: 'InsertMode.externalEditorCallBack',
       data: elem.value,
       edit_id: edit_id,
       line: line,

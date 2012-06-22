@@ -38,7 +38,7 @@ function externalEditor(msg) {
     if (xhr.readyState == 4 && xhr.status == 200) {
       var port = chrome.tabs.connect(tab.id, {});
       port.postMessage({
-        action: "InsertMode.externalEditorCallBack",
+        action: msg.callbackAction,
         edit_id: msg.edit_id,
         value: xhr.responseText
       });

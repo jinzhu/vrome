@@ -97,6 +97,7 @@ with(KeyEvent) {
   add("zZ", Zoom.current_reset);
 
   // Page
+  add("Ue", Page.editURLInExternalEditor)
   add("Sd", Page.styleDisable)
   add("]]", Page.next);
   add("[[", Page.prev);

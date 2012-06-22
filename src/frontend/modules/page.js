@@ -1,6 +1,6 @@
 var Page = (function() {
   function execMatch(regexps) {
-    elems = document.getElementsByTagName('a');
+    var elems = document.getElementsByTagName('a');
     for (var i = 0; i < regexps.length; i++) {
       for (var j = 0; j < elems.length; j++) {
         if (new RegExp(regexps[i], 'i').test((elems[j].innerText || '').replace(/(^(\n|\s)+|(\s|\n)+$)/, ''))) {
@@ -8,12 +8,14 @@ var Page = (function() {
         }
       }
     }
+
+    return false;
   }
 
   function copySelected() {
     var text = getSelected();
     Clipboard.copy(text);
-    var text = text.length > 80 ? (text.slice(0, 80) + "...") : text;
+    text = text.length > 80 ? (text.slice(0, 80) + "...") : text;
     CmdBox.set({
       title: '[Copied]' + text,
       timeout: 4000
@@ -65,13 +67,27 @@ var Page = (function() {
     })
 
     _.each(all, function(v, k) {
-      if (!((k + 1) >= begin && (k + 1) <= end)) return false;
+      if (!((k + 1) >= begin && (k + 1) <= end)) return;
       clickElement(v, {
         ctrl: true
       })
     })
 
     return true;
+  }
+
+  function editURLInExternalEditor() {
+    Post({
+      action: "externalEditor",
+      data: window.location.href,
+      callbackAction: 'Page.editURLExternalEditorCallback'
+    });
+  }
+
+  function editURLExternalEditorCallback(msg) {
+    if (window.location.href != msg.value) {
+      window.location.href = msg.value
+    }
   }
 
   return {
@@ -84,6 +100,8 @@ var Page = (function() {
     copySelected: copySelected,
     styleDisable: styleDisable,
     transformURLs: transformURLs,
-    openURLs: openURLs
+    openURLs: openURLs,
+    editURLInExternalEditor: editURLInExternalEditor,
+    editURLExternalEditorCallback: editURLExternalEditorCallback
   };
 })();

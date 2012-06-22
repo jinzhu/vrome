@@ -30,8 +30,8 @@ class VromeServer < WEBrick::HTTPServlet::AbstractServlet
 
   def open_editor(request)
     editor  = request['editor']
-    line = request['line']
-    column = request['col']
+    line = request['line'] || 0
+    column = request['col'] || 0
 
     tmpfile = Tempfile.new('editor')
     tmpfile.write request['data']
