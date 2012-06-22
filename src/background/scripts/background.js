@@ -19,7 +19,6 @@ function syncSetting(tab) {
   }
 
   if (tab != Tab.now_tab) {
-    Tab.last_selected_tab = Tab.now_tab || tab;
     Tab.now_tab = tab;
   }
 
@@ -38,6 +37,15 @@ chrome.tabs.onCreated.addListener(function(tab) {
     syncSetting(tab);
     Tab.last_open_tabs.push(tab);
   });
+
+  // when clicking a link, open tab on the right
+  if (tab.openerTabId && Option.get('open_tab_on_the_right')) {
+    chrome.tabs.get(tab.openerTabId, function(srcTab) {
+      chrome.tabs.move(tab.id, {
+        index: srcTab.index + 1
+      })
+    })
+  }
 });
 
 chrome.tabs.onUpdated.addListener(function(tabId) {
@@ -46,9 +54,13 @@ chrome.tabs.onUpdated.addListener(function(tabId) {
   });
 });
 
-chrome.tabs.onActiveChanged.addListener(function(tabId) {
-  chrome.tabs.get(tabId, function(tab) {
+chrome.tabs.onActivated.addListener(function(info) {
+  chrome.tabs.get(info.tabId, function(tab) {
     syncSetting(tab);
+
+    // switch last active
+    Tab.activeTabs[tab.windowId]['last_tab_id'] = Tab.activeTabs[tab.windowId]['current_tab_id']
+    Tab.activeTabs[tab.windowId]['current_tab_id'] = tab.id
   });
 });
 
@@ -60,13 +72,6 @@ chrome.tabs.onRemoved.addListener(function(tabId) {
   Tab.current_closed_tab = false;
 });
 
-// when clicking a link, open tab on the right
-chrome.tabs.onCreated.addListener(function(tab) {
-  if (tab.openerTabId && Option.get('open_tab_on_the_right')) {
-    chrome.tabs.get(tab.openerTabId, function(srcTab) {
-      chrome.tabs.move(tab.id, {
-        index: srcTab.index + 1
-      })
-    })
-  }
-});
+
+// initialize active tabs from all windows
+Tab.initializeCurrentTabs()

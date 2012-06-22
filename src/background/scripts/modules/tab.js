@@ -181,14 +181,8 @@ var Tab = (function() {
 
   function selectPrevious() {
     var tab = arguments[arguments.length - 1];
-    chrome.tabs.getAllInWindow(tab.windowId, function(tabs) {
-      var lastSelectedId = Tab.last_selected_tab.id
-      if (lastSelectedId === tab.id) {
-        lastSelectedId = tab.openerTabId
-      }
-      chrome.tabs.update(lastSelectedId, {
-        selected: true
-      });
+    chrome.tabs.update(Tab.activeTabs[tab.windowId]['last_tab_id'], {
+      selected: true
     });
   }
 
@@ -401,6 +395,33 @@ var Tab = (function() {
   }
 
   /**
+   * creates a data structure with
+   * window_id:
+   *   last_tab_id
+   *   current_tab_id
+   *
+   * data structure is used to switch between tabs through various windows
+   */
+
+  function initializeCurrentTabs() {
+    chrome.windows.getAll({
+      populate: true
+    }, function(windows) {
+      _.each(windows, function(w) {
+        _.each(w.tabs, function(tab) {
+          if (tab.active) {
+            Tab.activeTabs[w.id] = {
+              'last_tab_id': tab.id,
+              'current_tab_id': tab.id
+            }
+          }
+        })
+      })
+    })
+
+  }
+
+  /**
    * @deprecated using markForMerging instead
    */
 
@@ -445,7 +466,8 @@ var Tab = (function() {
     mergeAll: mergeAll,
     autoComplete: autoComplete,
     markForMerging: markForMerging,
-    putMarkedTabs: putMarkedTabs
+    putMarkedTabs: putMarkedTabs,
+    initializeCurrentTabs: initializeCurrentTabs
   };
 })();
 
@@ -453,3 +475,4 @@ var Tab = (function() {
 Tab.closed_tabs = [];
 Tab.last_open_tabs = [];
 Tab.marked_tabs = [];
+Tab.activeTabs = {};
