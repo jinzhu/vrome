@@ -59,3 +59,14 @@ chrome.tabs.onRemoved.addListener(function(tabId) {
   };
   Tab.current_closed_tab = false;
 });
+
+// when clicking a link, open tab on the right
+chrome.tabs.onCreated.addListener(function(tab) {
+  if (tab.openerTabId && Option.get('open_tab_on_the_right')) {
+    chrome.tabs.get(tab.openerTabId, function(srcTab) {
+      chrome.tabs.move(tab.id, {
+        index: srcTab.index + 1
+      })
+    })
+  }
+});

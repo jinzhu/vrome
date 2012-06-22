@@ -261,7 +261,7 @@ var Tab = (function() {
   function openFromClipboard(msg) {
     var url = Clipboard.read();
 
-    if(!url.isValidURL()) {
+    if (!url.isValidURL()) {
       url = Option.default_search_url(url)
     }
 

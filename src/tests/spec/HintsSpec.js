@@ -5,7 +5,7 @@ describe("Hints", function() {
 
   beforeEach(function() {});
 
-// ==== init
+  // ==== init
   it("", function() {
     $("#linkHintsContainer").show();
     $("#HTMLReporter").hide();
@@ -355,16 +355,14 @@ describe("Hints", function() {
 
     Hint.start_string()
     expect($('#__vim_hint_highlight').children().length).toEqual(3)
-//    expect($('#__vim_hint_highlight').children()[0].innerText).toEqual($('#__vim_hint_highlight').children()[2].innerText)
-
+    //    expect($('#__vim_hint_highlight').children()[0].innerText).toEqual($('#__vim_hint_highlight').children()[2].innerText)
     // add onclick
     $('#uri5').attr('onclick', 'asd()')
 
     CancelKeyFunction();
     Hint.start_string()
     expect($('#__vim_hint_highlight').children().length).toEqual(3)
-//    expect($('#__vim_hint_highlight').children()[0].innerText).not.toEqual($('#__vim_hint_highlight').children()[2].innerText)
-
+    //    expect($('#__vim_hint_highlight').children()[0].innerText).not.toEqual($('#__vim_hint_highlight').children()[2].innerText)
     document.getElementById('uri3').onclick = function() {
       asd()
     }
@@ -388,8 +386,7 @@ describe("Hints", function() {
     CancelKeyFunction();
     Hint.start_string()
     expect($('#__vim_hint_highlight').children().length).toEqual(3)
-//    expect($('#__vim_hint_highlight').children()[0].innerText).toEqual($('#__vim_hint_highlight').children()[2].innerText)
-
+    //    expect($('#__vim_hint_highlight').children()[0].innerText).toEqual($('#__vim_hint_highlight').children()[2].innerText)
     document.getElementById('uri3').removeEventListener('click', asd)
     document.getElementById('uri5').removeEventListener('click', asd)
 

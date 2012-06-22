@@ -5,6 +5,7 @@ var Option = (function() {
     previouspattern: ['(上|前)一页', '上一頁', '^\\s*Prev(ious)?\\s*$', '^<$', '(^(<<|‹‹|«))|((<<|‹‹|«)$)'],
 
     // == global
+    open_tab_on_the_right: false,
     disablesites: "",
     editor: "gvim -f",
     server_port: 20000,
