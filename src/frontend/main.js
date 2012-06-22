@@ -7,6 +7,8 @@ function isCtrlAcceptKey(key) {
   if (key == '<C-Enter>') {
     return true;
   }
+
+  return false;
 }
 
 function isAcceptKey(key) {
@@ -15,6 +17,8 @@ function isAcceptKey(key) {
       return true;
     }
   }
+
+  return false;
 }
 
 function isEscapeKey(key) {
@@ -23,6 +27,8 @@ function isEscapeKey(key) {
       return true;
     }
   }
+
+  return false;
 }
 
 function isCtrlEscapeKey(key) {
@@ -34,6 +40,8 @@ function isCtrlEscapeKey(key) {
       return true;
     }
   }
+
+  return false;
 }
 
 function AcceptKeyFunction() {
@@ -228,7 +236,7 @@ with(KeyEvent) {
   add("gB", Bookmark.new_tab_start);
 
   // a-zA-Z
-  for (var i = 65; i <= 122; i++) {
+  for (i = 65; i <= 122; i++) {
     if (i > 90 && i < 97) continue;
     add("m" + String.fromCharCode(i), Marks.addLocalMark);
     add("'" + String.fromCharCode(i), Marks.gotoLocalMark);
