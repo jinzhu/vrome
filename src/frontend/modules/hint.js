@@ -424,17 +424,8 @@ var Hint = (function() {
             var oriElem = elements[hrefs[href]]
 
             // same onclick code + same event listeners. This is the exact same element. Use same hints
-            if (oriElem && oriElem.onclick === elem.onclick && typeof oriElem.listEventListeners === typeof elem.listEventListeners) {
-
-              if (oriElem.listEventListeners && elem.listEventListeners) {
-                if (Object.keys(oriElem.listEventListeners).length === Object.keys(elem.listEventListeners).length && _.difference(Object.keys(oriElem.listEventListeners), Object.keys(elem.listEventListeners)).length === 0) {
-                  res[i] = hrefs[href]
-                }
-
-              } else {
-
+            if (oriElem && oriElem.onclick === elem.onclick) {
                 res[i] = hrefs[href]
-              }
             }
           } else {
             hrefs[href] = i;

@@ -88,36 +88,3 @@ RegExp.escape = function(text) {
   }
   return text.replace(arguments.callee.sRE, '\\$1');
 }
-
-
-Element.prototype.realAddEventListener = Element.prototype.addEventListener;
-Element.prototype.addEventListener = function(a, b, c) {
-  this.realAddEventListener(a, b, c);
-
-  try {
-    if (this.listEventListeners === undefined) {
-      this.listEventListeners = {}
-    }
-    this.listEventListeners[b.toString()] = b.toString();
-  } catch (e) {
-    console.log(e)
-  }
-};
-
-
-Element.prototype.realRemoveEventListener = Element.prototype.removeEventListener
-Element.prototype.removeEventListener = function(a, b, c) {
-  this.realRemoveEventListener(a, b, c);
-
-  try {
-    if (this.listEventListeners === undefined) {
-      this.listEventListeners = {}
-    }
-
-    if (this.listEventListeners[b.toString()]) {
-      delete this.listEventListeners[b.toString()];
-    }
-  } catch (e) {
-    console.log(e)
-  }
-}
