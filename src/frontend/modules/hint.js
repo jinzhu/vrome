@@ -149,6 +149,8 @@ var Hint = (function() {
     } else {
       elem.setAttribute(highlight, 'hint_elem');
     }
+
+    return true
   }
 
   function remove() {
@@ -159,6 +161,8 @@ var Hint = (function() {
     CmdBox.remove();
     removeHighlightBox();
     hintMode = false;
+
+    return true
   }
 
   function getCurrentString() {
@@ -245,6 +249,8 @@ var Hint = (function() {
       e.preventDefault();
       return execSelect(currentHint)
     }
+
+    return false
   }
 
   function hintMatch(elem, index) {
@@ -321,7 +327,7 @@ var Hint = (function() {
     setHintIndex(matched);
 
     if (isCtrlAcceptKey(key)) {
-      for (var i = 0, j = matched.length; i < j; i++) {
+      for (i = 0, j = matched.length; i < j; i++) {
         execSelect(matched[i]);
         new_tab = true;
       }
@@ -379,6 +385,8 @@ var Hint = (function() {
         setTimeout(remove, 200);
       }
     }
+
+    return true
   }
 
   function inRepeatMode(currentString) {
