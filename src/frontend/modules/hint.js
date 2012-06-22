@@ -1,5 +1,5 @@
 var Hint = (function() {
-  var currentHint, new_tab, multi_mode, hintMode, selected, elements, matched, key, clickedElems, isStringMode, hintKeys, subMatched, dupElements;
+  var currentHint, new_tab, multi_mode, hintMode, selected, elements, matched, key, clickedElems, isStringMode, hintKeys, subMatched, dupElements, isHighlightEnabled;
   var highlight = 'vrome_highlight';
 
   var subActions = {
@@ -24,6 +24,7 @@ var Hint = (function() {
     elements = []
     matched = []
     dupElements = {}
+    isHighlightEnabled = Option.get('hints_highlight')
 
     initHintMode();
 
@@ -134,7 +135,7 @@ var Hint = (function() {
   }
 
   function setHighlight(elem, set_active) {
-    if (!elem) {
+    if (!elem || !isHighlightEnabled) {
       return false;
     }
 
@@ -425,7 +426,7 @@ var Hint = (function() {
 
             // same onclick code + same event listeners. This is the exact same element. Use same hints
             if (oriElem && oriElem.onclick === elem.onclick) {
-                res[i] = hrefs[href]
+              res[i] = hrefs[href]
             }
           } else {
             hrefs[href] = i;

@@ -30,6 +30,7 @@ var Option = (function() {
 
     // == hint mode
     hintkeys: 'jlkhfsdagwerui',
+    hints_highlight: 1,
     // used to overwrite numbers and use hint string instead
     useletters: 0,
     // allows numeric keys to propagate
