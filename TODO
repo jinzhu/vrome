@@ -1,3 +1,21 @@
+Settings
+
+- keys
+    scripts
+    hosts
+    background
+
+- create new key for background and default values
+- create mapping + examine calls
+- simplify existing code
+- merge commits
+- delete local storage
+
+
+
+
+
+-----------------
 TODO ?
 cs subdomain -> magic mode ;) create some subdomain let use choose one from it)
 ch hostname
