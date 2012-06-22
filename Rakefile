@@ -50,10 +50,13 @@ task :format_js do
   end
 
   javascript_files.map do |file|
+    p "formatting #{file}"
     formated_content = `js-beautify -s 2 #{file}`
 #    formated_content = `js-beautify --brace-style=expand -s 2 #{file}`
     File.open(file, 'w') {|f| f.write(formated_content) }
   end
+
+  exit
 end
 
 task :default => [:build]
