@@ -2,7 +2,7 @@ var Settings = (function() {
   var key = '__vrome_settings';
 
   var keyMap = {
-    'scripts': '__vrome_scripts',
+    //    'scripts': '__vrome_scripts',
     'hosts': '__vrome_hosts',
     // background or not, it now means the same thing. Because we sync everything in the background page's local storage
     'background': '__vrome_settings' // TODO: remove "background." calls and just use the key name instead e.g "times" instead of "background.times"
@@ -163,17 +163,18 @@ var Settings = (function() {
    */
 
   function add(value) {
-    var arg, prefix
+    var arg, prefix, calledFromBackground
 
     // arg is the value, prefix is extracted
     if (_.isString(value)) {
       arg = arguments[1]
       prefix = SettingsUtils.getPrefix(value) || 'background'
+      calledFromBackground = false;
     } else if (_.isObject(value) && arguments.length > 1) {
-
+      calledFromBackground = true;
       // prefix is passed from background page
       prefix = arguments[1]
-      if(prefix === 'background') {
+      if (prefix === 'background') {
         // Note(hbt): This is necessary because the settings are sent asynchronously and therefore runIt could be initialized before any settings are stored
         // in the localstorage of the site
 
@@ -208,7 +209,7 @@ var Settings = (function() {
     localStorage[SettingsUtils.getStorageName(prefix)] = JSON.stringify(obj)
 
     // sync in background storage
-    if (typeof syncSettingAllTabs !== "function") {
+    if (typeof syncSettingAllTabs !== "function" && !calledFromBackground) {
       obj = SettingsUtils.transformObject(obj, prefix)
       Post({
         action: "Settings.syncBackgroundStorage",

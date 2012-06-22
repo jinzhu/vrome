@@ -26,6 +26,7 @@ var Vromerc = (function() {
     setting.js = text.extractStringBetweenBlocks(Tokens.customJSBegin, Tokens.customJSEnd);
     setting.css = text.extractStringBetweenBlocks(Tokens.customCSSBegin, Tokens.customCSSEnd);
 
+    var url_marks = Settings.get('url_marks') || {};
     var configs = text.split("\n");
     for (var i = 0; i < configs.length; i++) {
       var config = configs[i].trim();
@@ -62,9 +63,7 @@ var Vromerc = (function() {
         var plus = (config.match(/^\s*set\s+\w+\+=/) ? true : false);
 
         if (setting_key.startsWith('qm_')) {
-          var url_marks = Settings.get('url_marks') || {};
           url_marks[setting_key.replace('qm_', '')] = setting_value
-          Settings.add('url_marks', url_marks);
         } else {
           setting.set[setting_key] = [setting_value, plus];
         }
@@ -77,6 +76,8 @@ var Vromerc = (function() {
         }
       }
     }
+
+    Settings.add('url_marks', url_marks);
 
     Settings.add({
       configure: setting
@@ -105,8 +106,8 @@ var Vromerc = (function() {
     return res;
   }
 
-  function loadAll() {
-    loadOnline();
+  function loadAll(scheduleNextReload) {
+    loadOnline(scheduleNextReload);
     loadLocal();
   }
 
@@ -157,6 +158,8 @@ var Vromerc = (function() {
       }
     };
     xhr.send();
+
+    return true;
   }
 
   return {
