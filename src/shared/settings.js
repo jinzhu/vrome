@@ -174,13 +174,11 @@ var Settings = (function() {
       calledFromBackground = true;
       // prefix is passed from background page
       prefix = arguments[1]
-      if (prefix === 'background') {
+      if (prefix === 'background' && !window.ranCustomJS) {
         // Note(hbt): This is necessary because the settings are sent asynchronously and therefore runIt could be initialized before any settings are stored
         // in the localstorage of the site
-
-        // TODO: if it becomes slow, optimize it by caching the call once we have e.g no need to execute `runIt` when moving between tabs if the page is already loaded
-        // and it has been executed before
-        runIt(runCustomJS);
+        runCustomJS()
+        window.ranCustomJS = true
       }
     }
 
