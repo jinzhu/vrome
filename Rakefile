@@ -31,6 +31,9 @@ task :build do
     f << json.to_json
   end
 
+end
+
+task :zip do
   system("zip -r vrome.zip src/; cp vrome.zip ~")
 end
 
