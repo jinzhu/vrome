@@ -180,7 +180,7 @@ var Settings = (function() {
 
         // TODO: if it becomes slow, optimize it by caching the call once we have e.g no need to execute `runIt` when moving between tabs if the page is already loaded
         // and it has been executed before
-        runIt();
+        runIt(runCustomJS);
       }
     }
 
