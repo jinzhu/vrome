@@ -371,13 +371,36 @@ var Tab = (function() {
         tabs = [tab]
       }
 
+      var title = ''
       _.each(tabs, function(v) {
-        Tab.marked_tabs.push(v.id)
-        Post(v, {
-          action: "CmdBox.set",
-          title: tabs.length + ' Tab(s) marked',
-          timeout: 4000
-        })
+        Tab.marked_tabs = _.uniq(Tab.marked_tabs)
+
+        // toggle marked/unmarked
+        var posi = _.indexOf(Tab.marked_tabs, v.id)
+
+        if (posi === -1) {
+
+          // mark it
+          Tab.marked_tabs.push(v.id)
+          title = Tab.marked_tabs.length + ' Tab(s) marked '
+        } else {
+          // unmark it
+          delete Tab.marked_tabs[posi]
+
+          // remove null entries
+          Tab.marked_tabs = _.select(Tab.marked_tabs, function(vid) {
+            return vid != null
+          })
+
+          title = tabs.length + " Tab(s) unmarked"
+          if (Tab.marked_tabs.length) title += " -- " + Tab.marked_tabs.length + " Tab(s) still marked"
+        }
+      })
+
+      Post(tab, {
+        action: "CmdBox.set",
+        title: title,
+        timeout: 4000
       })
     })
   }
