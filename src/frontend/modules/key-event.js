@@ -106,6 +106,8 @@ var KeyEvent = (function() {
     if (configure[mode] && configure[mode][key]) {
       return true;
     }
+
+    return false;
   }
 
   function runCurrentKeys(keys, insertMode, e) {
@@ -157,7 +159,7 @@ var KeyEvent = (function() {
         }
       }
 
-      var regexp = new RegExp('^(' + keys.replace(/([(\[{\\^$|)?*+.])/g, "\\$1") + ')');
+      regexp = new RegExp('^(' + keys.replace(/([(\[{\\^$|)?*+.])/g, "\\$1") + ')');
       if (regexp.test(binding_command)) {
         var someBindingMatched = true;
       }
@@ -167,10 +169,10 @@ var KeyEvent = (function() {
       var configure = Settings.get('background.configure');
       var mode = insertMode ? 'imap' : 'map';
       if (configure[mode]) {
-        for (var i in configure[mode]) {
-          var regexp = new RegExp('^(' + keys.replace(/([(\[{\\^$|)?*+.])/g, "\\$1") + ')');
+        for (i in configure[mode]) {
+          regexp = new RegExp('^(' + keys.replace(/([(\[{\\^$|)?*+.])/g, "\\$1") + ')');
           if (regexp.test(i)) {
-            var someBindingMatched = true;
+            someBindingMatched = true;
           }
         }
       }
