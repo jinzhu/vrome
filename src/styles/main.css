@@ -318,7 +318,7 @@ a[vrome_highlight=hint_active] {
 
 #TB_window{
   background-color: #252525;
-  color: #F0E7D5;
+  color: seashell;
 }
 
 .help_row{
@@ -330,13 +330,6 @@ a[vrome_highlight=hint_active] {
   color: #bfb;
 }
 
-.help_keyShortcut {
-  color: #E3BE23;
-  font-weight: bold;
-  font-size: 14px;
-  width: 20px;
-  text-align: center;
-}
 
 .help_optsLabel{
   font-size: 9px;
@@ -362,17 +355,27 @@ a[vrome_highlight=hint_active] {
   font-family: cursive;
 }
 
+.help_keyShortcut {
+  color: #E3BE23;
+  color: yellow;
+  font-weight: bold;
+  font-size: 16px;
+  text-align: center;
+}
+
 .help_title{
   color: #F0E7D5;
   color: #E3BE23;
+  color: #E3BE23;
   color: #F8F893;
+  color: white;
   font-size: 16px;
   font-weight: bold;
 }
 
 
 .help_desc{
-  color: #F0E7D5;
+  color: seashell;
   font-size: 14px;
 }
 
@@ -400,13 +403,13 @@ a[vrome_highlight=hint_active] {
 .help_optDefault{
   font-family: sans-serif;
   font-size: 12px;
-  color: brown;
+  color: #cf867e;
 }
 
 .help_optHeader{
   font-weight: bold;
   font-size: 9px;
-  color: #bfb;
+  color: lightpink;
 }
 
 
