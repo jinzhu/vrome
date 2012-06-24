@@ -60,6 +60,7 @@ function CancelKeyFunction() {
   Search.stop();
   Dialog.stop(true);
   CmdBox.remove();
+  Help.hide()
 }
 
 function EscapeKeyFunction() {
@@ -69,6 +70,62 @@ function EscapeKeyFunction() {
 function CtrlEscapeKeyFunction() {
   KeyEvent.enable();
   EscapeKeyFunction();
+}
+
+var cmds = {
+  'Global': {
+    'Help.show': {
+      t: 'Help',
+      k: ['F1']
+    },
+    'AcceptKeyFunction': {
+      t: 'Enter key',
+      k: AcceptKey
+    },
+    'Page.styleDisable': {
+      t: 'Toggle Chrome CSS',
+      d: "Copy custom CSS file to the browser\n\
+            User StyleSheets directory",
+      k: 'Sd',
+      o: {
+        'ccc_file': 'alias of chrome_custom_css_file',
+        'chrome_custom_css_file': 'full path CSS file (filesystem or URL)'
+      },
+      s: 1
+    }
+  },
+  'Zoom': {
+    'Zoom.zoomIn': {
+      t: 'in',
+      k: 'zi',
+      c: 1
+    },
+    'Zoom.out': {
+      t: 'out',
+      k: 'zo',
+      c: 1
+    },
+    'Zoom.reset': {
+      t: 'reset',
+      k: 'zz'
+    }
+  },
+  'Page': {
+    'Zoom.zoomIn': {
+      t: 'Zoom in',
+      k: 'zi',
+      c: 1
+    },
+    'Zoom.out': {
+      t: 'Zoom out',
+      k: 'zo',
+      c: 1
+    },
+    'Zoom.reset': {
+      t: 'Zoom reset',
+      k: 'zz'
+    }
+  }
 }
 
 with(KeyEvent) {
@@ -81,23 +138,15 @@ with(KeyEvent) {
     }
   }
 
-  add("<F1>", showHelp);
+  add("<F1>", Help.show);
 
   // Zoom
-  add("zi", Zoom["in"]);
+  add("zi", Zoom.zoomIn);
   add("zo", Zoom.out);
-  add("zm", Zoom.more);
-  add("zr", Zoom.reduce);
   add("zz", Zoom.reset);
 
-  add("zI", Zoom.current_in);
-  add("zO", Zoom.current_out);
-  add("zM", Zoom.current_more);
-  add("zR", Zoom.current_reduce);
-  add("zZ", Zoom.current_reset);
 
   // Page
-  add("Ue", Page.editURLInExternalEditor)
   add("Sd", Page.styleDisable)
   add("]]", Page.next);
   add("[[", Page.prev);
@@ -107,6 +156,7 @@ with(KeyEvent) {
 
 
   // Url
+  add("Ue", Page.editURLInExternalEditor)
   add("gu", Url.parent);
   add("gU", Url.root);
   add("gf", Url.viewSource);
@@ -271,7 +321,7 @@ with(KeyEvent) {
 
 
 with(CmdLine) {
-  add("help", "show help ", showHelp);
+  add("help", "show help ", Help.show)
   add("bdelete", "buffer delete match", Buffer.deleteMatchHandle, true);
   add("mdelete", "mark delete match", Marks.deleteQuickMark, true);
   add("make-links", "transforms URLs into clickable links", Page.transformURLs);

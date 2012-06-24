@@ -30,7 +30,7 @@ var Zoom = (function() {
 
   return {
     setZoom: setZoom,
-    'in': function() {
+    zoomIn: function() {
       setZoom(1);
     },
     out: function() {
