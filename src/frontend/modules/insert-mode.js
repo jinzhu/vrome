@@ -3,10 +3,12 @@ var InsertMode = (function() {
 
   function currentElement() {
     var elem = document.activeElement;
-    if (elem) {
-      caret_position = elem.selectionEnd;
-      value = elem.value || elem.innerText;
-    }
+    try {
+      if (elem) {
+        caret_position = elem.selectionEnd;
+        value = elem.value || elem.innerText;
+      }
+    } catch (e) {}
     return elem;
   }
 
