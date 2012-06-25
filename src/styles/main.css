@@ -186,7 +186,7 @@ a[vrome_highlight=hint_active] {
 /* ---------->>> thickbox settings <<<-----------------------------------------------------------------------------*/
 /* ----------------------------------------------------------------------------------------------------------------*/
 #TB_overlay {
-  position: fixed;
+  position: absolute;
   z-index:100;
   top: 0px;
   left: 0px;
@@ -208,7 +208,7 @@ a[vrome_highlight=hint_active] {
 }
 
 #TB_window {
-  position: fixed;
+  position: absolute;
   background: #ffffff;
   z-index: 102;
   color:#000000;
@@ -360,6 +360,7 @@ a[vrome_highlight=hint_active] {
   color: yellow;
   font-weight: bold;
   font-size: 16px;
+  width: 5%;
   text-align: center;
 }
 
@@ -404,6 +405,7 @@ a[vrome_highlight=hint_active] {
   font-family: sans-serif;
   font-size: 12px;
   color: #cf867e;
+  width: 30%;
 }
 
 .help_optHeader{

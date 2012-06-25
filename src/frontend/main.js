@@ -1,7 +1,251 @@
-var AcceptKey = ["<Enter>", "<C-j>", "<C-m>"];
-var CancelKey = ["<Esc>", "<C-[>"];
-var EscapeKey = ["<Esc>", "<C-[>"];
-var CtrlEscapeKey = ["<C-Esc>"];
+var cmds = {
+  'global': {
+    'Help.show': {
+      t: 'Help',
+      k: ['F1']
+    },
+    'AcceptKeyFunction': {
+      t: 'Submit input',
+      k: ["<Enter>", "<C-j>", "<C-m>"]
+    },
+    'CancelKeyFunction': {
+      t: 'Cancel action',
+      k: ["<Esc>", "<C-[>"]
+    },
+    'CtrlEscapeKeyFunction': {
+      t: 'Enable Vrome when in pass-through',
+      k: ["<C-Esc>"]
+    },
+    'Page.styleDisable': {
+      t: 'Toggle Chrome CSS',
+      d: "Copy custom CSS file to the browser\n\
+            User StyleSheets directory",
+      k: 'Sd',
+      o: {
+        'ccc_file': 'alias of chrome_custom_css_file',
+        'chrome_custom_css_file': 'full path CSS file (filesystem or URL)'
+      },
+      s: 1
+    },
+    'Dialog.openCurrentNewTab': {
+      t: 'Open selected URL in new tab',
+      d: 'When in a dialog, Open selected URL (highlighted background) in a new tab',
+      k: '<C-Enter>',
+      i: 1,
+      both: 1
+    }
+  },
+  'zoom': {
+    'Zoom.zoomIn': {
+      t: 'in',
+      k: 'zi',
+      c: 1
+    },
+    'Zoom.out': {
+      t: 'out',
+      k: 'zo',
+      c: 1
+    },
+    'Zoom.reset': {
+      t: 'reset',
+      k: 'zz'
+    }
+  },
+  'scroll': {
+    'Scroll.top': {
+      t: 'Go to top',
+      d: 'Scroll to the top of the page',
+      k: 'gg'
+    },
+    'Scroll.bottom': {
+      t: 'Go to bottom',
+      d: 'Scroll to the bottom of the page',
+      k: 'G'
+    },
+    'Scroll.first': {
+      t: 'Go to beginning',
+      d: 'Scroll to the beginning of the page',
+      k: '0'
+    },
+    'Scroll.last': {
+      t: 'Go to end',
+      d: 'Scroll to the end of the page',
+      k: '$'
+    },
+    'Scroll.toPercent': {
+      t: 'Go to %',
+      d: 'Scroll to {count}% of the page',
+      k: '%',
+      c: 1
+    },
+    'Scroll.up': {
+      t: 'scroll up',
+      k: 'k',
+      c: 1
+    },
+    'Scroll.down': {
+      t: 'scroll down',
+      k: 'j',
+      c: 1
+    },
+    'Scroll.left': {
+      t: 'scroll left',
+      k: 'h',
+      c: 1
+    },
+    'Scroll.right': {
+      t: 'right',
+      k: 'l',
+      c: 1
+    },
+    'Scroll.nextPage': {
+      t: 'Scroll page forward',
+      k: '<C-f>',
+      c: 1
+    },
+    'Scroll.prevPage': {
+      t: 'Scroll page backward',
+      k: '<C-b>',
+      c: 1
+    },
+    'Scroll.nextHalfPage': {
+      t: 'Scroll half page forward',
+      k: '<C-d>',
+      c: 1
+    },
+    'Scroll.prevHalfPage': {
+      t: 'scroll half page backward',
+      k: '<C-u>',
+      c: 1
+    }
+  },
+  'page': {
+    // TODO: rethink
+    'Page.next': {
+      t: 'Paginate forward',
+      k: ']]',
+      o: {
+        'nextpattern': 'Pattern(s) to match URLs'
+      }
+    },
+    // TODO: rethink
+    'Page.prev': {
+      t: 'Paginate backward',
+      k: '[[',
+      o: {
+        'previouspattern': 'Pattern(s) to match URLs'
+      }
+    },
+    'Page.copySelected': {
+      t: 'Copy selected text',
+      k: 'Y'
+    },
+    'Frame.next': {
+      t: 'Next frame',
+      k: ']f',
+      c: 1
+    },
+    'Frame.prev': {
+      t: 'Previous frame',
+      k: '[f',
+      c: 1
+    },
+    'Url.viewSource': {
+      t: 'View source',
+      k: 'gf'
+    },
+    'Url.viewSourceNewTab': {
+      t: 'View source in new tab',
+      k: 'gF'
+    }
+  },
+  'url': {
+    'Url.parent': {
+      t: 'Go to parent',
+      k: 'gu',
+      c: 1
+    },
+    'Url.root': {
+      t: 'go to root',
+      k: 'gU'
+    },
+    'Page.editURLInExternalEditor': {
+      t: 'edit URL in external editor',
+      k: 'Ue',
+      s: 1
+    },
+    'Url.increment': {
+      t: 'Increment parameter',
+      k: '<C-a>',
+      c: 1
+    },
+    'Url.decrement': {
+      t: 'decrement parameter',
+      k: '<C-x>',
+      c: 1
+    },
+    // TODO: rethink
+    'Url.open': {
+      t: 'Open URLs or search',
+      d: 'Open URLs from your history, bookmarks, navigation or makes a search. \n\
+Use <C-[0-9]> (red numbers) to open multiple links\n\
+Use arrows to move Up and Down (view options)\n\
+Supports relative paths e.g ../admin',
+      k: 'o',
+      o: {
+        'noautocomplete': 'Disable autocomplete',
+        'searchengines': 'JSON of search engines',
+        'defaultsearch': 'Default search engine name',
+        'autocomplete_prev': 'Previous',
+        'autocomplete_next': 'Next',
+        'autocomplete_next_10': 'Next 10',
+        'autocomplete_prev_10': 'Previous 10'
+      }
+    },
+    // TODO: rethink
+    'Url.openWithDefault': {
+      t: 'Open URLs or search (edit current URL)',
+      d: 'Same as `o`',
+      k: 'O'
+    },
+    'Url.tabopen': {
+      t: 'Open URLs or search in a new tab',
+      d: 'Same as `o`',
+      k: 't'
+    },
+    'Url.tabopenWithDefault': {
+      t: 'Open URLs or search in a new tab (edit current URL)',
+      d: 'Same as `o`',
+      k: 'T'
+    },
+    'Url.shortUrl': {
+      t: 'Shorten URL',
+      d: 'Shorten URL and copy in clipboard',
+      k: '<C-y>'
+    },
+    'Url.openFromClipboard': {
+      t: 'Open clipboard content',
+      d: 'Go to URL or make a search',
+      k: 'p'
+    },
+    'Url.openFromClipboardNewTab': {
+      t: 'Open clipboard content in new tab',
+      d: 'Same as `p`',
+      k: 'P'
+    }
+  }
+}
+
+//_.each(cmds, function(commands, catName) {
+//  _.each(commands, function(info, cmdName) {
+//    var isFunction = typeof eval(cmdName) === 'function'
+//    if (!isFunction) alert(cmdName + ' is not a function')
+//  })
+//})
+var AcceptKey = cmds['global']['AcceptKeyFunction'].k
+var CancelKey = cmds['global']['CancelKeyFunction'].k
+var EscapeKey = cmds['global']['CancelKeyFunction'].k
+var CtrlEscapeKey = cmds['global']['CtrlEscapeKeyFunction'].k
 
 function isCtrlAcceptKey(key) {
   if (key == '<C-Enter>') {
@@ -70,62 +314,6 @@ function EscapeKeyFunction() {
 function CtrlEscapeKeyFunction() {
   KeyEvent.enable();
   EscapeKeyFunction();
-}
-
-var cmds = {
-  'Global': {
-    'Help.show': {
-      t: 'Help',
-      k: ['F1']
-    },
-    'AcceptKeyFunction': {
-      t: 'Enter key',
-      k: AcceptKey
-    },
-    'Page.styleDisable': {
-      t: 'Toggle Chrome CSS',
-      d: "Copy custom CSS file to the browser\n\
-            User StyleSheets directory",
-      k: 'Sd',
-      o: {
-        'ccc_file': 'alias of chrome_custom_css_file',
-        'chrome_custom_css_file': 'full path CSS file (filesystem or URL)'
-      },
-      s: 1
-    }
-  },
-  'Zoom': {
-    'Zoom.zoomIn': {
-      t: 'in',
-      k: 'zi',
-      c: 1
-    },
-    'Zoom.out': {
-      t: 'out',
-      k: 'zo',
-      c: 1
-    },
-    'Zoom.reset': {
-      t: 'reset',
-      k: 'zz'
-    }
-  },
-  'Page': {
-    'Zoom.zoomIn': {
-      t: 'Zoom in',
-      k: 'zi',
-      c: 1
-    },
-    'Zoom.out': {
-      t: 'Zoom out',
-      k: 'zo',
-      c: 1
-    },
-    'Zoom.reset': {
-      t: 'Zoom reset',
-      k: 'zz'
-    }
-  }
 }
 
 with(KeyEvent) {
@@ -334,4 +522,5 @@ runIt();
 
 $(document).ready(function() {
   loadCustomCSS();
+  //  Help.show()
 })

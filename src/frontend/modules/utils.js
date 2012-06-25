@@ -185,6 +185,18 @@ var Help = (function() {
       },
 
       buildOptionHtml: function(optDesc, optName) {
+
+        var defaultValue = Option.defaultOptions[optName]
+        if (_.isArray(defaultValue)) {
+          defaultValue = defaultValue.join(", ")
+        } else if (_.isObject(defaultValue)) {
+          defaultValue = JSON.stringify(defaultValue)
+        }
+
+        var optValue = Option.get(optName)
+        optValue = (_.isArray(optValue) && optValue.join(", ")) || optValue
+        optValue = (optValue == defaultValue && ' ') || optValue
+
         return $('<tr>').append(
 
         // option name
@@ -195,19 +207,19 @@ var Help = (function() {
 
         // option name
         $('<td/>', {
-          text: Option.defaultOptions[optName],
+          text: defaultValue,
           'class': 'help_optDefault'
         }),
 
         // option value
         $('<td/>', {
-          text: Option.get(optName),
+          text: optValue,
           'class': 'help_optValue'
         }),
 
         // option description
         $('<td/>', {
-          text: optDesc,
+          text: optDesc.firstLetterUpper().formatLineBreaks(),
           'class': 'help_optDesc'
         }))
       }
@@ -218,8 +230,9 @@ var Help = (function() {
       buildCommandDetailsHTML: function(info) {
         var ret = $('<td>')
         ret.addClass('help_title')
-        ret.text(info.t)
+        ret.text(info.t.firstLetterUpper())
 
+        var description = (info.d && _.escape(info.d).formatLineBreaks()) || ''
         var optsTable = HelpUtils.buildOptionsHTML(info)
 
         // table for description + options
@@ -230,7 +243,7 @@ var Help = (function() {
 
         // description
         $('<td/>', {
-          text: info.d,
+          html: description,
           'class': 'help_desc'
         })), $('<tr>').append(
 
@@ -241,6 +254,9 @@ var Help = (function() {
       },
 
       buildCommandHTML: function(info) {
+
+        var keys = _.escape(((_.isString(info.k) && info.k) || info.k.join(" ")))
+
         // row for a command
         return $('<tr>').addClass('help_row').append(
 
@@ -264,7 +280,7 @@ var Help = (function() {
 
         // keys
         $('<td/>', {
-          text: (_.isString(info.k) && info.k) || info.k.join(" "),
+          html: keys + '&nbsp;',
           'class': 'help_keyShortcut'
         }),
 
@@ -310,7 +326,7 @@ var Help = (function() {
         // add category
         $('<h2/>', {
           'class': 'help_categoryTitle',
-          text: categoryName
+          text: categoryName.firstLetterUpper()
 
           // append commands to category
         }).append(tbl))))
@@ -334,7 +350,7 @@ var Help = (function() {
     $(document.body).append(div)
 
 
-    var height = screen.height - 200;
+    var height = screen.height * 2;
     var width = screen.width - 100;
     var a = $('<a/>', {
       href: '#TB_inline?height=' + height + '&width=' + width + '&inlineId=vrome_help_box&modal=true',

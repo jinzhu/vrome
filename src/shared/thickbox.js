@@ -1,3 +1,14 @@
+// *********************************************
+// *********************************************
+// *********************************************
+// *********************************************
+// Note(hbt)
+// This plugin has been modified to work with Vrome
+// Do not replace code by a newer version
+// *********************************************
+// *********************************************
+// *********************************************
+// *********************************************
 /*
  * Thickbox 3.1 - One Box To Rule Them All.
  * By Cody Lindley (http://www.codylindley.com)
@@ -7,9 +18,6 @@
 
 var tb_pathToImage = "images/loadingAnimation.gif";
 
-/*!!!!!!!!!!!!!!!!! edit below this line at your own risk !!!!!!!!!!!!!!!!!!!!!!!*/
-
-//on page load call tb_init
 
 function tb_init_dom() {
   $(document).ready(function() {
@@ -308,7 +316,7 @@ function tb_position() {
   });
   if (!(jQuery.browser.msie && jQuery.browser.version < 7)) { // take away IE6
     $("#TB_window").css({
-      marginTop: '-' + parseInt((TB_HEIGHT / 2), 10) + 'px'
+      marginTop: '-' + parseInt(450, 10) + 'px'
     });
   }
 }

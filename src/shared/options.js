@@ -5,6 +5,7 @@ var Option = (function() {
     previouspattern: ['(上|前)一页', '上一頁', '^\\s*Prev(ious)?\\s*$', '^<$', '(^(<<|‹‹|«))|((<<|‹‹|«)$)'],
 
     // == global
+    enable_vrome_key: '<C-Esc>',
     open_tab_on_the_right: false,
     disablesites: "",
     editor: "gvim -f",
@@ -22,7 +23,6 @@ var Option = (function() {
     test_mode: 0,
 
     // == autocomplete boxes
-    enable_vrome_key: '<C-Esc>',
     autocomplete_next: "<Down>",
     autocomplete_prev: "<Up>",
     autocomplete_next_10: "<Tab>",

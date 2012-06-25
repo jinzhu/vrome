@@ -71,6 +71,17 @@ String.prototype.isLowerCase = function() {
   return (this == this.toLowerCase());
 }
 
+String.prototype.firstLetterUpper = function() {
+  var ret = this.replace('', '')
+  ret = ret.charAt(0).toUpperCase() + ret.substring(1)
+  return ret
+}
+
+
+String.prototype.formatLineBreaks = function() {
+  return this.replace(/\n/g, '<br/>')
+}
+
 String.prototype.isValidURL = function() {
   var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
   return this.match(exp) !== null

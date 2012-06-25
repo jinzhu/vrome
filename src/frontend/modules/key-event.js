@@ -288,6 +288,7 @@ var KeyEvent = (function() {
 
     runLast: runLast,
 
-    stopPropagation: stopPropagation
+    stopPropagation: stopPropagation,
+    bindings: bindings
   };
 })();

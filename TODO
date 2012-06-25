@@ -1,3 +1,27 @@
+186
+
+- sort these tasks + brainstorm
+- build cmds
+- add custom mapping
+- log tickets about issues
+- allow user to associate keys to function names
+- implement 3 level ?
+- identify commands without a keyboard shortcut
+- clean up css
+- add input for filtering
+- change default mapping
+- free the `t` and use `O` instead
+
+
+- removed zoom commands
+- page next + previous should handle times
+- review O. <C-[0-9]> should open in a new tab
+- add option to include current url in highlight for both `o` and `O`
+- add command to open options page e.g :opts
+
+
+------------------------------------------
+
 Settings
 
 - keys
