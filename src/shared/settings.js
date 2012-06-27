@@ -204,7 +204,12 @@ var Settings = (function() {
     // in the localstorage of the site
     if (calledFromBackground && prefix === 'background' && !window.ranCustomJS) {
       window.ranCustomJS = true
-      CustomCode.runJS()
+      $(document).ready(function() {
+
+        // Initial
+        runIt([Migration.exec, Zoom.init, KeyEvent.init, Frame.register, CustomCode.runJS, CustomCode.loadCSS]);
+      })
+
     }
 
     // sync in background storage

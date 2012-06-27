@@ -94,12 +94,19 @@ function clickElement(elem, opt) {
   if (old_target) elem.setAttribute('target', old_target);
 }
 
+// accept function or array of functions
+
+
 function runIt(func, args) {
-  if (func) {
+  var initFunction = []
+
+  if (_.isArray(func)) {
+    initFunction = func
+  } else if (_.isFunction(func)) {
     initFunction.push([func, args]);
   }
 
-  if (document.body) {
+  $(document).ready(function() {
     for (var i = 0; i < initFunction.length; i++) {
       var init_function = initFunction[i];
 
@@ -111,11 +118,7 @@ function runIt(func, args) {
         Debug("RunIt(Not Run): function" + init_function);
       }
     }
-
-    initFunction = [];
-  } else {
-    setTimeout(runIt, 10);
-  }
+  })
 }
 
 var CustomCode = (function() {
@@ -133,7 +136,6 @@ var CustomCode = (function() {
 
   function runJS() {
     try {
-      console.log('hh');
       var customJS = Settings.get('configure.js');
       if (customJS) {
         eval(customJS);
