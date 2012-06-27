@@ -517,10 +517,9 @@ with(CmdLine) {
 }
 
 // Initial
-var initFunction = [Migration.exec, Zoom.init, KeyEvent.init, Frame.register, runCustomJS];
+var initFunction = [Migration.exec, Zoom.init, KeyEvent.init, Frame.register, CustomCode.runJS];
 runIt();
 
 $(document).ready(function() {
-  loadCustomCSS();
-  //  Help.show()
+  CustomCode.loadCSS()
 })

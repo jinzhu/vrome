@@ -174,12 +174,6 @@ var Settings = (function() {
       calledFromBackground = true;
       // prefix is passed from background page
       prefix = arguments[1]
-      if (prefix === 'background' && !window.ranCustomJS) {
-        // Note(hbt): This is necessary because the settings are sent asynchronously and therefore runIt could be initialized before any settings are stored
-        // in the localstorage of the site
-        runCustomJS()
-        window.ranCustomJS = true
-      }
     }
 
     // get data based on prefix
@@ -205,6 +199,13 @@ var Settings = (function() {
 
     // save in local storage
     localStorage[SettingsUtils.getStorageName(prefix)] = JSON.stringify(obj)
+
+    // Note(hbt): This is necessary because the settings are sent asynchronously and therefore runIt could be initialized before any settings are stored
+    // in the localstorage of the site
+    if (calledFromBackground && prefix === 'background' && !window.ranCustomJS) {
+      window.ranCustomJS = true
+      CustomCode.runJS()
+    }
 
     // sync in background storage
     if (typeof syncSettingAllTabs !== "function" && !calledFromBackground) {
