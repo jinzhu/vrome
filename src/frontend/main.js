@@ -15,6 +15,7 @@ var cmds = {
   'global': {
     'Help.show': {
       t: 'Help',
+      d: 'Press key again to expand details',
       k: ['F1']
     },
     'CmdLine.start': {
@@ -662,7 +663,6 @@ type `F` then `s` `d`',
 //    if (!isFunction) alert(cmdName + ' is not a function')
 //  })
 //})
-
 var AcceptKey = cmds['global']['AcceptKeyFunction'].k
 var CancelKey = cmds['global']['CancelKeyFunction'].k
 var EscapeKey = cmds['global']['CancelKeyFunction'].k

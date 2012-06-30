@@ -78,6 +78,32 @@ String.prototype.firstLetterUpper = function() {
 }
 
 
+String.prototype.escape = function() {
+  return _.escape(this);
+}
+
+String.prototype.formatLong = function(max, className) {
+  var ori = this
+  var ret = ori.substring(0, max)
+
+  ret = _.escape(ret)
+
+  // create link
+  if (ori.length > max) {
+    var chunk = ori.substring(max)
+    var a = document.createElement('a')
+    a.href = "javascript:void(0);"
+    a.setAttribute('class', className)
+    a.setAttribute('onclick', "var tmp = this.title;this.title = this.innerHTML;this.innerHTML = tmp;")
+    a.innerHTML = '&nbsp;...[more]'
+    a.title = chunk
+
+    ret += a.outerHTML
+  }
+
+  return ret
+}
+
 String.prototype.formatLineBreaks = function() {
   return this.replace(/\n/g, '<br/>')
 }

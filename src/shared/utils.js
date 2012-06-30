@@ -26,6 +26,17 @@ function getHostname(href) {
   return res
 }
 
+
+function stringify(obj) {
+  var str = obj;
+  if (_.isArray(obj)) {
+    str = obj.join(", ")
+  } else if (_.isObject(obj)) {
+    str = JSON.stringify(obj)
+  }
+  return str;
+}
+
 var c = console;
 c.l = console.log;
 c.e = function() {

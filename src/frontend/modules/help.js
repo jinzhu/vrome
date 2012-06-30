@@ -27,7 +27,7 @@ var Help = (function() {
         }),
 
         $('<td/>', {
-          text: 'Value',
+          html: 'Value&nbsp;&nbsp;',
           'class': 'help_optHeader'
         }),
 
@@ -40,15 +40,15 @@ var Help = (function() {
       buildOptionHtml: function(optDesc, optName) {
 
         var defaultValue = Option.defaultOptions[optName]
-        if (_.isArray(defaultValue)) {
-          defaultValue = defaultValue.join(", ")
-        } else if (_.isObject(defaultValue)) {
-          defaultValue = JSON.stringify(defaultValue)
-        }
+        defaultValue = stringify(defaultValue)
 
         var optValue = Option.get(optName)
-        optValue = (_.isArray(optValue) && optValue.join(", ")) || optValue
+        optValue = stringify(optValue)
         optValue = (optValue == defaultValue && ' ') || optValue
+
+        if (!_.isNumber(defaultValue)) defaultValue = defaultValue || ""
+
+        if (!_.isNumber(optValue)) optValue = optValue || ""
 
         return $('<tr>').append(
 
@@ -58,21 +58,21 @@ var Help = (function() {
           'class': 'help_optName'
         }),
 
-        // option name
+        // option default
         $('<td/>', {
-          text: defaultValue,
+          html: defaultValue.toString().formatLong(15, 'help_optDefault'),
           'class': 'help_optDefault'
         }),
 
         // option value
         $('<td/>', {
-          text: optValue,
+          html: optValue.toString().formatLong(15, 'help_optValue'),
           'class': 'help_optValue'
         }),
 
         // option description
         $('<td/>', {
-          text: optDesc.firstLetterUpper().formatLineBreaks(),
+          html: '&nbsp;' + optDesc.firstLetterUpper().formatLineBreaks(),
           'class': 'help_optDesc'
         }))
       }
@@ -89,10 +89,7 @@ var Help = (function() {
         var optsTable = HelpUtils.buildOptionsHTML(info)
 
         // table for description + options
-        $('<table>').css({
-          'margin-left': 10,
-          'width': '100%'
-        }).append($('<tr>').append(
+        $('<table>').append($('<tr>').append(
 
         // description
         $('<td/>', {
@@ -111,23 +108,23 @@ var Help = (function() {
         var keys = _.escape(((_.isString(info.k) && info.k) || info.k.join(" ")))
 
         // row for a command
-        return $('<tr>').addClass('help_row').append(
+        return $('<tr>').append(
 
         // has options
         $('<td/>', {
-          text: (info.o && ' {O}') || '',
+          html: (info.o && '&nbsp; O') || '',
           'class': 'help_hasOptions'
         }),
 
         // server
         $('<td/>', {
-          text: (info.s && ' {S}') || '',
+          html: (info.s && '&nbsp; S') || '',
           'class': 'help_server'
         }),
 
         // count
         $('<td/>', {
-          text: (info.c && '{C}') || '',
+          html: (info.c && '&nbsp;C') || '',
           'class': 'help_count'
         }),
 
@@ -145,8 +142,9 @@ var Help = (function() {
 
     // options associated to command -- build table
     buildOptionsHTML: function(info) {
-      var ret = $('<table>')
-      ret.addClass('help_optTable')
+      var ret = $('<table>', {
+        id: 'help_optsTable'
+      })
 
       // headers
       if (info.o) ret.append(HelpUtils.OptionUtils.buildOptionsHeadersHTML(info))
@@ -156,77 +154,70 @@ var Help = (function() {
         ret.append(HelpUtils.OptionUtils.buildOptionHtml(optDesc, optName))
       })
 
+      if (info.o) ret.append($('<td/>', {
+        html: '<br/>'
+      }))
+
       return ret
     },
 
     buildCommandsHTML: function() {
 
       // table for all commands
-      var ret = $('<table>')
+      var ret = $('<table>', {
+        id: 'vromeHelpGiantTable'
+      })
       _.each(ncmds, function(commands, categoryName) {
 
         // table for current command
-        var tbl = $('<table>')
-        _.each(commands, function(info, commandName) {
-          tbl.append(HelpUtils.CommandUtils.buildCommandHTML(info))
-        })
-
-        // main table
         ret.append(
         $('<tr>').append(
+        $('<td/>', {
+          html: '<br/><br/>'
+        })))
+
+        ret.append(
+        $('<tr>').append(
+        $('<td/>'), $('<td/>'), $('<td/>'), $('<td/>'),
 
         $('<td>').append(
         // add category
         $('<h2/>', {
-          'class': 'help_categoryTitle',
           text: categoryName.firstLetterUpper()
+        })).addClass('help_categoryTitle')))
 
-          // append commands to category
-        }).append(tbl))))
-
+        _.each(commands, function(info, commandName) {
+          ret.append(HelpUtils.CommandUtils.buildCommandHTML(info))
+        })
+        // main table
       })
 
       return ret
     }
-
   }
 
   function buildContent() {
+    // add overlay
+    var overlay = $('<div/>', {
+      id: 'vromeHelpOverlay'
+    })
+    $(document.body).append(overlay)
 
+    // table all commands
     var table = HelpUtils.buildCommandsHTML()
 
-    var div = $('<div/>', {
-      id: 'vrome_help_box',
-      'class': 'hidden'
+    // add help box
+    var helpBox = $('<div/>', {
+      id: 'vromeHelpBox'
     })
-    div.append(table)
-    $(document.body).append(div)
+    helpBox.append(table)
+    $(document.body).append(helpBox)
 
-
-
-
-    var height = screen.height * 2;
-    var width = screen.width - 100;
-    var a = $('<a/>', {
-      href: '#TB_inline?height=' + height + '&width=' + width + '&inlineId=vrome_help_box&modal=true',
-      'class': 'thickbox hidden'
+    // resize overlay based on helpbox
+    overlay.css({
+      height: helpBox.height() + 50,
+      width: '100%'
     })
-    $(document.body).append(a)
-
-    tb_init_dom()
-
-    setTimeout(function() {
-      div.appendTo($('#fucker'))
-      div.css({
-        'position': 'absolute',
-        'z-index': 2147483647,
-        'background-color': 'black',
-        'color': 'white'
-      })
-      div.show()
-      //      Zoom.reset()
-      //      clickElement(a[0])
-    }, 100);
   }
 
   function transformCommands() {
@@ -235,15 +226,19 @@ var Help = (function() {
 
   function show() {
     ncmds = transformCommands()
-    buildContent()
+    $(document).ready(function() {
+      buildContent()
+    });
   }
+
+  function hide() {
+    $('#vromeHelpBox').remove()
+    $('#vromeHelpOverlay').remove()
+  }
+
 
   return {
     show: show,
-    hide: function() {
-      try {
-        tb_remove()
-      } catch (e) {}
-    }
-  };
+    hide: hide
+  }
 })()

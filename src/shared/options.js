@@ -6,7 +6,7 @@ var Option = (function() {
 
     // == global
     enable_vrome_key: '<C-Esc>',
-    open_tab_on_the_right: false,
+    open_tab_on_the_right: 0,
     disablesites: "",
     editor: "gvim -f",
     server_port: 20000,
