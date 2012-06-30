@@ -1,8 +1,25 @@
+// commands are categorized (e.g global, tabs, page etc.)
+// legend for attributes
+/**
+ * t = title
+ * d = description
+ * k = keys (array or string)
+ * s = server required (boolean 1/0)
+ * o = associated options (JSON (option name => option description)
+ * c = count/times is supported (boolean 1/0)
+ * i = works in insert mode (boolean 1/0)
+ * both = exists in both insert mode and normal mode (boolean 1/0)
+ * gk = generated keys -- we use a function to determine the keys associated to that function
+ */
 var cmds = {
   'global': {
     'Help.show': {
       t: 'Help',
       k: ['F1']
+    },
+    'CmdLine.start': {
+      t: 'Start command line',
+      k: ':'
     },
     'AcceptKeyFunction': {
       t: 'Submit input',
@@ -33,6 +50,24 @@ var cmds = {
       k: '<C-Enter>',
       i: 1,
       both: 1
+    },
+    'KeyEvent.disable': {
+      t: 'disable vrome',
+      d: 'ignore all keys passed to vrome - use <C-ESC> to enable',
+      k: '<C-z>',
+      o: {
+        'disablesites': 'list of disabled sites',
+        'enable_vrome_key': 'key to enable vrome again'
+      }
+    },
+    'KeyEvent.passNextKey': {
+      t: 'pass next key',
+      k: '<C-v>'
+    },
+    'KeyEvent.runLast': {
+      t: 'run last key',
+      k: '.',
+      c: 1
     }
   },
   'zoom': {
@@ -120,6 +155,12 @@ var cmds = {
     }
   },
   'page': {
+    'InsertMode.focusFirstTextInput': {
+      t: 'focus first',
+      d: 'focus on first text input',
+      k: 'gi',
+      c: 1
+    },
     // TODO: rethink
     'Page.next': {
       t: 'Paginate forward',
@@ -160,6 +201,10 @@ var cmds = {
     }
   },
   'url': {
+    'Tab.copyUrl': {
+      t: 'copy',
+      k: 'y'
+    },
     'Url.parent': {
       t: 'Go to parent',
       k: 'gu',
@@ -199,7 +244,9 @@ Supports relative paths e.g ../admin',
         'autocomplete_prev': 'Previous',
         'autocomplete_next': 'Next',
         'autocomplete_next_10': 'Next 10',
-        'autocomplete_prev_10': 'Previous 10'
+        'autocomplete_prev_10': 'Previous 10',
+        'open_tab_on_the_right': 'Always open new tab next to active one'
+
       }
     },
     // TODO: rethink
@@ -233,15 +280,389 @@ Supports relative paths e.g ../admin',
       d: 'Same as `p`',
       k: 'P'
     }
+  },
+  'tabs': {
+    'Tab.reload': {
+      t: 'reload  ',
+      k: 'r'
+    },
+    'Tab.reloadWithoutCache': {
+      t: 'reload  (no cache)',
+      k: '<C-r>'
+    },
+    'Tab.reloadAll': {
+      t: 'reload all ',
+      k: 'R'
+    },
+    'Buffer.gotoFirstMatch': {
+      t: 'select first match',
+      d: 'select first tab matching input',
+      k: 'b'
+    },
+    'Tab.close': {
+      t: 'close',
+      d: 'close current tab + [count] on the right',
+      k: 'dc',
+      c: 1
+    },
+    'Buffer.deleteMatch': {
+      t: 'close any matching string',
+      d: 'close tabs where title / url matches string',
+      k: ['dm', 'B']
+    },
+    'Tab.closeOtherTabs': {
+      t: 'close all others',
+      d: 'close all tabs except selected tab',
+      k: 'do'
+    },
+    'Tab.closeLeftTabs': {
+      t: 'close all on the left',
+      d: 'close all tabs on the left of selected tab',
+      k: 'dl'
+    },
+    'Tab.closeRightTabs': {
+      t: 'close all on the right',
+      d: 'close all tabs on the right of selected tab',
+      k: 'dr'
+    },
+    'Tab.closeUnPinnedTabs': {
+      t: 'close unpinned ',
+      k: 'dp'
+    },
+    'Tab.closePinnedTabs': {
+      t: 'close pinned ',
+      k: 'dP'
+    },
+    'Tab.closeAndFoucsLeft': {
+      t: 'close and select left ',
+      k: 'D',
+      c: 1
+    },
+    'Tab.closeAndFoucsLast': {
+      t: 'close and select last',
+      k: '<M-d>',
+      c: 1
+    },
+    'Tab.reopen': {
+      t: 'reopen closed',
+      d: 'reopen closed tabs - use Ctrl+Shift+T',
+      k: 'u'
+    },
+    'Tab.prev': {
+      t: 'previous',
+      k: ['<C-p>', 'gT'],
+      c: 1
+    },
+    'Tab.next': {
+      t: 'next',
+      k: ['<C-n>', 'gt'],
+      c: 1
+    },
+    'Tab.togglePin': {
+      t: 'pin',
+      d: 'toggle pin on/off',
+      k: 'gp'
+    },
+    'Tab.duplicate': {
+      t: 'duplicate',
+      k: 'gd',
+      c: 1
+    },
+    'Tab.detach': {
+      t: 'detach',
+      d: 'detach into a new window',
+      k: 'gD'
+    },
+    'Tab.openInIncognito': {
+      t: 'reopen in incognito',
+      d: 'reopen tab in incognito mode - tab is reloaded',
+      k: 'gI'
+    },
+    'Tab.moveLeft': {
+      t: 'move left',
+      k: 'gq',
+      c: 1
+    },
+    'Tab.moveRight': {
+      t: 'move right',
+      k: 'ge',
+      c: 1
+    },
+    'Tab.unpinAllTabsInCurrentWindow': {
+      t: 'unpin all',
+      k: 'gP'
+    },
+    'Tab.unpinAllTabsInAllWindows': {
+      t: 'unpin from all windows',
+      d: 'unpin all tabs from all windows ',
+      k: 'WP'
+    },
+    'Tab.closeOtherWindows': {
+      t: 'close other windows',
+      k: 'dW'
+    },
+    'Tab.markForMerging': {
+      t: 'merge mark',
+      d: 'mark tab to be merged',
+      k: 'gm'
+    },
+    'Tab.markAllForMerging': {
+      t: 'merge mark all',
+      d: 'mark all tabs for merging',
+      k: 'gM'
+    },
+    'Tab.putMarkedTabs': {
+      t: 'merge put',
+      d: 'move marked tabs',
+      k: 'gv'
+    },
+    'Tab.first': {
+      t: 'select first',
+      k: ['g0', 'g^']
+    },
+    'Tab.last': {
+      t: 'select last',
+      k: 'g$'
+    },
+    'Tab.selectLastOpen': {
+      t: 'select last opened',
+      d: 'toggle between last selected tab',
+      k: 'gl'
+    },
+    // TODO: rethink (currently when passed a count, it goes to it). it should behave like C-q in code editor (jump to last locations)
+    'Tab.selectPrevious': {
+      t: 'select last active ',
+      d: 'toggle between last selected tabs',
+      k: ['<C-6>', '<C-^>'],
+      c: 1
+    }
+  },
+  'history + bookmarks': {
+    'History.back': {
+      t: 'back',
+      k: ['H', '<C-o>'],
+      c: 1
+    },
+    'History.forward': {
+      t: 'forward',
+      k: ['L', '<C-i>'],
+      c: 1
+    },
+    'History.start': {
+      t: 'search + open',
+      k: 'gh'
+    },
+    'History.new_tab_start': {
+      t: 'search + open (new tab)',
+      k: 'gH'
+    }
+  },
+  'hints': {
+    'Hint.start': {
+      t: 'start',
+      d: 'display hints on any clickable element on the page\n\
+\n\
+Sub-actions are available e.g !f where ! is a sub-action and f a hint :\n\
+; focus \n\
+? show info \n\
+[ copy URL \n\
+{ copy text\n\
+\\ open in incognito\n\
+/ search\n\
+',
+      k: 'f',
+      o: {
+        'hintkeys': 'keys used to generate hints\n\
+use `,` to optimize combinations e.g dsafrewq,tgcx\n\
+dsafrewq will be used to create combinations and tgcx will be associated 1 key - 1 link (top elements)',
+        'useletters': 'toggle letters vs numbers',
+        'hints_highlight': 'toggle highlighting',
+        'hint_actions': 'JSON mapping of existing actions'
+      }
+    },
+    'Hint.new_tab_start': {
+      t: 'start in new tab',
+      k: 'F'
+    },
+    'Hint.multi_mode_start': {
+      t: 'restart hint mode after typing hint',
+      d: 'use the first letter in upper case to select open more than one element\n\
+Example: if we have hints such as `FA` `FS` `FD`\n\
+type `F` then `s` `d`',
+      k: '<M-f>'
+    }
+  },
+  'search': {
+    'Search.start': {
+      t: 'start',
+      k: '/'
+    },
+    'Search.backward': {
+      t: 'start backward',
+      k: '?'
+    },
+    'Search.next': {
+      t: 'next',
+      k: 'n',
+      c: 1
+    },
+    'Search.prev': {
+      t: 'previous',
+      k: ['N', '<C-Enter>'],
+      c: 1
+    },
+    'Search.forwardCursor': {
+      t: 'search selected word forward',
+      k: '*',
+      c: 1
+    },
+    'Search.backwardCursor': {
+      t: 'search selected word backward',
+      k: '#',
+      c: 1
+    },
+    'Search.openCurrent': {
+      t: 'open',
+      d: 'open match',
+      k: '<S-Enter>',
+      both: 1
+    },
+    'Search.openCurrentNewTab': {
+      t: 'open (new tab)',
+      k: '<M-Enter>',
+      both: 1
+    }
+  },
+  'insert': {
+    'InsertMode.externalEditor': {
+      t: 'open active input in external editor',
+      d: 'sends copy of input to server and open content on gvim then pastes it',
+      k: '<C-i>',
+      s: 1,
+      i: 1,
+      o: {
+        'editor': 'editor command'
+      }
+    },
+    'InsertMode.moveToFirstOrSelectAll': {
+      t: 'move to beginning or select all',
+      k: '<C-a>',
+      i: 1
+    },
+    'InsertMode.moveToEnd': {
+      t: 'move to end',
+      k: '<C-e>',
+      i: 1
+    },
+    'InsertMode.deleteBackwardChar': {
+      t: 'backspace',
+      k: '<C-h>',
+      i: 1
+    },
+    'InsertMode.deleteForwardChar': {
+      t: 'delete forward character',
+      k: '<C-d>',
+      i: 1
+    },
+    'InsertMode.deleteBackwardWord': {
+      t: 'delete backward word',
+      k: '<M-w>',
+      i: 1
+    },
+    'InsertMode.deleteForwardWord': {
+      t: 'delete forward word',
+      k: '<M-d>',
+      i: 1
+    },
+    'InsertMode.deleteToBegin': {
+      t: 'delete to beginning',
+      k: '<C-u>',
+      i: 1
+    },
+    'InsertMode.deleteToEnd': {
+      t: 'delete to end',
+      k: '<C-k>',
+      i: 1
+    },
+    'InsertMode.MoveBackwardWord': {
+      t: 'move one word backwards',
+      k: '<C-h>',
+      i: 1
+    },
+    'InsertMode.MoveForwardWord': {
+      t: 'move one word forwards',
+      k: '<M-l>',
+      i: 1
+    },
+    'InsertMode.MoveBackwardChar': {
+      t: 'move one char backwards',
+      k: '<M-j>',
+      i: 1
+    },
+    'InsertMode.MoveForwardChar': {
+      t: 'move one char forwards',
+      k: '<M-k>',
+      i: 1
+    }
+  },
+  'marks': {
+    'Marks.addLocalMark': {
+      t: 'local mark',
+      d: 'mark position x,y on the page e.g ma',
+      k: 'm [a-z][0-9]',
+      gk: function() {
+        for (var i = 65; i <= 122; i++) {
+          if (i > 90 && i < 97) continue;
+          KeyEvent.add("m" + String.fromCharCode(i), Marks.addLocalMark);
+        }
+      }
+    },
+    'Marks.gotoLocalMark': {
+      t: 'go to local mark',
+      d: 'go to marked position on the page e.g \'a',
+      k: '\' [a-z][0-9]',
+      gk: function() {
+        for (var i = 65; i <= 122; i++) {
+          if (i > 90 && i < 97) continue;
+          KeyEvent.add("'" + String.fromCharCode(i), Marks.gotoLocalMark);
+        }
+      }
+    },
+    'Marks.addQuickMark': {
+      t: 'add quick mark',
+      d: 'associate mark to URL',
+      k: 'M'
+    },
+    'Marks.gotoQuickMark': {
+      t: 'go to quick mark',
+      d: 'open dialog + type mark and URL is opened',
+      k: 'go'
+    },
+    'Marks.gotoQuickMarkNewTab': {
+      t: 'go to quick mark (new tab)',
+      k: 'gn'
+    },
+    'Bookmark.start': {
+      t: 'search + open (new tab)',
+      k: 'gb'
+    },
+    'Bookmark.new_tab_start': {
+      t: 'search + open (new tab)',
+      k: 'gB'
+    }
   }
+
 }
 
+// loop and check keys actually exist as functions
+// use it to double check changes
 //_.each(cmds, function(commands, catName) {
 //  _.each(commands, function(info, cmdName) {
 //    var isFunction = typeof eval(cmdName) === 'function'
 //    if (!isFunction) alert(cmdName + ' is not a function')
 //  })
 //})
+
 var AcceptKey = cmds['global']['AcceptKeyFunction'].k
 var CancelKey = cmds['global']['CancelKeyFunction'].k
 var EscapeKey = cmds['global']['CancelKeyFunction'].k
