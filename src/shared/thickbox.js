@@ -21,10 +21,38 @@ var tb_pathToImage = "images/loadingAnimation.gif";
 
 function tb_init_dom() {
   $(document).ready(function() {
-    tb_init('a.thickbox, area.thickbox, input.thickbox'); //pass where to apply thickbox
-    imgLoader = new Image(); // preload image
+    $('<div/>', {
+      id: 'vromeHelpOverlay',
+      'class': 'myshit',
+      text: 'as'
+    }).css({
+      'background-color': 'black',
+      'position': 'absolute',
+      'z-index': 900,
+      'top': -1000,
+      'left': 0,
+      'height': '400%',
+      'width': '100%',
+      'filter': 'alpha(opacity=75)',
+      '-moz-opacity': '0.75'
+    }).appendTo(document.body)
+
+    $('<div/>', {
+      text: 'hello',
+      id: 'fucker'
+    }).css({
+      top: 0,
+      left: 0,
+      'position': 'absolute',
+      'z-index': 2147483647,
+      'background-color': 'black',
+      'color': 'white',
+      'clear': 'both',
+      'border-style': 'none'
+    }).appendTo(document.body)
   });
 }
+
 
 //add thickbox to href & area elements that have a class of .thickbox
 
@@ -42,10 +70,10 @@ function tb_init(domChunk) {
 function tb_show(caption, url, imageGroup) { //function called when the user clicks on a thickbox link
   try {
     if (typeof document.body.style.maxHeight === "undefined") { //if IE 6
-      $("body", "html").css({
-        height: "100%",
-        width: "100%"
-      });
+      //      $("body", "html").css({
+      //        height: "100%",
+      //        width: "100%"
+      //      });
       $("html").css("overflow", "hidden");
       if (document.getElementById("TB_HideSelect") === null) { //iframe to hide select elements in ie6
         $("body").append("<iframe id='TB_HideSelect'></iframe><div id='TB_overlay'></div><div id='TB_window'></div>");
