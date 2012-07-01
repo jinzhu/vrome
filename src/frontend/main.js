@@ -116,17 +116,17 @@ var cmds = {
       c: 1
     },
     'Scroll.up': {
-      t: 'scroll up',
+      t: 'up',
       k: 'k',
       c: 1
     },
     'Scroll.down': {
-      t: 'scroll down',
+      t: 'down',
       k: 'j',
       c: 1
     },
     'Scroll.left': {
-      t: 'scroll left',
+      t: 'left',
       k: 'h',
       c: 1
     },
@@ -136,22 +136,22 @@ var cmds = {
       c: 1
     },
     'Scroll.nextPage': {
-      t: 'Scroll page forward',
+      t: 'page forward',
       k: '<C-f>',
       c: 1
     },
     'Scroll.prevPage': {
-      t: 'Scroll page backward',
+      t: 'page backward',
       k: '<C-b>',
       c: 1
     },
     'Scroll.nextHalfPage': {
-      t: 'Scroll half page forward',
+      t: 'half page forward',
       k: '<C-d>',
       c: 1
     },
     'Scroll.prevHalfPage': {
-      t: 'scroll half page backward',
+      t: 'half page backward',
       k: '<C-u>',
       c: 1
     }
@@ -207,6 +207,26 @@ var cmds = {
       t: 'copy',
       k: 'y'
     },
+    'Url.openFromClipboard': {
+      t: 'Open clipboard content',
+      d: 'Go to URL or make a search',
+      k: 'p'
+    },
+    'Url.openFromClipboardNewTab': {
+      t: 'Open clipboard content in new tab',
+      d: 'Same as `p`',
+      k: 'P'
+    },
+    'Url.increment': {
+      t: 'Increment parameter',
+      k: '<C-a>',
+      c: 1
+    },
+    'Url.decrement': {
+      t: 'decrement parameter',
+      k: '<C-x>',
+      c: 1
+    },
     'Url.parent': {
       t: 'Go to parent',
       k: 'gu',
@@ -220,16 +240,6 @@ var cmds = {
       t: 'edit URL in external editor',
       k: 'Ue',
       s: 1
-    },
-    'Url.increment': {
-      t: 'Increment parameter',
-      k: '<C-a>',
-      c: 1
-    },
-    'Url.decrement': {
-      t: 'decrement parameter',
-      k: '<C-x>',
-      c: 1
     },
     // TODO: rethink
     'Url.open': {
@@ -271,16 +281,6 @@ Supports relative paths e.g ../admin',
       t: 'Shorten URL',
       d: 'Shorten URL and copy in clipboard',
       k: '<C-y>'
-    },
-    'Url.openFromClipboard': {
-      t: 'Open clipboard content',
-      d: 'Go to URL or make a search',
-      k: 'p'
-    },
-    'Url.openFromClipboardNewTab': {
-      t: 'Open clipboard content in new tab',
-      d: 'Same as `p`',
-      k: 'P'
     }
   },
   'tabs': {
@@ -296,10 +296,50 @@ Supports relative paths e.g ../admin',
       t: 'reload all ',
       k: 'R'
     },
+    'Tab.prev': {
+      t: 'previous',
+      k: ['<C-p>', 'gT'],
+      c: 1
+    },
+    'Tab.next': {
+      t: 'next',
+      k: ['<C-n>', 'gt'],
+      c: 1
+    },
+    'Tab.moveLeft': {
+      t: 'move left',
+      k: 'gq',
+      c: 1
+    },
+    'Tab.moveRight': {
+      t: 'move right',
+      k: 'ge',
+      c: 1
+    },
     'Buffer.gotoFirstMatch': {
       t: 'select first match',
       d: 'select first tab matching input',
       k: 'b'
+    },
+    'Tab.first': {
+      t: 'select first',
+      k: ['g0', 'g^']
+    },
+    'Tab.last': {
+      t: 'select last',
+      k: 'g$'
+    },
+    'Tab.selectLastOpen': {
+      t: 'select last opened',
+      d: 'toggle between last selected tab',
+      k: 'gl'
+    },
+    // TODO: rethink (currently when passed a count, it goes to it). it should behave like C-q in code editor (jump to last locations)
+    'Tab.selectPrevious': {
+      t: 'select last active ',
+      d: 'toggle between last selected tabs',
+      k: ['<C-6>', '<C-^>'],
+      c: 1
     },
     'Tab.close': {
       t: 'close',
@@ -327,14 +367,6 @@ Supports relative paths e.g ../admin',
       d: 'close all tabs on the right of selected tab',
       k: 'dr'
     },
-    'Tab.closeUnPinnedTabs': {
-      t: 'close unpinned ',
-      k: 'dp'
-    },
-    'Tab.closePinnedTabs': {
-      t: 'close pinned ',
-      k: 'dP'
-    },
     'Tab.closeAndFoucsLeft': {
       t: 'close and select left ',
       k: 'D',
@@ -345,25 +377,36 @@ Supports relative paths e.g ../admin',
       k: '<M-d>',
       c: 1
     },
-    'Tab.reopen': {
-      t: 'reopen closed',
-      d: 'reopen closed tabs - use Ctrl+Shift+T',
-      k: 'u'
+    'Tab.closeOtherWindows': {
+      t: 'close other windows',
+      k: 'dW'
     },
-    'Tab.prev': {
-      t: 'previous',
-      k: ['<C-p>', 'gT'],
-      c: 1
+    'Tab.closeUnPinnedTabs': {
+      t: 'close unpinned ',
+      k: 'dp'
     },
-    'Tab.next': {
-      t: 'next',
-      k: ['<C-n>', 'gt'],
-      c: 1
+    'Tab.closePinnedTabs': {
+      t: 'close pinned ',
+      k: 'dP'
     },
     'Tab.togglePin': {
       t: 'pin',
       d: 'toggle pin on/off',
       k: 'gp'
+    },
+    'Tab.unpinAllTabsInCurrentWindow': {
+      t: 'unpin all',
+      k: 'gP'
+    },
+    'Tab.unpinAllTabsInAllWindows': {
+      t: 'unpin from all windows',
+      d: 'unpin all tabs from all windows ',
+      k: 'WP'
+    },
+    'Tab.reopen': {
+      t: 'reopen closed',
+      d: 'reopen closed tabs - use Ctrl+Shift+T',
+      k: 'u'
     },
     'Tab.duplicate': {
       t: 'duplicate',
@@ -380,29 +423,6 @@ Supports relative paths e.g ../admin',
       d: 'reopen tab in incognito mode - tab is reloaded',
       k: 'gI'
     },
-    'Tab.moveLeft': {
-      t: 'move left',
-      k: 'gq',
-      c: 1
-    },
-    'Tab.moveRight': {
-      t: 'move right',
-      k: 'ge',
-      c: 1
-    },
-    'Tab.unpinAllTabsInCurrentWindow': {
-      t: 'unpin all',
-      k: 'gP'
-    },
-    'Tab.unpinAllTabsInAllWindows': {
-      t: 'unpin from all windows',
-      d: 'unpin all tabs from all windows ',
-      k: 'WP'
-    },
-    'Tab.closeOtherWindows': {
-      t: 'close other windows',
-      k: 'dW'
-    },
     'Tab.markForMerging': {
       t: 'merge mark',
       d: 'mark tab to be merged',
@@ -417,26 +437,6 @@ Supports relative paths e.g ../admin',
       t: 'merge put',
       d: 'move marked tabs',
       k: 'gv'
-    },
-    'Tab.first': {
-      t: 'select first',
-      k: ['g0', 'g^']
-    },
-    'Tab.last': {
-      t: 'select last',
-      k: 'g$'
-    },
-    'Tab.selectLastOpen': {
-      t: 'select last opened',
-      d: 'toggle between last selected tab',
-      k: 'gl'
-    },
-    // TODO: rethink (currently when passed a count, it goes to it). it should behave like C-q in code editor (jump to last locations)
-    'Tab.selectPrevious': {
-      t: 'select last active ',
-      d: 'toggle between last selected tabs',
-      k: ['<C-6>', '<C-^>'],
-      c: 1
     }
   },
   'history + bookmarks': {
