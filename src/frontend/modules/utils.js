@@ -30,14 +30,39 @@ function isElementVisible(elem, /* Boolean */ in_full_page) {
   var visible_in_screen = (pos.height !== 0 && pos.width !== 0) || (elem.children.length > 0);
 
   if (in_full_page) {
-    return visible_in_screen
+    return visible_in_screen && isDomElementVisible(elem)
   } else {
-    return in_current_screen
+    return in_current_screen && visible_in_screen && isDomElementVisible(elem)
   }
 }
 
-// attempts to do what isDomElementVisible supposed to do but limited to help box overlay for now
+function isDomElementVisible(obj) {
 
+  if (obj == document) return true
+
+  if (!obj) return false
+  if (!obj.parentNode) return false
+  if (obj.style) {
+    if (obj.style.display == 'none' || obj.style.visibility == 'hidden') return false
+  }
+
+  //Try the computed style in a standard way
+  var style = null;
+  if (window.getComputedStyle) {
+    style = window.getComputedStyle(obj, "");
+    if (style.display == 'none' || style.visibility == 'hidden') return false
+  }
+
+  //Or get the computed style using IE's silly proprietary way
+  style = obj.currentStyle;
+  if (style && (style['display'] == 'none' || style['visibility'] == 'hidden')) {
+    return false
+  }
+
+  return isDomElementVisible(obj.parentNode)
+}
+
+// attempts to do what isDomElementVisible supposed to do but limited to help box overlay for now
 function isHiddenByOverlay(elem) {
   if (!elem) return false
 
@@ -60,7 +85,7 @@ function isHiddenByOverlay(elem) {
 // unfortunately document.elementFromPoint is not very reliable
 // TODO: come up with a better idea. the goal is for elements with a lower z-index to not have hints
 
-function isDomElementVisible(obj) {
+function isDomElementHidden(obj) {
   if (!obj) return false
 
   var rect = obj.getBoundingClientRect()
