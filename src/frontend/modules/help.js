@@ -171,14 +171,44 @@ var Help = (function() {
       var ret = $('<table>', {
         id: 'vromeHelpGiantTable'
       })
-      _.each(ncmds, function(commands, categoryName) {
 
+      // add legend
+      ret.append(
+      $('<tr>').append(
+      $('<td/>'), $('<td/>'), $('<td/>'), $('<td/>'), $('<td/>', {
+        text: 'C',
+        'class': 'help_count'
+      }), $('<td/>', {
+        html: '&nbsp;accepts count',
+        'class': 'help_defaultColor'
+      })), $('<tr>').append(
+      $('<td/>'), $('<td/>'), $('<td/>'), $('<td/>'), $('<td/>', {
+        text: 'S',
+        'class': 'help_server'
+      }), $('<td/>', {
+        html: '&nbsp;requires a server',
+        'class': 'help_defaultColor'
+      })), $('<tr>').append(
+      $('<td/>'), $('<td/>'), $('<td/>'), $('<td/>'), $('<td/>', {
+        text: 'O',
+        'class': 'help_hasOptions'
+      }), $('<td/>', {
+        html: '&nbsp;has options',
+        'class': 'help_defaultColor'
+      })))
+
+      // skip break line for first category
+      var first = true
+
+      _.each(ncmds, function(commands, categoryName) {
         // table for current command
         ret.append(
         $('<tr>').append(
         $('<td/>', {
-          html: '<br/><br/>'
+          html: !first && '<br/><br/>'
         })))
+
+        first = false
 
         ret.append(
         $('<tr>').append(
