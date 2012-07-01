@@ -107,6 +107,10 @@ var Help = (function() {
 
         var keys = _.escape(((_.isString(info.k) && info.k) || info.k.join(" ")))
 
+        if (keys.trim().length === 0) {
+          keys = "[NONE]"
+        }
+
         // row for a command
         return $('<tr>').append(
 
@@ -131,7 +135,7 @@ var Help = (function() {
         // keys
         $('<td/>', {
           html: keys + '&nbsp;',
-          'class': 'help_keyShortcut'
+          'class': keys == "[NONE]" ? 'help_keyShortcutNone' : 'help_keyShortcut'
         }),
 
         // title + description + options
@@ -217,8 +221,7 @@ var Help = (function() {
 
     // resize overlay based on helpbox
     var height = helpBox.height();
-    if($(document.body).height() > height)
-      height = $(document.body).height()
+    if ($(document.body).height() > height) height = $(document.body).height()
 
     overlay.css({
       height: height,
@@ -227,7 +230,77 @@ var Help = (function() {
   }
 
   function transformCommands() {
-    return cmds
+    // update mapping using custom mapping
+    var customMapping = Settings.get('configure.map')
+    var reverseCustomMapping = {}
+    _.map(customMapping, function(v, k) {
+      return reverseCustomMapping[v] = k
+    })
+    var customKeys = _.keys(customMapping)
+
+    var unmap = Settings.get('configure.unmap')
+    var unmappedKeys = unmap && _.keys(unmap)
+
+    ncmds = _.clone(cmds)
+
+    var bindings = KeyEvent.bindings
+    bindings = bindings.slice(KeyEvent.coreBindingsIndex)
+
+    if (customKeys || unmappedKeys) {
+
+      _.each(ncmds, function(commands, categoryName) {
+        _.each(commands, function(info, fname) {
+          if (info.gk) return;
+
+          var keys = []
+
+          // add bindings added through custom JS
+          _.each(bindings, function(binding) {
+            if (binding[1] == eval(fname)) {
+              keys.push(binding[0])
+            }
+          })
+
+          // get keys
+          if (_.isString(info.k)) keys.push(info.k)
+          else keys = info.k
+
+          _.each(keys, function(k) {
+            if (reverseCustomMapping[k] !== undefined) {
+              keys.push(reverseCustomMapping[k])
+            }
+          })
+
+          keys = _.uniq(keys)
+
+          // remove unmapped keys
+          keys = _.filter(keys, function(k) {
+            var ret = true;
+
+            _.each(customMapping, function(cv, ck) {
+              // remove keys blocking other keys
+              // e.g map z zi where zi would now be blocked by z
+              if ((ck != k && ck.length < k.length && k.toString().startWith(ck))
+              // remove keys that are already mapped
+              // e.g map gf G
+              // map gs gf
+              // we don't want gf to appear in gs because it is already mapped to G
+              ||
+              (ck == k && reverseCustomMapping[ck] !== undefined && _.include(keys, reverseCustomMapping[ck]))) {
+                ret = false;
+              }
+            })
+
+            ret = ret && (!_.include(unmappedKeys, k) || _.include(customKeys, k))
+            return ret
+          })
+
+          info.k = keys
+        })
+      })
+    }
+
+    return ncmds
   }
 
   function show() {

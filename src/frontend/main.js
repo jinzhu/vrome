@@ -15,7 +15,7 @@ var cmds = {
   'global': {
     'Help.show': {
       t: 'Help',
-      d: 'Press key again to expand details',
+      d: 'Press key again to expand details and again for options',
       k: ['F1']
     },
     'CmdLine.start': {
@@ -644,11 +644,11 @@ type `F` then `s` `d`',
       k: 'gn'
     },
     'Bookmark.start': {
-      t: 'search + open (new tab)',
+      t: 'search bookmarks + open',
       k: 'gb'
     },
     'Bookmark.new_tab_start': {
-      t: 'search + open (new tab)',
+      t: 'search bookmarks + open (new tab)',
       k: 'gB'
     }
   }
@@ -926,6 +926,8 @@ with(KeyEvent) {
 
   add("<M-j>", InsertMode.MoveBackwardChar, true);
   add("<M-k>", InsertMode.MoveForwardChar, true);
+
+  done()
 }
 
 

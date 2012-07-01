@@ -206,9 +206,8 @@ a[vrome_highlight=hint_active] {
   vertical-align: text-top;
   text-align: left;
   font-variant: normal;
-font-style: normal;
-line-height: normal;
-/*  color: seashell;*/
+  font-style: normal;
+  line-height: normal;
 }
 
 /*category*/
@@ -252,6 +251,15 @@ line-height: normal;
 /*keys*/
 .help_keyShortcut {
   color: yellow;
+  font-weight: bold;
+  font-size: 12px;
+  width: 2%;
+  text-align: center !important;
+}
+
+/*keys*/
+.help_keyShortcutNone {
+  color: red;
   font-weight: bold;
   font-size: 12px;
   width: 2%;
@@ -310,6 +318,21 @@ line-height: normal;
 
 .help_optDefault a {
   color: #cf867e;
+  text-decoration: none;
+}
+
+.help_optDefault a:visited {
+  color: #cf867e;
+  text-decoration: none;
+}
+
+.help_optDefault a:link {
+  color: #cf867e;
+  text-decoration: none;
+}
+
+body {
+  font-size: 10pt;
 }
 
 /*option value*/
@@ -320,6 +343,17 @@ line-height: normal;
   font-weight: bold;
   text-align: center !important;
   width: 25%;
+}
+
+/*option value*/
+.help_optValue a:visited {
+  color: #bfb;
+  text-decoration: none;
+}
+
+.help_optValue a:link {
+  color: #bfb;
+  text-decoration: none;
 }
 
 /*option value*/

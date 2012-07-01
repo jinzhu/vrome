@@ -53,6 +53,10 @@ var KeyEvent = (function() {
     bindings.push([keys, func, !! insert_mode]);
   }
 
+  function doneDefiningCoreBindings() {
+    KeyEvent.coreBindingsIndex = bindings.length
+  }
+
   function reset() {
     currentKeys = "";
     times = 0;
@@ -289,6 +293,10 @@ var KeyEvent = (function() {
     runLast: runLast,
 
     stopPropagation: stopPropagation,
-    bindings: bindings
+    bindings: bindings,
+    done: doneDefiningCoreBindings
   };
 })();
+
+// store index of last defined bindings from vrome -- the bindings after that index are from the user using custom JS
+KeyEvent.coreBindingsIndex = 0
