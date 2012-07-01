@@ -12,6 +12,8 @@ var Hint = (function() {
   }
 
   function start(newTab, multiMode, stringMode, prevContent) {
+    Hint.remove()
+
     isStringMode = false;
     hintMode = true;
     multi_mode = multiMode;

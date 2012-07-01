@@ -30,36 +30,50 @@ function isElementVisible(elem, /* Boolean */ in_full_page) {
   var visible_in_screen = (pos.height !== 0 && pos.width !== 0) || (elem.children.length > 0);
 
   if (in_full_page) {
-    return visible_in_screen && isDomElementVisible(elem);
+    return visible_in_screen
   } else {
-    return in_current_screen && visible_in_screen && isDomElementVisible(elem);
+    return in_current_screen && visible_in_screen
   }
 }
 
+// idea to check overlay e.g when help box over shows over links, we don't display hints for links we can't access
+// unfortunately document.elementFromPoint is not very reliable
+// TODO: come up with a better idea. the goal is for elements with a lower z-index to not have hints
+
+
 function isDomElementVisible(obj) {
-
-  if (obj == document) return true
-
   if (!obj) return false
-  if (!obj.parentNode) return false
-  if (obj.style) {
-    if (obj.style.display == 'none' || obj.style.visibility == 'hidden') return false
+
+  var rect = obj.getBoundingClientRect()
+  var padding = 200
+  var x = rect.left + (rect.width / 2)
+  var y = rect.top + (rect.height / 2)
+
+
+  var elem = document.elementFromPoint(x, y)
+  if (!elem) return false
+
+  if (elem == obj) return true
+  if (elem.parentNode && elem.parentNode == obj) return true
+  if (elem.firstChild && elem.firstChild == obj) return true
+
+  for (var i = 0; i < elem.children.length; i++)
+  if (elem[i] == obj) return true;
+
+  i = 0
+  while (i < 10) {
+    var rectElem = elem.getBoundingClientRect()
+    if (rectElem.top < rect.top + padding && rectElem.left < rect.left + padding && elem.parentNode && elem != document.body && elem != document) {
+      if (elem.parentNode == obj) return true;
+    } else {
+      break;
+    }
+
+    elem = elem.parentNode
+    i++;
   }
 
-  //Try the computed style in a standard way
-  var style = null;
-  if (window.getComputedStyle) {
-    style = window.getComputedStyle(obj, "");
-    if (style.display == 'none' || style.visibility == 'hidden') return false
-  }
-
-  //Or get the computed style using IE's silly proprietary way
-  style = obj.currentStyle;
-  if (style && (style['display'] == 'none' || style['visibility'] == 'hidden')) {
-    return false
-  }
-
-  return isDomElementVisible(obj.parentNode)
+  return false;
 }
 
 function clickElement(elem, opt) {
@@ -95,7 +109,6 @@ function clickElement(elem, opt) {
 }
 
 // accept function or array of functions
-
 
 function runIt(func, args) {
   var initFunction = []
