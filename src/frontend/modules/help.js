@@ -197,6 +197,8 @@ var Help = (function() {
   }
 
   function buildContent() {
+    Help.hide()
+
     // add overlay
     var overlay = $('<div/>', {
       id: 'vromeHelpOverlay'
@@ -214,8 +216,12 @@ var Help = (function() {
     $(document.body).append(helpBox)
 
     // resize overlay based on helpbox
+    var height = helpBox.height();
+    if($(document.body).height() > height)
+      height = $(document.body).height()
+
     overlay.css({
-      height: helpBox.height() + 50,
+      height: height,
       width: '100%'
     })
   }
@@ -235,7 +241,6 @@ var Help = (function() {
     $('#vromeHelpBox').remove()
     $('#vromeHelpOverlay').remove()
   }
-
 
   return {
     show: show,
