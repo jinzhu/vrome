@@ -14,9 +14,10 @@
 var cmds = {
   'global': {
     'Help.show': {
-      t: 'Help',
+      t: 'Help (Press again for more)',
       d: 'Press key again to expand details and again for options',
-      k: ['F1']
+      k: ['F1'],
+      c: 1
     },
     'CmdLine.start': {
       t: 'Start command line',
@@ -725,7 +726,7 @@ function CancelKeyFunction() {
   Search.stop();
   Dialog.stop(true);
   CmdBox.remove();
-  Help.hide()
+  Help.hide(true)
 }
 
 function EscapeKeyFunction() {

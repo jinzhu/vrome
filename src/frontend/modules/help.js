@@ -3,6 +3,12 @@ var Help = (function() {
   // transformed commands (includes custom mapping)
   var ncmds;
 
+  // level of details
+  // 1 = simple
+  // 2 = description
+  // 3 = options
+  var level = 0;
+
   var HelpUtils = {
     OptionUtils: {
       buildOptionsHeadersHTML: function(info) {
@@ -94,11 +100,11 @@ var Help = (function() {
         // description
         $('<td/>', {
           html: description,
-          'class': 'help_desc'
+          'class': level < 2 ? 'help_hidden' : 'help_desc'
         })), $('<tr>').append(
 
         // create options label + append options table
-        $('<td>').text((info.o && 'Options') || '').addClass('help_optsLabel').append(optsTable))).appendTo(ret)
+        $('<td>').text((info.o && 'Options') || '').addClass(level < 3 ? 'help_hidden' : 'help_optsLabel').append(optsTable))).appendTo(ret)
 
         return ret
       },
@@ -231,8 +237,6 @@ var Help = (function() {
   }
 
   function buildContent() {
-    Help.hide()
-
     // add overlay
     var overlay = $('<div/>', {
       id: 'vromeHelpOverlay'
@@ -336,11 +340,17 @@ var Help = (function() {
   function show() {
     ncmds = transformCommands()
     $(document).ready(function() {
+      Help.hide()
       buildContent()
     });
   }
 
-  function hide() {
+  function hide(reset) {
+    level++
+
+    if (times(true, true) > level) level = times(true, true)
+
+    if (reset) level = 0
     $('#vromeHelpBox').remove()
     $('#vromeHelpOverlay').remove()
   }

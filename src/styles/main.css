@@ -377,3 +377,6 @@ body {
   font-weight: bold;
   width: 5%;
 }
+.help_hidden {
+  display: none;
+}
