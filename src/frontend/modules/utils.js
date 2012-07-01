@@ -32,14 +32,33 @@ function isElementVisible(elem, /* Boolean */ in_full_page) {
   if (in_full_page) {
     return visible_in_screen
   } else {
-    return in_current_screen && visible_in_screen
+    return in_current_screen
   }
+}
+
+// attempts to do what isDomElementVisible supposed to do but limited to help box overlay for now
+
+function isHiddenByOverlay(elem) {
+  if (!elem) return false
+
+  var overlay = document.getElementById('vromeHelpOverlay')
+
+  if (overlay) {
+    var rect = elem.getBoundingClientRect()
+    var x = rect.left + (rect.width / 2)
+    var y = rect.top + (rect.height / 2)
+
+    var e = document.elementFromPoint(x, y)
+    if (e == elem) return true
+    else return false
+  }
+
+  return true
 }
 
 // idea to check overlay e.g when help box over shows over links, we don't display hints for links we can't access
 // unfortunately document.elementFromPoint is not very reliable
 // TODO: come up with a better idea. the goal is for elements with a lower z-index to not have hints
-
 
 function isDomElementVisible(obj) {
   if (!obj) return false
