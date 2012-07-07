@@ -36,6 +36,18 @@ function initOptionPage() {
 
   changeAccessButtonStatus(oauth.hasToken());
   switchTab(document.location.hash.replace(/^#/, "") || 'setting');
+
+  // add listeners
+  var links = document.getElementsByTagName('a')
+  _.each(links, function(v) {
+    if (v && v.parentNode && v.parentNode.parentNode) {
+      v.addEventListener('click', function(e) {
+        switchTab(v.hash.substring(1));
+        e.stopPropagation();
+        return false
+      })
+    }
+  })
 }
 
 function saveOnlineVromerc() {
@@ -60,4 +72,22 @@ function saveOptions() {
 
   $('#saved').show();
   $('#saved').fadeOut(3000);
+}
+
+function renderPages() {
+  render(document.getElementById('dashboardContent'), "/README.html")
+  render(document.getElementById('settingContent'), "/files/setting.html")
+  render(document.getElementById('donatesContent'), "/files/donates.html")
+  render(document.getElementById('changelogContent'), "/files/changelog.html")
+  render(document.getElementById('thanksContent'), "/files/thanks.html")
+  render(document.getElementById('featuresContent'), "/files/features.html")
+}
+
+window.onload = function() {
+  renderPages();
+  initOptionPage();
+
+  // display if server is online or offline
+  window.setInterval(checkServerStatus, 1000)
+  checkServerStatus();
 }

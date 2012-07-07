@@ -1,35 +1,30 @@
 {
-  "name": "Vrome",
-  "description": "Bringing Vim's elegance to Chrome",
-  "background_page": "background/background.html",
-  "version": "0.6.5",
+  "name":"Vrome",
+  "description":"Bringing Vim's elegance to Chrome",
+  "version":"2.0.0",
   "content_scripts":[{
     "css":["styles/main.css"],
-    "all_frames":true,"run_at":"document_start",
+    "all_frames":true,
+    "run_at":"document_start",
     "js":[""],
     "matches":["<all_urls>"]
   }],
-  "offline_enabled": true,
-  "permissions": [
-    "tabs",
-    "bookmarks",
-    "history",
-    "clipboardRead",
-    "clipboardWrite",
-    "notifications",
-    "proxy",
-    "contextMenus",
-    "<all_urls>"
-  ],
-  "icons": {
-    "16": "images/icons-16.png",
-    "48": "images/logo.png",
-    "128": "images/icons-128.png"
+  "offline_enabled":true,
+  "permissions":["tabs","storage","bookmarks","history","clipboardRead","clipboardWrite","notifications","proxy","contextMenus","<all_urls>"],
+  "icons":{
+    "16":"images/icons-16.png",
+    "48":"images/logo.png",
+    "128":"images/icons-128.png"
   },
-  "browser_action": {
-    "popup": "background/popup.html",
-    "default_icon": "images/logo.png",
-    "default_title": "Vrome"
+  "browser_action":{
+    "popup":"background/popup.html",
+    "default_icon":"images/logo.png",
+    "default_title":"Vrome"
   },
-  "options_page": "background/options.html"
+  "options_page":"background/options.html",
+  "manifest_version": 2,
+  "minimum_chrome_version": "20",
+  "background": {
+    "page": "/background/background.html"
+  }
 }

@@ -1,7 +1,6 @@
 chrome.extension.onConnect.addListener(function(port) {
   port.onMessage.addListener(function(msg) {
-    // TODO: replace by port.sender.tab in chrome 20
-    var tab = port.tab;
+    var tab = port.sender.tab
     var actions = msg.action.split('.');
 
     // Action /*Function*/

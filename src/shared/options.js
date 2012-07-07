@@ -56,7 +56,10 @@ var Option = (function() {
       if (option instanceof Array) {
         if (new_value.startWith('[')) {
           try {
-            new_value = eval(new_value);
+            // Note: eval no longer supported in manifest version 2
+            //            new_value = eval(new_value);
+            // keep message for users with this value
+            console.log('Vrome: we no longer support inline [] arrays (new chrome security policy)')
           } catch (e) {
             new_value = [];
           }

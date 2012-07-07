@@ -15,13 +15,13 @@
     <script src="/background/scripts/modules/options.js"></script>
     <script src="/shared/extend.js"></script>
 
-		<script type="text/javascript" src="/oauth/chrome_ex_oauthsimple.js"></script>
-		<script type="text/javascript" src="/oauth/chrome_ex_oauth.js"></script>
-		<script type="text/javascript" src="/oauth/oauth.js"></script>
+    <script type="text/javascript" src="/oauth/chrome_ex_oauthsimple.js"></script>
+    <script type="text/javascript" src="/oauth/chrome_ex_oauth.js"></script>
+    <script type="text/javascript" src="/oauth/oauth.js"></script>
 
   </head>
 
-  <body onload="initOptionPage()">
+  <body>
     <header>
       <table style="width: 100%" cellpadding="0" cellspacing="0">
         <tbody><tr>
@@ -37,14 +37,15 @@
       </table>
     </header>
 
+
     <nav>
       <ul id="tabs">
-        <li><a href="#dashboard" onclick="switchTab('dashboard');"><span>Dashboard</span></a></li>
-        <li><a href="#setting" onclick="switchTab('setting');"><span>Options</span></a></li>
-        <li><a href="#features" onclick="switchTab('features');"><span>Features</span></a></li>
-        <li><a href="#changelog" onclick="switchTab('changelog');"><span>ChangeLog</span></a></li>
-        <li><a href="#thanks" onclick="switchTab('thanks');"><span>Thanks</span></a></li>
-        <li><a href="#donates" onclick="switchTab('donates');"><span>Donate</span></a></li>
+        <li><a href="#dashboard"><span>Dashboard</span></a></li>
+        <li><a  href="#setting"><span>Options</span></a></li>
+        <li><a href="#features"><span>Features</span></a></li>
+        <li><a href="#changelog"><span>ChangeLog</span></a></li>
+        <li><a href="#thanks"><span>Thanks</span></a></li>
+        <li><a href="#donates"><span>Donate</span></a></li>
       </ul>
     </nav>
 
@@ -57,17 +58,5 @@
       <div id="donatesContent" class="tabContent"></div>
     </section>
 
-    <script>
-      render(document.getElementById('dashboardContent'), "/README.html")
-      render(document.getElementById('settingContent'), "/files/setting.html")
-      render(document.getElementById('donatesContent'), "/files/donates.html")
-      render(document.getElementById('changelogContent'), "/files/changelog.html")
-      render(document.getElementById('thanksContent'), "/files/thanks.html")
-      render(document.getElementById('featuresContent'), "/files/features.html")
-
-      // display if server is online or offline
-      window.setInterval('checkServerStatus()', 1000);
-      checkServerStatus();
-    </script>
   </body>
 </html>
