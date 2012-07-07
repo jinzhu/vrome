@@ -63,6 +63,7 @@ function isDomElementVisible(obj) {
 }
 
 // attempts to do what isDomElementVisible supposed to do but limited to help box overlay for now
+
 function isHiddenByOverlay(elem) {
   if (!elem) return false
 
@@ -282,4 +283,19 @@ var Dropbox = {
       });
     }
   }
+}
+
+
+//http://stackoverflow.com/questions/359788/how-to-execute-a-javascript-function-when-i-have-its-name-as-a-string
+
+function extractFunction(functionName, context /*, args */ ) {
+  var args = Array.prototype.slice.call(arguments).splice(2);
+  var namespaces = functionName.split(".");
+  var func = namespaces.pop();
+  for (var i = 0; i < namespaces.length; i++) {
+    context = context[namespaces[i]];
+  }
+  return context[func];
+  // exec
+  //  return context[func].apply(this, args);
 }

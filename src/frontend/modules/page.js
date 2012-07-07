@@ -102,6 +102,13 @@ var Page = (function() {
     transformURLs: transformURLs,
     openURLs: openURLs,
     editURLInExternalEditor: editURLInExternalEditor,
-    editURLExternalEditorCallback: editURLExternalEditorCallback
+    editURLExternalEditorCallback: editURLExternalEditorCallback,
+    openOptions: function() {
+      Post({
+        action: "Tab.openUrl",
+        url: "/background/options.html",
+        newtab: true
+      });
+    }
   };
 })();

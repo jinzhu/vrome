@@ -746,7 +746,7 @@ function loadMapping() {
   _.each(cmds, function(commands, catName) {
     _.each(commands, function(info, fname) {
 
-      var func = eval(fname)
+      var func = extractFunction(fname, window)
 
       if (typeof info.gk === "function") {
         info.gk()
@@ -777,4 +777,5 @@ with(CmdLine) {
   add("mdelete", "mark delete match", Marks.deleteQuickMark, true);
   add("make-links", "transforms URLs into clickable links", Page.transformURLs);
   add("dld-links", "opens all links matching a URL (match begin;end)  e.g dld-links mp4 2;10", Page.openURLs, true);
+  add("options", "opens options page", Page.openOptions)
 }
