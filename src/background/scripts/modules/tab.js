@@ -97,6 +97,7 @@ var Tab = (function() {
       delete msg.count;
     }
 
+    // eval code no longer supported in chrome 20
     var closeMap = {
       closeOther: 'v.id != tab.id && !v.pinned',
       closeLeft: 'v.index < tab.index && !v.pinned',
@@ -107,6 +108,7 @@ var Tab = (function() {
       count: 'v.index >= tab.index'
     }
 
+    // TODO: refactor code in frontend to use a string i.e type: 'closeOther' instead of closeOther being a key
     var cond = _.chain(_.intersect(_.keys(msg), _.keys(closeMap))).first().value()
 
     if (cond || msg.count > 1) {
@@ -121,7 +123,28 @@ var Tab = (function() {
         _.each(windows, function(w) {
           var tabs = w.tabs
           tabs = _.filter(tabs, function(v) {
-            return eval(closeMap[cond])
+            var ret = false
+            switch (cond) {
+            case 'closeOther':
+              ret = v.id == tab.id || v.pinned
+              break
+            case 'closeLeft':
+              ret = v.id == tab.id || v.pinned || tab.index < v.index
+              break
+            case 'closeRight':
+              ret = v.id == tab.id || v.pinned || tab.index > v.index
+              break
+            case 'closePinned':
+              ret = !v.pinned
+              break
+            case 'closeUnPinned':
+              ret = v.pinned
+              break
+            case 'otherWindows':
+              ret = v.windowId == tab.windowId || v.pinned
+              break
+            }
+            return !ret
           })
           _.each(tabs, function(v, k) {
             if (msg.count && k > msg.count) return;

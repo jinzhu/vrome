@@ -3,7 +3,7 @@ var Marks = (function() {
   var marks;
 
   function addQuickMark() {
-    marks = Settings.get('background.url_marks') || {}
+    marks = Settings.get('url_marks') || {}
     Dialog.start('Add Quick Mark', '', filterQuickMarks, false, handleEnterKey);
   }
 
@@ -153,10 +153,10 @@ var Marks = (function() {
   }
 
   function deleteQuickMark(keyword) {
-    marks = Settings.get('background.url_marks') || {}
+    marks = Settings.get('url_marks') || {}
     if (marks[keyword]) {
       delete marks[keyword]
-      Settings.add('background.url_marks', marks);
+      Settings.add('url_marks', marks);
     }
   }
 
