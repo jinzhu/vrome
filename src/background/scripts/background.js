@@ -60,7 +60,7 @@ chrome.tabs.onActivated.addListener(function(info) {
 
     // switch last active
     try {
-      if (tab.windowId) {
+      if (tab && tab.windowId && Tab.activeTabs[tab.windowId]) {
         Tab.activeTabs[tab.windowId]['last_tab_id'] = Tab.activeTabs[tab.windowId]['current_tab_id']
         Tab.activeTabs[tab.windowId]['current_tab_id'] = tab.id
       }

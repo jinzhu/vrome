@@ -778,4 +778,5 @@ with(CmdLine) {
   add("make-links", "transforms URLs into clickable links", Page.transformURLs);
   add("dld-links", "opens all links matching a URL (match begin;end)  e.g dld-links mp4 2;10", Page.openURLs, true);
   add("options", "opens options page", Page.openOptions)
+  add("toggle-images", "toggle images", Page.hideImages)
 }

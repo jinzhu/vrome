@@ -1,4 +1,12 @@
 var Page = (function() {
+  function hideImages() {
+    var imgs = document.getElementsByTagName('img')
+    _.each(imgs, function(v) {
+      // toggle class name
+      $(v).toggleClass('help_hidden')
+    })
+  }
+
   function execMatch(regexps) {
     var elems = document.getElementsByTagName('a');
     for (var i = 0; i < regexps.length; i++) {
@@ -109,6 +117,8 @@ var Page = (function() {
         url: "/background/options.html",
         newtab: true
       });
-    }
+    },
+
+    hideImages: hideImages
   };
 })();
