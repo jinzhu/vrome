@@ -326,12 +326,15 @@ var Hint = (function() {
   }
 
   function copyElementText(elem) {
-    var text = elem.innerText;
-    Clipboard.copy(text);
-    CmdBox.set({
-      title: "[Copied] " + text,
-      timeout: 4000
-    });
+    var text = elem.innerText || elem.value
+
+    if (text) {
+      Clipboard.copy(text);
+      CmdBox.set({
+        title: "[Copied] " + text,
+        timeout: 4000
+      });
+    }
   }
 
   function delayToWaitKeyDown() {
