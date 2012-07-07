@@ -189,6 +189,7 @@ var Tab = (function() {
     },
     closeOtherWindows: function() {
       close({
+        otherWindows: true,
         type: 'otherWindows'
       })
     },

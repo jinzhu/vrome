@@ -97,7 +97,6 @@ var Tab = (function() {
       delete msg.count;
     }
 
-    //      count: 'v.index >= tab.index'
     var cond = msg.type
 
     if (cond || msg.count > 1) {
@@ -113,7 +112,7 @@ var Tab = (function() {
           var tabs = w.tabs
           tabs = _.filter(tabs, function(v) {
 
-            closeMap = {
+            var closeMap = {
               closeOther: v.id == tab.id || v.pinned,
               closeLeft: v.id == tab.id || v.pinned || tab.index < v.index,
               closeRight: v.id == tab.id || v.pinned || tab.index > v.index,
