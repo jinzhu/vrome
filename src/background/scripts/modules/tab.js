@@ -97,19 +97,8 @@ var Tab = (function() {
       delete msg.count;
     }
 
-    // eval code no longer supported in chrome 20
-    var closeMap = {
-      closeOther: 'v.id != tab.id && !v.pinned',
-      closeLeft: 'v.index < tab.index && !v.pinned',
-      closeRight: 'v.index > tab.index && !v.pinned',
-      closePinned: 'v.pinned',
-      closeUnPinned: '!v.pinned',
-      otherWindows: 'v.windowId != tab.windowId && !v.pinned',
-      count: 'v.index >= tab.index'
-    }
-
-    // TODO: refactor code in frontend to use a string i.e type: 'closeOther' instead of closeOther being a key
-    var cond = _.chain(_.intersect(_.keys(msg), _.keys(closeMap))).first().value()
+    //      count: 'v.index >= tab.index'
+    var cond = msg.type
 
     if (cond || msg.count > 1) {
       chrome.windows.getAll({
@@ -123,28 +112,17 @@ var Tab = (function() {
         _.each(windows, function(w) {
           var tabs = w.tabs
           tabs = _.filter(tabs, function(v) {
-            var ret = false
-            switch (cond) {
-            case 'closeOther':
-              ret = v.id == tab.id || v.pinned
-              break
-            case 'closeLeft':
-              ret = v.id == tab.id || v.pinned || tab.index < v.index
-              break
-            case 'closeRight':
-              ret = v.id == tab.id || v.pinned || tab.index > v.index
-              break
-            case 'closePinned':
-              ret = !v.pinned
-              break
-            case 'closeUnPinned':
-              ret = v.pinned
-              break
-            case 'otherWindows':
-              ret = v.windowId == tab.windowId || v.pinned
-              break
+
+            closeMap = {
+              closeOther: v.id == tab.id || v.pinned,
+              closeLeft: v.id == tab.id || v.pinned || tab.index < v.index,
+              closeRight: v.id == tab.id || v.pinned || tab.index > v.index,
+              closePinned: !v.pinned,
+              closeUnPinned: v.pinned,
+              otherWindows: v.windowId == tab.windowId || v.pinned,
+              count: v.index >= tab.index
             }
-            return !ret
+            return !closeMap[cond]
           })
           _.each(tabs, function(v, k) {
             if (msg.count && k > msg.count) return;
@@ -327,6 +305,12 @@ var Tab = (function() {
 
   function duplicate(msg) {
     var tab = arguments[arguments.length - 1];
+
+    if (msg.count > 30) {
+      alert('get outta here! ' + msg.count + ' tabs! wanna crash your browser buddy?')
+      return
+    }
+
 
     for (var i = 0; i < msg.count; i++) {
       chrome.tabs.create({

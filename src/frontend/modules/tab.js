@@ -152,7 +152,7 @@ var Tab = (function() {
     close: close,
     closeAndFoucsLast: function() {
       close({
-        focusLast: true,
+        type: 'focusLast',
         count: times()
       });
     },
@@ -164,32 +164,32 @@ var Tab = (function() {
     },
     closeOtherTabs: function() {
       close({
-        closeOther: true
+        type: 'closeOther'
       });
     },
     closeLeftTabs: function() {
       close({
-        closeLeft: true
+        type: 'closeLeft'
       });
     },
     closeRightTabs: function() {
       close({
-        closeRight: true
+        type: 'closeRight'
       });
     },
     closePinnedTabs: function() {
       close({
-        closePinned: true
+        type: 'closePinned'
       });
     },
     closeUnPinnedTabs: function() {
       close({
-        closeUnPinned: true
+        type: 'closeUnPinned'
       });
     },
     closeOtherWindows: function() {
       close({
-        otherWindows: true
+        type: 'otherWindows'
       })
     },
     moveLeft: function() {
