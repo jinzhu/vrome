@@ -140,7 +140,6 @@ function render(elem, template) {
 
 // checks if we have any messages for incomplete tabs and sends them
 
-
 function checkMessagingQueue() {
   if (messagingQueue.length === 0) return;
 
@@ -148,6 +147,8 @@ function checkMessagingQueue() {
     var tab = messagingQueue[i][0]
     var msg = messagingQueue[i][1]
     chrome.tabs.get(tab.id, function(tab) {
+      if (!tab) return;
+
       if (tab.status != "complete") {
         messagingQueue.push([tab, msg])
       } else {
