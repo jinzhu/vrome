@@ -243,49 +243,6 @@ var Migration = (function() {
 })()
 
 
-var Dropbox = {
-  isAuthorized: function() {
-    if (!window.location.href.startsWith("https://www.dropbox.com/1/oauth/authorize")) {
-      return;
-    }
-
-    var i;
-    var forms = document.getElementsByTagName("form");
-    for (i in forms) {
-      // Check inquiry page.
-      var form = forms[i];
-      if (form.action && form.action.match(/\/authorize$/)) {
-        console.log("Skip inquiry page.");
-        return;
-      }
-    }
-    var auth = document.getElementById("auth");
-    if (!auth) {
-      console.log("#auth part not found.");
-      return;
-    }
-    auth = auth.innerText;
-    var successMessage = "Success!";
-    var scripts = document.getElementsByTagName("script");
-    for (i in scripts) {
-      var script = scripts[i].innerText;
-      if (!script) continue;
-      var matched = script.match(/"Success!":[^}]*"t":\s*"([^"]*)"/);
-      if (!matched) continue;
-      successMessage = unescape(matched[1].replace(/\\u/g, "%u"));
-      console.log("i18n message found: " + successMessage);
-      break;
-    }
-    if (auth.indexOf(successMessage) >= 0) {
-      console.log("Success! found.");
-      chrome.extension.sendRequest({
-        isSuccess: true
-      });
-    }
-  }
-}
-
-
 //http://stackoverflow.com/questions/359788/how-to-execute-a-javascript-function-when-i-have-its-name-as-a-string
 
 function extractFunction(functionName, context /*, args */ ) {
