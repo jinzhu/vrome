@@ -130,13 +130,16 @@ var Tab = (function() {
         })
       })
     } else {
-      chrome.tabs.remove(tab.id);
-      if (msg.focusLast) {
-        selectPrevious.apply('', arguments);
-      } // close and select right
-      if (msg.offset) {
-        select.apply('', arguments);
-      } // close and select left
+      if (!tab.pinned) {
+        chrome.tabs.remove(tab.id);
+
+        if (msg.focusLast) {
+          selectPrevious.apply('', arguments);
+        } // close and select right
+        if (msg.offset) {
+          select.apply('', arguments);
+        } // close and select left
+      }
     }
   }
 
