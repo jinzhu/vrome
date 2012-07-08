@@ -1,5 +1,3 @@
-var messagingQueue = [];
-
 var Post = function(tab, message) {
     // Note(hbt): due to new tab status, a tab could be either "loading" or "complete"
     // we can't connect a port to a loading tab. Therefore, we have to queue it and check it over and over
@@ -67,22 +65,6 @@ function externalEditor(msg) {
   }));
 }
 
-// Notify new version
-var manifestRequest = new XMLHttpRequest();
-manifestRequest.open("GET", chrome.extension.getURL("manifest.json"), false);
-manifestRequest.send(null);
-var currentVersion = JSON.parse(manifestRequest.responseText).version;
-
-if (Settings.get("version") !== currentVersion) {
-  if (Settings.get("version")) {
-    openOptions('changelog');
-  } else {
-    openOptions('dashboard');
-  }
-  Settings.add({
-    version: currentVersion
-  });
-}
 
 // Open Pages
 
@@ -166,7 +148,29 @@ function addErrorLogger() {
   }, false);
 }
 
+// Notify new version
 
 
+function checkNewVersion() {
+  var manifestRequest = new XMLHttpRequest();
+  manifestRequest.open("GET", chrome.extension.getURL("manifest.json"), false);
+  manifestRequest.send(null);
+  var currentVersion = JSON.parse(manifestRequest.responseText).version;
+
+  if (Settings.get("version") !== currentVersion) {
+    if (Settings.get("version")) {
+      openOptions('changelog');
+    } else {
+      openOptions('dashboard');
+    }
+    Settings.add({
+      version: currentVersion
+    });
+  }
+
+}
+
+var messagingQueue = [];
 window.setInterval(checkMessagingQueue, 100);
+checkNewVersion()
 addErrorLogger()
