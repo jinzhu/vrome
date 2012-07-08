@@ -103,11 +103,27 @@ var Tab = (function() {
       chrome.windows.getAll({
         populate: true
       }, function(windows) {
-        if (!msg.otherWindows) {
+        if (msg.otherWindows) {
+          // filter windows  without pinned tabs
+          windows = _.filter(windows, function(w) {
+            if (w.id === tab.windowId) return false
+            else {
+              var noPinned = true;
+              _.each(w.tabs, function(v) {
+                if (v.pinned) {
+                  noPinned = false
+                }
+              })
+              return noPinned
+            }
+          })
+        } else {
+          // limit to current window
           windows = _.filter(windows, function(w) {
             return w.id === tab.windowId;
           })
         }
+
         _.each(windows, function(w) {
           var tabs = w.tabs
           tabs = _.filter(tabs, function(v) {

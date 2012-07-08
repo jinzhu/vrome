@@ -64,8 +64,8 @@ chrome.tabs.onActivated.addListener(function(info) {
         Tab.activeTabs[tab.windowId]['last_tab_id'] = Tab.activeTabs[tab.windowId]['current_tab_id']
         Tab.activeTabs[tab.windowId]['current_tab_id'] = tab.id
       }
-    } catch (e) {
-      console.log(e)
+    } catch (err) {
+      logError(err)
     }
   });
 });
