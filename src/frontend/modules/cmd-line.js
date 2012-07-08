@@ -65,7 +65,12 @@ var CmdLine = (function() {
         args = string.substring(string.indexOf(' ')).trim()
       }
       if (CmdLineMode) {
-        fn.call('', args)
+        try {
+          fn.call('', args)
+
+        } catch (err) {
+          logError(err)
+        }
         CmdLineMode = false;
       }
 

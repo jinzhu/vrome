@@ -14,6 +14,11 @@ chrome.extension.onConnect.addListener(function(port) {
     argument = (argument instanceof Array) ? argument : [argument];
     argument.push(tab);
 
-    if (action instanceof Function) action.apply('', argument);
+
+    try {
+      if (action instanceof Function) action.apply('', argument);
+    } catch (err) {
+      logError(err)
+    }
   });
 })

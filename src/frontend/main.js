@@ -659,14 +659,8 @@ type `F` then `s` `d`',
 
 }
 
-// loop and check keys actually exist as functions
-// use it to double check changes
-//_.each(cmds, function(commands, catName) {
-//  _.each(commands, function(info, cmdName) {
-//    var isFunction = typeof eval(cmdName) === 'function'
-//    if (!isFunction) alert(cmdName + ' is not a function')
-//  })
-//})
+
+
 var AcceptKey = cmds['global']['AcceptKeyFunction'].k
 var CancelKey = cmds['global']['CancelKeyFunction'].k
 var EscapeKey = cmds['global']['CancelKeyFunction'].k
@@ -768,15 +762,46 @@ function loadMapping() {
   KeyEvent.done()
 }
 
-loadMapping()
 
-// TODO: add command line to help + mapping object
-with(CmdLine) {
-  add("help", "show help ", Help.show)
-  add("bdelete", "buffer delete match", Buffer.deleteMatchHandle, true);
-  add("mdelete", "mark delete match", Marks.deleteQuickMark, true);
-  add("make-links", "transforms URLs into clickable links", Page.transformURLs);
-  add("dld-links", "opens all links matching a URL (match begin;end)  e.g dld-links mp4 2;10", Page.openURLs, true);
-  add("options", "opens options page", Page.openOptions)
-  add("toggle-images", "toggle images", Page.hideImages)
+function addErrorLogger() {
+  window.addEventListener('error', function(err) {
+    logError(err)
+  }, false);
+}
+
+function addCmdLineCommands() {
+  // TODO: add command line to help + mapping object
+  with(CmdLine) {
+    add("help", "show help ", Help.show)
+    add("bdelete", "buffer delete match", Buffer.deleteMatchHandle, true);
+    add("mdelete", "mark delete match", Marks.deleteQuickMark, true);
+    add("make-links", "transforms URLs into clickable links", Page.transformURLs);
+    add("dld-links", "opens all links matching a URL (match begin;end)  e.g dld-links mp4 2;10", Page.openURLs, true);
+    add("options", "opens options page", Page.openOptions)
+    add("toggle-images", "toggle images", Page.hideImages)
+  }
+}
+
+// loop and check keys actually exist as functions
+// use it to double check changes
+
+function checkNewMapping() {
+  _.each(cmds, function(commands, catName) {
+    _.each(commands, function(info, cmdName) {
+      var isFunction = typeof eval(cmdName) === 'function'
+      if (!isFunction) alert(cmdName + ' is not a function')
+    })
+  })
+}
+
+
+try {
+  addCmdLineCommands()
+  addErrorLogger()
+  loadMapping()
+
+  // uncomment this when making changes to mapping -- makes sure things are still working
+  //checkNewMapping()
+} catch (err) {
+  logError(err)
 }

@@ -160,5 +160,13 @@ function checkMessagingQueue() {
   messagingQueue = []
 }
 
+function addErrorLogger() {
+  window.addEventListener('error', function(err) {
+    logError(err)
+  }, false);
+}
+
+
 
 window.setInterval(checkMessagingQueue, 100);
+addErrorLogger()

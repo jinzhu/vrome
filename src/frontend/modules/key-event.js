@@ -157,7 +157,11 @@ var KeyEvent = (function() {
         if (map_times > 0) {
           times = map_times * (times || 1);
         }
-        binding_function.call(e);
+        try {
+          binding_function.call(e);
+        } catch (err) {
+          logError(err)
+        }
         if (map_times > 0) {
           times = last_times;
         }

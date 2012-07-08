@@ -75,3 +75,14 @@ function object2table(data) {
   }
   return table;
 }
+
+
+// TODO: add remote error logging
+// Take into consideration uniqIds to identify possible attackers + IPs
+
+function logError(err) {
+  // no stack property => Error Object from background page
+  console.log(err, err.stack)
+
+  // no line number or file . it is from the frontend and good luck debugging that cluster fuck. consider adding  more try/catch and hope
+}
