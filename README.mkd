@@ -51,3 +51,7 @@ Vim + Vimperator users will feel right at home.
  * <http://github.com/jinzhu>
  * <wosmvp@gmail.com>
  * <http://twitter.com/zhangjinzhu>
+
+**Hassen Ben Tanfous**
+ * <hassenbentanfous@gmail.com>
+ * <https://github.com/hbt>
