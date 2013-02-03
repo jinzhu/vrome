@@ -30,7 +30,7 @@ var Dialog = (function() {
     if (!box) {
       box = document.createElement('div');
       box.setAttribute('id', box_id);
-      var styles = "bottom:" + cmdBox.clientHeight + "px !important";
+      var styles = "bottom:" + cmdBox.offsetHeight + "px !important";
       box.setAttribute('style', styles);
       document.body.insertBefore(box, document.body.childNodes[0]);
     }
@@ -192,7 +192,7 @@ var Dialog = (function() {
     if (!box) {
       box = document.createElement('div');
       box.setAttribute('id', notice_id);
-      var styles = "bottom: 0 !important; right:" + cmdBox.clientWidth + "px !important; height: " + (cmdBox.clientHeight - 4) + "px !important; line-height: " + (cmdBox.clientHeight - 4) + "px !important; width: " + (DialogBox().clientWidth - cmdBox.clientWidth + 8) + "px !important";
+      var styles = "bottom: 0 !important; right:" + cmdBox.offsetWidth + "px !important; height: " + cmdBox.offsetHeight + "px !important; line-height: " + cmdBox.offsetHeight + "px !important; width: " + (DialogBox().offsetWidth - cmdBox.offsetWidth - 12) + "px !important";
       box.setAttribute('style', styles);
       document.body.insertBefore(box, document.body.childNodes[0]);
     }

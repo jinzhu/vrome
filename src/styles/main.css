@@ -16,7 +16,6 @@
 
 #_vrome_cmd_box input{
   background: #eff8ff !important;
-  -webkit-border-radius: 2px !important;
   padding:4px 0 !important;
   height:22px !important;
   width:200px !important;
@@ -50,7 +49,6 @@
   font-size: 14px !important;
   border:1px dotted #E3BE23;
   color: white !important;
-  border-radius: 4px;
   font-weight: bold !important;
   padding: 0px 1px !important;
   z-index: 2147483646 !important;
@@ -98,7 +96,6 @@ a[vrome_highlight=hint_active] {
   text-align:left !important;
   color: black !important;
   padding:10px !important;
-  border-radius: 4px !important;
   font-family: Lucida Grande, Arial, Sans !important;
   width:750px !important;
   max-height: 90% !important;
@@ -119,8 +116,7 @@ a[vrome_highlight=hint_active] {
   font-weight:700 !important;
   text-align:left !important;
   color: black !important;
-  padding:3px 3px !important;
-  border-radius: 4px !important;
+  padding:0px 5px !important;
   font-family: Lucida Grande, Arial, Sans !important;
   opacity: 0.9 !important;
   overflow: hidden !important;
@@ -136,7 +132,6 @@ a[vrome_highlight=hint_active] {
 
 #__vrome_searchResults .__vrome_selected {
   background-color: #8ABEE6 !important;
-  border-radius: 4px !important;
   opacity: 0.85 !important;
 }
 
