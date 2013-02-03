@@ -769,15 +769,13 @@ function addErrorLogger() {
 
 function addCmdLineCommands() {
   // TODO: add command line to help + mapping object
-  with(CmdLine) {
-    add("help", "show help ", Help.show)
-    add("bdelete", "buffer delete match", Buffer.deleteMatchHandle, true);
-    add("mdelete", "mark delete match", Marks.deleteQuickMark, true);
-    add("make-links", "transforms URLs into clickable links", Page.transformURLs);
-    add("dld-links", "opens all links matching a URL (match begin;end)  e.g dld-links mp4 2;10", Page.openURLs, true);
-    add("options", "opens options page", Page.openOptions)
-    add("toggle-images", "toggle images", Page.hideImages)
-  }
+  CmdLine.add("help", "show help ", Help.show)
+  CmdLine.add("bdelete", "buffer delete match", Buffer.deleteMatchHandle, true);
+  CmdLine.add("mdelete", "mark delete match", Marks.deleteQuickMark, true);
+  CmdLine.add("make-links", "transforms URLs into clickable links", Page.transformURLs);
+  CmdLine.add("dld-links", "opens all links matching a URL (match begin;end)  e.g dld-links mp4 2;10", Page.openURLs, true);
+  CmdLine.add("options", "opens options page", Page.openOptions)
+  CmdLine.add("toggle-images", "toggle images", Page.hideImages)
 }
 
 // loop and check keys actually exist as functions
