@@ -155,16 +155,15 @@ function clickElement(elem, opt) {
 
 // accept function or array of functions
 
+var initFunction = []
 function runIt(func, args) {
-  var initFunction = []
-
   if (_.isArray(func)) {
-    initFunction = func
+    initFunction = initFunction.concat(func)
   } else if (_.isFunction(func)) {
     initFunction.push([func, args]);
   }
 
-  $(document).ready(function() {
+  if (document.body) {
     for (var i = 0; i < initFunction.length; i++) {
       var init_function = initFunction[i];
 
@@ -176,7 +175,9 @@ function runIt(func, args) {
         Debug("RunIt(Not Run): function" + init_function);
       }
     }
-  })
+  } else {
+    setTimeout(runIt, 10);
+  }
 }
 
 var CustomCode = (function() {

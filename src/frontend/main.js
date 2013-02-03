@@ -656,7 +656,6 @@ type `F` then `s` `d`',
       k: 'gB'
     }
   }
-
 }
 
 
@@ -799,6 +798,7 @@ try {
   addCmdLineCommands()
   addErrorLogger()
   loadMapping()
+  runIt([Migration.exec, Zoom.init, KeyEvent.init]);
 
   // uncomment this when making changes to mapping -- makes sure things are still working
   //checkNewMapping()
