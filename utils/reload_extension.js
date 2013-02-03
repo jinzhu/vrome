@@ -1,7 +1,23 @@
-// put your extension ID here
-var myExtensionID = 'amefopjfkmkbemjamdiilgdmjehniibl';
+// chrome://extensions-frame/
+var myExtensionName = 'Vrome';
 var latestVersion = -1;
+var myExtensionID = null;
 var time = 500; // reload every X ms
+
+var allExtensions = document.getElementsByClassName("extension-list-item-wrapper")
+for (var i=0; i < allExtensions.length; i++) {
+  var extensionName = allExtensions[i].getElementsByClassName("extension-title")[0].innerText
+  console.log(extensionName)
+  if (RegExp(myExtensionName,"i").test(extensionName)) {
+    myExtensionID = allExtensions[i].getElementsByClassName("extension-id")[0].innerText
+    break;
+  }
+}
+if (myExtensionID == null) {
+  console.log(myExtensionName + " Not Found!")
+} else {
+  console.log("Auto loading " + myExtensionID)
+}
 
 function reload_ext() {
   document.getElementById("toggle-" + myExtensionID).click();

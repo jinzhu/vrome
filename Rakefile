@@ -55,11 +55,17 @@ task :format_js do
   javascript_files.map do |file|
     p "formatting #{file}"
     formated_content = `js-beautify -s 2 #{file}`
-#    formated_content = `js-beautify --brace-style=expand -s 2 #{file}`
+    # formated_content = `js-beautify --brace-style=expand -s 2 #{file}`
     File.open(file, 'w') {|f| f.write(formated_content) }
   end
 
   exit
 end
 
-task :default => [:build]
+desc "Run development environment"
+task :run do
+  system "watch_and_do system/ruby rb utils/refresh_server.sh &"
+  system "watch_and_do . js utils/update_version.rb"
+end
+
+task :default => [:run]
