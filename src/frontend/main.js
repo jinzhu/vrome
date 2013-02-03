@@ -558,26 +558,6 @@ type `F` then `s` `d`',
       k: '<C-e>',
       i: 1
     },
-    'InsertMode.deleteBackwardChar': {
-      t: 'backspace',
-      k: '<C-h>',
-      i: 1
-    },
-    'InsertMode.deleteForwardChar': {
-      t: 'delete forward character',
-      k: '<C-d>',
-      i: 1
-    },
-    'InsertMode.deleteBackwardWord': {
-      t: 'delete backward word',
-      k: '<M-w>',
-      i: 1
-    },
-    'InsertMode.deleteForwardWord': {
-      t: 'delete forward word',
-      k: '<M-d>',
-      i: 1
-    },
     'InsertMode.deleteToBegin': {
       t: 'delete to beginning',
       k: '<C-u>',
@@ -588,9 +568,29 @@ type `F` then `s` `d`',
       k: '<C-k>',
       i: 1
     },
+    'InsertMode.deleteBackwardWord': {
+      t: 'delete backward word',
+      k: ['<M-y>', '<C-h>', '<M-w>'],
+      i: 1
+    },
+    'InsertMode.deleteForwardWord': {
+      t: 'delete forward word',
+      k: ['<M-o>', '<C-l>', '<M-d>'],
+      i: 1
+    },
+    'InsertMode.deleteBackwardChar': {
+      t: 'backspace',
+      k: ['<M-u>', '<C-h>'],
+      i: 1
+    },
+    'InsertMode.deleteForwardChar': {
+      t: 'delete forward character',
+      k: ['<M-i>', '<C-d>'],
+      i: 1
+    },
     'InsertMode.MoveBackwardWord': {
       t: 'move one word backwards',
-      k: '<C-h>',
+      k: '<M-h>',
       i: 1
     },
     'InsertMode.MoveForwardWord': {
