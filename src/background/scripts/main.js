@@ -1,17 +1,6 @@
 var Post = function(tab, message) {
-    // Note(hbt): due to new tab status, a tab could be either "loading" or "complete"
-    // we can't connect a port to a loading tab. Therefore, we have to queue it and check it over and over
-    if (tab.status == "complete") {
-      // new chrome API allows us to access chrome:// tabs
-      // but not their content (i.e port will fail)
-      if (!tab.url.startsWith('chrome://')) {
-        var port = chrome.tabs.connect(tab.id, {});
-        port.postMessage(message);
-      }
-    } else {
-      messagingQueue.push([tab, message]);
-    }
-  };
+  chrome.tabs.sendMessage(tab.id, message, function(response) { });
+};
 
 function storeLastCommand(msg) {
   var tab = arguments[arguments.length - 1];
@@ -122,26 +111,6 @@ function render(elem, template) {
 
 // checks if we have any messages for incomplete tabs and sends them
 
-function checkMessagingQueue() {
-  if (messagingQueue.length === 0) return;
-
-  for (var i = messagingQueue.length; i > 0; i++) {
-    var message = messagingQueue.shift();
-    var tab = message[0];
-    var msg = message[1];
-
-    chrome.tabs.get(tab.id, function(tab) {
-      if (!tab) return;
-
-      if (tab.status != "complete") {
-        messagingQueue.push([tab, msg])
-      } else {
-        Post(tab, msg)
-      }
-    })
-  }
-}
-
 function addErrorLogger() {
   window.addEventListener('error', function(err) {
     logError(err)
@@ -170,7 +139,5 @@ function checkNewVersion() {
 
 }
 
-var messagingQueue = [];
-window.setInterval(checkMessagingQueue, 100);
 checkNewVersion()
 addErrorLogger()

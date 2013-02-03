@@ -10,9 +10,8 @@ var times = function( /*Boolean*/ raw, /*Boolean*/ read) {
   };
 
 var Post = function(msg) {
-    var port = chrome.extension.connect();
-    port.postMessage(msg);
-  };
+  chrome.extension.sendMessage(msg, function(response) {});
+};
 
 function isElementVisible(elem, /* Boolean */ in_full_page) {
   var win_top = window.scrollY / Zoom.current();
