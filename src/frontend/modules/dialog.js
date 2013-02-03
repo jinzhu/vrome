@@ -30,7 +30,8 @@ var Dialog = (function() {
     if (!box) {
       box = document.createElement('div');
       box.setAttribute('id', box_id);
-      box.style.bottom = cmdBox.clientHeight + "px !important";
+      var styles = "bottom:" + cmdBox.clientHeight + "px !important";
+      box.setAttribute('style', styles);
       document.body.insertBefore(box, document.body.childNodes[0]);
     }
     return box;
@@ -191,11 +192,8 @@ var Dialog = (function() {
     if (!box) {
       box = document.createElement('div');
       box.setAttribute('id', notice_id);
-      box.style.bottom = "0 !important";
-      box.style.right = cmdBox.clientWidth + "px !important";
-      // 8 is the padding for cmdbox
-      box.style.height = (cmdBox.clientHeight - 4) + "px !important";
-      box.style.width = (DialogBox().clientWidth - cmdBox.clientWidth + 8) + "px !important";
+      var styles = "bottom: 0 !important; right:" + cmdBox.clientWidth + "px !important; height: " + (cmdBox.clientHeight - 4) + "px !important; line-height: " + (cmdBox.clientHeight - 4) + "px !important; width: " + (DialogBox().clientWidth - cmdBox.clientWidth + 8) + "px !important";
+      box.setAttribute('style', styles);
       document.body.insertBefore(box, document.body.childNodes[0]);
     }
     box.innerHTML = msg;
