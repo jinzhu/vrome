@@ -29,7 +29,7 @@ var CmdBox = (function() {
     }
 
   function blur() {
-    cmdBoxInput().blur();
+    if (cmdBoxInput()) { cmdBoxInput().blur(); }
   }
 
   function cmdBox() {

@@ -50,10 +50,13 @@ auto refresh
 prevent popup in insert mode. (fix ? for twitter)
 omni box
 
+Hint mode -> input box number, <M-f>
+<C-h> doesn't work
+<M-h>
 
 DEPRECATED:
   getSelected() have been deprecated in chrome16, use chrome.tabs.query()
-  You are no longer required to specify the tabID for the chrome.tabs.update() method. When not provided, the tabID defaults to the selected tab of the current window.  
+  You are no longer required to specify the tabID for the chrome.tabs.update() method. When not provided, the tabID defaults to the selected tab of the current window.
 
 
 NO AVAILABLE API:

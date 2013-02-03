@@ -261,7 +261,6 @@ Supports relative paths e.g ../admin',
         'autocomplete_next_10': 'Next 10',
         'autocomplete_prev_10': 'Previous 10',
         'open_tab_on_the_right': 'Always open new tab next to active one'
-
       }
     },
     // TODO: rethink
