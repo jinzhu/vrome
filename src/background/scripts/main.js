@@ -125,9 +125,11 @@ function render(elem, template) {
 function checkMessagingQueue() {
   if (messagingQueue.length === 0) return;
 
-  for (var i = 0; i < messagingQueue.length; i++) {
-    var tab = messagingQueue[i][0]
-    var msg = messagingQueue[i][1]
+  for (var i = messagingQueue.length; i > 0; i++) {
+    var message = messagingQueue.shift();
+    var tab = message[0];
+    var msg = message[1];
+
     chrome.tabs.get(tab.id, function(tab) {
       if (!tab) return;
 
@@ -138,8 +140,6 @@ function checkMessagingQueue() {
       }
     })
   }
-
-  messagingQueue = []
 }
 
 function addErrorLogger() {

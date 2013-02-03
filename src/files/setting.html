@@ -21,7 +21,7 @@
             <option value="720">12 Hours</option>
             <option value="1440">Everyday</option>
           </select>
-          <input type="submit" value="Load Now" onclick="saveOptions();">
+          <input type="submit" value="Load Now" class="saveOptions">
         </td>
       </tr>
       <tr>
@@ -68,8 +68,8 @@
       </tr>
       <tr>
         <td colspan="3">
-          <input type="button" value="Grant Access" id="grantAccess" onclick="grantOAuthAccess();" disabled>
-          <input type="button" value="Revoke Access" id="revokeAccess" onclick="revokeOAuthAccess();" disabled>
+          <input type="button" value="Grant Access" id="grantAccess" disabled>
+          <input type="button" value="Revoke Access" id="revokeAccess" disabled>
         </td>
       </tr>
     </tbody>
@@ -78,6 +78,6 @@
 
 <br/>
 <div id="savecancelpanel">
-  <button id="save" class="bluebutton" onclick="saveOptions();">Save</button>
-  <button id="cancel" class="bluebutton" onclick="self.close();">Cancel</button>
+  <button id="save" class="bluebutton saveOptions">Save</button>
+  <button id="cancel" class="bluebutton closeWindow">Cancel</button>
 </div>

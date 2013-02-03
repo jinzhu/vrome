@@ -82,7 +82,7 @@ function object2table(data) {
 
 function logError(err) {
   // no stack property => Error Object from background page
-  console.log(err, err.stack)
+  // console.log(err, err.stack)
 
   // no line number or file . it is from the frontend and good luck debugging that cluster fuck. consider adding  more try/catch and hope
 }

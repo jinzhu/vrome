@@ -83,11 +83,14 @@ function renderPages() {
   render(document.getElementById('featuresContent'), "/files/features.html")
 }
 
-window.onload = function() {
+$(document).ready(function() {
   renderPages();
   initOptionPage();
-
-  // display if server is online or offline
   window.setInterval(checkServerStatus, 1000)
   checkServerStatus();
-}
+
+  $(".saveOptions").click(saveOptions);
+  $(".closeWindow").click(window.close);
+  $("#grantAccess").click(grantOAuthAccess);
+  $("#revokeAccess").click(revokeOAuthAccess);
+})
