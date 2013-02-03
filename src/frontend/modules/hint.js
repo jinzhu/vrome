@@ -12,21 +12,14 @@ var Hint = (function() {
   }
 
   function start(newTab, multiMode, stringMode, prevContent) {
-    Hint.remove()
-
-    isStringMode = false;
+    Hint.remove();
     hintMode = true;
-    multi_mode = multiMode;
-    selected = 0; // set current selected number
-    currentHint = false;
+
     new_tab = newTab;
-    clickedElems = []
-    isStringMode = stringMode || Option.get('useletters') == 1
+    multi_mode = multiMode;
+    isStringMode = stringMode || Option.get('useletters') == 1;
+
     hintKeys = Option.get('hintkeys')
-    subMatched = []
-    elements = []
-    matched = []
-    dupElements = {}
     isHighlightEnabled = Option.get('hints_highlight')
 
     initHintMode();
@@ -35,7 +28,7 @@ var Hint = (function() {
       CmdBox.set({
         title: 'HintMode',
         pressUp: handleInput,
-        content: prevContent ? prevContent : '',
+        content:  prevContent ? prevContent : '',
         noHighlight: inRepeatMode(prevContent),
         stopAllPropagation: true
       });
@@ -49,13 +42,21 @@ var Hint = (function() {
   }
 
   function initHintMode() {
+    selected = 0; // set current selected number
+    currentHint = false;
+
     elements = [];
+    clickedElems = [];
+    subMatched = [];
+    elements = [];
+    matched = [];
+    dupElements = {};
 
     // Get all visible elements
     var elems = document.body.querySelectorAll('a, input:not([type=hidden]), textarea, select, button, *[onclick]');
 
     elements = _.select(elems, function(v) {
-      return isElementVisible(v) && v && v.id != '_vrome_cmd_input_box'
+      return isElementVisible(v) && v && (v.id != '_vrome_cmd_input_box')
     })
 
     setHintIndex(elements);
@@ -207,19 +208,22 @@ var Hint = (function() {
 
     var exec = false;
 
-
     // If user are inputing number
     if (/^\d$/.test(key) || (key == '<BackSpace>' && selected !== 0)) {
       selected = (key == '<BackSpace>') ? parseInt(selected / 10) : selected * 10 + Number(key);
+
       CmdBox.set({
         title: 'HintMode (' + selected + ')'
       });
       var index = selected - 1;
 
+      currentHint = matched[index];
       setHighlight(matched[index], /* set_active */ true);
 
+      e.stopPropagation();
+      e.preventDefault();
+
       if (selected * 10 > matched.length) {
-        currentHint = matched[index];
         exec = true;
       }
     } else if (isStringMode) {
@@ -228,27 +232,28 @@ var Hint = (function() {
       } else {
         var newMatched = getMatchedElementsByString(getCurrentString());
         setHintIndex(elements);
+        currentHint = newMatched[0];
 
         if (newMatched.length == 1) {
-          currentHint = newMatched[0];
           exec = true;
         }
       }
     } else {
-      // If key is not Accept key
+      // If key is not Accept key, Reset title
       if (!isAcceptKey(key)) {
         CmdBox.set({
           title: 'HintMode'
         });
       }
-      // If key is not Escape key
+
+      // If key is not Escape key, Reset hints
       if (!isEscapeKey(key)) {
         setTimeout(delayToWaitKeyDown, 20);
       }
     }
 
-    e.stopPropagation();
     if (exec) {
+      e.stopPropagation();
       e.preventDefault();
       return execSelect(currentHint)
     }
