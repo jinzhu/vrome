@@ -1,3 +1,12 @@
+2.0.0 (2013/02/03)
+
+- New help page, press <F1> to check it
+- Add some commands to CmdLine
+- Rewitten quick mark features
+- New short keys in InsertMode. <M-{hjkl}> to move a char/word, <M-{yuio}> to delete a char/word
+- New short keys for tab. <ge>, <gq>, <dW>, <gm>, <gM> and more...
+- Add Hassen Ben Tanfous as author! Thank you!
+
 1.1.2 (2012/04/10)
 
 - [Url] Fix open, search multibyte characters (Thanks Takashi Sakai)
