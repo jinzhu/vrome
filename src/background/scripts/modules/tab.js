@@ -139,6 +139,7 @@ var Tab = (function() {
             }
             return !closeMap[cond]
           })
+
           _.each(tabs, function(v, k) {
             if (msg.count && k > msg.count) return;
             chrome.tabs.remove(v.id)

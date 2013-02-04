@@ -152,7 +152,7 @@ var Tab = (function() {
     close: close,
     closeAndFoucsLast: function() {
       close({
-        type: 'focusLast',
+        focusLast: true,
         count: times()
       });
     },
