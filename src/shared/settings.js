@@ -2,7 +2,7 @@ var Settings = (function() {
   var key = '__vrome_settings';
 
   var keyMap = {
-    //    'scripts': '__vrome_scripts',
+    // 'scripts': '__vrome_scripts',
     'hosts': '__vrome_hosts',
     // background or not, it now means the same thing. Because we sync everything in the background page's local storage
     'background': '__vrome_settings' // TODO: remove "background." calls and just use the key name instead e.g "times" instead of "background.times"
@@ -16,6 +16,7 @@ var Settings = (function() {
      */
     getSettings: function(name) {
       var res = {}
+
       try {
         res = JSON.parse(localStorage[name] || "{}");
       } catch (e) {
@@ -33,17 +34,18 @@ var Settings = (function() {
 
     // given a string, it returns the valid prefix from that string
     getPrefix: function(value) {
-      if (!_.isString(value)) return null
+      if (!_.isString(value)) return null;
 
-      var res = null
+      var res = null;
+      var prefix = value;
 
-      var prefix = value
       if (value.indexOf('.') !== -1) {
-        prefix = value.substring(0, value.indexOf('.'))
+        prefix = value.substring(0, value.indexOf('.'));
       }
-      res = _.chain(keyMap).keys().contains(prefix).value() ? prefix : null
 
-      return res
+      res = _.chain(keyMap).keys().contains(prefix).value() ? prefix : null;
+
+      return res;
     },
 
     // retrieves settings based on value
@@ -165,15 +167,18 @@ var Settings = (function() {
   function add(value) {
     var arg, prefix, calledFromBackground
 
+    if (arguments.length > 1) {
+      // prefix is passed from background page
+      prefix = arguments[1];
+    }
+
     // arg is the value, prefix is extracted
     if (_.isString(value)) {
       arg = arguments[1]
       prefix = SettingsUtils.getPrefix(value) || 'background'
       calledFromBackground = false;
-    } else if (_.isObject(value) && arguments.length > 1) {
+    } else if (_.isObject(value)) {
       calledFromBackground = true;
-      // prefix is passed from background page
-      prefix = arguments[1]
     }
 
     // get data based on prefix
@@ -217,7 +222,7 @@ var Settings = (function() {
     }
 
     // sync in background storage
-    if (typeof syncSettingAllTabs !== "function" && !calledFromBackground) {
+    if ((typeof(checkNewVersion) !== "function") && !calledFromBackground) {
       obj = SettingsUtils.transformObject(obj, prefix)
       Post({
         action: "Settings.syncBackgroundStorage",
@@ -243,6 +248,7 @@ var Settings = (function() {
     add: add,
     get: get,
     syncBackgroundStorage: syncBackgroundStorage,
-    syncTabStorage: syncTabStorage
+    syncTabStorage: syncTabStorage,
+    getPrefix: SettingsUtils.getPrefix
   }
 })();
