@@ -170,6 +170,7 @@ a[vrome_highlight=hint_active] {
 
 /*help box and inner element*/
 #vromeHelpBox {
+  font-size: 12px;
   background-color: #252525 !important;
   position: absolute;
   margin-left: 10px;
@@ -206,11 +207,11 @@ a[vrome_highlight=hint_active] {
 }
 
 /*category*/
-.help_categoryTitle {
+#vromeHelpBox .help_categoryTitle {
   width: 5%;
 }
 
-.help_categoryTitle h2 {
+#vromeHelpBox .help_categoryTitle h2 {
   color: #bfb;
   font-weight: bold !important;
   font-size: 18px;
@@ -218,7 +219,7 @@ a[vrome_highlight=hint_active] {
 }
 
 /*display O S C*/
-.help_hasOptions{
+#vromeHelpBox .help_hasOptions{
   color: cyan;
   font-size: 10px;
   font-family: cursive;
@@ -226,7 +227,7 @@ a[vrome_highlight=hint_active] {
   text-align: right !important;
 }
 
-.help_server {
+#vromeHelpBox .help_server {
   color: red;
   font-size: 10px;
   font-family: cursive;
@@ -234,7 +235,7 @@ a[vrome_highlight=hint_active] {
   text-align: right !important;
 }
 
-.help_count {
+#vromeHelpBox .help_count {
   color: hotpink;
   font-size: 10px;
   font-family: cursive;
@@ -244,7 +245,7 @@ a[vrome_highlight=hint_active] {
 
 
 /*keys*/
-.help_keyShortcut {
+#vromeHelpBox .help_keyShortcut {
   color: yellow;
   font-weight: bold;
   font-size: 12px;
@@ -253,7 +254,7 @@ a[vrome_highlight=hint_active] {
 }
 
 /*keys*/
-.help_keyShortcutNone {
+#vromeHelpBox .help_keyShortcutNone {
   color: red;
   font-weight: bold;
   font-size: 12px;
@@ -262,32 +263,30 @@ a[vrome_highlight=hint_active] {
 }
 
 /*command title + description*/
-.help_title{
+#vromeHelpBox .help_title {
   color: white;
   font-size: 14px;
   font-weight: bold;
 }
 
-.help_desc{
+#vromeHelpBox .help_desc {
   color: #E3BE23;
   font-size: 11px;
 }
 
-/*options table*/
-
 /*options string */
-.help_optsLabel{
+#vromeHelpBox .help_optsLabel {
   font-size: 8px;
   font-family: cursive;
   color: cyan;
 }
 
 /*option table headers*/
-.help_optsTable {
+#vromeHelpBox .help_optsTable {
   width: 100%;
 }
 
-.help_optHeader{
+#vromeHelpBox .help_optHeader{
   font-weight: bold;
   font-size: 9px;
   color: seashell;
@@ -295,7 +294,7 @@ a[vrome_highlight=hint_active] {
 }
 
 /*option name*/
-.help_optName{
+#vromeHelpBox .help_optName{
   color: cyan;
   font-weight: bold;
   font-size: 14px;
@@ -303,7 +302,7 @@ a[vrome_highlight=hint_active] {
 }
 
 /*option default*/
-.help_optDefault {
+#vromeHelpBox .help_optDefault {
   font-family: sans-serif;
   font-size: 12px;
   color: #cf867e;
@@ -311,27 +310,23 @@ a[vrome_highlight=hint_active] {
   width: 25%;
 }
 
-.help_optDefault a {
+#vromeHelpBox .help_optDefault a {
   color: #cf867e;
   text-decoration: none;
 }
 
-.help_optDefault a:visited {
+#vromeHelpBox .help_optDefault a:visited {
   color: #cf867e;
   text-decoration: none;
 }
 
-.help_optDefault a:link {
+#vromeHelpBox .help_optDefault a:link {
   color: #cf867e;
   text-decoration: none;
-}
-
-body {
-  font-size: 10pt;
 }
 
 /*option value*/
-.help_optValue {
+#vromeHelpBox .help_optValue {
   font-family: sans-serif;
   font-size: 12px;
   color: #bfb;
@@ -341,24 +336,24 @@ body {
 }
 
 /*option value*/
-.help_optValue a:visited {
+#vromeHelpBox .help_optValue a:visited {
   color: #bfb;
   text-decoration: none;
 }
 
-.help_optValue a:link {
+#vromeHelpBox .help_optValue a:link {
   color: #bfb;
   text-decoration: none;
 }
 
 /*option value*/
-.help_optValue a {
+#vromeHelpBox .help_optValue a {
   color: #bfb;
   text-decoration: none;
 }
 
 /*option description*/
-.help_optDesc{
+#vromeHelpBox .help_optDesc{
   font-family: sans-serif;
   font-size: 14px;
   color: white;
@@ -366,12 +361,13 @@ body {
   text-align: center !important;
 }
 
-.help_defaultColor {
+#vromeHelpBox .help_defaultColor {
   color: seashell;
   font-size: 11px;
   font-weight: bold;
   width: 5%;
 }
-.help_hidden {
+
+#vromeHelpBox .help_hidden {
   display: none;
 }
