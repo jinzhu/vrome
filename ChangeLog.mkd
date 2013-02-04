@@ -1,3 +1,8 @@
+2.0.2 (2013/02/04)
+
+- Fix can't save option page
+- Fix Font error in gmail/youtube
+
 2.0.1 (2013/02/04)
 
 - Fix <M-d> close current and focus last visited tab
