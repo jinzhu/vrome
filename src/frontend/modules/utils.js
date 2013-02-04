@@ -230,7 +230,7 @@ var Migration = (function() {
       if (data) {
         !Settings.get('hosts.zoom_level') && data['zoom_level'] && Settings.add('hosts.zoom_level', data['zoom_level']);
         !Settings.get('hosts.local_marks') && data['local_marks'] && Settings.add('hosts.local_marks', data['local_marks']);
-        delete localStorage['__vrome_setting']
+        // delete localStorage['__vrome_setting']
       }
     } catch (e) {
       c.l(e)

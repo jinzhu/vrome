@@ -1,11 +1,11 @@
 var Settings = (function() {
-  var key = '__vrome_settings';
+  var key = '__vrome_setting';
 
   var keyMap = {
     //    'scripts': '__vrome_scripts',
     'hosts': '__vrome_hosts',
     // background or not, it now means the same thing. Because we sync everything in the background page's local storage
-    'background': '__vrome_settings' // TODO: remove "background." calls and just use the key name instead e.g "times" instead of "background.times"
+    'background': '__vrome_setting' // TODO: remove "background." calls and just use the key name instead e.g "times" instead of "background.times"
   }
 
   SettingsUtils = {
