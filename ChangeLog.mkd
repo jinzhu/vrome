@@ -1,6 +1,7 @@
 2.0.1 (2013/02/04)
 
 - Fix <M-d> close current and focus last visited tab
+- Fix <C-y> to shorten URL
 
 2.0.0 (2013/02/03)
 

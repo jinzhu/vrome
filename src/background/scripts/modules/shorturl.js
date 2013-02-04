@@ -1,9 +1,8 @@
 function shortUrl(msg) {
   var tab = arguments[arguments.length - 1];
-  var port = chrome.tabs.connect(tab.id, {});
 
   function sendBackCurrentUrl() {
-    port.postMessage({
+    Post(tab, {
       action: "Url.shortUrl",
       url: tab.url
     });
@@ -23,7 +22,7 @@ function shortUrl(msg) {
     var response = JSON.parse(xhr.responseText);
     if (xhr.readyState == 4) {
       if (xhr.status == 200) {
-        port.postMessage({
+        Post(tab, {
           action: "Url.shortUrl",
           url: response.id
         });
