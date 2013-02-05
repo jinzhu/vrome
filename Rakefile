@@ -63,16 +63,4 @@ task :format_js do
   exit
 end
 
-desc "Run development environment"
-task :develop do
-  puts "Open chrome://extensions-frame and paste `reload_extension.js` in developer tools console"
-
-  require 'clipboard'
-  Clipboard.copy File.read("utils/reload_extension.js")
-
-  system "utils/restart_server.sh &"
-  system "watch_and_do system/ruby rb utils/restart_server.sh &"
-  system "watch_and_do . js utils/update_version.rb"
-end
-
-task :default => [:develop]
+task :default => [:build, :zip]

@@ -1,5 +1,6 @@
 notification :tmux, :display_message => true, :timeout => 5, :default_message_format => '%s >> %s'
 
+puts "Open chrome://extensions-frame and paste `reload_extension.js` in developer tools console"
 require 'clipboard'
 Clipboard.copy File.read("utils/reload_extension.js")
 
