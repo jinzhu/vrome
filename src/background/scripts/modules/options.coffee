@@ -7,9 +7,9 @@ render = (elem, template) ->
 # Switch tabs
 switchTab = (tab_name) ->
   $("nav #tabs li a").removeClass "selected"
-  $("nav #tabs li a[href=" + tab_name + "]").addClass "selected"
+  $("nav #tabs li a[href=#{tab_name}]").addClass "selected"
   $("section .tabContent").hide()
-  $(tab_name + "Content").show()
+  $("#{tab_name}Content").show()
 
 
 # Render all partials
@@ -23,8 +23,7 @@ renderPages = ->
 
   # switch tab
   switchTab document.location.hash or "#setting"
-  $("nav #tabs li a").click ->
-    switchTab $(this).attr("href")
+  $("nav #tabs li a").click -> switchTab $(this).attr("href")
 
 
 # Input values
@@ -52,7 +51,7 @@ saveOptions = ->
   $("#saved").show().fadeOut 3000
 
 
-$(document).ready ->
+$ ->
   renderPages()
   setSettings()
 
