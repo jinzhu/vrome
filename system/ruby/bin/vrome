@@ -5,6 +5,7 @@ require 'webrick'
 require 'tempfile'
 require 'json'
 require 'open-uri'
+require 'fileutils'
 
 port = 20000
 
@@ -29,8 +30,8 @@ class VromeServer < WEBrick::HTTPServlet::AbstractServlet
   end
 
   def open_editor(request)
-    editor  = request['editor']
-    line = request['line'] || 0
+    editor = request['editor']
+    line   = request['line'] || 0
     column = request['col'] || 0
 
     tmpfile = Tempfile.new('editor')
@@ -46,57 +47,44 @@ class VromeServer < WEBrick::HTTPServlet::AbstractServlet
  
   def get_latest_version(request)
     filename = File.dirname(File.expand_path(__FILE__)) + "/../../../utils/version.txt"
-    version = (File.read(filename)) if File.exists?(filename)
+    version = File.read(filename) if File.exists?(filename)
     return 200, "text/plain", version
   end
 
   def switch_chrome_css(request)
     res = ''
-    if(request['filename'])
+
+    if request['filename']
       content = open(request['filename']) {|f| f.read }
-      dir = ENV['HOME'] + "/.config/google-chrome/Default/User StyleSheets/".gsub("/", File::SEPARATOR)
-      # update/create vrome.css file with new content
-      vrome_filename = dir + "vrome.css"
-      if(content)
-        File.open(vrome_filename, 'w') {|f| f.write(content) }
-      end
-      if File.exists? vrome_filename
-        original_filename = dir + "Custom.css"
+      dir = Dir[File.join(ENV['HOME'], ".config", "chrom*", "Default", "User StyleSheets")][0]
 
-        # create backup if it doesn't already exist
-        content = open(original_filename) {|f| f.read }
-        chrome_bak = dir + "chrome.bak.css"
+      vrome_filename = File.join(dir, "vrome.css")
+      custom_filename = File.join(dir, "Custom.css")
 
-        File.open(chrome_bak, 'w') {|f| f.write(content) } if !File.exists?(chrome_bak)
+      File.open(vrome_filename, 'w+') {|f| f << content } if content
 
-        # switch files
-        bak_content = open(chrome_bak) {|f| f.read }
-        if content == bak_content
-          # switch content of files vrome => original
-          content = open(vrome_filename) {|f| f.read }
-          res = "enabled"
-        else
-          content = bak_content
-          res = "disabled"
+      if File.exist?(vrome_filename)
+        unless content == File.read(custom_filename)
+          FileUtils.mv(custom_filename, "#{custom_filename}.bak.#{Time.now.to_i}.css")
+          File.open(custom_filename, 'w+') {|f| f.write(content) }
         end
-        File.open(original_filename, 'w') {|f| f.write(content) }
+        res = "enabled"
       else
         res = "permission issues"
       end
     end
+
     return 200, "text/plain", res
   end
 
   def do_GET(request, response)
-    body = ""
     filename = ENV['HOME'] + File::SEPARATOR + '.vromerc'
-    body = File.read(filename) if File.exists?(filename) rescue ""
+    body = File.exist?(filename) ? File.read(filename) : "" rescue ""
 
     response.status          = 200
     response['Content-Type'] = "text/plain"
     response.body            = body
   end
-
 end
 
 puts "Starting Vrome server..."
