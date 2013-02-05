@@ -22,6 +22,7 @@ task :build do
   Dir.chdir('src') do
     json["content_scripts"][0]["js"]  = Dir['shared/*.js'].concat(Dir['frontend/modules/*.js']).concat(["frontend/main.js" ])
     json["content_scripts"][0]["css"] = ['styles/main.css']
+    json["background"]["scripts"] = Dir['shared/*.js'].concat(Dir['background/**/*.js'])
   end
 
   # json["app"] = {"launch" => { "web_url" => "https://github.com/jinzhu/vrome#readme" }}

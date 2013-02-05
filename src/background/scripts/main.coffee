@@ -1,3 +1,31 @@
+# Open Pages
+openHelpWebsite = ->
+  openOrSelectUrl "https://github.com/jinzhu/vrome#readme"
+openChromeStore = ->
+  openOrSelectUrl "https://chrome.google.com/webstore/detail/godjoomfiimiddapohpmfklhgmbfffjj/details"
+openIssuesPage = ->
+  openOrSelectUrl "https://github.com/jinzhu/vrome/issues"
+openSourcePage = ->
+  openOrSelectUrl "https://github.com/jinzhu/vrome"
+openOptions = (params) ->
+  url = "background/options.html"
+  url += "#" + params  if params
+  openOrSelectUrl chrome.extension.getURL(url)
+openOrSelectUrl = (url) ->
+  chrome.tabs.getAllInWindow null, (tabs) ->
+    for i of tabs # check if Options page is open already
+      tab = tabs[i]
+      if tab.url is url
+        chrome.tabs.update tab.id,
+          selected: true
+
+        # select the tab
+        return
+    chrome.tabs.getSelected null, (tab) -> # open a new tab next to currently selected tab
+      chrome.tabs.create
+        url: url
+        index: tab.index + 1
+
 storeLastCommand = (msg) ->
   tab = arguments_[arguments_.length - 1]
   Settings.add
@@ -41,33 +69,6 @@ externalEditor = (msg) ->
     line: msg.line
   )
 
-# Open Pages
-openHelpWebsite = ->
-  openOrSelectUrl "https://github.com/jinzhu/vrome#readme"
-openChromeStore = ->
-  openOrSelectUrl "https://chrome.google.com/webstore/detail/godjoomfiimiddapohpmfklhgmbfffjj/details"
-openIssuesPage = ->
-  openOrSelectUrl "https://github.com/jinzhu/vrome/issues"
-openSourcePage = ->
-  openOrSelectUrl "https://github.com/jinzhu/vrome"
-openOptions = (params) ->
-  url = "background/options.html"
-  url += "#" + params  if params
-  openOrSelectUrl chrome.extension.getURL(url)
-openOrSelectUrl = (url) ->
-  chrome.tabs.getAllInWindow null, (tabs) ->
-    for i of tabs # check if Options page is open already
-      tab = tabs[i]
-      if tab.url is url
-        chrome.tabs.update tab.id,
-          selected: true
-
-        # select the tab
-        return
-    chrome.tabs.getSelected null, (tab) -> # open a new tab next to currently selected tab
-      chrome.tabs.create
-        url: url
-        index: tab.index + 1
 
 # checks if we have any messages for incomplete tabs and sends them
 addErrorLogger = ->

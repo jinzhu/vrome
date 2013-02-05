@@ -25,6 +25,6 @@
   "manifest_version": 2,
   "minimum_chrome_version": "20",
   "background": {
-    "page": "/background/background.html"
+    "scripts": []
   }
 }
