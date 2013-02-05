@@ -38,63 +38,47 @@ runScript = (msg) ->
   chrome.tabs.executeScript tab.id,
     code: code
 
+
+# External Editor
 externalEditor = (msg) ->
-  tab = arguments_[arguments_.length - 1]
-  xhr = new XMLHttpRequest()
-  xhr.open "POST", getLocalServerUrl(), true
-  xhr.onerror = ->
-    runScript
-      code: "CmdBox.set({title : 'Failed to open external Editor, Please check Vrome WIKI opened in new tab for how to do',timeout : 15000});"
-    , tab
-    chrome.tabs.create
-      url: "https://github.com/jinzhu/vrome/wiki/Support-External-Editor"
-      index: tab.index + 1
-      selected: false
+  tab = arguments[arguments.length - 1]
 
-
-  xhr.onreadystatechange = ->
-    if xhr.readyState is 4 and xhr.status is 200
-      Post tab,
-        action: msg.callbackAction
-        edit_id: msg.edit_id
-        value: xhr.responseText
-
-
-  xhr.setRequestHeader "Content-type", "text/plain"
-  xhr.send JSON.stringify(
-    method: "open_editor"
-    editor: Option.get("editor")
-    data: msg.data
-    col: msg.col
-    line: msg.line
-  )
+  $.post getLocalServerUrl(),
+    JSON.stringify(method: "open_editor", editor: Option.get("editor"), data: msg.data, col: msg.col, line: msg.line)
+  .fail ->
+    runScript {code: "CmdBox.set({title : 'Failed to open external Editor, Please check Vrome WIKI opened in new tab for how to do',timeout : 15000});"}, tab
+    chrome.tabs.create url: "https://github.com/jinzhu/vrome/wiki/Support-External-Editor", index: tab.index + 1, selected: false
+  .done ->
+    Post tab, {action: msg.callbackAction, edit_id: msg.edit_id, value: xhr.responseText}
 
 
 # Notify new version
 checkNewVersion = ->
-  manifestRequest = new XMLHttpRequest()
-  manifestRequest.open "GET", chrome.extension.getURL("manifest.json"), false
-  manifestRequest.send null
-  currentVersion = JSON.parse(manifestRequest.responseText).version
-  if Settings.get("version") isnt currentVersion
-    if Settings.get("version")
+  $.get chrome.extension.getURL("manifest.json"), (data) ->
+    currentVersion = JSON.parse(data).version
+    if Settings.get("version") isnt currentVersion
       openOptions "changelog"
-    else
-      openOptions "dashboard"
     Settings.add version: currentVersion
+
+
 Post = (tab, message) ->
   chrome.tabs.sendMessage tab.id, message, (response) ->
 
-
-checkNewVersion()
 
 logError = (err) ->
   console.log err
   $.post getLocalServerUrl(), JSON.stringify({method: "print_messages", messages: err})
 
+
 window.addEventListener "error", (err) ->
   logError err
   , false
 
+
+checkNewVersion()
+
 root = exports ? window
 root.logError = logError
+root.Post = Post
+root.checkNewVersion = checkNewVersion
+root.externalEditor = externalEditor
