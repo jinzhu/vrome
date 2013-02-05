@@ -70,12 +70,6 @@ externalEditor = (msg) ->
   )
 
 
-# checks if we have any messages for incomplete tabs and sends them
-addErrorLogger = ->
-  window.addEventListener "error", ((err) ->
-    logError err
-  ), false
-
 # Notify new version
 checkNewVersion = ->
   manifestRequest = new XMLHttpRequest()
@@ -93,4 +87,14 @@ Post = (tab, message) ->
 
 
 checkNewVersion()
-addErrorLogger()
+
+logError = (err) ->
+  console.log err
+  $.post getLocalServerUrl(), JSON.stringify({method: "print_messages", messages: err})
+
+window.addEventListener "error", (err) ->
+  logError err
+  , false
+
+root = exports ? window
+root.logError = logError

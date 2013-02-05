@@ -30,8 +30,9 @@ class VromeServer < WEBrick::HTTPServlet::AbstractServlet
   end
 
   def print_messages(request)
-    puts ">" * 50 + Time.now.to_s
+    puts "\e[31m" + ">" * 50 + Time.now.to_s + "   \e[0m"
     puts request["messages"]
+    return 200, "text/plain", ""
   end
 
   def open_editor(request)
