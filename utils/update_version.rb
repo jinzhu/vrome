@@ -9,4 +9,4 @@ tmpfile = File.new filename, "w"
 tmpfile.write version
 tmpfile.flush
 
-puts version
+puts "Version: #{version}"
