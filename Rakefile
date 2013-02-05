@@ -69,7 +69,6 @@ task :develop do
   require 'clipboard'
   Clipboard.copy File.read("utils/reload_extension.js")
 
-  system "coffee -w **/*coffee &"
   system "utils/restart_server.sh &"
   system "watch_and_do system/ruby rb utils/restart_server.sh &"
   system "watch_and_do . js utils/update_version.rb"
