@@ -1,4 +1,4 @@
-Vromerc = (->
+window.Vromerc = (->
   
   # all tokens related to config here. -- in case we need to change them
   # TODO: refactor existing tokens + make this available via /shared/

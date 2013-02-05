@@ -69,14 +69,6 @@ openOrSelectUrl = (url) ->
         url: url
         index: tab.index + 1
 
-
-
-render = (elem, template) ->
-  xhr = new XMLHttpRequest()
-  xhr.open "GET", chrome.extension.getURL(template), false
-  xhr.send null
-  elem.innerHTML = xhr.responseText
-
 # checks if we have any messages for incomplete tabs and sends them
 addErrorLogger = ->
   window.addEventListener "error", ((err) ->
