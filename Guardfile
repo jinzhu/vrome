@@ -11,7 +11,7 @@ guard 'shell' do
     system "utils/update_version.rb"
   end
 
-  watch(/.rb/) do |m|
+  watch(/system/) do |m|
     system "utils/restart_server.sh"
   end
 end

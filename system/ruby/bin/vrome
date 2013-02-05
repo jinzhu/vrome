@@ -29,6 +29,11 @@ class VromeServer < WEBrick::HTTPServlet::AbstractServlet
     response['Access-Control-Max-Age'] = 5
   end
 
+  def print_messages(request)
+    puts ">" * 50 + Time.now.to_s
+    puts request["messages"]
+  end
+
   def open_editor(request)
     editor = request['editor']
     line   = request['line'] || 0
