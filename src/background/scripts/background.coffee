@@ -56,7 +56,3 @@ chrome.tabs.onRemoved.addListener (tabId) ->
   tab = Tab.current_closed_tab or Tab.now_tab
   Tab.closed_tabs.push tab  if tab
   Tab.current_closed_tab = false
-
-
-# initialize active tabs from all windows
-Tab.initializeCurrentTabs()
