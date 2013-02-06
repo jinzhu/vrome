@@ -3,7 +3,7 @@ class Bookmark
     [tab, keyword] = [getTab(arguments), msg.keyword]
 
     chrome.bookmarks.search keyword, (bookmarks) ->
-      Post tab, {action: "Dialog.draw" urls: bookmarks, keyword: keyword}
+      Post tab, {action: "Dialog.draw", urls: bookmarks, keyword: keyword}
 
 
 root = exports ? window
