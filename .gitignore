@@ -10,3 +10,4 @@ Gemfile.lock
 /src/files/changelog.html
 /src/files/thanks.html
 /nbproject/
+node_modules/
