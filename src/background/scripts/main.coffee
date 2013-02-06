@@ -17,9 +17,8 @@
 # Notify new version
 @checkNewVersion = ->
   $.get chrome.extension.getURL("manifest.json"), (data) ->
-    currentVersion = JSON.parse(data).version
-    openOptions "changelog" if Settings.get("version") isnt currentVersion
-    Settings.add version: currentVersion
+    openOptions "changelog" if Settings.get("version") isnt data.version
+    Settings.add version: data.version
 
 
 @openHelpWebsite = -> @openOrSelectUrl "https://github.com/jinzhu/vrome#readme"

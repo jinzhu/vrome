@@ -11,9 +11,8 @@ shortUrl = (msg) ->
 
   $.ajax({type: "POST", url: server_url, headers: headers, data: JSON.stringify(longUrl: encodeURI(tab.url))})
     .fail(sendBackCurrentUrl)
-    .done (data) ->
-      response = JSON.parse(data)
-      if response.error.code is "401"
+    .done (response) ->
+      if response.error?.code is "401"
         oauth.clearTokens()
         sendBackCurrentUrl()
       else
