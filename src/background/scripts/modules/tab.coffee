@@ -119,13 +119,13 @@ class Tab
 
   @reload: (msg) ->
     tab = getTab(arguments)
-    chrome.tabs.reload tab.id, msg
+    chrome.tabs.reload tab.id, if msg.bypassCache then {bypassCache: true} else {}
 
 
   @reloadAll: (msg) ->
     tab = getTab(arguments)
     chrome.tabs.getAllInWindow tab.windowId, (tabs) ->
-      chrome.tabs.reload(t.id)
+      chrome.tabs.reload(t.id) for t in tabs
 
 
   @togglePin: ->
