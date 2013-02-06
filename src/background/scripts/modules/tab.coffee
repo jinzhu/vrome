@@ -1,4 +1,9 @@
-Tab = (->
+class Tab
+  @closed_tabs: []
+  @last_open_tabs: []
+  @marked_tabs: []
+  @activeTabs: {}
+
   runWhenComplete = (tabId, command) ->
     chrome.tabs.get tabId, (tab) ->
       if tab.status is "complete"
@@ -6,74 +11,51 @@ Tab = (->
       else
         runWhenComplete tabId, command
 
-  autoComplete = (msg) ->
-    tab = arguments_[arguments_.length - 1]
-    keyword = msg.keyword
-    return_urls = []
-    if msg.default_urls
-      default_url = {}
-      default_url.url = msg.default_urls
-      return_urls.push default_url
-    if Option.get("noautocomplete")
-      Post tab,
-        action: "Dialog.draw"
-        urls: return_urls
-        keyword: keyword
+  filterUnpinnedTabs = (tabs) ->
+    tab for tab in tabs when not tab.pinned
 
-    else
-      chrome.bookmarks.search keyword, (bookmarks) ->
-        
-        # Search start from 10 days ago
-        chrome.history.search
-          text: keyword
-          maxResults: 30
-          startTime: (new Date().getTime() - 1000 * 60 * 60 * 24 * 10)
-        , (historys) ->
-          Post tab,
-            action: "Dialog.draw"
-            urls: return_urls.concat(bookmarks.concat(historys))
-            keyword: keyword
+  @autoComplete: (msg) ->
+    [tab, keyword, return_urls] = [getTab(arguments), msg.keyword, []]
+
+    return_urls.push {url: msg.default_urls} if msg.default_urls
+
+    return Post(tab, {action: "Dialog.draw", urls: return_urls, keyword: keyword}) if Option.get("noautocomplete")
+
+    chrome.bookmarks.search keyword, (bookmarks) ->
+      start_time = new Date().getTime() - 1000 * 60 * 60 * 24 * 10  # since 10 days ago
+      chrome.history.search {text: keyword, maxResults: 30, startTime: start_time}, (historys) ->
+        Post tab, {action: "Dialog.draw", urls: return_urls.concat(bookmarks.concat(historys)), keyword: keyword}
 
 
+  @update: (msg) ->
+    [tab, attr] = [getTab(arguments), {}]
 
-  update = (msg) ->
-    tab = arguments_[arguments_.length - 1]
-    attr = {}
+    # https://github.com/jashkenas/coffee-script/issues/1617
     attr.url = msg.url  if typeof msg.url isnt "undefined"
     attr.active = msg.active  if typeof msg.active isnt "undefined"
     attr.highlighted = msg.highlighted  if typeof msg.highlighted isnt "undefined"
     attr.pinned = msg.pinned  if typeof msg.pinned isnt "undefined"
+
     chrome.tabs.update tab.id, attr, (new_tab) ->
-      if msg.callback
-        runWhenComplete new_tab.id,
-          code: msg.callback
+      runWhenComplete(new_tab.id, code: msg.callback) if msg.callback
 
 
-  move = (msg) ->
-    tab = arguments_[arguments_.length - 1]
-    times = msg.count
-    chrome.tabs.query
-      windowId: tab.windowId
-    , (tabs) ->
-      return  if tabs.length is 1
-      direction = (if msg.direction is "left" then -1 else 1)
-      newIndex = (tab.index + times * direction)
-      newIndex = newIndex + tabs.length * (direction * -1)  if newIndex < 0 or newIndex >= tabs.length
-      chrome.tabs.move tab.id,
-        index: newIndex
+  @move: (msg) ->
+    [tab, times, direction] = [getTab(arguments), msg.count, if (msg.direction is "left") then -1 else 1]
+
+    chrome.tabs.query {windowId: tab.windowId}, (tabs) ->
+      # ensure index in 0..tabs.length
+      newIndex = ((tab.index + times * direction) % tabs.length + tabs.length) % tabs.length
+      chrome.tabs.move tab.id, index: newIndex
 
 
-  close = (msg) ->
-    tab = arguments_[arguments_.length - 1]
+  @close: (msg) ->
+    [tab, cond, count] = [getTab(arguments), msg.type, Number(msg.count) || 1]
     Tab.current_closed_tab = tab
-    delete msg.count  if msg.count is 1
-    cond = msg.type
+
     if cond or msg.count > 1
-      chrome.windows.getAll
-        populate: true
-      , (windows) ->
+      chrome.windows.getAll {populate: true}, (windows) ->
         if msg.otherWindows
-          
           # filter windows  without pinned tabs
           windows = _.filter(windows, (w) ->
             unless w.id is tab.windowId
@@ -84,7 +66,7 @@ Tab = (->
               noPinned
           )
         else
-          
+
           # limit to current window
           windows = _.filter(windows, (w) ->
             w.id is tab.windowId
@@ -115,7 +97,8 @@ Tab = (->
         selectPrevious.apply "", arguments_  if msg.focusLast
         # close and select right
         select.apply "", arguments_  if msg.offset
-  # close and select left
+        # close and select left
+
   reopen = (msg) ->
     if Tab.closed_tabs.length > 0
       index = Tab.closed_tabs.length - msg.count
@@ -151,12 +134,7 @@ Tab = (->
     update
       active: true
     , tab
-  filterUnpinnedTabs = (tabs) ->
-    
-    # only returns unpinned tabs
-    # This way we don't reload, close or affect tabs that are pinned -- like chrome behaves
-    _.filter tabs, (tab) ->
-      not tab.pinned
+
 
   reloadAll = (msg) ->
     tab = arguments_[arguments_.length - 1]
@@ -216,7 +194,7 @@ Tab = (->
         tabs = _.filter(w.tabs, (v) ->
           v.pinned
         )
-        
+
         # no unpinned, then pin all of them
         pinned = false
         if tabs.length is 0
@@ -275,13 +253,13 @@ Tab = (->
           chrome.tabs.remove tab.id
 
 
-  
+
   #
   #   * adds tab ids to a list of tabs waiting to be merged in a new window
-  #   
+  #
   markForMerging = (msg) ->
     tab = arguments_[arguments_.length - 1]
-    
+
     # add tab or all tabs in window as marked_tabs
     chrome.tabs.query
       windowId: tab.windowId
@@ -289,26 +267,26 @@ Tab = (->
       tabs = _.filter(tabs, (v) ->
         not v.pinned
       )
-      
+
       # limit to current tab
       tabs = [tab]  unless msg.all
       title = ""
       _.each tabs, (v) ->
         Tab.marked_tabs = _.uniq(Tab.marked_tabs)
-        
+
         # toggle marked/unmarked
         posi = _.indexOf(Tab.marked_tabs, v.id)
         if posi is -1
-          
+
           # mark it
           Tab.marked_tabs.push v.id
           title = Tab.marked_tabs.length + " Tab(s) marked "
         else
-          
+
           # unmark it
           delete Tab.marked_tabs[posi]
 
-          
+
           # remove null entries
           Tab.marked_tabs = _.select(Tab.marked_tabs, (vid) ->
             vid?
@@ -336,13 +314,13 @@ Tab = (->
 
         Tab.marked_tabs = []
 
-  
+
   ###
   creates a data structure with
   window_id:
   last_tab_id
   current_tab_id
-  
+
   data structure is used to switch between tabs through various windows
   ###
   initializeCurrentTabs = ->
@@ -358,14 +336,14 @@ Tab = (->
 
 
 
-  
+
   ###
   @deprecated using markForMerging instead
   ###
   merge = ->
     tab = arguments_[arguments_.length - 1]
     Window.moveTabToWindowWithIncognito tab, tab.incognito
-  
+
   ###
   @deprecated using markForMerging instead
   ###
@@ -380,33 +358,6 @@ Tab = (->
         Window.moveTabToWindowWithIncognito tabs[i], tabs[i].incognito
         i--
 
-  update: update
-  close: close
-  move: move
-  reopen: reopen
-  select: select
-  selectPrevious: selectPrevious
-  selectLastOpen: selectLastOpen
-  reloadWithoutCache: reloadWithoutCache
-  reloadAll: reloadAll
-  openUrl: openUrl
-  openFromClipboard: openFromClipboard
-  togglePin: togglePin
-  unpinAll: unpinAll
-  duplicate: duplicate
-  detach: detach
-  openInIncognito: openInIncognito
-  merge: merge
-  mergeAll: mergeAll
-  autoComplete: autoComplete
-  markForMerging: markForMerging
-  putMarkedTabs: putMarkedTabs
-  initializeCurrentTabs: initializeCurrentTabs
-  makeLastTabIncognito: makeLastTabIncognito
-)()
 
-# Tab.closed_tabs, now_tab, last_selected_tab, current_closed_tab;
-Tab.closed_tabs = []
-Tab.last_open_tabs = []
-Tab.marked_tabs = []
-Tab.activeTabs = {}
+root = exports ? window
+root.Tab = Tab
