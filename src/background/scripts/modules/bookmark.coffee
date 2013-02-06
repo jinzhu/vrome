@@ -1,14 +1,10 @@
-Bookmark = (->
-  search = (msg) ->
-    tab = arguments_[arguments_.length - 1]
-    index = undefined
-    keyword = msg.keyword
+class Bookmark
+  @search: -> (msg) ->
+    [tab, keyword] = [getTab(arguments), msg.keyword]
+
     chrome.bookmarks.search keyword, (bookmarks) ->
-      Post tab,
-        action: "Dialog.draw"
-        urls: bookmarks
-        keyword: keyword
+      Post tab, {action: "Dialog.draw" urls: bookmarks, keyword: keyword}
 
 
-  search: search
-)()
+root = exports ? window
+root.Bookmark = Bookmark

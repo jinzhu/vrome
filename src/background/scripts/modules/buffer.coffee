@@ -1,34 +1,23 @@
-Buffer = (->
-  gotoFirstMatch = (msg) ->
-    tab = arguments_[arguments_.length - 1]
-    index = undefined
-    if /^\d+$/.test(msg.keyword)
-      Tab.select index: Number(msg.keyword) - 1
+class Buffer
+  getMatchedTabs = (tabs, keyword) ->
+    if /^\d+$/.test(keyword)
+      [tabs[Number(keyword) - 1]]
     else
-      chrome.tabs.getAllInWindow tab.windowId, (tabs) ->
-        regexp = new RegExp(msg.keyword, "i")
-        i = 0
+      regexp = new RegExp(keyword, "i")
+      tab for tab in tabs when regexp.test(tabs[i].url) or regexp.test(tabs[i].title)
 
-        while i < tabs.length
-          if regexp.test(tabs[i].url) or regexp.test(tabs[i].title)
-            Tab.select index: tabs[i].index
-            break
-          i++
+  @gotoFirstMatch: (msg) ->
+    [tab, keyword] = [getTab(arguments), msg.keyword]
 
-  deleteMatch = (msg) ->
-    tab = arguments_[arguments_.length - 1]
-    index = undefined
     chrome.tabs.getAllInWindow tab.windowId, (tabs) ->
-      if /^\d+$/.test(msg.keyword)
-        chrome.tabs.remove tabs[Number(msg.keyword) - 1].id
-      else
-        regexp = new RegExp(msg.keyword, "i")
-        i = 0
+      Tab.select getMatchedTabs(tabs, keyword)[0]
 
-        while i < tabs.length
-          Tab.close tabs[i]  if regexp.test(tabs[i].url) or regexp.test(tabs[i].title)
-          i++
+  @deleteMatch: (msg) ->
+    [tab, keyword] = [getTab(arguments), msg.keyword]
 
-  gotoFirstMatch: gotoFirstMatch
-  deleteMatch: deleteMatch
-)()
+    chrome.tabs.getAllInWindow tab.windowId, (tabs) ->
+      Tab.close tab for tab in getMatchedTabs(tabs, keyword)
+
+
+root = exports ? window
+root.Buffer = Buffer

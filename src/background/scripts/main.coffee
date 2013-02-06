@@ -74,6 +74,8 @@ window.addEventListener "error", (err) ->
   logError err
   , false
 
+getTab = (args) ->
+  args[args.length-1]
 
 checkNewVersion()
 
@@ -82,3 +84,4 @@ root.logError = logError
 root.Post = Post
 root.checkNewVersion = checkNewVersion
 root.externalEditor = externalEditor
+root.getTab = getTab
