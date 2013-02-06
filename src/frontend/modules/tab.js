@@ -80,18 +80,6 @@ var Tab = (function() {
     Post(opt);
   }
 
-  function merge() {
-    Post({
-      action: "Tab.merge"
-    });
-  }
-
-  function mergeAll() {
-    Post({
-      action: "Tab.mergeAll"
-    });
-  }
-
   function selectPrevious() {
     var count = times( /*raw*/ true);
 
@@ -226,8 +214,6 @@ var Tab = (function() {
     duplicate: duplicate,
     detach: detach,
     openInIncognito: openInIncognito,
-    merge: merge,
-    mergeAll: mergeAll,
     markForMerging: markForMerging,
     markAllForMerging: function() {
       markForMerging({

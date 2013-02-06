@@ -335,29 +335,5 @@ class Tab
               current_tab_id: tab.id
 
 
-
-
-  ###
-  @deprecated using markForMerging instead
-  ###
-  merge = ->
-    tab = arguments_[arguments_.length - 1]
-    Window.moveTabToWindowWithIncognito tab, tab.incognito
-
-  ###
-  @deprecated using markForMerging instead
-  ###
-  mergeAll = ->
-    tab = arguments_[arguments_.length - 1]
-    chrome.tabs.query
-      windowId: tab.windowId
-    , (tabs) ->
-      i = tabs.length - 1
-
-      while i >= 0
-        Window.moveTabToWindowWithIncognito tabs[i], tabs[i].incognito
-        i--
-
-
 root = exports ? window
 root.Tab = Tab
