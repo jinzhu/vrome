@@ -10,7 +10,7 @@ var Tab = (function() {
   }
 
   function reload() {
-    location.reload();
+    Post({action: "Tab.reload"});
   }
 
   function reloadAll() {
@@ -20,9 +20,7 @@ var Tab = (function() {
   }
 
   function reloadWithoutCache() {
-    Post({
-      action: "Tab.reloadWithoutCache"
-    });
+    Post({action: "Tab.reload", bypassCache: true});
   }
 
   function unpinAll(option) {

@@ -114,7 +114,7 @@ var Page = (function() {
     openOptions: function() {
       Post({
         action: "Tab.openUrl",
-        url: "/background/options.html",
+        urls: "/background/options.html",
         newtab: true
       });
     },
