@@ -1,7 +1,5 @@
-version.txt -- generated version number. updated whenever a change is made to the js file by watch_and_do scripts
+version.txt -- generated version number. updated whenever a change is made
 
-update_version.rb -- called by watch_and_do to update version.txt
-
-reload_extension.js -- makes calls to server.rb every X seconds and reloads the extension if the version number has been updated i.e files have been changed
+update_version.rb -- update version.txt
 
 refresh_server.sh -- reloads the ruby server when files have been modified
