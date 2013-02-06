@@ -1,6 +1,6 @@
 class Clipboard
   createTextArea = (data) ->
-    text_node = $("<textarea>").val(data).hide()
+    text_node = $("<textarea>").val(data)
     $('body').append text_node
     text_node
 
