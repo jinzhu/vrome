@@ -1,37 +1,37 @@
-Post = (tab, message) ->
+@Post = (tab, message) ->
   chrome.tabs.sendMessage tab.id, message, (response) ->
 
 
-getTab = (args) -> args[args.length-1]
+@getTab = (args) -> args[args.length-1]
 
 
-storeLastCommand = (msg) ->
+@storeLastCommand = (msg) ->
   Settings.add currentKeys: msg.currentKeys, times: msg.times
 
 
-runScript = (msg) ->
+@runScript = (msg) ->
   tab = getTab(arguments)
   chrome.tabs.executeScript tab.id, code: msg.code
 
 
 # Notify new version
-checkNewVersion = ->
+@checkNewVersion = ->
   $.get chrome.extension.getURL("manifest.json"), (data) ->
     currentVersion = JSON.parse(data).version
     openOptions "changelog" if Settings.get("version") isnt currentVersion
     Settings.add version: currentVersion
 
 
-openHelpWebsite = -> openOrSelectUrl "https://github.com/jinzhu/vrome#readme"
-openChromeStore = -> openOrSelectUrl "https://chrome.google.com/webstore/detail/godjoomfiimiddapohpmfklhgmbfffjj/details"
-openIssuesPage = -> openOrSelectUrl "https://github.com/jinzhu/vrome/issues"
-openSourcePage = -> openOrSelectUrl "https://github.com/jinzhu/vrome"
-openOptions = (params) ->
+@openHelpWebsite = -> @openOrSelectUrl "https://github.com/jinzhu/vrome#readme"
+@openChromeStore = -> @openOrSelectUrl "https://chrome.google.com/webstore/detail/godjoomfiimiddapohpmfklhgmbfffjj/details"
+@openIssuesPage = -> @openOrSelectUrl "https://github.com/jinzhu/vrome/issues"
+@openSourcePage = -> @openOrSelectUrl "https://github.com/jinzhu/vrome"
+@openOptions = (params) ->
   url = "background/options.html#{if params then "##{params}" else ""}"
-  openOrSelectUrl chrome.extension.getURL(url)
+  @openOrSelectUrl chrome.extension.getURL(url)
 
 
-openOrSelectUrl = (url) ->
+@openOrSelectUrl = (url) ->
   chrome.tabs.getAllInWindow null, (tabs) ->
     for tab in tabs when tab.url is url
       chrome.tabs.update tab.id, selected: true

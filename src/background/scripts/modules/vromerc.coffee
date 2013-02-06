@@ -42,16 +42,17 @@ class Vromerc
   
 
   @loadAll: (scheduleNextReload) ->
-    loadOnline scheduleNextReload
-    loadLocal()
+    @loadOnline scheduleNextReload
+    @loadLocal()
+    syncSettingAllTabs()
 
 
   @loadLocal: ->
-    $.get(getLocalServerUrl()).done (data) ->
+    $.get(getLocalServerUrl()).done (data) =>
       if data
         vromerc = "\" Begin Local Vromerc generated\n#{data}\n\" End Local Vromerc generated\n\n"
         vromerc = vromerc + Settings.get("vromerc").replace(/" Begin Local Vromerc generated\n(.|\n)+\n" End Local Vromerc generated\n?\n?/g, "")
-        Settings.add vromerc: parse(vromerc)
+        Settings.add vromerc: @parse(vromerc)
 
 
   @loadOnline: (scheduleNextReload) ->
@@ -64,10 +65,10 @@ class Vromerc
       interval = Settings.get("onlineVromercReloadInterval") * 1000 * 60
       setTimeout (-> Vromerc.loadOnline true), interval
 
-    $.get(url).done (data) ->
+    $.get(url).done (data) =>
       vromerc = "\" Begin Online Vromerc generated\n#{data}\n\" End Online Vromerc generated\n\n"
       vromerc = vromerc + Settings.get("vromerc").replace(/" Begin Online Vromerc generated\n(.|\n)+\n" End Online Vromerc generated\n?\n?/g, "")
-      Settings.add vromerc: parse(vromerc), onlineVromercLastUpdatedAt: new Date().toString()
+      Settings.add vromerc: @parse(vromerc), onlineVromercLastUpdatedAt: new Date().toString()
 
 
 root = exports ? window
