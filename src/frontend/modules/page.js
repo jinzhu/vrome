@@ -86,7 +86,7 @@ var Page = (function() {
 
   function editURLInExternalEditor() {
     Post({
-      action: "externalEditor",
+      action: "Editor.open",
       data: window.location.href,
       callbackAction: 'Page.editURLExternalEditorCallback'
     });

@@ -39,19 +39,6 @@ runScript = (msg) ->
     code: code
 
 
-# External Editor
-externalEditor = (msg) ->
-  tab = arguments[arguments.length - 1]
-
-  $.post getLocalServerUrl(),
-    JSON.stringify(method: "open_editor", editor: Option.get("editor"), data: msg.data, col: msg.col, line: msg.line)
-  .fail ->
-    runScript {code: "CmdBox.set({title : 'Failed to open external Editor, Please check Vrome WIKI opened in new tab for how to do',timeout : 15000});"}, tab
-    chrome.tabs.create url: "https://github.com/jinzhu/vrome/wiki/Support-External-Editor", index: tab.index + 1, selected: false
-  .done ->
-    Post tab, {action: msg.callbackAction, edit_id: msg.edit_id, value: xhr.responseText}
-
-
 # Notify new version
 checkNewVersion = ->
   $.get chrome.extension.getURL("manifest.json"), (data) ->
@@ -83,5 +70,4 @@ root = exports ? window
 root.logError = logError
 root.Post = Post
 root.checkNewVersion = checkNewVersion
-root.externalEditor = externalEditor
 root.getTab = getTab
