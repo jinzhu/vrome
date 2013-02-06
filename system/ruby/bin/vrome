@@ -30,12 +30,14 @@ class VromeServer < WEBrick::HTTPServlet::AbstractServlet
   end
 
   def print_messages(request)
-    puts "\e[31m" + ">" * 50 + Time.now.to_s + "   \e[0m"
+    puts "\e[31m#{">" * 30} #{Time.now.to_s}\e[0m"
     puts request["messages"]
     return 200, "text/plain", ""
   end
 
   def open_editor(request)
+    puts "#{Time.now} opening editor..."
+
     editor = request['editor']
     line   = request['line'] || 0
     column = request['col'] || 0
@@ -95,7 +97,9 @@ end
 
 puts "Starting Vrome server..."
 
-server = WEBrick::HTTPServer.new(:BindAddress => '127.0.0.1', :Port => port)
+server = WEBrick::HTTPServer.new(:BindAddress => '127.0.0.1', :Port => port, AccessLog: [
+  [WEBrick::Log.new("/dev/null", 1), WEBrick::AccessLog::COMMON_LOG_FORMAT]
+])
 server.mount "/", VromeServer
 trap(:INT) { server.shutdown }
 server.start

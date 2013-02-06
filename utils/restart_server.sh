@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-pid=`lsof -t -i :20000`
+pid=`ps aux | grep vrome | grep -v grep | awk {'print $2'}`
 kill -9 $pid > /dev/null 2>&1
 
 echo "restarting server..."
