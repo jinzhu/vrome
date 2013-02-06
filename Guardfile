@@ -1,7 +1,5 @@
 notification :tmux, :display_message => true, :timeout => 5, :default_message_format => '%s >> %s'
 
-guard 'coffeescript', :input => 'src/'
-
 guard 'shell' do
   watch(/.(css|js|json|html)/) do
     system "utils/update_version.rb"
