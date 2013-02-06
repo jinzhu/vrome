@@ -1,32 +1,21 @@
-Window = (->
-  moveTabToWindowWithIncognito = (tab, incognito, create_mode, callback) ->
-    chrome.windows.getAll
-      populate: true
-    , (windows) ->
-      i = 0
-
-      while i < windows.length
-        current_window = windows[i]
-        if current_window.type is "normal" and current_window.incognito is incognito and current_window.id isnt tab.windowId
+class Window
+  @moveTabToWindowWithIncognito: (tab, incognito, create_mode, callback) ->
+    chrome.windows.getAll {populate: true}, (windows) ->
+      for window in windows
+        if (window.type is "normal") and (window.incognito is incognito) and (window.id isnt tab.windowId)
           if create_mode
-            chrome.tabs.create
-              windowId: current_window.id
-              url: tab.url
-              index: current_window.tabs.length
-
+            chrome.tabs.create windowId: window.id, url: tab.url, index: -1
           else
-            chrome.tabs.move tab.id,
-              windowId: current_window.id
-              index: current_window.tabs.length
+            chrome.tabs.move tab.id, windowId: window.id, index: -1
 
-          return ((if callback then callback(tab) else null))
-        i++
+          callback(tab) if callback
+          return true
+
+      # not returned
       if create_mode
-        chrome.windows.create
-          url: tab.url
-          incognito: incognito
-
+        chrome.windows.create url: tab.url, incognito: incognito
         callback tab
 
-  moveTabToWindowWithIncognito: moveTabToWindowWithIncognito
-)()
+
+root = exports ? window
+root.Window = Window
