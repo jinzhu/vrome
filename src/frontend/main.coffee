@@ -719,14 +719,10 @@ AcceptKey = cmds["global"]["AcceptKeyFunction"].k
 CancelKey = cmds["global"]["CancelKeyFunction"].k
 EscapeKey = cmds["global"]["CancelKeyFunction"].k
 CtrlEscapeKey = cmds["global"]["CtrlEscapeKeyFunction"].k
+
 try
   addCmdLineCommands()
   addErrorLogger()
   loadMapping()
   runIt [Migration.exec, Zoom.init, KeyEvent.init]
   runIt [Frame.register, CustomCode.runJS, CustomCode.loadCSS]
-
-# uncomment this when making changes to mapping -- makes sure things are still working
-#checkNewMapping()
-catch err
-  logError err
