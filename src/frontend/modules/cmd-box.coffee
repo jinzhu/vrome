@@ -39,3 +39,7 @@ class CmdBox
     $("##{box_id}")?.unbind()?.remove()
 
   @blur: -> cmdBoxInput()?.blur()
+
+
+root = exports ? window
+root.CmdBox = CmdBox

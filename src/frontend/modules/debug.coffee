@@ -1,16 +1,7 @@
-Debug = (->
-  (str) ->
-    
-    # console.log(str);
-    Post
-      action: "debug"
-      message: str
+Debug = (str) ->
+  Post action: "Debug", message: str
 
-)()
-D = (->
-  log: (msg) ->
-    if msg
-      console.log msg.m
-    else
-      console.log msg
-)()
+
+root = exports ? window
+root.Debug = Debug
+root.logError = Debug
