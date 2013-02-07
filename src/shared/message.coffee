@@ -5,7 +5,7 @@ chrome.extension.onMessage.addListener (msg, sender, sendResponse) ->
 
   # Get Argument
   argument = msg.arguments ? msg
-  argument = if (argument instanceof Array) then argument else [argument]
+  argument = (if (argument instanceof Array) then argument else [argument])
   
   # Run Function & Pass Tab to it
   tab = sender.tab

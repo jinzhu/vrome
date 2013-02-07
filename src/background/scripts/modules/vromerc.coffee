@@ -25,7 +25,7 @@ class Vromerc
         setting_value = line.trimFirst(setting_key + "=").trimFirst(setting_key + "+=")
         setting_value = Number(setting_value) unless isNaN(setting_value)
         # set xxx+=xxxxx
-        is_plus       = if line.match(/^\s*set\s+\w+\+=/) then true else false
+        is_plus       = (if line.match(/^\s*set\s+\w+\+=/) then true else false)
 
         if setting_key.startsWith("qm_")
           url_marks[setting_key.replace("qm_", "")] = setting_value

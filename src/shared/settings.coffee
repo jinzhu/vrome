@@ -1,5 +1,4 @@
-Settings = (->
-  
+class Settings
   # 'scripts': '__vrome_scripts',
   
   # background or not, it now means the same thing. Because we sync everything in the background page's local storage
@@ -199,4 +198,7 @@ Settings = (->
   syncBackgroundStorage: syncBackgroundStorage
   syncTabStorage: syncTabStorage
   getPrefix: SettingsUtils.getPrefix
-)()
+
+
+root = exports ? window
+root.Settings = Settings
