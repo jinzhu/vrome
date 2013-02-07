@@ -1,63 +1,6 @@
-Help = (->
-  
-  # transformed commands (includes custom mapping)
-  
-  # level of details
-  # 1 = simple
-  # 2 = description
-  # 3 = options
-  
-  # hide default column if we don't have default options pre-defined
-  
-  # option name
-  
-  # option default
-  
-  # option value
-  
-  # option description
-  
-  # table for description + options
-  
-  # description
-  
-  # create options label + append options table
-  
-  # row for a command
-  
-  # has options
-  
-  # server
-  
-  # count
-  
-  # keys
-  
-  # title + description + options
-  
-  # options associated to command -- build table
-  
-  # headers
-  
-  # options
-  
-  # table for all commands
-  
-  # add legend
-  
-  # skip break line for first category
-  
-  # table for current command
-  
-  # add category
-  
-  # main table
+class Help
   buildContent = ->
-    
-    # add overlay
-    overlay = $("<div/>",
-      id: "vromeHelpOverlay"
-    )
+    overlay = $("<div>", id: "vromeHelpOverlay")
     $(document.body).append overlay
     
     # table all commands
@@ -272,6 +215,6 @@ Help = (->
 
       ret
 
-  show: show
-  hide: hide
-)()
+
+root = exports ? window
+root.Help = Help

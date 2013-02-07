@@ -13,14 +13,14 @@ class CmdBox
     elems = $("#_vrome_cmd_box input")
     elems.length > 0 ? elems : null
   createCmdBoxInput = =>
-    @cmdbox().append $("<input id='#{input_box_id}'>")
+    @cmdbox().append $("<input>", id: input_box_id)
     cmdBoxInput()
 
   @isActive: ->
     document.activeElement and (document.activeElement.id is input_box_id)
 
   @cmdBox: ->
-    $("body").prepend $("<div id='#{box_id}'>") if $("##{box_id}").length == 0
+    $("body").prepend $("<div>", id: box_id) if $("##{box_id}").length == 0
     $("##{box_id}")
 
   @set: (o) ->

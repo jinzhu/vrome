@@ -8,12 +8,12 @@ class Dialog
 
   dialogBox = ->
     if $("##{box_id}").length == 0
-      $("body").prepend $("<div id='#{box_id}' styles='bottom:#{CmdBox.cmdBox().offsetHeight}px !important;'>")
+      $("body").prepend $("<div>", id: box_id, styles: "bottom:#{CmdBox.cmdBox().offsetHeight}px !important;")
     $("##{box_id}")
 
   freshResultBox = ->
     $("##{search_results_id}").remove()
-    dialogBox().append $("<div id='#{search_results_id}'>")
+    dialogBox().append $("<div>", id: search_results_id)
     $("##{search_results_id}")
 
   highlight = (keyword, text, addition) ->
@@ -23,9 +23,8 @@ class Dialog
   notice = (msg) ->
     cmdBox = CmdBox.cmdBox()
     if $("##{notice_id}").length == 0
-      box = $("<div id='#{notice_id}'>")
-      box.attr "style", "bottom: 0 !important; right:#{cmdBox.offsetWidth}px !important; height:#{cmdBox.offsetHeight}px !important; line-height:#{cmdBox.offsetHeight}px !important; width: #{dialogBox().offsetWidth - cmdBox.offsetWidth - 12}px !important"
-      $("body").prepend box
+      style = "bottom: 0 !important; right:#{cmdBox.offsetWidth}px !important; height:#{cmdBox.offsetHeight}px !important; line-height:#{cmdBox.offsetHeight}px !important; width: #{dialogBox().offsetWidth - cmdBox.offsetWidth - 12}px !important"
+      $("body").prepend $("<div>", id: notice_id, style: style)
     $("##{notice_id}").val(msg)
 
 
@@ -75,7 +74,7 @@ class Dialog
 
     index_num = 1
     for result in results[selected..selected+10]
-      $(result).prepend $("<span class='#{selected_quick_num}'>").text(index_num++)
+      $(result).prepend $("<span>", class: selected_quick_num).text(index_num++)
 
     $(".#{selected_quick_num}").get(-1).scrollIntoViewIfNeeded()
 
