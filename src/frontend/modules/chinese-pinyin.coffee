@@ -450,3 +450,7 @@ PinYin = (->
   full: CC2FULLPY
   shortcut: CC2PY
 )()
+
+
+root = exports ? window
+root.PinYin = PinYin
