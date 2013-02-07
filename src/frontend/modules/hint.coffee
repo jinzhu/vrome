@@ -597,3 +597,7 @@ Hint = (->
 
   remove: remove
 )()
+
+
+root = exports ? window
+root.Buffer = Buffer

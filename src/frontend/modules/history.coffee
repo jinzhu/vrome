@@ -1,18 +1,17 @@
-History = (->
-  start = (new_tab) ->
-    Dialog.start "History", "", search, new_tab
+class History
+
   search = (keyword) ->
-    Post
-      action: "History.search"
-      keyword: keyword
+    Post action: "History.search", keyword: keyword
 
-  back: ->
-    history.go -1 * times()
+  @start: (new_tab) ->
+    Dialog.start "History", "", search, new_tab
 
-  forward: ->
-    history.go 1 * times()
+  @new_tab_start: -> @start true
 
-  start: start
-  new_tab_start: ->
-    start true #new tab
-)()
+  @back: -> history.go -1 * times()
+
+  @forward: -> history.go 1 * times()
+
+
+root = exports ? window
+root.History = History
