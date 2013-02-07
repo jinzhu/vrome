@@ -796,6 +796,7 @@ try {
   addErrorLogger()
   loadMapping()
   runIt([Migration.exec, Zoom.init, KeyEvent.init]);
+  runIt([Frame.register, CustomCode.runJS, CustomCode.loadCSS]);
 
   // uncomment this when making changes to mapping -- makes sure things are still working
   //checkNewMapping()

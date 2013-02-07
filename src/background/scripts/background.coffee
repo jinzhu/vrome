@@ -10,7 +10,6 @@ syncSetting = (tab) ->
   return false unless tab
   Tab.now_tab = tab if tab isnt Tab.now_tab
   Settings.add currentUrl: tab.url
-  Settings.syncTabStorage tab
 
 
 chrome.tabs.onCreated.addListener (tab) ->

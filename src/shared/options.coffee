@@ -38,7 +38,7 @@ class Option
           value = []
 
         option = (if is_plus then option.concat(value) else value)
-      else if option instanceof Object
+      else if $.isPlainObject option
         try
           value = JSON.parse(value)
         catch e

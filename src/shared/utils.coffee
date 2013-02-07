@@ -16,7 +16,7 @@
 
 @stringify = (obj) ->
   return obj.join(", ") if $.isArray(obj)
-  return JSON.stringify(obj) if obj instanceof Object
+  return JSON.stringify(obj) if $.isPlainObject obj
   obj
 
 root = exports ? window
