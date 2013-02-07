@@ -1,147 +1,93 @@
-Dialog = (->
-  start = (title, content, search_callback, newtab, keydowncallback) ->
-    isEnabled = true
-    last_keyword = null
-    newTab = newtab
-    search = search_callback
-    keydown_callback = keydowncallback
-    CmdBox.set
-      title: title
-      pressDown: handleInput
-      
-      # TODO: consider renaming/refactoring this
-      pressUp: keydown_callback
-      content: content
+class Dialog
+  [isEnabled, selected, sources, dialog_mode, last_keyword, search_func, newTab, keydown_callback] \
+    = [null, 0, null, null, null, null, null, null]
 
-    search CmdBox.get().content
-  DialogBox = ->
-    box = document.getElementById(box_id)
-    cmdBox = CmdBox.cmdBox()
-    unless box
-      box = document.createElement("div")
-      box.setAttribute "id", box_id
-      styles = "bottom:" + cmdBox.offsetHeight + "px !important"
-      box.setAttribute "style", styles
-      document.body.insertBefore box, document.body.childNodes[0]
-    box
+  [box_id, search_results_id, selected_class, selected_quick_num, notice_id] \
+    = ["__vrome_dialog", "__vrome_searchResults", "__vrome_selected", "__vrome_selected_quick_index", "__vrome_dialog_notice"]
+
+
+  dialogBox = ->
+    if $("##{box_id}").length == 0
+      $("body").prepend $("<div id='#{box_id}' styles='bottom:#{CmdBox.cmdBox().offsetHeight}px !important;'>")
+    $("##{box_id}")
+
   freshResultBox = ->
-    box = DialogBox()
-    results = document.getElementById(search_results_id)
-    box.removeChild results  if results
-    new_results = document.createElement("div")
-    new_results.setAttribute "id", search_results_id
-    box.appendChild new_results
-    new_results
-  draw = (msg) ->
-    return false  unless isEnabled
-    dialog_mode = "url"  if msg.urls
-    results_box = freshResultBox()
-    selected = 0
-    sources = msg.urls or msg.sources
-    if sources.length is 0
-      result = document.createElement("div")
-      result.innerHTML = "No results found!"
-      results_box.appendChild result
-      return
-    i = 0
+    $("##{search_results_id}").remove()
+    dialogBox().append $("<div id='#{search_results_id}'>")
+    $("##{search_results_id}")
 
-    while i < sources.length
-      source = sources[i]
-      result = document.createElement("div")
-      if dialog_mode is "url"
-        if source.url instanceof Array
-          values = []
-          j = 0
-
-          while j < source.url.length
-            url = source.url[j]
-            values.push "<a href='" + url + "'> " + highlight(msg.keyword, url) + "</a>"
-            j++
-          result.innerHTML = values.join(", ")
-        else
-          result.innerHTML = "<a href='" + source.url + "'> " + highlight(msg.keyword, source.title, source.url) + "</a>"
-      else
-        result.innerHTML = highlight(msg.keyword, source)
-      results_box.appendChild result
-      i++
-    drawSelected()
   highlight = (keyword, text, addition) ->
-    unless text
-      text = addition
-    else text += "\t--\t" + addition  if addition
-    text.slice(0, 75).replace RegExp(keyword.escapeRegExp, "g"), "<strong>" + keyword + "</strong>"
+    text += "\t--\t#{addition}" if addition
+    text[0..75].replace RegExp(keyword.escapeRegExp, "g"), "<strong>#{keyword}</strong>"
+
+  notice = (msg) ->
+    cmdBox = CmdBox.cmdBox()
+    if $("##{notice_id}").length == 0
+      box = $("<div id='#{notice_id}'>")
+      box.attr "style", "bottom: 0 !important; right:#{cmdBox.offsetWidth}px !important; height:#{cmdBox.offsetHeight}px !important; line-height:#{cmdBox.offsetHeight}px !important; width: #{dialogBox().offsetWidth - cmdBox.offsetWidth - 12}px !important"
+      $("body").prepend box
+    $("##{notice_id}").val(msg)
+
+
+  @start: (title, content, search_callback, newtab, keydowncallback) ->
+    [isEnabled, last_keyword, newTab, search_func, keydown_callback] = [true, null, newtab, search_callback, keydowncallback]
+    CmdBox.set title: title, pressDown: handleInput, pressUp: keydown_callback, content: content
+    search_func CmdBox.get().content
+
+
+  @draw: (msg) ->
+    return false unless isEnabled
+    [dialog_mode, results_box, selected] = [(if msg.urls then "url" else ""), freshResultBox(), 0]
+    sources = msg.urls or msg.sources
+
+    return results_box.append $("<div>").html("No results found!") if sources.length is 0
+
+    for source in sources
+      result = $("<div>")
+      if dialog_mode is "url"
+        if $.isArray(source.url)
+          result.html ("<a href='#{u}'>#{highlight(msg.keyword, url)}</a>" for u in source.url).join(", ")
+        else
+          result.html "<a href='#{source.url}'>#{highlight(msg.keyword, source.title, source.url)}</a>"
+      else
+        result.html = highlight(msg.keyword, source)
+      results_box.append result
+
+    drawSelected()
+
   next = (dirction) ->
     selected += (dirction or 1)
-    selected = 0  if selected > sources.length
-    if selected < 0
-      selected = selected + sources.length
-      selected = 0  if selected < 0
+    selected = 0 if selected > sources.length
+    selected = selected % sources.length if selected < 0
     drawSelected()
+
   prev = (dirction) ->
     next 0 - (dirction or 1)
+
   drawSelected = ->
-    results = document.body.querySelectorAll("#" + search_results_id + " div")
-    quick_num_elems = document.body.querySelectorAll("." + selected_quick_num)
-    i = 0
+    results = $("##{search_results_id} div")
+    selected_result = results[selected]
 
-    while i < quick_num_elems.length
-      quick_num_elems[i].parentNode.removeChild quick_num_elems[i]
-      i++
-    i = 0
+    $(".#{selected_quick_num}").remove()
 
-    while i < results.length
-      result = results[i]
-      d_value = i - selected
-      if (d_value > 0) and (d_value < 10)
-        span = document.createElement("span")
-        span.setAttribute "class", selected_quick_num
-        span.innerHTML = d_value
-        result.insertBefore span, result.childNodes[0]
-      if i isnt selected
-        result.removeAttribute "class"
-      else
-        result.setAttribute "class", selected_class
-        quick_selects = document.body.querySelectorAll("." + selected_quick_num)
-        if quick_selects[quick_selects.length - 1]
-          quick_selects[quick_selects.length - 1].scrollIntoViewIfNeeded()
-        else
-          result.scrollIntoViewIfNeeded()
-        current_elements = current()
-        if current_elements
-          
-          # Acts as array. (Actually it is HTMLCollection)
-          if current_elements.length
-            values = []
-            j = 0
+    $(results).removeClass(selected_class)
+    $(selected_result).addClass(selected_class)
 
-            while j < current_elements.length
-              values.push current_elements[j].getAttribute("href")
-              j++
-            notice values.join(",")
-          else
-            notice current_elements.getAttribute("href")
-      i++
-  current = ->
-    selected_box = document.getElementsByClassName(selected_class)[0]
-    selected_box.children  if selected_box
-  stop = (force) ->
+    index_num = 1
+    for result in results[selected..selected+10]
+      $(result).prepend $("<span class='#{selected_quick_num}'>").text(index_num++)
+
+    $(".#{selected_quick_num}").get(-1).scrollIntoViewIfNeeded()
+
+    notice (e.attr("href") for e in $(selected_result).find("[href]")).join(", ")
+
+  @stop: (force) ->
     if not isEnabled or force
-      box = DialogBox()
-      document.body.removeChild box  if box
-      box = document.getElementById(notice_id)
-      document.body.removeChild box  if box
-      isEnabled = false
+      dialogBox().remove()
+      $("##{notice_id}").remove()
       CmdBox.remove()
-  notice = (msg) ->
-    box = document.getElementById(notice_id)
-    cmdBox = CmdBox.cmdBox()
-    unless box
-      box = document.createElement("div")
-      box.setAttribute "id", notice_id
-      styles = "bottom: 0 !important; right:" + cmdBox.offsetWidth + "px !important; height: " + cmdBox.offsetHeight + "px !important; line-height: " + cmdBox.offsetHeight + "px !important; width: " + (DialogBox().offsetWidth - cmdBox.offsetWidth - 12) + "px !important"
-      box.setAttribute "style", styles
-      document.body.insertBefore box, document.body.childNodes[0]
-    box.innerHTML = msg
+      isEnabled = false
+
   handleInput = (e) ->
     key = getKey(e)
     
@@ -150,6 +96,7 @@ Dialog = (->
       isEnabled = false
       KeyEvent.stopPropagation e
       return
+
     if key.match(/<C-(\d)>|<Up>|<S-Tab>|<Down>|<Tab>|Control/)
       if key.match(/<C-(\d)>/)
         next Number(RegExp.$1)
@@ -160,40 +107,26 @@ Dialog = (->
       next 10  if key is Option.get("autocomplete_next_10")
       KeyEvent.stopPropagation e
       return
+
     setTimeout delayToWaitKeyDown, 20  unless isEscapeKey(key)
+
   delayToWaitKeyDown = ->
     keyword = CmdBox.get().content
     if last_keyword isnt keyword
-      search keyword
+      search_func keyword
       last_keyword = keyword
-  openCurrent = (keep_open) -> #Boolean
-    return false  unless isEnabled
-    elem = current()
-    return false  unless elem
-    options = {}
-    options[(if Platform.mac then "meta" else "ctrl")] = keep_open or newTab
-    clickElement elem, options
-    stop()  unless keep_open
-  open = (keep_open) -> #Boolean
-    setTimeout openCurrent, 500, keep_open
-  isEnabled = undefined
-  selected = undefined
-  sources = undefined
-  dialog_mode = undefined
-  last_keyword = undefined
-  search = undefined
-  newTab = undefined
-  keydown_callback = undefined
-  box_id = "__vrome_dialog"
-  search_results_id = "__vrome_searchResults"
-  selected_class = "__vrome_selected"
-  selected_quick_num = "__vrome_selected_quick_index"
-  notice_id = "__vrome_dialog_notice"
-  start: start
-  draw: draw
-  openCurrent: open
-  openCurrentNewTab: ->
-    open true
 
-  stop: stop
-)()
+  @openCurrent: (keep_open) -> #Boolean
+    return false if !isEnabled || !elem
+    current_element = $(".#{selected_class}").get(0)?.children
+    clickElement current_element, {"ctrl": keep_open or newTab}
+    stop() unless keep_open
+
+  @openCurrentNewTab: -> open true
+
+  @open: (keep_open) ->
+    setTimeout @openCurrent, 500, keep_open
+
+
+root = exports ? window
+root.Dialog = Dialog
