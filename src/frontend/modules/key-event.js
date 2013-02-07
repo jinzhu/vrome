@@ -265,7 +265,7 @@ var KeyEvent = (function() {
 
   function getBindingsStartingBy(currentKeys, insertMode) {
     return _.filter(bindings, function(v) {
-      return v[0].startWith(currentKeys) && v[2] === insertMode
+      return v[0].startsWith(currentKeys) && v[2] === insertMode
     })
   }
 

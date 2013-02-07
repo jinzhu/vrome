@@ -98,7 +98,7 @@ var Dialog = (function() {
     } else if (addition) {
       text += "\t--\t" + addition;
     }
-    return text.slice(0, 75).replace(RegExp(RegExp.escape(keyword), 'g'), "<strong>" + keyword + "</strong>");
+    return text.slice(0, 75).replace(RegExp(keyword.escapeRegExp, 'g'), "<strong>" + keyword + "</strong>");
   }
 
   function next(dirction) {

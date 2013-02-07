@@ -271,7 +271,7 @@ var Hint = (function() {
 
     var regexp = new RegExp(filter.trimFirst("!"), 'im');
     var result = regexp.test(text) || regexp.test(PinYin.shortcut(text)) || regexp.test(PinYin.full(text));
-    return filter.startWith('!') ? !result : result;
+    return filter.startsWith('!') ? !result : result;
   }
 
   function getCurrentActionNames() {

@@ -314,7 +314,7 @@ var Help = (function() {
             _.each(customMapping, function(cv, ck) {
               // remove keys blocking other keys
               // e.g map z zi where zi would now be blocked by z
-              if ((ck != k && ck.length < k.length && k.toString().startWith(ck))
+              if ((ck != k && ck.length < k.length && k.toString().startsWith(ck))
               // remove keys that are already mapped
               // e.g map gf G
               // map gs gf
