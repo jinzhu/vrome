@@ -95,7 +95,6 @@ addCmdLineCommands = ->
   CmdLine.add "bdelete", "buffer delete match", Buffer.deleteMatchHandle, true
   CmdLine.add "mdelete", "mark delete match", Marks.deleteQuickMark, true
   CmdLine.add "make-links", "transforms URLs into clickable links", Page.transformURLs
-  CmdLine.add "dld-links", "opens all links matching a URL (match begin;end)  e.g dld-links mp4 2;10", Page.openURLs, true
   CmdLine.add "options", "opens options page", Page.openOptions
   CmdLine.add "toggle-images", "toggle images", Page.hideImages
 
