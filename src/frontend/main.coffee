@@ -136,16 +136,6 @@ cmds =
       k: ["<C-Esc>"]
       both: 1
 
-    "Page.styleDisable":
-      t: "Toggle Chrome CSS"
-      d: "Copy custom CSS file to the browser\n            User StyleSheets directory"
-      k: "Sd"
-      o:
-        ccc_file: "alias of chrome_custom_css_file"
-        chrome_custom_css_file: "full path CSS file (filesystem or URL)"
-
-      s: 1
-
     "Dialog.openCurrentNewTab":
       t: "Open selected URL in new tab"
       d: "When in a dialog, Open selected URL (highlighted background) in a new tab"

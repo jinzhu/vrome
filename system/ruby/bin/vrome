@@ -59,32 +59,6 @@ class VromeServer < WEBrick::HTTPServlet::AbstractServlet
     return 200, "text/plain", version
   end
 
-  def switch_chrome_css(request)
-    res = ''
-
-    if request['filename']
-      content = open(request['filename']) {|f| f.read }
-      dir = Dir[File.join(ENV['HOME'], ".config", "chrom*", "Default", "User StyleSheets")][0]
-
-      vrome_filename = File.join(dir, "vrome.css")
-      custom_filename = File.join(dir, "Custom.css")
-
-      File.open(vrome_filename, 'w+') {|f| f << content } if content
-
-      if File.exist?(vrome_filename)
-        unless content == File.read(custom_filename)
-          FileUtils.mv(custom_filename, "#{custom_filename}.bak.#{Time.now.to_i}.css")
-          File.open(custom_filename, 'w+') {|f| f.write(content) }
-        end
-        res = "enabled"
-      else
-        res = "permission issues"
-      end
-    end
-
-    return 200, "text/plain", res
-  end
-
   def do_GET(request, response)
     filename = ENV['HOME'] + File::SEPARATOR + '.vromerc'
     body = File.exist?(filename) ? File.read(filename) : "" rescue ""

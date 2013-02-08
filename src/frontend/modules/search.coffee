@@ -1,4 +1,4 @@
-Search = (->
+class Search
   kill_find = ->
     if findTimeoutID
       clearTimeout findTimeoutID
@@ -144,4 +144,7 @@ Search = (->
 
   openCurrentNewTab: ->
     openCurrent true
-)()
+
+
+root = exports ? window
+root.Buffer = Buffer

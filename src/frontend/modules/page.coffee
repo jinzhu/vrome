@@ -1,51 +1,24 @@
-Page = (->
-  hideImages = ->
-    imgs = document.getElementsByTagName("img")
-    _.each imgs, (v) ->
-      
-      # toggle class name
-      $(v).toggleClass "help_hidden"
-
+class Page
   execMatch = (regexps) ->
-    elems = document.getElementsByTagName("a")
-    i = 0
+    for elem in $("a")
+      for regexp in regexps
+        return clickElement(elem) if new RegExp(regexp, "i").test($(elem).val().replace(/(^(\n|\s)+|(\s|\n)+$)/, ""))
 
-    while i < regexps.length
-      j = 0
+  @hideImages = ->
+    $("img").hide()
 
-      while j < elems.length
-        return clickElement(elems[j])  if new RegExp(regexps[i], "i").test((elems[j].innerText or "").replace(/(^(\n|\s)+|(\s|\n)+$)/, ""))
-        j++
-      i++
-    false
-  copySelected = ->
+  @openOptions: ->
+    Post action: "Tab.openUrl", urls: "/background/options.html", newtab: true
+
+  @copySelected: ->
     text = getSelected()
     Clipboard.copy text
-    text = (if text.length > 80 then (text.slice(0, 80) + "...") else text)
-    CmdBox.set
-      title: "[Copied]" + text
-      timeout: 4000
+    CmdBox.set title: "[Copied]#{text.replace(/^(.{80})(.*)/, '$1...')}", timeout: 4000
 
-  styleDisable = ->
-    cssFile = Option.get("chrome_custom_css_file") or Option.get("ccc_file")
-    if cssFile
-      $.ajax(
-        type: "POST"
-        url: getLocalServerUrl()
-        data: JSON.stringify(
-          method: "switch_chrome_css"
-          filename: cssFile
-        )
-      ).done (data) ->
-        if data
-          CmdBox.set
-            title: data
-            timeout: 1000
-
-
-  transformURLs = ->
+  @transformURLs: ->
     document.body.innerHTML = document.body.innerHTML.transformURL()
-  openURLs = (args) ->
+
+  @openURLs: (args) ->
     if args.split(" ").length isnt 2
       CmdBox.set title: "Usage: dld-links [match] [begin;end]<br/> e.g dld-links mp4 3;20"
       return false
@@ -62,34 +35,18 @@ Page = (->
       clickElement v,
         ctrl: true
 
+  @editURLInExternalEditor = ->
+    Post action: "Editor.open", data: window.location.href, callbackAction: "Page.editURLExternalEditorCallback"
 
-    true
-  editURLInExternalEditor = ->
-    Post
-      action: "Editor.open"
-      data: window.location.href
-      callbackAction: "Page.editURLExternalEditorCallback"
+  @editURLExternalEditorCallback: (msg) ->
+    window.location.href = msg.value unless window.location.href is msg.value
 
-  editURLExternalEditorCallback = (msg) ->
-    window.location.href = msg.value  unless window.location.href is msg.value
-  next: ->
+  @next: ->
     execMatch Option.get("nextpattern")
 
-  prev: ->
+  @prev: ->
     execMatch Option.get("previouspattern")
 
-  copySelected: copySelected
-  styleDisable: styleDisable
-  transformURLs: transformURLs
-  openURLs: openURLs
-  editURLInExternalEditor: editURLInExternalEditor
-  editURLExternalEditorCallback: editURLExternalEditorCallback
-  openOptions: ->
-    Post
-      action: "Tab.openUrl"
-      urls: "/background/options.html"
-      newtab: true
 
-
-  hideImages: hideImages
-)()
+root = exports ? window
+root.Page = Page
