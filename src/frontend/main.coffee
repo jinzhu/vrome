@@ -724,5 +724,5 @@ try
   addCmdLineCommands()
   addErrorLogger()
   loadMapping()
-  runIt [Migration.exec, Zoom.init, KeyEvent.init]
+  runIt [Zoom.init, KeyEvent.init]
   runIt [Frame.register, CustomCode.runJS, CustomCode.loadCSS]
