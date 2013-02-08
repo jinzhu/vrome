@@ -1,156 +1,110 @@
-Tab = (->
-  copyUrl = ->
+class Tab
+  move = (option={}) ->
+    Post $.extend option, action: "Tab.move"
+
+  reload = (option={}) ->
+    Post $.extend option, action: "Tab.reload"
+
+  unpinAll = (option={}) ->
+    Post $.extend option, action: "Tab.unpinAll"
+
+  @copyUrl: ->
     url = document.location.href
     Clipboard.copy url
-    CmdBox.set
-      title: "[Copied] " + url
-      timeout: 4000
+    CmdBox.set title: "[Copied] " + url, timeout: 4000
 
-  reload = ->
-    Post action: "Tab.reload"
-  reloadAll = ->
+  @reopen: ->
+    Post action: "Tab.reopen", count: times()
+
+  @reload: ->
+    reload
+  @reloadWithoutCache: ->
+    reload bypassCache: true
+  @reloadAll: ->
     Post action: "Tab.reloadAll"
-  reloadWithoutCache = ->
-    Post
-      action: "Tab.reload"
-      bypassCache: true
 
-  unpinAll = (option) ->
-    option = option or {}
-    option.action = "Tab.unpinAll"
-    Post option
-  move = (option) ->
-    option.action = "Tab.move"
-    Post option
-  close = (option) ->
-    option = option or {}
-    option.action = "Tab.close"
-    Post option
-  reopen = ->
-    Post
-      action: "Tab.reopen"
-      count: times()
-
-  togglePin = ->
+  @togglePin: ->
     Post action: "Tab.togglePin"
-  duplicate = ->
-    Post
-      action: "Tab.duplicate"
-      count: times()
 
-  detach = ->
+  @duplicate: ->
+    Post action: "Tab.duplicate", count: times()
+
+  @detach: ->
     Post action: "Tab.detach"
-  openInIncognito = ->
-    Post action: "Tab.openInIncognito"
-  markForMerging = (opt) ->
-    opt = opt or {}
-    opt.action = "Tab.markForMerging"
-    Post opt
-  selectPrevious = ->
-    count = times(true) #raw
-    if count
-      Post
-        action: "Tab.select"
-        index: count - 1
 
+  @openInIncognito: ->
+    Post action: "Tab.openInIncognito"
+
+  @markForMerging: (option={}) ->
+    Post $.extend option, action: "Tab.markForMerging"
+
+  @markAllForMerging: ->
+    @markForMerging all: true
+
+  @selectPrevious: ->
+    if count = times(true)
+      Post action: "Tab.select", index: count - 1
     else
       Post action: "Tab.selectPrevious"
-  selectLastOpen = ->
-    Post
-      action: "Tab.selectLastOpen"
-      count: times()
 
-  prev = ->
-    Post
-      action: "Tab.select"
-      offset: -1 * times()
+  @selectLastOpen: ->
+    Post action: "Tab.selectLastOpen", count: times()
 
-  next = ->
-    Post
-      action: "Tab.select"
-      offset: times()
+  @prev: ->
+    Post action: "Tab.select", offset: -1 * times()
 
-  first = ->
-    Post
-      action: "Tab.select"
-      index: 0
+  @next: ->
+    Post action: "Tab.select", offset: times()
 
-  last = ->
-    Post
-      action: "Tab.select"
-      index: -1
+  @first: ->
+    Post action: "Tab.select", index: 0
 
-  
-  # API
-  copyUrl: copyUrl
-  reload: reload
-  reloadAll: reloadAll
-  reloadWithoutCache: reloadWithoutCache
-  close: close
-  closeAndFoucsLast: ->
-    close
-      focusLast: true
-      count: times()
+  @last = ->
+    Post action: "Tab.select", index: -1
 
 
-  closeAndFoucsLeft: ->
-    close
-      offset: -1
-      count: times()
+  @close: (option={}) ->
+    Post $.extend option, action: "Tab.close"
 
+  @closeAndFoucsLast: ->
+    close focusLast: true, count: times()
 
-  closeOtherTabs: ->
+  @closeAndFoucsLeft: ->
+    close offset: -1, count: times()
+
+  @closeOtherTabs: ->
     close type: "closeOther"
 
-  closeLeftTabs: ->
+  @closeLeftTabs: ->
     close type: "closeLeft"
 
-  closeRightTabs: ->
+  @closeRightTabs: ->
     close type: "closeRight"
 
-  closePinnedTabs: ->
+  @closePinnedTabs: ->
     close type: "closePinned"
 
-  closeUnPinnedTabs: ->
+  @closeUnPinnedTabs: ->
     close type: "closeUnPinned"
 
-  closeOtherWindows: ->
-    close
-      otherWindows: true
-      type: "otherWindows"
+  @closeOtherWindows: ->
+    close type: "otherWindows"
 
 
-  moveLeft: ->
-    move
-      direction: "left"
-      count: times()
+  @moveLeft: ->
+    move direction: "left", count: times()
+
+  @moveRight: ->
+    move direction: "right", count: times()
 
 
-  moveRight: ->
-    move
-      direction: "right"
-      count: times()
-
-
-  reopen: reopen
-  unpinAllTabsInCurrentWindow: unpinAll
-  unpinAllTabsInAllWindows: ->
+  @unpinAllTabsInCurrentWindow: unpinAll
+  @unpinAllTabsInAllWindows: ->
     unpinAll allWindows: true
 
-  prev: prev
-  next: next
-  first: first
-  last: last
-  selectPrevious: selectPrevious
-  selectLastOpen: selectLastOpen
-  togglePin: togglePin
-  duplicate: duplicate
-  detach: detach
-  openInIncognito: openInIncognito
-  markForMerging: markForMerging
-  markAllForMerging: ->
-    markForMerging all: true
-
-  putMarkedTabs: ->
+  @putMarkedTabs: ->
     Post action: "Tab.putMarkedTabs"
-)()
+
+
+root = exports ? window
+root.Tab = Tab
