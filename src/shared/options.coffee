@@ -26,7 +26,7 @@ class Option
     showstatus: 1
 
   @get: (key) ->
-    configure = Settings.get("background.configure.set")?[key] ? Settings.get("configure.set")?[key]
+    configure = Settings.get("configure.set")?[key]
     option = options[key]
 
     if $.isArray(configure)

@@ -9,30 +9,31 @@ class Settings
 
 
   @add: (value) ->
-    setting = currentSetting()
+    settings = currentSetting()
 
     if $.isPlainObject value
-      $.extend(setting, value)
+      $.extend(settings, value)
     else
       [names, value] = [arguments[0].split('.'), arguments[1]]
-      s = (setting[name] = setting[name] || {}) while name in names.slice 0, names.length-1
+      s = settings
+      s = (s[name] || {}) while name in names.slice 0, names.length-1
       s[names[names.length-1]] = value
-      setting = s
+      settings = s
 
-    localStorage[key] = JSON.stringify(setting)
-    return setting
+    localStorage[key] = JSON.stringify(settings)
+    return settings
 
 
   @get: (names) ->
-    setting = currentSetting()
-    return setting unless names
+    settings = currentSetting()
+    return settings unless names
 
     try
-      setting = setting[name] for name in names.split('.')
+      settings = settings[name] for name in names.split('.')
     catch error
       return ""
 
-    setting
+    settings
 
 
 root = exports ? window

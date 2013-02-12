@@ -25,8 +25,8 @@ class CmdBox
 
   @set: (o) ->
     if o.title
-      (cmdBoxTitle() or createCmdBoxTitle()).unbind().val(o.title).mousedown o.mouseOverTitle
-    if opt.content
+      $(cmdBoxTitle() or createCmdBoxTitle()).unbind().val(o.title).mousedown o.mouseOverTitle
+    if o.content
       input = cmdBoxInput() or createCmdBoxInput()
       input.unbind().val(o.content).keydown(o.pressDown).keyup(o.pressUp).keypress(o.pressPress).focus()
       input.select()  unless o.noHighlight

@@ -6,10 +6,10 @@ class KeyEvent
     @bindings.push [keys, func, !!insert_mode]
 
 
-  @init: ->
+  @init: =>
     for disablesite in Option.get("disablesites").split(", ")
       new RegExp(disablesite, "i").test(location.href)
-      disable()
+      @disable()
       break
 
     unless document.vromeEventListenerAdded
@@ -54,15 +54,15 @@ class KeyEvent
 
 
   filterKey = (key, insertMode) ->
-    configure = Settings.get("background.configure")
+    configure = Settings.get("configure")
     mode = (if insertMode then "imap" else "map")
     return key if /^\d$/.test(key)
-    configure[mode]?[key] or key
+    configure?[mode]?[key] or key
 
   ignoreKey = (key, insertMode) ->
-    configure = Settings.get("background.configure")
+    configure = Settings.get("configure")
     mode = (if insertMode then "iunmap" else "unmap")
-    configure[mode]?[key]?
+    configure?[mode]?[key]?
 
   runCurrentKeys = (keys, insertMode, e) =>
     return unless keys
@@ -75,7 +75,7 @@ class KeyEvent
     else
       last_times = key_times
 
-    for binding in bindings
+    for binding in @bindings
       # 0 is a special command. could be used to scroll left, also could be used as run count.
       break if key_times > 0 and keys.match(/^\d$/)
       [binding_command, binding_function, binding_mode] = binding
