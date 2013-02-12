@@ -19,6 +19,9 @@
   return JSON.stringify(obj) if $.isPlainObject obj
   obj
 
+@rabs = (num, total) ->
+  (num % total + total) % total
+
 root = exports ? window
-for m in ["getLocalServerUrl", "checkServerStatus", "getHostname", "stringify"]
+for m in ["getLocalServerUrl", "checkServerStatus", "getHostname", "stringify", "rabs"]
   root[m] = self[m]
