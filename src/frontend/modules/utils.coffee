@@ -1,18 +1,15 @@
-@Post: (msg) ->
-  chrome.extension.sendMessage msg, (response) ->
-
-@Platform:
+Platform:
   linux: navigator.userAgent.indexOf("Linux") isnt -1
   mac: navigator.userAgent.indexOf("Mac") isnt -1
   win: navigator.userAgent.indexOf("Windows") isnt -1
 
-@getSelected: -> window.getSelection().toString()
+getSelected = -> window.getSelection().toString()
 
-@times: (raw, read) ->
+times = (raw, read) ->
   if raw then KeyEvent.times(read) else (KeyEvent.times(read) or 1)
 
 
-@isElementVisible: (elem, in_full_page) ->
+isElementVisible = (elem, in_full_page) ->
   return false unless $(elem).is(':visible')
   return true if in_full_page
 
@@ -27,7 +24,7 @@
   elemBottom >= winTop and elemTop <= winBottom and elemLeft <= winRight and elemRight >= winLeft
 
 
-@clickElement: (elem, opt={}) ->
+clickElement = (elem, opt={}) ->
   #event.initMouseEvent(type, canBubble, cancelable, view,
   #                     detail, screenX, screenY, clientX, clientY,
   #                     ctrlKey, altKey, shiftKey, metaKey,
@@ -52,7 +49,7 @@
 
 
 initFunctions = []
-@runIt: (func, args) ->
+runIt = (func, args) ->
   if $.isArray func
     initFunctions = initFunctions.concat(func)
   else if $.isFunction(func)
@@ -70,10 +67,6 @@ initFunctions = []
     setTimeout runIt, 10
 
 
-@extractFunction: (functionName, context=window) ->
-  $(context[func] for func in functionName.split(".")).get(-1)
-
-
 root = exports ? window
-for m in ["Post", "Platform", "getSelected", "times", "isElementVisible", "clickElement", "runIt", "extractFunction"]
-  root[m] = self[m]
+for m in ["Platform", "getSelected", "times", "isElementVisible", "clickElement", "runIt"]
+  root[m] = this[m]

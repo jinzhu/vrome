@@ -4,4 +4,4 @@ class Clipboard
 
 
 root = exports ? window
-root.Buffer = Buffer
+root.Clipboard = Clipboard
