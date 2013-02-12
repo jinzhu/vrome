@@ -113,8 +113,7 @@ gk = generated keys -- we use a function to determine the keys associated to tha
         }
       });
     });
-    KeyEvent.add("<C-Enter>", Search.prev, true);
-    return KeyEvent.done();
+    return KeyEvent.add("<C-Enter>", Search.prev, true);
   };
 
   addErrorLogger = function() {
@@ -128,7 +127,6 @@ gk = generated keys -- we use a function to determine the keys associated to tha
     CmdLine.add("bdelete", "buffer delete match", Buffer.deleteMatchHandle, true);
     CmdLine.add("mdelete", "mark delete match", Marks.deleteQuickMark, true);
     CmdLine.add("make-links", "transforms URLs into clickable links", Page.transformURLs);
-    CmdLine.add("dld-links", "opens all links matching a URL (match begin;end)  e.g dld-links mp4 2;10", Page.openURLs, true);
     CmdLine.add("options", "opens options page", Page.openOptions);
     return CmdLine.add("toggle-images", "toggle images", Page.hideImages);
   };
@@ -172,16 +170,6 @@ gk = generated keys -- we use a function to determine the keys associated to tha
         t: "Enable Vrome when in pass-through",
         k: ["<C-Esc>"],
         both: 1
-      },
-      "Page.styleDisable": {
-        t: "Toggle Chrome CSS",
-        d: "Copy custom CSS file to the browser\n            User StyleSheets directory",
-        k: "Sd",
-        o: {
-          ccc_file: "alias of chrome_custom_css_file",
-          chrome_custom_css_file: "full path CSS file (filesystem or URL)"
-        },
-        s: 1
       },
       "Dialog.openCurrentNewTab": {
         t: "Open selected URL in new tab",
@@ -795,7 +783,7 @@ gk = generated keys -- we use a function to determine the keys associated to tha
     addCmdLineCommands();
     addErrorLogger();
     loadMapping();
-    runIt([Migration.exec, Zoom.init, KeyEvent.init]);
+    runIt([Zoom.init, KeyEvent.init]);
     runIt([Frame.register, CustomCode.runJS, CustomCode.loadCSS]);
   } catch (_error) {}
 

@@ -16,7 +16,7 @@ class CmdLine
 
   filterCommands = (keyword) ->
     cuteCommands = {title: command.name, url: command.description} for command in getFilteredCommands(keyword)
-    Dialog.draw, urls: cuteCommands, keyword: ""
+    Dialog.draw urls: cuteCommands, keyword: ""
 
   handleEnterKey = (e) ->
     return unless CmdLineMode
@@ -27,7 +27,7 @@ class CmdLine
       try
         Dialog.stop true
         cmd = filterCommands[0] # use the first command
-        args = (if cmd.hasArgs then string.substring(string.indexOf(" ")).trim() : "") # arguments
+        args = string.substring(string.indexOf(" ")) if cmd.hasArgs
         cmd.func.call "", args
       catch err
         Debug err

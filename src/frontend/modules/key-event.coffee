@@ -8,9 +8,9 @@ class KeyEvent
 
   @init: ->
     for disablesite in Option.get("disablesites").split(", ")
-      new RegExp(disable_sites[i], "i").test(location.href)
-        disable()
-        break
+      new RegExp(disablesite, "i").test(location.href)
+      disable()
+      break
 
     unless document.vromeEventListenerAdded
       document.addEventListener "keydown", KeyEvent.exec, true

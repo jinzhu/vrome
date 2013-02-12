@@ -52,7 +52,7 @@
 
 
 initFunctions = []
-@runIt: = (func, args) ->
+@runIt: (func, args) ->
   if $.isArray func
     initFunctions = initFunctions.concat(func)
   else if $.isFunction(func)
