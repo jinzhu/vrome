@@ -66,7 +66,7 @@
 }
 
 a[vrome_highlight=hint_elem] {
-  background-color: #F8F893 !important;
+  background-color: red !important;
   color: #000 !important;
   z-index: 2147483646 !important;
 }
