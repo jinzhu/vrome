@@ -80,10 +80,7 @@ loadMapping = ->
           KeyEvent.add key, func, true  if info.i or info.both
           KeyEvent.add key, func  if not info.i or info.both
 
-
-
   KeyEvent.add "<C-Enter>", Search.prev, true
-  KeyEvent.done()
 addErrorLogger = ->
   window.addEventListener "error", ((err) ->
     logError err

@@ -1,4 +1,4 @@
-Marks = (->
+class Marks
   addQuickMark = ->
     marks = Settings.get("url_marks") or {}
     Dialog.start "Add Quick Mark", "", filterQuickMarks, false, handleEnterKey
@@ -134,3 +134,7 @@ Marks = (->
   gotoLocalMark: gotoLocalMark
   deleteQuickMark: deleteQuickMark
 )()
+
+
+root = exports ? window
+root.Marks = Marks

@@ -1,4 +1,5 @@
-Hint = (->
+class Hint
+
   start = (newTab, multiMode, stringMode, prevContent) ->
     Hint.remove()
     hintMode = true
@@ -596,8 +597,7 @@ Hint = (->
     start true, true, true
 
   remove: remove
-)()
 
 
 root = exports ? window
-root.Buffer = Buffer
+root.Hint = Hint
