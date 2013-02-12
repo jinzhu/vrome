@@ -40,7 +40,6 @@ chrome.tabs.onRemoved.addListener (tabId) ->
   Tab.closed_tabs.push tab if tab
   Tab.current_closed_tab = false
 
-
 $ ->
   Vromerc.loadAll true
 
