@@ -1,124 +1,82 @@
 class Hint
+  [currentHint, new_tab, multi_mode, hintMode, selected, elements, matched, key, clickedElems, isStringMode, hintKeys, subMatched, dupElements] = []
+  [highlight, highlight_id] = ["vrome_highlight", "vrome_highlight"]
 
-  start = (newTab, multiMode, stringMode, prevContent) ->
+  @new_tab_start: => @start true
+  @multi_mode_start: => @start true, true #new tab, #multi mode
+  @start_string: => @start false, false, true
+  @new_tab_start_string: => @start true, false, true
+  @multi_mode_start_string: -> @start true, true, true
+  @start: (newTab, multiMode, stringMode, prevContent) ->
     Hint.remove()
-    hintMode = true
-    new_tab = newTab
-    multi_mode = multiMode
-    isStringMode = stringMode or Option.get("useletters") is 1
-    hintKeys = Option.get("hintkeys")
-    isHighlightEnabled = Option.get("hints_highlight")
+    [hintMode, new_tab, multi_mode, isStringMode] = [true, newTab, multiMode, stringMode or (Option.get("useletters") is 1)]
+    [hintKeys] = [Option.get("hintkeys")]
     initHintMode()
+
     if isStringMode
-      CmdBox.set
-        title: "HintMode"
-        pressUp: handleInput
-        content: (if prevContent then prevContent else "")
-        noHighlight: inRepeatMode(prevContent)
-        stopAllPropagation: true
-
+      CmdBox.set {title: "HintMode", pressUp: handleInput, content: prevContent ? "", noHighlight: inRepeatMode(prevContent), stopAllPropagation: true}
     else
-      CmdBox.set
-        title: "HintMode"
-        pressDown: handleInput
-        content: ""
+      CmdBox.set title: "HintMode", pressDown: handleInput, content: ""
 
-  initHintMode = ->
-    selected = 0 # set current selected number
-    currentHint = false
-    elements = []
-    clickedElems = []
-    subMatched = []
-    elements = []
-    matched = []
-    dupElements = {}
-    
-    # Get all visible elements
-    elems = document.body.querySelectorAll("a, input:not([type=hidden]), textarea, select, button, *[onclick]")
-    elements = _.select(elems, (v) ->
-      isElementVisible(v) and v and (v.id isnt "_vrome_cmd_input_box")
-    )
-    setHintIndex elements
-    matched = elements
-  removeHighlightBox = (create_after_remove) -> # Boolean
-    i = 0
-    j = elements.length
-
-    while i < j
-      elements[i].removeAttribute highlight
-      i++
-    div = document.getElementById("__vim_hint_highlight")
-    document.body.removeChild div  if div
-    if create_after_remove
-      div = document.createElement("div")
-      div.setAttribute "id", "__vim_hint_highlight"
-      document.body.appendChild div
-      div
-  setHintIndex = (elems) ->
-    div = removeHighlightBox(true) # create_after_remove
-    win_top = window.scrollY / Zoom.current()
-    win_left = window.scrollX / Zoom.current()
-    frag = document.createDocumentFragment()
-    currentString = getCurrentString()
-    hintStrings = null
-    if isStringMode
-      
-      # index of similar links so we generate the same hints for duplicates
-      hintStrings = StringModeHelper.hintStrings(elems)
-      subMatched = []
-    i = 0 #TODO need refactor
-    j = elems.length
-
-    while i < j
-      elem = elems[i]
-      pos = elem.getBoundingClientRect()
-      elem_top = win_top + pos.top
-      elem_left = win_left + pos.left
-      span = document.createElement("span")
-      span.setAttribute "id", "__vim_hint_highlight_span"
-      span.style.left = elem_left + "px"
-      span.style.top = elem_top + "px"
-      span.style.backgroundColor = "red"
-      if isStringMode
-        mnemonic = hintStrings[i]
-        subMatched[i] = mnemonic
-        span.setAttribute "class", "__vim_hint_highlight_span"
-        mnemonic = StringModeHelper.updateMnemonic(mnemonic, currentString)
-        continue  if mnemonic.length is 0 # do not add to frag if empty
-        span.innerHTML = mnemonic
-      else
-        span.innerHTML = i + 1 # set number for available elements
-      frag.appendChild span
-      setHighlight elem, false # set_active
-      i++
-    div.appendChild frag
-    setHighlight elems[0], true  if elems[0] and elems[0].tagName is "A" # set_active
-  setHighlight = (elem, set_active) ->
-    return false  if not elem or not isHighlightEnabled
-    if set_active
-      
-      # Remove the old active element
-      active_elem = document.body.querySelector("a[" + highlight + "=hint_active]")
-      active_elem.setAttribute highlight, "hint_elem"  if active_elem
-      elem.setAttribute highlight, "hint_active"
-    else
-      elem.setAttribute highlight, "hint_elem"
-    true
-  remove = ->
-    return false  unless hintMode
+  @remove: ->
+    return false unless hintMode
     CmdBox.remove()
     removeHighlightBox()
     hintMode = false
-    true
-  getCurrentString = ->
-    content = CmdBox.get().content
-    content = content.trim()
-    content = content.substring(1)  if getCurrentAction(content)
-    content
-  
-  #
-  #   * retrieves matched elements using string (string mode only)
-  #   
+
+
+  initHintMode = ->
+    [selected, currentHint, clickedElems, subMatched, elements, matched, dupElements] = [0, false, [], [], [], [], {}]
+    # Get all visible elements
+    elements = $("a,input:not([type=hidden]),textarea,select,button,*[onclick]").has(':visible').not("#_vrome_cmd_input_box")
+    setHintIndex elements
+    matched = elements
+
+  removeHighlightBox = (create_after_remove) -> # Boolean
+    $(elements).find("[#{highlight_id}]").removeAttr(highlight_id)
+    $("#__vim_hint_highlight").remove()
+    $("body").append $("<div>", id: "__vim_hint_highlight") if create_after_remove
+    $("#__vim_hint_highlight")
+
+
+  setHintIndex = (elems) ->
+    div = removeHighlightBox(true) # create_after_remove
+    [currentString, hintStrings] = [getCurrentString(), null]
+
+    if isStringMode
+      # index of similar links so we generate the same hints for duplicates
+      hintStrings = StringModeHelper.hintStrings(elems)
+      subMatched = []
+
+    for elem, i in elems
+      span = $("<span>", style: "left:#{$(elem).left()}px;top:#{$(elem).top()}px;background-color:red;")
+      if isStringMode
+        mnemonic = StringModeHelper.updateMnemonic(hintStrings[i], currentString)
+        continue if mnemonic.length is 0 # do not add to frag if empty
+        span.innerHTML = mnemonic
+      else
+        span.innerHTML = i + 1 # set number for available elements
+
+      setHighlight elem, false # set_active
+      $(div).append span
+
+    setHighlight elems[0], true  if elems[0] and elems[0].tagName is "A" # set_active
+
+
+  setHighlight = (elem, set_active) ->
+    return false unless elem
+    if set_active
+      # Remove the old active element
+      $("a[#{highlight_id}=hint_active]").attr highlight_id, "hint_elem"
+      $(elem).attr highlight_id, "hint_active"
+    else
+      $(elem).attr highlight_id, "hint_elem"
+
+
+  @getCurrentString = ->
+    $.trim CmdBox.get().content
+
+
   getMatchedElementsByString = (str) ->
     str = str.toLowerCase()
     newMatched = []
@@ -129,7 +87,7 @@ class Hint
 
     while i < subMatched.length
       mnemonic = subMatched[i]
-      
+
       # don't push the duplicates
       newMatched.push elements[i]  if mnemonic.startsWith(str) and _.include(dupKeys, i) is false
       i++
@@ -137,7 +95,7 @@ class Hint
   handleInput = (e) ->
     key = getKey(e)
     exec = false
-    
+
     # If user are inputing number
     if /^\d$/.test(key) or (key is "<BackSpace>" and selected isnt 0)
       selected = (if (key is "<BackSpace>") then parseInt(selected / 10) else selected * 10 + Number(key))
@@ -157,10 +115,10 @@ class Hint
         currentHint = newMatched[0]
         exec = true  if newMatched.length is 1
     else
-      
+
       # If key is not Accept key, Reset title
       CmdBox.set title: "HintMode"  unless isAcceptKey(key)
-      
+
       # If key is not Escape key, Reset hints
       setTimeout delayToWaitKeyDown, 20  unless isEscapeKey(key)
     if exec
@@ -183,7 +141,7 @@ class Hint
   getCurrentAction = (content) ->
     filter = content or CmdBox.get().content
     actionName = filter.substring(0, 1)
-    
+
     # get the alias associated to this action e.g use @ instead of [
     aliases = Option.get("hint_actions") and JSON.parse(Option.get("hint_actions"))
     actionName = (aliases and aliases[actionName]) or actionName
@@ -264,7 +222,7 @@ class Hint
       clickedElems.push elem
       oldContent = getCurrentString()
       if isStringMode and (inRepeatMode(oldContent))
-        
+
         # repeat if the first character is uppercase or we are in multi mode
         repeatHintMode()
       else if multi_mode and not isStringMode
@@ -286,25 +244,10 @@ class Hint
     getMatchedElementsByString res
     setHintIndex elements
   isExperimental = ->
-    
+
     # runs experimental code. not yet 100% stable for production
     # code using isExperimental can be easily refactored later on
     hintKeys.indexOf(",") isnt -1
-  currentHint = undefined
-  new_tab = undefined
-  multi_mode = undefined
-  hintMode = undefined
-  selected = undefined
-  elements = undefined
-  matched = undefined
-  key = undefined
-  clickedElems = undefined
-  isStringMode = undefined
-  hintKeys = undefined
-  subMatched = undefined
-  dupElements = undefined
-  isHighlightEnabled = undefined
-  highlight = "vrome_highlight"
   subActions =
     ";": focusElement
     "?": showElementInfo
@@ -325,11 +268,11 @@ class Hint
         if elem and elem.tagName is "A"
           href = elem.href or ""
           continue  unless href.isValidURL()
-          
+
           # same link found
           if hrefs[href] isnt `undefined`
             oriElem = elements[hrefs[href]]
-            
+
             # same onclick code + same event listeners. This is the exact same element. Use same hints
             res[i] = hrefs[href]  if oriElem and oriElem.onclick is elem.onclick
           else
@@ -340,15 +283,15 @@ class Hint
     logXOfBase: (x, base) ->
       Math.log(x) / Math.log(base)
 
-    
+
     #
     #     * Returns a list of hint strings which will uniquely identify the given number of links. The hint strings
     #     * may be of different lengths.
-    #     
+    #
     hintStrings: (elems) ->
       linkCount = elems.length
       linkHintCharacters = hintKeys
-      
+
       # provided two sets of hint keys e.g dsafrewq,tgcx  We try to use the first for combinations as much as possible
       # second set is for keys that are too far away but necessary to avoid 3 letters combinations
       unless hintKeys.indexOf(",") is -1
@@ -357,11 +300,11 @@ class Hint
           linkHintCharacters = arrhintKeys[0]
         else
           linkHintCharacters = arrhintKeys[1] + arrhintKeys[0]
-      
+
       # Determine how many digits the link hints will require in the worst case. Usually we do not need
       # all of these digits for every link single hint, so we can show shorter hints for a few of the links.
       digitsNeeded = Math.ceil(@logXOfBase(linkCount, linkHintCharacters.length))
-      
+
       # Short hints are the number of hints we can possibly show which are (digitsNeeded - 1) digits in length.
       shortHintCount = Math.floor((Math.pow(linkHintCharacters.length, digitsNeeded) - linkCount) / linkHintCharacters.length)
       longHintCount = linkCount - shortHintCount
@@ -386,7 +329,7 @@ class Hint
       return null  if not str1 or not str2 or str1 is "" or str2 is ""
       strl = null
       strs = null
-      
+
       # find long + short string
       if str1.length >= str2.length
         strl = str1
@@ -411,7 +354,7 @@ class Hint
     buildSimilarityIndex: (elems) ->
       maxScore = 70
       index = {}
-      
+
       # loop through elements + group them by similarity
       _.each elems, (v, k) ->
         pushed = false
@@ -430,12 +373,12 @@ class Hint
 
         index[k] = []
 
-      
+
       # remove empty ones from index -- no similar matches
       _.each index, (v, k) ->
         delete index[k]  if v.length is 0
 
-      
+
       # merge similar groups + close matches
       _.each index, (v, k) ->
         i = 0
@@ -454,7 +397,7 @@ class Hint
 
           i++
 
-      
+
       # flatten it + make them unique
       _.each index, (v, k) ->
         index[k] = _.unique(_.flatten(v))
@@ -462,13 +405,13 @@ class Hint
 
       index
 
-    
+
     # sort elements by a similarity score and assigns hints starting by the same letter
     # e.g links like "comments (20)", "comments (50)", "comments (55)" will start by the same letter e.g S
     # this way the user can open multiple links highly related very quickly
     sortBySimilarity: (hintStrings, elems) ->
       index = @buildSimilarityIndex(elems)
-      
+
       # create an index matching the new keys to the elements
       if _.size(index) > 0
         hindex = {}
@@ -492,14 +435,14 @@ class Hint
                 done = false
 
             usedLetters.push lastHs.charAt(0)  if lastHs
-        
+
         # rebuild the hint strings using the new matches
         hs = {}
         newhs = []
         _.each hindex, (v, k) ->
           hs[k] = hintStrings[v]
 
-        
+
         # add whatever is left
         remaining = _.difference(hintStrings, _.values(hs))
         _.times hintStrings.length, (k) ->
@@ -512,7 +455,7 @@ class Hint
       hintStrings
 
     fixDuplicates: (hintStrings) ->
-      
+
       # remove any duplicates
       _.map hintStrings, (v, k) ->
         if dupElements[k] isnt `undefined`
@@ -521,11 +464,11 @@ class Hint
           hintStrings[k]
 
 
-    
+
     #
     #     * This shuffles the given set of hints so that they're scattered -- hints starting with the same character
     #     * will be spread evenly throughout the array.
-    #     
+    #
     shuffleHints: (hints, characterSetLength) ->
       buckets = []
       i = 0
@@ -544,11 +487,11 @@ class Hint
         i++
       result
 
-    
+
     #
     #     * Converts a number like "8" into a hint string like "JK". This is used to sequentially generate all of
     #     * the hint text. The hint string will be "padded with zeroes" to ensure its length is equal to numHintDigits.
-    #     
+    #
     numberToHintString: (number, numHintDigits, characterSet) ->
       base = characterSet.length
       hintString = []
@@ -559,7 +502,7 @@ class Hint
         number -= remainder
         number /= Math.floor(base)
         break unless number > 0
-      
+
       # Pad the hint string we're returning so that it matches numHintDigits.
       # Note: the loop body changes hintString.length, so the original length must be cached!
       hintStringLength = hintString.length
@@ -578,25 +521,6 @@ class Hint
         else
           mnemonic = ""
       mnemonic
-
-  start: start
-  new_tab_start: ->
-    start true #new tab
-
-  multi_mode_start: ->
-    start true, true #new tab
-#multi mode
-
-  start_string: ->
-    start false, false, true
-
-  new_tab_start_string: ->
-    start true, false, true
-
-  multi_mode_start_string: ->
-    start true, true, true
-
-  remove: remove
 
 
 root = exports ? window
