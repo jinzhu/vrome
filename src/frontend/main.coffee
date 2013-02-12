@@ -1,22 +1,20 @@
-Post = (msg) ->
+root = exports ? window
+
+root.Post = (msg) ->
   chrome.extension.sendMessage msg, (response) ->
 
-isCtrlAcceptKey = (key) ->
+root.isCtrlAcceptKey = (key) ->
   key is "<C-Enter>"
 
-isAcceptKey = (key) ->
+root.isAcceptKey = (key) ->
   key in AcceptKey
 
-isEscapeKey = (key) ->
+root.isEscapeKey = (key) ->
   key in EscapeKey
 
-isCtrlEscapeKey = (key) ->
+root.isCtrlEscapeKey = (key) ->
   return true if Option.get("enable_vrome_key") is key
   key in CtrlEscapeKey
-
-root = exports ? window
-for m in ["Post", "isCtrlAcceptKey", "isAcceptKey", "isEscapeKey", "isCtrlEscapeKey"]
-  root[m] = this[m]
 
 
 AcceptKeyFunction = ->
@@ -84,18 +82,11 @@ addErrorLogger = ->
   ), false
 
 try
-  console.log('sdsd')
   addCmdLineCommands()
-  console.log('111')
   addErrorLogger()
-  console.log('222')
   loadMapping()
-  console.log('333')
-  runIt []
-  # console.log('5555')
-  # runIt [Frame.register, CustomCode.runJS, CustomCode.loadCSS]
-  # console.log('888')
-  # Debug 'kkkkkkk'
+  runIt Zoom.init
+  runIt [Zoom.init, KeyEvent.init]
+  runIt [Frame.register, CustomCode.runJS, CustomCode.loadCSS]
 catch err
-  console.log err
   Debug err

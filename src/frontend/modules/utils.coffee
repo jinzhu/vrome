@@ -1,15 +1,17 @@
-Platform:
+root = exports ? window
+
+root.Platform =
   linux: navigator.userAgent.indexOf("Linux") isnt -1
   mac: navigator.userAgent.indexOf("Mac") isnt -1
   win: navigator.userAgent.indexOf("Windows") isnt -1
 
-getSelected = -> window.getSelection().toString()
+root.getSelected = -> window.getSelection().toString()
 
-times = (raw, read) ->
+root.times = (raw, read) ->
   if raw then KeyEvent.times(read) else (KeyEvent.times(read) or 1)
 
 
-isElementVisible = (elem, in_full_page) ->
+root.isElementVisible = (elem, in_full_page) ->
   return false unless $(elem).is(':visible')
   return true if in_full_page
 
@@ -24,7 +26,7 @@ isElementVisible = (elem, in_full_page) ->
   elemBottom >= winTop and elemTop <= winBottom and elemLeft <= winRight and elemRight >= winLeft
 
 
-clickElement = (elem, opt={}) ->
+root.clickElement = (elem, opt={}) ->
   #event.initMouseEvent(type, canBubble, cancelable, view,
   #                     detail, screenX, screenY, clientX, clientY,
   #                     ctrlKey, altKey, shiftKey, metaKey,
@@ -49,7 +51,7 @@ clickElement = (elem, opt={}) ->
 
 
 initFunctions = []
-runIt = (func, args) ->
+root.runIt = (func, args) ->
   if $.isArray func
     initFunctions = initFunctions.concat(func)
   else if $.isFunction(func)
@@ -65,8 +67,3 @@ runIt = (func, args) ->
         Debug "RunIt(Not Run): function #{f}"
   else
     setTimeout runIt, 10
-
-
-root = exports ? window
-for m in ["Platform", "getSelected", "times", "isElementVisible", "clickElement", "runIt"]
-  root[m] = this[m]
