@@ -1,5 +1,9 @@
 class Vromerc
   
+  @init: =>
+    @loadAll true
+
+
   @parse: (text) ->
     setting = {}
     [setting.imap, setting.map, setting.cmap, setting.unmap, setting.iunmap, setting.set] = [{}, {}, {}, {}, {}, {}]

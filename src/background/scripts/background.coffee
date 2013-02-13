@@ -36,12 +36,11 @@ chrome.tabs.onActivated.addListener (info) ->
 
 
 chrome.tabs.onRemoved.addListener (tabId) ->
-  tab = Tab.current_closed_tab or Tab.now_tab
-  Tab.closed_tabs.push tab if tab
-  Tab.current_closed_tab = false
+  tab = Tab.now_tab
+  Tab.closed_tabs.push tab if tab?.id == tabId
 
 $ ->
-  Vromerc.loadAll true
+  Vromerc.init()
 
 root = exports ? window
 root.syncSettingAllTabs = syncSettingAllTabs

@@ -4,6 +4,12 @@ class Tab
   @marked_tabs: []
   @activeTabs: {}
 
+  # close the tab and add it to closed tabs list
+  remove = (tab) ->
+    return unless tab
+    Tab.closed_tabs.push tab
+    chrome.tabs.remove tab.id
+
   runWhenComplete = (tabId, command) ->
     chrome.tabs.get tabId, (tab) ->
       if tab.status is "complete"
@@ -76,8 +82,7 @@ class Tab
 
 
   @close: (msg) =>
-    [tab, cond, count, tabs] = [getTab(arguments), msg.type, Number(msg.count) || 1, []]
-    Tab.current_closed_tab = tab
+    [tab, cond, count] = [getTab(arguments), msg.type, Number(msg.count) || 1]
 
     @selectPrevious.apply "", arguments  if msg.focusLast  # close and select last
     @select.apply "", arguments  if msg.offset  # close and select right/left
@@ -86,7 +91,7 @@ class Tab
       for w in windows
         for t in w.tabs
           if cond is 'otherWindows'
-            tabs.push t if w.id isnt tab.windowId
+            remove t if w.id isnt tab.windowId
           else if w.id is tab.windowId
             if (
               ((cond is 'closeOther') and (t.id isnt tab.id)) or
@@ -96,8 +101,7 @@ class Tab
               ((cond is 'closeUnPinned') and !t.pinned) or
               (not cond and (t.index >= tab.index) and (t.index < (tab.index + count)))
             )
-              tabs.push t
-      chrome.tabs.remove t.id for t in tabs
+              remove t
 
 
   @select: (msg) ->
