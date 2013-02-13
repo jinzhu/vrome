@@ -81,7 +81,7 @@ try
   addErrorLogger()
   loadMapping()
   runIt [Zoom.init, KeyEvent.init, addErrorLogger]
-  runIt [Frame.register, CustomCode.runJS, CustomCode.loadCSS]
+  runIt [Frame.register, Custom.runJS, Custom.loadCSS]
 catch err
   console.log err
   Debug err
