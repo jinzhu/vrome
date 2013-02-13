@@ -89,7 +89,7 @@ class Tab
 
     chrome.windows.getAll {populate: true}, (windows) ->
       for w in windows
-        for t in w.tabs
+        for t in w.tabs.reverse()
           if cond is 'otherWindows'
             remove t if w.id isnt tab.windowId
           else if w.id is tab.windowId
