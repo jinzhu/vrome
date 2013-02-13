@@ -59,9 +59,11 @@ loadMapping = ->
           keys.push info.k
         else
           keys = info.k
+
         for key in keys
-          KeyEvent.add key, func, true  if info.i or info.both
-          KeyEvent.add key, func  if not info.i or info.both
+          Debug key
+          # KeyEvent.add key, func, true  if info.i or info.both
+          # KeyEvent.add key, func  if not info.i or info.both
 
   KeyEvent.add "<C-Enter>", Search.prev, true
 

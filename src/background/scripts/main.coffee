@@ -41,7 +41,7 @@
 
 $ ->
   window.addEventListener "error", (err) ->
-    logError err
+    Debug err
     , false
 
   checkNewVersion()

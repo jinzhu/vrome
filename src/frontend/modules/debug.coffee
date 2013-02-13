@@ -4,4 +4,3 @@ Debug = (str) ->
 
 root = exports ? window
 root.Debug = Debug
-root.logError = Debug
