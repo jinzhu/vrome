@@ -2,19 +2,15 @@ class CmdBox
   box_id = "_vrome_cmd_box"
   input_box_id = "_vrome_cmd_input_box"
 
-  cmdBoxTitle = ->
+  cmdBoxTitle = (force_create=false) =>
     elems = $("#_vrome_cmd_box span")
-    elems.length > 0 ? elems : null
-  createCmdBoxTitle = =>
-    @cmdBox().append $("<span>")
-    cmdBoxInput()
+    @cmdBox().append $("<span>") if force_create and elems.length == 0
+    $("#_vrome_cmd_box span")
 
-  cmdBoxInput = ->
+  cmdBoxInput = (force_create=false) =>
     elems = $("#_vrome_cmd_box input")
-    elems.length > 0 ? elems : null
-  createCmdBoxInput = =>
-    @cmdbox().append $("<input>", id: input_box_id)
-    cmdBoxInput()
+    @cmdBox().append $("<input>", id: input_box_id) if force_create and elems.length == 0
+    $("#_vrome_cmd_box input")
 
   @isActive: ->
     document.activeElement and (document.activeElement.id is input_box_id)
@@ -25,9 +21,9 @@ class CmdBox
 
   @set: (o) ->
     if o.title
-      $(cmdBoxTitle() or createCmdBoxTitle()).unbind().val(o.title).mousedown o.mouseOverTitle
+      cmdBoxTitle(true).unbind().html(o.title).mousedown o.mouseOverTitle
     if o.content
-      input = cmdBoxInput() or createCmdBoxInput()
+      input = cmdBoxInput(true)
       input.unbind().val(o.content).keydown(o.pressDown).keyup(o.pressUp).keypress(o.pressPress).focus()
       input.select()  unless o.noHighlight
     setTimeout @remove, Number(o.timeout) if o.timeout
