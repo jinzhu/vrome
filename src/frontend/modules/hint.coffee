@@ -16,6 +16,12 @@ class Hint
     initHintMode()
     CmdBox.set title: "HintMode", pressDown: handleInput, content: ""
 
+  @remove: ->
+    return false unless hintMode
+    CmdBox.remove()
+    removeHighlightBox()
+    hintMode = false
+
   initHintMode = ->
     [selected, currentHint, subMatched, elements, matched] = [0, false, [], [], []]
     # Get all visible elements
@@ -112,7 +118,7 @@ class Hint
       execSelect (if currentHint then currentHint else matched[0])
     currentHint = false
 
-  execSelect = (elem) ->
+  execSelect = (elem) =>
     return false if not elem
 
     currentAction = getCurrentAction()
@@ -120,7 +126,7 @@ class Hint
     type = $(elem).attr("type").toLowerCase()
 
     if $.isFunction(currentAction)
-      remove() # No multi_mode for extend mode
+      @remove() # No multi_mode for extend mode
       currentAction elem
     else
       if tag_name in ["a"]
@@ -142,7 +148,7 @@ class Hint
         selected = 0
         CmdBox.set title: "HintMode"
       else
-        setTimeout remove, 200
+        setTimeout @remove, 200
 
 
 root = exports ? window

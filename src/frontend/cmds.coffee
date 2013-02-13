@@ -32,17 +32,17 @@ CMDS =
       t: "Start command line"
       k: ":"
 
-    AcceptKeyFunction:
+    "AcceptKeyFunction":
       t: "Submit input"
       k: AcceptKey
       both: 1
 
-    CancelKeyFunction:
+    "CancelKeyFunction":
       t: "Cancel action"
       k: CancelKey
       both: 1
 
-    CtrlEscapeKeyFunction:
+    "CtrlEscapeKeyFunction":
       t: "Enable Vrome when in pass-through"
       k: CtrlEscapeKey
       both: 1

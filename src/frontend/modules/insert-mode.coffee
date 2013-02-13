@@ -10,7 +10,7 @@ class InsertMode
     elem
 
   @blurFocus: ->
-    currentElement()?.blur()
+    $(currentElement()).blur()
 
   @focusFirstTextInput: ->
     elems = $("input[type=\"text\"],input[type=\"password\"],input[type=\"search\"],input:not([type])").filter(':visible')
