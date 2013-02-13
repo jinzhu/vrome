@@ -45,7 +45,7 @@ class Dialog
       result = $("<div>")
       if dialog_mode is "url"
         if $.isArray(source.url)
-          result.html ("<a href='#{u}'>#{highlight(msg.keyword, url)}</a>" for u in source.url).join(", ")
+          result.html ("<a href='#{u}'>#{highlight(msg.keyword, u)}</a>" for u in source.url).join(", ")
         else
           result.html "<a href='#{source.url}'>#{highlight(msg.keyword, source.title, source.url)}</a>"
       else

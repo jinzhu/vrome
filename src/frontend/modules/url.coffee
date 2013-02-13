@@ -1,17 +1,16 @@
 class Url
 
-  @tabopen: => start(false, true)
-  @openWithDefault: => @start(true, false)
-  @tabopenWithDefault: => @start(true, true)
-  @start: (with_default, new_tab) ->
+  @tabopen: => @open(false, true)
+  @openWithDefault: => @open(true, false)
+  @tabopenWithDefault: => @open(true, true)
+  @open: (with_default, new_tab) ->
     title = (if new_tab then 'TabOpen: ' else 'Open: ')
     content = (if with_default then location.href else '')
     Dialog.start title, content, search, new_tab
 
 
-  @search: (keyword) ->
+  search = (keyword) ->
     Post action: "Tab.autoComplete", keyword: keyword, default_urls: fixUrl(keyword)
-
 
   @fixRelativePath: (url) ->
     # http://google.com
