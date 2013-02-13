@@ -9,7 +9,6 @@ syncSetting = (tab) ->
   Vromerc.loadLocal()
   return false unless tab
   Tab.now_tab = tab if tab isnt Tab.now_tab
-  Settings.add currentUrl: tab.url
 
 
 chrome.tabs.onCreated.addListener (tab) ->

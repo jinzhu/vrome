@@ -31,7 +31,7 @@ class Tab
         Post tab, {action: "Dialog.draw", urls: return_urls.concat(bookmarks.concat(historys)), keyword: keyword}
 
 
-  @openUrl: (msg) ->
+  @openUrl: (msg) =>
     [tab, urls] = [getTab(arguments), msg.urls]
     urls = [urls]  if typeof urls is "string"
 
@@ -40,7 +40,7 @@ class Tab
     if msg.newtab
       chrome.tabs.create(url: first_url, index: ++index, selected: false)
     else
-      update {url: first_url}, tab
+      @update {url: first_url}, tab
 
     chrome.tabs.create(url: url, index: ++index, selected: false) for url in urls
 
@@ -116,10 +116,14 @@ class Tab
     tab = getTab(arguments)
     chrome.tabs.update Tab.activeTabs[tab.windowId]["last_tab_id"], selected: true
 
-  @selectLastOpen: (msg) ->
+  @selectLastOpen: (msg) =>
     index = (Tab.last_open_tabs.length - msg.count) % Tab.last_open_tabs.length
-    update {active: true}, Tab.last_open_tabs[index]
+    @update {active: true}, Tab.last_open_tabs[index]
 
+  @toggleViewSource: (msg) =>
+    tab = getTab(arguments)
+    url = tab.url.replace /^(view-source:)?/, (if /^view-source:/.test(tab.url) then '' else "view-source:")
+    @openUrl {urls: url, newtab: msg.newtab}, tab
 
   @reload: (msg) ->
     tab = getTab(arguments)
@@ -131,17 +135,17 @@ class Tab
       chrome.tabs.reload tab.id, {bypassCache: !!msg.bypassCache}
 
 
-  @togglePin: ->
+  @togglePin: =>
     tab = getTab(arguments)
-    update {pinned: not tab.pinned}, tab
+    @update {pinned: not tab.pinned}, tab
 
 
-  @unpinAll: (msg) ->
+  @unpinAll: (msg) =>
     tab = getTab(arguments)
-    chrome.windows.getAll {populate: true}, (windows) ->
+    chrome.windows.getAll {populate: true}, (windows) =>
       for w in windows
         for t in w.tabs when t.pinned && (msg.allWindows || (w.id is tab.windowId))
-          update {pinned: false}, t
+          @update {pinned: false}, t
 
 
   @duplicate: (msg) ->
