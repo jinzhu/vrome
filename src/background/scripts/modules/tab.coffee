@@ -75,9 +75,12 @@ class Tab
       chrome.tabs.move tab.id, index: newIndex
 
 
-  @close: (msg) ->
+  @close: (msg) =>
     [tab, cond, count, tabs] = [getTab(arguments), msg.type, Number(msg.count) || 1, []]
     Tab.current_closed_tab = tab
+
+    @selectPrevious.apply "", arguments  if msg.focusLast  # close and select last
+    @select.apply "", arguments  if msg.offset  # close and select right/left
 
     chrome.windows.getAll {populate: true}, (windows) ->
       for w in windows
@@ -86,18 +89,15 @@ class Tab
             tabs.push t if w.id isnt tab.windowId
           else if w.id is tab.windowId
             if (
-              ((cond is 'closeOther') && (t.id isnt tab.id)) or
-              ((cond is 'closeLeft') && (t.index < tab.index)) or
-              ((cond is 'closeRight') && (t.index > tab.index)) or
-              ((cond is 'closePinned') && t.pinned) or
-              ((cond is 'closeUnPinned') && !t.pinned) or
-              ((t.index >= tab.index) && (t.index < (tab.index + count)))
+              ((cond is 'closeOther') and (t.id isnt tab.id)) or
+              ((cond is 'closeLeft') and (t.index < tab.index)) or
+              ((cond is 'closeRight') and (t.index > tab.index)) or
+              ((cond is 'closePinned') and t.pinned) or
+              ((cond is 'closeUnPinned') and !t.pinned) or
+              (not cond and (t.index >= tab.index) and (t.index < (tab.index + count)))
             )
               tabs.push t
-
-    chrome.tabs.remove t.id for t in tabs
-    selectPrevious.apply "", arguments  if msg.focusLast  # close and select last
-    select.apply "", arguments  if msg.offset  # close and select right/left
+      chrome.tabs.remove t.id for t in tabs
 
 
   @select: (msg) ->

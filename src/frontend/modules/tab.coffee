@@ -2,9 +2,6 @@ class Tab
   move = (option={}) ->
     Post $.extend option, action: "Tab.move"
 
-  reload = (option={}) ->
-    Post $.extend option, action: "Tab.reload"
-
   unpinAll = (option={}) ->
     Post $.extend option, action: "Tab.unpinAll"
 
@@ -16,10 +13,12 @@ class Tab
   @reopen: ->
     Post action: "Tab.reopen", count: times()
 
-  @reload: ->
-    reload
-  @reloadWithoutCache: ->
-    reload bypassCache: true
+  @reload: (option={}) ->
+    Post $.extend option, action: "Tab.reload"
+
+  @reloadWithoutCache: =>
+    @reload bypassCache: true
+
   @reloadAll: ->
     Post action: "Tab.reloadAll"
 
@@ -62,33 +61,32 @@ class Tab
   @last = ->
     Post action: "Tab.select", index: -1
 
-
   @close: (option={}) ->
     Post $.extend option, action: "Tab.close"
 
-  @closeAndFoucsLast: ->
-    close focusLast: true, count: times()
+  @closeAndFoucsLast: =>
+    @close focusLast: true, count: times()
 
-  @closeAndFoucsLeft: ->
-    close offset: -1, count: times()
+  @closeAndFoucsLeft: =>
+    @close offset: -1, count: times()
 
-  @closeOtherTabs: ->
-    close type: "closeOther"
+  @closeOtherTabs: =>
+    @close type: "closeOther"
 
-  @closeLeftTabs: ->
-    close type: "closeLeft"
+  @closeLeftTabs: =>
+    @close type: "closeLeft"
 
-  @closeRightTabs: ->
-    close type: "closeRight"
+  @closeRightTabs: =>
+    @close type: "closeRight"
 
-  @closePinnedTabs: ->
-    close type: "closePinned"
+  @closePinnedTabs: =>
+    @close type: "closePinned"
 
-  @closeUnPinnedTabs: ->
-    close type: "closeUnPinned"
+  @closeUnPinnedTabs: =>
+    @close type: "closeUnPinned"
 
-  @closeOtherWindows: ->
-    close type: "otherWindows"
+  @closeOtherWindows: =>
+    @close type: "otherWindows"
 
 
   @moveLeft: ->

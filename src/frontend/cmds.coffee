@@ -323,11 +323,6 @@ CMDS =
       k: "dc"
       c: 1
 
-    "Buffer.deleteMatch":
-      t: "close any matching string"
-      d: "close tabs where title / url matches string"
-      k: ["dm", "B"]
-
     "Tab.closeOtherTabs":
       t: "close all others"
       d: "close all tabs except selected tab"
@@ -364,6 +359,11 @@ CMDS =
     "Tab.closePinnedTabs":
       t: "close pinned "
       k: "dP"
+
+    "Buffer.deleteMatch":
+      t: "close any matching string"
+      d: "close tabs where title / url matches string"
+      k: ["dm", "B"]
 
     "Tab.togglePin":
       t: "pin"
