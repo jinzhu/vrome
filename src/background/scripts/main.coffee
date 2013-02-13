@@ -35,7 +35,7 @@
     for tab in tabs when tab.url is url
       chrome.tabs.update tab.id, selected: true
       return
-    chrome.tabs.getSelected null, (tab) -> # open a new tab next to currently selected tab
+    chrome.tabs.getCurrent (tab) -> # open a new tab next to currently selected tab
       chrome.tabs.create url: url, index: tab.index + 1
 
 

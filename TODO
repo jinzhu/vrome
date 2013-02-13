@@ -1,25 +1,12 @@
-# TODO
-./src/background/scripts/background.coffee
-./src/background/scripts/modules/popup.coffee
-./src/background/scripts/modules/debug.coffee
-./src/background/scripts/modules/tab.coffee
-./src/background/scripts/modules/marks.coffee
-./src/background/scripts/modules/window.coffee
-./src/background/scripts/modules/vromerc.coffee
-./src/background/scripts/modules/frame.coffee
-./src/background/scripts/modules/buffer.coffee
-./src/background/scripts/modules/clipboard.coffee
-./src/background/scripts/modules/shorturl.coffee
-./src/background/scripts/modules/bookmark.coffee
-./src/background/scripts/modules/history.coffee
-./src/background/scripts/main.coffee
+Show topSites in open/tabopen
+chrome.pageCapture
+captureVisibleTab (save current page)
+Settings - chrome storage
+chrome.commands
 
-## FINISHED
-./src/background/scripts/modules/options.coffee
 
 186
 
-- sort these tasks + brainstorm
 - build cmds
 - add custom mapping
 - log tickets about issues
@@ -41,35 +28,12 @@
 
 ------------------------------------------
 
-Settings
 
-- keys
-    scripts
-    hosts
-    background
-
-- create new key for background and default values
-- create mapping + examine calls
-- simplify existing code
-- merge commits
-- delete local storage
-
-
-
-
-
------------------
-TODO ?
 cs subdomain -> magic mode ;) create some subdomain let use choose one from it)
 ch hostname
 
 auto refresh
 omni box
-
-DEPRECATED:
-  getSelected() have been deprecated in chrome16, use chrome.tabs.query()
-  You are no longer required to specify the tabID for the chrome.tabs.update() method. When not provided, the tabID defaults to the selected tab of the current window.
-
 
 NO AVAILABLE API:
   ~   Open home directory
