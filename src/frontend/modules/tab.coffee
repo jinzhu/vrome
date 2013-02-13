@@ -19,8 +19,8 @@ class Tab
   @reloadWithoutCache: =>
     @reload bypassCache: true
 
-  @reloadAll: ->
-    Post action: "Tab.reloadAll"
+  @reloadAll: =>
+    @reload reloadAll: true
 
   @togglePin: ->
     Post action: "Tab.togglePin"

@@ -262,7 +262,7 @@ CMDS =
 
   tabs:
     "Tab.reload":
-      t: "reload  "
+      t: "reload"
       k: "r"
 
     "Tab.reloadWithoutCache":
