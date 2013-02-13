@@ -39,8 +39,9 @@ CtrlEscapeKeyFunction = ->
   KeyEvent.enable()
   EscapeKeyFunction()
 
-extractFunction = (functionName, context=window) ->
-  $(context[func] for func in functionName.split(".")).get(-1)
+extractFunction = (functionName, func) ->
+  func = (func ? root)[action] for action in functionName.split(".")
+  func
 
 AcceptKey = CMDS["global"]["AcceptKeyFunction"].k
 CancelKey = CMDS["global"]["CancelKeyFunction"].k
@@ -61,9 +62,9 @@ loadMapping = ->
           keys = info.k
 
         for key in keys
-          Debug key
-          # KeyEvent.add key, func, true  if info.i or info.both
-          # KeyEvent.add key, func  if not info.i or info.both
+          KeyEvent.add key, func, true  if info.i or info.both # imap
+          KeyEvent.add key, func  if not info.i or info.both # map
+
 
   KeyEvent.add "<C-Enter>", Search.prev, true
 

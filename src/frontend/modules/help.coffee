@@ -38,7 +38,7 @@ class Help
     unmap = Settings.get("configure.unmap")
     unmappedKeys = (key for value, key in unmap)
 
-    ncmds = cmds.clone()
+    ncmds = CMDS.clone()
     bindings = KeyEvent.bindings.slice KeyEvent.coreBindingsIndex
 
     if customKeys or unmappedKeys

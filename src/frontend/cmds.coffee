@@ -569,24 +569,16 @@ CMDS =
       d: "mark position x,y on the page e.g ma"
       k: "m [a-z][0-9]"
       gk: ->
-        i = 65
-
-        while i <= 122
-          continue  if i > 90 and i < 97
-          KeyEvent.add "m" + String.fromCharCode(i), Marks.addLocalMark
-          i++
+        for num in [65..122] when num not in [91..96]
+          KeyEvent.add "m" + String.fromCharCode(num), Marks.addLocalMark
 
     "Marks.gotoLocalMark":
       t: "go to local mark"
       d: "go to marked position on the page e.g 'a"
       k: "' [a-z][0-9]"
       gk: ->
-        i = 65
-
-        while i <= 122
-          continue  if i > 90 and i < 97
-          KeyEvent.add "'" + String.fromCharCode(i), Marks.gotoLocalMark
-          i++
+        for num in [65..122] when num not in [91..96]
+          KeyEvent.add "'" + String.fromCharCode(num), Marks.gotoLocalMark
 
     "Marks.addQuickMark":
       t: "add quick mark"

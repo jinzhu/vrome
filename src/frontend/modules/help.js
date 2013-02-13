@@ -71,7 +71,7 @@
         }
         return _results;
       })();
-      ncmds = cmds.clone();
+      ncmds = CMDS.clone();
       bindings = KeyEvent.bindings.slice(KeyEvent.coreBindingsIndex);
       if (customKeys || unmappedKeys) {
         for (categoryName = _j = 0, _len1 = ncmds.length; _j < _len1; categoryName = ++_j) {
