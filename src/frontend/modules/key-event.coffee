@@ -8,9 +8,8 @@ class KeyEvent
 
   @init: =>
     for disablesite in Option.get("disablesites").split(", ")
-      new RegExp(disablesite, "i").test(location.href)
-      @disable()
-      break
+      continue if RegExp("^\\s*$").test(disablesite)
+      @disable() if new RegExp(disablesite, "i").test(location.href)
 
     unless document.vromeEventListenerAdded
       document.addEventListener "keydown", KeyEvent.exec, true
@@ -125,7 +124,7 @@ class KeyEvent
 
     # skip press Enter in insertMode (used to submit form)
     # or when focus is on a link
-    if e and someFunctionCalled and not disableVrome and not pass_next_key
+    if e and someFunctionCalled and not (disableVrome or pass_next_key)
       @stopPropagation e  unless isAcceptKey(key) and (insertMode or document.activeElement.nodeName is "A")
       # Compatible with google's new interface
       if key and key.match(/^.$/) and not insertMode and not (/^\d$/.test(key) and Option.get("allow_numeric"))
@@ -145,7 +144,7 @@ class KeyEvent
 
     return @stopPropagation e if /^(Control|Alt|Shift)$/.test(key)
     # if vrome is in pass next mode, or disabled and using <C-Esc> to enable it.
-    return enable() if not insertMode and (pass_next_key or (disableVrome and isCtrlEscapeKey(key)))
+    return @enable() if not insertMode and (pass_next_key or (disableVrome and isCtrlEscapeKey(key)))
 
     currentKeys = filterKey(currentKeys.concat(key), insertMode)
     return if ignoreKey(currentKeys, insertMode)

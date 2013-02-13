@@ -112,7 +112,8 @@ getKey = (evt) ->
   shift = (if evt.shiftKey then "S-" else "")
 
   if /^(Enter|Space|BackSpace|Tab|Esc|Home|End|Left|Right|Up|Down|PageUp|PageDown|F(\d\d?))$/.test(key)
-    return "<#{ctrl}#{meta}#{shift}#{key}>"
+    return "<#{ctrl}#{meta}#{shift}#{key}>" if (ctrl or meta or shift)
+    return "<#{key}>"
 
   if evt.shiftKey
     key = key.toUpperCase() if /^[a-z]$/.test(key)

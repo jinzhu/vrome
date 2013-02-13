@@ -88,7 +88,7 @@ try
   addCmdLineCommands()
   addErrorLogger()
   loadMapping()
-  runIt [Zoom.init, KeyEvent.init]
+  runIt [Zoom.init, KeyEvent.init, addErrorLogger]
   runIt [Frame.register, CustomCode.runJS, CustomCode.loadCSS]
 catch err
   console.log err
