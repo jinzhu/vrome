@@ -10,20 +10,19 @@ root.isAcceptKey = (key) ->
   key in AcceptKey
 
 root.isEscapeKey = (key) ->
-  key in EscapeKey
+  key in CancelKey
 
 root.isCtrlEscapeKey = (key) ->
   return true if Option.get("enable_vrome_key") is key
   key in CtrlEscapeKey
 
-
-AcceptKeyFunction = ->
+root.AcceptKeyFunction = ->
   Search.next()
   Dialog.openCurrent()
   Buffer.gotoFirstMatchHandle()
   Buffer.deleteMatchHandle()
 
-CancelKeyFunction = ->
+root.CancelKeyFunction = ->
   Hint.remove()
   InsertMode.blurFocus()
   KeyEvent.reset()
@@ -32,21 +31,14 @@ CancelKeyFunction = ->
   CmdBox.remove()
   Help.hide true
 
-EscapeKeyFunction = ->
+root.CtrlEscapeKeyFunction = ->
+  KeyEvent.enable()
   CancelKeyFunction()
 
-CtrlEscapeKeyFunction = ->
-  KeyEvent.enable()
-  EscapeKeyFunction()
 
 extractFunction = (functionName, func) ->
   func = (func ? root)[action] for action in functionName.split(".")
   func
-
-AcceptKey = CMDS["global"]["AcceptKeyFunction"].k
-CancelKey = CMDS["global"]["CancelKeyFunction"].k
-EscapeKey = CMDS["global"]["CancelKeyFunction"].k
-CtrlEscapeKey = CMDS["global"]["CtrlEscapeKeyFunction"].k
 
 loadMapping = ->
   for catName, commands of CMDS

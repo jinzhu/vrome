@@ -13,8 +13,7 @@ class InsertMode
     currentElement()?.blur()
 
   @focusFirstTextInput: ->
-    elems = for elem in $("input[type=\"text\"],input[type=\"password\"],input[type=\"search\"],input:not([type])")
-      isElementVisible(elem, true)
+    elems = $("input[type=\"text\"],input[type=\"password\"],input[type=\"search\"],input:not([type])").filter(':visible')
     $(elems[times() - 1]).focus().select()
 
   @moveToFirstOrSelectAll: ->

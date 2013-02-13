@@ -13,6 +13,12 @@ both = exists in both insert mode and normal mode (boolean 1/0)
 gk = generated keys -- we use a function to determine the keys associated to that function
 ###
 
+root = exports ? window
+
+root.AcceptKey = ["<Enter>", "<C-j>", "<C-m>"]
+root.CancelKey = ["<Esc>", "<C-[>"]
+root.CtrlEscapeKey = ["<C-Esc>"]
+
 CMDS =
   global:
     "Help.show":
@@ -28,17 +34,17 @@ CMDS =
 
     AcceptKeyFunction:
       t: "Submit input"
-      k: ["<Enter>", "<C-j>", "<C-m>"]
+      k: AcceptKey
       both: 1
 
     CancelKeyFunction:
       t: "Cancel action"
-      k: ["<Esc>", "<C-[>"]
+      k: CancelKey
       both: 1
 
     CtrlEscapeKeyFunction:
       t: "Enable Vrome when in pass-through"
-      k: ["<C-Esc>"]
+      k: CtrlEscapeKey
       both: 1
 
     "Dialog.openCurrentNewTab":

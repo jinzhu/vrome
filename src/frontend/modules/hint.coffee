@@ -19,7 +19,7 @@ class Hint
   initHintMode = ->
     [selected, currentHint, subMatched, elements, matched] = [0, false, [], [], []]
     # Get all visible elements
-    elements = $("a,input:not([type=hidden]),textarea,select,button,*[onclick]").has(':visible').not("#_vrome_cmd_input_box")
+    elements = $("a,input:not([type=hidden]),textarea,select,button,*[onclick]").filter(':visible').not("#_vrome_cmd_input_box")
     setHintIndex elements
     matched = elements
 
