@@ -48,8 +48,8 @@ EscapeKey = CMDS["global"]["CancelKeyFunction"].k
 CtrlEscapeKey = CMDS["global"]["CtrlEscapeKeyFunction"].k
 
 loadMapping = ->
-  for commands, catName in CMDS
-    for info, fname in comands
+  for catName, commands of CMDS
+    for fname, info of commands
       func = extractFunction(fname, window)
       if $.isFunction info.gk
         info.gk()
@@ -85,7 +85,6 @@ try
   addCmdLineCommands()
   addErrorLogger()
   loadMapping()
-  runIt Zoom.init
   runIt [Zoom.init, KeyEvent.init]
   runIt [Frame.register, CustomCode.runJS, CustomCode.loadCSS]
 catch err

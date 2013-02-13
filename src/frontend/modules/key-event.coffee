@@ -2,7 +2,7 @@ class KeyEvent
   [key_times, disableVrome, pass_next_key, @bindings, currentKeys] = [0, null, null, [], ""]
 
 
-  @add: (keys, func, insert_mode) -> #String, #Function, #Boolean
+  @add: (keys, func, insert_mode) => #String, #Function, #Boolean
     @bindings.push [keys, func, !!insert_mode]
 
 
