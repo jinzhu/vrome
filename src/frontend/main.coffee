@@ -83,5 +83,4 @@ try
   runIt [Zoom.init, KeyEvent.init, addErrorLogger]
   runIt [Frame.register, Custom.runJS, Custom.loadCSS]
 catch err
-  console.log err
   Debug err

@@ -10,13 +10,14 @@ reload = ->
       chrome.tabs.create url: "chrome://extensions-frame/", selected: false, pinned: true
       reload()
 
-  chrome.tabs.reload bypassCache: true
-
 reloadExtension = ->
   $.post('http://127.0.0.1:20000', JSON.stringify({'method': 'get_latest_version'}))
     .done (response) ->
       if (latestVersion isnt null) && (latestVersion isnt response)
         reload()
+
+      if latestVersion is null
+        chrome.tabs.reload bypassCache: true
 
       latestVersion = response
 

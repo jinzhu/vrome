@@ -8,7 +8,6 @@ Debug = (str) ->
 
   # Format Function
   str = str.toString() if $.isFunction str
-  console.log str
 
   $.post getLocalServerUrl(), JSON.stringify({method: "print_messages", messages: str})
 
