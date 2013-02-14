@@ -139,18 +139,21 @@ class KeyEvent
 
 
   @exec: (e) =>
-    key = getKey(e)
-    insertMode = (/^INPUT|TEXTAREA|SELECT$/i.test(e.target.nodeName) or e.target.getAttribute("contenteditable")?)
+    try
+      key = getKey(e)
+      insertMode = (/^INPUT|TEXTAREA|SELECT$/i.test(e.target.nodeName) or e.target.getAttribute("contenteditable")?)
 
-    return @stopPropagation e if /^(Control|Alt|Shift)$/.test(key)
-    # if vrome is in pass next mode, or disabled and using <C-Esc> to enable it.
-    return @enable() if not insertMode and (pass_next_key or (disableVrome and isCtrlEscapeKey(key)))
+      return @stopPropagation e if /^(Control|Alt|Shift)$/.test(key)
+      # if vrome is in pass next mode, or disabled and using <C-Esc> to enable it.
+      return @enable() if not insertMode and (pass_next_key or (disableVrome and isCtrlEscapeKey(key)))
 
-    currentKeys = filterKey(currentKeys.concat(key), insertMode)
-    return if ignoreKey(currentKeys, insertMode)
+      currentKeys = filterKey(currentKeys.concat(key), insertMode)
+      return if ignoreKey(currentKeys, insertMode)
 
-    showStatusLine currentKeys
-    runCurrentKeys currentKeys, insertMode, e
+      showStatusLine currentKeys
+      runCurrentKeys currentKeys, insertMode, e
+    catch err
+      Debug err
 
 
 root = exports ? window
