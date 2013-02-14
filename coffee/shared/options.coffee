@@ -55,6 +55,7 @@ class Option
     searchengine = searchengines[Option.get("defaultsearch")]
     return searchengine.replace("{{keyword}}", url) if searchengine
     return searchengine.replace("{{keyword}}", url) for searchengine in searchengines
+    null #FIXME for CoffeeScriptRedux
 
 
 root = exports ? window

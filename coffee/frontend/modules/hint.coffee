@@ -35,10 +35,10 @@ class Hint
 
   setHintIndex = (elems) ->
     highlight_box = removeHighlightBox(true) # create_after_remove
-    for elem, i in elems
+    for elem, index in elems
       offset = $(elem).offset()
-      class_name = (if i == selected then "active" else "normal")
-      span = $("<span>", class: class_name, style: "left:#{offset.left-5}px;top:#{offset.top}px;", text: i+1)
+      class_name = (if index == selected then "active" else "normal")
+      span = $("<span>", class: class_name, style: "left:#{offset.left-5}px;top:#{offset.top}px;", text: index+1)
       $(highlight_box).append span
 
 
@@ -61,11 +61,28 @@ class Hint
       KeyEvent.stopPropagation(e)
       execCurrent()
 
+  hintMatch = (elem) ->
+    filter = CmdBox.get().content.trimFirst(key for key, value of subActions)
+    regexp = new RegExp(filter.trimFirst("!"), "im")
+    text = $(elem).val()
+    regexp.test(text) or regexp.test(PinYin.shortcut(text)) or regexp.test(PinYin.full(text))
+
+
+  delayToWaitKeyDown = ->
+    matched = elem for elem in elements when hintMatch(elem)
+    setHintIndex matched
+
+    if isCtrlAcceptKey(key)
+      execCurrent matched
+    else if isAcceptKey(key) or matched.length is 1
+      execCurrent()
+
+
+  ## Sub Actions
   getCurrentAction = (content) ->
     actionName = (content or CmdBox.get().content).substring(0, 1)
     subActions[actionName]
 
-  ## Sub Actions
   showElementInfo = (elem) ->
     CmdBox.set title: elem.outerHTML
 
@@ -85,54 +102,37 @@ class Hint
   openUrlIncognito = (elem) ->
     # FIXME
 
-  hintMatch = (elem) ->
-    filter = CmdBox.get().content.trimFirst(getCurrentActionNames())
-    regexp = new RegExp(filter.trimFirst("!"), "im")
-    text = $(elem).val()
-    regexp.test(text) or regexp.test(PinYin.shortcut(text)) or regexp.test(PinYin.full(text))
+  execCurrent = (elems=null) =>
+    elems = elems || [matched[selected]]
 
-  delayToWaitKeyDown = ->
+    for elem in elems
+      currentAction = getCurrentAction()
+      tag_name = $(elem).attr("tagName").toLowerCase()
+      type = $(elem).attr("type").toLowerCase()
 
-    matched = elem for elem in elements when hintMatch(elem)
-    setHintIndex matched
-
-    if isCtrlAcceptKey(key)
-      for e in matched
-        execSelect e
-        new_tab = true
-    else if isAcceptKey(key) or matched.length is 1
-      execCurrent()
-
-  execCurrent = (elem) =>
-    return false if not elem
-
-    currentAction = getCurrentAction()
-    tag_name = $(elem).attr("tagName").toLowerCase()
-    type = $(elem).attr("type").toLowerCase()
-
-    if $.isFunction(currentAction)
-      @remove() # No multi_mode for extend mode
-      currentAction elem
-    else
-      if tag_name in ["a"]
-        clickElement elem, {ctrl: new_tab}
-      else if $(elem).attr("onclick")
-        clickElement elem
-      else if (tag_name is "input" and (type in ["submit", "button", "reset", "radio", "checkbox"])) or tag_name is "button"
-        clickElement elem
-      else if tag_name in ["input", "textarea"]
-        try
-          $(elem).select()
-        catch e
-          clickElement elem # some website don't use standard submit input.
-      else if tag_name is "select"
-        $(elem).focus()
-
-      if multi_mode
-        selected = 0
-        CmdBox.set title: "HintMode"
+      if $.isFunction(currentAction)
+        @remove() # No multi_mode for extend mode
+        currentAction elem
       else
-        setTimeout @remove, 200
+        if tag_name in ["a"]
+          clickElement elem, {ctrl: new_tab}
+        else if $(elem).attr("onclick")
+          clickElement elem
+        else if (tag_name is "input" and (type in ["submit", "button", "reset", "radio", "checkbox"])) or tag_name is "button"
+          clickElement elem
+        else if tag_name in ["input", "textarea"]
+          try
+            $(elem).select()
+          catch e
+            clickElement elem # some website don't use standard submit input.
+        else if tag_name is "select"
+          $(elem).focus()
+
+        if multi_mode
+          selected = 0
+          CmdBox.set title: "HintMode"
+        else
+          setTimeout @remove, 200
 
 
 root = exports ? window

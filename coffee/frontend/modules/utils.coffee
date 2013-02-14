@@ -1,9 +1,10 @@
 root = exports ? window
 
-root.Platform =
+root.Platform = {
   linux: navigator.userAgent.indexOf("Linux") isnt -1
   mac: navigator.userAgent.indexOf("Mac") isnt -1
   win: navigator.userAgent.indexOf("Windows") isnt -1
+}
 
 root.getSelected = -> window.getSelection().toString()
 

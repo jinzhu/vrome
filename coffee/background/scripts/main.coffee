@@ -40,9 +40,7 @@
 
 
 $ ->
-  window.addEventListener "error", (err) ->
-    Debug err
-    , false
+  window.addEventListener "error", ((err) -> Debug err), false
 
   checkNewVersion()
 

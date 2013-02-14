@@ -20,9 +20,9 @@ class CmdBox
     $("##{box_id}")
 
   @set: (o) ->
-    if o.title
+    if (typeof o.title is "string")
       cmdBoxTitle(true).unbind().html(o.title).mousedown o.mouseOverTitle
-    if o.content
+    if (typeof o.content is "string")
       input = cmdBoxInput(true)
       input.unbind().val(o.content).keydown(o.pressDown).keyup(o.pressUp).keypress(o.pressPress).focus()
       input.select()  unless o.noHighlight

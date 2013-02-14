@@ -11,15 +11,14 @@ reload = ->
       reload()
 
 reloadExtension = ->
-  $.post('http://127.0.0.1:20000', JSON.stringify({'method': 'get_latest_version'}))
-    .done (response) ->
-      if (latestVersion isnt null) && (latestVersion isnt response)
-        reload()
+  $.post('http://127.0.0.1:20000', JSON.stringify({'method': 'get_latest_version'})).done (response) ->
+    if (latestVersion isnt null) && (latestVersion isnt response)
+      reload()
 
-      if latestVersion is null
-        chrome.tabs.reload bypassCache: true
+    if latestVersion is null
+      chrome.tabs.reload bypassCache: true
 
-      latestVersion = response
+    latestVersion = response
 
 root = exports ? window
 root.reloadExtension = reloadExtension
