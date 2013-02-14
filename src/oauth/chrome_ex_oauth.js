@@ -591,4 +591,3 @@ ChromeExOAuth.prototype.onAccessToken = function(callback, xhr) {
     }
   }
 };
-
