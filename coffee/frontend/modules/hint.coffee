@@ -30,7 +30,7 @@ class Hint
     matched = elements
 
   removeHighlightBox = (create_after_remove) -> # Boolean
-    $(elements).find("[#{highlight_id}]").removeAttr(highlight_id)
+    $(elements).filter("[#{highlight_id}]").removeAttr(highlight_id)
     $("#__vim_hint_highlight").remove()
     $("body").append $("<div>", id: "__vim_hint_highlight") if create_after_remove
     $("#__vim_hint_highlight")
@@ -38,9 +38,10 @@ class Hint
   setHintIndex = (elems) ->
     highlight_box = removeHighlightBox(true) # create_after_remove
     for elem, i in elems
-      span = $("<span>", style: "left:#{$(elem).left()}px;top:#{$(elem).top()}px;", text: i+1)
+      offset = $(elem).offset()
+      span = $("<span>", style: "left:#{offset.left}px;top:#{offset.top}px;", text: i+1)
       $(highlight_box).append span
-    setHighlight elems[0], true if elems[0] and elem[0].tagName is "A"
+    setHighlight elems[0], true if elems[0] and elems[0].tagName is "A"
 
   setHighlight = (elem, set_active) ->
     return false unless elem

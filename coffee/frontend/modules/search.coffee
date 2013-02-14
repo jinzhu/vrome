@@ -36,7 +36,7 @@ class Search
     nodes = $(".#{highlight_class}")
 
     return false if nodes.length is 0
-    current_node = nodes.find("##{highlight_current_id}").removeAttr("id")
+    current_node = nodes.filter("##{highlight_current_id}").removeAttr("id")
     current_index = nodes.indexOf(current_node)
     goto_index = rabs(current_index + offset, nodes.length)
     goto_node = $(nodes[goto_index])

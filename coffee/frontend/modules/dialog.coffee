@@ -78,7 +78,7 @@ class Dialog
 
     $(".#{selected_quick_num}").get(-1).scrollIntoViewIfNeeded()
 
-    notice (e.attr("href") for e in $(selected_result).find("[href]")).join(", ")
+    notice (e.attr("href") for e in $(selected_result).filter("[href]")).join(", ")
 
   @stop: (force) ->
     if not isEnabled or force
