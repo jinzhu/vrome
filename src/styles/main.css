@@ -34,23 +34,30 @@
 #__vim_hint_highlight {
 }
 
-.__vim_hint_highlight_span {
-  background-color: black !important;
+#__vim_hint_highlight span.active, #__vim_hint_highlight span.normal {
   position: absolute !important;
-  font-size: 14px !important;
-  border:1px dotted #E3BE23;
-  color: white !important;
+  background-color: #F00 !important;
+  color: #fff !important;
+  font-size: 13px !important;
+  min-width: 10px !important;
   font-weight: bold !important;
-  padding: 0px 1px !important;
+  padding: 1.5px !important;
   z-index: 2147483646 !important;
-  line-height: 100%;
+  line-height: 14px;
   width: auto;
   text-transform:uppercase;
   display: block;
   font-family:"Helvetica Neue", "Helvetica", "Arial", "Sans";
-  top: -1px;
-  left: -1px;
+  opacity: 0.6 !important;
+  border-radius: 3px;
 }
+
+#__vim_hint_highlight span.active {
+  background-color: green !important;
+  padding: 4px !important;
+  opacity: 0.8 !important;
+}
+
 
 /* Search Mode */
 .__vrome_search_highlight {
@@ -65,17 +72,6 @@
   background-color: #ff9632 !important;
 }
 
-a[vrome_highlight=hint_elem] {
-  background-color: red !important;
-  color: #000 !important;
-  z-index: 2147483646 !important;
-}
-
-a[vrome_highlight=hint_active] {
-  background-color: #63CC63 !important;
-  color: #000 !important;
-  z-index     : 2147483646 !important;
-}
 
 /* Dialog */
 #__vrome_dialog {

@@ -1,7 +1,6 @@
 class Hint
-  [currentHint, new_tab, multi_mode, hintMode, selected, elements, matched, key] = []
+  [new_tab, multi_mode, hintMode, selected, elements, matched, key] = []
 
-  highlight_id = "vrome_highlight"
   subActions =
     ";": focusElement
     "?": showElementInfo
@@ -23,14 +22,13 @@ class Hint
     hintMode = false
 
   initHintMode = ->
-    [selected, currentHint, subMatched, elements, matched] = [0, false, [], [], []]
+    [selected, elements, matched] = [0, [], []]
     # Get all visible elements
     elements = $("a,input:not([type=hidden]),textarea,select,button,*[onclick]").filter(':visible').not("#_vrome_cmd_input_box")
     setHintIndex elements
     matched = elements
 
   removeHighlightBox = (create_after_remove) -> # Boolean
-    $(elements).filter("[#{highlight_id}]").removeAttr(highlight_id)
     $("#__vim_hint_highlight").remove()
     $("body").append $("<div>", id: "__vim_hint_highlight") if create_after_remove
     $("#__vim_hint_highlight")
@@ -39,20 +37,9 @@ class Hint
     highlight_box = removeHighlightBox(true) # create_after_remove
     for elem, i in elems
       offset = $(elem).offset()
-      span = $("<span>", style: "left:#{offset.left}px;top:#{offset.top}px;", text: i+1)
+      class_name = (if i == selected then "active" else "normal")
+      span = $("<span>", class: class_name, style: "left:#{offset.left-5}px;top:#{offset.top}px;", text: i+1)
       $(highlight_box).append span
-    setHighlight elems[0], true if elems[0] and elems[0].tagName is "A"
-
-  setHighlight = (elem, set_active) ->
-    return false unless elem
-    if set_active
-      $("a[#{highlight_id}=hint_active]").attr highlight_id, "hint_elem"
-      $(elem).attr highlight_id, "hint_active"
-    else
-      $(elem).attr highlight_id, "hint_elem"
-
-  @getCurrentString = ->
-    $.trim CmdBox.get().content
 
 
   handleInput = (e) ->
@@ -62,8 +49,6 @@ class Hint
     if /^\d$/.test(key) or (key is "<BackSpace>" and selected isnt 0)
       selected = (if (key is "<BackSpace>") then parseInt(selected / 10) else selected * 10 + Number(key))
       CmdBox.set title: "HintMode (#{selected})"
-      currentHint = matched[selected - 1]
-      setHighlight currentHint, true # set_active
       KeyEvent.stopPropagation(e)
       exec = true  if selected * 10 > matched.length
     else
@@ -74,7 +59,7 @@ class Hint
 
     if exec
       KeyEvent.stopPropagation(e)
-      execSelect(currentHint)
+      execCurrent()
 
   getCurrentAction = (content) ->
     actionName = (content or CmdBox.get().content).substring(0, 1)
@@ -116,10 +101,9 @@ class Hint
         execSelect e
         new_tab = true
     else if isAcceptKey(key) or matched.length is 1
-      execSelect (if currentHint then currentHint else matched[0])
-    currentHint = false
+      execCurrent()
 
-  execSelect = (elem) =>
+  execCurrent = (elem) =>
     return false if not elem
 
     currentAction = getCurrentAction()
@@ -131,7 +115,6 @@ class Hint
       currentAction elem
     else
       if tag_name in ["a"]
-        setHighlight elem, true
         clickElement elem, {ctrl: new_tab}
       else if $(elem).attr("onclick")
         clickElement elem
