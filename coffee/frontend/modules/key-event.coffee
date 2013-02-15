@@ -19,10 +19,10 @@ class KeyEvent
     e.stopPropagation()
     e.preventDefault()
 
-  @enable: ->
+  @enable: =>
     CmdBox.remove()
     [disableVrome, pass_next_key] = [false, false]
-    reset()
+    @reset()
 
   @passNextKey: ->
     CmdBox.set title: " -- PASS THROUGH (next) -- ", timeout: 2000

@@ -178,12 +178,12 @@ class Tab
     chrome.tabs.query {windowId: tab.windowId}, (tabs) ->
       tabs = [tab] unless msg.all
       for t in tabs
-        if t in Tab.marked_tabs
-          delete Tab.marked_tabs.indexOf(t)
-        else
-          Tab.marked_tabs.push t
+        index = Tab.marked_tabs.indexOf t.id
+        if index != -1
+          Tab.marked_tabs.splice(index, 1)
+        else if t.url
+          Tab.marked_tabs.push t.id
 
-      Tab.marked_tabs = jQuery.unique(t for t in Tab.marked_tabs when not t)
       title = "#{Tab.marked_tabs.length} Tab(s) marked"
       Post tab, {action: "CmdBox.set", title: title, timeout: 4000}
 

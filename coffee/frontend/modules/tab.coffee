@@ -40,6 +40,9 @@ class Tab
   @markAllForMerging: ->
     @markForMerging all: true
 
+  @putMarkedTabs: ->
+    Post action: "Tab.putMarkedTabs"
+
   @selectPrevious: ->
     if count = times(true)
       Post action: "Tab.select", index: count - 1
@@ -99,9 +102,6 @@ class Tab
   @unpinAllTabsInCurrentWindow: unpinAll
   @unpinAllTabsInAllWindows: ->
     unpinAll allWindows: true
-
-  @putMarkedTabs: ->
-    Post action: "Tab.putMarkedTabs"
 
 
 root = exports ? window
