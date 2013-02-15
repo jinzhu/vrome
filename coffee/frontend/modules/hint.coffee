@@ -1,5 +1,6 @@
 class Hint
-  [new_tab, multi_mode, hintMode, selected, elements, matched, key] = []
+  [new_tab, multi_mode, hintMode, elements, key] = []
+  hintable = "a,input:not([type=hidden]),textarea,select,button,*[onclick]"
 
   subActions =
     ";": focusElement
@@ -9,10 +10,31 @@ class Hint
     "\\": openUrlIncognito
     "/": "search"
 
+  removeHighlightBox = (create_after_remove) -> # Boolean
+    $("#__vim_hint_highlight").remove()
+    $("body").append $("<div>", {id: "__vim_hint_highlight"}) if create_after_remove
+    $("#__vim_hint_highlight")
 
-  @start: (newTab, multiMode) ->
+  freshHints = =>
+    highlight_box = removeHighlightBox(true) # create_after_remove
+    for elem, index in (@matched ? [])
+      offset = $(elem).offset()
+      class_name = (if (index + 1) == (@selected || 1) then "active" else "normal")
+      span = $("<span>", {class: class_name, style: "left:#{offset.left-5}px;top:#{offset.top}px;", text: index+1})
+      $(highlight_box).append span
+
+  setMatched = (elems) =>
+    @matched = elems
+    freshHints()
+
+  setSelected = (num) =>
+    @selected = num
+    freshHints()
+
+  @start: (newTab, multiMode) =>
     [hintMode, new_tab, multi_mode] = [true, newTab, multiMode]
-    initHintMode()
+    setSelected 0
+    setMatched(elements = (e for e in $(hintable).not("#_vrome_cmd_input_box") when isElementVisible(e)))
     CmdBox.set title: "HintMode", pressDown: handleInput, content: ""
 
   @remove: ->
@@ -21,36 +43,15 @@ class Hint
     removeHighlightBox()
     hintMode = false
 
-  initHintMode = ->
-    [selected, elements, matched] = [0, [], []]
-    # Get all visible elements
-    elements = $("a,input:not([type=hidden]),textarea,select,button,*[onclick]").filter(':visible').not("#_vrome_cmd_input_box")
-    setHintIndex elements
-    matched = elements
-
-  removeHighlightBox = (create_after_remove) -> # Boolean
-    $("#__vim_hint_highlight").remove()
-    $("body").append $("<div>", {id: "__vim_hint_highlight"}) if create_after_remove
-    $("#__vim_hint_highlight")
-
-  setHintIndex = (elems) ->
-    highlight_box = removeHighlightBox(true) # create_after_remove
-    for elem, index in elems
-      offset = $(elem).offset()
-      class_name = (if index == selected then "active" else "normal")
-      span = $("<span>", {class: class_name, style: "left:#{offset.left-5}px;top:#{offset.top}px;", text: index+1})
-      $(highlight_box).append span
-
-
-  handleInput = (e) ->
+  handleInput = (e) =>
     key = getKey(e)
 
     # If user are inputing number
-    if /^\d$/.test(key) or (key is "<BackSpace>" and selected isnt 0)
-      selected = (if (key is "<BackSpace>") then parseInt(selected / 10) else selected * 10 + Number(key))
+    if /^\d$/.test(key) or (key is "<BackSpace>" and @selected isnt 0)
+      setSelected(if (key is "<BackSpace>") then parseInt(@selected / 10) else @selected * 10 + Number(key))
       CmdBox.set title: "HintMode (#{selected})"
       KeyEvent.stopPropagation(e)
-      exec = true  if selected * 10 > matched.length
+      exec = true  if @selected * 10 > @matched.length
     else
       # If key is not Accept key, Reset title
       CmdBox.set title: "HintMode" unless isAcceptKey(key)
@@ -69,12 +70,11 @@ class Hint
 
 
   delayToWaitKeyDown = ->
-    matched = elem for elem in elements when hintMatch(elem)
-    setHintIndex matched
+    setMatched(elem for elem in elements when hintMatch(elem))
 
     if isCtrlAcceptKey(key)
-      execCurrent matched
-    else if isAcceptKey(key) or matched.length is 1
+      execCurrent @matched
+    else if isAcceptKey(key) or @matched.length is 1
       execCurrent()
 
 
@@ -103,7 +103,7 @@ class Hint
     # FIXME
 
   execCurrent = (elems=null) =>
-    elems = elems || [matched[selected]]
+    elems = elems || [@matched[@selected]]
 
     for elem in elems
       currentAction = getCurrentAction()
@@ -129,7 +129,7 @@ class Hint
           $(elem).focus()
 
         if multi_mode
-          selected = 0
+          setSelected 0
           CmdBox.set title: "HintMode"
         else
           setTimeout @remove, 200

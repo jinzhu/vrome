@@ -18,13 +18,14 @@ root.isElementVisible = (elem, in_full_page) ->
 
   [winTop, winLeft] = [$(window).scrollTop(), $(window).scrollLeft()]
   winBottom = winTop + $(window).height()
-  winRight = winLeft + $(widnwo).width()
+  winRight = winLeft + $(window).width()
 
-  [elemTop, elemLeft] = [$(elem).scrollTop(), $(elem).scrollLeft()]
+  offset = $(elem).offset()
+  [elemTop, elemLeft] = [offset.top, offset.left]
   elemBottom = elemTop + $(elem).height()
   elemRight = elemLeft + $(elem).width()
 
-  elemBottom >= winTop and elemTop <= winBottom and elemLeft <= winRight and elemRight >= winLeft
+  (elemBottom >= winTop) and (elemTop <= winBottom) and (elemLeft <= winRight) and (elemRight >= winLeft)
 
 
 root.clickElement = (elem, opt={}) ->
