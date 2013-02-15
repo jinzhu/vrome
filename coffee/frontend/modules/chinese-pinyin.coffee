@@ -1,6 +1,7 @@
 # From http://lazycms.googlecode.com/svn/other/Pinyin.js
 PinYin = (->
   CC2PY = (l1) ->
+    return unless l1
     l2 = l1.length
     I1 = ""
     reg = new RegExp("[a-zA-Z0-9- ]")
@@ -18,6 +19,7 @@ PinYin = (->
     I1 = I1.replace("--", "-")  while I1.indexOf("--") > 0
     I1
   CC2FULLPY = (l1) ->
+    return unless l1
     l2 = l1.length
     I1 = ""
     reg = new RegExp("[a-zA-Z0-9- ]")

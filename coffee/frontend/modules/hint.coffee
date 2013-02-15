@@ -63,7 +63,7 @@ class Hint
   hintMatch = (elem) ->
     filter = CmdBox.get().content.trimFirst(key for key, value of subActions)
     regexp = new RegExp(filter.trimFirst("!"), "im")
-    text = $(elem).val()
+    text = $(elem).val() || $(elem).text() || $(elem).attr("placeholder")
     regexp.test(text) or regexp.test(PinYin.shortcut(text)) or regexp.test(PinYin.full(text))
 
 
@@ -101,7 +101,7 @@ class Hint
     # FIXME
 
   execCurrent = (elems=null) =>
-    elems = elems || [@matched[@selected-1]]
+    elems = elems || [$(@matched).get(@selected-1)]
 
     for elem in elems
       currentAction = getCurrentAction()
