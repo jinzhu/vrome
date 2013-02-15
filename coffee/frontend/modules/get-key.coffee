@@ -106,7 +106,9 @@ shiftNums =
   "\\": "|"
 
 getKey = (evt) ->
+  env = (if evt.originalEvent then evt.originalEvent else evt)
   key = keyId[evt.keyIdentifier] or evt.keyIdentifier
+
   ctrl = (if evt.ctrlKey then "C-" else "")
   meta = (if (evt.metaKey or evt.altKey) then "M-" else "")
   shift = (if evt.shiftKey then "S-" else "")
