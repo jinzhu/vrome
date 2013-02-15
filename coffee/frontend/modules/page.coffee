@@ -2,7 +2,8 @@ class Page
   execMatch = (regexps) ->
     for elem in $("a")
       for regexp in regexps
-        return clickElement(elem) if new RegExp(regexp, "i").test($(elem).val().replace(/(^(\n|\s)+|(\s|\n)+$)/, ""))
+        if new RegExp(regexp, "i").test($(elem).text().replace(/(^(\n|\s)+|(\s|\n)+$)/, ""))
+          return clickElement(elem)
     null # FIXME for CoffeeScriptRedux
 
   @hideImages = ->

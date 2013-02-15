@@ -6,7 +6,7 @@ class History
   @start: (new_tab) ->
     Dialog.start "History", "", search, new_tab
 
-  @new_tab_start: -> @start true
+  @new_tab_start: => @start true
 
   @back: -> history.go -1 * times()
 
