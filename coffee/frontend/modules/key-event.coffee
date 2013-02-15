@@ -127,7 +127,7 @@ class KeyEvent
     if e and someFunctionCalled and not (disableVrome or pass_next_key)
       @stopPropagation e  unless isAcceptKey(key) and (insertMode or document.activeElement.nodeName is "A")
       # Compatible with google's new interface
-      if key and key.match(/^.$/) and not insertMode and not (/^\d$/.test(key) and Option.get("allow_numeric"))
+      if key and key.match(/^.$/) and (not insertMode) and (not (/^\d$/.test(key)) and Option.get("allow_numeric"))
         @stopPropagation e
 
   removeStatusLine = ->
