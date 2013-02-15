@@ -22,7 +22,6 @@ class Dialog
     cmdBox = $(CmdBox.cmdBox())
     if $("##{notice_id}").length == 0
       style = "bottom: 0 !important; right:#{cmdBox.width()}px !important; height:#{cmdBox.height()}px !important; line-height:#{cmdBox.height()}px !important; width: #{dialogBox().width() - cmdBox.width() - 12}px !important"
-      console.log style
       $("body").prepend $("<div>", id: notice_id, style: style)
     $("##{notice_id}").val(msg)
 
