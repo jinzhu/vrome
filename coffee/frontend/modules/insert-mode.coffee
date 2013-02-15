@@ -7,6 +7,8 @@ class InsertMode
       if elem
         caret_position = elem.selectionEnd
         value = elem.value or elem.innerText
+    catch err
+      Debug err
     elem
 
   @blurFocus: ->
@@ -24,33 +26,33 @@ class InsertMode
 
   @deleteForwardChar: ->
     elem = currentElement()
-    elem?.value = value.substr(0, caret_position) + value.substr(caret_position + 1)
+    elem.value = value.substr(0, caret_position) + value.substr(caret_position + 1)
     elem?.setSelectionRange caret_position, caret_position
 
   @deleteBackwardChar: ->
     elem = currentElement()
-    elem?.value = value.substr(0, caret_position - 1) + value.substr(caret_position)
+    elem.value = value.substr(0, caret_position - 1) + value.substr(caret_position)
     elem?.setSelectionRange caret_position - 1, caret_position - 1
 
   @deleteBackwardWord: ->
     elem = currentElement()
-    elem?.value = value.substr(0, caret_position).replace(/[^\s\n.,]*?.\s*$/, "") + value.substr(caret_position)
+    elem.value = value.substr(0, caret_position).replace(/[^\s\n.,]*?.\s*$/, "") + value.substr(caret_position)
     position = elem.value.length - (value.length - caret_position)
     elem?.setSelectionRange position, position
 
   @deleteForwardWord: ->
     elem = currentElement()
-    elem?.value = value.substr(0, caret_position) + value.substr(caret_position).replace(/^\s*.[^\s\n.,]*/, "")
+    elem.value = value.substr(0, caret_position) + value.substr(caret_position).replace(/^\s*.[^\s\n.,]*/, "")
     elem?.setSelectionRange caret_position, caret_position
 
   @deleteToBegin: ->
     elem = currentElement()
-    elem?.value = value.substr(caret_position)
+    elem.value = value.substr(caret_position)
     elem?.setSelectionRange 0, 0
 
   @deleteToEnd: ->
     elem = currentElement()
-    elem?.value = value.substr(0, caret_position)
+    elem.value = value.substr(0, caret_position)
     elem?.setSelectionRange elem.value.length, elem.value.length
 
   @MoveBackwardWord: ->
@@ -65,7 +67,7 @@ class InsertMode
 
   @MoveBackwardChar: ->
     elem = currentElement()
-    elem?.setSelectionRange caret_position - 1, caret_position - 1
+    elem.setSelectionRange caret_position - 1, caret_position - 1
 
   @MoveForwardChar: ->
     elem = currentElement()

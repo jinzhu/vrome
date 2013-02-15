@@ -3,6 +3,7 @@ class Page
     for elem in $("a")
       for regexp in regexps
         return clickElement(elem) if new RegExp(regexp, "i").test($(elem).val().replace(/(^(\n|\s)+|(\s|\n)+$)/, ""))
+    null # FIXME for CoffeeScriptRedux
 
   @hideImages = ->
     $("img").hide()

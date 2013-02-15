@@ -30,7 +30,7 @@ class Hint
 
   removeHighlightBox = (create_after_remove) -> # Boolean
     $("#__vim_hint_highlight").remove()
-    $("body").append $("<div>", id: "__vim_hint_highlight") if create_after_remove
+    $("body").append $("<div>", {id: "__vim_hint_highlight"}) if create_after_remove
     $("#__vim_hint_highlight")
 
   setHintIndex = (elems) ->
@@ -38,7 +38,7 @@ class Hint
     for elem, index in elems
       offset = $(elem).offset()
       class_name = (if index == selected then "active" else "normal")
-      span = $("<span>", class: class_name, style: "left:#{offset.left-5}px;top:#{offset.top}px;", text: index+1)
+      span = $("<span>", {class: class_name, style: "left:#{offset.left-5}px;top:#{offset.top}px;", text: index+1})
       $(highlight_box).append span
 
 

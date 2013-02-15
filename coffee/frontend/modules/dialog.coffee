@@ -1,9 +1,7 @@
 class Dialog
-  [isEnabled, selected, sources, dialog_mode, last_keyword, search_func, newTab, keydown_callback] \
-    = [null, 0, null, null, null, null, null, null]
+  [isEnabled, selected, sources, dialog_mode, last_keyword, search_func, newTab, keydown_callback] = [null, 0, null, null, null, null, null, null]
 
-  [box_id, search_results_id, selected_class, selected_quick_num, notice_id] \
-    = ["__vrome_dialog", "__vrome_searchResults", "__vrome_selected", "__vrome_selected_quick_index", "__vrome_dialog_notice"]
+  [box_id, search_results_id, selected_class, selected_quick_num, notice_id] = ["__vrome_dialog", "__vrome_searchResults", "__vrome_selected", "__vrome_selected_quick_index", "__vrome_dialog_notice"]
 
 
   dialogBox = ->
@@ -72,9 +70,8 @@ class Dialog
     $(results).removeClass(selected_class)
     $(selected_result).addClass(selected_class)
 
-    index_num = 1
-    for result in results[selected..selected+10]
-      $(result).prepend $("<span>", class: selected_quick_num).text(index_num++)
+    for result, index in results[selected..selected+10]
+      $(result).prepend $("<span>", {class: selected_quick_num}).text(index+1)
 
     $(".#{selected_quick_num}").get(-1).scrollIntoViewIfNeeded()
 
