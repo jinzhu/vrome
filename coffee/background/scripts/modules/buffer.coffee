@@ -4,7 +4,7 @@ class Buffer
       [tabs[Number(keyword) - 1]]
     else
       regexp = new RegExp(keyword, "i")
-      tab for tab in tabs when regexp.test(tabs[i].url) or regexp.test(tabs[i].title)
+      tab for tab in tabs when regexp.test(tab.url) or regexp.test(tab.title)
 
   @gotoFirstMatch: (msg) ->
     [tab, keyword] = [getTab(arguments), msg.keyword]
