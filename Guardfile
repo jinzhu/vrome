@@ -12,13 +12,18 @@ guard 'shell', :all_on_start => true do
   watch(/.coffee/) do |files|
     files.map do |file|
       js_file = file.sub(/coffee$/, "js").sub(/coffee/, 'src')
+      js_map_file = js_file + ".map"
+      system "mkdir -p #{File.dirname(js_file)}",
+
+      next if file =~ /help/
+
       [
-        "mkdir -p #{File.dirname(js_file)}",
         # CoffeeScript
-        "coffee -p -c #{file} > #{js_file}",
-        # CoffeeScriptRedux with SourceMap (but doesn't works well now)
-        # "coffee --js -i #{file} > #{js_file}",
-        # "coffee --source-map -i #{file} > #{js_file}.map"
+        # "coffee -p -c #{file} > #{js_file}",
+        # CoffeeScriptRedux
+        "coffee --js -i #{file} > #{js_file}",
+        "coffee --source-map -i #{file} > #{js_map_file}",
+        "(echo; echo '//@ sourceMappingURL=#{js_map_file}') >> #{js_file}"
       ].map do |shell|
         puts shell
         system shell
