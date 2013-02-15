@@ -13,7 +13,7 @@ body, td, th, input, select, textarea, button {
 
 body * {
 	white-space: nowrap;
-	?outline: solid 1px #abc;
+	outline: solid 1px #abc;
 }
 
 hr {
@@ -51,13 +51,12 @@ a {
 }
 
 #menu .item {
-	?padding: 4px 25px 4px 6px;
 	padding: 4px 25px;
 	-webkit-padding-start: 6px;
 	margin: 0px 2px;
 	white-space: nowrap;
 	cursor: pointer;
-	?text-shadow: #ccc -1px 0px 2px;
+	text-shadow: #ccc -1px 0px 2px;
 }
 
 #menu .item a {
@@ -66,7 +65,6 @@ a {
 }
 
 #menu .item:hover {
-	?padding: 3px 24px 3px 5px;
 	padding: 3px 24px;
 	-webkit-padding-start: 5px;
 	border: solid 1px #bcd;
@@ -75,12 +73,11 @@ a {
 	background: -webkit-gradient(linear, left top, left bottom,
 		color-stop(0, #fff),  color-stop(0.4, hsl(215, 67%, 97%)), color-stop(0.41, hsl(213, 48%, 95%)));
 
-	?border: solid 1px #c5cdd3;
-	?background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #f5f9fe), color-stop(1, #e8f1f9));
+	border: solid 1px #c5cdd3;
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #f5f9fe), color-stop(1, #e8f1f9));
 }
 
 #menu .item:active {
-	?padding: 3px 24px 3px 5px;
 	padding: 3px 24px;
 	-webkit-padding-start: 5px;
 	border: solid 1px #abc;
@@ -122,7 +119,7 @@ a {
 
 .versionNumber {
 	font-weight: bold;
-	?font-size: 80%;
+	font-size: 80%;
 	-webkit-padding-start: 5px;
 	padding: 4px 6px;
 }

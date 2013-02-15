@@ -7,12 +7,19 @@ task :init_development_env do
   `find coffee -type f -iname '*coffee'`.split("\n").map do |file|
     js_file = file.sub(/coffee$/, "js").sub(/coffee/, 'src')
     js_map_file = js_file + ".map"
-    system "mkdir -p #{File.dirname(js_file)}",
+    system "mkdir -p #{File.dirname(js_file)}"
 
     js_file_content = `coffee --js -i #{file}`
     `coffee --source-map -i #{file} > #{js_map_file}`
     File.open(js_file, "w+") {|f| f << js_file_content + "//@ sourceMappingURL=#{js_map_file}'" }
     puts "Generated js file #{js_file}"
+  end
+
+  # SCSS
+  `find coffee -type f -iname '*scss'`.split("\n").map do |file|
+    css_file = file.sub(/scss$/, "css").sub(/coffee/, 'src')
+    system "mkdir -p #{File.dirname(css_file)}"
+    `scss #{file} > #{css_file}`
   end
 end
 

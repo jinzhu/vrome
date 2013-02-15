@@ -29,7 +29,21 @@ nav ul#tabs { list-style-type: none; margin: 0px; padding: 0 0 0.3em 0; height: 
 nav ul#tabs li { display: inline; height: 34px; }
 nav ul#tabs li a { border-top-left-radius: 2px 2px; border-top-right-radius: 2px 2px; margin-left: 1px; border-left: 1px solid #DDD; border-right: 1px solid #DDD; border-top: 1px solid #DDD; border-bottom: 1px solid #DDD; color: #000; height: 33px; margin-right: 2px; float: left; line-height: 33px; padding: 0 20px; background: -webkit-gradient( linear, left bottom, left top, color-stop(1, rgb(255,255,255)), color-stop(0, rgb(218,229,230))); cursor: pointer; position: relative; z-index: 20; text-decoration: none; color: #808080; font-size: 12px; font-weight: bold; font-family: arial,verdana,sans-serif; }
 nav ul#tabs li a:hover { text-decoration: none; color: #000000; background-color: #F1F0ee; background: -webkit-gradient( linear, left bottom, left top, color-stop(1, rgb(218,229,230)), color-stop(0, rgb(255,255,255))); }
-nav ul#tabs li a.selected { margin-left: 1px; border-left: 1px solid #DDD; border-right: 1px solid #DDD; border-top: 1px solid #DDD; padding: 0 20px; margin-right: 2px; margin-top: 1px; float: left; background: -webkit-gradient( linear, left bottom, left top, color-stop(1, rgb(255,255,255)), color-stop(0, rgb(255,255,255))); repeat-x left top; cursor: pointer; border-bottom: 0; height: 33px; line-height: 32px; position: relative; z-index: 100; }
+nav ul#tabs li a.selected {
+margin-left: 1px;
+border-left: 1px solid #DDD;
+border-right: 1px solid #DDD;
+border-top: 1px solid #DDD;
+padding: 0 20px;
+margin-right: 2px;
+margin-top: 1px;
+float: left;
+background: -webkit-gradient( linear, left bottom, left top, color-stop(1, rgb(255,255,255)), color-stop(0, rgb(255,255,255))) repeat-x left top;
+cursor: pointer;
+border-bottom: 0;
+height: 33px;
+line-height: 32px;
+position: relative; z-index: 100; }
 div.tabContent { padding: 0em; display: none;}
 .hide { display: none; }
 .description { font-size: 12px; font-family: Arial, sans-serif; }

@@ -1,8 +1,10 @@
 vrome.crx
 vrome.zip
-.rbenv-version
+*.css
 *.js
 *.js.map
+.rbenv-version
+.sass-cache
 Gemfile.lock
 /src/README.html
 /src/manifest.json

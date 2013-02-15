@@ -11,7 +11,7 @@ reload = ->
       reload()
 
 reloadExtension = ->
-  $.post('http://127.0.0.1:20000', JSON.stringify({'method': 'get_latest_version'})).done (response) ->
+  $.post('http://127.0.0.1:20000', JSON.stringify({'method': 'get_latest_version'})).success (response) ->
     if (latestVersion isnt null) && (latestVersion isnt response)
       reload()
 
