@@ -31,7 +31,7 @@ class Url
     return pathname
 
 
-  fixUrl = (url_str) ->
+  fixUrl = (url_str) =>
     urls = url_str.split(/, /)
     result = []
 
@@ -39,7 +39,7 @@ class Url
       url = url.trim()
       #  /jinzhu || (.. || ./configure) && no space
       if (/^\//.test(url) || /^\.\.?\/?/.test(url)) && /^\s*\S+\s*$/.test(url)
-        result.push(fixRelativePath(url))
+        result.push(@fixRelativePath(url))
       # Like url, for example: google.com
       else if /\./.test(url) && !/\s/.test(url)
         result.push "#{url.match("://") ? "" : "http://"}#{url}"

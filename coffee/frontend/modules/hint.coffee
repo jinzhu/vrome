@@ -36,7 +36,7 @@ class Hint
   @multi_mode_start: => @start true, true
   @new_tab_start: => @start true
   @start: (new_tab, multi_mode) =>
-    [hintMode, newTab, multiMode] = [true, current_key, multi_mode]
+    [hintMode, newTab, multiMode] = [true, new_tab, multi_mode]
     setMatched(elements = (e for e in $(hintable).not("#_vrome_cmd_input_box") when isElementVisible(e)))
     setSelected 0
     CmdBox.set title: "HintMode", pressDown: handleInput, content: ""
@@ -101,7 +101,7 @@ class Hint
     # FIXME
 
   execCurrent = (elems=null) =>
-    elems = elems || [$(@matched).get(@selected-1)]
+    elems = elems || [@matched[Math.max(0,@selected-1)]]
 
     for elem in elems
       currentAction = getCurrentAction()

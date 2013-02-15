@@ -1,13 +1,13 @@
 class Dialog
-  [isEnabled, selected, sources, dialog_mode, last_keyword, search_func, newTab, keydown_callback] = [null, 0, null, null, null, null, null, null]
+  [dialogMode, searchFunc, selected, sources, dialog_mode, lastKeyword, newTab] = [null, 0, null, null, null, null, null]
 
-  [box_id, search_results_id, selected_class, selected_quick_num, notice_id] = ["__vrome_dialog", "__vrome_searchResults", "__vrome_selected", "__vrome_selected_quick_index", "__vrome_dialog_notice"]
+  [search_results_id, selected_class, selected_quick_num, notice_id] = ["__vrome_searchResults", "__vrome_selected", "__vrome_selected_quick_index", "__vrome_dialog_notice"]
 
 
   dialogBox = ->
-    if $("##{box_id}").length == 0
-      $("body").prepend $("<div>", id: box_id, styles: "bottom:#{CmdBox.cmdBox().offsetHeight}px !important;")
-    $("##{box_id}")
+    if $("#__vrome_dialog").length == 0
+      $("body").prepend $("<div>", id: "__vrome_dialog", styles: "bottom:#{CmdBox.cmdBox().offsetHeight}px !important;")
+    $("#__vrome_dialog")
 
   freshResultBox = ->
     $("##{search_results_id}").remove()
@@ -26,14 +26,14 @@ class Dialog
     $("##{notice_id}").val(msg)
 
 
-  @start: (title, content, search_callback, newtab, keydowncallback) ->
-    [isEnabled, last_keyword, newTab, search_func, keydown_callback] = [true, null, newtab, search_callback, keydowncallback]
-    CmdBox.set title: title, pressDown: handleInput, pressUp: keydown_callback, content: content
-    search_func CmdBox.get().content
+  @start: (title, content, search_func, newtab, callback) ->
+    [dialogMode, lastKeyword, newTab, searchFunc] = [true, null, newtab, search_func]
+    CmdBox.set title: title, pressDown: handleInput, pressUp: callback, content: content
+    searchFunc CmdBox.get().content
 
 
   @draw: (msg) ->
-    return false unless isEnabled
+    return false unless dialogMode
     [dialog_mode, results_box, selected] = [(if msg.urls then "url" else ""), freshResultBox(), 0]
     sources = msg.urls or msg.sources
 
@@ -78,21 +78,15 @@ class Dialog
     notice (e.attr("href") for e in $(selected_result).filter("[href]")).join(", ")
 
   @stop: (force) ->
-    if not isEnabled or force
+    if not dialogMode or force
       dialogBox().remove()
       $("##{notice_id}").remove()
       CmdBox.remove()
-      isEnabled = false
+      dialogMode = false
 
   handleInput = (e) ->
     key = getKey(e)
     
-    # execute callback and if callback return true, we are done
-    if keydown_callback and keydown_callback(e)
-      isEnabled = false
-      KeyEvent.stopPropagation e
-      return
-
     if key.match(/<C-(\d)>|<Up>|<S-Tab>|<Down>|<Tab>|Control/)
       if key.match(/<C-(\d)>/)
         next Number(RegExp.$1)
@@ -108,20 +102,19 @@ class Dialog
 
   delayToWaitKeyDown = ->
     keyword = CmdBox.get().content
-    if last_keyword isnt keyword
-      search_func keyword
-      last_keyword = keyword
+    if lastKeyword isnt keyword
+      searchFunc keyword
+      lastKeyword = keyword
+
+  @openCurrentNewTab: => @open true
+  @open: (keep_open) =>
+    setTimeout @openCurrent, 500, keep_open
 
   @openCurrent: (keep_open) -> #Boolean
-    return false if !isEnabled || !elem
-    current_element = $(".#{selected_class}").get(0)?.children
-    clickElement current_element, {"ctrl": keep_open or newTab}
+    return false if !dialogMode
+    href = $(".#{selected_class}").find("a").prop("href")
+    Post action: "Tab.openUrl", url: href, newtab: keep_open or newTab
     stop() unless keep_open
-
-  @openCurrentNewTab: -> open true
-
-  @open: (keep_open) ->
-    setTimeout @openCurrent, 500, keep_open
 
 
 root = exports ? window

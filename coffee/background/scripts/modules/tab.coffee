@@ -32,7 +32,7 @@ class Tab
 
 
   @openUrl: (msg) =>
-    [tab, urls] = [getTab(arguments), msg.urls]
+    [tab, urls] = [getTab(arguments), msg.urls || msg.url]
     urls = [urls]  if typeof urls is "string"
 
     [first_url, index] = [urls.shift(), tab.index]
