@@ -41,7 +41,7 @@
   font-size: 13px !important;
   min-width: 10px !important;
   font-weight: bold !important;
-  padding: 1.5px !important;
+  padding: 1.8px !important;
   z-index: 2147483646 !important;
   line-height: 14px;
   width: auto;
@@ -54,7 +54,7 @@
 
 #__vim_hint_highlight span.active {
   background-color: green !important;
-  padding: 4px !important;
+  padding: 5px !important;
   opacity: 0.8 !important;
 }
 

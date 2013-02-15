@@ -30,7 +30,8 @@ class Hint
   setSelected = (num) =>
     @selected = num
     freshHints()
-    execCurrent() if @selected * 10 > @matched.length
+    CmdBox.set title: "HintMode (#{@selected})" if @selected > 0
+    setTimeout execCurrent, 200 if @selected * 10 > @matched.length
 
   @multi_mode_start: => @start true, true
   @new_tab_start: => @start true
@@ -52,7 +53,6 @@ class Hint
     # If user are inputing number
     if /^\d$/.test(key) or (key is "<BackSpace>" and @selected isnt 0)
       setSelected(if (key is "<BackSpace>") then parseInt(@selected / 10) else @selected * 10 + Number(key))
-      CmdBox.set title: "HintMode (#{@selected})"
       KeyEvent.stopPropagation(e)
     else
       # If key is not Accept key, Reset title
