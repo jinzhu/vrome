@@ -7,8 +7,7 @@
   padding: 4px 10px !important;
   border: #3f86bb 1px solid !important;
   vertical-align: middle !important;
-  -webkit-border-top-left-radius: 4px !important;
-  -webkit-box-shadow:-1px -1px 4px #888 !important;
+  box-shadow:-1px -1px 4px #888 !important;
   z-index: 2147483646 !important;
   opacity: 0.85 !important;
   width: auto !important;
@@ -16,8 +15,7 @@
 
 #_vrome_cmd_box input{
   background: #eff8ff !important;
-  padding:4px 0 !important;
-  height:22px !important;
+  height:28px !important;
   width:200px !important;
   border:none !important;
   opacity: 0.85 !important;

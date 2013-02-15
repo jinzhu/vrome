@@ -6,7 +6,7 @@ class Dialog
 
   dialogBox = ->
     if $("#__vrome_dialog").length == 0
-      $("body").prepend $("<div>", id: "__vrome_dialog", styles: "bottom:#{CmdBox.cmdBox().offsetHeight}px !important;")
+      $("body").prepend $("<div>", id: "__vrome_dialog", styles: "bottom:#{$(CmdBox.cmdBox()).height()}px !important;")
     $("#__vrome_dialog")
 
   freshResultBox = ->
@@ -19,9 +19,10 @@ class Dialog
     text[0..75].replace RegExp(keyword.escapeRegExp, "g"), "<strong>#{keyword}</strong>"
 
   notice = (msg) ->
-    cmdBox = CmdBox.cmdBox()
+    cmdBox = $(CmdBox.cmdBox())
     if $("##{notice_id}").length == 0
-      style = "bottom: 0 !important; right:#{cmdBox.offsetWidth}px !important; height:#{cmdBox.offsetHeight}px !important; line-height:#{cmdBox.offsetHeight}px !important; width: #{dialogBox().offsetWidth - cmdBox.offsetWidth - 12}px !important"
+      style = "bottom: 0 !important; right:#{cmdBox.width()}px !important; height:#{cmdBox.height()}px !important; line-height:#{cmdBox.height()}px !important; width: #{dialogBox().width() - cmdBox.width() - 12}px !important"
+      console.log style
       $("body").prepend $("<div>", id: notice_id, style: style)
     $("##{notice_id}").val(msg)
 
