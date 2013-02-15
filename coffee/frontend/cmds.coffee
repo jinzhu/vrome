@@ -71,19 +71,53 @@ CMDS =
       c: 1
 
   zoom:
-    "Zoom.zoomIn":
+    "Zoom.current_in":
       t: "in"
       k: "zi"
       c: 1
 
-    "Zoom.out":
+    "Zoom.current_out":
       t: "out"
       k: "zo"
       c: 1
 
-    "Zoom.reset":
+    "Zoom.current_more":
+      t: "3x in"
+      k: "zm"
+      c: 1
+
+    "Zoom.current_reduce":
+      t: "3x out"
+      k: "zr"
+      c: 1
+
+    "Zoom.current_reset":
       t: "reset"
       k: "zz"
+
+    "Zoom.zoomIn":
+      t: "in"
+      k: "zI"
+      c: 1
+
+    "Zoom.out":
+      t: "out"
+      k: "zO"
+      c: 1
+
+    "Zoom.more":
+      t: "3x in"
+      k: "zM"
+      c: 1
+
+    "Zoom.reduce":
+      t: "3x in"
+      k: "zR"
+      c: 1
+
+    "Zoom.reset":
+      t: "reset"
+      k: "zZ"
 
   scroll:
     "Scroll.top":

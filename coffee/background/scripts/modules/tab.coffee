@@ -108,7 +108,7 @@ class Tab
     tab = getTab(arguments)
     chrome.tabs.getAllInWindow tab.windowId, (tabs) ->
       index = Math.min(msg.index, tabs.length - 1) if typeof msg.index isnt "undefined"
-      index = (tab.index + msg.offset) % tabs.length if typeof msg.offset isnt "undefined"
+      index = rabs(tab.index + msg.offset, tabs.length) if typeof msg.offset isnt "undefined"
       chrome.tabs.update (tabs[index] ? tab).id, selected: true
 
 
