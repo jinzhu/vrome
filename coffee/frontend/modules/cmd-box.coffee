@@ -17,22 +17,22 @@ class CmdBox
 
   @cmdBox: ->
     $("body").prepend $("<div>", id: box_id) if $("##{box_id}").length == 0
-    $("##{box_id}")
+    $("##{box_id}").attr "rand_id", Math.random().toString()
 
-  @set: (o) ->
+  @set: (o) =>
     if (typeof o.title is "string")
-      cmdBoxTitle(true).unbind().html(o.title).mousedown o.mouseOverTitle
+      cmdBoxTitle(true).unbind().text(o.title).mousedown o.mouseOverTitle
     if (typeof o.content is "string")
       input = cmdBoxInput(true)
       input.unbind().val(o.content).keydown(o.pressDown).keyup(o.pressUp).keypress(o.pressPress).focus()
       input.select()  unless o.noHighlight
-    setTimeout @remove, Number(o.timeout) if o.timeout
+    setTimeout @remove, Number(o.timeout), @cmdBox().attr("rand_id") if o.timeout
 
   @get: ->
     title: cmdBoxTitle()?.text() or "", content: cmdBoxInput()?.val() or ""
 
-  @remove: ->
-    $("##{box_id}")?.unbind()?.remove()
+  @remove: (rand_id=null) ->
+    (if rand_id then $("##{box_id}").filter("[rand_id='#{rand_id}']") else $("##{box_id}")).unbind().remove()
 
   @blur: -> cmdBoxInput()?.blur()
 

@@ -8,7 +8,7 @@ class Tab
   @copyUrl: ->
     url = document.location.href
     Clipboard.copy url
-    CmdBox.set title: "[Copied] " + url, timeout: 4000
+    CmdBox.set title: "[Copied] #{url}", timeout: 4000
 
   @reopen: ->
     Post action: "Tab.reopen", count: times()

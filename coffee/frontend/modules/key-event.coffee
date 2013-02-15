@@ -103,9 +103,7 @@ class KeyEvent
       someBindingMatched = true if regexp.test(binding_command)
 
 
-    # hide status line if some function called or no binding matched
-    removeStatusLine() if someFunctionCalled or !someBindingMatched
-
+    showStatusLine currentKeys, key_times if someBindingMatched and not someFunctionCalled
     # If any function invoked, then store it to last run command.
     # (Don't do this when run repeat last command or In InsertMode)
     storeLast keys, key_times  if someFunctionCalled and e and (key isnt ".") and not insertMode
@@ -130,12 +128,9 @@ class KeyEvent
       if key and key.match(/^.$/) and (not insertMode) and (not (/^\d$/.test(key)) and Option.get("allow_numeric"))
         @stopPropagation e
 
-  removeStatusLine = ->
-    CmdBox.remove() unless CmdBox.isActive()
-
-  showStatusLine = (currentKeys) ->
-    if Option.get("showstatus") and not CmdBox.isActive()
-      CmdBox.set title: "#{@times(true) || ""}#{currentKeys}"
+  showStatusLine = (currentKeys, times) ->
+    if Option.get("showstatus") and currentKeys
+      CmdBox.set title: "#{times || ""}#{currentKeys}", timeout: 500
 
 
   @exec: (e) =>
@@ -150,7 +145,6 @@ class KeyEvent
       currentKeys = filterKey(currentKeys.concat(key), insertMode)
       return if ignoreKey(currentKeys, insertMode)
 
-      showStatusLine currentKeys
       runCurrentKeys currentKeys, insertMode, e
     catch err
       Debug err

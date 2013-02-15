@@ -10,7 +10,7 @@ shortUrl = (msg) ->
   headers["Authorization"] = oauth.getAuthorizationHeader(server_url, "POST") if auth
 
   params = {type: "POST", url: server_url, headers: headers, data: JSON.stringify(longUrl: encodeURI(tab.url))}
-  $.ajax(params).fail(sendBackCurrentUrl).done(response) ->
+  $.ajax(params).fail(sendBackCurrentUrl).done (response) ->
     if response.error?.code is "401"
       oauth.clearTokens()
       sendBackCurrentUrl()
