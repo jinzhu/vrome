@@ -30,11 +30,14 @@ class Hint
   setSelected = (num) =>
     @selected = num
     freshHints()
+    execCurrent() if @selected * 10 > @matched.length
 
+  @multi_mode_start: => @start true, true
+  @new_tab_start: => @start true
   @start: (newTab, multiMode) =>
     [hintMode, new_tab, multi_mode] = [true, newTab, multiMode]
-    setSelected 0
     setMatched(elements = (e for e in $(hintable).not("#_vrome_cmd_input_box") when isElementVisible(e)))
+    setSelected 0
     CmdBox.set title: "HintMode", pressDown: handleInput, content: ""
 
   @remove: ->
@@ -49,18 +52,13 @@ class Hint
     # If user are inputing number
     if /^\d$/.test(key) or (key is "<BackSpace>" and @selected isnt 0)
       setSelected(if (key is "<BackSpace>") then parseInt(@selected / 10) else @selected * 10 + Number(key))
-      CmdBox.set title: "HintMode (#{selected})"
+      CmdBox.set title: "HintMode (#{@selected})"
       KeyEvent.stopPropagation(e)
-      exec = true  if @selected * 10 > @matched.length
     else
       # If key is not Accept key, Reset title
       CmdBox.set title: "HintMode" unless isAcceptKey(key)
       # If key is not Escape key, Reset hints
       setTimeout delayToWaitKeyDown, 20  unless isEscapeKey(key)
-
-    if exec
-      KeyEvent.stopPropagation(e)
-      execCurrent()
 
   hintMatch = (elem) ->
     filter = CmdBox.get().content.trimFirst(key for key, value of subActions)
@@ -69,7 +67,7 @@ class Hint
     regexp.test(text) or regexp.test(PinYin.shortcut(text)) or regexp.test(PinYin.full(text))
 
 
-  delayToWaitKeyDown = ->
+  delayToWaitKeyDown = =>
     setMatched(elem for elem in elements when hintMatch(elem))
 
     if isCtrlAcceptKey(key)
@@ -103,12 +101,12 @@ class Hint
     # FIXME
 
   execCurrent = (elems=null) =>
-    elems = elems || [@matched[@selected]]
+    elems = elems || [@matched[@selected-1]]
 
     for elem in elems
       currentAction = getCurrentAction()
-      tag_name = $(elem).attr("tagName").toLowerCase()
-      type = $(elem).attr("type").toLowerCase()
+      tag_name = $(elem).prop("tagName").toLowerCase()
+      type = $(elem).prop("type").toLowerCase()
 
       if $.isFunction(currentAction)
         @remove() # No multi_mode for extend mode

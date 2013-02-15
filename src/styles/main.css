@@ -34,7 +34,7 @@
 #__vim_hint_highlight {
 }
 
-#__vim_hint_highlight span.active, #__vim_hint_highlight span.normal {
+#__vim_hint_highlight span {
   position: absolute !important;
   background-color: #F00 !important;
   color: #fff !important;
