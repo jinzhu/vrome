@@ -12,7 +12,7 @@ class Url
   search = (keyword) ->
     Post action: "Tab.autoComplete", keyword: keyword, default_urls: fixUrl(keyword)
 
-  @fixRelativePath: (url) ->
+  @fixRelativePath= (url) ->
     # http://google.com
     return url if /:\/\//.test(url)
 
@@ -42,10 +42,10 @@ class Url
         result.push(@fixRelativePath(url))
       # Like url, for example: google.com
       else if /\./.test(url) && !/\s/.test(url)
-        result.push "#{url.match("://") ? "" : "http://"}#{url}"
+        result.push "#{if url.match("://") then "" else "http://"}#{url}"
       # Local URL, for example: localhost:3000 || dev.local/
       else if /local(host)?($|\/|\:)/.test(url)
-        result.push "#{url.match("://") ? "" : "http://"}#{url}"
+        result.push "#{if url.match("://") then "" else "http://"}#{url}"
       # google vrome
       else
         searchengines = Option.get('searchengines')
