@@ -1,13 +1,10 @@
 class Tab
-  @closed_tabs: []
-  @last_open_tabs: []
-  @marked_tabs: []
-  @activeTabs: {}
+  [@closedTabs, @last_open_tabs, @marked_tabs, @activeTabs] = [[], [], [], {}]
 
   # close the tab and add it to closed tabs list
-  remove = (tab) ->
+  remove = (tab) =>
     return unless tab
-    Tab.closed_tabs.push tab
+    Tab.addToClosedTabs tab
     chrome.tabs.remove tab.id
 
   runWhenComplete = (tabId, command) ->
@@ -52,11 +49,11 @@ class Tab
 
 
   @reopen: (msg) ->
-    if Tab.closed_tabs.length > 0
-      index = (Tab.closed_tabs.length - msg.count) % Tab.closed_tabs.length
-      last_closed_tab = Tab.closed_tabs[index]
+    if Tab.closedTabs.length > 0
+      index = (Tab.closedTabs.length - msg.count) % Tab.closedTabs.length
+      last_closed_tab = Tab.closedTabs[index]
       if last_closed_tab
-        Tab.closed_tabs.splice index, 1
+        Tab.closedTabs.splice index, 1
         chrome.tabs.create url: last_closed_tab.url, index: last_closed_tab.index
 
   @update: (msg) ->
@@ -198,6 +195,11 @@ class Tab
     chrome.tabs.move Tab.marked_tabs, {windowId: tab.windowId, index: tab.index + 1}, (tmp) ->
       Post tab, {action: "CmdBox.set", title: "#{tmp.length} Tab(s) moved", timeout: 4000}
       Tab.marked_tabs = []
+
+  @addToClosedTabs: (tab) =>
+    index = (t.url for t in @closedTabs).indexOf(tab.url)
+    @closedTabs.splice(index, 1) if index != -1
+    @closedTabs.push tab if tab.url != "chrome://newtab/"
 
 
 root = exports ? window

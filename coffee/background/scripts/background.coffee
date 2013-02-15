@@ -36,7 +36,7 @@ chrome.tabs.onActivated.addListener (info) ->
 
 chrome.tabs.onRemoved.addListener (tabId) ->
   tab = Tab.now_tab
-  Tab.closed_tabs.push tab if tab?.id == tabId
+  Tab.addToClosedTabs tab if tab?.id == tabId
 
 $ ->
   Vromerc.init()
