@@ -1,5 +1,5 @@
 class Hint
-  [new_tab, multi_mode, hintMode, elements, key] = []
+  [newTab, multiMode, hintMode, elements, currentKey] = []
   hintable = "a,input:not([type=hidden]),textarea,select,button,*[onclick]"
 
   subActions =
@@ -35,8 +35,8 @@ class Hint
 
   @multi_mode_start: => @start true, true
   @new_tab_start: => @start true
-  @start: (newTab, multiMode) =>
-    [hintMode, new_tab, multi_mode] = [true, newTab, multiMode]
+  @start: (new_tab, multi_mode) =>
+    [hintMode, newTab, multiMode] = [true, current_key, multiMode]
     setMatched(elements = (e for e in $(hintable).not("#_vrome_cmd_input_box") when isElementVisible(e)))
     setSelected 0
     CmdBox.set title: "HintMode", pressDown: handleInput, content: ""
@@ -48,17 +48,17 @@ class Hint
     hintMode = false
 
   handleInput = (e) =>
-    key = getKey(e)
+    currentKey = getKey(e)
 
     # If user are inputing number
-    if /^\d$/.test(key) or (key is "<BackSpace>" and @selected isnt 0)
-      setSelected(if (key is "<BackSpace>") then parseInt(@selected / 10) else @selected * 10 + Number(key))
+    if /^\d$/.test(currentKey) or (currentKey is "<BackSpace>" and @selected isnt 0)
+      setSelected(if (currentKey is "<BackSpace>") then parseInt(@selected / 10) else @selected * 10 + Number(currentKey))
       KeyEvent.stopPropagation(e)
     else
       # If key is not Accept key, Reset title
-      CmdBox.set title: "HintMode" unless isAcceptKey(key)
+      CmdBox.set title: "HintMode" unless isAcceptKey(currentKey)
       # If key is not Escape key, Reset hints
-      setTimeout delayToWaitKeyDown, 20  unless isEscapeKey(key)
+      setTimeout delayToWaitKeyDown, 20  unless isEscapeKey(currentKey)
 
   hintMatch = (elem) ->
     filter = CmdBox.get().content.trimFirst(key for key, value of subActions)
@@ -70,9 +70,9 @@ class Hint
   delayToWaitKeyDown = =>
     setMatched(elem for elem in elements when hintMatch(elem))
 
-    if isCtrlAcceptKey(key)
+    if isCtrlAcceptKey(currentKey)
       execCurrent @matched
-    else if isAcceptKey(key) or @matched.length is 1
+    else if isAcceptKey(currentKey) or @matched.length is 1
       execCurrent()
 
 
@@ -109,11 +109,11 @@ class Hint
       type = $(elem).prop("type").toLowerCase()
 
       if $.isFunction(currentAction)
-        @remove() # No multi_mode for extend mode
+        @remove() # No multiMode for extend mode
         currentAction elem
       else
         if tag_name in ["a"]
-          clickElement elem, {ctrl: new_tab}
+          clickElement elem, {ctrl: newTab}
         else if $(elem).attr("onclick")
           clickElement elem
         else if (tag_name is "input" and (type in ["submit", "button", "reset", "radio", "checkbox"])) or tag_name is "button"
@@ -126,7 +126,7 @@ class Hint
         else if tag_name is "select"
           $(elem).focus()
 
-        if multi_mode
+        if multiMode
           setSelected 0
           CmdBox.set title: "HintMode"
         else
