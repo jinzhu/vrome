@@ -45,10 +45,10 @@ class Tab
     chrome.tabs.create(url: url, index: ++index, selected: false) for url in urls
 
 
-  @openFromClipboard: (msg) ->
+  @openFromClipboard: (msg) =>
     url = Clipboard.read()
     url = Option.default_search_url(url)  unless url.isValidURL()
-    openUrl {url: url}, getTab(arguments)
+    @openUrl {url: url, newtab: msg.newtab}, getTab(arguments)
 
 
   @reopen: (msg) ->

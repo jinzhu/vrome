@@ -89,7 +89,7 @@ class Url
     if document.location.href.match(/(.*?)(\d+)(\D*)$/)
       [before, number, after] = [RegExp.$1, RegExp.$2, RegExp.$3]
       newNumber = parseInt(number, 10) + count
-      newNumberStr = String(newNumber > 0 ? newNumber : 0)
+      newNumberStr = String(if newNumber > 0 then newNumber else 0)
       # 0009<C-a> -> 0010
       if number.match(/^0/)
         while newNumberStr.length < number.length

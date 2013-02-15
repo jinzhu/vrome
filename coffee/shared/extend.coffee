@@ -21,8 +21,7 @@ String::formatLineBreaks = ->
   @replace /\n/g, "<br/>"
 
 String::isValidURL = ->
-  exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/g
-  @match(exp) isnt null
+  @match(/https?|ftp|file:\/\//)
 
 String::transformURL = ->
   exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/g
