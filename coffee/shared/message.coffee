@@ -11,7 +11,4 @@ chrome.extension.onMessage.addListener (msg, sender, sendResponse) ->
   tab = sender.tab
   tab.sendResponse = sendResponse
   argument.push tab
-  try
-    func.apply "", argument  if func instanceof Function
-  catch err
-    Debug err
+  func.apply "", argument  if func instanceof Function

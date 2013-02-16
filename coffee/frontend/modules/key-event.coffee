@@ -1,9 +1,5 @@
 class KeyEvent
-  [key_times, disableVrome, pass_next_key, @bindings, currentKeys] = [0, null, null, [], ""]
-
-
-  @add: (keys, func, insert_mode) => #String, #Function, #Boolean
-    @bindings.push [keys, func, !!insert_mode]
+  [disableVrome, passNextKey, currentKeys, keyTimes, @bindings] = [null, null, "", 0, []]
 
 
   @init: =>
@@ -15,31 +11,33 @@ class KeyEvent
       document.addEventListener "keydown", KeyEvent.exec, true
       document.vromeEventListenerAdded = true
 
+  @add: (keys, func, insert_mode) => #String, #Function, #Boolean
+    @bindings.push [keys, func, !!insert_mode]
+
   @stopPropagation: (e) ->
     e.stopPropagation()
     e.preventDefault()
 
   @enable: =>
-    CmdBox.remove()
-    [disableVrome, pass_next_key] = [false, false]
+    [disableVrome, passNextKey] = [false, false]
     @reset()
-
-  @passNextKey: ->
-    CmdBox.set title: " -- PASS THROUGH (next) -- ", timeout: 2000
-    pass_next_key = true
-    Post action: "Vrome.disable"
 
   @disable: ->
     CmdBox.set title: " -- PASS THROUGH -- ", mouseOverTitle: (e) -> CmdBox.remove()
     disableVrome = true
 
+  @passNextKey: ->
+    CmdBox.set title: " -- PASS THROUGH (next) -- ", timeout: 2000
+    passNextKey = true
+    Post action: "Vrome.disable"
+
   @reset: ->
+    CmdBox.remove()
     [currentKeys, times] = ["", 0]
 
-
   @times: (only_read) -> #Boolean
-    result = key_times
-    key_times = 0 unless only_read
+    result = keyTimes
+    keyTimes = 0 unless only_read
     result
 
 
@@ -70,18 +68,19 @@ class KeyEvent
     # when run last command, fix run time.
     if key is "." and not insertMode
       last_times = Settings.get("background.times")
-      key_times = (last_times or 1) * (times or 1)
+      keyTimes = (last_times or 1) * (times or 1)
     else
-      last_times = key_times
+      last_times = keyTimes
 
     for binding in @bindings
       # 0 is a special command. could be used to scroll left, also could be used as run count.
-      break if key_times > 0 and keys.match(/^\d$/)
+      break if keyTimes > 0 and keys.match(/^\d$/)
       [binding_command, binding_function, binding_mode] = binding
-      escaped_command = binding_command.replace(/([(\[{\\^$|)?*+.])/g, "\\$1") # "[[" -> "\\[\\["
       continue if !!insertMode isnt binding_mode # insert mode match or not
 
+      escaped_command = binding_command.replace(/([(\[{\\^$|)?*+.])/g, "\\$1") # "[[" -> "\\[\\["
       regexp = new RegExp("^(\\d*)(#{escaped_command})$")
+
       # Run matched functions
       if regexp.test(keys)
         someFunctionCalled = true
@@ -89,40 +88,37 @@ class KeyEvent
 
         # map j 3j
         map_times = Number(RegExp.$1)
-        key_times = map_times * (key_times or 1)  if map_times > 0
+        keyTimes = map_times * (keyTimes or 1)  if map_times > 0
 
         try
           binding_function.call e
         catch err
           Debug err
 
-        key_times = last_times  if map_times > 0
+        keyTimes = last_times  if map_times > 0
 
       # Check if there are any bindings matched
       regexp = new RegExp("^(#{keys.replace(/([(\[{\\^$|)?*+.])/g, "\\$1")})")
       someBindingMatched = true if regexp.test(binding_command)
 
 
-    showStatusLine currentKeys, key_times if someBindingMatched and not someFunctionCalled
+    showStatusLine currentKeys, keyTimes if someBindingMatched and not someFunctionCalled
     # If any function invoked, then store it to last run command.
     # (Don't do this when run repeat last command or In InsertMode)
-    storeLast keys, key_times  if someFunctionCalled and e and (key isnt ".") and not insertMode
+    storeLast keys, keyTimes  if someFunctionCalled and e and (key isnt ".") and not insertMode
 
     # Reset currentKeys if nothing match or some function called
     currentKeys = ""  if not someBindingMatched or someFunctionCalled
 
     # Set the count time
-    key_times = (key_times or 0) * 10 + Number(key)  if not someFunctionCalled and not insertMode and /^\d$/.test(key)
+    keyTimes = (keyTimes or 0) * 10 + Number(key)  if not someFunctionCalled and not insertMode and /^\d$/.test(key)
 
     # If some function invoked and a key pressed, reset the count
     # but don't reset it if no key pressed, this should means the function is invoked by runLastCommand.
-    key_times = 0  if someFunctionCalled and key
+    keyTimes = 0  if someFunctionCalled and key
 
-    # if Vrome is enabled and any functions executed.
-
-    # skip press Enter in insertMode (used to submit form)
-    # or when focus is on a link
-    if e and someFunctionCalled and not (disableVrome or pass_next_key)
+    # stopPropagation if Vrome is enabled and any functions executed but not in InsertMode or on a link
+    if e and someFunctionCalled and not (disableVrome or passNextKey)
       @stopPropagation e  unless isAcceptKey(key) and (insertMode or document.activeElement.nodeName is "A")
     # Compatible with google's new interface
     if e and key?.match(/^.$/) and (not insertMode)
@@ -134,20 +130,17 @@ class KeyEvent
 
 
   @exec: (e) =>
-    try
-      key = getKey(e)
-      insertMode = (/^INPUT|TEXTAREA|SELECT$/i.test(e.target.nodeName) or e.target.getAttribute("contenteditable")?)
+    key = getKey(e)
+    insertMode = (/^INPUT|TEXTAREA|SELECT$/i.test(e.target.nodeName) or e.target.getAttribute("contenteditable")?)
 
-      return @stopPropagation e if /^(Control|Alt|Shift)$/.test(key)
-      # if vrome is in pass next mode, or disabled and using <C-Esc> to enable it.
-      return @enable() if not insertMode and (pass_next_key or (disableVrome and isCtrlEscapeKey(key)))
+    return @stopPropagation e if /^(Control|Alt|Shift)$/.test(key)
+    # if vrome is in pass next mode, or disabled and using <C-Esc> to enable it.
+    return @enable() if not insertMode and (passNextKey or (disableVrome and isCtrlEscapeKey(key)))
 
-      currentKeys = filterKey(currentKeys.concat(key), insertMode)
-      return if ignoreKey(currentKeys, insertMode)
+    currentKeys = filterKey(currentKeys.concat(key), insertMode)
+    return if ignoreKey(currentKeys, insertMode)
 
-      runCurrentKeys currentKeys, insertMode, e
-    catch err
-      Debug err
+    runCurrentKeys currentKeys, insertMode, e
 
 
 root = exports ? window
