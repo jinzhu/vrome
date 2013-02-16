@@ -24,11 +24,11 @@ class Dialog
     notice $(results[@selected]).addClass(selected_class).find("a").attr("href")
 
     $(".#{quick_num}").remove()
-    for result, index in results[@selected..@selected+9]
-      $(result).prepend $("<span>", {class: quick_num}).text(index+1)
+    for index in [0...9]
+      $(results[rabs(@selected + index, results.length)]).prepend $("<span>", {class: quick_num}).text(index+1)
 
-    $(".#{quick_num}").get(-1)?.scrollIntoViewIfNeeded()
-    $(".#{quick_num}").get(0)?.scrollIntoViewIfNeeded()
+    for index in [8..0]
+      $(".#{quick_num}:contains(#{index})").get(0)?.scrollIntoViewIfNeeded()
 
 
   notice = (msg) ->
