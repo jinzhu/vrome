@@ -80,13 +80,7 @@ class InsertMode
     line = 1 + text.replace(/[^\n]/g, "").length
     column = 1 + text.replace(/[^]*\n/, "").length
     elem.setAttribute "vrome_edit_id", edit_id
-    Post
-      action: "Editor.open",
-      callbackAction: "InsertMode.externalEditorCallBack"
-      data: elem.value
-      edit_id: edit_id
-      line: line
-      col: column
+    Post action: "Editor.open", callbackAction: "InsertMode.externalEditorCallBack", data: elem.value, edit_id: edit_id, line: line, col: column
 
   @externalEditorCallBack: (msg) ->
     $("[vrome_edit_id='#{msg.edit_id}']").val(msg.value).removeAttr("vrome_edit_id")
