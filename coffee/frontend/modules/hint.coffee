@@ -20,7 +20,7 @@ class Hint
     for elem, index in (@matched ? [])
       offset = $(elem).offset()
       class_name = (if (index + 1) == (@selected || 1) then "active" else "normal")
-      span = $("<span>", {class: class_name, text: index+1})
+      span = $("<span>", {class: class_name, text: numberToHintKey(index+1)})
       $(highlight_box).append span
       span.offset left: offset.left-5, top: offset.top
 
@@ -31,15 +31,39 @@ class Hint
   setSelected = (num) =>
     @selected = num
     freshHints()
-    CmdBox.set title: "HintMode (#{@selected})" if @selected > 0
+    CmdBox.set title: "HintMode (#{numberToHintKey(@selected)})" if @selected > 0
     setTimeout execCurrent, 200 if @selected * 10 > @matched.length
+
+  setCurrentKeys = (str) =>
+    @currentKeys = str
+    setSelected hintKeyToNumber(@currentKeys)
+
+  hintKeys = ->
+    hint_keys = "1234567890"
+    hint_keys = "asdfghjkl;"
+    # 1234567890 -> 0123456789
+    hint_keys[-1..-1] + hint_keys[0..-2]
+
+  numberToHintKey = (number) ->
+    key = ""
+    while number != 0
+      key = hintKeys()[number % hintKeys().length] + key
+      number = parseInt(number / hintKeys().length)
+    key.toUpperCase()
+
+  hintKeyToNumber = (keys) ->
+    number = 0
+    while keys != ""
+      number = (number * hintKeys().length) + hintKeys().indexOf(keys[0])
+      keys = keys[1..-1]
+    number
 
   @multi_mode_start: => @start true, true
   @new_tab_start: => @start true
   @start: (new_tab, multi_mode) =>
     [hintMode, newTab, multiMode] = [true, new_tab, multi_mode]
     setMatched(elements = (e for e in $(hintable).not("#_vrome_cmd_input_box") when isElementVisible(e)))
-    setSelected 0
+    setCurrentKeys ""
     CmdBox.set title: "HintMode", pressDown: handleInput, content: ""
 
   @remove: ->
@@ -51,9 +75,9 @@ class Hint
   handleInput = (e) =>
     currentKey = getKey(e)
 
-    # If user are inputing number
-    if /^\d$/.test(currentKey) or (currentKey is "<BackSpace>" and @selected isnt 0)
-      setSelected(if (currentKey is "<BackSpace>") then parseInt(@selected / 10) else @selected * 10 + Number(currentKey))
+    # If user are inputing hint keys
+    if (hintKeys().indexOf(currentKey) isnt -1) or (currentKey is "<BackSpace>" and @selected isnt 0)
+      setCurrentKeys(if (currentKey is "<BackSpace>") then @currentKeys[0..-2] else "#{@currentKeys}#{currentKey}")
       KeyEvent.stopPropagation(e)
     else
       # If key is not Accept key, Reset title
@@ -106,8 +130,8 @@ class Hint
 
     for elem in elems
       currentAction = getCurrentAction()
-      tag_name = $(elem).prop("tagName").toLowerCase()
-      type = $(elem).prop("type").toLowerCase()
+      tag_name = $(elem).prop("tagName")?.toLowerCase()
+      type = $(elem).prop("type")?.toLowerCase()
 
       if $.isFunction(currentAction)
         @remove() # No multiMode for extend mode
@@ -128,7 +152,7 @@ class Hint
           $(elem).focus()
 
         if multiMode
-          setSelected 0
+          setCurrentKeys ""
           CmdBox.set title: "HintMode"
         else
           setTimeout @remove, 200
