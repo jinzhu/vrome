@@ -1,12 +1,13 @@
 class Dialog
-  [dialogMode, searchFunc, sources, lastKeyword, newTab] = [null, null, null, null, null]
+  [dialogMode, searchFunc, lastKeyword, newTab] = [null, null, null, null, null]
 
-  [search_result, selected_class, selected_quick_num, notice_id] = ["__vrome_search_result", "__vrome_selected", "__vrome_selected_quick_index", "__vrome_dialog_notice"]
+  [search_result, selected_class, quick_num, notice_id] = ["__vrome_search_result", "__vrome_selected", "__vrome_quick_num", "__vrome_dialog_notice"]
 
 
   dialogBox = ->
-    $("body").prepend $("<div>", id: "__vrome_dialog") if $("#__vrome_dialog").length == 0
-    $("#__vrome_dialog").offset bottom: CmdBox.cmdBox().height()
+    if $("#__vrome_dialog").length == 0
+      $("body").prepend $("<div>", {id: "__vrome_dialog", style: "bottom: #{CmdBox.cmdBox().outerHeight()}px"})
+    $("#__vrome_dialog")
 
   setResultBox = (results, append=false) ->
     $(".#{search_result}").remove() unless append
@@ -14,27 +15,29 @@ class Dialog
       if $.isArray result
         setResultBox result, true
       else
-        dialogBox().append $("<div>", id: search_result).append result
+        dialogBox().append $("<div>", {class: search_result}).append result
     setSelected 0
 
   setSelected = (num=0) =>
-    @selected = num
+    [@selected, results] = [num, $(".#{search_result}")]
     $(".#{selected_class}").removeClass selected_class
-    notice $(results[@selected]).addClass(selected_class).attr("href")
+    notice $(results[@selected]).addClass(selected_class).find("a").attr("href")
 
+    $(".#{quick_num}").remove()
     for result, index in results[@selected..@selected+9]
-      $(result).prepend $("<span>", {class: selected_quick_num}).text(index+1)
+      $(result).prepend $("<span>", {class: quick_num}).text(index+1)
 
-    $(".#{selected_quick_num}").get(-1).scrollIntoViewIfNeeded()
-    $(".#{selected_quick_num}").get(0).scrollIntoViewIfNeeded()
+    $(".#{quick_num}").get(-1)?.scrollIntoViewIfNeeded()
+    $(".#{quick_num}").get(0)?.scrollIntoViewIfNeeded()
 
 
   notice = (msg) ->
     cmdBox = $(CmdBox.cmdBox())
     if $("##{notice_id}").length == 0
-      style = "bottom: 0 !important; right:#{cmdBox.width()}px !important; height:#{cmdBox.height()}px !important; line-height:#{cmdBox.height()}px !important; width: #{dialogBox().width() - cmdBox.width() - 12}px !important"
+      # 12 = padding-left (10) + border (1) x 2
+      style = "right: #{cmdBox.outerWidth()}px; height:#{cmdBox.outerHeight()}px; line-height:#{cmdBox.outerHeight()}px; width: #{dialogBox().outerWidth() - cmdBox.outerWidth() - 12}px"
       $("body").prepend $("<div>", id: notice_id, style: style)
-    $("##{notice_id}").val(msg)
+    $("##{notice_id}").text(msg)
 
 
   @start: (title, content, search_func, newtab, callback) ->
@@ -43,7 +46,7 @@ class Dialog
     searchFunc CmdBox.get().content
 
   @stop: (force) ->
-    return if not dialogMode or force
+    return unless dialogMode or force
     box.remove() for box in [dialogBox(), $("##{notice_id}"), CmdBox]
     dialogMode = false
 
@@ -61,19 +64,19 @@ class Dialog
           "<a href='#{source.url}'>#{source.title} -- #{source.url}</a>"
 
   next = (direction=1) =>
-    setSelected rabs(@selected + direction, sources.length)
+    setSelected rabs(@selected + direction, $(".#{search_result}").length)
 
   prev = (dirction=-1) ->
     next dirction
 
 
-  handleInput = (e) ->
+  handleInput = (e) =>
     key = getKey(e)
 
     if key.match(/<C-(\d)>|<Up>|<S-Tab>|<Down>|<Tab>|Control/)
       if key.match(/<C-(\d)>/)
         next Number(RegExp.$1)
-        openCurrent()
+        @openCurrent()
       prev() if key is Option.get("autocomplete_prev")
       next() if key is Option.get("autocomplete_next")
       prev 10 if key is Option.get("autocomplete_prev_10")
