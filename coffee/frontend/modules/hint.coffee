@@ -20,8 +20,9 @@ class Hint
     for elem, index in (@matched ? [])
       offset = $(elem).offset()
       class_name = (if (index + 1) == (@selected || 1) then "active" else "normal")
-      span = $("<span>", {class: class_name, style: "left:#{offset.left-5}px;top:#{offset.top}px;", text: index+1})
+      span = $("<span>", {class: class_name, text: index+1})
       $(highlight_box).append span
+      span.offset left: offset.left-5, top: offset.top
 
   setMatched = (elems) =>
     @matched = elems

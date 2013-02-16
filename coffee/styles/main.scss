@@ -32,6 +32,10 @@
 
 /* Hint Mode */
 #__vim_hint_highlight {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+
   span {
     position: absolute !important;
     background-color: #F00 !important;
