@@ -24,10 +24,12 @@ class Dialog
     notice $(results[@selected]).addClass(selected_class).find("a").attr("href")
 
     $(".#{quick_num}").remove()
-    for index in [0...9]
-      $(results[rabs(@selected + index, results.length)]).prepend $("<span>", {class: quick_num}).text(index+1)
+    max_num = Math.min(9, results.length-1)
 
-    for index in [8..0]
+    for index in [0..max_num]
+      $(results[rabs(@selected + index, results.length)]).prepend $("<span>", {class: quick_num}).text(index)
+
+    for index in [max_num..0]
       $(".#{quick_num}:contains(#{index})").get(0)?.scrollIntoViewIfNeeded()
 
 
@@ -66,22 +68,22 @@ class Dialog
   next = (direction=1) =>
     setSelected rabs(@selected + direction, $(".#{search_result}").length)
 
-  prev = (dirction=-1) ->
-    next dirction
+  prev = (dirction=1) ->
+    next -1*dirction
 
 
   handleInput = (e) =>
     key = getKey(e)
 
-    if key.match(/<C-(\d)>|<Up>|<S-Tab>|<Down>|<Tab>|Control/)
-      if key.match(/<C-(\d)>/)
+    if key.match(/<(?:C|M)-(\d)>|<Up>|<S-Tab>|<Down>|<Tab>|Control/)
+      KeyEvent.stopPropagation e
+      if key.match(/<(?:C|M)-(\d)>/)
         next Number(RegExp.$1)
         @openCurrent()
       prev() if key is Option.get("autocomplete_prev")
       next() if key is Option.get("autocomplete_next")
       prev 10 if key is Option.get("autocomplete_prev_10")
       next 10 if key is Option.get("autocomplete_next_10")
-      KeyEvent.stopPropagation e
       return
 
     setTimeout delayToWaitKeyDown, 20 unless isEscapeKey(key)
