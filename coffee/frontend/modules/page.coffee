@@ -20,12 +20,6 @@ class Page
   @transformURLs: ->
     document.body.innerHTML = document.body.innerHTML.transformURL()
 
-  @editURLInExternalEditor = ->
-    Post action: "Editor.open", data: window.location.href, callbackAction: "Page.editURLExternalEditorCallback"
-
-  @editURLExternalEditorCallback: (msg) ->
-    window.location.href = msg.value unless window.location.href is msg.value
-
   @next: ->
     execMatch Option.get("nextpattern")
 

@@ -261,11 +261,6 @@ CMDS =
       t: "go to root"
       k: "gU"
 
-    "Page.editURLInExternalEditor":
-      t: "edit URL in external editor"
-      k: "Ue"
-      s: 1
-
     "Url.open":
       t: "Open URLs or search"
       d: "Open URLs from your history, bookmarks, navigation or makes a search. \nUse <C-[0-9]> (red numbers) to open multiple links\nUse arrows to move Up and Down (view options)\nSupports relative paths e.g ../admin"
