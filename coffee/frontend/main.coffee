@@ -3,6 +3,9 @@ root = exports ? window
 root.Post = (msg) ->
   chrome.extension.sendMessage msg, (response) ->
 
+root.isControlKey = (key) ->
+  key in ["Control", "Shift", "Alt", "Win"]
+
 root.isCtrlAcceptKey = (key) ->
   key is "<C-Enter>"
 

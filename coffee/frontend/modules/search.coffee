@@ -11,22 +11,23 @@ class Search
       title: (if direction > 0 then "Forward search: ?" else "Backward search: /"),
       pressUp: handleInput, content: getSelected() || lastSearch || ""
 
-  handleInput = (e) =>
-    return  unless searchMode
-    @remove() unless /Enter/.test(getKey(e))
-    lastSearch = CmdBox.get().content
-    find lastSearch
-
   @stop: =>
     return unless searchMode
     searchMode = false
     @remove()
 
-  find = (keyword) ->
-    $('body').highlight(keyword)
-
   @remove: ->
-    $("body").unhighlight()
+    $("body").unhighlight(className: highlightClass)
+
+  handleInput = (e) =>
+    return  unless searchMode
+    @remove() unless /Enter/.test(getKey(e)) or isControlKey(getKey(e))
+    lastSearch = CmdBox.get().content
+    find lastSearch
+
+  find = (keyword) =>
+    $('body').highlight(keyword, className: highlightClass)
+    @next(0)
 
   @prev: => @next(-1)
 
@@ -42,10 +43,9 @@ class Search
     goto_node = $(nodes[goto_index])
 
     if isElementVisible(goto_node, true) # In full page
-      goto_node.attr "id", highlightCurrentId
-      $(goto_node).get(0)?.scrollIntoViewIfNeeded()
+      goto_node.attr("id", highlightCurrentId).get(0)?.scrollIntoViewIfNeeded()
 
-  @openCurrentNewTab: => @openCurrent(false)
+  @openCurrentNewTab: => @openCurrent(true)
 
   @openCurrent: (new_tab) ->
     return unless searchMode
