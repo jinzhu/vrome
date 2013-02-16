@@ -26,7 +26,7 @@ class Search
     $('body').highlight(keyword)
 
   @remove: ->
-    $("body").removeHighlight()
+    $("body").unhighlight()
 
   @prev: => @next(-1)
 
