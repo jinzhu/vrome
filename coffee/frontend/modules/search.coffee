@@ -1,19 +1,19 @@
 class Search
   [searchMode, direction, lastSearch, findTimeoutID] = [null, null, null, null]
-  [highlight_class, highlight_current_id] = ["__vrome_search_highlight", "__vrome_search_highlight_current"]
+  [highlightClass, highlightCurrentId] = ["__vrome_search_highlight", "__vrome_search_highlight_current"]
 
-  @backward: => start -1
+  @backward: => @start -1
 
   @start: (offset=1) ->
     [searchMode, direction] = [true, offset]
 
     CmdBox.set
       title: (if direction > 0 then "Forward search: ?" else "Backward search: /"),
-      pressUp: handleInput, content: getSelected() ? lastSearch ? ""
+      pressUp: handleInput, content: getSelected() || lastSearch || ""
 
   handleInput = (e) =>
     return  unless searchMode
-    @remove()
+    @remove() unless /Enter/.test(getKey(e))
     lastSearch = CmdBox.get().content
     find lastSearch
 
@@ -26,41 +26,30 @@ class Search
     $('body').highlight(keyword)
 
   @remove: ->
-    $("body").unhighlight()
+    $("body").removeHighlight()
 
   @prev: => @next(-1)
 
   @next: (step=1) ->
     return unless searchMode
     offset = direction * step * times()
-    nodes = $(".#{highlight_class}")
+    nodes = $(".#{highlightClass}")
 
     return false if nodes.length is 0
-    current_node = nodes.filter("##{highlight_current_id}").removeAttr("id")
-    current_index = nodes.indexOf(current_node)
+    current_node = nodes.filter("##{highlightCurrentId}").removeAttr("id")
+    current_index = Math.max 0, nodes.index(current_node)
     goto_index = rabs(current_index + offset, nodes.length)
     goto_node = $(nodes[goto_index])
 
     if isElementVisible(goto_node, true) # In full page
-      goto_node.attr "id", highlight_current_id
+      goto_node.attr "id", highlightCurrentId
       $(goto_node).get(0)?.scrollIntoViewIfNeeded()
 
   @openCurrentNewTab: => @openCurrent(false)
 
   @openCurrent: (new_tab) ->
-    return  unless searchMode
-    elem = $("##{highlight_current_id}").get(0)
-    clickElement elem, {ctrl: new_tab}
-
-  useSelectedValueAsKeyword = ->
-    lastSearch = getSelected()
-    lastSearch
-
-  @forwardCursor: ->
-    @start() if useSelectedValueAsKeyword()
-
-  @backwardCursor: ->
-    @start(true) if useSelectedValueAsKeyword()
+    return unless searchMode
+    clickElement $("##{highlightCurrentId}"), {ctrl: new_tab}
 
 
 root = exports ? window

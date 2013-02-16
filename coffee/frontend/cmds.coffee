@@ -496,30 +496,20 @@ CMDS =
   search:
     "Search.start":
       t: "start"
-      k: "/"
+      k: ["/", "*"]
 
     "Search.backward":
       t: "start backward"
-      k: "?"
+      k: ["?", "#"]
 
     "Search.next":
       t: "next"
-      k: "n"
+      k: ["n", "<Enter>"]
       c: 1
 
     "Search.prev":
       t: "previous"
       k: ["N", "<C-Enter>"]
-      c: 1
-
-    "Search.forwardCursor":
-      t: "search selected word forward"
-      k: "*"
-      c: 1
-
-    "Search.backwardCursor":
-      t: "search selected word backward"
-      k: "#"
       c: 1
 
     "Search.openCurrent":
