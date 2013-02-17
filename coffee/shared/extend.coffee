@@ -1,8 +1,8 @@
 String::startsWith = (str) ->
-  !!@match("^#{str.escapeRegExp}")
+  !!@match("^" + (str?.escapeRegExp() || ""))
 
 String::endsWith = (str) ->
-  @match(str + "$") is str
+  !!@match((str?.escapeRegExp() || "") + "$")
 
 String::escapeRegExp = ->
   # From MooTools core 1.2.4
@@ -32,10 +32,10 @@ String::trim = ->
 
 String::trimFirst = (str) -> # String || Array
   if typeof str is "string"
-    @replace(new RegExp("^#{str.escapeRegExp}")).trim()
+    @replace(new RegExp("^#{str.escapeRegExp()}")).trim()
   else
     result = this
-    result = result.replace(new RegExp("^#{s.escapeRegExp}")).trim() for s in str
+    result = result.replace(new RegExp("^#{s.escapeRegExp()}")).trim() for s in str
     result
 
 String::reverse = ->

@@ -18,11 +18,13 @@ class Hint
   freshHints = =>
     highlight_box = removeHighlightBox(true) # create_after_remove
     for elem, index in (@matched ? [])
-      offset = $(elem).offset()
-      class_name = (if (index + 1) == (@selected || 1) then "active" else "normal")
-      span = $("<span>", {class: class_name, text: numberToHintKey(index+1)})
+      hint_key = numberToHintKey(index+1)
+      class_name = "normal"
+      class_name = "active" if hint_key == (@currentKeys || numberToHintKey(1))
+      class_name = "hidden" unless hint_key.startsWith(@currentKeys)
+      span = $("<span>", {vrome_highlight: class_name, text: hint_key})
       $(highlight_box).append span
-      span.offset left: offset.left-5, top: offset.top
+      span.offset $(elem).offset()
 
   setMatched = (elems) =>
     @matched = elems
@@ -49,7 +51,7 @@ class Hint
     while number != 0
       key = hintKeys()[number % hintKeys().length] + key
       number = parseInt(number / hintKeys().length)
-    key.toUpperCase()
+    key
 
   hintKeyToNumber = (keys) ->
     number = 0

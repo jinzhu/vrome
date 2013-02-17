@@ -44,7 +44,8 @@
     font-size: 13px !important;
     min-width: 10px !important;
     font-weight: bold !important;
-    padding: 1.8px !important;
+    padding: 1px 3px !important;
+    border-radius: 3px !important;
     z-index: 2147483646 !important;
     line-height: 14px;
     width: auto;
@@ -52,12 +53,18 @@
     display: block;
     font-family:"Helvetica Neue", "Helvetica", "Arial", "Sans";
     opacity: 0.6 !important;
-    border-radius: 3px;
+    border: 1px solid #C91B05;
+    box-shadow: rgba(0, 0, 0, 0.298039) 0px 3px 7px 0px;
 
-    &.active {
+    &[vrome_highlight=active] {
       background-color: green !important;
       padding: 5px !important;
+      border: none !important;
       opacity: 0.8 !important;
+    }
+
+    &[vrome_highlight=hidden] {
+      display: none;
     }
   }
 }
