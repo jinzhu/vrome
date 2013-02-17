@@ -36,10 +36,6 @@
 
 
 ### Tabs manipulation ###
-            gp        Toggle Pin current tab. pin tab if unpinned, unpin it if pinned.
-            gP        Unpin all tabs in current window
-            WP        Unpin all tabs in all windows
-
     [count] gd        Duplicate current tab
             gD        Detach current tab to a new window.
             gI        Toggle incognito mode for current tab.
@@ -48,18 +44,6 @@
             gm        Marks tab for merging (can mark multiple tabs)
             gM        Marks all tabs in current window for merging
             gv        Moves marked tab(s) (merges)
-
-            B         Delete all matched tabs. (same as b)
-
-            <M-d>     Close current tab and select last selected tab.
-            D         Close current tab and select left tab
-            dc        Close current tab and select right tab.
-            dm        Close matched tabs. 
-            dp        Close unpinned tabs.
-            dP        Close pinned tabs.
-            dW        Close other windows
-
-    [count] u         Reopen the last closed tab.
 
 
 

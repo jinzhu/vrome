@@ -378,45 +378,44 @@ CMDS =
       c: 1
 
     "Tab.closeAndFoucsLeft":
-      t: "close and select left "
+      t: "Close current tab and select left tab"
       k: "D"
       c: 1
 
     "Tab.closeAndFoucsLast":
-      t: "close and select last"
+      t: "Close current tab and select last selected tab"
       k: "<M-d>"
       c: 1
 
     "Tab.closeOtherWindows":
-      t: "close other windows"
+      t: "Close other windows"
       k: "dW"
 
     "Tab.closeUnPinnedTabs":
-      t: "close unpinned "
+      t: "Close unpinned tabs"
       k: "dp"
 
     "Tab.closePinnedTabs":
-      t: "close pinned "
+      t: "Close pinned tabs"
       k: "dP"
 
     "Tab.togglePin":
       t: "pin"
-      d: "toggle pin on/off"
+      d: "Toggle current tab pin on/off"
       k: "gp"
 
     "Tab.unpinAllTabsInCurrentWindow":
-      t: "unpin all"
+      t: "Unpin all tabs in current window"
       k: "gP"
 
     "Tab.unpinAllTabsInAllWindows":
-      t: "unpin from all windows"
-      d: "unpin all tabs from all windows "
-      k: "WP"
+      t: "Unpin all tabs from all windows"
+      k: "gwP"
 
     "Tab.reopen":
-      t: "reopen closed"
-      d: "reopen closed tabs - use Ctrl+Shift+T"
+      t: "Reopen the last closed {count} tab"
       k: "u"
+      c: 1
 
     "Tab.duplicate":
       t: "duplicate"
