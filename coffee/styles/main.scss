@@ -99,6 +99,7 @@ $hint_font_size: 12px;
 /* Dialog */
 #__vrome_dialog {
   position: fixed !important;
+  bottom: 0px;
   right: 0 !important;
   width:750px !important;
   max-height: 90% !important;

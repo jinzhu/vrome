@@ -98,8 +98,7 @@ class Dialog
 
   @openCurrent: (keep_open) -> #Boolean
     return false if !dialogMode
-    current_element = $(".#{selected_class}").find("a").get(0)
-    clickElement current_element, {"ctrl": keep_open or newTab}
+    clickElement $(".#{selected_class}").find("a"), {"ctrl": keep_open or newTab}
     stop() unless keep_open
 
 
