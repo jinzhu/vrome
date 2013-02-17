@@ -65,13 +65,13 @@ class Tab
     Post action: "Tab.select", index: -1
 
   @close: (option={}) ->
-    Post $.extend option, action: "Tab.close"
+    Post $.extend option, action: "Tab.close", count: times(true)
 
   @closeAndFoucsLast: =>
-    @close focusLast: true, count: times()
+    @close focusLast: true
 
   @closeAndFoucsLeft: =>
-    @close offset: -1, count: times()
+    @close offset: -1
 
   @closeOtherTabs: =>
     @close type: "closeOther"

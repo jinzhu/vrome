@@ -354,30 +354,28 @@ CMDS =
       k: "gl"
 
     "Tab.selectPrevious":
-      t: "Go to last selected tab"
+      t: "Go to last selected or {count} tab"
       k: ["<C-6>", "<C-^>"]
       c: 1
 
     "Tab.close":
-      t: "close"
-      d: "close current tab + [count] on the right"
+      t: "Close current tab or {count} tabs and select right tab"
       k: "dc"
       c: 1
 
     "Tab.closeOtherTabs":
-      t: "close all others"
-      d: "close all tabs except selected tab"
+      t: "Close all tabs except current tab"
       k: "do"
 
     "Tab.closeLeftTabs":
-      t: "close all on the left"
-      d: "close all tabs on the left of selected tab"
+      t: "Close all or {count} tabs on the left"
       k: "dl"
+      c: 1
 
     "Tab.closeRightTabs":
-      t: "close all on the right"
-      d: "close all tabs on the right of selected tab"
+      t: "Close all or {count} tabs on the right"
       k: "dr"
+      c: 1
 
     "Tab.closeAndFoucsLeft":
       t: "close and select left "
