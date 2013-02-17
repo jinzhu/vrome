@@ -39,26 +39,21 @@ root.CtrlEscapeKeyFunction = ->
   CancelKeyFunction()
 
 
-extractFunction = (functionName, func) ->
+extractFunction = (functionName) ->
   func = (func ? root)[action] for action in functionName.split(".")
   func
 
 loadMapping = ->
   for catName, commands of CMDS
-    for fname, info of commands
-      func = extractFunction(fname, window)
+    for funcName, info of commands
+      func = extractFunction(funcName)
       if $.isFunction info.gk
         info.gk()
       else
-        keys = []
-        if typeof info.k is "string"
-          keys.push info.k
-        else
-          keys = info.k
-
+        keys = (if $.isArray(info.k) then info.k else [info.k])
         for key in keys
-          KeyEvent.add key, func, true  if info.i or info.both # imap
-          KeyEvent.add key, func  if not info.i or info.both # map
+          KeyEvent.add key, func, true  if info.m and ("i" in info.m) # insert mode
+          KeyEvent.add key, func  if not info.m or ("n" in info.m) # normal mode
 
 
 addErrorLogger = ->
