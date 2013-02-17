@@ -32,6 +32,8 @@
 }
 
 /* Hint Mode */
+$hint_back_color: #F00;
+$hint_font_size: 12px;
 #__vim_hint_highlight {
   position: absolute !important;
   top: 0 !important;
@@ -39,28 +41,38 @@
 
   span {
     position: absolute !important;
-    background-color: #F00 !important;
-    color: #fff !important;
-    font-size: 13px !important;
-    min-width: 10px !important;
-    font-weight: bold !important;
-    padding: 1px 2px !important;
-    border-radius: 3px !important;
+    background-color: darken($hint_back_color, 10%) !important;
+    color: #FFF !important;
+    line-height: $hint_font_size !important;
+    font-family: Mono, Deja Vu Sans Mono, Monaco;
+    font-weight: 700 !important;
+    font-size: $hint_font_size !important;
+    padding: 2px !important;
     z-index: 2147483646 !important;
-    line-height: 14px;
-    width: auto;
+    min-width: 10px;
     text-transform:uppercase;
     display: block;
-    font-family:"Helvetica Neue", "Helvetica", "Arial", "Sans";
-    opacity: 0.6 !important;
-    border: 1px solid #C91B05;
+    opacity: 0.7 !important;
+    border-radius: 3px !important;
+    border: 1px solid darken($hint_back_color, 20%);
     box-shadow: rgba(0, 0, 0, 0.298039) 0px 3px 7px 0px;
+
+    key {
+      color: lighten($hint_back_color, 50%) !important;
+      font-size: 6px !important;
+      margin-left: -3px;
+    }
 
     &[vrome_highlight=active] {
       background-color: green !important;
       padding: 5px !important;
       border: none !important;
       opacity: 0.8 !important;
+      key {
+        color: #fff !important;
+        font-size: $hint_font_size !important;
+        margin-left: 0;
+      }
     }
 
     &[vrome_highlight=hidden] {

@@ -22,7 +22,8 @@ class Hint
       class_name = "normal"
       class_name = "active" if hint_key == (@currentKeys || numberToHintKey(1))
       class_name = "hidden" unless hint_key.startsWith(@currentKeys)
-      span = $("<span>", {vrome_highlight: class_name, text: hint_key})
+      hint_key = $("<key>", text: @currentKeys).get(0).outerHTML + hint_key.trimFirst(@currentKeys) if @currentKeys
+      span = $("<span>", {vrome_highlight: class_name, html: hint_key})
       $(highlight_box).append span
       offset = $(elem).offset()
       span.offset left: offset.left-6, top: offset.top
