@@ -61,12 +61,3 @@
                 {     Copy selected element's text. [hint] `{` also looks like the C in Copy.
                       (check `?` in Hints Mode for more)
                 !     Filter links not matching keyword. (check `?` in Hints Mode for more)
-
-
-
-### Command Line Mode ###
-            :         Enter Command-line mode
-            :help     Open the help page.
-            :bdelete  Close all matched tabs. like `B` in normal mode e.g `:bd gm`
-            :mdelete  Delete a quick mark  e.g `:md e`
-
