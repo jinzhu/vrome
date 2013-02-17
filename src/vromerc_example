@@ -20,18 +20,11 @@ set autocomplete_next=<Tab>
 set autocomplete_prev_10=<Up>
 set autocomplete_next_10=<Down>
 
-" Rule for next/prev page. (Should written in RegExp)
-set nextpattern+=^NextPage|››$
-set previouspattern+=^PrevPage|‹‹$
-
 " set no status line -- i.e keys don't show as you type. enabled by default
 set showstatus=0
 
 " Change external editor, default is GVim
 set editor=gvim -f
-
-" Disable Vrome in those sites, Multiple URLs can be separated with ','
-set disablesites=mail.google.com, reader.google.com // don't run Vrome in those sites
 
 " Define search engines. the value should be valid json looks like below.
 " Please remember the first searchengine is the default one. in the below one, it is google
@@ -45,9 +38,6 @@ set defaultsearch=yahoo
 
 " Disable autocomplete
 set noautocomplete
-
-" Change enable vrome keybinding, default is <C-Esc>
-set enable_vrome_key=<Esc>
 
 " The server port is what external server running on
 " The external server is used to support launch the external editor in insert mode.

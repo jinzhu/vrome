@@ -1,16 +1,17 @@
-
-# commands are categorized (e.g global, tabs, page etc.)
+# Commands are categorized (e.g global, tabs, page etc)
 # legend for attributes
 ###
-t = title
-d = description
-k = keys (array or string)
-s = server required (boolean 1/0)
-o = associated options (JSON (option name => option description)
-c = count/times is supported (boolean 1/0)
-i = works in insert mode (boolean 1/0)
-both = exists in both insert mode and normal mode (boolean 1/0)
+t  = title
+d  = description
+k  = keys (array or string)
 gk = generated keys -- we use a function to determine the keys associated to that function
+s  = server required (boolean 1/0)
+o  = associated options
+ d = option description
+ e = option example
+c  = count/times is supported (boolean 1/0)
+m  = ["i", "n"] // support modes, i => insert mode, n => normal mode, default normal mode
+i  = true // ignore this command in help page
 ###
 
 root = exports ? window
@@ -22,10 +23,9 @@ root.CtrlEscapeKey = ["<C-Esc>"]
 CMDS =
   global:
     "Help.show":
-      t: "Help (Press again for more)"
-      d: "Press key again to expand details and again for options"
+      t: "Open help page (Press <F1> again to expand more details, Again for options)"
       k: "<F1>"
-      both: 1
+      m: ["i", "n"]
       c: 1
 
     "CmdLine.start":
@@ -35,161 +35,162 @@ CMDS =
     "AcceptKeyFunction":
       t: "Submit input"
       k: AcceptKey
-      both: 1
+      m: ["i", "n"]
+      i: true
 
     "CancelKeyFunction":
       t: "Cancel action"
       k: CancelKey
-      both: 1
+      m: ["i", "n"]
 
     "CtrlEscapeKeyFunction":
       t: "Enable Vrome when in pass-through"
       k: CtrlEscapeKey
-      both: 1
+      m: ["i", "n"]
 
     "Dialog.openCurrentNewTab":
       t: "Open selected URL in new tab"
       d: "When in a dialog, Open selected URL (highlighted background) in a new tab"
       k: "<C-Enter>"
-      both: 1
+      m: ["i", "n"]
 
     "KeyEvent.disable":
-      t: "disable vrome"
-      d: "ignore all keys passed to vrome - use <C-ESC> to enable"
+      t: "Disable vrome"
+      d: "Ignore all keys passed to vrome - use <C-ESC> to enable it"
       k: "<C-z>"
       o:
-        disablesites: "list of disabled sites"
-        enable_vrome_key: "key to enable vrome again"
+        disablesites: {
+          d: "Disable Vrome in those sites, Multiple URLs can be separated with ','"
+          e: "set disablesites=mail.google.com, reader.google.com"
+        }
+        enable_vrome_key: {
+          d: "Key to enable Vrome again"
+          e: "set enable_vrome_key=<Esc>"
+        }
 
     "KeyEvent.passNextKey":
-      t: "pass next key"
+      t: "Pass next key"
       k: "<C-v>"
 
     "KeyEvent.runLast":
-      t: "run last key"
+      t: "Repeat the last command"
       k: "."
       c: 1
 
   zoom:
     "Zoom.current_in":
-      t: "in"
+      t: "Zoom in, based on the beginning of the screen"
       k: "zi"
       c: 1
 
     "Zoom.current_out":
-      t: "out"
+      t: "Zoom out, based on the beginning of the screen"
       k: "zo"
       c: 1
 
     "Zoom.current_more":
-      t: "3x in"
+      t: "x3 Zoom in, based on the beginning of the screen"
       k: "zm"
       c: 1
 
     "Zoom.current_reduce":
-      t: "3x out"
+      t: "x3 Zoom out, based on the beginning of the screen"
       k: "zr"
       c: 1
 
     "Zoom.current_reset":
-      t: "reset"
+      t: "Zoom reset, based on the beginning of the screen"
       k: "zz"
 
     "Zoom.zoomIn":
-      t: "in"
+      t: "Zoom in, based on the center of the screen"
       k: "zI"
       c: 1
 
     "Zoom.out":
-      t: "out"
+      t: "Zoom out, based on the center of the screen"
       k: "zO"
       c: 1
 
     "Zoom.more":
-      t: "3x in"
+      t: "3x Zoom in, based on the center of the screen"
       k: "zM"
       c: 1
 
     "Zoom.reduce":
-      t: "3x in"
+      t: "3x Zoom out, based on the center of the screen"
       k: "zR"
       c: 1
 
     "Zoom.reset":
-      t: "reset"
+      t: "Zoom reset, based on the center of the screen"
       k: "zZ"
 
   scroll:
     "Scroll.top":
-      t: "Go to top"
-      d: "Scroll to the top of the page"
+      t: "Scroll to the top of the page"
       k: "gg"
 
     "Scroll.bottom":
-      t: "Go to bottom"
-      d: "Scroll to the bottom of the page"
+      t: "Scroll to the bottom of the page"
       k: "G"
 
     "Scroll.first":
-      t: "Go to beginning"
-      d: "Scroll to the beginning of the page"
+      t: "Scroll to the left of the page"
       k: "0"
 
     "Scroll.last":
-      t: "Go to end"
-      d: "Scroll to the end of the page"
+      t: "Scroll to the right of the page"
       k: "$"
 
     "Scroll.toPercent":
-      t: "Go to %"
-      d: "Scroll to {count}% of the page"
+      t: "Scroll to {count}% of the page"
       k: "%"
       c: 1
 
     "Scroll.up":
-      t: "up"
+      t: "Scroll up"
       k: "k"
       c: 1
 
     "Scroll.down":
-      t: "down"
+      t: "Scroll down"
       k: "j"
       c: 1
 
     "Scroll.left":
-      t: "left"
+      t: "Scroll left"
       k: "h"
       c: 1
 
     "Scroll.right":
-      t: "right"
+      t: "Scroll right"
       k: "l"
       c: 1
 
     "Scroll.nextPage":
-      t: "page forward"
+      t: "Scroll down {count} full page"
       k: "<C-f>"
       c: 1
 
     "Scroll.prevPage":
-      t: "page backward"
+      t: "Scroll up {count} full page"
       k: "<C-b>"
       c: 1
 
     "Scroll.nextHalfPage":
-      t: "half page forward"
+      t: "Scroll down {count} half page"
       k: "<C-d>"
       c: 1
 
     "Scroll.prevHalfPage":
-      t: "half page backward"
+      t: "Scroll up {count} half page"
       k: "<C-u>"
       c: 1
 
   page:
     "InsertMode.focusFirstTextInput":
-      t: "focus first"
-      d: "focus on first text input"
+      t: "Focus the {count} input field"
       k: "gi"
       c: 1
 
@@ -197,68 +198,72 @@ CMDS =
       t: "Paginate forward"
       k: "]]"
       o:
-        nextpattern: "Pattern(s) to match URLs"
+        nextpattern: {
+          d: "Pattern(s) for next page"
+          e: "set nextpattern+=^NextPage|››$ OR set nextpattern=['(下|后)一(页|頁)', '^Next$', '^>$']"
+        }
 
     "Page.prev":
       t: "Paginate backward"
       k: "[["
       o:
-        previouspattern: "Pattern(s) to match URLs"
+        previouspattern: {
+          d: "Pattern(s) for prev page"
+          e: "set previouspattern+=^PrevPage|‹‹$ OR set previouspattern=['(上|前)一(页|頁)', '^Prev(ious)?']"
+        }
 
     "Page.copySelected":
       t: "Copy selected text"
       k: "Y"
 
     "Frame.next":
-      t: "Next frame"
+      t: "Next {count} frame"
       k: "]f"
       c: 1
 
     "Frame.prev":
-      t: "Previous frame"
+      t: "Previous {count} frame"
       k: "[f"
       c: 1
 
     "Url.viewSource":
-      t: "View source"
+      t: "View source code in current tab"
       k: "gf"
 
     "Url.viewSourceNewTab":
-      t: "View source in new tab"
+      t: "View source code in new tab"
       k: "gF"
 
   url:
     "Tab.copyUrl":
-      t: "copy"
+      t: "Copy current URL to clipboard"
       k: "y"
 
     "Url.openFromClipboard":
-      t: "Open clipboard content"
-      d: "Go to URL or make a search"
+      t: "Open selected text or clipboard content in current tab. If not a valid URL, make a search"
       k: "p"
 
     "Url.openFromClipboardNewTab":
-      t: "Open clipboard content in new tab"
-      d: "Same as `p`"
+      t: "Same as `p`, but open selected text or clipboard content in new tab"
       k: "P"
 
     "Url.increment":
-      t: "Increment parameter"
+      t: "Increment the last number in URL by {count}"
       k: "<C-a>"
       c: 1
 
     "Url.decrement":
-      t: "decrement parameter"
+      t: "Decrement the last number in URL by {count}"
       k: "<C-x>"
       c: 1
 
     "Url.parent":
-      t: "Go to parent"
+      t: "Go to parent {count} URL"
       k: "gu"
       c: 1
 
     "Url.root":
-      t: "go to root"
+      t: "Go to the root of the website"
       k: "gU"
 
     "Url.open":
@@ -276,62 +281,65 @@ CMDS =
         open_tab_on_the_right: "Always open new tab next to active one"
 
     "Url.openWithDefault":
-      t: "Open URLs or search (edit current URL)"
-      d: "Same as `o`"
+      t: "Same as `o`, Open URLs or search (edit current URL)"
       k: "O"
 
     "Url.tabopen":
-      t: "Open URLs or search in a new tab"
-      d: "Same as `o`"
+      t: "Same as `o`, but open URLs or search in a new tab"
+      d: ""
       k: "t"
 
     "Url.tabopenWithDefault":
-      t: "Open URLs or search in a new tab (edit current URL)"
-      d: "Same as `o`"
+      t: "Same as `o`, but open URLs or search in a new tab (edit current URL)"
       k: "T"
 
     "Url.shortUrl":
-      t: "Shorten URL"
-      d: "Shorten URL and copy in clipboard"
+      t: "Copy shorten URL to clipboard"
+      d: "the URL is shortened by `http://goo.gl`, You can use your account after grand auth in option page"
       k: "<C-y>"
 
   tabs:
     "Tab.reload":
-      t: "reload"
+      t: "Reload current tab"
       k: "r"
 
     "Tab.reloadWithoutCache":
-      t: "reload  (no cache)"
+      t: "Reload  (no cache)"
       k: "<C-r>"
 
     "Tab.reloadAll":
-      t: "reload all "
+      t: "Reload all tabs"
       k: "R"
 
     "Tab.prev":
-      t: "previous"
+      t: "Go to left {count} tab"
       k: ["<C-p>", "gT"]
       c: 1
 
     "Tab.next":
-      t: "next"
+      t: "Go to right {count} tab"
       k: ["<C-n>", "gt"]
       c: 1
 
     "Tab.moveLeft":
-      t: "move left"
+      t: "Move tab {count} left"
       k: "gq"
       c: 1
 
     "Tab.moveRight":
-      t: "move right"
+      t: "Move tab {count} right"
       k: "ge"
       c: 1
 
     "Buffer.gotoFirstMatch":
-      t: "select first match"
-      d: "select first tab matching input"
+      t: "Go to {count} tab or the first matched tab where title / url matches string"
       k: "b"
+      c: 1
+
+    "Buffer.deleteMatch":
+      t: "Same as `b`, But close matched tabs"
+      k: ["dm", "B"]
+      c: 1
 
     "Tab.first":
       t: "select first"
@@ -394,11 +402,6 @@ CMDS =
     "Tab.closePinnedTabs":
       t: "close pinned "
       k: "dP"
-
-    "Buffer.deleteMatch":
-      t: "close any matching string"
-      d: "close tabs where title / url matches string"
-      k: ["dm", "B"]
 
     "Tab.togglePin":
       t: "pin"
