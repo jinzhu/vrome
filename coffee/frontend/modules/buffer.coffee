@@ -22,8 +22,11 @@ class Buffer
     CmdBox.remove()
 
   @deleteMatch: ->
-    bufferMatchMode = true
-    CmdBox.set title: "Delete Buffer", content: ""
+    if count = times(true)
+      Post action: "Tab.close", index: count - 1
+    else
+      bufferMatchMode = true
+      CmdBox.set title: "Delete Buffer", content: ""
 
 
 root = exports ? window

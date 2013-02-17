@@ -80,6 +80,7 @@ class Tab
 
   @close: (msg) =>
     [tab, cond, count] = [getTab(arguments), msg.type, Number(msg.count) || 1]
+    index = msg.index ? tab.index
 
     @selectPrevious.apply "", arguments  if msg.focusLast  # close and select last
     @select.apply "", arguments  if msg.offset  # close and select right/left
@@ -92,11 +93,11 @@ class Tab
           else if w.id is tab.windowId
             if (
               ((cond is 'closeOther') and (t.id isnt tab.id)) or
-              ((cond is 'closeLeft') and (t.index < tab.index)) or
-              ((cond is 'closeRight') and (t.index > tab.index)) or
+              ((cond is 'closeLeft') and (t.index < index)) or
+              ((cond is 'closeRight') and (t.index > index)) or
               ((cond is 'closePinned') and t.pinned) or
               ((cond is 'closeUnPinned') and !t.pinned) or
-              (not cond and (t.index >= tab.index) and (t.index < (tab.index + count)))
+              (not cond and (t.index >= index) and (t.index < (index + count)))
             )
               remove t
 
