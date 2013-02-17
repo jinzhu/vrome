@@ -37,7 +37,7 @@ class Tab
   @markForMerging: (option={}) ->
     Post $.extend option, action: "Tab.markForMerging"
 
-  @markAllForMerging: ->
+  @markAllForMerging: =>
     @markForMerging all: true
 
   @putMarkedTabs: ->

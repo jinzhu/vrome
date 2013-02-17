@@ -193,8 +193,8 @@ class Tab
     tab = getTab(arguments)
     return if Tab.marked_tabs.length == 0
 
-    chrome.tabs.move Tab.marked_tabs, {windowId: tab.windowId, index: tab.index + 1}, (tmp) ->
-      Post tab, {action: "CmdBox.set", title: "#{tmp.length} Tab(s) moved", timeout: 4000}
+    chrome.tabs.move Tab.marked_tabs, {windowId: tab.windowId, index: tab.index + 1}, (tabs) ->
+      Post tab, {action: "CmdBox.set", title: "#{if tab.windowId then 1 else tabs.length} Tab(s) moved", timeout: 4000}
       Tab.marked_tabs = []
 
   @addToClosedTabs: (tab) =>

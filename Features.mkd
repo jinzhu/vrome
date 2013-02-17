@@ -35,17 +35,6 @@
             Sd        Switch Chrome Default look -- requires server (check ccc_file option in [Example](https://github.com/jinzhu/vrome/wiki/vromerc-example-file))
 
 
-### Tabs manipulation ###
-    [count] gd        Duplicate current tab
-            gD        Detach current tab to a new window.
-            gI        Toggle incognito mode for current tab.
-                      (You need to enable Vrome in incognito mode, check chrome://extensions/)
-
-            gm        Marks tab for merging (can mark multiple tabs)
-            gM        Marks all tabs in current window for merging
-            gv        Moves marked tab(s) (merges)
-
-
 
 ### Marks ###
        M{a-zA-Z0-9}   Add new QuickMark for current URL.

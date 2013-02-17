@@ -418,33 +418,28 @@ CMDS =
       c: 1
 
     "Tab.duplicate":
-      t: "duplicate"
+      t: "Duplicate {count} current tab"
       k: "gd"
       c: 1
 
     "Tab.detach":
-      t: "detach"
-      d: "detach into a new window"
+      t: "Detach current tab to a new window"
       k: "gD"
 
     "Tab.openInIncognito":
-      t: "reopen in incognito"
-      d: "reopen tab in incognito mode - tab is reloaded"
+      t: "Toggle incognito mode for current tab (need to enable Vrome in incognito mode)"
       k: "gI"
 
     "Tab.markForMerging":
-      t: "merge mark"
-      d: "mark tab to be merged"
+      t: "Marks tab for merging (can mark multiple tabs)"
       k: "gm"
 
     "Tab.markAllForMerging":
-      t: "merge mark all"
-      d: "mark all tabs for merging"
+      t: "Marks all tabs in current window for merging"
       k: "gM"
 
     "Tab.putMarkedTabs":
-      t: "merge put"
-      d: "move marked tabs"
+      t: "Moves marked tab(s)"
       k: "gv"
 
   "history + bookmarks":
