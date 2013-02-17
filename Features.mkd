@@ -36,11 +36,6 @@
 
 
 ### Tabs manipulation ###
-            g0, g^    Go to first tab
-            g$        Go to last tab
-    [count] <C-^>     Go to last selected tab. if [count] is given, go to [count]th tab
-            gl        Go to last created tab
-
             gp        Toggle Pin current tab. pin tab if unpinned, unpin it if pinned.
             gP        Unpin all tabs in current window
             WP        Unpin all tabs in all windows

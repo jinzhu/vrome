@@ -350,13 +350,11 @@ CMDS =
       k: "g$"
 
     "Tab.selectLastOpen":
-      t: "select last opened"
-      d: "toggle between last selected tab"
+      t: "Go to last created tab"
       k: "gl"
 
     "Tab.selectPrevious":
-      t: "select last active "
-      d: "toggle between last selected tabs"
+      t: "Go to last selected tab"
       k: ["<C-6>", "<C-^>"]
       c: 1
 

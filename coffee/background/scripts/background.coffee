@@ -8,7 +8,9 @@ syncSettingAllTabs = ->
 syncSetting = (tab) ->
   Vromerc.loadLocal()
   return false unless tab
-  Tab.now_tab = tab if tab isnt Tab.now_tab
+  if tab isnt Tab.now_tab
+    Tab.lastTab = Tab.now_tab
+    Tab.now_tab = tab
 
 
 chrome.tabs.onCreated.addListener (tab) ->
@@ -27,11 +29,7 @@ chrome.tabs.onUpdated.addListener (tabId) ->
 
 chrome.tabs.onActivated.addListener (info) ->
   chrome.tabs.get info.tabId, (tab) ->
-    if tab
-      syncSetting tab
-      Tab.activeTabs[tab.windowId] ||= {}
-      Tab.activeTabs[tab.windowId]["last_tab_id"] = Tab.activeTabs[tab.windowId]["current_tab_id"]
-      Tab.activeTabs[tab.windowId]["current_tab_id"] = tab.id
+    syncSetting tab if tab
 
 
 chrome.tabs.onRemoved.addListener (tabId) ->

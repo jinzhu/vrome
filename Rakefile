@@ -38,7 +38,7 @@ task :build do
   Dir.chdir('src') do
     json["content_scripts"][0]["js"]  = Dir['shared/*.js'].sort_by {|x| x.length }.concat(Dir['frontend/modules/*.js']).concat(["frontend/cmds.js", "frontend/main.js"])
     json["content_scripts"][0]["css"] = ['styles/main.css']
-    json["background"]["scripts"] = Dir['shared/*.js'].concat(Dir['background/**/*.js']).concat(Dir['oauth/*.js'])
+    json["background"]["scripts"] = Dir['shared/*.js'].sort_by {|x| x.length }.concat(Dir['background/**/*.js']).concat(Dir['oauth/*.js'])
   end
 
   File.open(File.join(File.dirname(__FILE__),'src','manifest.json'),'w+') do |f|

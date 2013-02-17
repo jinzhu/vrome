@@ -1,5 +1,5 @@
 class Tab
-  [@closedTabs, @last_open_tabs, @marked_tabs, @activeTabs] = [[], [], [], {}]
+  [@closedTabs, @lastTab, @last_open_tabs, @marked_tabs] = [[], null, [], []]
 
   # close the tab and add it to closed tabs list
   remove = (tab) =>
@@ -112,10 +112,10 @@ class Tab
 
   @selectPrevious: ->
     tab = getTab(arguments)
-    chrome.tabs.update Tab.activeTabs[tab.windowId]["last_tab_id"], selected: true
+    chrome.tabs.update(Tab.lastTab.id, selected: true) if Tab.lastTab
 
   @selectLastOpen: (msg) =>
-    index = (Tab.last_open_tabs.length - msg.count) % Tab.last_open_tabs.length
+    index = rabs(Tab.last_open_tabs.length - msg.count, Tab.last_open_tabs.length)
     @update {active: true}, Tab.last_open_tabs[index]
 
   @toggleViewSource: (msg) =>
