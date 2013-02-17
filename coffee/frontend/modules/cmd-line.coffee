@@ -9,11 +9,16 @@ class CmdLine
     cmdLineMode = true
     Dialog.start "Command-line", "", filterCommands, false
 
+  onClickFuc = (command) ->
+    ->
+      keyword = CmdBox.get().content
+      command.func.call "", keyword.substring(keyword.indexOf(" "))
+      false
 
   filterCommands = (keyword) ->
     cmd = keyword.split(" ").shift()
     cuteCommands = for key, command of commands when key.startsWith cmd
-      {title: command.name, url: command.description}
+      title: command.name, url: command.description, onclick: onClickFuc(command)
     Dialog.draw urls: cuteCommands, keyword: ""
 
 

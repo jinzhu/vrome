@@ -621,7 +621,7 @@ CMDS =
 
 
 # TODO: add command line to help + mapping object
-CmdLine.add "help", "Open the help page", Help.show
+# CmdLine.add "help", "Open the help page", Help.show
 CmdLine.add "bdelete", "Close all matched tabs. like `B` in normal mode e.g `:bd gm`", Buffer.deleteMatchHandle, true
 CmdLine.add "mdelete", "Delete matched marks", Marks.deleteQuickMark, true
 CmdLine.add "make-links", "Transforms URLs into clickable links", Page.transformURLs

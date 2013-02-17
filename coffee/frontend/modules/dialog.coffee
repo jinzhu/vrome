@@ -61,9 +61,9 @@ class Dialog
     else
       setResultBox for source in sources
         if $.isArray(source.url)
-          "<a href='#{u}'>#{u}</a>" for u in source.url
+          $("<a>", {href:u, text:u}).click(source.onclick) for u in source.url
         else
-          "<a href='#{source.url}'>#{source.title} -- #{source.url}</a>"
+          $("<a>", {href: source.url, text: "#{source.title} -- #{source.url}"}).click(source.onclick)
 
   next = (direction=1) =>
     setSelected rabs(@selected + direction, $(".#{search_result}").length)
@@ -98,8 +98,8 @@ class Dialog
 
   @openCurrent: (keep_open) -> #Boolean
     return false if !dialogMode
-    href = $(".#{selected_class}").find("a").prop("href")
-    Post action: "Tab.openUrl", url: href, newtab: keep_open or newTab
+    current_element = $(".#{selected_class}").find("a").get(0)
+    clickElement current_element, {"ctrl": keep_open or newTab}
     stop() unless keep_open
 
 
