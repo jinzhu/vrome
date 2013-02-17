@@ -107,7 +107,7 @@ class Tab
     chrome.tabs.getAllInWindow tab.windowId, (tabs) ->
       index = Math.min(msg.index, tabs.length - 1) if typeof msg.index isnt "undefined"
       index = rabs(tab.index + msg.offset, tabs.length) if typeof msg.offset isnt "undefined"
-      chrome.tabs.update (tabs[index] ? tab).id, selected: true
+      chrome.tabs.update tabs.splice(index, 1)[0].id, selected: true
 
 
   @selectPrevious: ->

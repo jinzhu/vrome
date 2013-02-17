@@ -342,11 +342,11 @@ CMDS =
       c: 1
 
     "Tab.first":
-      t: "select first"
+      t: "Go to first tab"
       k: ["g0", "g^"]
 
     "Tab.last":
-      t: "select last"
+      t: "Go to last tab"
       k: "g$"
 
     "Tab.selectLastOpen":
