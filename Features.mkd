@@ -32,24 +32,6 @@
 
 					  If no search engine name is provided, default (google) one is used
 
-            Sd        Switch Chrome Default look -- requires server (check ccc_file option in [Example](https://github.com/jinzhu/vrome/wiki/vromerc-example-file))
-
-
-
-### Marks ###
-       M{a-zA-Z0-9}   Add new QuickMark for current URL.
-                      You can go to a marked URL in the current tab with go{a-zA-Z0-9} or in a new tab with gn{a-zA-Z0-9}.
-                      e.g: Go to `http://github.com`, associate `github.com` to quick mark `g` using `Mg`,
-                      Then you can use `gog` to open `http://github.com` in current tab. or `gng` to open it in a new tab.
-       go{a-zA-Z0-9}  Open marked URL in current tab. (check M{a-zA-Z0-9} for more)
-       gn{a-zA-Z0-9}  Open marked URL in new tab. (check M{a-zA-Z0-9} for more)
-
-       m{a-zA-Z}      Set mark at the cursor position. Marks a-z are local to the buffer, whereas A-Z are valid between buffers.
-                      e.g: When you are reading the first paragraph of an article, you can save your cursor position using `ma`
-                      When revisiting the page, jump to the location using `'a`
-       '{a-zA-Z}      Jump to the mark. Marks a-z are local to the buffer, whereas A-Z are valid between buffers.
-                      (check m{a-zA-Z} for more)
-
 
 ### Hints Mode ###
             f         Start Hint mode, All visible links/inputs are given a number.
@@ -62,23 +44,12 @@
 
                       We support hint mode with numbers (default) and strings/letters
 
-                      You can switch to strings instead of numbers by:
-                      `set useletters=1`
-
-                      If you want to customize the hint keys sequence:
-                      `set hintkeys=jlkhfsdagwerui`
 
                       If you need both numbers AND strings available. You need to map the commands to different keys. [Example](https://github.com/jinzhu/vrome/wiki/vromerc-example-file)
 
                       If you need to change the font-size or background-color. You can inject CSS using
                       `custom_begin_css and custom_end_css` [Example](https://github.com/jinzhu/vrome/wiki/vromerc-example-file)
 
-            F         Start Hint mode, but open links in new tabs. (check `f` for more)
-                       Note you can use the first letter as upper-case to open multiple links in a row
-                       Example: if we have hints such as `FA` `FS` `FD`
-                       You can enter hint mode and type `Fa` then simply enter `s` `d`
-
-            <M-f>     Start Hint mode, but open multiple links in a new tab. (check `f` for more)
 
             Also there are some extra commands when in the [input box]:
                 ?     Show information about an element.
@@ -92,34 +63,6 @@
                 !     Filter links not matching keyword. (check `?` in Hints Mode for more)
 
 
-### History ###
-    [count] H         Go [count] pages back.
-    [count] L         Go [count] pages forward.
-    [count] <C-o>     Go [count] pages back.
-    [count] <C-i>     Go [count] pages forward.
-            gh        Filter History with keyword. -- <Up>/<Down>/<Tab>/<S-Tab>/<Enter>/<C-Enter> could be used here.
-                      check Navigation:`o` - AutoComplete for more.
-            gH        Filter History with keyword, but open in new tab. (check `gh` for more)
-
-### Bookmark ###
-            gb        Filter bookmarks with keyword. <Up>/<Down>/<Tab>/<S-Tab>/<Enter>/<C-Enter> could be used here.
-                      check Navigation:`o` - AutoComplete for more.
-            gB        Filter bookmarks with keyword, but open in new tab. (check `gb` for more)
-
-### Search ###
-            /         Start forward search
-            ?         Start backward search
-            *         Search word under cursor
-            #         Backward Search word under cursor
-    [count] n         Search next
-    [count] N         Search previous
-            <Enter>   Search next
-            <C-Enter> Search previous
-            <S-Enter> Open  selected element in current tab.
-            <M-Enter> Open selected element in a new tab.
-
-
-
 
 ### Command Line Mode ###
             :         Enter Command-line mode
@@ -127,21 +70,3 @@
             :bdelete  Close all matched tabs. like `B` in normal mode e.g `:bd gm`
             :mdelete  Delete a quick mark  e.g `:md e`
 
-
-### Insert mode ###
-            <C-a>     Move to first words or select all
-            <C-e>     Move to end
-            <C-k>     Delete forwards to end of line.
-            <C-u>     Delete backwards to the beginning of the line.
-
-            <C-d>     Delete forward char
-            <C-h>     Delete backward char
-            <M-w>     Delete backward word
-            <M-d>     Delete forward word
-
-            <M-h>     Move back a word
-            <M-l>     Move forward a word
-            <M-j>     Move back a char
-            <M-k>     Move forward a char
-
-            <C-i>     Launch the external editor,default 'editor' is 'gvim -f'. #server

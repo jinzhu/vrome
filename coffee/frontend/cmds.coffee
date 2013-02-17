@@ -444,180 +444,189 @@ CMDS =
 
   "history + bookmarks":
     "History.back":
-      t: "back"
+      t: "Go {count} pages back"
       k: ["H", "<C-o>"]
       c: 1
 
     "History.forward":
-      t: "forward"
+      t: "Go {count} pages forward"
       k: ["L", "<C-i>"]
       c: 1
 
     "History.start":
-      t: "search + open"
+      t: "Filter History with keyword (support Dialog extend mode)"
       k: "gh"
 
     "History.new_tab_start":
-      t: "search + open (new tab)"
+      t: "Same as `gh`, but open in new tab (support Dialog extend mode)"
       k: "gH"
+
+    "Bookmark.start":
+      t: "Filter bookmarks with keyword (support Dialog extend mode)"
+      k: "gb"
+
+    "Bookmark.new_tab_start":
+      t: "Same as `gb`, but open in new tab (support Dialog extend mode)"
+      k: "gB"
 
   hints:
     "Hint.start":
-      t: "start"
-      d: "display hints on any clickable element on the page\n\nSub-actions are available e.g !f where ! is a sub-action and f a hint :\n; focus \n? show info \n[ copy URL \n{ copy text\n\\ open in incognito\n/ search\n"
+      t: "Start Hint mode"
+      d: "TODO"
       k: "f"
       o:
-        hintkeys: "keys used to generate hints\nuse `,` to optimize combinations e.g dsafrewq,tgcx\ndsafrewq will be used to create combinations and tgcx will be associated 1 key - 1 link (top elements)"
-        useletters: "toggle letters vs numbers"
-        hint_actions: "JSON mapping of existing actions"
+        hintkeys:
+          d: "Keys used to generate hints"
+          e: "set hintkeys=jlkhfsdagwerui"
+        useletters:
+          d: "Use letters or numbers to generate hints, if equal 0, then hintkeys will be ignored"
+          e: "set useletters=1"
 
     "Hint.new_tab_start":
-      t: "start in new tab"
+      t: "Same as `f`, but open in new tabs"
       k: "F"
 
     "Hint.multi_mode_start":
-      t: "restart hint mode after typing hint"
-      d: "use the first letter in upper case to select open more than one element\nExample: if we have hints such as `FA` `FS` `FD`\ntype `F` then `s` `d`"
+      t: "Same as `f`, but could open multiple links"
       k: "<M-f>"
 
   search:
     "Search.start":
-      t: "start"
+      t: "Start forward search (with selected text)"
       k: ["/", "*"]
 
     "Search.backward":
-      t: "start backward"
+      t: "Start backward search (with selected text)"
       k: ["?", "#"]
 
     "Search.next":
-      t: "next"
+      t: "Search next"
       k: ["n", "<Enter>"]
       c: 1
 
     "Search.prev":
-      t: "previous"
+      t: "Search previous"
       k: ["N", "<C-Enter>"]
       c: 1
 
     "Search.openCurrent":
-      t: "open"
-      d: "open match"
+      t: "Open selected element in current tab"
       k: "<S-Enter>"
       both: 1
 
     "Search.openCurrentNewTab":
-      t: "open (new tab)"
+      t: "Open selected element in a new tab"
       k: "<M-Enter>"
       both: 1
 
   insert:
     "InsertMode.externalEditor":
-      t: "open active input in external editor"
-      d: "sends copy of input to server and open content on gvim then pastes it"
+      t: "Launch the external editor"
       k: "<C-i>"
       s: 1
-      i: 1
+      m: ["i"]
       o:
-        editor: "editor command"
+        editor:
+          d: "Set editor command,default 'editor' is 'gvim -f'"
+          e: "set editor=gvim -f"
 
     "InsertMode.moveToFirstOrSelectAll":
-      t: "move to beginning or select all"
+      t: "Move to first words or select all"
       k: "<C-a>"
-      i: 1
+      m: ["i"]
 
     "InsertMode.moveToEnd":
-      t: "move to end"
+      t: "Move to end"
       k: "<C-e>"
-      i: 1
+      m: ["i"]
 
     "InsertMode.deleteToBegin":
-      t: "delete to beginning"
+      t: "Delete to the beginning of the line"
       k: "<C-u>"
-      i: 1
+      m: ["i"]
 
     "InsertMode.deleteToEnd":
-      t: "delete to end"
+      t: "Delete forwards to end of line"
       k: "<C-k>"
-      i: 1
+      m: ["i"]
 
     "InsertMode.deleteBackwardWord":
-      t: "delete backward word"
+      t: "Delete backward word"
       k: ["<M-y>", "<C-h>", "<M-w>"]
-      i: 1
+      m: ["i"]
 
     "InsertMode.deleteForwardWord":
-      t: "delete forward word"
+      t: "Delete forward word"
       k: ["<M-o>", "<C-l>", "<M-d>"]
-      i: 1
+      m: ["i"]
 
     "InsertMode.deleteBackwardChar":
-      t: "backspace"
+      t: "Delete backward char"
       k: ["<M-u>", "<C-h>"]
-      i: 1
+      m: ["i"]
 
     "InsertMode.deleteForwardChar":
-      t: "delete forward character"
+      t: "Delete forward char"
       k: ["<M-i>", "<C-d>"]
-      i: 1
+      m: ["i"]
 
     "InsertMode.MoveBackwardWord":
-      t: "move one word backwards"
+      t: "Move one word backwards"
       k: "<M-h>"
-      i: 1
+      m: ["i"]
 
     "InsertMode.MoveForwardWord":
-      t: "move one word forwards"
+      t: "Move one word forwards"
       k: "<M-l>"
-      i: 1
+      m: ["i"]
 
     "InsertMode.MoveBackwardChar":
-      t: "move one char backwards"
+      t: "Move one char backwards"
       k: "<M-j>"
-      i: 1
+      m: ["i"]
 
     "InsertMode.MoveForwardChar":
-      t: "move one char forwards"
+      t: "Move one char forwards"
       k: "<M-k>"
-      i: 1
+      m: ["i"]
 
   marks:
     "Marks.addLocalMark":
-      t: "local mark"
-      d: "mark position x,y on the page e.g ma"
+      t: "Add local mark"
+      d: "Mark position x,y on the page e.g ma"
       k: "m [a-z][0-9]"
       gk: ->
         for num in [65..122] when num not in [91..96]
           KeyEvent.add "m" + String.fromCharCode(num), Marks.addLocalMark
 
     "Marks.gotoLocalMark":
-      t: "go to local mark"
-      d: "go to marked position on the page e.g 'a"
+      t: "Go to local mark"
+      d: "Go to marked position on the page e.g 'a"
       k: "' [a-z][0-9]"
       gk: ->
         for num in [65..122] when num not in [91..96]
           KeyEvent.add "'" + String.fromCharCode(num), Marks.gotoLocalMark
 
     "Marks.addQuickMark":
-      t: "add quick mark"
-      d: "associate mark to URL"
+      t: "Add new quick mark for current URL"
       k: "M"
 
     "Marks.gotoQuickMark":
-      t: "go to quick mark"
-      d: "open dialog + type mark and URL is opened"
+      t: "Go to quick mark (support Dialog extend mode)"
       k: "go"
 
     "Marks.gotoQuickMarkNewTab":
-      t: "go to quick mark (new tab)"
+      t: "Same as `go`, but open in new tab (support Dialog extend mode)"
       k: "gn"
 
-    "Bookmark.start":
-      t: "search bookmarks + open"
-      k: "gb"
 
-    "Bookmark.new_tab_start":
-      t: "search bookmarks + open (new tab)"
-      k: "gB"
+# TODO: add command line to help + mapping object
+CmdLine.add "help", "Open the help page", Help.show
+CmdLine.add "bdelete", "Close all matched tabs. like `B` in normal mode e.g `:bd gm`", Buffer.deleteMatchHandle, true
+CmdLine.add "mdelete", "Delete matched marks", Marks.deleteQuickMark, true
+CmdLine.add "make-links", "Transforms URLs into clickable links", Page.transformURLs
+CmdLine.add "options", "Opens options page", Page.openOptions
+CmdLine.add "toggle-images", "Toggle images", Page.hideImages
 
 root = exports ? window
 root.CMDS = CMDS

@@ -61,27 +61,12 @@ loadMapping = ->
           KeyEvent.add key, func  if not info.i or info.both # map
 
 
-  KeyEvent.add "<C-Enter>", Search.prev, true
-
-
-addCmdLineCommands = ->
-  # TODO: add command line to help + mapping object
-  CmdLine.add "help", "show help ", Help.show
-  CmdLine.add "bdelete", "buffer delete match", Buffer.deleteMatchHandle, true
-  CmdLine.add "mdelete", "mark delete match", Marks.deleteQuickMark, true
-  CmdLine.add "make-links", "transforms URLs into clickable links", Page.transformURLs
-  CmdLine.add "options", "opens options page", Page.openOptions
-  CmdLine.add "toggle-images", "toggle images", Page.hideImages
-
-
 addErrorLogger = ->
   window.addEventListener "error", ((err) ->
     Debug err
   ), false
 
 try
-  addCmdLineCommands()
-  addErrorLogger()
   loadMapping()
   runIt [Zoom.init, KeyEvent.init, addErrorLogger]
   runIt [Frame.register, Custom.runJS, Custom.loadCSS]
