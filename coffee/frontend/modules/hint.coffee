@@ -35,7 +35,7 @@ class Hint
   setSelected = (num) =>
     @selected = num
     freshHints()
-    CmdBox.set title: "HintMode (#{numberToHintKey(@selected)})" if @selected > 0
+    CmdBox.set title: (if @selected > 0 then "HintMode (#{numberToHintKey(@selected)})" else "HintMode")
     setTimeout execCurrent, 200 if (@selected * hintKeys().length) > @matched.length
 
   setCurrentKeys = (str) =>
@@ -79,7 +79,7 @@ class Hint
   handleInput = (e) =>
     currentKey = getKey(e)
 
-    # If user are inputing hint keys
+    # If it is hint key
     if (hintKeys().indexOf(currentKey) isnt -1) or (currentKey is "<BackSpace>" and @selected isnt 0)
       setCurrentKeys(if (currentKey is "<BackSpace>") then @currentKeys[0..-2] else "#{@currentKeys}#{currentKey}")
       KeyEvent.stopPropagation(e)
