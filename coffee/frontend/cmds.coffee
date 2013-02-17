@@ -476,7 +476,6 @@ CMDS =
       o:
         hintkeys: "keys used to generate hints\nuse `,` to optimize combinations e.g dsafrewq,tgcx\ndsafrewq will be used to create combinations and tgcx will be associated 1 key - 1 link (top elements)"
         useletters: "toggle letters vs numbers"
-        hints_highlight: "toggle highlighting"
         hint_actions: "JSON mapping of existing actions"
 
     "Hint.new_tab_start":

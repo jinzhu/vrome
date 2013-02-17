@@ -19,10 +19,8 @@ class Option
     autocomplete_prev: "<Up>"
     autocomplete_next_10: "<Tab>"
     autocomplete_prev_10: "<S-Tab>"
-    hintkeys: "jlkhfsdagwerui"
-    hints_highlight: 1
-    useletters: 0
-    allow_numeric: 0
+    hintkeys: "asdfghjklqwertyuiopzxcvbnm"
+    useletters: 1
     showstatus: 1
 
   @get: (key) ->

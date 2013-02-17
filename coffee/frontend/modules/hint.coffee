@@ -43,8 +43,10 @@ class Hint
     setSelected hintKeyToNumber(@currentKeys)
 
   hintKeys = ->
-    hint_keys = "1234567890"
-    hint_keys = "asdfghjklqwertyuiopzxcvbnm"
+    hint_keys = if Option.get("useletters") is 1
+      Option.get("hintkeys") || "asdfghjklqwertyuiopzxcvbnm"
+    else
+      "1234567890"
     # 1234567890 -> 0123456789
     hint_keys[-1..-1] + hint_keys[0..-2]
 
