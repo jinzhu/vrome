@@ -24,7 +24,8 @@ class Hint
       class_name = "hidden" unless hint_key.startsWith(@currentKeys)
       span = $("<span>", {vrome_highlight: class_name, text: hint_key})
       $(highlight_box).append span
-      span.offset $(elem).offset()
+      offset = $(elem).offset()
+      span.offset left: offset.left-6, top: offset.top
 
   setMatched = (elems) =>
     @matched = elems
@@ -34,7 +35,7 @@ class Hint
     @selected = num
     freshHints()
     CmdBox.set title: "HintMode (#{numberToHintKey(@selected)})" if @selected > 0
-    setTimeout execCurrent, 200 if @selected * 10 > @matched.length
+    setTimeout execCurrent, 200 if (@selected * hintKeys().length) > @matched.length
 
   setCurrentKeys = (str) =>
     @currentKeys = str
@@ -42,7 +43,7 @@ class Hint
 
   hintKeys = ->
     hint_keys = "1234567890"
-    hint_keys = "asdfghjkl;"
+    hint_keys = "asdfghjklqwertyuiopzxcvbnm"
     # 1234567890 -> 0123456789
     hint_keys[-1..-1] + hint_keys[0..-2]
 
