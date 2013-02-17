@@ -15,10 +15,14 @@ class CmdLine
       command.func.call "", keyword.substring(keyword.indexOf(" "))
       false
 
+  onSelectFunc = (e) ->
+    e.target
+
+
   filterCommands = (keyword) ->
     cmd = keyword.split(" ").shift()
     cuteCommands = for key, command of commands when key.startsWith cmd
-      title: command.name, url: command.description, onclick: onClickFuc(command)
+      title: command.name, url: command.description, onclick: onClickFuc(command), onselect: onSelectFunc
     Dialog.draw urls: cuteCommands, keyword: ""
 
 

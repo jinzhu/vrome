@@ -21,7 +21,7 @@ class Dialog
   setSelected = (num=0) =>
     [@selected, results] = [num, $(".#{search_result}")]
     $(".#{selected_class}").removeClass selected_class
-    notice $(results[@selected]).addClass(selected_class).find("a").attr("href")
+    notice $(results[@selected]).addClass(selected_class).find("a").trigger("onselect").attr("href")
 
     $(".#{quick_num}").remove()
     max_num = Math.min(9, results.length-1)
@@ -59,11 +59,15 @@ class Dialog
     if sources.length is 0
       setResultBox [$("<div>").html("No results found!")]
     else
+      buildResult = (s, href) ->
+        title = (if s.title then "#{s.title} -- " else "")
+        $("<a>", {href: href, title: s.title, text: "#{title}#{s.url}", click: s.onclick}).bind("onselect", s.onselect)
+
       setResultBox for source in sources
         if $.isArray(source.url)
-          $("<a>", {href:u, text:u}).click(source.onclick) for u in source.url
+          buildResult(source, u) for u in source.url
         else
-          $("<a>", {href: source.url, text: "#{source.title} -- #{source.url}"}).click(source.onclick)
+          buildResult(source, source.url)
 
   next = (direction=1) =>
     setSelected rabs(@selected + direction, $(".#{search_result}").length)
