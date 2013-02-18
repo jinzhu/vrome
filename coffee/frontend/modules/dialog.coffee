@@ -79,6 +79,9 @@ class Dialog
   handleInput = (e) =>
     key = getKey(e)
 
+    if key.match(/<Tab>/) and CmdBox.get().selection?.length
+      CmdBox.softSet content: CmdBox.get().content, select_last: true
+
     if key.match(/<(?:C|M)-(\d)>|<Up>|<S-Tab>|<Down>|<Tab>|Control/)
       KeyEvent.stopPropagation e
       if key.match(/<(?:C|M)-(\d)>/)
