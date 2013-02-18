@@ -93,7 +93,7 @@ class Dialog
       next 10 if key is Option.get("autocomplete_next_10")
       return
 
-    setTimeout delayToWaitKeyDown, 20 unless isEscapeKey(key)
+    setTimeout delayToWaitKeyDown, 100 unless isEscapeKey(key)
 
   delayToWaitKeyDown = ->
     keyword = CmdBox.get().content

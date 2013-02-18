@@ -17,10 +17,12 @@ class CmdLine
 
   onSelectFunc = (e) ->
     [title, content] = [$(e.target).attr("title"), CmdBox.get()._content]
-    CmdBox.softSet content: title + " ", selection: title.trimFirst(content) if title.startsWith(content)
+    title = title + " "
+    CmdBox.softSet content: title, selection: title.trimFirst(content) if title.startsWith(content)
 
 
-  filterCommands = (keyword) ->
+  filterCommands = () ->
+    keyword = CmdBox.get()._content
     cmd = keyword.split(" ").shift()
     cuteCommands = for key, command of commands when key.startsWith cmd
       title: command.name, url: command.description, onclick: onClickFuc(command), onselect: onSelectFunc

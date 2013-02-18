@@ -1,39 +1,34 @@
-Show topSites in open/tabopen
-chrome.pageCapture
-captureVisibleTab (save current page)
-Settings - chrome storage
-chrome.commands
+Bugs:
+  coffee/frontend/modules/cmd-line.coffee Review & Simplize it
+  coffee/frontend/modules/page.coffee     transformURLs
+  coffee/frontend/modules/frame.coffee    (Don't works as except)
+  coffee/frontend/modules/tab.coffee      Merge normal to incognito, new tab don't hide dialog, gI toggle openInIncognito
+  coffee/frontend/modules/custom.coffee   Setting, Add to README
+  coffee/shared/settings.coffee           Settings not synced correctly
+  coffee/frontend/modules/marks.coffee    Settings not synced correctly
+  coffee/frontend/modules/key-event.coffee . doesn't work
+  coffee/frontend/modules/help.coffee
 
+Features:
+  Rewrite CommandLine
+  Show topSites in open/tabopen
+  Rewrite QuickMarks
+  Rewrite vromerc_example
+  Rewrite features page
+  Rewrite option page
+  Per host Vromerc
+  Source 'js/css'
+  Extend Commandline: quit, save page (chrome.pageCapture, captureVisibleTab)
+  Rewrite Settings - chrome storage
+  Dialog sort results
+  Rewrite README. start the project in github
+  Allow user to associate keys to function names
+  Review O. <C-[0-9]> should open in a new tab
+  ch -> Change subdomain -> Select available subdomains from dialog
+  AutoRefresh
 
-186
+  ? chrome.commands
 
-- build cmds
-- add custom mapping
-- log tickets about issues
-- allow user to associate keys to function names
-- implement 3 level ?
-- identify commands without a keyboard shortcut
-- clean up css
-- add input for filtering
-- change default mapping
-- free the `t` and use `O` instead
-
-
-- removed zoom commands
-- page next + previous should handle times
-- review O. <C-[0-9]> should open in a new tab
-- add option to include current url in highlight for both `o` and `O`
-- add command to open options page e.g :opts
-
-
-------------------------------------------
-
-
-cs subdomain -> magic mode ;) create some subdomain let use choose one from it)
-ch hostname
-
-auto refresh
-omni box
 
 NO AVAILABLE API:
   ~   Open home directory
