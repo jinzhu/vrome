@@ -26,7 +26,16 @@ class CmdLine
   filterCommands = () ->
     keyword = CmdBox.get()._content
     cmd = keyword.split(" ").shift()
-    cuteCommands = for key, command of commands when key.startsWith cmd
+
+    available = []
+    add_to_available = (command) ->
+      available.push(command) if command not in available
+    add_to_available(command) for key, command of commands when key.startsWith(cmd)
+    add_to_available(command) for key, command of commands when key.indexOf(cmd) isnt -1
+    regexp = RegExp(keyword.split('').join(".*"))
+    add_to_available(command) for key, command of commands when regexp.test(key)
+
+    cuteCommands = for command in available
       title: command.name, url: command.description, onclick: onClickFuc(command), onselect: onSelectFunc
     Dialog.draw urls: cuteCommands, keyword: ""
 

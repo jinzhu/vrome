@@ -628,8 +628,8 @@ CmdLine.add "toggle-images", "Toggle images", Page.hideImages
 # CmdLine.add "make-links", "Transforms URLs into clickable links", Page.transformURLs
 
 for url in ['downloads', 'bookmarks', 'history', 'chrome_help', 'settings', 'extensions', 'github', 'issues', 'options']
-  CmdLine.add "open_#{url}", "Open #{url} page", Links[url]
   CmdLine.add "open_#{url}!", "Open #{url} page in new tab", Links[url]
+  CmdLine.add "open_#{url}", "Open #{url} page", Links[url]
 
 
 root = exports ? window
