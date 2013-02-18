@@ -16,7 +16,7 @@ class Buffer
     [tab, keyword] = [getTab(arguments), msg.keyword]
 
     chrome.tabs.getAllInWindow tab.windowId, (tabs) ->
-      Tab.close tab for tab in getMatchedTabs(tabs, keyword)
+      Tab.close(tab) for tab in getMatchedTabs(tabs, keyword)
 
 
 root = exports ? window

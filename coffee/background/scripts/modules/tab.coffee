@@ -79,7 +79,7 @@ class Tab
 
 
   @close: (msg) =>
-    [tab, cond, count] = [getTab(arguments), msg.type, msg.count]
+    [tab, cond, count] = [getTab(arguments), msg.type, msg.count ? 0]
     index = msg.index ? tab.index
 
     @selectPrevious.apply "", arguments  if msg.focusLast  # close and select last
