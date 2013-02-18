@@ -3,7 +3,7 @@ class Bookmark
     Post action: "Bookmark.search", keyword: keyword
 
   @start: (new_tab) ->
-    Dialog.start "Bookmark", "", search, new_tab
+    Dialog.start title: "Bookmark", search: search, newtab: new_tab
 
   @new_tab_start: => @start(true)
 

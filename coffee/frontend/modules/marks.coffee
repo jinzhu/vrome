@@ -3,14 +3,14 @@ class Marks
 
   @addQuickMark: ->
     marks = Settings.get("url_marks") or {}
-    Dialog.start "Add Quick Mark", "", filterQuickMarks, false, handleEnterKey
+    Dialog.start title: "Add Quick Mark", search: filterQuickMarks, callback: handleEnterKey
 
   @gotoQuickMarkNewTab: => @gotoQuickMark.call this, true
 
   @gotoQuickMark: (newtab) -> #Boolean
     marks = Settings.get("background.url_marks") or {}
     title = (if newtab then "Open Quick Mark (new tab)" else "Open Quick Mark")
-    Dialog.start title, "", filterQuickMarks, newtab, handleGotoKeydown
+    Dialog.start title: title, search: filterQuickMarks, newtab: newtab, callback: handleGotoKeydown
 
   @addLocalMark: ->
     key = getKey(this)

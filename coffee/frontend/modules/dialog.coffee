@@ -1,5 +1,5 @@
 class Dialog
-  [dialogMode, searchFunc, lastKeyword, newTab] = [null, null, null, null, null]
+  [dialogMode, searchFunc, tabFunc, lastKeyword, newTab] = [null, null, null, null, null]
 
   [search_result, selected_class, quick_num, notice_id] = ["__vrome_search_result", "__vrome_selected", "__vrome_quick_num", "__vrome_dialog_notice"]
 
@@ -42,9 +42,9 @@ class Dialog
     $("##{notice_id}").text(msg)
 
 
-  @start: (title, content, search_func, newtab, callback) ->
-    [dialogMode, lastKeyword, newTab, searchFunc] = [true, null, newtab, search_func]
-    CmdBox.set title: title, pressDown: handleInput, pressUp: callback, content: content
+  @start: (o) ->
+    [dialogMode, lastKeyword, newTab, searchFunc, tabFunc] = [true, null, o.newtab, o.search, o.ontab]
+    CmdBox.set title: o.title, pressDown: handleInput, pressUp: o.callback, content: o.content ? ""
     searchFunc CmdBox.get().content
 
   @stop: (force) ->
@@ -79,8 +79,9 @@ class Dialog
   handleInput = (e) =>
     key = getKey(e)
 
-    if key.match(/<Tab>/) and CmdBox.get().selection?.length
-      CmdBox.softSet content: CmdBox.get().content, select_last: true
+    if key.match(/<Tab>/) and tabFunc and tabFunc.call('', e)
+      KeyEvent.stopPropagation e
+      return true
 
     if key.match(/<(?:C|M)-(\d)>|<Up>|<S-Tab>|<Down>|<Tab>|Control/)
       KeyEvent.stopPropagation e
@@ -103,9 +104,12 @@ class Dialog
   @open: (keep_open) =>
     setTimeout @openCurrent, 500, keep_open
 
-  @openCurrent: (keep_open) -> #Boolean
+  @current: ->
+    $(".#{selected_class} a")
+
+  @openCurrent: (keep_open) => #Boolean
     return false if !dialogMode
-    clickElement $(".#{selected_class}").find("a"), {"ctrl": keep_open or newTab}
+    clickElement @current(), {"ctrl": keep_open or newTab}
     stop() unless keep_open
 
 

@@ -6,7 +6,7 @@ class Url
   @open: (with_default, new_tab) ->
     title = (if new_tab then 'TabOpen: ' else 'Open: ')
     content = (if with_default then location.href else '')
-    Dialog.start title, content, search, new_tab
+    Dialog.start title: title, content: content, search: search, newtab: new_tab
 
 
   search = (keyword) ->

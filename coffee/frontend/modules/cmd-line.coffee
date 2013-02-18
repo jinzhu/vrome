@@ -7,7 +7,7 @@ class CmdLine
 
   @start: ->
     cmdLineMode = true
-    Dialog.start "Command-line", "", filterCommands, false
+    Dialog.start title: "Command-line", search: searchCommands, ontab: onTabFunc
 
   onClickFuc = (command) ->
     ->
@@ -22,8 +22,20 @@ class CmdLine
     if title.startsWith(content) and not content.startsWith(title.trim())
       CmdBox.softSet content: title, selection: title.trimFirstStr(content)
 
+  onTabFunc = (e) ->
+    result = false
+    if (CmdBox.get().selection?.length)
+      CmdBox.softSet content: CmdBox.get().content, select_last: true
+      return true
 
-  filterCommands = () ->
+    [title, contents] = [Dialog.current()?.attr("title") || "", CmdBox.get().content.split(" ")]
+    if !title.startsWith(contents[0])
+      contents[0] = title
+      CmdBox.softSet content: contents.join(" ").trim() + " "
+      return true
+    false
+
+  searchCommands = () ->
     keyword = CmdBox.get()._content
     cmd = keyword.split(" ").shift()
 
