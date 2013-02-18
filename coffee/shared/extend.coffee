@@ -32,11 +32,14 @@ String::trim = ->
 
 String::trimFirst = (str) -> # String || Array
   if typeof str is "string"
-    @replace(new RegExp("^#{str.escapeRegExp()}"), "").trim()
+    @trimFirstStr(str).trim()
   else
     result = this
-    result = result.replace(new RegExp("^#{s.escapeRegExp()}")).trim() for s in str
+    result = result.trimFirstStr(s).trim() for s in str
     result
+
+String::trimFirstStr = (str) -> # don't trim space
+  @replace(new RegExp("^#{str.escapeRegExp()}"), "") if typeof str is "string"
 
 String::reverse = ->
   @split("").reverse().join ""

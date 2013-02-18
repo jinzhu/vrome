@@ -1,9 +1,9 @@
 class Buffer
   [bufferGotoMode, bufferMatchMode] = [false, false]
 
-  @gotoFirstMatchHandle: -> # Enter
-    return unless bufferGotoMode
-    Post action: "Buffer.gotoFirstMatch", keyword: CmdBox.get().content
+  @gotoFirstMatchHandle: (keyword=null) -> # Enter
+    return unless keyword? or bufferGotoMode
+    Post action: "Buffer.gotoFirstMatch", keyword: (keyword ? CmdBox.get().content).trim()
     bufferGotoMode = false
     CmdBox.remove()
 
@@ -15,9 +15,9 @@ class Buffer
       CmdBox.set title: "Goto Buffer", content: ""
 
 
-  @deleteMatchHandle: ->
-    return if not bufferMatchMode
-    Post action: "Buffer.deleteMatch", keyword: keyword ? CmdBox.get().content
+  @deleteMatchHandle: (keyword=null) ->
+    return unless keyword? or bufferGotoMode
+    Post action: "Buffer.deleteMatch", keyword: (keyword ? CmdBox.get().content).trim()
     bufferMatchMode = false
     CmdBox.remove()
 

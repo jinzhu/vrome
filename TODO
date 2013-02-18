@@ -10,7 +10,7 @@ Bugs:
   coffee/frontend/modules/help.coffee
 
 Features:
-  Rewrite CommandLine
+* Rewrite CommandLine
   Show topSites in open/tabopen
   Rewrite QuickMarks
   Rewrite vromerc_example

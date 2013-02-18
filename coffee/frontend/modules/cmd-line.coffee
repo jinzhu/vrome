@@ -13,12 +13,14 @@ class CmdLine
     ->
       keyword = CmdBox.get().content
       command.func.call "", keyword.substring(keyword.indexOf(" "))
+      Dialog.stop()
       false
 
   onSelectFunc = (e) ->
-    [title, content] = [$(e.target).attr("title"), CmdBox.get()._content]
+    [title, content] = [$(e.target).attr("title"), CmdBox.get()._content.trim()]
     title = title + " "
-    CmdBox.softSet content: title, selection: title.trimFirst(content) if title.startsWith(content)
+    if title.startsWith(content) and not content.startsWith(title.trim())
+      CmdBox.softSet content: title, selection: title.trimFirstStr(content)
 
 
   filterCommands = () ->
