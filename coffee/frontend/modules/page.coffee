@@ -9,9 +9,6 @@ class Page
   @hideImages = ->
     $("img").hide()
 
-  @openOptions: ->
-    Post action: "Tab.openUrl", urls: "/background/options.html", newtab: true
-
   @copySelected: ->
     text = getSelected()
     Clipboard.copy text

@@ -15,8 +15,11 @@ Bugs:
 Features:
 * Rewrite CommandLine
   Extend Commandline:
-    quit/quitall/winonly/frameonly/winquitall, restart, github, open_issues, save page (chrome.pageCapture, captureVisibleTab), javascript, css, source('js/css/config')
-    downloads, bookmarks, settings, extensions, reload_extensions
+    quit/quitall/winonly/frameonly/winquitall, restart, save page (chrome.pageCapture, captureVisibleTab), javascript, css, source('js/css/config')
+    reload_extensions
+
+  <C-p> window.print() <C-n> Tab new
+
 
   Rewrite QuickMarks
   Rewrite Settings - chrome storage
