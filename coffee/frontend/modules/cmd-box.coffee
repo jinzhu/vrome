@@ -19,17 +19,25 @@ class CmdBox
     $("body").prepend $("<div>", id: box_id) if $("##{box_id}").length == 0
     $("##{box_id}").attr "rand_id", Math.random().toString()
 
-  @set: (o) =>
+  @set: (o, force=true) =>
     if (typeof o.title is "string")
-      cmdBoxTitle(true).unbind().text(o.title).mousedown o.mouseOverTitle
+      cmdBoxTitle(force).unbind().text(o.title).mousedown o.mouseOverTitle
     if (typeof o.content is "string")
-      input = cmdBoxInput(true)
+      input = cmdBoxInput(force)
       input.unbind().val(o.content).keydown(o.pressDown).keyup(o.pressUp).keypress(o.pressPress).focus()
-      input.select()  unless o.noHighlight
+    if (typeof o.selection is "string")
+      [start, length] = [input.val().indexOf(o.selection), o.selection.length]
+      input.prop(selectionStart: start, selectionEnd: start+length)
     setTimeout @remove, Number(o.timeout), @cmdBox().attr("rand_id") if o.timeout
 
-  @get: ->
-    title: cmdBoxTitle()?.text() or "", content: cmdBoxInput()?.val() or ""
+  @softSet: (o) =>
+    @set(o, false)
+
+  @get: () ->
+    input = cmdBoxInput()
+    [value, start, end] = [input.val() || "", input.prop("selectionStart"), input.prop("selectionEnd")]
+    no_selection_content = "#{value[0...start]}#{value[end..-1]}"
+    title: cmdBoxTitle().text() or "", content: value, selection: value[start..end], _content: no_selection_content
 
   @remove: (rand_id=null) ->
     (if rand_id then $("##{box_id}").filter("[rand_id='#{rand_id}']") else $("##{box_id}")).unbind().remove()

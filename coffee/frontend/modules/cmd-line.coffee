@@ -16,7 +16,8 @@ class CmdLine
       false
 
   onSelectFunc = (e) ->
-    e.target
+    [title, content] = [$(e.target).attr("title"), CmdBox.get()._content]
+    CmdBox.softSet content: title, selection: title.trimFirst(content) if title.startsWith(content)
 
 
   filterCommands = (keyword) ->
