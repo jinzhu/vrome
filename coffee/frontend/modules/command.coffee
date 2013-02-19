@@ -21,8 +21,9 @@ class Command
     if div.length > 0
       toggleHiddenElems $("body").children(), div.remove()
     else
+      images = $('img').filter(':visible').clone()
       toggleHiddenElems [], $("body").children()
-      $("body").append $("<div>", {__vrome_images: "1"}).append($("img").filter(":visible").clone())
+      $("body").append $("<div>", {__vrome_images: "1"}).append(images)
 
 
 root = exports ? window
