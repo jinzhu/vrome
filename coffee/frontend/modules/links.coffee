@@ -30,6 +30,5 @@ class Links
   @options: ->
     open "/background/options.html"
 
-
 root = exports ? window
 root.Links = Links

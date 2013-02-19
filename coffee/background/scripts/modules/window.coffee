@@ -15,6 +15,13 @@ class Window
     chrome.tabs.captureVisibleTab tab.windowId, {format: 'png'}, (dataUrl) ->
       Post tab, {action: "Window.capture", url: dataUrl}
 
+  @save_page: (msg) ->
+    tab = getTab(arguments)
+    chrome.pageCapture.saveAsMHTML tabId: tab.id, (mhtml) ->
+      filename = (msg.filename ? tab.title).replace(/(.mhtml)?$/, '.mhtml')
+      saveAs(mhtml, filename)
+      Post tab, {action: "Window.saveas", data: mhtml, filename: filename}
+
 
   @moveTabToWindowWithIncognito: (tab, incognito, create_mode, callback) ->
     chrome.windows.getAll {populate: true}, (windows) ->
