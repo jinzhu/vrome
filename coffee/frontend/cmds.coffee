@@ -622,6 +622,8 @@ CmdLine.add "bdelete", "Close all matched tabs. like `B` in normal mode", Buffer
 CmdLine.add "images_toggle", "Toggle images", Command.imagesToggle
 CmdLine.add "images_only", "Only show images, run again to rollback", Command.imagesOnly
 
+CmdLine.add "javascript", "Run javascript (jQuery)", Command.javascript
+
 CmdLine.add "reload_extension", "Reload All Extensions", Command.reload_extension
 CmdLine.add "print", "Print the current page you see", Command.print
 

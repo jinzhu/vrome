@@ -46,7 +46,7 @@ class CmdLine
       available.push(command) if command not in available
     add_to_available(command) for key, command of commands when key.startsWith(cmd)
     add_to_available(command) for key, command of commands when key.indexOf(cmd) isnt -1
-    regexp = RegExp(keyword.split('').join(".*"))
+    regexp = RegExp(cmd.split('').join(".*"))
     add_to_available(command) for key, command of commands when regexp.test(key)
 
     cuteCommands = for command in available

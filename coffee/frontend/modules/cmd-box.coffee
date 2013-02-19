@@ -42,8 +42,9 @@ class CmdBox
   @get: () ->
     input = cmdBoxInput()
     [value, start, end] = [input.val() || "", input.prop("selectionStart"), input.prop("selectionEnd")]
-    no_selection_content = "#{value[0...start]}#{value[end..-1]}"
-    title: cmdBoxTitle().html() or "", content: value, selection: value[start..end], _content: no_selection_content
+    _content = "#{value[0...start]}#{value[end..-1]}" # no_selection_content
+    argument = value.split(" ")[1..-1].join(" ")
+    title: cmdBoxTitle().html() or "", content: value, selection: value[start..end], _content: _content, argument: argument
 
   @remove: (rand_id=null) ->
     (if rand_id then $("##{box_id}").filter("[rand_id='#{rand_id}']") else $("##{box_id}")).unbind().remove()

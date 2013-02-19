@@ -25,6 +25,9 @@ class Command
       toggleHiddenElems [], $("body").children()
       $("body").append $("<div>", {__vrome_images: "1"}).append(images)
 
+  @javascript: ->
+    eval CmdBox.get().argument
+
 
 root = exports ? window
 root.Command = Command

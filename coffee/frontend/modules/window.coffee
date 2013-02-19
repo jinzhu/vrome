@@ -15,7 +15,7 @@ class Window
     if msg?.filename
       CmdBox.set title: "Downloaded as '#{msg.filename}'", timeout: 4000
     else
-      filename = CmdBox.get().content.split(" ")[1..-1].join(" ")
+      filename = CmdBox.get().argument
       CmdBox.remove()
       setTimeout Post, 500, action: "Window.save_page", filename: filename
 
