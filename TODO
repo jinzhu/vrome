@@ -16,7 +16,6 @@ Features:
 * Rewrite CommandLine
   Extend Commandline:
     quit/quitall/winonly/frameonly/winquitall, restart, save page (chrome.pageCapture, captureVisibleTab), javascript, css, source('js/css/config')
-    reload_extensions
 
   <C-p> window.print() <C-n> Tab new
 

@@ -30,6 +30,9 @@ class Links
   @options: ->
     open "/background/options.html"
 
+  @reload_extension: ->
+    Post action: "reloadExtension"
+
 
 root = exports ? window
 root.Links = Links
