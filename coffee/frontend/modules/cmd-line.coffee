@@ -46,8 +46,10 @@ class CmdLine
       available.push(command) if command not in available
     add_to_available(command) for key, command of commands when key.startsWith(cmd)
     add_to_available(command) for key, command of commands when key.indexOf(cmd) isnt -1
-    regexp = RegExp(cmd.split('').join(".*"))
+    regexp = RegExp(cmd.split('').join(".*"), 'i')
     add_to_available(command) for key, command of commands when regexp.test(key)
+    add_to_available(command) for key, command of commands when regexp.test(command.description)
+
 
     cuteCommands = for command in available
       title: command.name, url: command.description, onclick: onClickFuc(command), onselect: onSelectFunc
