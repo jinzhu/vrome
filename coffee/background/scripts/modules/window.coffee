@@ -2,6 +2,14 @@ class Window
   @create: () ->
     chrome.windows.create()
 
+  @close: () ->
+    tab = getTab(arguments)
+    chrome.windows.remove(tab.windowId)
+
+  @close_all: () ->
+    chrome.windows.getAll (windows) ->
+      chrome.windows.remove(window.id) for window in windows
+
   @moveTabToWindowWithIncognito: (tab, incognito, create_mode, callback) ->
     chrome.windows.getAll {populate: true}, (windows) ->
       for window in windows

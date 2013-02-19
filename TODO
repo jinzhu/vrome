@@ -15,7 +15,7 @@ Bugs:
 Features:
 * Rewrite CommandLine
   Extend Commandline:
-    quit/quitall/winonly/frameonly/winquitall, restart, save page (chrome.pageCapture, captureVisibleTab), javascript, css, source('js/css/config')
+    frameonly, restart, save page (chrome.pageCapture, captureVisibleTab), javascript, css, source('js/css/config')
 
   <C-p> window.print() <C-n> Tab new
 
