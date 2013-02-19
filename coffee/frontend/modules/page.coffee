@@ -6,9 +6,6 @@ class Page
           return clickElement(elem)
     null # FIXME for CoffeeScriptRedux
 
-  @hideImages = ->
-    $("img").hide()
-
   @copySelected: ->
     text = getSelected()
     Clipboard.copy text

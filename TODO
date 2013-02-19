@@ -15,7 +15,7 @@ Bugs:
 Features:
 * Rewrite CommandLine
   Extend Commandline:
-    frameonly, restart, save page (chrome.pageCapture, captureVisibleTab), javascript, css, source('js/css/config')
+    frameonly, restart, javascript, css, source('js/css/config')
 
   <C-p> window.print() <C-n> Tab new
 
@@ -48,6 +48,7 @@ Features:
   ? chrome.commands
   gP  Open (put) a URL based on the current clipboard contents in a new buffer. Works like P but inverts the 'activate' option.
   <C-g> Print the title
+  Get Download path for `saveas`
 
   options.add
   mappings.add

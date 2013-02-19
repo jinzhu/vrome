@@ -619,18 +619,20 @@ CMDS =
 # TODO: add command line to help + mapping object
 # CmdLine.add "help", "Open the help page", Help.show
 CmdLine.add "bdelete", "Close all matched tabs. like `B` in normal mode", Buffer.deleteMatchHandle
-CmdLine.add "toggle-images", "Toggle images", Page.hideImages
+CmdLine.add "images_toggle", "Toggle images", Command.imagesToggle
+CmdLine.add "images_only", "Only show images, run again to rollback", Command.imagesOnly
 
 CmdLine.add "reload_extension", "Reload All Extensions", Command.reload_extension
 CmdLine.add "print", "Print the current page you see", Command.print
+
+CmdLine.add "capture", "Capture visible tab", Window.capture
+CmdLine.add "saveas", "Save page as", Window.saveas
 
 CmdLine.add "quit", "Quit current tab", Tab.close
 CmdLine.add "window_open", "Open a new window", Window.create
 CmdLine.add "window_only", "Close other windows", Window.only
 CmdLine.add "window_close", "Close current window", Window.close
 CmdLine.add "window_closeall", "Close all windows", Window.close_all
-CmdLine.add "capture", "Capture visible tab", Window.capture
-CmdLine.add "saveas", "Save page as", Window.saveas
 
 # CmdLine.add "mdelete", "Delete matched marks", Marks.deleteQuickMark
 # CmdLine.add "make-links", "Transforms URLs into clickable links", Page.transformURLs

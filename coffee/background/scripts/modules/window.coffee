@@ -18,7 +18,7 @@ class Window
   @save_page: (msg) ->
     tab = getTab(arguments)
     chrome.pageCapture.saveAsMHTML tabId: tab.id, (mhtml) ->
-      filename = (msg.filename ? tab.title).replace(/(.mhtml)?$/, '.mhtml')
+      filename = (msg.filename || tab.title).replace(/(.mhtml)?$/, '.mhtml')
       saveAs(mhtml, filename)
       Post tab, {action: "Window.saveas", data: mhtml, filename: filename}
 
