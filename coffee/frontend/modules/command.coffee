@@ -26,7 +26,7 @@ class Command
       $("body").append $("<div>", {__vrome_images: "1"}).append(images)
 
   @javascript: ->
-    eval CmdBox.get().argument
+    console.log eval(CmdBox.get().argument)
 
 
 root = exports ? window
