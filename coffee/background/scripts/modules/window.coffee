@@ -10,6 +10,12 @@ class Window
     chrome.windows.getAll (windows) ->
       chrome.windows.remove(window.id) for window in windows
 
+  @capture: () ->
+    tab = getTab(arguments)
+    chrome.tabs.captureVisibleTab tab.windowId, {format: 'png'}, (dataUrl) ->
+      Post tab, {action: "Window.capture", url: dataUrl}
+
+
   @moveTabToWindowWithIncognito: (tab, incognito, create_mode, callback) ->
     chrome.windows.getAll {populate: true}, (windows) ->
       for window in windows

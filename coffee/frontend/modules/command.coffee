@@ -4,6 +4,7 @@ class Command
     Post action: "reloadExtension"
 
   @print: ->
+    CmdBox.remove()
     window.print()
 
 

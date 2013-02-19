@@ -25,7 +25,7 @@ class CmdBox
 
   @set: (o, force=true) =>
     if (typeof o.title is "string")
-      cmdBoxTitle(force).unbind().text(o.title).mousedown o.mouseOverTitle
+      cmdBoxTitle(force).unbind().html(o.title).mousedown o.mouseOverTitle
     if (typeof o.content is "string")
       input = cmdBoxInput(force).val(o.content)
       input.unbind().keydown(o.pressDown).keyup(o.pressUp).keypress(o.pressPress).select() if force
@@ -43,7 +43,7 @@ class CmdBox
     input = cmdBoxInput()
     [value, start, end] = [input.val() || "", input.prop("selectionStart"), input.prop("selectionEnd")]
     no_selection_content = "#{value[0...start]}#{value[end..-1]}"
-    title: cmdBoxTitle().text() or "", content: value, selection: value[start..end], _content: no_selection_content
+    title: cmdBoxTitle().html() or "", content: value, selection: value[start..end], _content: no_selection_content
 
   @remove: (rand_id=null) ->
     (if rand_id then $("##{box_id}").filter("[rand_id='#{rand_id}']") else $("##{box_id}")).unbind().remove()
