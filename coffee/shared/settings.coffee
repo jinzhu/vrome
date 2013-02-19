@@ -29,7 +29,7 @@ class Settings
     return settings unless names
 
     try
-      settings = settings[name] for name in names.split('.')
+      (settings = settings[name]) for name in names.split('.')
     catch error
       return ""
 

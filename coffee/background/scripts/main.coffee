@@ -16,7 +16,8 @@
 
 # Notify new version
 @checkNewVersion = ->
-  $.get chrome.extension.getURL("manifest.json"), (data) ->
+  $.get(chrome.extension.getURL("manifest.json")).done (data) ->
+    data = JSON.parse data
     openOptions "changelog" if Settings.get("version") isnt data.version
     Settings.add version: data.version
 

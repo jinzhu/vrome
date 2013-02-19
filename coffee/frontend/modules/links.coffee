@@ -22,7 +22,7 @@ class Links
     open "chrome://extensions/"
 
   @github: ->
-    open "https://github.com/"
+    open "https://github.com/jinzhu/vrome"
 
   @issues: ->
     open "https://github.com/jinzhu/vrome/issues"
