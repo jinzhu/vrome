@@ -624,7 +624,7 @@ CMDS =
 # CmdLine.add "help", "Open the help page", Help.show
 CmdLine.add "bdelete", "Close all matched tabs. like `B` in normal mode", Buffer.deleteMatchHandle
 CmdLine.add "toggle-images", "Toggle images", Page.hideImages
-CmdLine.add "reload_extension", "Reload All Extensions", Links.reload_extension
+CmdLine.add "reload_extension", "Reload All Extensions", Command.reload_extension
 # CmdLine.add "mdelete", "Delete matched marks", Marks.deleteQuickMark
 # CmdLine.add "make-links", "Transforms URLs into clickable links", Page.transformURLs
 
