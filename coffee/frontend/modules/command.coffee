@@ -28,6 +28,14 @@ class Command
   @javascript: ->
     console.log eval(CmdBox.get().argument)
 
+  @source: ->
+    Post action: "Command.source", sources: CmdBox.get().argument
+
+  @css: ->
+    div = $("style[__vrome_style]")
+    $("body").append(div = $("<style>", {"__vrome_style": 1})) if div.length == 0
+    div.text(div.text() + "\n" +  CmdBox.get().argument)
+
 
 root = exports ? window
 root.Command = Command

@@ -14,7 +14,7 @@ Bugs:
 
 Features:
 * Rewrite CommandLine
-  Extend Commandline: css, source('js/css/config')
+  Extend Commandline: source('js/css/config')
 
   <C-p> window.print() <C-n> Tab new
 
