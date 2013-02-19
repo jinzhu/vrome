@@ -387,10 +387,6 @@ CMDS =
       k: "<M-d>"
       c: 1
 
-    "Tab.closeOtherWindows":
-      t: "Close other windows"
-      k: "dW"
-
     "Tab.closeUnPinnedTabs":
       t: "Close unpinned tabs"
       k: "dp"
@@ -628,6 +624,7 @@ CmdLine.add "toggle-images", "Toggle images", Page.hideImages
 CmdLine.add "reload_extension", "Reload All Extensions", Command.reload_extension
 CmdLine.add "print", "Print the current page you see", Command.print
 CmdLine.add "window_open", "Open a new window", Window.create
+CmdLine.add "window_only", "Close other windows", Window.only
 
 # CmdLine.add "mdelete", "Delete matched marks", Marks.deleteQuickMark
 # CmdLine.add "make-links", "Transforms URLs into clickable links", Page.transformURLs

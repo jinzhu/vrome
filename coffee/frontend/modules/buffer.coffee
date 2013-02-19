@@ -16,7 +16,7 @@ class Buffer
 
 
   @deleteMatchHandle: (keyword=null) ->
-    return unless keyword? or bufferGotoMode
+    return unless keyword? or bufferMatchMode
     Post action: "Buffer.deleteMatch", keyword: (keyword ? CmdBox.get().content).trim()
     bufferMatchMode = false
     CmdBox.remove()

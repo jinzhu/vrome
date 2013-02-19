@@ -88,10 +88,6 @@ class Tab
   @closeUnPinnedTabs: =>
     @close type: "closeUnPinned"
 
-  @closeOtherWindows: =>
-    @close type: "otherWindows"
-
-
   @moveLeft: ->
     move direction: "left", count: times()
 
