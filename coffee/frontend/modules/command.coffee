@@ -5,7 +5,7 @@ class Command
 
   @print: ->
     CmdBox.remove()
-    window.print()
+    setTimeout window.print, 500
 
   toggleHiddenElems = (all, elems) ->
     if all.length > 1
