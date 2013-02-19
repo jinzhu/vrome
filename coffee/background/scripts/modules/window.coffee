@@ -1,4 +1,7 @@
 class Window
+  @create: () ->
+    chrome.windows.create()
+
   @moveTabToWindowWithIncognito: (tab, incognito, create_mode, callback) ->
     chrome.windows.getAll {populate: true}, (windows) ->
       for window in windows
