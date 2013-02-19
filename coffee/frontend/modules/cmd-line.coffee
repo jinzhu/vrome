@@ -10,9 +10,11 @@ class CmdLine
     Dialog.start title: "Command-line", search: searchCommands, ontab: onTabFunc
 
   onClickFuc = (command) ->
-    ->
-      keyword = CmdBox.get().content
-      command.func.call "", keyword.substring(keyword.indexOf(" "))
+    (e) ->
+      [title, keywords] = [$(e.target).attr("title"), CmdBox.get().content.split(" ")]
+      content  = [title, keywords[1..-1].join(" ")].join(" ")
+      CmdBox.softSet content: content
+      command.func.call "", keywords[1..-1].join(" ")
       Dialog.stop()
       false
 
