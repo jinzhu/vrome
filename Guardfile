@@ -22,9 +22,7 @@ guard 'shell' do
       # "coffee -p -c #{file} > #{js_file}",
 
       # CoffeeScriptRedux
-      js_file_content = `coffee --js -i #{file}`
-      `coffee --source-map -i #{file} > #{js_map_file}`
-      File.open(js_file, "w+") {|f| f << js_file_content + "//@ sourceMappingURL=#{js_map_file}'" }
+      `coffee --js --source-map-file #{js_map_file} -i #{file} -o #{js_file}`
       puts "Generated js file #{js_file}"
     end
   end
