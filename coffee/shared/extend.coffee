@@ -1,3 +1,5 @@
+$.fn.reverse = [].reverse
+
 String::startsWith = (str) ->
   !!@match("^" + (str?.escapeRegExp() || ""))
 

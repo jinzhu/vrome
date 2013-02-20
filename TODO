@@ -14,7 +14,6 @@ Bugs:
 
 Features:
 * Rewrite CommandLine
-  Fix next page in google/baidu
   Extend Commandline: source('config'), make_links
 
   Rewrite QuickMarks

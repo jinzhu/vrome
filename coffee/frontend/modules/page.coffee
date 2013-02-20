@@ -1,9 +1,11 @@
 class Page
   execMatch = (regexps) ->
-    for elem in $("a")
-      for regexp in regexps
-        if new RegExp(regexp, "i").test($(elem).text().replace(/(^(\n|\s)+|(\s|\n)+$)/, ""))
-          return clickElement(elem)
+    elems = for elem in $("a, link").filter(':visible').reverse()
+      [elem, $(elem).text().replace(/(^(\n|\s)+|(\s|\n)+$)/, "")]
+
+    for regexp in regexps
+      for [elem, value] in elems
+        return clickElement(elem) if new RegExp(regexp, "i").test(value)
     null # FIXME for CoffeeScriptRedux
 
   @copySelected: ->
