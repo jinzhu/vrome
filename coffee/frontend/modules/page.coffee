@@ -16,9 +16,6 @@ class Page
   @showInfo: ->
     CmdBox.set title: document.title, timeout: 4000
 
-  @transformURLs: ->
-    document.body.innerHTML = document.body.innerHTML.transformURL()
-
   @next: ->
     execMatch Option.get("nextpattern")
 

@@ -627,6 +627,7 @@ CMDS =
 # TODO: add command line to help + mapping object
 # CmdLine.add "help", "Open the help page", Help.show
 CmdLine.add "bdelete", "Close all matched tabs. like `B` in normal mode", Buffer.deleteMatchHandle
+CmdLine.add "make_links", "Transforms URLs into clickable links", AutoLink.makeLink
 CmdLine.add "images_toggle", "Toggle images", Command.imagesToggle
 CmdLine.add "images_only", "Only show images, run again to rollback", Command.imagesOnly
 
@@ -647,7 +648,6 @@ CmdLine.add "window_close", "Close current window", Window.close
 CmdLine.add "window_closeall", "Close all windows (quitall)", Window.close_all
 
 # CmdLine.add "mdelete", "Delete matched marks", Marks.deleteQuickMark
-# CmdLine.add "make-links", "Transforms URLs into clickable links", Page.transformURLs
 
 for url in ['downloads', 'bookmarks', 'history', 'chrome_help', 'settings', 'extensions', 'github', 'issues', 'options']
   CmdLine.add "open_#{url}!", "Open #{url} page in new tab", Links[url]
