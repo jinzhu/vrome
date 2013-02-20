@@ -11,6 +11,9 @@ class Page
     Clipboard.copy text
     CmdBox.set title: "[Copied]#{text.replace(/^(.{80})(.*)/, '$1...')}", timeout: 4000
 
+  @showInfo: ->
+    CmdBox.set title: document.title, timeout: 4000
+
   @transformURLs: ->
     document.body.innerHTML = document.body.innerHTML.transformURL()
 

@@ -216,6 +216,10 @@ CMDS =
       t: "Copy selected text"
       k: "Y"
 
+    "Page.showInfo":
+      t: "Show page info"
+      k: "<C-g>"
+
     "Frame.next":
       t: "Next {count} frame"
       k: "]f"
