@@ -14,7 +14,7 @@ Bugs:
 
 Features:
 * Rewrite CommandLine
-  Extend Commandline: source('config'), make_links
+  Extend Commandline: source('config')
 
   Rewrite QuickMarks
   Rewrite Settings - chrome storage
