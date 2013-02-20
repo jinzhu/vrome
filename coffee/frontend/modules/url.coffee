@@ -32,7 +32,7 @@ class Url
 
 
   fixUrl = (url_str) =>
-    urls = url_str.split(/, /)
+    urls = url_str.split(", ")
     result = []
 
     for url in urls
@@ -41,7 +41,7 @@ class Url
       if (/^\//.test(url) || /^\.\.?\/?/.test(url)) && /^\s*\S+\s*$/.test(url)
         result.push(@fixRelativePath(url))
       # Like url, for example: google.com
-      else if /\./.test(url) && !/\s/.test(url)
+      else if /\w+\.\w+/.test(url) && !/\s/.test(url)
         result.push "#{if url.match("://") then "" else "http://"}#{url}"
       # Local URL, for example: localhost:3000 || dev.local/
       else if /local(host)?($|\/|\:)/.test(url)
