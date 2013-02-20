@@ -644,7 +644,7 @@ CmdLine.add "quit", "Quit current tab", Tab.close
 CmdLine.add "window_open", "Open a new window", Window.create
 CmdLine.add "window_only", "Close other windows", Window.only
 CmdLine.add "window_close", "Close current window", Window.close
-CmdLine.add "window_closeall", "Close all windows", Window.close_all
+CmdLine.add "window_closeall", "Close all windows (quitall)", Window.close_all
 
 # CmdLine.add "mdelete", "Delete matched marks", Marks.deleteQuickMark
 # CmdLine.add "make-links", "Transforms URLs into clickable links", Page.transformURLs
