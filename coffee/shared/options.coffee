@@ -22,6 +22,8 @@ class Option
     hintkeys: "asdfghjklqwertyuiopzxcvbnm"
     useletters: 1
     showstatus: 1
+    sources_map:
+      jquery: 'http://code.jquery.com/jquery.js'
 
   @get: (key) ->
     configure = Settings.get("configure.set")?[key]

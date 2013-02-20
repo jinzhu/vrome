@@ -5,6 +5,7 @@ class Command
 
     for src in msg.sources.split(",")
       src = src.trim()
+      src = Option.get('sources_map')[src[1..-1]] if src.startsWith("@")
       src = src.replace(/(^https?:\/\/)?/, 'http://') if /^(\w+\.)+\w+\//.test(src)
 
       if src.startsWith("http")
