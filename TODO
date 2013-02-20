@@ -14,7 +14,8 @@ Bugs:
 
 Features:
 * Rewrite CommandLine
-  Extend Commandline: source('config')
+  Fix next page in google/baidu
+  Extend Commandline: source('config'), make_links
 
   Rewrite QuickMarks
   Rewrite Settings - chrome storage
@@ -34,7 +35,10 @@ Features:
 
 
 
-  ScrollLines for (jk)
+  <C-]> Complete .com/.net in command line
+  b/B Complete Buffers
+  Better support for iframe websites (like gmail)
+  Set ScrollLines for (jk)
   Insert-mode abbreviation
   Allow user to associate keys to function names
   Allow User define his own commands
