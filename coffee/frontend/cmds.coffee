@@ -251,6 +251,10 @@ CMDS =
       t: "Same as `p`, but open selected text or clipboard content in new tab"
       k: "P"
 
+    "Url.openFromClipboardFocusNewTab":
+      t: "Same as `p`, but open selected text or clipboard content in new tab and active it"
+      k: "<M-p>"
+
     "Url.increment":
       t: "Increment the last number in URL by {count}"
       k: "<C-a>"

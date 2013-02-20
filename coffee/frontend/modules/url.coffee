@@ -111,13 +111,14 @@ class Url
       Post action: "shortUrl"
 
 
+  @openFromClipboardFocusNewTab: => @openFromClipboard(true, true)
   @openFromClipboardNewTab: => @openFromClipboard(true)
-  @openFromClipboard: (new_tab=false) ->
+  @openFromClipboard: (new_tab=false, selected=false) ->
     selected_value = getSelected()
     if selected_value isnt ""
-      Post action: "Tab.openUrl", url: fixUrl(selected_value), newtab: new_tab
+      Post action: "Tab.openUrl", url: fixUrl(selected_value), newtab: new_tab, selected: selected
     else
-      Post action: "Tab.openFromClipboard", newtab: new_tab
+      Post action: "Tab.openFromClipboard", newtab: new_tab, selected: selected
 
 
 root = exports ? window

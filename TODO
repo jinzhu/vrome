@@ -16,7 +16,6 @@ Features:
 * Rewrite CommandLine
   Extend Commandline: source('config')
 
-
   Rewrite QuickMarks
   Rewrite Settings - chrome storage
   Per Host Vromerc
@@ -28,11 +27,11 @@ Features:
   AutoRefresh
 
   Rewrite README
-
   Rewrite vromerc_example
   Rewrite features page
   Rewrite option page
   Rewrite WIKI
+
 
 
   ScrollLines for (jk)
@@ -43,7 +42,6 @@ Features:
   Save Dialog Mode History ? <Alt+^>?
   (cursor) Insert Mode (Visual Mode to select) ?
   ? chrome.commands
-  gP  Open (put) a URL based on the current clipboard contents in a new buffer. Works like P but inverts the 'activate' option.
   Get Download path for `saveas`
   CmdLine -> frameonly, restart
 
