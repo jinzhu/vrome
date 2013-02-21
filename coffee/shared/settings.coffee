@@ -10,15 +10,25 @@ class Settings
   [sync, local, @settings] = [chrome.storage.sync, chrome.storage.local, {}]
 
   get_key = () ->
-    hostname = document.location.hostname
-    return "background" if (hostname isnt "") and hostname.match(/^\w+$/) and not hostname.match(/local/)
-    hostname || "other"
+    [scope_key, hostname] = [arguments[arguments.length-1]['scope_key'], document.location.hostname]
+    if scope_key
+      scope_key = (hostname || "other") if scope_key is "host"
+    else
+      scope_key = if $.isPlainObject arguments[0]
+        "background"
+      else if (typeof arguments[0] is 'string') and arguments[0].startsWith("@")
+        "background"
+      else if (hostname isnt "") and hostname.match(/^\w+$/) and not hostname.match(/local/)
+        "background"
+      else
+        hostname || "other"
+    scope_key
 
   is_background = ->
     get_key() is "background"
 
   @sync: =>
-    local_key = get_key()
+    local_key = get_key(arguments)
     local.get local_key, (obj) => @settings[local_key] = obj.value unless is_background
     sync.get "background", (obj) => @settings["background"] = obj.value
 
@@ -28,22 +38,22 @@ class Settings
       data = {}
       data[key] = value
       local.set(data)
-
-  @add: (value) =>
-    # TODO guess key
-    if $.isPlainObject value
-      $.extend(@settings, value)
-    else
-      [names, value, s] = [arguments[0].split('.'), arguments[1], @settings]
-      s = (s[name] || {}) for name in names[0...-1]
-      s[names[names.length-1]] = value
-
     @settings
 
+  @add: (value) =>
+    local_key = get_key(arguments)
+    if $.isPlainObject value
+      $.extend(@settings[local_key], value)
+    else
+      [names, value, s] = [arguments[0].split('.'), arguments[1], @settings[local_key] || {}]
+      s = (s[name] || {}) for name in names[0...-1]
+      s[names[names.length-1]] = value
+    @syncBack()
 
-  @get: (names) ->
+
+  @get: (names) =>
     try
-      settings = @settings
+      settings = @settings[get_key(arguments)]
       (settings = settings[name]) for name in names.split('.') if names
       settings
     catch error
