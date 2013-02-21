@@ -37,6 +37,7 @@ Features:
 
 
 
+  Catch chrome.storage.sync QUOTA_BYTES_PER_ITEM error (runtime.lastError)
   <C-]> Complete .com/.net in command line
   b/B Complete Buffers
   Better support for iframe websites (like gmail)

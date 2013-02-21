@@ -7,10 +7,16 @@
 # Setting.get 'key', :scope_key => ''               -> scope_key as key, default is get_key()
 
 class Settings
-  [sync, local, @settings] = [chrome.storage.sync, chrome.storage.local, {}]
+  key = '__vrome_setting'
+  [sync, local] = [chrome.storage.sync, chrome.storage.local]
+
+  try
+    @settings = JSON.parse(localStorage[key] || "{}")
+  catch err
+    @settings = {}
 
   get_key = () ->
-    [scope_key, hostname] = [arguments[arguments.length-1]['scope_key'], document.location.hostname]
+    [scope_key, hostname] = [arguments[arguments.length-1]?['scope_key'], document.location.hostname]
     if scope_key
       scope_key = (hostname || "other") if scope_key is "host"
     else
@@ -24,32 +30,34 @@ class Settings
         hostname || "other"
     scope_key
 
-  is_background = ->
-    get_key() is "background"
+  @init: =>
+    @sync()
+    chrome.storage.onChanged.addListener @sync
 
   @sync: =>
     local_key = get_key(arguments)
-    local.get local_key, (obj) => @settings[local_key] = obj.value unless is_background
+    local.get(local_key, (obj) => @settings[local_key] = obj.value) if local_key isnt "background"
     sync.get "background", (obj) => @settings["background"] = obj.value
 
   @syncBack: =>
     sync.set("background": @settings["background"])
-    for key, value of @settings when key isnt "background"
+    for k, value of @settings when k isnt "background"
       data = {}
-      data[key] = value
+      data[k] = value
       local.set(data)
+    localStorage[key] = JSON.stringify(@settings)
     @settings
 
   @add: (value) =>
     local_key = get_key(arguments)
-    if $.isPlainObject value
-      $.extend(@settings[local_key], value)
+    @settings[local_key] = if $.isPlainObject value
+      $.extend(@settings[local_key] || {}, value)
     else
-      [names, value, s] = [arguments[0].split('.'), arguments[1], @settings[local_key] || {}]
-      s = (s[name] || {}) for name in names[0...-1]
-      s[names[names.length-1]] = value
+      [names, value, setting] = [arguments[0].split('.'), arguments[1], @settings[local_key] || {}]
+      setting = (setting[name] || {}) for name in names[0...-1]
+      setting[names[names.length-1]] = value
+      setting
     @syncBack()
-
 
   @get: (names) =>
     try

@@ -42,7 +42,7 @@
 
 $ ->
   window.addEventListener "error", ((err) -> Debug err), false
-
+  Settings.init()
   checkNewVersion()
 
 
