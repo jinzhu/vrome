@@ -14,11 +14,12 @@ Bugs:
 
 Features:
 * Rewrite CommandLine
-  Extend Commandline: source('config')
 
-  Rewrite QuickMarks
+  Extend Commandline: source('config')
   Rewrite Settings - chrome storage
   Per Host Vromerc
+
+  Rewrite QuickMarks
 
   Dialog sort results
   Show TopSites in open/tabopen
