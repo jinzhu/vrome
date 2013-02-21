@@ -18,6 +18,7 @@ Features:
   Extend Commandline: source('config')
   Rewrite Settings - chrome storage
   Per Host Vromerc
+  Reset Setting for host
 
   Rewrite QuickMarks
 
