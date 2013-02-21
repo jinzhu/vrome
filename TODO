@@ -16,7 +16,6 @@ Features:
 * Rewrite CommandLine
 
   Extend Commandline: source('config')
-  Rewrite Settings - chrome storage
   Per Host Vromerc
   Reset Setting for host
 

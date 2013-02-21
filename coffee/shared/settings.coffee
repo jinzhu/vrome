@@ -8,21 +8,16 @@
 
 class Settings
   key = '__vrome_setting'
-  [sync, local] = [chrome.storage.sync, chrome.storage.local]
+  [sync, local, @settings] = [chrome.storage.sync, chrome.storage.local, {}]
 
-  try
-    @settings = JSON.parse(localStorage[key] || "{}")
-  catch err
-    @settings = {}
-
-  get_key = () ->
-    [scope_key, hostname] = [arguments[arguments.length-1]?['scope_key'], document.location.hostname]
+  get_key = (args=[]) ->
+    [scope_key, hostname] = [args[args.length-1]?['scope_key'], document.location.hostname]
     if scope_key
       scope_key = (hostname || "other") if scope_key is "host"
     else
-      scope_key = if $.isPlainObject arguments[0]
+      scope_key = if $.isPlainObject args[0]
         "background"
-      else if (typeof arguments[0] is 'string') and arguments[0].startsWith("@")
+      else if (typeof args[0] is 'string') and args[0].startsWith("@")
         "background"
       else if (hostname isnt "") and hostname.match(/^\w+$/) and not hostname.match(/local/)
         "background"
@@ -30,39 +25,47 @@ class Settings
         hostname || "other"
     scope_key
 
-  @init: =>
-    @sync()
-    chrome.storage.onChanged.addListener @sync
-
-  @sync: =>
+  syncLocal = =>
     local_key = get_key(arguments)
-    local.get(local_key, (obj) => @settings[local_key] = obj.value) if local_key isnt "background"
-    sync.get "background", (obj) => @settings["background"] = obj.value
+    local.get(local_key, (obj) => @settings[local_key] = obj[local_key]) if local_key isnt "background"
+    local.get "background", (obj) =>
+      try
+        @settings["background"] = obj['background'] || JSON.parse(localStorage['__vrome_setting'] || "{}")
+      catch err
+        @settings["background"] = {}
+      finally
+        sync.get "background", (robj) => $.extend(@settings["background"], robj["background"])
 
-  @syncBack: =>
-    sync.set("background": @settings["background"])
-    for k, value of @settings when k isnt "background"
-      data = {}
-      data[k] = value
-      local.set(data)
-    localStorage[key] = JSON.stringify(@settings)
+  syncBack = =>
+    local.set(@settings)
     @settings
 
-  @add: (value) =>
+
+  @init: =>
+    syncLocal()
+    chrome.storage.onChanged.addListener (changes, namespace) =>
+      sync.set(background: @settings["background"]) if 'background' in (key for key, value of changes)
+      syncLocal()
+
+  @add: (values) =>
     local_key = get_key(arguments)
-    @settings[local_key] = if $.isPlainObject value
-      $.extend(@settings[local_key] || {}, value)
+    @settings[local_key] ||= {}
+
+    if $.isPlainObject values
+      $.extend(@settings[local_key], values)
     else
-      [names, value, setting] = [arguments[0].split('.'), arguments[1], @settings[local_key] || {}]
-      setting = (setting[name] || {}) for name in names[0...-1]
+      [names, value, setting] = [arguments[0].split('.'), arguments[1], @settings[local_key]]
+      for name in names[0...-1]
+        setting[name] ||= {}
+        setting = setting[name]
       setting[names[names.length-1]] = value
-      setting
-    @syncBack()
+
+    syncBack()
 
   @get: (names) =>
     try
       settings = @settings[get_key(arguments)]
-      (settings = settings[name]) for name in names.split('.') if names
+      (settings = settings[name]) for name in names.trimFirst("@").split('.') if names
       settings
     catch error
       ""

@@ -40,10 +40,9 @@
       chrome.tabs.create url: url, index: tab.index + 1
 
 
-$ ->
-  window.addEventListener "error", ((err) -> Debug err), false
-  Settings.init()
-  checkNewVersion()
+window.addEventListener "error", ((err) -> Debug err), false
+Settings.init()
+checkNewVersion()
 
 
 root = exports ? window
