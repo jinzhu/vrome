@@ -69,7 +69,7 @@ root.runIt = (func, args) ->
       if $.isFunction(f)
         f.call()
       else if $.isFunction f[0]
-        f[0].apply "", f[1]
+        f[0].call "", f[1]
       else
         Debug "RunIt(Not Run): function #{f}"
   else

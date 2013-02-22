@@ -37,8 +37,7 @@
 
 
 window.addEventListener "error", ((err) -> Debug err), false
-Settings.init()
-checkNewVersion()
+Settings.init(checkNewVersion)
 
 
 root = exports ? window

@@ -25,12 +25,13 @@ class Settings
         hostname || "other"
     scope_key
 
-  syncLocal = =>
+  syncLocal = (callback) =>
     local_key = get_key(arguments)
-    local.get(local_key, (obj) => @settings[local_key] = obj[local_key]) if local_key isnt "background"
+    local.get local_key, (obj) => @settings[local_key] = obj[local_key] if local_key isnt "background"
     local.get "background", (obj) =>
       try
         @settings["background"] = obj['background'] || JSON.parse(localStorage['__vrome_setting'] || "{}")
+        callback.call() if $.isFunction callback
       catch err
         @settings["background"] = {}
       finally
@@ -42,12 +43,13 @@ class Settings
     local.set(@settings)
     @settings
 
+  syncToRemote = =>
+    sync.set(background: @settings["background"])
 
-  @init: =>
-    syncLocal()
+  @init: (callback) =>
+    syncLocal(callback)
+    setInterval syncToRemote, 1000 * 60 # Backup to Remote server every 1 minutes
     chrome.storage.onChanged.addListener (changes, namespace) =>
-      try
-        sync.set(background: @settings["background"]) if 'background' in (key for key, value of changes)
       syncLocal()
 
   @add: (values) =>

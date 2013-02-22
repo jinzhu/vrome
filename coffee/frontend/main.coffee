@@ -63,7 +63,7 @@ addErrorLogger = ->
 
 try
   loadMapping()
-  runIt [Zoom.init, KeyEvent.init, addErrorLogger]
-  runIt [Frame.register, Custom.runJS, Custom.loadCSS]
+  runIt Settings.init, -> func.call() for func in [Zoom.init, KeyEvent.init, Custom.runJS, Custom.loadCSS]
+  runIt [addErrorLogger, Frame.register]
 catch err
   Debug err
