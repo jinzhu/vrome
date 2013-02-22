@@ -34,7 +34,9 @@ class Settings
       catch err
         @settings["background"] = {}
       finally
-        sync.get "background", (robj) => $.extend(@settings["background"], robj["background"])
+        sync.get "background", (robj) =>
+          $.extend(@settings["background"], robj["background"])
+          syncBack()
 
   syncBack = =>
     local.set(@settings)
@@ -44,7 +46,8 @@ class Settings
   @init: =>
     syncLocal()
     chrome.storage.onChanged.addListener (changes, namespace) =>
-      sync.set(background: @settings["background"]) if 'background' in (key for key, value of changes)
+      try
+        sync.set(background: @settings["background"]) if 'background' in (key for key, value of changes)
       syncLocal()
 
   @add: (values) =>
@@ -54,7 +57,7 @@ class Settings
     if $.isPlainObject values
       $.extend(@settings[local_key], values)
     else
-      [names, value, setting] = [arguments[0].split('.'), arguments[1], @settings[local_key]]
+      [names, value, setting] = [arguments[0].trimFirst("@").split('.'), arguments[1], @settings[local_key]]
       for name in names[0...-1]
         setting[name] ||= {}
         setting = setting[name]

@@ -5,10 +5,6 @@
 @getTab = (args) -> args[args.length-1]
 
 
-@storeLastCommand = (msg) ->
-  Settings.add currentKeys: msg.currentKeys, times: msg.times
-
-
 @runScript = (msg) ->
   tab = getTab(arguments)
   chrome.tabs.executeScript tab.id, code: msg.code

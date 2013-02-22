@@ -3,7 +3,6 @@ class Marks
     marks = Settings.get(setting_key) or {}
     marks[key] = value
     Settings.add setting_key, marks
-    syncSetting Tab.now_tab
 
   @addQuickMark: (msg) ->
     addToMark("url_marks", msg.key, msg.url)

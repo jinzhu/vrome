@@ -30,12 +30,12 @@ class Help
 
 
   transformCommands = ->
-    [customMapping, reverseCustomMapping] = [Settings.get("configure.map"), {}]
+    [customMapping, reverseCustomMapping] = [Settings.get("@configure.map"), {}]
 
     reverseCustomMapping[value] = key for value, key in customMapping
     customKeys = (key for value, key in customMapping)
 
-    unmap = Settings.get("configure.unmap")
+    unmap = Settings.get("@configure.unmap")
     unmappedKeys = (key for value, key in unmap)
 
     ncmds = CMDS.clone()

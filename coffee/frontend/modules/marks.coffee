@@ -17,14 +17,14 @@ class Marks
     if key.match(/^[A-Z]$/)
       Post action: "Marks.addLocalMark", key: key, position: [scrollX, scrollY, location.href]
     else
-      local_marks = Settings.get("background.local_marks") or {}
+      local_marks = Settings.get("@local_marks") or {}
       local_marks[key] = [scrollX, scrollY]
-      Settings.add "local_marks", local_marks
+      Settings.add "@local_marks", local_marks
     CmdBox.set title: "Added Local Mark #{key}", timeout: 1000
 
   @gotoLocalMark: ->
     key = getKey(this)
-    setting_key = (if key.match(/^[A-Z]$/) then "background.local_marks" else "local_marks")
+    setting_key = (if key.match(/^[A-Z]$/) then "@local_marks" else "local_marks")
     position = Settings.get(setting_key)?[key]
 
     if position instanceof Array
@@ -36,7 +36,7 @@ class Marks
   @deleteQuickMark: (keyword) ->
     marks = Settings.get("url_marks") or {}
     delete marks[keyword] if marks[keyword]
-    Settings.add "url_marks", marks
+    Settings.add "@url_marks", marks
 
 
   getFilteredMarks = (keyword) ->

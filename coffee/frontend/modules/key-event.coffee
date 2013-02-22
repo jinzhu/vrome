@@ -42,22 +42,21 @@ class KeyEvent
 
 
   storeLast = (currentKeys, times) -> #Array, #Number
-    Settings.add "background.currentKeys", currentKeys
-    Settings.add "background.times", times ? 0
-    Post action: "storeLastCommand", currentKeys: currentKeys, times: times ? 0
+    Settings.add "@currentKeys", currentKeys
+    Settings.add "@times", times ? 0
 
   @runLast: ->
-    runCurrentKeys Settings.get("background.currentKeys")
+    runCurrentKeys Settings.get("@currentKeys")
 
 
   filterKey = (key, insertMode) ->
-    configure = Settings.get("configure")
+    configure = Settings.get("@configure")
     mode = (if insertMode then "imap" else "map")
     return key if /^\d$/.test(key)
     configure?[mode]?[key] or key
 
   ignoreKey = (key, insertMode) ->
-    configure = Settings.get("configure")
+    configure = Settings.get("@configure")
     mode = (if insertMode then "iunmap" else "unmap")
     configure?[mode]?[key]?
 
@@ -67,7 +66,7 @@ class KeyEvent
 
     # when run last command, fix run time.
     if key is "." and not insertMode
-      last_times = Settings.get("background.times")
+      last_times = Settings.get("@times")
       keyTimes = (last_times or 1) * (times or 1)
     else
       last_times = keyTimes
