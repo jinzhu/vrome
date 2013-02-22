@@ -19,7 +19,7 @@ class Marks
     else
       local_marks = Settings.get("@local_marks") or {}
       local_marks[key] = [scrollX, scrollY]
-      Settings.add "@local_marks", local_marks
+      Settings.add local_marks: local_marks
     CmdBox.set title: "Added Local Mark #{key}", timeout: 1000
 
   @gotoLocalMark: ->
@@ -36,7 +36,7 @@ class Marks
   @deleteQuickMark: (keyword) ->
     marks = Settings.get("url_marks") or {}
     delete marks[keyword] if marks[keyword]
-    Settings.add "@url_marks", marks
+    Settings.add url_marks: marks
 
 
   getFilteredMarks = (keyword) ->
