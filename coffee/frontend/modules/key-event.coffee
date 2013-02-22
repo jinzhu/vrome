@@ -42,8 +42,7 @@ class KeyEvent
 
 
   storeLast = (currentKeys, times) -> #Array, #Number
-    Settings.add currentKeys: currentKeys
-    Settings.add times: times ? 0
+    Settings.add currentKeys: currentKeys, times: times ? 0
 
   @runLast: ->
     runCurrentKeys Settings.get("@currentKeys")

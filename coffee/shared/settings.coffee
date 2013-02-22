@@ -5,62 +5,59 @@
 # Setting.get 'key', :scope_key => ''               -> scope_key as key, default is get_key()
 
 class Settings
-  key = '__vrome_setting'
-  [sync, local, @settings] = [chrome.storage.sync, chrome.storage.local, {}]
+  [sync, local, settings] = [chrome.storage.sync, chrome.storage.local, {}]
 
   get_key = (args=[]) ->
     [scope_key, hostname] = [args[args.length-1]?['scope_key'], document.location.hostname]
+    scope_key = "background" if (hostname isnt "") and hostname.match(/^\w+$/) and not hostname.match(/local/)
+
     if scope_key
-      scope_key = (hostname || "other") if scope_key is "host"
+      scope_key = hostname if scope_key is "host"
     else
       scope_key = if $.isPlainObject args[0]
         "background"
       else if (typeof args[0] is 'string') and args[0].startsWith("@")
         "background"
-      else if (hostname isnt "") and hostname.match(/^\w+$/) and not hostname.match(/local/)
-        "background"
       else
-        hostname || "other"
-    scope_key
+        hostname
+    scope_key || "other"
 
   syncLocal = (callback) =>
     local_key = get_key(arguments)
-    local.get local_key, (obj) => @settings[local_key] = obj[local_key] if local_key isnt "background"
+    local.get local_key, (obj) => settings[local_key] = obj[local_key] if local_key isnt "background"
     local.get "background", (obj) =>
       try
-        @settings["background"] = obj['background'] || JSON.parse(localStorage['__vrome_setting'] || "{}")
+        settings["background"] = obj['background'] || JSON.parse(localStorage['__vrome_setting'] || "{}")
         callback.call() if $.isFunction callback
-      catch err
-        @settings["background"] = {}
-      finally
-        sync.get "background", (robj) => $.extend(@settings["background"], robj["background"])
 
-  syncBack = =>
-    local.set(@settings)
-    @settings
+  syncRemote = ->
+    syncToRemote = => sync.set(background: settings["background"])
+    setInterval syncToRemote, 1000 * 60
 
-  syncToRemote = =>
-    sync.set(background: @settings["background"])
+    settings["background"] ||= {}
+    sync.get "background", (obj) => $.extend(settings["background"], obj["background"])
+
 
   @init: (callback) =>
+    syncRemote() if get_key() is 'background'
     syncLocal(callback)
-    setInterval syncToRemote, 1000 * 60 if get_key() is 'background' # Backup to Remote server every 1 minutes 
-    chrome.storage.onChanged.addListener (changes, namespace) =>
-      syncLocal()
+    chrome.storage.onChanged.addListener syncLocal
+
 
   @add: (values) =>
+    return unless $.isPlainObject values
     local_key = get_key(arguments)
-    @settings[local_key] = $.extend({}, @settings[local_key] || {}, values) if $.isPlainObject values
+    settings[local_key] ||= {}
+    $.extend(true, settings[local_key], values)
+    local.set settings
 
-    syncBack()
 
   @get: (names) =>
     try
-      settings = @settings[get_key(arguments)]
-      (settings = settings[name]) for name in names.trimFirst("@").split('.') if names
-      settings
-    catch error
-      ""
+      setting = settings
+      if names and (setting = setting[get_key(arguments)])
+        (setting = setting[name]) for name in names.trimFirst("@").split('.')
+      setting
 
 
 root = exports ? window
