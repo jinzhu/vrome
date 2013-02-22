@@ -1,8 +1,14 @@
 class Vromerc
-  
+
   @init: =>
     @loadAll true
+    # Reload every 5 minutes
+    interval = (Settings.get("onlineVromercReloadInterval") || 5) * 1000 * 60
+    setInterva Vromerc.loadAll, interval
 
+  @loadAll: ->
+    @loadOnline()
+    @loadLocal()
 
   @parse: (text) ->
     setting = {}
@@ -43,35 +49,25 @@ class Vromerc
 
     Settings.add url_marks: url_marks, configure: setting
     configs.join("\n")
-  
-
-  @loadAll: (scheduleNextReload) ->
-    @loadOnline scheduleNextReload
-    @loadLocal()
-    syncSettingAllTabs()
 
 
   @loadLocal: ->
     $.get(getLocalServerUrl()).done (data) =>
       if data
         vromerc = "\" Begin Local Vromerc generated\n#{data}\n\" End Local Vromerc generated\n\n"
-        vromerc = vromerc + (Settings.get("vromerc") ? "").replace(/" Begin Local Vromerc generated\n(.|\n)+\n" End Local Vromerc generated\n?\n?/g, "")
+        vromerc = vromerc + (Settings.get("vromerc") || "").replace(/" Begin Local Vromerc generated\n(.|\n)+\n" End Local Vromerc generated\n?\n?/g, "")
         Settings.add vromerc: @parse(vromerc)
 
 
-  @loadOnline: (scheduleNextReload) ->
+  @loadOnline: () ->
     url = Settings.get("onlineVromercUrl")
     return false unless url
 
     url = "http://" + url unless url.match(/^http/)
 
-    if scheduleNextReload and Settings.get("onlineVromercReloadInterval")
-      interval = Settings.get("onlineVromercReloadInterval") * 1000 * 60
-      setTimeout (-> Vromerc.loadOnline true), interval
-
     $.get(url).done (data) =>
       vromerc = "\" Begin Online Vromerc generated\n#{data}\n\" End Online Vromerc generated\n\n"
-      vromerc = vromerc + (Settings.get("vromerc") ? "").replace(/" Begin Online Vromerc generated\n(.|\n)+\n" End Online Vromerc generated\n?\n?/g, "")
+      vromerc = vromerc + (Settings.get("vromerc") || "").replace(/" Begin Online Vromerc generated\n(.|\n)+\n" End Online Vromerc generated\n?\n?/g, "")
       Settings.add vromerc: @parse(vromerc), onlineVromercLastUpdatedAt: new Date().toString()
 
 

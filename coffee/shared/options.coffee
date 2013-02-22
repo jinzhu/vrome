@@ -3,7 +3,6 @@ class Option
     nextpattern: ["(下|后)一?(页|頁|篇|张)", "^\\s*Next\\s*$", "^>$", "^More$", "(^(>>|››|»)\\|?)|((»|››|>>)\\|?$)"]
     previouspattern: ["(上|前)一(页|頁|篇|张)", "^\\s*Prev(ious)?\\s*$", "^<$", "(^(<<|‹‹|«)\\|?)|((<<|‹‹|«)\\|?$)"]
     enable_vrome_key: "<C-Esc>"
-    open_tab_on_the_right: 0
     disablesites: ""
     editor: "gvim -f"
     server_port: 20000
