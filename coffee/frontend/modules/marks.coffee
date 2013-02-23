@@ -1,6 +1,31 @@
 class Marks
   [gotoNewTab, marks] = [false, {}]
 
+  @addLocalMark: ->
+    key = getKey(this)
+    local_marks = Settings.get("@local_marks") or {}
+    local_marks[key] = [scrollX, scrollY, location.href]
+
+    if key.match(/^[A-Z]$/)
+      Settings.add local_marks: local_marks
+    else
+      Settings.add local_marks: local_marks, scope_key: "host"
+    CmdBox.set title: "Added Local Mark #{key}", timeout: 1000
+
+  @gotoLocalMark: ->
+    key = getKey(this)
+    setting_key = (if key.match(/^[A-Z]$/) then "@local_marks" else "local_marks")
+    position = Settings.get(setting_key)?[key]
+
+    if position instanceof Array
+      if key.match(/^[A-Z]$/)
+        Post action: "Tab.update", url: position[2], callback: "scrollTo(#{position[0]}, #{position[1]})"
+      else
+        scrollTo position[0], position[1]
+    else
+      CmdBox.set title: "Mark #{key} not set", timeout: 1000
+
+
   @addQuickMark: ->
     marks = Settings.get("url_marks") or {}
     Dialog.start title: "Add Quick Mark", search: filterQuickMarks, callback: handleEnterKey
@@ -11,27 +36,6 @@ class Marks
     marks = Settings.get("background.url_marks") or {}
     title = (if newtab then "Open Quick Mark (new tab)" else "Open Quick Mark")
     Dialog.start title: title, search: filterQuickMarks, newtab: newtab, callback: handleGotoKeydown
-
-  @addLocalMark: ->
-    key = getKey(this)
-    if key.match(/^[A-Z]$/)
-      Post action: "Marks.addLocalMark", key: key, position: [scrollX, scrollY, location.href]
-    else
-      local_marks = Settings.get("@local_marks") or {}
-      local_marks[key] = [scrollX, scrollY]
-      Settings.add local_marks: local_marks
-    CmdBox.set title: "Added Local Mark #{key}", timeout: 1000
-
-  @gotoLocalMark: ->
-    key = getKey(this)
-    setting_key = (if key.match(/^[A-Z]$/) then "@local_marks" else "local_marks")
-    position = Settings.get(setting_key)?[key]
-
-    if position instanceof Array
-      if position[2]
-        Post action: "Tab.update", url: position[2], callback: "scrollTo(#{position[0]}, #{position[1]})"
-      else
-        scrollTo position[0], position[1]
 
   @deleteQuickMark: (keyword) ->
     marks = Settings.get("url_marks") or {}
