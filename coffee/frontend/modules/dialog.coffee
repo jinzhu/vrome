@@ -62,7 +62,7 @@ class Dialog
       buildResult = (s, href) ->
         onClick = (e) ->
           unless s.onclick && s.onclick.call("", e)
-            Post action: "Tab.openUrl", url: Url.fixUrl(href), newtab: e.ctrlKey
+            Post action: "Tab.openUrl", url: href, newtab: e.ctrlKey
           false
 
         title = (if s.title then "#{s.title} -- " else "")

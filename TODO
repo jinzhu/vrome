@@ -1,11 +1,9 @@
 Bugs:
   coffee/frontend/modules/cmd-line.coffee Review & Simplize it
-  coffee/frontend/modules/page.coffee     transformURLs
   coffee/frontend/modules/frame.coffee    (Don't works as except)
   coffee/frontend/modules/tab.coffee      Merge normal to incognito, new tab don't hide dialog, gI toggle openInIncognito
   coffee/frontend/modules/custom.coffee   Setting, Add to README
   coffee/shared/settings.coffee           Settings not synced correctly
-  coffee/frontend/modules/marks.coffee    Settings not synced correctly
   coffee/frontend/modules/key-event.coffee . doesn't work
   coffee/frontend/modules/help.coffee
 
@@ -15,6 +13,7 @@ Features:
 
   Extend Commandline: source('config')
 
+
   Reset Setting for host
   Per Host Vromerc (Rewrite option page to support location based configuration)
     ~/.vrome/google.rc
@@ -22,7 +21,6 @@ Features:
     ~/.vrome/google.css
     ~/.vrome/^disable_autoload_this_file.css (but it is possible to use source to load it)
 
-  Rewrite QuickMarks
 
   # https://developer.mozilla.org/en-US/docs/The_Places_frecency_algorithm ?
   Dialog sort results
