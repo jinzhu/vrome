@@ -17,7 +17,7 @@ Features:
 
   # https://developer.mozilla.org/en-US/docs/The_Places_frecency_algorithm ?
   Dialog sort results
-  Show TopSites in open/tabopen
+    Search title/url, if result less than 20, search history, bookmarks
 
   ch -> Change subdomain -> Select available subdomains from dialog
   AutoRefresh
@@ -29,20 +29,24 @@ Features:
   Rewrite WIKI
 
 
+  Auto Completers:
+    command_line: like window_close
+    <C-]> to complete .com/.net
+    b/B complete buffers
 
-  https://github.com/marijnh/CodeMirror/blob/master/keymap/vim.js
-  window_close (Auto Complete)
-  Catch chrome.storage.sync QUOTA_BYTES_PER_ITEM error (runtime.lastError)
-  <C-]> Complete .com/.net in command line
-  b/B Complete Buffers
+  Dialog Mode:
+    Save histories ? <Alt+^>?
+
+  Insert Mode:
+    vim.js: https://github.com/marijnh/CodeMirror/blob/master/keymap/vim.js
+    abbreviation
+  Cursor Mode ?
+
   Better support for iframe websites (like gmail)
+
   Set ScrollLines for (jk)
-  Insert-mode abbreviation
   Allow user to associate keys to function names
   Allow User define his own commands
-  AutoCommands on certain events
-  Save Dialog Mode History ? <Alt+^>?
-  (cursor) Insert Mode (Visual Mode to select) ?
   ? chrome.commands
   Get Download path for `saveas`
   CmdLine -> frameonly, restart
