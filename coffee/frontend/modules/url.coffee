@@ -37,8 +37,11 @@ class Url
 
     for url in urls
       url = url.trim()
+      # file://xxxxx || http://xxxxx
+      if (/:\/\//.test(url))
+        result.push(url)
       #  /jinzhu || (.. || ./configure) && no space
-      if (/^\//.test(url) || /^\.\.?\/?/.test(url)) && /^\s*\S+\s*$/.test(url)
+      else if (/^\//.test(url) || /^\.\.?\/?/.test(url)) && /^\s*\S+\s*$/.test(url)
         result.push(@fixRelativePath(url))
       # Like url, for example: google.com
       else if /\w+\.\w+/.test(url) && !/\s/.test(url)

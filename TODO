@@ -8,7 +8,6 @@ Bugs:
   coffee/frontend/modules/marks.coffee    Settings not synced correctly
   coffee/frontend/modules/key-event.coffee . doesn't work
   coffee/frontend/modules/help.coffee
-  Review O. <C-[0-9]> should open in a new tab
   Tab.open support file
 
 
