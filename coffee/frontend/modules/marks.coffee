@@ -3,13 +3,10 @@ class Marks
 
   @addLocalMark: ->
     key = getKey(this)
-    local_marks = Settings.get("@local_marks") or {}
+    setting_key = (if key.match(/^[A-Z]$/) then "@local_marks" else "local_marks")
+    local_marks = Settings.get(setting_key) or {}
     local_marks[key] = [scrollX, scrollY, location.href]
-
-    if key.match(/^[A-Z]$/)
-      Settings.add local_marks: local_marks
-    else
-      Settings.add local_marks: local_marks, scope_key: "host"
+    Settings.add setting_key, local_marks
     CmdBox.set title: "Added Local Mark #{key}", timeout: 1000
 
   @gotoLocalMark: ->

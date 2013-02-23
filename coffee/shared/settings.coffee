@@ -1,6 +1,8 @@
 # API
 #
 # Setting.add {}, :scope_key => "background"/"host" -> scope_key as key, default is 'background'
+# Setting.add '@key', 'value', :scope_key => ''     -> scope_key as key, default is 'background'
+# Setting.add 'key', 'value', :scope_key => ''      -> scope_key as key, default is get_key()'
 # Setting.get '@key', :scope_key => ''              -> scope_key as key, default is 'background'
 # Setting.get 'key', :scope_key => ''               -> scope_key as key, default is get_key()
 
@@ -45,10 +47,17 @@ class Settings
 
 
   @add: (values) =>
-    return unless $.isPlainObject values
     local_key = get_key(arguments)
-    settings[local_key] ||= {}
-    $.extend(true, settings[local_key], values)
+    if $.isPlainObject values
+      settings[local_key] ||= {}
+      $.extend(true, settings[local_key], values)
+    else
+      [names, value, setting] = [arguments[0].trimFirst("@").split('.'), arguments[1], settings[local_key]]
+      for name in names[0...-1]
+        setting[name] ||= {}
+        setting = setting[name]
+      setting[names[names.length-1]] = value
+
     local.set settings
 
 
