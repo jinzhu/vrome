@@ -16,8 +16,13 @@ Features:
 * Rewrite CommandLine
 
   Extend Commandline: source('config')
-  Per Host Vromerc
+
   Reset Setting for host
+  Per Host Vromerc (Rewrite option page to support location based configuration)
+    ~/.vrome/google.rc
+    ~/.vrome/google.js
+    ~/.vrome/google.css
+    ~/.vrome/^disable_autoload_this_file.css (but it is possible to use source to load it)
 
   Rewrite QuickMarks
 
@@ -36,6 +41,8 @@ Features:
 
 
 
+  https://github.com/marijnh/CodeMirror/blob/master/keymap/vim.js
+  window_close (Auto Complete)
   Catch chrome.storage.sync QUOTA_BYTES_PER_ITEM error (runtime.lastError)
   <C-]> Complete .com/.net in command line
   b/B Complete Buffers
