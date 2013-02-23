@@ -60,8 +60,13 @@ class Dialog
       setResultBox [$("<div>").html("No results found!")]
     else
       buildResult = (s, href) ->
+        onClick = (e) ->
+          unless s.onclick && s.onclick.call("", e)
+            Post action: "Tab.openUrl", url: Url.fixUrl(href), newtab: e.ctrlKey
+          false
+
         title = (if s.title then "#{s.title} -- " else "")
-        $("<a>", {href: href, title: s.title, text: "#{title}#{s.url}", click: s.onclick}).bind("onselect", s.onselect)
+        $("<a>", {href: href, title: s.title, text: "#{title}#{s.url}", click: onClick}).bind("onselect", s.onselect)
 
       setResultBox for source in sources
         if $.isArray(source.url)

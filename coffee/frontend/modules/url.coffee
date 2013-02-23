@@ -9,8 +9,8 @@ class Url
     Dialog.start title: title, content: content, search: search, newtab: new_tab
 
 
-  search = (keyword) ->
-    Post action: "Tab.autoComplete", keyword: keyword, default_urls: fixUrl(keyword)
+  search = (keyword) =>
+    Post action: "Tab.autoComplete", keyword: keyword, default_urls: @fixUrl(keyword)
 
   @fixRelativePath= (url) ->
     # http://google.com
@@ -31,7 +31,7 @@ class Url
     return pathname
 
 
-  fixUrl = (url_str) =>
+  @fixUrl: (url_str) =>
     urls = url_str.split(", ")
     result = []
 
@@ -116,10 +116,10 @@ class Url
 
   @openFromClipboardFocusNewTab: => @openFromClipboard(true, true)
   @openFromClipboardNewTab: => @openFromClipboard(true)
-  @openFromClipboard: (new_tab=false, selected=false) ->
+  @openFromClipboard: (new_tab=false, selected=false) =>
     selected_value = getSelected()
     if selected_value isnt ""
-      Post action: "Tab.openUrl", url: fixUrl(selected_value), newtab: new_tab, selected: selected
+      Post action: "Tab.openUrl", url: @fixUrl(selected_value), newtab: new_tab, selected: selected
     else
       Post action: "Tab.openFromClipboard", newtab: new_tab, selected: selected
 

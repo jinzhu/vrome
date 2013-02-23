@@ -8,7 +8,6 @@ Bugs:
   coffee/frontend/modules/marks.coffee    Settings not synced correctly
   coffee/frontend/modules/key-event.coffee . doesn't work
   coffee/frontend/modules/help.coffee
-  Tab.open support file
 
 
 Features:
