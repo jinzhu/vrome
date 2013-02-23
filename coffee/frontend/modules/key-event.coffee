@@ -66,7 +66,7 @@ class KeyEvent
     # when run last command, fix run time.
     if key is "." and not insertMode
       last_times = Settings.get("@times")
-      keyTimes = (last_times or 1) * (times or 1)
+      keyTimes = (last_times or 1) * (keyTimes or 1)
     else
       last_times = keyTimes
 

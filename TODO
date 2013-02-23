@@ -1,19 +1,12 @@
 Bugs:
-  coffee/frontend/modules/cmd-line.coffee Review & Simplize it
   coffee/frontend/modules/frame.coffee    (Don't works as except)
   coffee/frontend/modules/tab.coffee      Merge normal to incognito, new tab don't hide dialog, gI toggle openInIncognito
   coffee/frontend/modules/custom.coffee   Setting, Add to README
-  coffee/shared/settings.coffee           Settings not synced correctly
-  coffee/frontend/modules/key-event.coffee . doesn't work
   coffee/frontend/modules/help.coffee
 
 
 Features:
-* Rewrite CommandLine
-
   Extend Commandline: source('config')
-
-
   Reset Setting for host
   Per Host Vromerc (Rewrite option page to support location based configuration)
     ~/.vrome/google.rc
