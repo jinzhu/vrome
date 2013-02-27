@@ -8,10 +8,7 @@ task :init_development_env do
     js_file = file.sub(/coffee$/, "js").sub(/coffee/, 'src')
     js_map_file = js_file + ".map"
     system "mkdir -p #{File.dirname(js_file)}"
-
-    js_file_content = `coffee --js -i #{file}`
-    `coffee --source-map -i #{file} > #{js_map_file}`
-    File.open(js_file, "w+") {|f| f << js_file_content + "//@ sourceMappingURL=#{js_map_file}'" }
+    `coffee --js --source-map-file #{js_map_file} -i #{file} -o #{js_file}`
     puts "Generated js file #{js_file}"
   end
 
@@ -25,6 +22,13 @@ end
 
 desc "Build Vrome"
 task :build do
+  `find coffee -type f -iname '*coffee'`.split("\n").map do |file|
+    js_file = file.sub(/coffee$/, "js").sub(/coffee/, 'src')
+    system "mkdir -p #{File.dirname(js_file)}"
+    `coffee --js -i #{file} -o #{js_file}`
+    puts "Generated js file #{js_file}"
+  end
+
   system("bundle exec bluecloth README.mkd > ./src/README.html")
   system("bundle exec bluecloth Features.mkd > ./src/files/features.html")
   system("bundle exec bluecloth ChangeLog.mkd > ./src/files/changelog.html")
