@@ -85,6 +85,11 @@ class Url
   @root: ->
     location.pathname = '/'
 
+  @tabReferer: => @referer true
+  @referer: (newtab=false) ->
+    if document.referrer
+      Post action: "openOrSelectUrl", url: document.referrer, newtab: newtab, selected: true
+
   @decrement: => @increment(-1)
   @increment: (dirction) ->
     count = times() * (dirction || 1)

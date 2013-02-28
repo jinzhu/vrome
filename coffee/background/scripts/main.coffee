@@ -28,12 +28,19 @@
 
 
 @openOrSelectUrl = (url) ->
+  if typeof url is 'string'
+    msg = {url: url, newtab: true, selected: true}
+  else
+    [msg, current_tab] = [url, getTab(arguments)]
+    url = msg.url
+
   chrome.tabs.getAllInWindow null, (tabs) ->
     for tab in tabs when tab.url is url
       chrome.tabs.update tab.id, selected: true
       return
-    chrome.tabs.getCurrent (tab) -> # open a new tab next to currently selected tab
-      chrome.tabs.create url: url, index: tab.index + 1
+    # open a new tab next to currently selected tab
+    chrome.tabs.getCurrent (get_tab) ->
+      Tab.openUrl msg, current_tab || get_tab
 
 
 window.addEventListener "error", ((err) -> Debug err), false

@@ -274,6 +274,14 @@ CMDS =
       t: "Go to the root of the website"
       k: "gU"
 
+    "Url.referer":
+      t: "Go to the referer"
+      k: "gr"
+
+    "Url.tabReferer":
+      t: "Same as `gr`, But open in new tab"
+      k: "gR"
+
     "Url.open":
       t: "Open URLs or search"
       d: "Open URLs from your history, bookmarks, navigation or makes a search. \nUse <C-[0-9]> (red numbers) to open multiple links\nUse arrows to move Up and Down (view options)\nSupports relative paths e.g ../admin"
