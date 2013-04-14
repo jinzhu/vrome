@@ -33,7 +33,7 @@ class Search
     @next(0)
 
   @prev: => @next(-1)
-  desc @next, "Search prev"
+  desc @prev, "Search prev"
 
   @next: (step=1) ->
     return unless searchMode

@@ -4,18 +4,60 @@ root.AcceptKey = ["<Enter>", "<C-j>", "<C-m>"]
 root.CancelKey = ["<Esc>", "<C-[>"]
 root.CtrlEscapeKey = ["<C-Esc>"]
 
+root.isControlKey = (key) ->
+  key in ["Control", "Shift", "Alt", "Win"]
+
+root.isCtrlAcceptKey = (key) ->
+  key is "<C-Enter>"
+
+root.isAcceptKey = (key) ->
+  key in AcceptKey
+
+root.isEscapeKey = (key) ->
+  key in CancelKey
+
+root.isCtrlEscapeKey = (key) ->
+  return true if Option.get("enable_vrome_key") is key
+  key in CtrlEscapeKey
+
+root.AcceptKeyFunction = ->
+  Search.openCurrent()
+  Dialog.openCurrent()
+  Buffer.gotoFirstMatchHandle()
+  Buffer.deleteMatchHandle()
+
+root.CancelKeyFunction = ->
+  Hint.remove()
+  InsertMode.blurFocus()
+  KeyEvent.reset()
+  Search.stop()
+  Dialog.stop true
+  CmdBox.remove()
+  Help.hide true
+desc root.CancelKeyFunction, "Cancel Actions"
+
+root.CtrlEscapeKeyFunction = ->
+  KeyEvent.enable()
+  CancelKeyFunction()
+desc root.CtrlEscapeKeyFunction, "Enable Vrome when in pass-through"
+
 extractFunction = (functionName) ->
   func = (func ? root)[action] for action in functionName.split(".")
   func
 
 imapFunc = (key, func, virtual_key) ->
-  KeyEvent.add key, extractFunction(func), true
+  keys = if $.isArray key then key else [key]
+  KeyEvent.add k, extractFunction(func), true for k in keys
 
 nmapFunc = (key, func, virtual_key) ->
-  KeyEvent.add key, extractFunction(func)
+  keys = if $.isArray key then key else [key]
+  KeyEvent.add k, extractFunction(func) for k in keys
+  console.log key
+  console.log extractFunction(func)
 
 cmapFunc = (key, func, virtual_key) ->
-  CmdLine.add key, extractFunction(func)
+  keys = if $.isArray key then key else [key]
+  CmdLine.add k, extractFunction(func) for k in keys
 
 mapFunc = (key, func, virtual_key) ->
   nmapFunc(key, func, virtual_key)
@@ -44,7 +86,7 @@ nmapFunc "zm", "Zoom.current_more" # count
 nmapFunc "zr", "Zoom.current_reduce" # count
 nmapFunc "zz", "Zoom.current_reset"
 
-nmapFunc "zI", "Zoom.Zoomin" # count
+nmapFunc "zI", "Zoom.zoomIn" # count
 nmapFunc "zO", "Zoom.out" # count
 nmapFunc "zM", "Zoom.more" # count
 nmapFunc "zR", "Zoom.reduce" # count
@@ -199,7 +241,7 @@ imapFunc ["<M-k>"], "InsertMode.MoveForwardChar"
 
 
 ## CmdLine
-cmapFunc "help", "Help.show"
+# cmapFunc "help", "Help.show"
 cmapFunc "bdelete", "Buffer.deleteMatchHandle"
 cmapFunc "make_links", "AutoLink.makeLink"
 cmapFunc "images_toggle", "Command.imagesToggle"

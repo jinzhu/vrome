@@ -84,7 +84,7 @@ class Tab
 
   @closeAndFoucsLast: =>
     @close focusLast: true
-  desc @closeAndFoucsLeft, "Close current tab and select last selected tab"
+  desc @closeAndFoucsLast, "Close current tab and select last selected tab"
 
   @closeAndFoucsLeft: =>
     @close offset: -1
