@@ -66,7 +66,8 @@ class Dialog
           false
 
         title = (if s.title then "#{s.title} -- " else "")
-        $("<a>", {href: href, title: s.title, text: "#{title}#{s.url}", click: onClick}).bind("onselect", s.onselect)
+        description = "#{title}#{s.description ? s.url}"
+        $("<a>", {href: href ? "#", title: s.title, text: description, click: onClick}).bind("onselect", s.onselect)
 
       setResultBox for source in sources
         if $.isArray(source.url)

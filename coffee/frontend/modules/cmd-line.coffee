@@ -52,7 +52,7 @@ class CmdLine
 
 
     cuteCommands = for command in available
-      title: command.name, url: command.description, onclick: onClickFuc(command), onselect: onSelectFunc
+      title: command.name, description: command.description, onclick: onClickFuc(command), onselect: onSelectFunc
     Dialog.draw urls: cuteCommands, keyword: ""
 
 
