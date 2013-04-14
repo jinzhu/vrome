@@ -1,15 +1,19 @@
 class Window
   @create: () ->
     Post action: "Window.create"
+  desc @create, "Open a new window"
 
   @close: () ->
     Post action: "Window.close"
+  desc @close, "Close current window"
 
   @close_all: () ->
     Post action: "Window.close_all"
+  desc @close_all, "Close all windows (quitall)"
 
   @only: () ->
     Tab.close type: "otherWindows"
+  desc @only, "Close other windows"
 
   @saveas: (msg) ->
     if msg?.filename
@@ -18,6 +22,7 @@ class Window
       filename = CmdBox.get().argument
       CmdBox.remove()
       setTimeout Post, 500, action: "Window.save_page", filename: filename
+  desc @saveas, "Save page as"
 
   @capture: (msg) ->
     if msg?.url
@@ -27,6 +32,7 @@ class Window
       CmdBox.remove()
       # Capture after remove the cmdbox
       setTimeout Post, 500, action: "Window.capture"
+  desc @capture, "Capture visible tab"
 
 
 root = exports ? window

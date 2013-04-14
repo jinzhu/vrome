@@ -6,6 +6,8 @@ class Marks
     local_marks[key] = [scrollX, scrollY, location.href]
     Settings.add setting_key, local_marks
     CmdBox.set title: "Added Local Mark #{key}", timeout: 1000
+  desc @addLocalMark, "Mark position x,y on the page e.g ma"
+
 
   @gotoLocalMark: ->
     key = getKey(this)
@@ -19,6 +21,8 @@ class Marks
         scrollTo position[0], position[1]
     else
       CmdBox.set title: "Mark #{key} not set", timeout: 1000
+  desc @gotoLocalMark, "Go to marked position on the page e.g 'a"
+
 
 
   filterQuickMarks = (keyword) ->
@@ -28,11 +32,15 @@ class Marks
 
   @addQuickMark: ->
     Dialog.start title: "Add Quick Mark", search: filterQuickMarks, callback: handleAddMark
+  desc @addQuickMark, "Add new quick mark for current URL"
 
   @gotoQuickMarkNewTab: => @gotoQuickMark(true)
+  desc @gotoQuickMarkNewTab, "Same as `go`, but open in new tab (support Dialog extend mode)"
+
   @gotoQuickMark: (newtab) -> #Boolean
     title = (if newtab then "Open Quick Mark (new tab)" else "Open Quick Mark")
     Dialog.start title: title, search: filterQuickMarks, newtab: newtab
+  desc @gotoQuickMark, "Go to quick mark (support Dialog extend mode)"
 
   @deleteQuickMark: (keyword) ->
     marks = Settings.get("url_marks") or {}

@@ -30,5 +30,8 @@ class Links
   @options: ->
     open "/background/options.html"
 
+  for url in ['downloads', 'bookmarks', 'history', 'chrome_help', 'settings', 'extensions', 'github', 'issues', 'options']
+    desc @[url], "Open #{url},! open in new page"
+
 root = exports ? window
 root.Links = Links

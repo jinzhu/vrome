@@ -13,6 +13,7 @@ class Buffer
     else
       bufferGotoMode = true
       CmdBox.set title: "Goto Buffer", content: ""
+  desc @gotoFirstMatch, "Go to {count} tab or the first matched tab where title / url matches string"
 
 
   @deleteMatchHandle: (keyword=null) ->
@@ -20,6 +21,7 @@ class Buffer
     Post action: "Buffer.deleteMatch", keyword: (keyword ? CmdBox.get().content).trim()
     bufferMatchMode = false
     CmdBox.remove()
+  desc @deleteMatchHandle, "Close all matched tabs. like `B` in normal mode"
 
   @deleteMatch: ->
     if count = times(true)
@@ -27,6 +29,7 @@ class Buffer
     else
       bufferMatchMode = true
       CmdBox.set title: "Delete Buffer", content: ""
+  desc @deleteMatch, "Same as `b`, But close matched tabs"
 
 
 root = exports ? window

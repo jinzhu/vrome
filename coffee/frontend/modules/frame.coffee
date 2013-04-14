@@ -19,8 +19,10 @@ class Frame
 
   @next: ->
     Post action: "Frame.next", frameId: frameId, count: times()
+  desc @next, "Next {count} frame"
 
   @prev: -> Post action: "Frame.next", frameId: frameId, count: 0 - times()
+  desc @prev, "Prev {count} frame"
 
 
 root = exports ? window

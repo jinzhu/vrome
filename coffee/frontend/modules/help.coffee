@@ -6,6 +6,7 @@ class Help
     $(document).ready =>
       @hide()
       buildContent()
+  @show.description = "Open help page"
 
   @hide: (reset) ->
     level = Math.max [times(true, true), ++level]

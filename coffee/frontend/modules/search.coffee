@@ -3,6 +3,7 @@ class Search
   [highlightClass, highlightCurrentId] = ["__vrome_search_highlight", "__vrome_search_highlight_current"]
 
   @backward: => @start -1
+  desc @backward, "Start backward search (with selected text)"
 
   @start: (offset=1) ->
     [searchMode, direction] = [true, offset]
@@ -10,6 +11,7 @@ class Search
     CmdBox.set
       title: (if direction > 0 then "Forward search: ?" else "Backward search: /"),
       pressUp: handleInput, content: getSelected() || lastSearch || ""
+  desc @start, "Start forward search (with selected text)"
 
   @stop: =>
     return unless searchMode
@@ -31,6 +33,7 @@ class Search
     @next(0)
 
   @prev: => @next(-1)
+  desc @next, "Search prev"
 
   @next: (step=1) ->
     return unless searchMode
@@ -45,13 +48,16 @@ class Search
 
     if isElementVisible(goto_node, true) # In full page
       goto_node.attr("id", highlightCurrentId).get(0)?.scrollIntoViewIfNeeded()
+  desc @next, "Search next"
 
   @openCurrentNewTab: => @openCurrent(true)
+  desc @openCurrentNewTab, "Open selected element in a new tab"
 
   @openCurrent: (new_tab) =>
     return unless searchMode
     clickElement $("##{highlightCurrentId}"), {ctrl: new_tab}
     @stop()
+  desc @openCurrent, "Open selected element in current tab"
 
 
 root = exports ? window

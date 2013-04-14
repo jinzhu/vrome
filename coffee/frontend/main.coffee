@@ -3,6 +3,9 @@ root = exports ? window
 root.Post = (msg) ->
   chrome.extension.sendMessage msg, (response) ->
 
+root.desc = (func, description) ->
+  func.description = description
+
 root.isControlKey = (key) ->
   key in ["Control", "Shift", "Alt", "Win"]
 
@@ -33,10 +36,12 @@ root.CancelKeyFunction = ->
   Dialog.stop true
   CmdBox.remove()
   Help.hide true
+root.CancelKeyFunction.description = "Cancel Actions"
 
 root.CtrlEscapeKeyFunction = ->
   KeyEvent.enable()
   CancelKeyFunction()
+root.CtrlEscapeKeyFunction = "Enable Vrome when in pass-through"
 
 
 extractFunction = (functionName) ->

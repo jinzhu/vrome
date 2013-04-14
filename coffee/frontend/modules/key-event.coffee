@@ -25,11 +25,23 @@ class KeyEvent
   @disable: ->
     CmdBox.set title: " -- PASS THROUGH -- ", mouseOverTitle: (e) -> CmdBox.remove()
     disableVrome = true
+  desc @disable, "Disable Vrome"
+  @disable.options = {
+    disablesites: {
+      description: "Disable Vrome in those sites, Multiple URLs can be separated with ','"
+      example: "set disablesites=mail.google.com, reader.google.com"
+    }
+    enable_vrome_key: {
+      description: "Key to enable Vrome again"
+      example: "set enable_vrome_key=<Esc>"
+    }
+  }
 
   @passNextKey: ->
     CmdBox.set title: " -- PASS THROUGH (next) -- ", timeout: 2000
     passNextKey = true
     Post action: "Vrome.disable"
+  @passNextKey.description = "Pass next key"
 
   @reset: ->
     CmdBox.remove()
@@ -46,6 +58,7 @@ class KeyEvent
 
   @runLast: ->
     runCurrentKeys Settings.get("@currentKeys")
+  @runLast.description = "Repeat the last command"
 
 
   filterKey = (key, insertMode) ->

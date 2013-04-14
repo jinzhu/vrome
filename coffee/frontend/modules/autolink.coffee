@@ -13,6 +13,7 @@ class AutoLink
         value = jQuery(elem).text().replace url_regexp, ($0, $1) ->
           "<a href='#{if /^(\w+\.)+\w+/.test($1) then "http://#{$1}" else $1}'>#{$1}</a>"
         jQuery(elem).after(value).remove()
+  desc @makeLink, "Transforms URLs into clickable links"
 
 
 root = exports ? window

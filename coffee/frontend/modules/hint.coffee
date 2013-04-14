@@ -65,12 +65,25 @@ class Hint
     number
 
   @multi_mode_start: => @start true, true
+  desc @multi_mode_start, "Same as `f`, but could open multiple links"
+
   @new_tab_start: => @start true
+  desc @new_tab_start, "Same as `f`, but open in new tabs"
+
   @start: (new_tab, multi_mode) =>
     [hintMode, newTab, multiMode] = [true, new_tab, multi_mode]
     setMatched(elements = (e for e in $(hintable).not("#_vrome_cmd_input_box") when isElementVisible(e)))
     setCurrentKeys ""
     CmdBox.set title: "HintMode", pressDown: handleInput, content: ""
+  desc @start, "Start Hint mode"
+  @start.options = {
+    hintkeys:
+      description: "Keys used to generate hints"
+      example: "set hintkeys=jlkhfsdagwerui"
+    useletters:
+      description: "Use letters or numbers to generate hints, if equal 0, then hintkeys will be ignored"
+      example: "set useletters=1"
+  }
 
   @remove: ->
     return false unless hintMode

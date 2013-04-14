@@ -21,24 +21,34 @@ class Zoom
 
 
   @zoomIn: -> setZoom 1
+  desc @zoomIn, "Zoom in, based on the center of the screen"
 
   @out: -> setZoom -1
+  desc @out, "Zoom out, based on the center of the screen"
 
   @more: -> setZoom 3
+  desc @more, "3x Zoom in, based on the center of the screen"
 
   @reduce: -> setZoom -3
+  desc @reduce, "3x Zoom out, based on the center of the screen"
 
   @reset: -> setZoom()
+  desc @reset, "Zoom reset, based on the center of the screen"
 
   @current_in: -> setZoom 1, true
+  desc @current_in, "Zoom in, based on the beginning of the screen"
 
   @current_out: -> setZoom -1, true
+  desc @current_out, "Zoom out, based on the beginning of the screen"
 
   @current_more: -> setZoom 3, true
+  desc @current_more, "x3 Zoom in, based on the beginning of the screen"
 
   @current_reduce: -> setZoom -3, true
+  desc @current_reduce, "x3 Zoom out, based on the beginning of the screen"
 
   @current_reset: -> setZoom 0, true
+  desc @current_reset, "Zoom reset, based on the beginning of the screen"
 
   @current: -> parseInt(levels[currentLevel()]) / 100
 

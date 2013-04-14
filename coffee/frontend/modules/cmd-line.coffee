@@ -8,6 +8,7 @@ class CmdLine
   @start: ->
     cmdLineMode = true
     Dialog.start title: "Command-line", search: searchCommands, ontab: onTabFunc
+  @start.description = "Start command line"
 
   onClickFuc = (command) ->
     (e) ->

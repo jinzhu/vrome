@@ -107,6 +107,8 @@ class Dialog
     searchFunc lastKeyword = keyword if lastKeyword isnt keyword
 
   @openCurrentNewTab: => @open true
+  @openCurrentNewTab.description = "Open selected URL in new tab"
+
   @open: (keep_open) =>
     setTimeout @openCurrent, 500, keep_open
 
