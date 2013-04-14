@@ -20,7 +20,7 @@ root.isCtrlEscapeKey = (key) ->
   key in CtrlEscapeKey
 
 root.AcceptKeyFunction = ->
-  Search.next()
+  Search.openCurrent()
   Dialog.openCurrent()
   Buffer.gotoFirstMatchHandle()
   Buffer.deleteMatchHandle()

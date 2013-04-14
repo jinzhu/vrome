@@ -1,6 +1,6 @@
 Bugs:
   coffee/frontend/modules/frame.coffee    (Don't works as except)
-  coffee/frontend/modules/tab.coffee      Merge normal to incognito, new tab don't hide dialog, gI toggle openInIncognito
+  coffee/frontend/modules/tab.coffee      Merge normal to incognito, gI toggle openInIncognito
   coffee/frontend/modules/custom.coffee   Setting, Add to README
   coffee/frontend/modules/help.coffee
 
@@ -33,6 +33,7 @@ Features:
     command_line: like window_close
     <C-]> to complete .com/.net
     b/B complete buffers
+    show tab number with https://github.com/tommoor/tinycon
 
   Dialog Mode:
     Save histories ? <Alt+^>?

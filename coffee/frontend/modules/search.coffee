@@ -14,14 +14,15 @@ class Search
   @stop: =>
     return unless searchMode
     searchMode = false
-    @remove()
+    CmdBox.remove()
+    @removeHighlights()
 
-  @remove: ->
+  @removeHighlights: ->
     $("body").unhighlight(className: highlightClass)
 
   handleInput = (e) =>
     return  unless searchMode
-    @remove() unless /Enter/.test(getKey(e)) or isControlKey(getKey(e))
+    @removeHighlights() unless /Enter/.test(getKey(e)) or isControlKey(getKey(e))
     lastSearch = CmdBox.get().content
     find lastSearch
 
@@ -47,9 +48,10 @@ class Search
 
   @openCurrentNewTab: => @openCurrent(true)
 
-  @openCurrent: (new_tab) ->
+  @openCurrent: (new_tab) =>
     return unless searchMode
     clickElement $("##{highlightCurrentId}"), {ctrl: new_tab}
+    @stop()
 
 
 root = exports ? window

@@ -513,23 +513,20 @@ CMDS =
 
     "Search.next":
       t: "Search next"
-      k: ["n", "<Enter>"]
+      k: ["n", "<M-Enter>"]
+      m: ["i", "n"]
       c: 1
 
     "Search.prev":
       t: "Search previous"
-      k: ["N", "<C-Enter>"]
+      k: ["N", "<S-Enter>"]
+      m: ["i", "n"]
       c: 1
-
-    "Search.openCurrent":
-      t: "Open selected element in current tab"
-      k: "<S-Enter>"
-      both: 1
 
     "Search.openCurrentNewTab":
       t: "Open selected element in a new tab"
-      k: "<M-Enter>"
-      both: 1
+      k: "<C-Enter>"
+      m: ["i", "n"]
 
   insert:
     "InsertMode.externalEditor":
