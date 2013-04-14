@@ -41,7 +41,7 @@ class KeyEvent
     CmdBox.set title: " -- PASS THROUGH (next) -- ", timeout: 2000
     passNextKey = true
     Post action: "Vrome.disable"
-  @passNextKey.description = "Pass next key"
+  desc @passNextKey, "Pass next key"
 
   @reset: ->
     CmdBox.remove()
@@ -58,7 +58,7 @@ class KeyEvent
 
   @runLast: ->
     runCurrentKeys Settings.get("@currentKeys")
-  @runLast.description = "Repeat the last command"
+  desc @runLast, "Repeat the last command"
 
 
   filterKey = (key, insertMode) ->

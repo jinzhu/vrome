@@ -2,13 +2,13 @@ class CmdLine
   [commands, cmdLineMode] = [{}, null]
 
   @add: (command, description, func, acceptArgs) -> #String, #Function
-    commands[command] = {name: command, description: description, func: func, hasArgs: acceptArgs}
+    commands[command] = {name: command, description: func.description, func: func, hasArgs: acceptArgs}
 
 
   @start: ->
     cmdLineMode = true
     Dialog.start title: "Command-line", search: searchCommands, ontab: onTabFunc
-  @start.description = "Start command line"
+  desc @start, "Start command line"
 
   onClickFuc = (command) ->
     (e) ->

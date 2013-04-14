@@ -48,8 +48,8 @@ class Tab
   @markAllForMerging: => @markForMerging all: true
   desc @markAllForMerging, "Marks all tabs in current window for merging"
 
-  @mergeMarkedTabs: -> Post action: "Tab.putMarkedTabs"
-  desc @putMarkedTabs, "Merge marked tab(s) to current window"
+  @mergeMarkedTabs: -> Post action: "Tab.mergeMarkedTabs"
+  desc @mergeMarkedTabs, "Merge marked tab(s) to current window"
 
   @selectPrevious: ->
     if count = times(true)

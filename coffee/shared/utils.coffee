@@ -22,6 +22,9 @@
 @rabs = (num, total) ->
   (num % total + total) % total
 
+@desc = (func, description) ->
+  func.description = description
+
 root = exports ? window
-for m in ["getLocalServerUrl", "checkServerStatus", "getHostname", "stringify", "rabs"]
+for m in ["getLocalServerUrl", "checkServerStatus", "getHostname", "stringify", "rabs", "desc"]
   root[m] = self[m]

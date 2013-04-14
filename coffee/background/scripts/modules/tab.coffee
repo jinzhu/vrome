@@ -189,7 +189,7 @@ class Tab
       Post tab, {action: "CmdBox.set", title: title, timeout: 4000}
 
 
-  @putMarkedTabs: ->
+  @mergeMarkedTabs: ->
     tab = getTab(arguments)
     return if Tab.marked_tabs.length == 0
 
