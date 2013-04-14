@@ -2,8 +2,7 @@ Bugs:
   coffee/frontend/modules/frame.coffee    (Don't works as except)
   coffee/frontend/modules/tab.coffee      Merge normal to incognito, gI toggle openInIncognito
   coffee/frontend/modules/custom.coffee   Setting, Add to README
-  coffee/frontend/modules/help.coffee
-
+  coffee/frontend/modules/help.coffee -> show options, default options
 
 Features:
   Extend Commandline: source('config')

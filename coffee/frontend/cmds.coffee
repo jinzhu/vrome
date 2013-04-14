@@ -48,14 +48,17 @@ extractFunction = (functionName) ->
 imapFunc = (key, func, virtual_key) ->
   keys = if $.isArray key then key else [key]
   KeyEvent.add k, extractFunction(func), true for k in keys
+  Help.add virtual_key ? key, func, extractFunction(func), "i"
 
 nmapFunc = (key, func, virtual_key) ->
   keys = if $.isArray key then key else [key]
   KeyEvent.add k, extractFunction(func) for k in keys
+  Help.add virtual_key ? key, func, extractFunction(func), "n"
 
 cmapFunc = (key, func, virtual_key) ->
   keys = if $.isArray key then key else [key]
   CmdLine.add k, extractFunction(func) for k in keys
+  Help.add virtual_key ? key, func, extractFunction(func), "c"
 
 mapFunc = (key, func, virtual_key) ->
   nmapFunc(key, func, virtual_key)
@@ -211,10 +214,10 @@ nmapFunc "<C-Enter>", "Search.openCurrentNewTab"
 
 ## Marks
 mark_keys = ('m' + String.fromCharCode(num)) for num in [65..122] when num not in [91..96]
-nmapFunc mark_keys, "Marks.addLocalMark", "m [a-z][0-9]"
+nmapFunc mark_keys, "Marks.addLocalMark", "m[a-z][0-9]"
 
 jump_keys = ("'" + String.fromCharCode(num)) for num in [65..122] when num not in [91..96]
-nmapFunc jump_keys, "Marks.addLocalMark", "' [a-z][0-9]"
+nmapFunc jump_keys, "Marks.addLocalMark", "'[a-z][0-9]"
 
 nmapFunc "M", "Marks.addQuickMark"
 nmapFunc "go", "Marks.gotoQuickMark"
@@ -239,7 +242,7 @@ imapFunc ["<M-k>"], "InsertMode.MoveForwardChar"
 
 
 ## CmdLine
-# cmapFunc "help", "Help.show"
+cmapFunc "help", "Help.show"
 cmapFunc "bdelete", "Buffer.deleteMatchHandle"
 cmapFunc "make_links", "AutoLink.makeLink"
 cmapFunc "images_toggle", "Command.imagesToggle"
@@ -261,4 +264,4 @@ cmapFunc "window_closeall", "Window.close_all"
 # CmdLine.add "mdelete", "Delete matched marks", Marks.deleteQuickMark
 
 for url in ['downloads', 'bookmarks', 'history', 'chrome_help', 'settings', 'extensions', 'github', 'issues', 'options']
-  cmapFunc ["open_#{url}!", "open_#{url}"], "Links['#{url}']"
+  cmapFunc ["open_#{url}!", "open_#{url}"], "Links.#{url}"

@@ -13,7 +13,6 @@ guard 'shell' do
 
   watch(/.coffee$/) do |files|
     files.map do |file|
-      next if file =~ /help/
       js_file = file.sub(/coffee$/, "js").sub(/coffee/, 'src')
       js_map_file = js_file + ".map"
       system "mkdir -p #{File.dirname(js_file)}",
@@ -30,7 +29,8 @@ guard 'shell' do
   watch(/.scss$/) do |files|
     files.map do |file|
       css_file = file.sub(/scss$/, "css").sub(/coffee/, 'src')
-      system "scss #{file} > #{css_file}"
+      puts "scss #{file} > #{css_file}"
+      `scss #{file} > #{css_file}`
     end
   end
 end

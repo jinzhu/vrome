@@ -178,222 +178,41 @@ $hint_font_size: 12px;
 }
 
 
-/* ------------ */
-/* ------------ */
-
+/* Help Box */
 #vromeHelpOverlay {
-  background-color: black !important;
-  filter:alpha(opacity=75);
-  -moz-opacity: 0.75;
-  opacity: 0.75;
+  opacity: 0.9;
   position: absolute;
-  top: 0px;
-  left: 0px;
+  top: 0px; left: 0px;
   height: 100%;
   width: 100%;
   z-index: 2147483640 !important;
-}
 
-
-/*help box and inner element*/
-#vromeHelpBox {
-  font-size: 12px;
-  background-color: #252525 !important;
-  position: absolute;
-  margin-left: 10px;
-  margin-right: 10px;
-  top: 10px;
-  left: 0px;
-  border: #3f86bb 3px solid !important;
-  z-index: 2147483640 !important;
-
-  table {
-    margin-left: 15px;
-    margin-top: 0px;
+  #vromeHelpBox {
+    font-size: 12px;
     background-color: #252525 !important;
-    border: none;
-    border-spacing: 0px;
-    height: 50%;
-    width: 95%;
-  }
+    margin: auto;
+    border: #3f86bb 3px solid !important;
+    width: 90%;
 
+    table {
+      margin-left: 10px;
+      margin-top: 0px;
+      border: none;
+      border-spacing: 0px;
+      width: 95%;
+      color: #fff;
+      font-size: 1.2em;
+      tr {
+        text-align:left !important;
+        &.head {
+          color: #ff0;
+          font-weight: 700;
+        }
 
-  td {
-    background-color: #252525 !important;
-    border: none;
-    font-family: Calibri, Arial, Verdana, sans-serif !important;
-    margin: 0;
-    padding: 0;
-    outline: 0;
-    vertical-align: text-top;
-    text-align: left;
-    font-variant: normal;
-    font-style: normal;
-    line-height: normal;
-  }
-
-  /*category*/
-  .help_categoryTitle {
-    width: 5%;
-    h2 {
-      color: #bfb;
-      font-weight: bold !important;
-      font-size: 18px;
-      width: 5%;
+        td {
+          padding: 5px 0 !important;
+        }
+      }
     }
-  }
-
-  /*display O S C*/
-  .help_hasOptions{
-    color: cyan;
-    font-size: 10px;
-    font-family: cursive;
-    width: .1%;
-    text-align: right !important;
-  }
-
-  .help_server {
-    color: red;
-    font-size: 10px;
-    font-family: cursive;
-    width: .1%;
-    text-align: right !important;
-  }
-
-  .help_count {
-    color: hotpink;
-    font-size: 10px;
-    font-family: cursive;
-    width: .1%;
-    text-align: right !important;
-  }
-
-
-  /*keys*/
-  .help_keyShortcut {
-    color: yellow;
-    font-weight: bold;
-    font-size: 12px;
-    width: 2%;
-    text-align: center !important;
-  }
-
-  /*keys*/
-  .help_keyShortcutNone {
-    color: red;
-    font-weight: bold;
-    font-size: 12px;
-    width: 2%;
-    text-align: center !important;
-  }
-
-  /*command title + description*/
-  .help_title {
-    color: white;
-    font-size: 14px;
-    font-weight: bold;
-  }
-
-  .help_desc {
-    color: #E3BE23;
-    font-size: 11px;
-  }
-
-  /*options string */
-  .help_optsLabel {
-    font-size: 8px;
-    font-family: cursive;
-    color: cyan;
-  }
-
-  /*option table headers*/
-  .help_optsTable {
-    width: 100%;
-  }
-
-  .help_optHeader{
-    font-weight: bold;
-    font-size: 9px;
-    color: seashell;
-    text-align: center !important;
-  }
-
-  /*option name*/
-  .help_optName{
-    color: cyan;
-    font-weight: bold;
-    font-size: 14px;
-    text-align: center !important;
-  }
-
-  /*option default*/
-  .help_optDefault {
-    font-family: sans-serif;
-    font-size: 12px;
-    color: #cf867e;
-    text-align: center !important;
-    width: 25%;
-  }
-
-  .help_optDefault a {
-    color: #cf867e;
-    text-decoration: none;
-  }
-
-  .help_optDefault a:visited {
-    color: #cf867e;
-    text-decoration: none;
-  }
-
-  .help_optDefault a:link {
-    color: #cf867e;
-    text-decoration: none;
-  }
-
-  /*option value*/
-  .help_optValue {
-    font-family: sans-serif;
-    font-size: 12px;
-    color: #bfb;
-    font-weight: bold;
-    text-align: center !important;
-    width: 25%;
-  }
-
-  /*option value*/
-  .help_optValue a:visited {
-    color: #bfb;
-    text-decoration: none;
-  }
-
-  .help_optValue a:link {
-    color: #bfb;
-    text-decoration: none;
-  }
-
-  /*option value*/
-  .help_optValue a {
-    color: #bfb;
-    text-decoration: none;
-  }
-
-  /*option description*/
-  .help_optDesc{
-    font-family: sans-serif;
-    font-size: 14px;
-    color: white;
-    width: 100%;
-    text-align: center !important;
-  }
-
-  .help_defaultColor {
-    color: seashell;
-    font-size: 11px;
-    font-weight: bold;
-    width: 5%;
-  }
-
-  .help_hidden {
-    display: none;
   }
 }
