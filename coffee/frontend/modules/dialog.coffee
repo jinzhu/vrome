@@ -115,7 +115,7 @@ class Dialog
   @openCurrent: (keep_open) => #Boolean
     return false if !dialogMode
     clickElement @current(), {"ctrl": keep_open or newTab}
-    stop() unless keep_open
+    @stop() unless keep_open
 
 
 root = exports ? window
