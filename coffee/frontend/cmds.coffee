@@ -52,8 +52,6 @@ imapFunc = (key, func, virtual_key) ->
 nmapFunc = (key, func, virtual_key) ->
   keys = if $.isArray key then key else [key]
   KeyEvent.add k, extractFunction(func) for k in keys
-  console.log key
-  console.log extractFunction(func)
 
 cmapFunc = (key, func, virtual_key) ->
   keys = if $.isArray key then key else [key]
@@ -249,7 +247,7 @@ cmapFunc "images_only", "Command.imagesOnly"
 cmapFunc "javascript", "Command.javascript"
 cmapFunc "css", "Command.css"
 cmapFunc "source", "Command.source"
-cmapFunc "reload_extension", "Command.reload_extension"
+cmapFunc "reload_extension", "Command.reloadExtension"
 cmapFunc "print", "Command.print"
 cmapFunc "capture", "Window.capture"
 cmapFunc "saveas", "Window.saveas"

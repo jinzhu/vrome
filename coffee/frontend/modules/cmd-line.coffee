@@ -1,8 +1,8 @@
 class CmdLine
   [commands, cmdLineMode] = [{}, null]
 
-  @add: (command, description, func, acceptArgs) -> #String, #Function
-    commands[command] = {name: command, description: func.description, func: func, hasArgs: acceptArgs}
+  @add: (command, func, acceptArgs) -> #String, #Function
+    commands[command] = {name: command, description: func?.description, func: func, hasArgs: acceptArgs}
 
 
   @start: ->

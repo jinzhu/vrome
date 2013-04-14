@@ -1,8 +1,8 @@
 class Command
 
-  @reload_extension: ->
+  @reloadExtension: ->
     Post action: "reloadExtension"
-  desc @reload_extension, "Reload All Extensions"
+  desc @reloadExtension, "Reload All Extensions"
 
   @print: ->
     CmdBox.remove()
@@ -27,7 +27,7 @@ class Command
       images = $('img').filter(':visible').clone()
       toggleHiddenElems [], $("body").children()
       $("body").append $("<div>", {__vrome_images: "1"}).append(images)
-  desc @images_only, "Only show images, run again to rollback"
+  desc @imagesOnly, "Only show images, run again to rollback"
 
   @javascript: ->
     console.log eval(CmdBox.get().argument)
