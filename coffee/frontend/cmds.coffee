@@ -65,17 +65,17 @@ mapFunc = (key, func, virtual_key) ->
   imapFunc(key, func, virtual_key)
 
 
-mapFunc  "<F1>", "Help.show"
+nmapFunc  "<F1>", "Help.show"
 nmapFunc ":", "CmdLine.start"
 
 mapFunc AcceptKey, "AcceptKeyFunction"
 mapFunc CancelKey, "CancelKeyFunction"
 
-mapFunc "<C-z>", "KeyEvent.disable"
-mapFunc "<C-v>", "KeyEvent.passNextKey"
-mapFunc CtrlEscapeKey, "CtrlEscapeKeyFunction"
+nmapFunc "<C-z>", "KeyEvent.disable"
+nmapFunc "<C-v>", "KeyEvent.passNextKey"
+nmapFunc CtrlEscapeKey, "CtrlEscapeKeyFunction"
 
-mapFunc "<C-Enter>", "Dialog.openCurrentNewTab"
+nmapFunc "<C-Enter>", "Dialog.openCurrentNewTab"
 
 nmapFunc ".", "KeyEvent.runLast" # count
 
