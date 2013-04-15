@@ -25,7 +25,7 @@ class Option
       jquery: 'http://code.jquery.com/jquery.js'
 
   @get: (key) ->
-    configure = Settings.get("configure.set")?[key]
+    configure = Settings.get("@configure.set")?[key]
     option = options[key]
 
     if $.isArray(configure)

@@ -31,8 +31,8 @@ class Vromerc
         configs.push line
         config = line.trimFirst(method)
 
-        setting_key   = line.split(/\+?=/)[0]
-        setting_value = line.trimFirst(setting_key + "=").trimFirst(setting_key + "+=")
+        setting_key   = config.split(/\+?=/)[0]
+        setting_value = config.trimFirst(setting_key + "=").trimFirst(setting_key + "+=")
         setting_value = Number(setting_value) unless isNaN(setting_value)
         # set xxx+=xxxxx
         is_plus       = (if line.match(/^\s*set\s+\w+\+=/) then true else false)
