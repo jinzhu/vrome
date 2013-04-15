@@ -1,7 +1,11 @@
 class InsertMode
-  [caretPosition, value, lineStart, prevLineStart, nextLineStart, next2LineStart] = []
+  [elem, caretPosition, value, lineStart, prevLineStart, nextLineStart, next2LineStart] = []
+  storedValues = []
 
-  currentElement = ->
+  @storeLastValue = ->
+    storedValues.push value if value != storedValues[-1]
+
+  currentElement = =>
     elem = document.activeElement
     try
       if elem
@@ -11,6 +15,7 @@ class InsertMode
         prevLineStart = caretPositionOfAboveLine()
         nextLineStart = caretPositionOfNextLine()
         next2LineStart = caretPositionOfNext2Line()
+        @storeLastValue()
     catch err
       Debug err
     elem
@@ -39,6 +44,9 @@ class InsertMode
     $(elems[times() - 1]).focus().select()
   desc @focusFirstTextInput, "Focus the {count} input field"
 
+  @restoreLastValue: ->
+    elem.value = storedValues.pop() ? value
+  desc @restoreLastValue, "Undo last change"
 
   # Move <(C|M)-(a|e)>
   @moveToFirstOrSelectAll: ->

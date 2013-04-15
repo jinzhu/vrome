@@ -246,6 +246,7 @@ imapFunc "<M-m>", "InsertMode.moveForwardChar"
 imapFunc "<M-j>", "InsertMode.moveForwardLine"
 imapFunc "<M-k>", "InsertMode.moveBackwardLine"
 
+imapFunc "<M-z>", "InsertMode.restoreLastValue"
 
 ## CmdLine
 cmapFunc "help", "Help.show"
