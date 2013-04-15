@@ -21,24 +21,36 @@ Vim + Vimperator users will feel right at home.
 * Vrome is an open-source project. We do not log your personal information! All required permissions are used for features. You can check the source code here: [http://github.com/jinzhu/vrome](http://github.com/jinzhu/vrome)
 * After install/upgrade, please refresh all tabs to enable all/new Vrome features. Tip: use "\<C-r\>" (Control + R) to refresh a tab, then try Vrome command "R" to refresh all tabs.
 * Please enable Vrome in incognito mode in order to use commands that require incognito. Check [chrome://extensions](chrome://extensions) page.
-##### *NOTE* Type \<F1\> to display Help page.
+* Type `<F1>` for Help page.
 
 
 ### Installation
 
-* (Recommended) Install the latest stable Vrome from [Chrome Web Store](https://chrome.google.com/webstore/detail/godjoomfiimiddapohpmfklhgmbfffjj/details). Afterwards, extension will be automatically updated when a new version is available!
-* (Manual) From source [Manual Install](https://github.com/jinzhu/vrome/wiki/Manual-Install).
+* (Recommended) Install the latest stable Vrome from [Chrome Web Store](https://chrome.google.com/webstore/detail/godjoomfiimiddapohpmfklhgmbfffjj/details).
+  Afterwards, extension will be automatically updated when a new version is available!
+* (Manual) From source:
+  + Make sure ruby, npm, git installed
+  + `git clone git://github.com/jinzhu/vrome.git`
+  + Install coffee-script-redux with npm `npm install coffee-script-redux -g`
+  + Install Bundler with rubygems `gem install bundler`
+  + Run `bundle install`
+  + Run `rake init_development_env`
+  + Load this extension from chrome://extensions/ page
 
-### Improve it
-  * Vrome uses [GitHub Issue Tracker](https://github.com/jinzhu/vrome/issues) to track bugs/features/ideas
-  * [Read more before posting](https://github.com/jinzhu/vrome/wiki/Issue-tracker)
-  * GitHub accounts are free. No GitHub? Send us an email wosmvp@gmail.com
-  * [Hack it](https://github.com/jinzhu/vrome/wiki/Collaboration-process)
+### Improve it!
+Like Vrome? Improve it by:
 
-### Share!
-  * Tell about Vrome to your friends via Twitter, Facebook, Google+, Blog, YouTube...  (be sure to let us know)
-  * Share your custom configuration here [Examples](https://github.com/jinzhu/vrome/wiki/Config-Examples) OR put your .vromerc on GitHub
-  * Rate Vrome in [Chrome Web Store](https://chrome.google.com/webstore/detail/godjoomfiimiddapohpmfklhgmbfffjj/details)
+* Star it in [GitHub](https://github.com/jinzhu/vrome)!
+* Rate Vrome in [Chrome Web Store](https://chrome.google.com/webstore/detail/godjoomfiimiddapohpmfklhgmbfffjj/details)!
+* Submit Issues/Features/Ideas to [GitHub Issue Tracker](https://github.com/jinzhu/vrome/issues)!
+* Tell about Vrome to your friends via Twitter, Facebook, Google+, Blog, YouTube...
+* Donate Vrome Development! [Paypal](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=wosmvp%40gmail%2ecom&lc=US&item_name=Donate%20Vrome%20Development&no_note=0&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHostedGuest), [AliPay](https://me.alipay.com/wosmvp)
+
+### Hack it!
+
+* Install Vrome from source
+* Run `guard`
+* That's all, all changes you made will apply to your browser automatically!
 
 
 ### Find more information in our [WIKI](https://github.com/jinzhu/vrome/wiki)

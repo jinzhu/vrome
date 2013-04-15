@@ -35,3 +35,5 @@
 
   - 駒場 大樹
   - Ian Taylor
+  - Piotr Zolnierek
+  - Timur Sattarov
