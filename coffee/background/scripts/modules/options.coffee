@@ -32,9 +32,10 @@ setSettings = ->
   $("#onlineVromercUrl").val Settings.get("onlineVromercUrl")
   $("#onlineVromercReloadInterval").val Settings.get("onlineVromercReloadInterval")
   $("#onlineVromercLastUpdatedAt").val Settings.get("onlineVromercLastUpdatedAt")
+
+setOAuthToken = ->
   # oauth
   changeAccessButtonStatus oauth.hasToken()
-
 
 saveSettings = ->
   Settings.add {
@@ -55,8 +56,8 @@ $ ->
   renderPages()
   setSettings()
 
+  window.setTimeout setOAuthToken, 1000
   window.setInterval checkServerStatus, 1000
-  checkServerStatus()
 
   $(".saveOptions").click saveOptions
   $(".closeWindow").click window.close
