@@ -1,3 +1,13 @@
+Add Why Vrome Better WIKI
+  Insert Mode
+  Relative Path
+  Dialog Hotkey
+  Source javascript
+  Per Host Config
+  Support Chinese/Japanese/Korean when do search
+  Powerful Hint Mode
+  ...
+
 Bugs:
   coffee/frontend/modules/frame.coffee    (Don't works as except)
   coffee/frontend/modules/tab.coffee      Merge normal to incognito, gI toggle openInIncognito
