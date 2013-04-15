@@ -1,5 +1,5 @@
 class InsertMode
-  [caretPosition, value, lineStart, prevLineStart, nextLineStart] = [null, null]
+  [caretPosition, value, lineStart, prevLineStart, nextLineStart, next2LineStart] = []
 
   currentElement = ->
     elem = document.activeElement
@@ -10,6 +10,7 @@ class InsertMode
         lineStart = caretPositionOfCurrentLine()
         prevLineStart = caretPositionOfAboveLine()
         nextLineStart = caretPositionOfNextLine()
+        next2LineStart = caretPositionOfNext2Line()
     catch err
       Debug err
     elem
@@ -24,6 +25,11 @@ class InsertMode
     position = value[caretPosition..-1].indexOf("\n")
     return value.length + 1 if position is -1
     caretPosition + position + 1
+
+  caretPositionOfNext2Line = ->
+    position = value[nextLineStart..-1].indexOf("\n")
+    return value.length + 1 if position is -1
+    nextLineStart + position + 1
 
   @blurFocus: ->
     $(currentElement()).blur()
@@ -105,13 +111,24 @@ class InsertMode
   @moveBackwardChar: ->
     elem = currentElement()
     elem.setSelectionRange caretPosition - 1, caretPosition - 1
-  desc @moveBackwardChar, "Move backward char. <M-(hjkl)> for move back/forward a word/char"
+  desc @moveBackwardChar, "Move backward char. <M-(hnml)> for move back/forward a word/char"
 
   @moveForwardChar: ->
     elem = currentElement()
     elem.setSelectionRange caretPosition + 1, caretPosition + 1
-  desc @moveForwardChar, "Move forward char. <M-(hjkl)> for move back/forward a word/char"
+  desc @moveForwardChar, "Move forward char. <M-(hnml)> for move back/forward a word/char"
 
+  @moveForwardLine: ->
+    elem = currentElement()
+    start = Math.min(nextLineStart + (caretPosition - lineStart), next2LineStart - 1)
+    elem.setSelectionRange start, start
+  desc @moveForwardLine, "Move forward line. <M-(jk)> for move back/forward a line"
+
+  @moveBackwardLine: ->
+    elem = currentElement()
+    start = Math.min(prevLineStart + (caretPosition - lineStart), lineStart - 1)
+    elem.setSelectionRange start, start
+  desc @moveBackwardLine, "Move backward line. <M-(jk)> for move back/forward a line"
 
   @externalEditorCallBack: (msg) ->
     $("[vrome_edit_id='#{msg.edit_id}']").val(msg.value).removeAttr("vrome_edit_id")
@@ -124,7 +141,6 @@ class InsertMode
     column = 1 + text.replace(/[^]*\n/, "").length
     elem.setAttribute "vrome_edit_id", edit_id
     Post action: "Editor.open", callbackAction: "InsertMode.externalEditorCallBack", data: elem.value, edit_id: edit_id, line: line, col: column
-
   desc @externalEditor, "Launch the external editor"
   @externalEditor.options = {
     editor:

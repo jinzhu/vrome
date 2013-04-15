@@ -240,8 +240,11 @@ imapFunc "<M-i>", "InsertMode.deleteForwardChar"
 
 imapFunc "<M-h>", "InsertMode.moveBackwardWord"
 imapFunc "<M-l>", "InsertMode.moveForwardWord"
-imapFunc "<M-j>", "InsertMode.moveBackwardChar"
-imapFunc "<M-k>", "InsertMode.moveForwardChar"
+imapFunc "<M-n>", "InsertMode.moveBackwardChar"
+imapFunc "<M-m>", "InsertMode.moveForwardChar"
+
+imapFunc "<M-j>", "InsertMode.moveForwardLine"
+imapFunc "<M-k>", "InsertMode.moveBackwardLine"
 
 
 ## CmdLine
