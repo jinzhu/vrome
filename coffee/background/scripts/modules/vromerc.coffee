@@ -47,7 +47,9 @@ class Vromerc
         # comment this line
         configs.push line.replace(/^"?\s{0,1}/, "\" ")
 
-    Settings.add url_marks: url_marks, configure: setting
+    Settings.add "url_marks", url_marks
+    # Replace configure, don't extend it
+    Settings.add "configure", setting
     configs.join("\n")
 
 
