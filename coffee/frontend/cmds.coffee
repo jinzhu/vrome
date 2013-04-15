@@ -225,20 +225,23 @@ nmapFunc "gn", "Marks.gotoQuickMarkNewTab"
 
 ## Insert Mode
 imapFunc "<C-i>", "InsertMode.externalEditor"
+imapFunc "<C-u>", "InsertMode.deleteToBeginCurrentLine"
+imapFunc "<C-k>", "InsertMode.deleteToEndCurrentLine"
+
 imapFunc "<C-a>", "InsertMode.moveToFirstOrSelectAll"
 imapFunc "<C-e>", "InsertMode.moveToEnd"
-imapFunc "<C-u>", "InsertMode.deleteToBegin"
-imapFunc "<C-k>", "InsertMode.deleteToEnd"
+imapFunc "<M-a>", "InsertMode.moveToBeginCurrentLine"
+imapFunc "<M-e>", "InsertMode.moveToEndCurrentLine"
 
-imapFunc ["<M-y>"], "InsertMode.deleteBackwardWord"
-imapFunc ["<M-o>"], "InsertMode.deleteForwardWord"
-imapFunc ["<M-u>"], "InsertMode.deleteBackwardChar"
-imapFunc ["<M-i>"], "InsertMode.deleteForwardChar"
+imapFunc "<M-y>", "InsertMode.deleteBackwardWord"
+imapFunc "<M-o>", "InsertMode.deleteForwardWord"
+imapFunc "<M-u>", "InsertMode.deleteBackwardChar"
+imapFunc "<M-i>", "InsertMode.deleteForwardChar"
 
-imapFunc ["<M-h>"], "InsertMode.moveBackwardWord"
-imapFunc ["<M-l>"], "InsertMode.moveForwardWord"
-imapFunc ["<M-j>"], "InsertMode.moveBackwardChar"
-imapFunc ["<M-k>"], "InsertMode.moveForwardChar"
+imapFunc "<M-h>", "InsertMode.moveBackwardWord"
+imapFunc "<M-l>", "InsertMode.moveForwardWord"
+imapFunc "<M-j>", "InsertMode.moveBackwardChar"
+imapFunc "<M-k>", "InsertMode.moveForwardChar"
 
 
 ## CmdLine

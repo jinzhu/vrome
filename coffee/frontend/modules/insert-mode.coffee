@@ -22,7 +22,7 @@ class InsertMode
 
   caretPositionOfNextLine = ->
     position = value[caretPosition..-1].indexOf("\n")
-    return value.length if position is -1
+    return value.length + 1 if position is -1
     caretPosition + position + 1
 
   @blurFocus: ->
@@ -33,6 +33,8 @@ class InsertMode
     $(elems[times() - 1]).focus().select()
   desc @focusFirstTextInput, "Focus the {count} input field"
 
+
+  # Move <(C|M)-(a|e)>
   @moveToFirstOrSelectAll: ->
     currentElement()?.setSelectionRange 0, (if caretPosition is 0 then value.length else 0)
   desc @moveToFirstOrSelectAll, "Move to first words or select all"
@@ -41,17 +43,27 @@ class InsertMode
     currentElement()?.setSelectionRange value.length, value.length
   desc @moveToEnd, "Move to end"
 
-  @deleteToBegin: ->
+  @moveToBeginCurrentLine: ->
+    elem = currentElement()
+    elem?.setSelectionRange lineStart, lineStart
+  desc @moveToBeginCurrentLine, "Move to the beginning of the line"
+
+  @moveToEndCurrentLine: ->
+    elem = currentElement()
+    elem?.setSelectionRange nextLineStart-1, nextLineStart-1
+  desc @moveToEndCurrentLine, "Move forwards to end of the line"
+
+  @deleteToBeginCurrentLine: ->
     elem = currentElement()
     elem.value = value[0...lineStart] + value[caretPosition..-1]
     elem?.setSelectionRange lineStart, lineStart
-  desc @deleteToBegin, "Delete to the beginning of the line"
+  desc @deleteToBeginCurrentLine, "Delete to the beginning of the line"
 
-  @deleteToEnd: ->
+  @deleteToEndCurrentLine: ->
     elem = currentElement()
     elem.value = value[0...caretPosition] + value[nextLineStart-1..-1]
     elem?.setSelectionRange caretPosition, caretPosition
-  desc @deleteToEnd, "Delete forwards to end of line"
+  desc @deleteToEndCurrentLine, "Delete forwards to end of the line"
 
   @deleteForwardChar: ->
     elem = currentElement()
