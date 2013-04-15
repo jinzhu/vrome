@@ -64,27 +64,27 @@ class InsertMode
     elem?.setSelectionRange elem.value.length, elem.value.length
   desc @deleteToEnd, "Delete forwards to end of line"
 
-  @MoveBackwardWord: ->
+  @moveBackwardWord: ->
     elem = currentElement()
     str = value.substr(0, caret_position).replace(/[^\s\n.,]*?.\s*$/, "")
     elem?.setSelectionRange str.length, str.length
-  desc @MoveBackwardWord, "Move backward word. <M-(hjkl)> for move back/forward a word/char"
+  desc @moveBackwardWord, "Move backward word. <M-(hjkl)> for move back/forward a word/char"
 
-  @MoveForwardWord: ->
+  @moveForwardWord: ->
     elem = currentElement()
     position = value.length - value.substr(caret_position).replace(/^\s*.[^\s\n.,]*/, "").length
     elem?.setSelectionRange position, position
-  desc @MoveBackwardWord, "Move forward word. <M-(hjkl)> for move back/forward a word/char"
+  desc @moveBackwardWord, "Move forward word. <M-(hjkl)> for move back/forward a word/char"
 
-  @MoveBackwardChar: ->
+  @moveBackwardChar: ->
     elem = currentElement()
     elem.setSelectionRange caret_position - 1, caret_position - 1
-  desc @MoveBackwardChar, "Move backward char. <M-(hjkl)> for move back/forward a word/char"
+  desc @moveBackwardChar, "Move backward char. <M-(hjkl)> for move back/forward a word/char"
 
-  @MoveForwardChar: ->
+  @moveForwardChar: ->
     elem = currentElement()
     elem.setSelectionRange caret_position + 1, caret_position + 1
-  desc @MoveForwardChar, "Move forward char. <M-(hjkl)> for move back/forward a word/char"
+  desc @moveForwardChar, "Move forward char. <M-(hjkl)> for move back/forward a word/char"
 
 
   @externalEditorCallBack: (msg) ->

@@ -235,10 +235,10 @@ imapFunc ["<M-o>"], "InsertMode.deleteForwardWord"
 imapFunc ["<M-u>"], "InsertMode.deleteBackwardChar"
 imapFunc ["<M-i>"], "InsertMode.deleteForwardChar"
 
-imapFunc ["<M-h>"], "InsertMode.MoveBackwardWord"
-imapFunc ["<M-l>"], "InsertMode.MoveForwardWord"
-imapFunc ["<M-j>"], "InsertMode.MoveBackwardChar"
-imapFunc ["<M-k>"], "InsertMode.MoveForwardChar"
+imapFunc ["<M-h>"], "InsertMode.moveBackwardWord"
+imapFunc ["<M-l>"], "InsertMode.moveForwardWord"
+imapFunc ["<M-j>"], "InsertMode.moveBackwardChar"
+imapFunc ["<M-k>"], "InsertMode.moveForwardChar"
 
 
 ## CmdLine
