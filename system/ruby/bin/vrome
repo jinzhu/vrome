@@ -41,7 +41,7 @@ class VromeServer < WEBrick::HTTPServlet::AbstractServlet
     line   = request['line'] || 0
     column = request['col'] || 0
 
-    tmpfile = Tempfile.new('editor')
+    tmpfile = Tempfile.new('vrome_external_editor')
     tmpfile.write request['data']
     tmpfile.flush
 

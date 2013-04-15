@@ -41,7 +41,7 @@ class VromeServer(BaseHTTPRequestHandler):
         os.close(fd)
         os.system("%s %s" % (editor, filename))
         text = open(filename, 'r').read()
-        os.remove(filename)
+        # os.remove(filename)
         return 200, 'text/plain', text
 
 def run_server():
