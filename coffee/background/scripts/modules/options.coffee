@@ -59,7 +59,7 @@ $ ->
   window.setTimeout setOAuthToken, 1000
   window.setInterval checkServerStatus, 1000
 
-  $(".saveOptions").click saveOptions
-  $(".closeWindow").click window.close
-  $("#grantAccess").click grantOAuthAccess
-  $("#revokeAccess").click revokeOAuthAccess
+  $('body').on('click', ".saveOptions", saveOptions)
+  $('body').on('click', ".closeWindow", window.close)
+  $('body').on('click', "#grantAccess", grantOAuthAccess)
+  $('body').on('click', "#revokeAccess", revokeOAuthAccess)
