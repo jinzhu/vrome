@@ -127,7 +127,7 @@ nmapFunc "gF", "Url.viewSourceNewTab"
 
 nmapFunc "y", "Tab.copyUrl"
 nmapFunc "p", "Url.openFromClipboard"
-nmapFunc "P", "Url.openFromClipboard"
+nmapFunc "P", "Url.openFromClipboardNewTab"
 nmapFunc "<M-p>", "Url.openFromClipboardAndFocusNewTab"
 
 nmapFunc "<C-a>", "Url.increment" # count
