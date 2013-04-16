@@ -233,18 +233,18 @@ imapFunc "<C-e>", "InsertMode.moveToEnd"
 imapFunc "<M-a>", "InsertMode.moveToBeginCurrentLine"
 imapFunc "<M-e>", "InsertMode.moveToEndCurrentLine"
 
-imapFunc "<M-y>", "InsertMode.deleteBackwardWord"
+imapFunc ["<M-y>", "<M-w>"], "InsertMode.deleteBackwardWord"
 imapFunc "<M-o>", "InsertMode.deleteForwardWord"
 imapFunc "<M-u>", "InsertMode.deleteBackwardChar"
 imapFunc "<M-i>", "InsertMode.deleteForwardChar"
 
 imapFunc "<M-h>", "InsertMode.moveBackwardWord"
 imapFunc "<M-l>", "InsertMode.moveForwardWord"
-imapFunc "<M-n>", "InsertMode.moveBackwardChar"
-imapFunc "<M-m>", "InsertMode.moveForwardChar"
+imapFunc "<M-j>", "InsertMode.moveBackwardChar"
+imapFunc "<M-k>", "InsertMode.moveForwardChar"
 
-imapFunc "<M-j>", "InsertMode.moveForwardLine"
-imapFunc "<M-k>", "InsertMode.moveBackwardLine"
+imapFunc "<M-n>", "InsertMode.moveForwardLine"
+imapFunc "<M-m>", "InsertMode.moveBackwardLine"
 
 imapFunc "<M-z>", "InsertMode.restoreLastValue"
 

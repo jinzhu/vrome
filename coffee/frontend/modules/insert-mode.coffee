@@ -119,24 +119,24 @@ class InsertMode
   @moveBackwardChar: ->
     elem = currentElement()
     elem.setSelectionRange caretPosition - 1, caretPosition - 1
-  desc @moveBackwardChar, "Move backward char. <M-(hnml)> for move back/forward a word/char"
+  desc @moveBackwardChar, "Move backward char. <M-(hjkl)> for move back/forward a word/char"
 
   @moveForwardChar: ->
     elem = currentElement()
     elem.setSelectionRange caretPosition + 1, caretPosition + 1
-  desc @moveForwardChar, "Move forward char. <M-(hnml)> for move back/forward a word/char"
+  desc @moveForwardChar, "Move forward char. <M-(hjkl)> for move back/forward a word/char"
 
   @moveForwardLine: ->
     elem = currentElement()
     start = Math.min(nextLineStart + (caretPosition - lineStart), next2LineStart - 1)
     elem.setSelectionRange start, start
-  desc @moveForwardLine, "Move forward line. <M-(jk)> for move back/forward a line"
+  desc @moveForwardLine, "Move forward line. <M-(nm)> for move back/forward a line"
 
   @moveBackwardLine: ->
     elem = currentElement()
     start = Math.min(prevLineStart + (caretPosition - lineStart), lineStart - 1)
     elem.setSelectionRange start, start
-  desc @moveBackwardLine, "Move backward line. <M-(jk)> for move back/forward a line"
+  desc @moveBackwardLine, "Move backward line. <M-(nm)> for move back/forward a line"
 
   @externalEditorCallBack: (msg) ->
     $("[vrome_edit_id='#{msg.edit_id}']").val(msg.value).removeAttr("vrome_edit_id")
