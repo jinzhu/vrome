@@ -11,7 +11,7 @@ class Url
 
   @open: (with_default, new_tab) ->
     title = (if new_tab then 'TabOpen: ' else 'Open: ')
-    content = (if with_default then location.href else '')
+    content = (if with_default then location.href else (getSelected() || ''))
     Dialog.start title: title, content: content, search: search, newtab: new_tab
   desc @open, "Open URLs or search"
   @open.options = {
