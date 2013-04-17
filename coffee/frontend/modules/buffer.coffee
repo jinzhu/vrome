@@ -1,5 +1,8 @@
 class Buffer
-  [bufferGotoMode, bufferMatchMode] = [false, false]
+  [bufferGotoMode, closeMatchMode, keepMatchMode] = []
+
+  @reset: ->
+    [bufferGotoMode, closeMatchMode, keepMatchMode] = []
 
   @gotoFirstMatchHandle: (keyword=null) -> # Enter
     return unless keyword? or bufferGotoMode
@@ -17,9 +20,9 @@ class Buffer
 
 
   @deleteMatchHandle: (keyword=null) ->
-    return unless keyword? or bufferMatchMode
+    return unless keyword? or closeMatchMode
     Post action: "Buffer.deleteMatch", keyword: (keyword ? CmdBox.get().content).trim()
-    bufferMatchMode = false
+    closeMatchMode = false
     CmdBox.remove()
   desc @deleteMatchHandle, "Close all matched tabs. like `B` in normal mode"
 
@@ -27,9 +30,22 @@ class Buffer
     if count = times(true)
       Post action: "Tab.close", index: count - 1
     else
-      bufferMatchMode = true
-      CmdBox.set title: "Delete Buffer", content: ""
+      closeMatchMode = true
+      CmdBox.set title: "Delete Matched Buffer", content: ""
   desc @deleteMatch, "Same as `b`, But close matched tabs"
+
+
+  @deleteNoteMatchHandle: (keyword=null) ->
+    return unless keyword? or keepMatchMode
+    Post action: "Buffer.deleteNotMatch", keyword: (keyword ? CmdBox.get().content).trim()
+    keepMatchMode = false
+    CmdBox.remove()
+  desc @deleteNoteMatchHandle, "Keep all matched tabs, close others. like `<M-b>` in normal mode"
+
+  @deleteNotMatch: ->
+    CmdBox.set title: "Keep Matched Buffer", content: ""
+    keepMatchMode = true
+  desc @deleteNotMatch, "Like `B`, But keep matched tabs, close others"
 
 
 root = exports ? window

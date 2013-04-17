@@ -25,6 +25,7 @@ root.AcceptKeyFunction = ->
   Dialog.openCurrent()
   Buffer.gotoFirstMatchHandle()
   Buffer.deleteMatchHandle()
+  Buffer.deleteNoteMatchHandle()
 
 root.CancelKeyFunction = ->
   Hint.remove()
@@ -32,6 +33,7 @@ root.CancelKeyFunction = ->
   KeyEvent.reset()
   Search.stop()
   Dialog.stop true
+  Buffer.reset()
   CmdBox.remove()
   Help.hide true
 desc root.CancelKeyFunction, "Cancel Actions"
@@ -159,6 +161,7 @@ nmapFunc "ge", "Tab.moveRight" #count
 ## Buffer 
 nmapFunc "b", "Buffer.gotoFirstMatch" #count
 nmapFunc ["dm", "B"], "Buffer.deleteMatch" #count
+nmapFunc "<M-b>", "Buffer.deleteNotMatch"
 
 ## Tab
 nmapFunc ["g0", "g^"], "Tab.first"

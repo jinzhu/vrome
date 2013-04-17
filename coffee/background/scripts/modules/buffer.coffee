@@ -18,6 +18,12 @@ class Buffer
     chrome.tabs.getAllInWindow tab.windowId, (tabs) ->
       Tab.close(tab) for tab in getMatchedTabs(tabs, keyword)
 
+  @deleteNotMatch: (msg) ->
+    [tab, keyword] = [getTab(arguments), msg.keyword]
+
+    chrome.tabs.getAllInWindow tab.windowId, (tabs) ->
+      matched_tabs = getMatchedTabs(tabs, keyword)
+      Tab.close(tab) for tab in tabs when tab not in matched_tabs
 
 root = exports ? window
 root.Buffer = Buffer

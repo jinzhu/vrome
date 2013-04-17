@@ -5,7 +5,8 @@ Add Why Vrome Better WIKI
   Source javascript
   Per Host Config
   Support Chinese/Japanese/Korean when do search
-  Powerful Hint Mode
+  Powerful Hint Mode (Upcase to search)
+  Buffer Delete, Goto, Keep
   ...
 
 Bugs:
