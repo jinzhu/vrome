@@ -253,7 +253,8 @@ imapFunc "<M-z>", "InsertMode.restoreLastValue"
 
 ## CmdLine
 cmapFunc "help", "Help.show"
-cmapFunc "bdelete", "Buffer.deleteMatchHandle"
+cmapFunc "buffer_delete_matched", "Buffer.deleteMatchHandle"
+cmapFunc "buffer_keep_matched", "Buffer.deleteNoteMatchHandle"
 cmapFunc "make_links", "AutoLink.makeLink"
 cmapFunc "images_toggle", "Command.imagesToggle"
 cmapFunc "images_only", "Command.imagesOnly"
