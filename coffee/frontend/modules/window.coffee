@@ -7,9 +7,9 @@ class Window
     Post action: "Window.close"
   desc @close, "Close current window"
 
-  @close_all: () ->
-    Post action: "Window.close_all"
-  desc @close_all, "Close all windows (quitall)"
+  @closeAll: () ->
+    Post action: "Window.closeAll"
+  desc @closeAll, "Close all windows (quitall)"
 
   @only: () ->
     Tab.close type: "otherWindows"

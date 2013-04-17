@@ -6,7 +6,7 @@ class Window
     tab = getTab(arguments)
     chrome.windows.remove(tab.windowId)
 
-  @close_all: () ->
+  @closeAll: () ->
     chrome.windows.getAll (windows) ->
       chrome.windows.remove(window.id) for window in windows
 

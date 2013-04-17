@@ -270,7 +270,7 @@ cmapFunc "quit", "Tab.close"
 cmapFunc "window_open", "Window.create"
 cmapFunc "window_only", "Window.only"
 cmapFunc "window_close", "Window.close"
-cmapFunc "window_closeall", "Window.close_all"
+cmapFunc "window_closeall", "Window.closeAll"
 
 # CmdLine.add "mdelete", "Delete matched marks", Marks.deleteQuickMark
 

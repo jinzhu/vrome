@@ -10,6 +10,9 @@ class Hint
     "\\": openUrlIncognito
     "/": "search"
 
+  title = ->
+    "Hint #{if multiMode then "{multi mode}" else (if newTab then '{new tab}' else '')}"
+
   removeHighlightBox = (create_after_remove) -> # Boolean
     $("#__vim_hint_highlight").remove()
     $("body").append $("<div>", {id: "__vim_hint_highlight"}) if create_after_remove
@@ -35,7 +38,7 @@ class Hint
   setSelected = (num) =>
     @selected = num
     freshHints()
-    CmdBox.set title: (if @selected > 0 then "HintMode (#{numberToHintKey(@selected)})" else "HintMode")
+    CmdBox.set title: (if @selected > 0 then "#{title()} (#{numberToHintKey(@selected)})" else title())
     setTimeout execCurrent, 200 if (@selected * hintKeys().length) > @matched.length
 
   setCurrentKeys = (str) =>
@@ -74,7 +77,7 @@ class Hint
     [hintMode, newTab, multiMode] = [true, new_tab, multi_mode]
     setMatched(elements = (e for e in $(hintable).not("#_vrome_cmd_input_box") when isElementVisible(e)))
     setCurrentKeys ""
-    CmdBox.set title: "HintMode", pressDown: handleInput, content: ""
+    CmdBox.set title: title(), pressDown: handleInput, content: ""
   desc @start, "Start Hint mode"
   @start.options = {
     hintkeys:
@@ -100,7 +103,7 @@ class Hint
       KeyEvent.stopPropagation(e)
     else
       # If key is not Accept key, Reset title
-      CmdBox.set title: "HintMode" unless isAcceptKey(currentKey)
+      CmdBox.set title: title() unless isAcceptKey(currentKey)
       # If key is not Escape key, Reset hints
       setTimeout delayToWaitKeyDown, 20  unless isEscapeKey(currentKey)
 
@@ -172,7 +175,7 @@ class Hint
 
         if multiMode
           setCurrentKeys ""
-          CmdBox.set title: "HintMode"
+          CmdBox.set title: title()
         else
           setTimeout @remove, 200
 
