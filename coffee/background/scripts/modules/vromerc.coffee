@@ -6,7 +6,7 @@ class Vromerc
     interval = (Settings.get("onlineVromercReloadInterval") || 5) * 1000 * 60
     setInterval Vromerc.loadAll, interval
 
-  @loadAll: ->
+  @loadAll: =>
     @loadOnline()
     @loadLocal()
 
