@@ -11,7 +11,8 @@ class Hint
     "/": "search"
 
   title = ->
-    "Hint #{if multiMode then "{multi mode}" else (if newTab then '{new tab}' else '')}"
+    mode = if multiMode then ['multi mode'] else (if newTab then ['new tab'] else [])
+    "Hint #{if mode.length > 0 then "{#{mode}}" else ''}"
 
   removeHighlightBox = (create_after_remove) -> # Boolean
     $("#__vim_hint_highlight").remove()
@@ -20,12 +21,14 @@ class Hint
 
   freshHints = =>
     highlight_box = removeHighlightBox(true) # create_after_remove
+
     for elem, index in (@matched ? [])
       hint_key = numberToHintKey(index+1)
       class_name = "normal"
-      class_name = "active" if hint_key == (@currentKeys || numberToHintKey(1))
-      class_name = "hidden" unless hint_key.startsWith(@currentKeys)
+      class_name = "active" if hint_key == (@currentKeys || numberToHintKey(1)) # 1 is selected by default
+      class_name = "hidden" if not hint_key.startsWith(@currentKeys) # hide those won't match
       hint_key = $("<key>", text: @currentKeys).get(0).outerHTML + hint_key.trimFirst(@currentKeys) if @currentKeys
+      # <span vrome_highlight='class_name'><key>A</key>E</span>
       span = $("<span>", {vrome_highlight: class_name, html: hint_key})
       $(highlight_box).append span
       offset = $(elem).offset()
@@ -54,16 +57,16 @@ class Hint
     hint_keys[-1..-1] + hint_keys[0..-2]
 
   numberToHintKey = (number) ->
-    key = ""
+    [key, hint_keys] = ["", hintKeys()]
     while number != 0
-      key = hintKeys()[number % hintKeys().length] + key
-      number = parseInt(number / hintKeys().length)
+      key = hint_keys[number % hint_keys.length] + key
+      number = parseInt(number / hint_keys.length)
     key
 
   hintKeyToNumber = (keys) ->
-    number = 0
+    [number, hint_keys] = [0, hintKeys()]
     while keys != ""
-      number = (number * hintKeys().length) + hintKeys().indexOf(keys[0])
+      number = (number * hint_keys.length) + hint_keys.indexOf(keys[0])
       keys = keys[1..-1]
     number
 
