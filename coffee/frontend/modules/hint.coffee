@@ -98,10 +98,7 @@ class Hint
       setCurrentKeys(if (currentKey is "<BackSpace>") then @currentKeys[0..-2] else "#{@currentKeys}#{currentKey}")
       KeyEvent.stopPropagation(e)
     else
-      # If key is not Accept key, Reset title
-      CmdBox.set title: title() unless isAcceptKey(currentKey)
-      # If key is not Escape key, Reset hints
-      setTimeout delayToWaitKeyDown, 20  unless isEscapeKey(currentKey)
+      setTimeout delayToWaitKeyDown, 20 unless isEscapeKey(currentKey)
 
   hintMatch = (elem) ->
     filter = CmdBox.get().content.trimFirst(key for key, value of subActions)
@@ -117,6 +114,8 @@ class Hint
       execCurrent @matched
     else if isAcceptKey(currentKey) or @matched.length is 1
       execCurrent()
+    else
+      CmdBox.set title: title()
 
 
   ## Sub Actions
@@ -125,7 +124,7 @@ class Hint
     subActions[action_name]
 
   showElementInfo = (elem) ->
-    CmdBox.set title: elem.outerHTML
+    CmdBox.set title: elem.outerHTML.escape()
   showElementInfo.hint = "show info"
 
   focusElement = (elem) ->
