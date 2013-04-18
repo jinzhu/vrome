@@ -101,10 +101,13 @@ class Hint
       setTimeout delayToWaitKeyDown, 20 unless isEscapeKey(currentKey)
 
   hintMatch = (elem) ->
+    invert = getCurrentAction() is invertFilter
     filter = CmdBox.get().content.trimFirst(key for key, value of subActions)
-    regexp = new RegExp(filter.trimFirst("!"), "im")
+    regexp = new RegExp(filter, "im")
+
     text = $(elem).val() || $(elem).text() || $(elem).attr("placeholder")
-    regexp.test(text) or regexp.test(PinYin.shortcut(text)) or regexp.test(PinYin.full(text))
+    match = regexp.test(text) or regexp.test(PinYin.shortcut(text)) or regexp.test(PinYin.full(text))
+    if (invert and filter isnt "") then !match else match
 
 
   delayToWaitKeyDown = =>
@@ -147,12 +150,16 @@ class Hint
     Post action: "Tab.openUrl", url: Url.fixRelativePath($(elem).attr("href")), incognito: true
   openUrlIncognito.hint = "incognito"
 
+  invertFilter = {}
+  invertFilter.hint = "invert"
+
   subActions =
     ";": focusElement
     "?": showElementInfo
     "[": copyElementUrl
     "{": copyElementText
     "\\": openUrlIncognito
+    "!": invertFilter
 
 
   execCurrent = (elems=null) =>
