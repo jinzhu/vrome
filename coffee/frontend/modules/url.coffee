@@ -107,7 +107,7 @@ class Url
     pathnames = location.pathname.split('/')
     hostnames = location.hostname.split('.')
 
-    for i in [0..times()]
+    for i in [0...times()]
       if pathnames.length <= 1
         hostnames.shift() if hostnames.length > 2
       else
