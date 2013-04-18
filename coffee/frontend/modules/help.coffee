@@ -10,13 +10,13 @@ class Help
   @show: =>
     results = "<tr class='head'><td>Value</td><td>Description</td><td>Modes</td></tr>"
     results += ("<tr><td>#{map[0]}</td><td>#{map[2]}</td><td>#{map[3]}</td></tr>" for map in @maps).join()
-    result_box = $("<div>", id: 'vromeHelpBox', html: "<table>#{results}</table>")
-    help_box = $("<div>", id: 'vromeHelpOverlay', html: result_box)
+    result_box = $("<div>", id: '__vrome_help_box', html: "<table>#{results}</table>")
+    help_box = $("<div>", id: '__vrome_help_overlay', html: result_box)
     $("body").append help_box
   desc @show, "Open help page"
 
   @hide: (reset) ->
-    $("#vromeHelpOverlay").remove()
+    $("#__vrome_help_overlay").remove()
 
 
 root = exports ? window

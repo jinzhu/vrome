@@ -108,7 +108,7 @@ $hint_font_size: 12px;
 /* Dialog */
 #__vrome_dialog {
   position: fixed !important;
-  bottom: 0px;
+  bottom: 0 !important;
   right: 0 !important;
   width:750px !important;
   max-height: 90% !important;
@@ -120,11 +120,10 @@ $hint_font_size: 12px;
   opacity: 0.9 !important;
   overflow: auto !important;
   overflow-x: hidden !important;
+  overflow-y: auto !important;
   border: 1px solid #3f86bb !important;
   border-bottom: 0px !important;
   padding: 10px 5px;
-  overflow-x: hidden;
-  overflow-y: auto;
 
   .__vrome_search_result {
     border-bottom: 1px solid rgb(179, 179, 179);
@@ -179,7 +178,7 @@ $hint_font_size: 12px;
 
 
 /* Help Box */
-#vromeHelpOverlay {
+#__vrome_help_overlay {
   opacity: 0.9;
   position: absolute;
   top: 0px; left: 0px;
@@ -187,7 +186,7 @@ $hint_font_size: 12px;
   width: 100%;
   z-index: 2147483640 !important;
 
-  #vromeHelpBox {
+  #__vrome_help_box {
     font-size: 12px;
     background-color: #252525 !important;
     margin: auto;
