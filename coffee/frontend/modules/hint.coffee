@@ -2,17 +2,10 @@ class Hint
   [newTab, multiMode, hintMode, elements, currentKey] = []
   hintable = "a,input:not([type=hidden]),textarea,select,button,*[onclick]"
 
-  subActions =
-    ";": focusElement
-    "?": showElementInfo
-    "[": copyElementUrl
-    "{": copyElementText
-    "\\": openUrlIncognito
-    "/": "search"
-
   title = ->
     mode = if multiMode then ['multi mode'] else (if newTab then ['new tab'] else [])
-    "Hint #{if mode.length > 0 then "{#{mode}}" else ''}"
+    mode.push sub_action if sub_action = getCurrentAction()?.hint
+    "Hint #{if mode.length > 0 then "{#{mode.join(',')}}" else ''}"
 
   removeHighlightBox = (create_after_remove) -> # Boolean
     $("#__vim_hint_highlight").remove()
@@ -70,11 +63,11 @@ class Hint
       keys = keys[1..-1]
     number
 
-  @multi_mode_start: => @start true, true
-  desc @multi_mode_start, "Same as `f`, but could open multiple links"
+  @multiModeStart: => @start true, true
+  desc @multiModeStart, "Same as `f`, but could open multiple links"
 
-  @new_tab_start: => @start true
-  desc @new_tab_start, "Same as `f`, but open in new tabs"
+  @newTabStart: => @start true
+  desc @newTabStart, "Same as `f`, but open in new tabs"
 
   @start: (new_tab, multi_mode) =>
     [hintMode, newTab, multiMode] = [true, new_tab, multi_mode]
@@ -127,28 +120,41 @@ class Hint
 
 
   ## Sub Actions
-  getCurrentAction = (content) ->
-    actionName = (content or CmdBox.get().content).substring(0, 1)
-    subActions[actionName]
+  getCurrentAction = (content) =>
+    action_name = (content or CmdBox.get().content).substring(0, 1)
+    subActions[action_name]
 
   showElementInfo = (elem) ->
     CmdBox.set title: elem.outerHTML
+  showElementInfo.hint = "show info"
 
   focusElement = (elem) ->
     elem.focus()
+  focusElement.hint = "focus"
 
   copyElementUrl = (elem) ->
     text = Url.fixRelativePath($(elem).attr("href"))
     Clipboard.copy text
     CmdBox.set title: "[Copied] #{text}", timeout: 4000
+  copyElementUrl.hint = "copy url"
 
   copyElementText = (elem) ->
     text = $(elem).val()
     Clipboard.copy text
     CmdBox.set title: "[Copied] #{text}", timeout: 4000
+  copyElementText.hint = "copy text"
 
   openUrlIncognito = (elem) ->
     # FIXME
+  openUrlIncognito.hint = "incognito"
+
+  subActions =
+    ";": focusElement
+    "?": showElementInfo
+    "[": copyElementUrl
+    "{": copyElementText
+    "\\": openUrlIncognito
+
 
   execCurrent = (elems=null) =>
     elems = elems || [@matched[Math.max(0,@selected-1)]]

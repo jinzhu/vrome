@@ -191,14 +191,14 @@ nmapFunc "gv", "Tab.mergeMarkedTabs"
 nmapFunc ["H", "<C-o>"], "History.back"
 nmapFunc ["L", "<C-i>"], "History.forward"
 nmapFunc "gh", "History.start"
-nmapFunc "gH", "History.new_tab_start"
+nmapFunc "gH", "History.newTabStart"
 nmapFunc "gb", "Bookmark.start"
-nmapFunc "gB", "Bookmark.new_tab_start"
+nmapFunc "gB", "Bookmark.newTabStart"
 
 ## Hint
 nmapFunc "f", "Hint.start"
-nmapFunc "F", "Hint.new_tab_start"
-nmapFunc "<M-f>", "Hint.multi_mode_start"
+nmapFunc "F", "Hint.newTabStart"
+nmapFunc "<M-f>", "Hint.multiModeStart"
 
 ## Search
 nmapFunc ["/", "*"], "Search.start"

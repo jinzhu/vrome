@@ -7,7 +7,7 @@ class History
     Dialog.start title: "History", search: search, newtab: new_tab
   desc @start, "Filter History with keyword (support Dialog extend mode)"
 
-  @new_tab_start: => @start true
+  @newTabStart: => @start true
 
   @back: -> history.go -1 * times()
   desc @back, "Go {count} pages back"
