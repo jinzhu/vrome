@@ -1,6 +1,5 @@
 class KeyEvent
-  [disableVrome, passNextKey, currentKeys, keyTimes, @bindings] = [null, null, "", 0, []]
-
+  [disableVrome, passNextKey, currentKeys, keyTimes, bindings] = [null, null, "", 0, []]
 
   @init: =>
     for disablesite in Option.get("disablesites").split(", ")
@@ -12,7 +11,7 @@ class KeyEvent
       document.vromeEventListenerAdded = true
 
   @add: (keys, func, insert_mode) => #String, #Function, #Boolean
-    @bindings.push [keys, func, !!insert_mode]
+    bindings.push [keys, func, !!insert_mode]
 
   @stopPropagation: (e) ->
     e.stopPropagation()
@@ -20,11 +19,13 @@ class KeyEvent
 
   @enable: =>
     [disableVrome, passNextKey] = [false, false]
+    Post action: "Vrome.enable"
     @reset()
 
   @disable: ->
     CmdBox.set title: " -- PASS THROUGH -- ", mouseOverTitle: (e) -> CmdBox.remove()
     disableVrome = true
+    Post action: "Vrome.disable"
   desc @disable, "Disable Vrome"
   @disable.options = {
     disablesites: {
@@ -86,7 +87,7 @@ class KeyEvent
     else
       last_times = keyTimes
 
-    for binding in @bindings
+    for binding in bindings
       # 0 is a special command. could be used to scroll left, also could be used as run count.
       break if keyTimes > 0 and keys.match(/^\d$/)
       [binding_command, binding_function, binding_mode] = binding
