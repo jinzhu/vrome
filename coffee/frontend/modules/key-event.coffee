@@ -52,7 +52,6 @@ class KeyEvent
     keyTimes = 0 unless only_read
     result
 
-
   storeLast = (currentKeys, times) -> #Array, #Number
     Settings.add currentKeys: currentKeys, times: times ? 0
 
@@ -71,6 +70,10 @@ class KeyEvent
     configure = Settings.get("@configure")
     mode = (if insertMode then "iunmap" else "unmap")
     configure?[mode]?[key]?
+
+  showStatusLine = (currentKeys, times) ->
+    if Option.get("showstatus") and currentKeys
+      CmdBox.set title: "#{times || ""}#{currentKeys}", timeout: 500
 
   runCurrentKeys = (keys, insertMode, e) =>
     return unless keys
@@ -129,24 +132,21 @@ class KeyEvent
     keyTimes = 0  if someFunctionCalled and key
 
     # stopPropagation if Vrome is enabled and any functions executed but not in InsertMode or on a link
-    if e and someFunctionCalled and not (disableVrome or passNextKey)
-      @stopPropagation e  unless isAcceptKey(key) and (insertMode or document.activeElement.nodeName is "A")
+    if e and someFunctionCalled
+      @stopPropagation e unless isAcceptKey(key) and (insertMode or document.activeElement.nodeName is "A")
     # Compatible with google's new interface
     if e and key?.match(/^.$/) and (not insertMode)
       @stopPropagation e
-
-  showStatusLine = (currentKeys, times) ->
-    if Option.get("showstatus") and currentKeys
-      CmdBox.set title: "#{times || ""}#{currentKeys}", timeout: 500
 
 
   @exec: (e) =>
     key = getKey(e)
     insertMode = (/^INPUT|TEXTAREA|SELECT$/i.test(e.target.nodeName) or e.target.getAttribute("contenteditable")?)
 
-    return @stopPropagation e if /^(Control|Alt|Shift)$/.test(key)
-    # if vrome is in pass next mode, or disabled and using <C-Esc> to enable it.
+    # If Vrome in pass next or disabled mode and using <C-Esc> to enable it.
     return @enable() if not insertMode and (passNextKey or (disableVrome and isCtrlEscapeKey(key)))
+    return @stopPropagation e if /^(Control|Alt|Shift)$/.test(key)
+    return if disableVrome
 
     currentKeys = filterKey(currentKeys.concat(key), insertMode)
     return if ignoreKey(currentKeys, insertMode)

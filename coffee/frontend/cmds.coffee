@@ -38,11 +38,6 @@ root.CancelKeyFunction = ->
   Help.hide true
 desc root.CancelKeyFunction, "Cancel Actions"
 
-root.CtrlEscapeKeyFunction = ->
-  KeyEvent.enable()
-  CancelKeyFunction()
-desc root.CtrlEscapeKeyFunction, "Enable Vrome when in pass-through"
-
 extractFunction = (functionName) ->
   func = (func ? root)[action] for action in functionName.split(".")
   func
@@ -75,7 +70,6 @@ mapFunc CancelKey, "CancelKeyFunction"
 
 nmapFunc "<C-z>", "KeyEvent.disable"
 nmapFunc "<C-v>", "KeyEvent.passNextKey"
-nmapFunc CtrlEscapeKey, "CtrlEscapeKeyFunction"
 
 nmapFunc "<C-Enter>", "Dialog.openCurrentNewTab"
 
