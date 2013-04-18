@@ -34,13 +34,17 @@ class Tab
 
     [first_url, index] = [urls.shift(), tab.index]
 
-    if msg.newtab
-      chrome.tabs.create(url: first_url, index: ++index, selected: msg.selected || false)
+    openUrls = (window) =>
+      chrome.tabs.create(windowId: window.id, url: url, index: ++index, selected: false) for url in urls
+
+    if msg.incognito
+      chrome.windows.create {incognito: true, url: first_url}, openUrls
     else
-      @update {url: first_url}, tab
-
-    chrome.tabs.create(url: url, index: ++index, selected: false) for url in urls
-
+      if msg.newtab
+        chrome.tabs.create(url: first_url, index: ++index, selected: msg.selected || false)
+      else
+        @update {url: first_url}, tab
+      chrome.windows.getCurrent openUrls
 
   @openFromClipboard: (msg) =>
     url = Clipboard.read()

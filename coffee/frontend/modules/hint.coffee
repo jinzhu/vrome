@@ -144,7 +144,7 @@ class Hint
   copyElementText.hint = "copy text"
 
   openUrlIncognito = (elem) ->
-    # FIXME
+    Post action: "Tab.openUrl", url: Url.fixRelativePath($(elem).attr("href")), incognito: true
   openUrlIncognito.hint = "incognito"
 
   subActions =
