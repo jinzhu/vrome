@@ -23,7 +23,7 @@ class KeyEvent
     @reset()
 
   @disable: ->
-    CmdBox.set title: " -- PASS THROUGH -- ", mouseOverTitle: (e) -> CmdBox.remove()
+    CmdBox.set(title: " -- PASS THROUGH -- ", mouseOverTitle: (e) -> CmdBox.remove()) if Option.get("show_disabled_text")
     disableVrome = true
     Post action: "Vrome.disable"
   desc @disable, "Disable Vrome"
@@ -36,10 +36,14 @@ class KeyEvent
       description: "Key to enable Vrome again"
       example: "set enable_vrome_key=<Esc>"
     }
+    show_disabled_text: {
+      description: "Show Vrome Disabled text or not, You could also know this from the Action Icon"
+      example: "set show_disable_text=0"
+    }
   }
 
   @passNextKey: ->
-    CmdBox.set title: " -- PASS THROUGH (next) -- ", timeout: 2000
+    CmdBox.set(title: " -- PASS THROUGH (next) -- ", timeout: 2000) if Option.get("show_disabled_text")
     passNextKey = true
     Post action: "Vrome.disable"
   desc @passNextKey, "Pass next key"
