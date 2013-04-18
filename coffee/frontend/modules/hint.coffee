@@ -139,7 +139,7 @@ class Hint
   copyElementUrl.hint = "copy url"
 
   copyElementText = (elem) ->
-    text = $(elem).val()
+    text = $(elem).val() || $(elem).text()
     Clipboard.copy text
     CmdBox.set title: "[Copied] #{text}", timeout: 4000
   copyElementText.hint = "copy text"
