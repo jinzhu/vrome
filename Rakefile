@@ -1,6 +1,14 @@
 require "bundler/setup"
 require 'json'
 
+def build_scss_files
+  `find coffee -type f -iname '*scss'`.split("\n").map do |file|
+    css_file = file.sub(/scss$/, "css").sub(/coffee/, 'src')
+    system "mkdir -p #{File.dirname(css_file)}"
+    `scss #{file} > #{css_file}`
+  end
+end
+
 desc "Init Development Environment"
 task :init_development_env do
   # Install CoffeeScriptRedux
@@ -12,12 +20,7 @@ task :init_development_env do
     puts "Generated js file #{js_file}"
   end
 
-  # SCSS
-  `find coffee -type f -iname '*scss'`.split("\n").map do |file|
-    css_file = file.sub(/scss$/, "css").sub(/coffee/, 'src')
-    system "mkdir -p #{File.dirname(css_file)}"
-    `scss #{file} > #{css_file}`
-  end
+  build_scss_files
 end
 
 desc "Build Vrome"
@@ -28,6 +31,8 @@ task :build do
     `coffee --js -i #{file} -o #{js_file}`
     puts "Generated js file #{js_file}"
   end
+
+  build_scss_files
 
   system("bundle exec bluecloth README.mkd > ./src/README.html")
   system("bundle exec bluecloth Features.mkd > ./src/files/features.html")
