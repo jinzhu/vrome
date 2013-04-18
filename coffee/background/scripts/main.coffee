@@ -39,7 +39,7 @@
       chrome.tabs.update tab.id, selected: true
       return
     # open a new tab next to currently selected tab
-    chrome.tabs.getCurrent (get_tab) ->
+    chrome.tabs.getSelected null, (get_tab) ->
       Tab.openUrl msg, current_tab || get_tab
 
 

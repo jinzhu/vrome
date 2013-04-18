@@ -9,6 +9,8 @@ chrome.tabs.onActivated.addListener (info) ->
       Tab.lastTab = Tab.now_tab
       Tab.now_tab = tab
 
+  Vrome.setStatus()
+
 chrome.tabs.onRemoved.addListener (tabId) ->
   tab = Tab.now_tab
   Tab.addToClosedTabs tab if tab?.id == tabId
