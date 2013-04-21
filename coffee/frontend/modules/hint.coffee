@@ -1,6 +1,9 @@
 class Hint
   [newTab, multiMode, hintMode, elements, currentKey] = []
-  hintable = "a,input:not([type=hidden]),textarea,select,button,*[onclick]"
+  hintable = "a,input:not([type=hidden]),textarea,select,button,*[onclick],[role=link],[role=checkbox],[role=button]"
+
+  @isHintAble: (elem) ->
+    $(elem).parent().find(hintable).toArray().indexOf(elem) != -1
 
   title = ->
     mode = if multiMode then ['multi mode'] else (if newTab then ['new tab'] else [])
@@ -187,6 +190,8 @@ class Hint
             clickElement elem # some website don't use standard submit input.
         else if tag_name is "select"
           $(elem).focus()
+        else
+          clickElement elem
         newTab = true
 
     if multiMode

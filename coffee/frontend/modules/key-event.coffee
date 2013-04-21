@@ -138,7 +138,7 @@ class KeyEvent
 
     # stopPropagation if Vrome is enabled and any functions executed but not in InsertMode or on a link
     if e and someFunctionCalled
-      @stopPropagation e unless isAcceptKey(key) and (insertMode or document.activeElement.nodeName is "A")
+      @stopPropagation e unless isAcceptKey(key) and (insertMode or Hint.isHintAble(document.activeElement))
     # Compatible with google's new interface
     if e and key?.match(/^.$/) and (not insertMode)
       @stopPropagation e

@@ -51,8 +51,8 @@ root.clickElement = (elem, opt={}) ->
   elem.dispatchEvent event
 
   # FIXME ctrl = false can't open url in current page
-  if (!!opt.ctrl is false) and $(elem).attr("href")?.match(/:\/\//)
-    Post action: "Tab.openUrl", url: $(elem).attr("href"), newtab: false
+  # if (!!opt.ctrl is false) and $(elem).attr("href")?.match(/:\/\//)
+  #   Post action: "Tab.openUrl", url: $(elem).attr("href"), newtab: false
 
   elem.setAttribute "target", old_target  if old_target
 
