@@ -10,7 +10,7 @@
     "matches":["<all_urls>"]
   }],
   "offline_enabled":true,
-  "permissions":["tabs","topSites","storage","unlimitedStorage","bookmarks","history","clipboardRead","clipboardWrite","notifications","proxy","contextMenus","<all_urls>", "pageCapture"],
+  "permissions":["tabs","topSites","storage","unlimitedStorage","bookmarks","history","clipboardRead","clipboardWrite","notifications","proxy","contextMenus","<all_urls>", "pageCapture", "webNavigation"],
   "icons":{
     "16":"images/logo-16.png",
     "48":"images/logo-48.png",

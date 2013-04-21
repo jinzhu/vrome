@@ -1,23 +1,18 @@
 class Frame
-  frames = {}
+  current_frame_urls = {}
 
-  @register: (msg) ->
-    tab = getTab(arguments)
-    frames[tab.id] ||= []
-    frames[tab.id].push msg.frame
+  nextUrl = (frames, current_frame_url, count) ->
+    uniq_urls = $.unique(frame.url for frame in frames when not /doubleclick\.|qzone\.qq\.com|plusone\.google\.com|about:blank/.test(frame.url)).reverse()
+    cur_index = uniq_urls.indexOf(current_frame_url) || 0
+    new_index = rabs(cur_index + count, uniq_urls.length)
+    uniq_urls[new_index]
 
   @next: (msg) ->
     tab = getTab(arguments)
-    current_frames = frames[tab.id] || []
-    return unless current_frames.length > 0
 
-    (current_frame = frame) for frame in current_frames when frame.id is msg.frameId
-
-    index = current_frames.indexOf(current_frame) + 1
-    index = 0 if index > (current_frames.length - 1)
-
-    Post tab, {action: "Frame.select", frameId: current_frames[index].id}
-
+    chrome.webNavigation.getAllFrames tabId: tab.id, (frames) ->
+      current_frame_urls[tab.id] = nextUrl(frames, current_frame_urls[tab.id], msg.count)
+      Post tab, {action: "Frame.select", href: current_frame_urls[tab.id]}
 
 root = exports ? window
 root.Frame = Frame

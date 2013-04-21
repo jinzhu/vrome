@@ -10,6 +10,6 @@ addErrorLogger = ->
 
 try
   runIt Settings.init, -> func.call() for func in [Zoom.init, KeyEvent.init, Custom.runJS, Custom.loadCSS]
-  runIt [addErrorLogger, Frame.register]
+  runIt addErrorLogger
 catch err
   Debug err
