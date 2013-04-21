@@ -10,9 +10,9 @@ Add Why Vrome Better WIKI
   ...
 
 Bugs:
-  coffee/frontend/modules/frame.coffee    (Don't works as except)
-  coffee/frontend/modules/custom.coffee   Setting, Add to README
-  coffee/frontend/modules/help.coffee -> show options, default options
+  coffee/frontend/modules/frame.coffee   (Don't works as except)
+  coffee/frontend/modules/custom.coffee  Setting, Add to README
+  coffee/frontend/modules/help.coffee    Show options, default options
 
 Features:
   Extend Commandline: source('config')
@@ -60,6 +60,7 @@ Features:
   ? chrome.commands
   Get Download path for `saveas`
   CmdLine -> frameonly, restart
+  map hotkey to commands
 
   options.add
   mappings.add
