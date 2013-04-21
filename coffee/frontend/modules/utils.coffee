@@ -46,9 +46,10 @@ root.clickElement = (elem, opt={}) ->
     old_target = elem.getAttribute("target")
     elem.removeAttribute "target"
 
-  event = document.createEvent("MouseEvents")
-  event.initMouseEvent "click", true, true, window, 0, 0, 0, 0, 0, !!opt.ctrl, !!opt.alt, !!opt.shift, !!opt.meta, 0, null
-  elem.dispatchEvent event
+  for event_type in ["mousedown", "mouseup", "click"]
+    event = document.createEvent("MouseEvents")
+    event.initMouseEvent event_type, true, true, window, 0, 0, 0, 0, 0, !!opt.ctrl, !!opt.alt, !!opt.shift, !!opt.meta, 0, null
+    elem.dispatchEvent event
 
   # FIXME ctrl = false can't open url in current page
   # if (!!opt.ctrl is false) and $(elem).attr("href")?.match(/:\/\//)
