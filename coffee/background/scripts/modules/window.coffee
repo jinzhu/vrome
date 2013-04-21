@@ -23,7 +23,7 @@ class Window
       Post tab, {action: "Window.saveas", data: mhtml, filename: filename}
 
 
-  @moveTabToWindowWithIncognito: (tab, incognito, create_mode, callback) ->
+  @moveTabToWindowWithIncognito: (tab, incognito, callback) ->
     chrome.windows.getAll {populate: true}, (windows) ->
       for window in windows
         if (window.type is "normal") and (window.incognito is incognito) and (window.id isnt tab.windowId)
@@ -32,9 +32,8 @@ class Window
           return true
 
       # not returned
-      if create_mode
-        chrome.windows.create url: tab.url, incognito: incognito
-        callback tab
+      chrome.windows.create url: tab.url, incognito: incognito
+      callback(tab) if callback
 
 
 root = exports ? window

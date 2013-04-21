@@ -170,7 +170,7 @@ class Tab
     tab = getTab(arguments)
     incognito = not tab.incognito
     chrome.tabs.query {windowId: tab.windowId}, (tabs) ->
-        Window.moveTabToWindowWithIncognito tab, incognito, true, (t) -> chrome.tabs.remove t.id
+        Window.moveTabToWindowWithIncognito tab, incognito, (t) -> chrome.tabs.remove t.id
 
 
   @markForMerging: (msg) ->
