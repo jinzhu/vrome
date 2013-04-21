@@ -38,8 +38,8 @@ class Tab
   @detach: -> Post action: "Tab.detach"
   desc @detach, "Detach current tab to a new window"
 
-  @openInIncognito: -> Post action: "Tab.openInIncognito"
-  desc @openInIncognito, "Toggle incognito mode for current tab (need to enable Vrome in incognito mode)"
+  @toggleIncognito: -> Post action: "Tab.toggleIncognito"
+  desc @toggleIncognito, "Toggle incognito mode for current tab (need to enable Vrome in incognito mode)"
 
   @markForMerging: (option={}) ->
     Post $.extend option, action: "Tab.markForMerging"

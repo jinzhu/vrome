@@ -181,7 +181,7 @@ nmapFunc "gp", "Tab.togglePin"
 nmapFunc "gP", "Tab.unpinAllTabsInCurrentWindow"
 nmapFunc "gwP", "Tab.unpinAllTabsInAllWindows"
 
-nmapFunc "gI", "Tab.openInIncognito"
+nmapFunc "gI", "Tab.toggleIncognito"
 
 nmapFunc "gm", "Tab.markForMerging"
 nmapFunc "gM", "Tab.markAllForMerging"

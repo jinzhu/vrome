@@ -166,14 +166,10 @@ class Tab
     openInIncognito tab if tab
 
 
-  @openInIncognito: ->
+  @toggleIncognito: =>
     tab = getTab(arguments)
     incognito = not tab.incognito
     chrome.tabs.query {windowId: tab.windowId}, (tabs) ->
-      if tabs.length is 1
-        duplicate {count: 1}, tab
-        Window.moveTabToWindowWithIncognito tab, incognito, true, (t) -> chrome.windows.remove t.windowId
-      else
         Window.moveTabToWindowWithIncognito tab, incognito, true, (t) -> chrome.tabs.remove t.id
 
 
