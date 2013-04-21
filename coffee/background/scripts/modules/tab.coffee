@@ -192,9 +192,14 @@ class Tab
   @mergeMarkedTabs: ->
     tab = getTab(arguments)
     return if Tab.marked_tabs.length == 0
-
-    chrome.tabs.move Tab.marked_tabs, {windowId: tab.windowId, index: tab.index + 1}, (tabs) ->
-      Post tab, {action: "CmdBox.set", title: "#{if tab.windowId then 1 else tabs.length} Tab(s) moved", timeout: 4000}
+    chrome.windows.get tab.windowId, (window) ->
+      for tabId, index in Tab.marked_tabs
+        chrome.tabs.get tabId, (tab) ->
+          if window.incognito is tab.incognito
+            chrome.tabs.move tab.id, {windowId: window.id, index: -1}
+          else
+            chrome.tabs.create windowId: window.id, url: tab.url
+            chrome.tabs.remove tab.id
       Tab.marked_tabs = []
 
   @addToClosedTabs: (tab) =>

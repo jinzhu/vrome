@@ -43,7 +43,7 @@ class Tab
 
   @markForMerging: (option={}) ->
     Post $.extend option, action: "Tab.markForMerging"
-  desc @markForMerging, "Marks tab for merging (can mark multiple tabs)"
+  desc @markForMerging, "Marks current tab for merging (can mark multiple tabs)"
 
   @markAllForMerging: => @markForMerging all: true
   desc @markAllForMerging, "Marks all tabs in current window for merging"
