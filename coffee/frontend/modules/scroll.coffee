@@ -26,16 +26,16 @@ class Scroll
   @right: -> scrollBy times() * horizontal_moment, 0
   desc @right, "Scroll right"
 
-  @nextPage: -> scrollBy 0, times() * $(window).height() * 0.95
+  @nextPage: -> scrollBy 0, times() * window.innerHeight * 0.95
   desc @nextPage, "Scroll down {count} full page"
 
-  @prevPage: -> scrollBy 0, times() * -$(window).height() * 0.95
+  @prevPage: -> scrollBy 0, times() * -window.innerHeight * 0.95
   desc @prevPage, "Scroll up {count} full page"
 
-  @nextHalfPage: -> scrollBy 0, times() * $(window).height() / 2
+  @nextHalfPage: -> scrollBy 0, times() * window.innerHeight / 2
   desc @nextHalfPage, "Scroll down {count} half page"
 
-  @prevHalfPage: -> scrollBy 0, times() * -$(window).height() / 2
+  @prevHalfPage: -> scrollBy 0, times() * -window.innerHeight / 2
   desc @prevHalfPage, "Scroll up {count} half page"
 
   @toPercent: -> scrollTo scrollX, times(true) * $(document).height() / 100

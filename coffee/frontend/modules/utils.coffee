@@ -17,7 +17,7 @@ root.isElementVisible = (elem, in_full_page) ->
   return true if in_full_page
 
   [winTop, winLeft] = [$(window).scrollTop(), $(window).scrollLeft()]
-  winBottom = winTop + $(window).height()
+  winBottom = winTop + window.innerHeight
   winRight = winLeft + $(window).width()
 
   offset = $(elem).offset()
