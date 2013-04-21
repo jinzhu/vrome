@@ -174,7 +174,7 @@ class Hint
         @remove() # No multiMode for extend mode
         currentAction elem
       else
-        if tag_name in ["a"]
+        if tag_name is "a"
           clickElement elem, {ctrl: newTab}
         else if $(elem).attr("onclick")
           clickElement elem
@@ -187,12 +187,13 @@ class Hint
             clickElement elem # some website don't use standard submit input.
         else if tag_name is "select"
           $(elem).focus()
+        newTab = true
 
-        if multiMode
-          setCurrentKeys ""
-          CmdBox.set title: title()
-        else
-          setTimeout @remove, 200
+    if multiMode
+      setCurrentKeys ""
+      CmdBox.set title: title()
+    else
+      setTimeout @remove, 200
 
 
 root = exports ? window
