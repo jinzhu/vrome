@@ -13,7 +13,8 @@ root.times = (raw, read) ->
 
 
 root.isElementVisible = (elem, in_full_page) ->
-  return false unless $(elem).is(':visible')
+  style = window.getComputedStyle($(elem).get(0))
+  return false if (style.getPropertyValue('visibility') != 'visible' || style.getPropertyValue('display') == 'none' || style.getPropertyValue('opacity') == '0')
   return true if in_full_page
 
   [winTop, winLeft] = [$(window).scrollTop(), $(window).scrollLeft()]
