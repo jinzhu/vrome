@@ -1,6 +1,7 @@
 class Hint
   [newTab, multiMode, hintMode, elements, currentKey] = []
-  hintable = "a,textarea,select,button,area[href],input:not([type=hidden]),*[onclick],[role],[contenteditable],.js-new-tweets-bar"
+  hintable = "a,textarea,select,button,area[href],input:not([type=hidden]),*[onclick],[contenteditable],.js-new-tweets-bar"
+  hintable += "[role=link],[role=checkbox],[role=button],[role=tab],[role=menubar]"
 
   @isHintAble: (elem) ->
     $(elem).parent().find(hintable).toArray().indexOf(elem) != -1
