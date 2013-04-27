@@ -1,6 +1,6 @@
 class Hint
   [newTab, multiMode, hintMode, elements, currentKey] = []
-  hintable = "a,textarea,select,button,area[href],input:not([type=hidden]),*[onclick],[contenteditable],.js-new-tweets-bar"
+  hintable = "a,textarea,select,button,area[href],input:not([type=hidden]),*[onclick],*[onmouseover],[contenteditable],.js-new-tweets-bar"
   hintable += ",[role=link],[role=checkbox],[role=button],[role=tab],[role=menubar]"
 
   @isHintAble: (elem) ->
@@ -182,6 +182,8 @@ class Hint
           clickElement elem, {ctrl: newTab}
         else if $(elem).attr("onclick")
           clickElement elem
+        else if $(elem).attr("onmouseover")
+          $(elem).mouseover()
         else if (tag_name is "input" and (type in ["submit", "button", "reset", "radio", "checkbox"])) or tag_name is "button"
           clickElement elem
         else if tag_name in ["input", "textarea"]
