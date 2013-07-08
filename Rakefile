@@ -11,7 +11,7 @@ end
 
 desc "Init Development Environment"
 task :init_development_env do
-  # Install CoffeeScriptRedux
+  # Install CoffeeScript
   `find coffee -type f -iname '*coffee'`.split("\n").map do |file|
     js_file = file.sub(/coffee$/, "js").sub(/coffee/, 'src')
     `coffee -m -o #{File.dirname(js_file)} -c #{file}`
