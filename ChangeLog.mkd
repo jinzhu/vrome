@@ -1,9 +1,17 @@
 2.9.2 (2013/07/08)
 
 - Use Coffee Script to rewrite the whole project
-- This version would broken custom css/javascript configurations, looking for a better soluation to do this in version 3
+- This version would broken custom css/javascript configurations, looking for a better soluation in version 3
 - Improved command line mode
-- New help page (haven't finish yet)
+- New help page (haven't finish yet, wait version 3)
+- Add gr/gR to open referer URL
+- Add `<M-d>`, same as P, but focus the new tab
+- Add `<M-b>`, delete tabs don't match keyword
+- Add `<M-(y|u|i|o)>` to delete forward/backward char/word in insert mode
+- Add `<M-(n|m)>` to move next/previous line in insert mode
+- Add `<M-z>` to undo changes in insert mode
+- Add lots of commands for command line mode
+- Bug Fixes
 
 2.0.2 (2013/02/04)
 
@@ -12,16 +20,16 @@
 
 2.0.1 (2013/02/04)
 
-- Fix <M-d> close current and focus last visited tab
-- Fix <C-y> to shorten URL
+- Fix `<M-d>` close current and focus last visited tab
+- Fix `<C-y>` to shorten URL
 
 2.0.0 (2013/02/03)
 
-- New help page, press <F1> to check it
+- New help page, press `<F1>` to check it
 - Add some commands to CmdLine
 - Rewitten quick mark features
-- New short keys in InsertMode. <M-{hjkl}> to move a char/word, <M-{yuio}> to delete a char/word
-- New short keys for tab. <ge>, <gq>, <dW>, <gm>, <gM> and more...
+- New short keys in InsertMode. `<M-{hjkl}>` to move a char/word, `<M-{yuio}>` to delete a char/word
+- New short keys for tab. `<ge>, <gq>, <dW>, <gm>, <gM>` and more...
 - Add Hassen Ben Tanfous as author! Thank you!
 
 1.1.2 (2012/04/10)
@@ -43,15 +51,15 @@
 
 1.0.3 (2012/03/06)
 
-- <C-r> Refresh page without cached content (Thanks Lukasz Wrzosek)
+- `<C-r>` Refresh page without cached content (Thanks Lukasz Wrzosek)
 
 1.0.2 (2012/02/27)
 
 - Faster Search (Thanks YorikSar)
-- In order to Fix \<C-Esc\> is mapped to open Start menu in Windows, make the enable Vrome key customizable.
+- In order to Fix `<C-Esc>` is mapped to open Start menu in Windows, make the enable Vrome key customizable.
   You need to add something like below to your .Vromerc from option page.
 
-   set enable\_vrome\_key=\<Esc\>
+   `set enable_vrome_key=<Esc>`
 
 1.0.1 (2012/02/09)
 
@@ -67,6 +75,6 @@
   *  "d" is not supported to close current tab now. use "dc" for that.
 
      (Because we have added some hotkeys started with "d".  "dc", "dm", "do", "dl", "dr", "dp", "dP". refer Features for detail)
-  *  "\<Esc\>" is not supported to enable Vrome after disabled it with "\<C-z\>". use "\<C-Esc\>" (Control+Esc) for that.
+  *  `<Esc>` is not supported to enable Vrome after disabled it with `<C-z>`. use `<C-Esc>` (Control+Esc) for that.
 
-     (Because "\<Esc\>" is used much often than "\<C-Esc\>")
+     (Because `<Esc>` is used much often than `<C-Esc>`)
