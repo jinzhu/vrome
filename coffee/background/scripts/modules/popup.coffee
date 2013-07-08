@@ -1,4 +1,4 @@
-$(document).ready ->
+applyEvents = ->
   $(".openOptionsFeatures").click -> openOptions "features"
   $(".openOptionsSetting").click -> openOptions "setting"
   $(".openOptionsChangelog").click -> openOptions "changelog"
@@ -8,4 +8,9 @@ $(document).ready ->
   $(".openChromeStore").click openChromeStore
   $(".openIssuesPage").click openIssuesPage
 
-  $(".version").val(Settings.get("version"))
+  $(".version").text Settings.get("version")
+
+$ ->
+
+$ ->
+  window.setTimeout applyEvents, 500
