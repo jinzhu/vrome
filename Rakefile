@@ -14,9 +14,7 @@ task :init_development_env do
   # Install CoffeeScriptRedux
   `find coffee -type f -iname '*coffee'`.split("\n").map do |file|
     js_file = file.sub(/coffee$/, "js").sub(/coffee/, 'src')
-    js_map_file = js_file + ".map"
-    system "mkdir -p #{File.dirname(js_file)}"
-    `coffee --js --source-map-file #{js_map_file} -i #{file} -o #{js_file}`
+    `coffee -m -o #{File.dirname(js_file)} -c #{file}`
     puts "Generated js file #{js_file}"
   end
 
@@ -27,8 +25,7 @@ desc "Build Vrome"
 task :build do
   `find coffee -type f -iname '*coffee'`.split("\n").map do |file|
     js_file = file.sub(/coffee$/, "js").sub(/coffee/, 'src')
-    system "mkdir -p #{File.dirname(js_file)}"
-    `coffee --js -i #{file} -o #{js_file}`
+    `coffee -o #{File.dirname(js_file)} -c #{file}`
     puts "Generated js file #{js_file}"
   end
 

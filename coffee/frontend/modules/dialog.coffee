@@ -69,11 +69,12 @@ class Dialog
         description = "#{title}#{s.description ? s.url}"
         $("<a>", {href: href ? "#", title: s.title, text: description, click: onClick}).bind("onselect", s.onselect)
 
-      setResultBox for source in sources
+      results = for source in sources
         if $.isArray(source.url)
           buildResult(source, u) for u in source.url
         else
           buildResult(source, source.url)
+      setResultBox results
 
   next = (direction=1) =>
     setSelected rabs(@selected + direction, $(".#{search_result}").length)

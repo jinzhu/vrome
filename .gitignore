@@ -2,7 +2,7 @@ vrome.crx
 vrome.zip
 *.css
 *.js
-*.js.map
+*.map
 .rbenv-version
 .sass-cache
 Gemfile.lock

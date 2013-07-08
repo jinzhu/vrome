@@ -31,7 +31,7 @@ Vim + Vimperator users will feel right at home.
 * (Manual) From source:
   + Make sure ruby, npm, git installed
   + `git clone git://github.com/jinzhu/vrome.git`
-  + Install coffee-script-redux with npm `npm install coffee-script-redux -g`
+  + Install coffee-script-redux with npm `npm install coffee-script -g`
   + Install Bundler with rubygems `gem install bundler`
   + Run `bundle install`
   + Run `rake init_development_env`
