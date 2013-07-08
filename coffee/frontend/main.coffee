@@ -1,7 +1,7 @@
 root = exports ? window
 
 root.Post = (msg) ->
-  chrome.extension.sendMessage msg, (response) ->
+  chrome.runtime.sendMessage msg, (response) ->
 
 addErrorLogger = ->
   window.addEventListener "error", ((err) ->
