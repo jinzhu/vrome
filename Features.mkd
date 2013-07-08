@@ -2,6 +2,266 @@
 
 ## Features ##
 
-***TODO***
+### Help ###
+            <F1>      Open this help page
 
-Please checkout the help page after install the extension by press `<F1>`
+
+### Navigation ###
+            o         Open one or more URLs in current tab. Multiple URLs can be separated with ','.
+                      The first URL is opened in the current tab, and all other URLs are opened in new tabs.
+
+                      There are some powerful features here:
+                      1, AutoComplete support:
+                      <Down>,<Up>   Navigate next/previous link. (You can change the behavior in config, please see http://goo.gl/koFEh)
+                      <Tab>,<S-Tab> Navigate the next/previous 10th link. (You can change the behavior in config, please see http://goo.gl/koFEh)
+                      <Enter>       Open selected link in current tab.
+                      <C-Enter>     Open selected link in new tab. and keep AutoComplete list open so you can open another link.
+                      <C-[0-9]>     Open links marked with red number.
+                                    The red number is the relative index of the currently selected link.
+                                    E.g: you can use <C-5> to open the 5th link, <C-7> to open the 7th one.
+                                    Useful when using <Tab>, <S-Tab>
+
+                      Turn off autocomplete using `set noautocomplete` [Example](https://github.com/jinzhu/vrome/wiki/vromerc-example-file)
+
+                      2, Relative path support:
+                      e.g
+                      go to `http://github.com/jinzhu/vrome` then type '/admin', '..', '../..', '../../rails', './wiki'
+                      will open http://github.com/admin, http://github.com/jinzhu
+                      -- Useful for website administrators + developers
+
+                      3, Search Engines:
+                      Try `google [query]` e.g `google vrome` will return search results for `vrome`
+					  Supported engines:  `google`, `answers`, `yahoo`, `wikipedia`, `bing`, `twitter` are built in search engines.
+					  Define your own [Example](https://github.com/jinzhu/vrome/wiki/vromerc-example-file)
+
+					  If no search engine name is provided, default (google) one is used
+
+            O         Open one or more URL in current tab, based on current location. (check `o` for more)
+            t         Open one or more URL in new tab. (check `o` for more)
+            T         Open one or more URL in new tab, based on current location. (check `o` for more)
+
+            ]]        Go to next page (Customizable)
+            [[        Go to previous page.
+            Sd        Switch Chrome Default look -- requires server (check ccc_file option in [Example](https://github.com/jinzhu/vrome/wiki/vromerc-example-file))
+
+
+    [count] gu        Go to parent URL
+            gU        Go to the root of the website
+
+            y         Copy current URL to clipboard
+            <C-y>     Copy a shorten URL to clipboard, the URL is shortened by `http://goo.gl`
+                      You can show the shortened URL on your dashboard on http://goo.gl, Refer to Vrome Options
+
+            p         Open highlighted text or clipboard in current tab.
+                      If not a URL, a search is made with default engine
+            P         Same as p but in a new tab
+
+    [count] <C-a>     Increment the last number in URL by 1, or by [count] if given.
+    [count] <C-x>     Decrement the last number in URL by 1, or by [count] if given.
+
+
+### Tabs manipulation ###
+            g0, g^    Go to first tab
+            g$        Go to last tab
+    [count] <C-^>     Go to last selected tab. if [count] is given, go to [count]th tab
+            gl        Go to last created tab
+    [count] gt        Go to right [count] tab
+    [count] gT        Go to left [count] tab
+    [count] <C-p>     Go to left [count] tab
+
+            gp        Toggle Pin current tab. pin tab if unpinned, unpin it if pinned.
+            gP        Unpin all tabs in current window
+            WP        Unpin all tabs in all windows
+
+    [count] gd        Duplicate current tab
+    [count] ge        Move tab right
+    [count] gq        Move tab left
+            gD        Detach current tab to a new window.
+            gI        Toggle incognito mode for current tab.
+                      (You need to enable Vrome in incognito mode, check chrome://extensions/)
+
+            gm        Marks tab for merging (can mark multiple tabs)
+            gM        Marks all tabs in current window for merging
+            gv        Moves marked tab(s) (merges)
+
+    [count] b         Go to  [count]th tab or the first matched tab.
+                      If no [count] is provided, search input will appear
+                      And will go to the first matched tab after pressing <Enter>.
+            B         Delete all matched tabs. (same as b)
+
+            <M-d>     Close current tab and select last selected tab.
+            D         Close current tab and select left tab
+            dc        Close current tab and select right tab.
+            dm        Close matched tabs. 
+            do        Close other tabs except current one.
+            dl        Close tabs on the left.
+            dr        Close tabs on the right.
+            dp        Close unpinned tabs.
+            dP        Close pinned tabs.
+            dW        Close other windows
+
+    [count] u         Reopen the last closed tab.
+
+            r         Reload current tab
+            R         Reload all tabs
+        <C-r>         Refresh page without cached content
+
+
+### Marks ###
+       M{a-zA-Z0-9}   Add new QuickMark for current URL.
+                      You can go to a marked URL in the current tab with go{a-zA-Z0-9} or in a new tab with gn{a-zA-Z0-9}.
+                      e.g: Go to `http://github.com`, associate `github.com` to quick mark `g` using `Mg`,
+                      Then you can use `gog` to open `http://github.com` in current tab. or `gng` to open it in a new tab.
+       go{a-zA-Z0-9}  Open marked URL in current tab. (check M{a-zA-Z0-9} for more)
+       gn{a-zA-Z0-9}  Open marked URL in new tab. (check M{a-zA-Z0-9} for more)
+
+       m{a-zA-Z}      Set mark at the cursor position. Marks a-z are local to the buffer, whereas A-Z are valid between buffers.
+                      e.g: When you are reading the first paragraph of an article, you can save your cursor position using `ma`
+                      When revisiting the page, jump to the location using `'a`
+       '{a-zA-Z}      Jump to the mark. Marks a-z are local to the buffer, whereas A-Z are valid between buffers.
+                      (check m{a-zA-Z} for more)
+
+
+### Hints Mode ###
+            f         Start Hint mode, All visible links/inputs are given a number.
+                      Filter these elements using hints (numbers) or a keyword matching the element's content.
+                      When a match is found, element is opened in the current tab (URL) or clicked (checkbox) or grabs focus (input).
+
+                      e.g: if there is a link named `Gmail`, you can type `ma` to filter and open it.
+                      One more thing, Press <Enter> would open current highlighted element.
+                      <C-Enter> would open all available hints in current page.
+
+                      We support hint mode with numbers (default) and strings/letters
+
+                      You can switch to strings instead of numbers by:
+                      `set useletters=1`
+
+                      If you want to customize the hint keys sequence:
+                      `set hintkeys=jlkhfsdagwerui`
+
+                      If you need both numbers AND strings available. You need to map the commands to different keys. [Example](https://github.com/jinzhu/vrome/wiki/vromerc-example-file)
+
+                      If you need to change the font-size or background-color. You can inject CSS using
+                      `custom_begin_css and custom_end_css` [Example](https://github.com/jinzhu/vrome/wiki/vromerc-example-file)
+
+            F         Start Hint mode, but open links in new tabs. (check `f` for more)
+                       Note you can use the first letter as upper-case to open multiple links in a row
+                       Example: if we have hints such as `FA` `FS` `FD`
+                       You can enter hint mode and type `Fa` then simply enter `s` `d`
+
+            <M-f>     Start Hint mode, but open multiple links in a new tab. (check `f` for more)
+
+            Also there are some extra commands when in the [input box]:
+                ?     Show information about an element.
+                      For example, type `?gmail` in the input box, it would search all elements matching gmail like normal.
+                      If there is one element matched, it would show the element's details, usually it is the element's html.
+                ;     Focus on an element. (check `?` in Hints Mode for more)
+                [     Copy selected elements' url if existent. [hint] `[` looks like the C in Copy.
+                      (check `?` in Hints  Mode for more)
+                {     Copy selected element's text. [hint] `{` also looks like the C in Copy.
+                      (check `?` in Hints Mode for more)
+                !     Filter links not matching keyword. (check `?` in Hints Mode for more)
+
+
+### Scrolling ###
+            gg        Go to top
+            G         Go to bottom
+            0         Go to left
+            $         Go to right
+
+    [count] <C-f>     Scroll down [count] full page
+    [count] <C-d>     Scroll down [count] half page
+    [count] <C-b>     Scroll up [count] full page
+    [count] <C-u>     Scroll up [count] half page
+
+    [count] j         Scroll down
+    [count] k         Scroll up
+    [count] h         Scroll left
+    [count] l         Scroll right
+
+    [count] %         Scroll to percent of the page
+
+
+### Zoom ###
+    [count] zi        Zoom in, based on the center of the screen.
+    [count] zI        Zoom in, based on the beginning of the screen.
+    [count] zm        3 times zoom in, based on the center of the screen.
+    [count] zM        3 times zoom in, based on the beginning of the screen.
+
+    [count] zo        Zoom out, based on the center of the screen.
+    [count] zO        Zoom out, based on the beginning of the screen.
+    [count] zr        3 times zoom out, based on the center of the screen.
+    [count] zR        3 times zoom out, based on the beginning of the screen.
+
+            zz        zoom reset, based on the center of the screen.
+            zZ        zoom reset, based on the beginning of the screen.
+
+
+### History ###
+    [count] H         Go [count] pages back.
+    [count] L         Go [count] pages forward.
+    [count] <C-o>     Go [count] pages back.
+    [count] <C-i>     Go [count] pages forward.
+            gh        Filter History with keyword. -- <Up>/<Down>/<Tab>/<S-Tab>/<Enter>/<C-Enter> could be used here.
+                      check Navigation:`o` - AutoComplete for more.
+            gH        Filter History with keyword, but open in new tab. (check `gh` for more)
+
+### Bookmark ###
+            gb        Filter bookmarks with keyword. <Up>/<Down>/<Tab>/<S-Tab>/<Enter>/<C-Enter> could be used here.
+                      check Navigation:`o` - AutoComplete for more.
+            gB        Filter bookmarks with keyword, but open in new tab. (check `gb` for more)
+
+### Search ###
+            /         Start forward search
+            ?         Start backward search
+            *         Search word under cursor
+            #         Backward Search word under cursor
+    [count] n         Search next
+    [count] N         Search previous
+            <Enter>   Search next
+            <C-Enter> Search previous
+            <S-Enter> Open  selected element in current tab.
+            <M-Enter> Open selected element in a new tab.
+
+
+### Page ###
+    [count] gi        Focus the [count]th input field
+            gf        View source code in current tab.
+            gF        View source code in new tab.
+    [count] ]f        Go to next frame
+    [count] [f        Go to previous frame
+
+
+### Other Stuff ###
+            Y         Copy selected text
+            .         Repeat the last command [count] times.
+
+            <C-v>     Pass the next key
+            <C-z>     Disable Vrome, use <C-Esc> to re-enable it.
+                      The enable key is customizable in Option page.
+
+
+### Command Line Mode ###
+            :         Enter Command-line mode
+            :help     Open the help page.
+            :bdelete  Close all matched tabs. like `B` in normal mode e.g `:bd gm`
+            :mdelete  Delete a quick mark  e.g `:md e`
+
+
+### Insert mode ###
+            <C-a>     Move to first words or select all
+            <C-e>     Move to end
+            <C-k>     Delete forwards to end of line.
+            <C-u>     Delete backwards to the beginning of the line.
+
+            <C-d>     Delete forward char
+            <C-h>     Delete backward char
+            <M-w>     Delete backward word
+            <M-d>     Delete forward word
+
+            <M-h>     Move back a word
+            <M-l>     Move forward a word
+            <M-j>     Move back a char
+            <M-k>     Move forward a char
+
+            <C-i>     Launch the external editor,default 'editor' is 'gvim -f'. #server
