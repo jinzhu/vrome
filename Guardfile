@@ -14,14 +14,13 @@ guard 'shell' do
   watch(/.coffee$/) do |files|
     files.map do |file|
       js_file = file.sub(/coffee$/, "js").sub(/coffee/, 'src')
-      js_map_file = js_file + ".map"
-      system "mkdir -p #{File.dirname(js_file)}",
 
       # CoffeeScript
       # "coffee -p -c #{file} > #{js_file}",
+      `coffee -m -o #{File.dirname(js_file)} -c #{file}`
 
       # CoffeeScriptRedux
-      `coffee --js --source-map-file #{js_map_file} -i #{file} -o #{js_file}`
+      #`coffee --js --source-map-file #{js_map_file} -i #{file} -o #{js_file}`
       puts "Generated js file #{js_file}"
     end
   end
