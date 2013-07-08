@@ -48,6 +48,9 @@
     [count] gu        Go to parent URL
             gU        Go to the root of the website
 
+            gr        Go to referer URL
+            gR        Go to referer URL in new tab
+
             y         Copy current URL to clipboard
             <C-y>     Copy a shorten URL to clipboard, the URL is shortened by `http://goo.gl`
                       You can show the shortened URL on your dashboard on http://goo.gl, Refer to Vrome Options
@@ -55,6 +58,7 @@
             p         Open highlighted text or clipboard in current tab.
                       If not a URL, a search is made with default engine
             P         Same as p but in a new tab
+            <M-P>     Same as P but focus it
 
     [count] <C-a>     Increment the last number in URL by 1, or by [count] if given.
     [count] <C-x>     Decrement the last number in URL by 1, or by [count] if given.
@@ -88,11 +92,12 @@
                       If no [count] is provided, search input will appear
                       And will go to the first matched tab after pressing <Enter>.
             B         Delete all matched tabs. (same as b)
+            <M-b>     Delete those tabs don't match. (same as b)
 
             <M-d>     Close current tab and select last selected tab.
             D         Close current tab and select left tab
             dc        Close current tab and select right tab.
-            dm        Close matched tabs. 
+            dm        Close matched tabs.
             do        Close other tabs except current one.
             dl        Close tabs on the left.
             dr        Close tabs on the right.
@@ -218,10 +223,10 @@
             #         Backward Search word under cursor
     [count] n         Search next
     [count] N         Search previous
-            <Enter>   Search next
-            <C-Enter> Search previous
-            <S-Enter> Open  selected element in current tab.
-            <M-Enter> Open selected element in a new tab.
+            <Enter>   Open selected element in current tab
+            <C-Enter> Open selected element in new tab
+            <S-Enter> Search previous
+            <M-Enter> Search next
 
 
 ### Page ###
@@ -254,14 +259,19 @@
             <C-k>     Delete forwards to end of line.
             <C-u>     Delete backwards to the beginning of the line.
 
-            <C-d>     Delete forward char
-            <C-h>     Delete backward char
-            <M-w>     Delete backward word
-            <M-d>     Delete forward word
+            <M-i>     Delete forward char
+            <M-u>     Delete backward char
+            <M-y>     Delete backward word
+            <M-p>     Delete forward word
 
             <M-h>     Move back a word
             <M-l>     Move forward a word
             <M-j>     Move back a char
             <M-k>     Move forward a char
+
+            <M-n>     Move next line char
+            <M-m>     Move previous line
+
+            <M-z>     Restore last changed value
 
             <C-i>     Launch the external editor,default 'editor' is 'gvim -f'. #server
