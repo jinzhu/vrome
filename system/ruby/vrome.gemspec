@@ -10,6 +10,7 @@ Gem::Specification.new do |s|
   s.homepage    = "https://github.com/jinzhu/vrome"
   s.summary     = %q{Vrome is a external server for vrome, a Vim keybindings extension for chrome}
   s.description = %q{Vrome is a external server for vrome, a Vim keybindings extension for chrome}
+  s.licenses    = ['MIT', 'GPL-2']
 
   s.rubyforge_project = "vrome"
 
