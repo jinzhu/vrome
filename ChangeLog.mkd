@@ -1,3 +1,6 @@
+2.9.3
+- No Need Enter when open Quick Mark `M|go|gn`
+
 2.9.2 (2013/07/08)
 
 - Use Coffee Script to rewrite the whole project
