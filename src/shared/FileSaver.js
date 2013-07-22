@@ -13,6 +13,7 @@
 
 /*! @source http://purl.eligrey.com/github/FileSaver.js/blob/master/FileSaver.js */
 
+if (document.doctype != null) {
 var saveAs = saveAs
   || (navigator.msSaveBlob && navigator.msSaveBlob.bind(navigator))
   || (function(view) {
@@ -215,3 +216,4 @@ var saveAs = saveAs
 	view.addEventListener("unload", process_deletion_queue, false);
 	return saveAs;
 }(self));
+}
