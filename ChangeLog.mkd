@@ -1,5 +1,7 @@
-2.9.3
-- No Need Enter when open Quick Mark `M|go|gn`
+2.9.3 (2013/07/22)
+
+- No need press Enter when open Quick Marks with `go|gn`
+- Fix vrome with mime-type text/xml pages
 
 2.9.2 (2013/07/08)
 
