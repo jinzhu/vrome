@@ -1,4 +1,5 @@
 $.fn.reverse = [].reverse
+$.fn.hasScrollBar = -> @get(0).scrollHeight > @height()
 
 String::startsWith = (str) ->
   !!@match("^" + (str?.escapeRegExp() || ""))

@@ -2,16 +2,26 @@ class Scroll
   vertical_moment = 15
   horizontal_moment = 15
 
+  element = ->
+    elements = $(activatedElement || body).parents('*').andSelf()
+    $(elem for elem in elements when $(elem).hasScrollBar()).get(-1)
+
+  scrollTo = (x, y) ->
+    console.log element()
+
+  scrollBy = ->
+    console.log element()
+
   @top: -> scrollTo scrollX, 0
   desc @top, "Scroll to the top of the page"
 
-  @bottom: -> scrollTo scrollX, document.body.scrollHeight
+  @bottom: -> scrollTo scrollX, element().height()
   desc @bottom, "Scroll to the bottom of the page"
 
   @first: -> scrollTo 0, scrollY if times(true, true) is 0
   desc @first, "Scroll to the left of the page"
 
-  @last: -> scrollTo document.body.scrollWidth, scrollY
+  @last: -> scrollTo element().width(), scrollY
   desc @last, "Scroll to the right of the page"
 
   @up: -> scrollBy 0, times() * -vertical_moment

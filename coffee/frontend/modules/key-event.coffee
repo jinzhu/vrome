@@ -2,6 +2,8 @@ class KeyEvent
   [disableVrome, passNextKey, currentKeys, keyTimes, bindings] = [null, null, "", 0, []]
 
   @init: =>
+    document.addEventListener "DOMActivate", (event) -> root.activatedElement = event.target
+
     for disablesite in Option.get("disablesites").split(", ")
       continue if RegExp("^\\s*$").test(disablesite)
       @disable() if new RegExp(disablesite, "i").test(location.href)
@@ -160,4 +162,5 @@ class KeyEvent
 
 
 root = exports ? window
+root.activatedElement = null
 root.KeyEvent = KeyEvent
