@@ -41,8 +41,7 @@ saveSettings = ->
     onlineVromercReloadInterval: $("#onlineVromercReloadInterval").val(),
     vromerc: Vromerc.parse($("#vromerc").val())
   }
-  setSettings()
-
+  window.setTimeout setSettings, 100
 
 saveOptions = ->
   saveSettings()
