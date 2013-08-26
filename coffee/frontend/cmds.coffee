@@ -135,9 +135,9 @@ nmapFunc "gr", "Url.referer"
 nmapFunc "gR", "Url.tabReferer"
 
 nmapFunc "o", "Url.open"
-nmapFunc "O", "Url.open"
+nmapFunc "O", "Url.openWithDefault"
 nmapFunc "t", "Url.tabopen"
-nmapFunc "T", "Url.tabopen"
+nmapFunc "T", "Url.tabopenWithDefault"
 
 nmapFunc "<C-y>", "Url.shortUrl"
 
