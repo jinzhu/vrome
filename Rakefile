@@ -53,7 +53,7 @@ task :build do
 end
 
 task :zip do
-  system("zip -r vrome.zip src/; cp vrome.zip ~")
+  system("rm vrome.zip; zip -r vrome.zip src/; cp vrome.zip ~")
 end
 
 task :default => [:build, :zip]

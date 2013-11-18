@@ -1,3 +1,7 @@
+2.9.5 (2013/08/26)
+
+- Fix lost characters when type fast when open url
+
 2.9.4 (2013/08/26)
 
 - `O/T` editing the URL of the current page.
