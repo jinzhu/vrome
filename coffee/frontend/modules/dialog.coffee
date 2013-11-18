@@ -1,5 +1,5 @@
 class Dialog
-  [dialogMode, searchFunc, tabFunc, lastKeyword, newTab] = [null, null, null, null, null]
+  [dialogMode, searchFunc, tabFunc, lastKeyword, newTab, lastSearchTimeout, searching] = [null, null, null, null, null]
 
   [search_result, selected_class, quick_num, notice_id] = ["__vrome_search_result", "__vrome_selected", "__vrome_quick_num", "__vrome_dialog_notice"]
 
@@ -55,8 +55,12 @@ class Dialog
   @draw: (msg) ->
     return false unless dialogMode
     sources = msg.urls or msg.sources
+    searching = false
 
-    if sources.length is 0
+    if msg.searching
+      searching = true
+      setResultBox [$("<div>").html("Searching...")]
+    else if sources.length is 0
       setResultBox [$("<div>").html("No results found!")]
     else
       buildResult = (s, href) ->
@@ -105,7 +109,10 @@ class Dialog
 
   delayToWaitKeyDown = ->
     keyword = CmdBox.get().content
-    searchFunc lastKeyword = keyword if lastKeyword isnt keyword
+    if lastKeyword isnt keyword
+      Dialog.draw({searching: true})
+      clearTimeout(lastSearchTimeout)
+      lastSearchTimeout = setTimeout(searchFunc, 300, lastKeyword = keyword)
 
   @openCurrentNewTab: => @open true
   @openCurrentNewTab.description = "Open selected URL in new tab"
@@ -117,6 +124,7 @@ class Dialog
     $(".#{selected_class} a")
 
   @openCurrent: (keep_open) => #Boolean
+    return setTimeout @openCurrent, 100, keep_open if searching
     return false if !dialogMode
     clickElement @current(), {"ctrl": keep_open or newTab}
     @stop() unless keep_open
