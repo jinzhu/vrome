@@ -221,8 +221,8 @@
             ?         Start backward search
             *         Search word under cursor
             #         Backward Search word under cursor
-    [count] n         Search next
-    [count] N         Search previous
+    [count] n         Search next (Need to move the focus out of search box with `<Tab>` first)
+    [count] N         Search previous (Need to move the focus out of search box with `<Tab>` first)
             <Enter>   Open selected element in current tab
             <C-Enter> Open selected element in new tab
             <S-Enter> Search previous
