@@ -9,10 +9,16 @@ class Url
   @tabopenWithDefault: => @open(true, true)
   desc @tabopenWithDefault, "Same as `o`, but open URLs or search in a new tab (edit current URL)"
 
-  @open: (with_default, new_tab) ->
-    title = (if new_tab then 'TabOpen: ' else 'Open: ')
-    content = (if with_default then location.href else (getSelected() || ''))
-    Dialog.start title: title, content: content, search: search, newtab: new_tab
+  @tabopenAndFocusNewTab: => @open(false, true, true)
+  desc @tabopenAndFocusNewTab, "Same as `o`, but open URLs or search in a new tab and activates it"
+
+  @tabopenWithDefaultAndFocusNewTab: => @open(true, true, true)
+  desc @tabopenWithDefaultAndFocusNewTab, "Same as `o`, but open URLs or search in a new tab (edit current URL) and activates it"
+
+  @open: (withDefault, newTab, selected=false) ->
+    title = (if newTab then 'TabOpen: ' else 'Open: ')
+    content = (if withDefault then location.href else (getSelected() || ''))
+    Dialog.start {title, content, search, newtab: newTab, selected}
   desc @open, "Open URLs or search"
   @open.options = {
     noautocomplete: {

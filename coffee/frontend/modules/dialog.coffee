@@ -1,5 +1,5 @@
 class Dialog
-  [dialogMode, searchFunc, tabFunc, lastKeyword, newTab, lastSearchTimeout, searching] = [null, null, null, null, null]
+  [focusTab, dialogMode, searchFunc, tabFunc, lastKeyword, newTab, lastSearchTimeout, searching] = [false, null, null, null, null, null]
 
   [search_result, selected_class, quick_num, notice_id] = ["__vrome_search_result", "__vrome_selected", "__vrome_quick_num", "__vrome_dialog_notice"]
 
@@ -43,7 +43,7 @@ class Dialog
 
 
   @start: (o) ->
-    [dialogMode, lastKeyword, newTab, searchFunc, tabFunc] = [true, null, o.newtab, o.search, o.ontab]
+    [focusTab, dialogMode, lastKeyword, newTab, searchFunc, tabFunc] = [o.selected, true, null, o.newtab, o.search, o.ontab]
     CmdBox.set title: o.title, pressDown: handleInput, pressUp: o.callback, content: o.content ? ""
     searchFunc CmdBox.get().content
 
@@ -66,7 +66,7 @@ class Dialog
       buildResult = (s, href) ->
         onClick = (e) ->
           unless s.onclick && s.onclick.call("", e)
-            Post action: "Tab.openUrl", url: href, newtab: e.ctrlKey
+            Post action: "Tab.openUrl", url: href, newtab: e.ctrlKey, selected: focusTab
           false
 
         title = (if s.title then "#{s.title} -- " else "")
