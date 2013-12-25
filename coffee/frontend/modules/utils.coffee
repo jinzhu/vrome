@@ -77,5 +77,6 @@ root.runIt = (func, args) ->
         f[0].call "", f[1]
       else
         Debug "RunIt(Not Run): function #{f}"
+    return
   else
     setTimeout runIt, 10

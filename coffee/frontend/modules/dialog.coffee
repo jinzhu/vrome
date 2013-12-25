@@ -31,6 +31,7 @@ class Dialog
 
     for index in [max_num..0]
       $(".#{quick_num}:contains(#{index})").get(0)?.scrollIntoViewIfNeeded()
+    return
 
 
   notice = (msg) ->

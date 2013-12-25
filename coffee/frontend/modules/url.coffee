@@ -65,7 +65,7 @@ class Url
         pathname = pathname.replace(/\/[^\/]*\/?$/, '') + path
       else if path.match(/^.\//)
         pathname = pathname.replace(/\/$/, '') + path.replace(/^.\//, '/')
-    return pathname
+    pathname
 
 
   fixUrl = (url_str) =>
@@ -100,7 +100,7 @@ class Url
         url = encodeURIComponent(url)
         result.push Option.default_search_url(url)
 
-    return result
+    result
 
 
   @parent: ->

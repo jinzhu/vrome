@@ -15,6 +15,7 @@ class Command
           "var script = document.createElement('link'); script.setAttribute('href', '#{src}'); script.setAttribute('rel', 'stylesheet'); document.body.appendChild(script);"
         chrome.tabs.executeScript(tab.id, code: data)
         # $.ajax type: 'GET', url: src, dataType : 'text', success: (data) -> injectCode(data, src, tab)
+    return
 
 
 root = exports ? window
