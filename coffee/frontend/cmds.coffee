@@ -1,6 +1,7 @@
 root = exports ? window
 
 root.AcceptKey = ["<Enter>", "<C-j>", "<C-m>"]
+root.CtrlAcceptKey = ["<C-Enter>"]
 root.CancelKey = ["<Esc>", "<C-[>"]
 root.CtrlEscapeKey = ["<C-Esc>"]
 
@@ -8,7 +9,7 @@ root.isControlKey = (key) ->
   key in ["Control", "Shift", "Alt", "Win"]
 
 root.isCtrlAcceptKey = (key) ->
-  key is "<C-Enter>"
+  key in CtrlAcceptKey
 
 root.isAcceptKey = (key) ->
   key in AcceptKey
@@ -26,6 +27,10 @@ root.AcceptKeyFunction = ->
   Buffer.gotoFirstMatchHandle()
   Buffer.deleteMatchHandle()
   Buffer.deleteNoteMatchHandle()
+
+root.CtrlAcceptKeyFunction = ->
+  Dialog.openCurrentNewTab()
+  Search.openCurrentNewTab()
 
 root.CancelKeyFunction = ->
   Hint.remove()
@@ -67,11 +72,10 @@ nmapFunc ":", "CmdLine.start"
 
 mapFunc AcceptKey, "AcceptKeyFunction"
 mapFunc CancelKey, "CancelKeyFunction"
+mapFunc CtrlAcceptKey, "CtrlAcceptKeyFunction"
 
 nmapFunc "<C-z>", "KeyEvent.disable"
 nmapFunc "<C-v>", "KeyEvent.passNextKey"
-
-nmapFunc "<C-Enter>", "Dialog.openCurrentNewTab"
 
 nmapFunc ".", "KeyEvent.runLast" # count
 
@@ -152,7 +156,7 @@ nmapFunc ["<C-n>", "gt"], "Tab.next" #count
 nmapFunc "gq", "Tab.moveLeft" #count
 nmapFunc "ge", "Tab.moveRight" #count
 
-## Buffer 
+## Buffer
 nmapFunc "b", "Buffer.gotoFirstMatch" #count
 nmapFunc ["dm", "B"], "Buffer.deleteMatch" #count
 nmapFunc "<M-b>", "Buffer.deleteNotMatch"
@@ -207,7 +211,6 @@ nmapFunc "n", "Search.next"
 nmapFunc "N", "Search.prev"
 imapFunc "<M-Enter>", "Search.next"
 imapFunc "<S-Enter>", "Search.prev"
-nmapFunc "<C-Enter>", "Search.openCurrentNewTab"
 
 ## Marks
 mark_keys = ('m' + String.fromCharCode(num)) for num in [65..122] when num not in [91..96]
