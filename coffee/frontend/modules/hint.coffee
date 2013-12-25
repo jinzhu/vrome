@@ -30,6 +30,7 @@ class Hint
       $(highlight_box).append span
       offset = $(elem).offset()
       span.offset left: offset.left-6, top: offset.top
+    return
 
   setMatched = (elems) =>
     @matched = elems

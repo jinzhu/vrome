@@ -6,6 +6,7 @@ class Page
     for regexp in regexps
       for [elem, value] in elems
         return clickElement(elem) if new RegExp(regexp, "i").test(value)
+    return
 
   @copySelected: ->
     text = getSelected()

@@ -34,8 +34,9 @@ class Tab
 
     [first_url, index] = [urls.shift(), tab.index]
 
-    openUrls = (window) =>
+    openUrls = (window) ->
       chrome.tabs.create(windowId: window.id, url: url, index: ++index, selected: false) for url in urls
+      return
 
     if msg.incognito
       chrome.windows.create {incognito: true, url: first_url}, openUrls
@@ -104,6 +105,7 @@ class Tab
               (not cond and (t.index >= index) and (t.index < (index + Math.max(1, count))))
             )
               remove t
+      return
 
 
   @select: (msg) ->
@@ -133,6 +135,7 @@ class Tab
       chrome.tabs.getAllInWindow tab.windowId, (tabs) ->
         # Reverse reload all tabs to avoid issues in development mode
         chrome.tabs.reload t.id for t in tabs.reverse()
+        return
     else
       chrome.tabs.reload tab.id, {bypassCache: !!msg.bypassCache}
 
@@ -148,12 +151,14 @@ class Tab
       for w in windows
         for t in w.tabs when t.pinned && (msg.allWindows || (w.id is tab.windowId))
           @update {pinned: false}, t
+      return
 
 
   @duplicate: (msg) ->
     tab = getTab(arguments)
     [index, count] = [tab.index, msg.count ? 1]
     chrome.tabs.create {url: tab.url, index: ++index, selected: false} while count-- > 0
+    return
 
 
   @detach: ->

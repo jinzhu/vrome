@@ -9,6 +9,7 @@ class Window
   @closeAll: () ->
     chrome.windows.getAll (windows) ->
       chrome.windows.remove(window.id) for window in windows
+      return
 
   @capture: () ->
     tab = getTab(arguments)
