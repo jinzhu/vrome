@@ -41,7 +41,7 @@ class Tab
       chrome.windows.create {incognito: true, url: first_url}, openUrls
     else
       if msg.newtab
-        chrome.tabs.create(url: first_url, index: ++index, selected: msg.selected || false)
+        chrome.tabs.create(url: first_url, index: ++index, selected: msg.selected || Option.get("follow_new_tab") is 1)
       else
         @update {url: first_url}, tab
       chrome.windows.getCurrent openUrls

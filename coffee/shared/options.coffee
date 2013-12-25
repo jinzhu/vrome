@@ -22,6 +22,7 @@ class Option
     useletters: 1
     showstatus: 1
     show_disabled_text: 1
+    follow_new_tab: 1
     sources_map:
       jquery: 'http://code.jquery.com/jquery.js'
 
