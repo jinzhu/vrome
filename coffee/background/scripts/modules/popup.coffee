@@ -11,6 +11,4 @@ applyEvents = ->
   $(".version").text Settings.get("version")
 
 $ ->
-
-$ ->
   window.setTimeout applyEvents, 500

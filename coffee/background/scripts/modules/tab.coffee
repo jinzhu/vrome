@@ -1,5 +1,5 @@
 class Tab
-  [@closedTabs, @lastTab, @lastOpenTabs, @marked_tabs] = [[], null, [], []]
+  [closedTabs, @lastTab, @lastOpenTabs, markedTabs] = [[], null, [], []]
 
   # close the tab and add it to closed tabs list
   remove = (tab) =>
@@ -90,11 +90,11 @@ class Tab
 
 
   @reopen: (msg) =>
-    if @closedTabs.length > 0
-      index = (@closedTabs.length - msg.count) % @closedTabs.length
-      lastClosedTab = @closedTabs[index]
+    if closedTabs.length > 0
+      index = (closedTabs.length - msg.count) % closedTabs.length
+      lastClosedTab = closedTabs[index]
       if lastClosedTab
-        @closedTabs.splice index, 1
+        closedTabs.splice index, 1
         chrome.tabs.create lastClosedTab
 
   @update: (msg) ->
@@ -209,33 +209,33 @@ class Tab
     chrome.tabs.query {windowId: msg.tab.windowId}, (tabs) ->
       tabs = [msg.tab] unless msg.all
       for tab in tabs
-        index = Tab.marked_tabs.indexOf tab.id
+        index = markedTabs.indexOf tab.id
         if index != -1
-          Tab.marked_tabs.splice(index, 1)
+          markedTabs.splice(index, 1)
         else if tab.url
-          Tab.marked_tabs.push tab.id
+          markedTabs.push tab.id
 
-      title = "#{Tab.marked_tabs.length} Tab(s) marked"
+      title = "#{markedTabs.length} Tab(s) marked"
       Post msg.tab, {action: "CmdBox.set", title: title, timeout: 4000}
 
 
   @mergeMarkedTabs: (msg) ->
-    return if Tab.marked_tabs.length == 0
+    return if markedTabs.length == 0
     chrome.windows.get msg.tab.windowId, (window) ->
-      for tabId, index in Tab.marked_tabs
+      for tabId, index in markedTabs
         chrome.tabs.get tabId, (tab) ->
           if window.incognito is tab.incognito
             chrome.tabs.move tab.id, {windowId: window.id, index: -1}
           else
             chrome.tabs.create windowId: window.id, url: tab.url
             chrome.tabs.remove tab.id
-      Tab.marked_tabs = []
+      markedTabs = []
 
   @addToClosedTabs: (tab) =>
-    for t, i in @closedTabs when tab.url is t.url
-      @closedTabs.splice i, 1
+    for t, i in closedTabs when tab.url is t.url
+      closedTabs.splice i, 1
       break
-    @closedTabs.push {url: tab.url, index: tab.index} if tab.url != "chrome://newtab/"
+    closedTabs.push {url: tab.url, index: tab.index} if tab.url != "chrome://newtab/"
 
 
 root = exports ? window

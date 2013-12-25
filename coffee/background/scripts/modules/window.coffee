@@ -26,12 +26,12 @@ class Window
       for window in windows
         if (window.type is "normal") and (window.incognito is incognito) and (window.id isnt tab.windowId)
           chrome.tabs.create windowId: window.id, url: tab.url
-          callback(tab) if callback
+          callback?(tab)
           return true
 
       # not returned
       chrome.windows.create url: tab.url, incognito: incognito
-      callback(tab) if callback
+      callback?(tab)
 
 
 root = exports ? window

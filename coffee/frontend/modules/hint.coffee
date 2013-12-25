@@ -101,7 +101,7 @@ class Hint
       setTimeout delayToWaitKeyDown, 20 unless isEscapeKey(currentKey)
 
   delayToWaitKeyDown = =>
-    setMatched(elem for elem in elements when hintMatch(elem))
+    setMatched(elements.filter(hintMatch))
 
     if isCtrlAcceptKey(currentKey)
       execCurrent @matched
@@ -146,8 +146,7 @@ class Hint
   copyElementText.hint = "copy text"
 
   openUrlIncognito = (elem) ->
-    Post acti
-    on: "Tab.openUrl", url: $(elem).attr("href"), incognito: true
+    Post action: "Tab.openUrl", url: $(elem).attr("href"), incognito: true
   openUrlIncognito.hint = "incognito"
 
   invertFilter = {}
@@ -165,7 +164,7 @@ class Hint
   execCurrent = (elems=null) =>
     CmdBox.set pressDown: null, content: ""
 
-    elems = elems || [@matched[Math.max(0,@selected-1)]]
+    elems ?= [@matched[Math.max(0, @selected-1)]]
 
     for elem in elems
       currentAction = getCurrentAction()

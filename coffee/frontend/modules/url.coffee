@@ -119,7 +119,7 @@ class Url
 
 
   @openFromClipboardAndFocusNewTab: => @openFromClipboard(true, true)
-  desc @openFromClipboardAndFocusNewTab, "Same as `p`, but open selected text or clipboard content in new tab and active it"
+  desc @openFromClipboardAndFocusNewTab, "Same as `p`, but open selected text or clipboard content in new tab and activate it"
 
   @openFromClipboardNewTab: => @openFromClipboard(true)
   desc @openFromClipboardNewTab, "Same as `p`, but open selected text or clipboard content in new tab"
