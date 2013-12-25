@@ -67,7 +67,7 @@ mapFunc = (key, func, virtual_key) ->
   imapFunc(key, func, virtual_key)
 
 
-nmapFunc  "<F1>", "Help.show"
+nmapFunc "<F1>", "Help.show"
 nmapFunc ":", "CmdLine.start"
 
 mapFunc AcceptKey, "AcceptKeyFunction"
