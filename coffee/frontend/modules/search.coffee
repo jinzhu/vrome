@@ -53,12 +53,18 @@ class Search
   @openCurrentNewTab: => @openCurrent(true)
   desc @openCurrentNewTab, "Open selected element in a new tab"
 
-  @openCurrent: (new_tab) =>
+  @openCurrent: (new_tab) ->
     return unless searchMode
     clickElement $("##{highlightCurrentId}"), {ctrl: new_tab}
     @stop()
   desc @openCurrent, "Open selected element in current tab"
 
+  @onAcceptKeyPressed: =>
+    return unless searchMode
+    if CmdBox.isActive()
+      InsertMode.blurFocus()
+    else
+      @openCurrent(false)
 
 root = exports ? window
 root.Search = Search
