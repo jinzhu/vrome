@@ -1,6 +1,11 @@
-2.9.6 (xxxx)
+2.9.6 (2013/12/25)
 
 - Add option `follow_new_tab`, follow new tab opened by `t/T/F` or `<C-Enter>` if its value is 1, default is 1.
+- Change `<Enter>`'s behavior in search mode. Press once to leave command box, press again to open current focused link
+
+2.9.5 (2013/11/18)
+
+-- Fix lost characters when type fast when open url
 
 2.9.4 (2013/08/26)
 
