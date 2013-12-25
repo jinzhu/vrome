@@ -53,6 +53,7 @@ task :build do
 end
 
 task :zip do
+  system("find -iname '*map' | xargs rm")
   system("rm vrome.zip; zip -r vrome.zip src/; cp vrome.zip ~")
 end
 
