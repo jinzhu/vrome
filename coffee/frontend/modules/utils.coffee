@@ -44,7 +44,9 @@ root.clickElement = (elem, opt={}) ->
     return
 
   old_target = null
-  unless opt["meta"] or opt["ctrl"] # open in new tab
+  if opt["meta"] or opt["ctrl"] # open in new tab
+    opt["shift"] = Option.get("follow_new_tab") is 1
+  else
     old_target = elem.getAttribute("target")
     elem.removeAttribute "target"
 
