@@ -61,17 +61,10 @@ class Search
 
   @onAcceptKeyPressed: =>
     return unless searchMode
-    if Option.get("search_follow_links") is 1
-      @openCurrent(false)
-    else
+    if CmdBox.isActive()
       InsertMode.blurFocus()
-  @onAcceptKeyPressed.options = {
-    search_follow_links: {
-      description: "When Enter is pressed, whether the currently found link should be pressed or search should be stopped with the current phrase"
-      example: "set search_follow_links=0"
-    }
-  }
-
+    else
+      @openCurrent(false)
 
 root = exports ? window
 root.Search = Search
