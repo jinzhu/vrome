@@ -1,6 +1,6 @@
-2.9.5 (2013/08/26)
+2.9.6 (xxxx)
 
-- Fix lost characters when type fast when open url
+- Add option `follow_new_tab`, follow new tab opened by `t/T` or `<C-Enter>` if its value is 1, default is 1.
 
 2.9.4 (2013/08/26)
 
