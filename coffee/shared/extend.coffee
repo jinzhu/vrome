@@ -1,11 +1,11 @@
 $.fn.reverse = [].reverse
 
 String::startsWith = (str) ->
-  return false if str.length > this.length
+  return true if str == undefined
   this.substring(0, str.length) is str
 
 String::endsWith = (str) ->
-  return false if str.length > this.length
+  return true if str == undefined
   this.substring(this.length - str.length, this.length) is str
 
 String::reverse = ->
