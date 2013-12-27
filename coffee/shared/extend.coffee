@@ -1,14 +1,12 @@
 $.fn.reverse = [].reverse
 
 String::startsWith = (str) ->
-  !!@match("^" + (str?.escapeRegExp() || ""))
+  return false if str.length > this.length
+  this.substring(0, str.length) is str
 
 String::endsWith = (str) ->
-  !!@match((str?.escapeRegExp() || "") + "$")
-
-String::escapeRegExp = ->
-  # From MooTools core 1.2.4
-  @replace /([-.*+?^${}()|[\]\/\\])/g, "\\$1"
+  return false if str.length > this.length
+  this.substring(this.length - str.length, this.length) is str
 
 String::reverse = ->
   @split("").reverse().join ""
@@ -41,7 +39,8 @@ String::trimFirst = (str) -> # String || Array
     result
 
 String::trimFirstStr = (str) -> # don't trim space
-  @replace(new RegExp("^#{str.escapeRegExp()}"), "") if typeof str is "string"
+  return @substring str.length if typeof str is "string" and @startsWith str
+  this
 
 String::reverse = ->
   @split("").reverse().join ""

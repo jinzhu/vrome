@@ -3,7 +3,7 @@ class KeyEvent
 
   @init: =>
     for disablesite in Option.get("disablesites").split(", ")
-      continue if RegExp("^\\s*$").test(disablesite)
+      continue if /^\s*$/.test(disablesite)
       @disable() if new RegExp(disablesite, "i").test(location.href)
 
     unless document.vromeEventListenerAdded
@@ -80,6 +80,7 @@ class KeyEvent
     if Option.get("showstatus") and currentKeys
       CmdBox.set title: "#{times || ""}#{currentKeys}", timeout: 500
 
+  keysRegex = /^(\d*)(.+)$/
   runCurrentKeys = (keys, insertMode, e) =>
     return unless keys
     [key, last_times] = [(if e then getKey(e) else null), null]
@@ -91,35 +92,30 @@ class KeyEvent
     else
       last_times = keyTimes
 
-    for binding in bindings
-      # 0 is a special command. could be used to scroll left, also could be used as run count.
-      break if keyTimes > 0 and keys.match(/^\d$/)
-      [binding_command, binding_function, binding_mode] = binding
-      continue if !!insertMode isnt binding_mode # insert mode match or not
+    # 0 is a special command: could be used to scroll left, also could be used as run count.
+    if keyTimes <= 0 or not keys.match(/^\d$/)
+      keysRegex.test(keys)
+      count = RegExp.$1
+      match = RegExp.$2
 
-      escaped_command = binding_command.replace(/([(\[{\\^$|)?*+.])/g, "\\$1") # "[[" -> "\\[\\["
-      regexp = new RegExp("^(\\d*)(#{escaped_command})$")
+      for [command, binding_function, mode] in bindings when !!insertMode is mode
+        # Run matched functions
+        if match is command
+          someFunctionCalled = true
 
-      # Run matched functions
-      if regexp.test(keys)
-        someFunctionCalled = true
-        keys.replace regexp, ""
+          # map j 3j
+          map_times = Number(count)
+          keyTimes = map_times * (keyTimes or 1) if map_times > 0
 
-        # map j 3j
-        map_times = Number(RegExp.$1)
-        keyTimes = map_times * (keyTimes or 1)  if map_times > 0
+          try
+            binding_function.call e
+          catch err
+            Debug err
 
-        try
-          binding_function.call e
-        catch err
-          Debug err
+          keyTimes = last_times if map_times > 0
 
-        keyTimes = last_times  if map_times > 0
-
-      # Check if there are any bindings matched
-      regexp = new RegExp("^(#{keys.replace(/([(\[{\\^$|)?*+.])/g, "\\$1")})")
-      someBindingMatched = true if regexp.test(binding_command)
-
+        # Check if there are any bindings matched
+        someBindingMatched = true if command.startsWith(keys)
 
     showStatusLine currentKeys, keyTimes if someBindingMatched and not someFunctionCalled
     # If any function invoked, then store it to last run command.
@@ -134,7 +130,7 @@ class KeyEvent
 
     # If some function invoked and a key pressed, reset the count
     # but don't reset it if no key pressed, this should means the function is invoked by runLastCommand.
-    keyTimes = 0  if someFunctionCalled and key
+    keyTimes = 0 if someFunctionCalled and key
 
     # stopPropagation if Vrome is enabled and any functions executed but not in InsertMode or on a link
     if e and someFunctionCalled
@@ -148,7 +144,7 @@ class KeyEvent
     key = getKey(e)
     insertMode = (/^INPUT|TEXTAREA|SELECT$/i.test(e.target.nodeName) or e.target.getAttribute("contenteditable")?)
 
-    # If Vrome in pass next or disabled mode and using <C-Esc> to enable it.
+    # If Vrome in pass-next or disabled mode and using <C-Esc> to enable it.
     return @enable() if not insertMode and (passNextKey or (disableVrome and isCtrlEscapeKey(key)))
     return @stopPropagation e if /^(Control|Alt|Shift)$/.test(key)
     return if disableVrome
