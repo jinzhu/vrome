@@ -23,6 +23,7 @@ class Option
     showstatus: 1
     show_disabled_text: 1
     follow_new_tab: 1
+    completion_items: 'bookmarks,history,search'
     sources_map:
       jquery: 'http://code.jquery.com/jquery.js'
 

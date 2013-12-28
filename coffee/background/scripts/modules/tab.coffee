@@ -16,17 +16,33 @@ class Tab
 
 
   @autoComplete: (msg) ->
-    [tab, keyword, return_urls] = [getTab(arguments), msg.keyword, []]
+    [tab, keyword] = [getTab(arguments), msg.keyword]
+    msg.default_urls = url: msg.default_urls
 
-    return_urls.push {url: msg.default_urls} if msg.default_urls
+    return Post tab, {action: "Dialog.draw", urls: msg.default_urls, keyword} if Option.get("noautocomplete")
 
-    return Post(tab, {action: "Dialog.draw", urls: return_urls, keyword: keyword}) if Option.get("noautocomplete")
-
+    # TODO: do not search bookmarks/history if 'completion_items' doesn't include them
+    # TODO: if search-engine matched exactly, put it in front
     chrome.bookmarks.search keyword, (bookmarks) ->
       start_time = new Date().getTime() - 1000 * 60 * 60 * 24 * 10  # since 10 days ago
-      chrome.history.search {text: keyword, maxResults: 30, startTime: start_time}, (historys) ->
-        Post tab, {action: "Dialog.draw", urls: return_urls.concat(bookmarks.concat(historys)), keyword: keyword}
-
+      chrome.history.search {text: keyword, maxResults: 30, startTime: start_time}, (history) ->
+        completionOrder = Option.get('completion_items').split(',')
+        urls = []
+        for order in completionOrder
+          switch order
+            when 'bookmarks'
+              urls = urls.concat bookmarks
+            when 'history'
+              urls = urls.concat history
+            when 'search'
+              urls = urls.concat msg.default_urls
+        Post tab, {action: "Dialog.draw", urls, keyword}
+  @autoComplete.options = {
+    completion_items: {
+      description: "Sets which items to complete and the order in which they appear"
+      example: "set completion_items=bookmarks,history,search"
+    }
+  }
 
   @openUrl: (msg) =>
     [tab, urls] = [getTab(arguments), msg.urls || msg.url]
