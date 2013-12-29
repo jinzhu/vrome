@@ -60,23 +60,3 @@ root.clickElement = (elem, opt={}) ->
   #   Post action: "Tab.openUrl", url: $(elem).attr("href"), newtab: false
 
   elem.setAttribute "target", old_target  if old_target
-
-
-initFunctions = []
-root.runIt = (func, args) ->
-  if $.isArray func
-    initFunctions = initFunctions.concat(func)
-  else if $.isFunction(func)
-    initFunctions.push [func, args]
-
-  if document.body
-    while f = initFunctions.shift()
-      if $.isFunction(f)
-        f.call()
-      else if $.isFunction f[0]
-        f[0].call "", f[1]
-      else
-        Debug "RunIt(Not Run): function #{f}"
-    return
-  else
-    setTimeout runIt, 10

@@ -3,13 +3,13 @@ root = exports ? window
 root.Post = (msg) ->
   chrome.runtime.sendMessage msg, (response) ->
 
-addErrorLogger = ->
-  window.addEventListener "error", ((err) ->
-    Debug err
-  ), false
+window.addEventListener "error", ((err) -> Debug err), false
 
 try
-  runIt Settings.init, -> func.call() for func in [Zoom.init, KeyEvent.init, Custom.runJS, Custom.loadCSS]
-  runIt addErrorLogger
+  Settings.init ->
+    do KeyEvent.init
+    $ ->
+      func.call() for func in [Zoom.init, Custom.runJS, Custom.loadCSS]
+      return
 catch err
   Debug err

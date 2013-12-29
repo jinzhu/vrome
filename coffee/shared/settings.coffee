@@ -26,7 +26,8 @@ class Settings
 
   syncLocal = (callback) =>
     local_key = get_key(arguments)
-    local.get local_key, (obj) => settings[local_key] = obj[local_key] if local_key isnt "background"
+    if local_key isnt "background"
+      local.get local_key, (obj) => settings[local_key] = obj[local_key]
     local.get "background", (obj) =>
       try
         settings["background"] = obj['background'] || JSON.parse(localStorage['__vrome_setting'] || "{}")
