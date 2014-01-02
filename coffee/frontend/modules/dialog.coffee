@@ -1,5 +1,5 @@
 class Dialog
-  [dialogMode, searchFunc, tabFunc, lastKeyword, newTab, lastSearchTimeout, searching] = [null, null, null, null, null]
+  [dialogMode, searchFunc, tabFunc, newTab, searching] = [null, null, null, null, null]
 
   [SEARCH_RESULT, SELECTED_CLASS, QUICK_NUM, NOTICE_ID] = ["__vrome_search_result", "__vrome_selected", "__vrome_quick_num", "__vrome_dialog_notice"]
 
@@ -44,7 +44,7 @@ class Dialog
 
 
   @start: (o) ->
-    [dialogMode, lastKeyword, newTab, searchFunc, tabFunc] = [true, null, o.newTab, o.search, o.ontab]
+    [dialogMode, newTab, searchFunc, tabFunc] = [true, o.newTab, o.search, o.ontab]
     CmdBox.set title: o.title, pressDown: handleInput, pressUp: o.callback, content: o.content ? ""
     searchFunc CmdBox.get().content
 
@@ -106,14 +106,12 @@ class Dialog
       next 10 if key is Option.get("autocomplete_next_10")
       return
 
-    setTimeout delayToWaitKeyDown, 100 unless isEscapeKey(key)
+    clearTimeout @timeout
+    @timeout = setTimeout delayToWaitKeyDown, 300 unless isEscapeKey(key)
 
   delayToWaitKeyDown = ->
-    keyword = CmdBox.get().content
-    if lastKeyword isnt keyword
-      Dialog.draw({searching: true})
-      clearTimeout(lastSearchTimeout)
-      lastSearchTimeout = setTimeout(searchFunc, 300, lastKeyword = keyword)
+    Dialog.draw({searching: true})
+    searchFunc CmdBox.get().content
 
   @openCurrentNewTab: => @open true
   @openCurrentNewTab.description = "Open selected URL in new tab"
