@@ -24,11 +24,11 @@ class Tab
     else if /^\//.test(url) || /^\.\.?\/?/.test(url)
       fixRelativePath(url)
     # Like url, for example: google.com
-    else if /\w+\.\w+/.test(url) && !/\s/.test(url)
-      "#{if url.match("://") then "" else "http://"}#{url}"
+    else if /\w+\.\w+/.test(url) and not /\s/.test(url)
+      url
     # Local URL, for example: localhost:3000 || dev.local/
-    else if /local(host)?($|\/|\:)/.test(url)
-      "#{if url.match("://") then "" else "http://"}#{url}"
+    else if /local(host)?($|\/|:)/.test(url)
+      url
     # google vrome
     else
       searchengines = Option.get('searchengines')
