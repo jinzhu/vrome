@@ -105,6 +105,8 @@ class Url
 
   @parent: ->
     pathnames = location.pathname.split('/')
+    pathnames = pathnames[0 .. -2] if pathnames[pathnames.length - 1] is ''
+
     hostnames = location.hostname.split('.')
 
     for i in [0...times()]
