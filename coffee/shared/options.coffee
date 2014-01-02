@@ -56,6 +56,7 @@ class Option
     searchengines = Option.get("searchengines")
     searchengine = searchengines[Option.get("defaultsearch")]
     return searchengine.replace("{{keyword}}", url) if searchengine
+    # TODO: this shouldn't return many results
     return searchengine.replace("{{keyword}}", url) for searchengine in searchengines
 
 
