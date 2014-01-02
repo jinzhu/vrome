@@ -19,16 +19,16 @@ class Tab
     url = url.trim()
     # file://xxxxx || http://xxxxx
     if (/:\/\//.test(url))
-      url
+      {url, origin: 'url'}
     # /jinzhu || (.. || ./configure) && no space
     else if /^\//.test(url) or /^\.\.?\/?/.test(url)
-      fixRelativePath(url)
+      {url: fixRelativePath(url), origin: 'url'}
     # Like url, for example: google.com
     else if /\w+\.\w+/.test(url) and not /\s/.test(url)
-      url
+      {url, origin: 'url'}
     # Local URL, for example: localhost:3000 || dev.local/
     else if /local(host)?($|\/|:)/.test(url)
-      url
+      {url, origin: 'url'}
     # google vrome
     else
       searchengines = Option.get('searchengines')
@@ -37,16 +37,16 @@ class Tab
 
       # use the matched searchengine
       if searchengines[name]
-        searchengines[name].replace "{{keyword}}", keyword
+        {url: searchengines[name].replace("{{keyword}}", keyword), origin: 'search-engine'}
       else
         url = encodeURIComponent(url)
-        Option.default_search_url(url)
+        {url: Option.default_search_url(url), origin: 'search'}
 
   @autoComplete: (msg) ->
-    return Post msg.tab, {action: "Dialog.draw", urls: {url: fixUrl(msg.keyword)}, keyword: msg.keyword} if Option.get("noautocomplete")
+    defaultUrl = fixUrl msg.keyword
+    return Post msg.tab, {action: "Dialog.draw", urls: defaultUrl, keyword: msg.keyword} if Option.get("noautocomplete")
 
     # TODO: do not search bookmarks/history if 'completion_items' doesn't include them
-    # TODO: if search-engine matched exactly, put it in front
     chrome.bookmarks.search msg.keyword, (bookmarks) ->
       start_time = new Date().getTime() - 1000 * 60 * 60 * 24 * 10  # since 10 days ago
       chrome.history.search {text: msg.keyword, maxResults: 30, startTime: start_time}, (history) ->
@@ -54,22 +54,26 @@ class Tab
         urls = []
         for order in completionOrder
           switch order
+            when 'search-engine'
+              urls = urls.concat defaultUrl if defaultUrl.origin is 'search-engine'
+            when 'url'
+              urls = urls.concat defaultUrl if defaultUrl.origin is 'url'
             when 'bookmarks'
               urls = urls.concat bookmarks
             when 'history'
               urls = urls.concat history
             when 'search'
-              urls = urls.concat url: fixUrl(msg.keyword)
+              urls = urls.concat defaultUrl if defaultUrl.origin is 'search'
         Post msg.tab, {action: "Dialog.draw", urls, keyword: msg.keyword}
   @autoComplete.options = {
     completion_items: {
       description: "Sets which items to complete and the order in which they appear"
-      example: "set completion_items=bookmarks,history,search"
+      example: "set completion_items=url,search-engine,bookmarks,history,search"
     }
   }
 
   @openUrl: (msg) =>
-    url = fixUrl msg.url
+    url = fixUrl(msg.url).url
 
     if msg.incognito
       chrome.windows.create {incognito: true, url}, ->
