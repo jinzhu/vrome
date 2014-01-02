@@ -165,6 +165,8 @@ class Hint
 
 
   execCurrent = (elems=null) =>
+    CmdBox.set pressDown: null, content: ""
+
     elems = elems || [@matched[Math.max(0,@selected-1)]]
 
     for elem in elems
