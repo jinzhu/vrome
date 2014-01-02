@@ -25,10 +25,10 @@ class Tab
       {url: fixRelativePath(url), origin: 'url'}
     # Like url, for example: google.com
     else if /\w+\.\w+/.test(url) and not /\s/.test(url)
-      {url, origin: 'url'}
+      {url: 'http://' + url, origin: 'url'}
     # Local URL, for example: localhost:3000 || dev.local/
     else if /local(host)?($|\/|:)/.test(url)
-      {url, origin: 'url'}
+      {url: 'http://' + url, origin: 'url'}
     # google vrome
     else
       searchengines = Option.get('searchengines')
