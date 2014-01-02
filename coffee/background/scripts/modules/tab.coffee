@@ -20,8 +20,8 @@ class Tab
     # file://xxxxx || http://xxxxx
     if (/:\/\//.test(url))
       url
-    #  /jinzhu || (.. || ./configure) && no space
-    else if /^\//.test(url) || /^\.\.?\/?/.test(url)
+    # /jinzhu || (.. || ./configure) && no space
+    else if /^\//.test(url) or /^\.\.?\/?/.test(url)
       fixRelativePath(url)
     # Like url, for example: google.com
     else if /\w+\.\w+/.test(url) and not /\s/.test(url)
@@ -36,10 +36,11 @@ class Tab
       keyword = encodeURIComponent url.replace(/^\S+\s+(.*)$/, "$1")
 
       # use the matched searchengine
-      return searchengines[name].replace "{{keyword}}", keyword if searchengines[name]
-
-      url = encodeURIComponent(url)
-      Option.default_search_url(url)
+      if searchengines[name]
+        searchengines[name].replace "{{keyword}}", keyword
+      else
+        url = encodeURIComponent(url)
+        Option.default_search_url(url)
 
   @autoComplete: (msg) ->
     return Post msg.tab, {action: "Dialog.draw", urls: {url: fixUrl(msg.keyword)}, keyword: msg.keyword} if Option.get("noautocomplete")
