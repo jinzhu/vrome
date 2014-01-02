@@ -140,7 +140,7 @@ class Hint
   focusElement.hint = "focus"
 
   copyElementUrl = (elem) ->
-    text = Url.fixRelativePath($(elem).attr("href"))
+    text = fixRelativePath($(elem).attr("href"))
     Clipboard.copy text
     CmdBox.set title: "[Copied] #{text}", timeout: 4000
   copyElementUrl.hint = "copy url"
@@ -152,7 +152,7 @@ class Hint
   copyElementText.hint = "copy text"
 
   openUrlIncognito = (elem) ->
-    Post action: "Tab.openUrl", url: Url.fixRelativePath($(elem).attr("href")), incognito: true
+    Post action: "Tab.openUrl", url: $(elem).attr("href"), incognito: true
   openUrlIncognito.hint = "incognito"
 
   invertFilter = {}

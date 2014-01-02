@@ -14,18 +14,40 @@ class Tab
       else
         runWhenComplete tabId, command
 
+  fixUrl = (url) =>
+    url = url.trim()
+    # file://xxxxx || http://xxxxx
+    if (/:\/\//.test(url))
+      url
+    #  /jinzhu || (.. || ./configure) && no space
+    else if /^\//.test(url) || /^\.\.?\/?/.test(url)
+      fixRelativePath(url)
+    # Like url, for example: google.com
+    else if /\w+\.\w+/.test(url) && !/\s/.test(url)
+      "#{if url.match("://") then "" else "http://"}#{url}"
+    # Local URL, for example: localhost:3000 || dev.local/
+    else if /local(host)?($|\/|\:)/.test(url)
+      "#{if url.match("://") then "" else "http://"}#{url}"
+    # google vrome
+    else
+      searchengines = Option.get('searchengines')
+      name = url.replace(/^(\S+)\s.*$/, "$1"); # searchengine name: e.g: google
+      keyword = encodeURIComponent url.replace(/^\S+\s+(.*)$/, "$1")
+
+      # use the matched searchengine
+      return searchengines[name].replace "{{keyword}}", keyword if searchengines[name]
+
+      url = encodeURIComponent(url)
+      Option.default_search_url(url)
 
   @autoComplete: (msg) ->
-    [tab, keyword] = [getTab(arguments), msg.keyword]
-    msg.default_urls = url: msg.default_urls
-
-    return Post tab, {action: "Dialog.draw", urls: msg.default_urls, keyword} if Option.get("noautocomplete")
+    return Post msg.tab, {action: "Dialog.draw", urls: {url: fixUrl(msg.keyword)}, keyword: msg.keyword} if Option.get("noautocomplete")
 
     # TODO: do not search bookmarks/history if 'completion_items' doesn't include them
     # TODO: if search-engine matched exactly, put it in front
-    chrome.bookmarks.search keyword, (bookmarks) ->
+    chrome.bookmarks.search msg.keyword, (bookmarks) ->
       start_time = new Date().getTime() - 1000 * 60 * 60 * 24 * 10  # since 10 days ago
-      chrome.history.search {text: keyword, maxResults: 30, startTime: start_time}, (history) ->
+      chrome.history.search {text: msg.keyword, maxResults: 30, startTime: start_time}, (history) ->
         completionOrder = Option.get('completion_items').split(',')
         urls = []
         for order in completionOrder
@@ -35,8 +57,8 @@ class Tab
             when 'history'
               urls = urls.concat history
             when 'search'
-              urls = urls.concat msg.default_urls
-        Post tab, {action: "Dialog.draw", urls, keyword}
+              urls = urls.concat url: fixUrl(msg.keyword)
+        Post msg.tab, {action: "Dialog.draw", urls, keyword: msg.keyword}
   @autoComplete.options = {
     completion_items: {
       description: "Sets which items to complete and the order in which they appear"
@@ -45,28 +67,20 @@ class Tab
   }
 
   @openUrl: (msg) =>
-    [tab, urls] = [getTab(arguments), msg.urls || msg.url]
-    urls = [urls]  if typeof urls is "string"
-
-    [first_url, index] = [urls.shift(), tab.index]
-
-    openUrls = (window) ->
-      chrome.tabs.create(windowId: window.id, url: url, index: ++index, selected: false) for url in urls
-      return
+    url = fixUrl msg.url
 
     if msg.incognito
-      chrome.windows.create {incognito: true, url: first_url}, openUrls
+      chrome.windows.create {incognito: true, url}, ->
     else
-      if msg.newtab
-        chrome.tabs.create(url: first_url, index: ++index, selected: msg.selected || Option.get("follow_new_tab") is 1)
+      if msg.newTab
+        chrome.tabs.create({url, index: (msg.tab.index + 1), selected: msg.selected || Option.get("follow_new_tab") is 1})
       else
-        @update {url: first_url}, tab
-      chrome.windows.getCurrent openUrls
+        @update {tab: msg.tab, url}
 
   @openFromClipboard: (msg) =>
     url = Clipboard.read()
-    url = Option.default_search_url(url)  unless url.isValidURL()
-    @openUrl {url: url, newtab: msg.newtab, selected: msg.selected}, getTab(arguments)
+    url = Option.default_search_url(url) unless url.isValidURL()
+    @openUrl $.extend(msg, {url})
 
 
   @reopen: (msg) ->
@@ -78,108 +92,100 @@ class Tab
         chrome.tabs.create url: last_closed_tab.url, index: last_closed_tab.index
 
   @update: (msg) ->
-    [tab, attr] = [getTab(arguments), {}]
+    attr = {}
 
     # https://github.com/jashkenas/coffee-script/issues/1617
-    attr.url = msg.url  if typeof msg.url isnt "undefined"
-    attr.active = msg.active  if typeof msg.active isnt "undefined"
-    attr.highlighted = msg.highlighted  if typeof msg.highlighted isnt "undefined"
-    attr.pinned = msg.pinned  if typeof msg.pinned isnt "undefined"
+    attr.url         = msg.url         if typeof msg.url         isnt "undefined"
+    attr.active      = msg.active      if typeof msg.active      isnt "undefined"
+    attr.highlighted = msg.highlighted if typeof msg.highlighted isnt "undefined"
+    attr.pinned      = msg.pinned      if typeof msg.pinned      isnt "undefined"
 
-    chrome.tabs.update tab.id, attr, (new_tab) ->
-      runWhenComplete(new_tab.id, code: msg.callback) if msg.callback
+    chrome.tabs.update msg.tab.id, attr, (tab) ->
+      runWhenComplete(tab.id, code: msg.callback) if msg.callback
 
 
   @move: (msg) ->
-    [tab, times, direction] = [getTab(arguments), msg.count, if (msg.direction is "left") then -1 else 1]
+    direction = if (msg.direction is "left") then -1 else 1
 
-    chrome.tabs.query {windowId: tab.windowId}, (tabs) ->
+    chrome.tabs.query {windowId: msg.tab.windowId}, (tabs) ->
       # ensure index in 0..tabs.length
-      newIndex = (tab.index + times * direction) % tabs.length
-      chrome.tabs.move tab.id, index: newIndex
+      newIndex = (msg.tab.index + msg.count * direction) % tabs.length
+      chrome.tabs.move msg.tab.id, index: newIndex
 
 
   @close: (msg) =>
-    [tab, cond, count] = [getTab(arguments), msg.type, msg.count ? 0]
-    index = msg.index ? tab.index
+    [cond, count] = [msg.type, msg.count ? 0]
+    index = msg.index ? msg.tab.index
 
     @selectPrevious.apply "", arguments  if msg.focusLast  # close and select last
     @select.apply "", arguments  if msg.offset  # close and select right/left
 
     chrome.windows.getAll {populate: true}, (windows) ->
       for w in windows
-        for t in w.tabs.reverse()
+        for tab in w.tabs.reverse()
           if cond is 'otherWindows'
-            remove t if w.id isnt tab.windowId
-          else if w.id is tab.windowId
+            remove tab if w.id isnt msg.tab.windowId
+          else if w.id is msg.tab.windowId
             if (
-              ((cond is 'closeOther') and (t.id isnt tab.id)) or
-              ((cond is 'closeLeft') and (t.index < index) and (if count == 0 then true else t.index >= index - count)) or
-              ((cond is 'closeRight') and (t.index > index) and (if count == 0 then true else t.index <= index + count)) or
-              ((cond is 'closePinned') and t.pinned) or
-              ((cond is 'closeUnPinned') and !t.pinned) or
-              (not cond and (t.index >= index) and (t.index < (index + Math.max(1, count))))
+              ((cond is 'closeOther') and (tab.id isnt msg.tab.id)) or
+              ((cond is 'closeLeft') and (tab.index < index) and (if count == 0 then true else tab.index >= index - count)) or
+              ((cond is 'closeRight') and (tab.index > index) and (if count == 0 then true else tab.index <= index + count)) or
+              ((cond is 'closePinned') and tab.pinned) or
+              ((cond is 'closeUnPinned') and !tab.pinned) or
+              (not cond and (tab.index >= index) and (tab.index < (index + Math.max(1, count))))
             )
-              remove t
+              remove tab
       return
 
 
   @select: (msg) ->
-    tab = getTab(arguments)
-    chrome.tabs.getAllInWindow tab.windowId, (tabs) ->
+    chrome.tabs.getAllInWindow msg.tab.windowId, (tabs) ->
       index = Math.min(msg.index, tabs.length - 1) if typeof msg.index isnt "undefined"
-      index = rabs(tab.index + msg.offset, tabs.length) if typeof msg.offset isnt "undefined"
+      index = rabs(msg.tab.index + msg.offset, tabs.length) if typeof msg.offset isnt "undefined"
       chrome.tabs.update tabs.splice(index, 1)[0].id, selected: true
 
 
   @selectPrevious: ->
-    tab = getTab(arguments)
     chrome.tabs.update(Tab.lastTab.id, selected: true) if Tab.lastTab
 
   @selectLastOpen: (msg) =>
     index = rabs(Tab.last_open_tabs.length - msg.count, Tab.last_open_tabs.length)
-    @update {active: true}, Tab.last_open_tabs[index]
+    @update tab: Tab.last_open_tabs[index], active: true
 
   @toggleViewSource: (msg) =>
-    tab = getTab(arguments)
-    url = tab.url.replace /^(view-source:)?/, (if /^view-source:/.test(tab.url) then '' else "view-source:")
-    @openUrl {urls: url, newtab: msg.newtab}, tab
+    url = msg.tab.url.replace /^(view-source:)?/, (if /^view-source:/.test(msg.tab.url) then '' else "view-source:")
+    @openUrl $.extend(msg, {url})
 
   @reload: (msg) ->
-    tab = getTab(arguments)
     if msg.reloadAll
-      chrome.tabs.getAllInWindow tab.windowId, (tabs) ->
+      chrome.tabs.getAllInWindow msg.tab.windowId, (tabs) ->
         # Reverse reload all tabs to avoid issues in development mode
-        chrome.tabs.reload t.id for t in tabs.reverse()
+        chrome.tabs.reload tab.id for tab in tabs.reverse()
         return
     else
-      chrome.tabs.reload tab.id, {bypassCache: !!msg.bypassCache}
+      chrome.tabs.reload msg.tab.id, {bypassCache: !!msg.bypassCache}
 
 
-  @togglePin: =>
-    tab = getTab(arguments)
-    @update {pinned: not tab.pinned}, tab
+  @togglePin: (msg) =>
+    @update {pinned: not msg.tab.pinned, tab: msg.tab}
 
 
   @unpinAll: (msg) =>
-    tab = getTab(arguments)
     chrome.windows.getAll {populate: true}, (windows) =>
       for w in windows
-        for t in w.tabs when t.pinned && (msg.allWindows || (w.id is tab.windowId))
-          @update {pinned: false}, t
+        for tab in w.tabs when tab.pinned && (msg.allWindows || (w.id is msg.tab.windowId))
+          @update {pinned: false, tab}
       return
 
 
   @duplicate: (msg) ->
-    tab = getTab(arguments)
-    [index, count] = [tab.index, msg.count ? 1]
-    chrome.tabs.create {url: tab.url, index: ++index, selected: false} while count-- > 0
+    [index, count] = [msg.tab.index, msg.count ? 1]
+    chrome.tabs.create {url: msg.tab.url, index: ++index, selected: false} while count-- > 0
     return
 
 
-  @detach: ->
-    tab = getTab(arguments)
-    chrome.windows.create {tabId: tab.id, incognito: tab.incognito}
+  @detach: (msg) ->
+    chrome.windows.create {tabId: msg.tab.id, incognito: msg.tab.incognito}
 
 
   @makeLastTabIncognito: ->
@@ -187,33 +193,29 @@ class Tab
     openInIncognito tab if tab
 
 
-  @toggleIncognito: =>
-    tab = getTab(arguments)
-    incognito = not tab.incognito
-    chrome.tabs.query {windowId: tab.windowId}, (tabs) ->
-        Window.moveTabToWindowWithIncognito tab, incognito, (t) -> chrome.tabs.remove t.id
+  @toggleIncognito: (msg) =>
+    incognito = not msg.tab.incognito
+    chrome.tabs.query {windowId: msg.tab.windowId}, (tabs) ->
+      Window.moveTabToWindowWithIncognito msg.tab, incognito, (tab) -> chrome.tabs.remove tab.id
 
 
   @markForMerging: (msg) ->
-    tab = getTab(arguments)
-
-    chrome.tabs.query {windowId: tab.windowId}, (tabs) ->
-      tabs = [tab] unless msg.all
-      for t in tabs
-        index = Tab.marked_tabs.indexOf t.id
+    chrome.tabs.query {windowId: msg.tab.windowId}, (tabs) ->
+      tabs = [msg.tab] unless msg.all
+      for tab in tabs
+        index = Tab.marked_tabs.indexOf tab.id
         if index != -1
           Tab.marked_tabs.splice(index, 1)
-        else if t.url
-          Tab.marked_tabs.push t.id
+        else if tab.url
+          Tab.marked_tabs.push tab.id
 
       title = "#{Tab.marked_tabs.length} Tab(s) marked"
-      Post tab, {action: "CmdBox.set", title: title, timeout: 4000}
+      Post msg.tab, {action: "CmdBox.set", title: title, timeout: 4000}
 
 
-  @mergeMarkedTabs: ->
-    tab = getTab(arguments)
+  @mergeMarkedTabs: (msg) ->
     return if Tab.marked_tabs.length == 0
-    chrome.windows.get tab.windowId, (window) ->
+    chrome.windows.get msg.tab.windowId, (window) ->
       for tabId, index in Tab.marked_tabs
         chrome.tabs.get tabId, (tab) ->
           if window.incognito is tab.incognito
@@ -224,7 +226,7 @@ class Tab
       Tab.marked_tabs = []
 
   @addToClosedTabs: (tab) =>
-    index = (t.url for t in @closedTabs).indexOf(tab.url)
+    index = (tab.url for tab in @closedTabs).indexOf(tab.url)
     @closedTabs.splice(index, 1) if index != -1
     @closedTabs.push tab if tab.url != "chrome://newtab/"
 

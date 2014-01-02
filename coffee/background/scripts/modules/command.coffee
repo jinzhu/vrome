@@ -1,8 +1,6 @@
 class Command
 
   @source: (msg) ->
-    tab = getTab(arguments)
-
     for src in msg.sources.split(",")
       src = src.trim()
       src = Option.get('sources_map')[src[1..-1]] if src.startsWith("@")
@@ -13,8 +11,8 @@ class Command
           "var script = document.createElement('script'); script.setAttribute('src', '#{src}'); document.body.appendChild(script);"
         else if src.match(/css$/)
           "var script = document.createElement('link'); script.setAttribute('href', '#{src}'); script.setAttribute('rel', 'stylesheet'); document.body.appendChild(script);"
-        chrome.tabs.executeScript(tab.id, code: data)
-        # $.ajax type: 'GET', url: src, dataType : 'text', success: (data) -> injectCode(data, src, tab)
+        chrome.tabs.executeScript(msg.tab.id, code: data)
+        # $.ajax type: 'GET', url: src, dataType : 'text', success: (data) -> injectCode(data, src, msg.tab)
     return
 
 

@@ -8,11 +8,9 @@ class Frame
     uniq_urls[new_index]
 
   @next: (msg) ->
-    tab = getTab(arguments)
-
-    chrome.webNavigation.getAllFrames tabId: tab.id, (frames) ->
-      current_frame_urls[tab.id] = nextUrl(frames, current_frame_urls[tab.id], msg.count)
-      Post tab, {action: "Frame.select", href: current_frame_urls[tab.id]}
+    chrome.webNavigation.getAllFrames tabId: msg.tab.id, (frames) ->
+      current_frame_urls[msg.tab.id] = nextUrl(frames, current_frame_urls[msg.tab.id], msg.count)
+      Post msg.tab, {action: "Frame.select", href: current_frame_urls[msg.tab.id]}
 
 root = exports ? window
 root.Frame = Frame

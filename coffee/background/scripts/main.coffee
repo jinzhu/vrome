@@ -2,12 +2,8 @@
   chrome.tabs.sendMessage tab.id, message, (response) ->
 
 
-@getTab = (args) -> args[args.length-1]
-
-
 @runScript = (msg) ->
-  tab = getTab(arguments)
-  chrome.tabs.executeScript tab.id, code: msg.code
+  chrome.tabs.executeScript msg.tab.id, code: msg.code
 
 
 # Notify new version
@@ -27,20 +23,20 @@
   @openOrSelectUrl chrome.extension.getURL(url)
 
 
-@openOrSelectUrl = (url) ->
-  if typeof url is 'string'
-    msg = {url: url, newtab: true, selected: true}
-  else
-    [msg, current_tab] = [url, getTab(arguments)]
-    url = msg.url
+@openOrSelectUrl = (msg) ->
+  if typeof msg is 'string'
+    msg = {url: msg, newTab: true, selected: true}
 
   chrome.tabs.getAllInWindow null, (tabs) ->
-    for tab in tabs when tab.url is url
+    for tab in tabs when tab.url is msg.url
       chrome.tabs.update tab.id, selected: true
       return
     # open a new tab next to currently selected tab
-    chrome.tabs.getSelected null, (get_tab) ->
-      Tab.openUrl msg, current_tab || get_tab
+    if msg.tab
+      Tab.openUrl msg
+    else
+      chrome.tabs.getSelected null, (selectedTab) ->
+        Tab.openUrl $.extend(msg, tab: selectedTab)
 
 
 window.addEventListener "error", ((err) -> Debug err), false
@@ -48,5 +44,5 @@ Settings.init(checkNewVersion)
 
 
 root = exports ? window
-for m in ["Post", "checkNewVersion", "getTab", "runScript", "storeLastCommand", "openHelpWebsite", "openChromeStore", "openIssuesPage", "openSourcePage", "openOptions", "openOrSelectUrl"]
+for m in ["Post", "checkNewVersion", "runScript", "storeLastCommand", "openHelpWebsite", "openChromeStore", "openIssuesPage", "openSourcePage", "openOptions", "openOrSelectUrl"]
   root[m] = self[m]

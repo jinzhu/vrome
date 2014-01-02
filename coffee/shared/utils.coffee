@@ -25,6 +25,24 @@
 @desc = (func, description) ->
   func.description = description
 
+@fixRelativePath = (url) ->
+  # http://google.com
+  return url if /:\/\//.test(url)
+
+  # /admin
+  return document.location.origin + url if (/^\//.test(url))
+
+  # ../users || ./products || ../users
+  url += '/' if url.match(/\/?\.\.$/) # .. -> ../
+
+  pathname = document.location.origin + document.location.pathname.replace(/\/+/g, '/')
+  for path in url.split('..')
+    if path.match(/^\//)
+      pathname = pathname.replace(/\/[^\/]*\/?$/, '') + path
+    else if path.match(/^.\//)
+      pathname = pathname.replace(/\/$/, '') + path.replace(/^.\//, '/')
+  pathname
+
 root = exports ? window
-for m in ["getLocalServerUrl", "checkServerStatus", "getHostname", "stringify", "rabs", "desc"]
+for m in ["getLocalServerUrl", "checkServerStatus", "getHostname", "stringify", "rabs", "desc", "fixRelativePath"]
   root[m] = self[m]
