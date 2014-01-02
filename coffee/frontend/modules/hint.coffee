@@ -32,18 +32,15 @@ class Hint
       span.offset left: offset.left-6, top: offset.top
     return
 
-  setMatched = (elems) =>
-    @matched = elems
+  setMatched = (@matched) =>
     freshHints()
 
-  setSelected = (num) =>
-    @selected = num
+  setSelected = (@selected) =>
     freshHints()
     CmdBox.set title: (if @selected > 0 then "#{title()} (#{numberToHintKey(@selected)})" else title())
     setTimeout execCurrent, 200 if (@selected * hintKeys().length) > @matched.length
 
-  setCurrentKeys = (str) =>
-    @currentKeys = str
+  setCurrentKeys = (@currentKeys) =>
     setSelected hintKeyToNumber(@currentKeys)
 
   hintKeys = ->

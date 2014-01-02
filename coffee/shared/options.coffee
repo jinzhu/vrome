@@ -52,7 +52,7 @@ class Option
 
     option
 
-  @default_search_url: (url) ->
+  @defaultSearchUrl: (url) ->
     searchengines = Option.get("searchengines")
     searchengine = searchengines[Option.get("defaultsearch")]
     return searchengine.replace("{{keyword}}", url) if searchengine

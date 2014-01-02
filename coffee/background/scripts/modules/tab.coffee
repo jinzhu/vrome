@@ -40,7 +40,7 @@ class Tab
         {url: searchengines[name].replace("{{keyword}}", keyword), origin: 'search-engine'}
       else
         url = encodeURIComponent(url)
-        {url: Option.default_search_url(url), origin: 'search'}
+        {url: Option.defaultSearchUrl(url), origin: 'search'}
 
   @autoComplete: (msg) ->
     defaultUrl = fixUrl msg.keyword
@@ -85,7 +85,7 @@ class Tab
 
   @openFromClipboard: (msg) =>
     url = Clipboard.read()
-    url = Option.default_search_url(url) unless url.isValidURL()
+    url = Option.defaultSearchUrl(url) unless url.isValidURL()
     @openUrl $.extend(msg, {url})
 
 

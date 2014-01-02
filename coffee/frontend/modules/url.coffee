@@ -52,7 +52,7 @@ class Url
 
   @parent: ->
     pathnames = location.pathname.split('/')
-    pathnames = pathnames[0 .. -2] if pathnames[pathnames.length - 1] is ''
+    pathnames.pop() if pathnames[pathnames.length - 1] is ''
 
     hostnames = location.hostname.split('.')
 
@@ -64,9 +64,9 @@ class Url
 
     hostname = hostnames.join('.')
     pathname = pathnames.join('/')
-    port = (if location.port then (':' + location.port) else '')
+    port     = if location.port then ":#{location.port}" else ''
 
-    Post action: "Tab.openUrl", url: "#{location.protocol}//#{hostname}#{port}#{pathname}"
+    Post action: 'Tab.openUrl', url: "#{location.protocol}//#{hostname}#{port}#{pathname}"
   desc @parent, "Go to parent {count} URL"
 
 
