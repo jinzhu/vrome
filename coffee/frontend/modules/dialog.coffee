@@ -44,7 +44,7 @@ class Dialog
 
 
   @start: (o) ->
-    [dialogMode, lastKeyword, newTab, searchFunc, tabFunc] = [true, null, o.newtab, o.search, o.ontab]
+    [dialogMode, lastKeyword, newTab, searchFunc, tabFunc] = [true, null, o.newTab, o.search, o.ontab]
     CmdBox.set title: o.title, pressDown: handleInput, pressUp: o.callback, content: o.content ? ""
     searchFunc CmdBox.get().content
 
@@ -67,7 +67,7 @@ class Dialog
       buildResult = (s, href) ->
         onClick = (e) ->
           unless s.onclick && s.onclick.call("", e)
-            Post action: "Tab.openUrl", url: href, newtab: e.ctrlKey
+            Post action: "Tab.openUrl", url: href, newTab: e.ctrlKey
           false
 
         title = (if s.title then "#{s.title} -- " else "")

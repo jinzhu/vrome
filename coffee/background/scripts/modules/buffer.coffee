@@ -3,8 +3,8 @@ class Buffer
     if /^\d+$/.test(keyword)
       [tabs[Number(keyword) - 1]]
     else
-      regexp = new RegExp(keyword, "i")
-      tab for tab in tabs when regexp.test(tab.url) or regexp.test(tab.title)
+      regexp = new RegExp keyword, 'i'
+      tab for tab in tabs when regexp.test tab.url or regexp.test tab.title
 
   @gotoFirstMatch: (msg) ->
     chrome.tabs.getAllInWindow msg.tab.windowId, (tabs) ->
@@ -12,13 +12,13 @@ class Buffer
 
   @deleteMatch: (msg) ->
     chrome.tabs.getAllInWindow msg.tab.windowId, (tabs) ->
-      Tab.close tab for tab in getMatchedTabs(tabs, msg.keyword)
+      Tab.close tab for tab in getMatchedTabs tabs, msg.keyword
       return
 
   @deleteNotMatch: (msg) ->
     chrome.tabs.getAllInWindow msg.tab.windowId, (tabs) ->
-      matched_tabs = getMatchedTabs(tabs, msg.keyword)
-      Tab.close tab for tab in tabs when tab not in matched_tabs
+      matchedTabs = getMatchedTabs tabs, msg.keyword
+      Tab.close tab for tab in tabs when tab not in matchedTabs
       return
 
 root = exports ? window
