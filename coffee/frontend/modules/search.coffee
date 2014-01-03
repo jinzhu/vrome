@@ -41,13 +41,13 @@ class Search
     nodes = $(".#{highlightClass}")
 
     return false if nodes.length is 0
-    current_node = nodes.filter("##{highlightCurrentId}").removeAttr("id")
-    current_index = Math.max 0, nodes.index(current_node)
-    goto_index = rabs(current_index + offset, nodes.length)
-    goto_node = $(nodes[goto_index])
+    currentNode = nodes.filter("##{highlightCurrentId}").removeAttr("id")
+    currentIndex = Math.max 0, nodes.index(currentNode)
+    gotoIndex = rabs(currentIndex + offset, nodes.length)
+    gotoNode = $(nodes[gotoIndex])
 
-    if isElementVisible(goto_node, true) # In full page
-      goto_node.attr("id", highlightCurrentId).get(0)?.scrollIntoViewIfNeeded()
+    if isElementVisible(gotoNode, true)
+      gotoNode.attr("id", highlightCurrentId).get(0)?.scrollIntoViewIfNeeded()
   desc @next, "Search next"
 
   @openCurrentNewTab: => @openCurrent(true)
