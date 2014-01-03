@@ -9,9 +9,12 @@ root.checkServerStatus = ->
     $("#server_status").attr "src", "/images/server_offline.png"
     $("#server_status").attr "alt", "Server Offline. Run ./vrome"
 
-
 root.rabs = (num, total) ->
-  (num % total + total) % total
+  # if num is -11 and total is 10:
+  # ((-11 % 10) + 10) % 10
+  # (-1 + 10) % 10
+  # 9
+  ((num % total) + total) % total
 
 root.desc = (func, description) ->
   func.description = description
