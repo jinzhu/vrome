@@ -46,7 +46,7 @@ class Dialog
   @start: (o) ->
     [dialogMode, newTab, searchFunc, tabFunc] = [true, o.newTab, o.search, o.ontab]
     CmdBox.set title: o.title, pressDown: handleInput, pressUp: o.callback, content: o.content ? ""
-    searchFunc CmdBox.get().content
+    do callSearchFunc
 
   @stop: (force) ->
     return unless dialogMode or force
@@ -106,11 +106,12 @@ class Dialog
       next 10 if key is Option.get("autocomplete_next_10")
       return
 
-    clearTimeout @timeout
-    @timeout = setTimeout delayToWaitKeyDown, 300 unless isEscapeKey(key)
+    if not isEscapeKey key
+      clearTimeout @timeout
+      @timeout = setTimeout callSearchFunc, 200
+      Dialog.draw({searching: true})
 
-  delayToWaitKeyDown = ->
-    Dialog.draw({searching: true})
+  callSearchFunc = ->
     searchFunc CmdBox.get().content
 
   @openCurrentNewTab: => @open true
