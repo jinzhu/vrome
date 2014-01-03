@@ -1,7 +1,7 @@
 # chrome.tabs.onUpdated.addListener (tabId) ->
 
 chrome.tabs.onCreated.addListener (tab) ->
-  Tab.last_open_tabs.push tab
+  Tab.lastOpenTabs.push tab
 
 chrome.tabs.onActivated.addListener (info) ->
   chrome.tabs.get info.tabId, (tab) ->
