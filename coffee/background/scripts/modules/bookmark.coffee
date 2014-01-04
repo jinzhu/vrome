@@ -1,15 +1,13 @@
 class Bookmark
   @search: (msg) ->
-    [tab, keyword] = [getTab(arguments), msg.keyword]
+    drawDialog = (bookmarks) ->
+      Post msg.tab, {action: "Dialog.draw", urls: bookmarks, keyword: msg.keyword}
 
-    drawDialog = (historys) ->
-      Post tab, {action: "Dialog.draw", urls: historys, keyword: keyword}
-
-    chrome.bookmarks.search keyword, (bookmarks) ->
-      if keyword == ""
-        chrome.bookmarks.getRecent(20, drawDialog)
+    chrome.bookmarks.search msg.keyword, (bookmarks) ->
+      if msg.keyword is ''
+        chrome.bookmarks.getRecent 20, drawDialog
       else
-        drawDialog(bookmarks)
+        drawDialog bookmarks
 
 
 root = exports ? window

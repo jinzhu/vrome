@@ -2,26 +2,23 @@ class Window
   @create: () ->
     chrome.windows.create()
 
-  @close: () ->
-    tab = getTab(arguments)
-    chrome.windows.remove(tab.windowId)
+  @close: (msg) ->
+    chrome.windows.remove msg.tab.windowId
 
-  @closeAll: () ->
+  @closeAll: ->
     chrome.windows.getAll (windows) ->
       chrome.windows.remove(window.id) for window in windows
       return
 
-  @capture: () ->
-    tab = getTab(arguments)
-    chrome.tabs.captureVisibleTab tab.windowId, {format: 'png'}, (dataUrl) ->
-      Post tab, {action: "Window.capture", url: dataUrl}
+  @capture: (msg) ->
+    chrome.tabs.captureVisibleTab msg.tab.windowId, {format: 'png'}, (dataUrl) ->
+      Post msg.tab, {action: "Window.capture", url: dataUrl}
 
   @save_page: (msg) ->
-    tab = getTab(arguments)
-    chrome.pageCapture.saveAsMHTML tabId: tab.id, (mhtml) ->
-      filename = (msg.filename || tab.title).replace(/(.mhtml)?$/, '.mhtml')
+    chrome.pageCapture.saveAsMHTML tabId: msg.tab.id, (mhtml) ->
+      filename = (msg.filename || msg.tab.title).replace(/(.mhtml)?$/, '.mhtml')
       saveAs(mhtml, filename)
-      Post tab, {action: "Window.saveas", data: mhtml, filename: filename}
+      Post msg.tab, {action: "Window.saveas", data: mhtml, filename: filename}
 
 
   @moveTabToWindowWithIncognito: (tab, incognito, callback) ->

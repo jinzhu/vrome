@@ -23,6 +23,7 @@ class Option
     showstatus: 1
     show_disabled_text: 1
     follow_new_tab: 1
+    completion_items: 'url,search-engine,bookmarks,history,search'
     sources_map:
       jquery: 'http://code.jquery.com/jquery.js'
 
@@ -51,10 +52,11 @@ class Option
 
     option
 
-  @default_search_url: (url) ->
+  @defaultSearchUrl: (url) ->
     searchengines = Option.get("searchengines")
     searchengine = searchengines[Option.get("defaultsearch")]
     return searchengine.replace("{{keyword}}", url) if searchengine
+    # TODO: this shouldn't return many results
     return searchengine.replace("{{keyword}}", url) for searchengine in searchengines
 
 

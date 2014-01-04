@@ -3,21 +3,21 @@ class Hint
   hintable = "a,textarea,select,button,area[href],input:not([type=hidden]),*[onclick],*[onmouseover],[contenteditable],.js-new-tweets-bar"
   hintable += ",[role=link],[role=checkbox],[role=button],[role=tab],[role=menubar]"
 
-  @isHintAble: (elem) ->
-    $(elem).parent().find(hintable).toArray().indexOf(elem) != -1
+  @isHintable: (elem) ->
+    $(elem).parent().find(hintable).toArray().indexOf(elem) isnt -1
 
   title = ->
     mode = if multiMode then ['multi mode'] else (if newTab then ['new tab'] else [])
     mode.push sub_action if sub_action = getCurrentAction()?.hint
     "Hint #{if mode.length > 0 then "{#{mode.join(',')}}" else ''}"
 
-  removeHighlightBox = (create_after_remove) -> # Boolean
+  removeHighlightBox = (createAfterRemove) ->
     $("#__vim_hint_highlight").remove()
-    $("body").append $("<div>", {id: "__vim_hint_highlight"}) if create_after_remove
+    $("body").append $("<div>", {id: "__vim_hint_highlight"}) if createAfterRemove
     $("#__vim_hint_highlight")
 
   freshHints = =>
-    highlight_box = removeHighlightBox(true) # create_after_remove
+    highlight_box = removeHighlightBox(true)
 
     for elem, index in (@matched ? [])
       hint_key = numberToHintKey(index+1)
@@ -32,27 +32,22 @@ class Hint
       span.offset left: offset.left-6, top: offset.top
     return
 
-  setMatched = (elems) =>
-    @matched = elems
+  setMatched = (@matched) =>
     freshHints()
 
-  setSelected = (num) =>
-    @selected = num
+  setSelected = (@selected) =>
     freshHints()
     CmdBox.set title: (if @selected > 0 then "#{title()} (#{numberToHintKey(@selected)})" else title())
     setTimeout execCurrent, 200 if (@selected * hintKeys().length) > @matched.length
 
-  setCurrentKeys = (str) =>
-    @currentKeys = str
+  setCurrentKeys = (@currentKeys) =>
     setSelected hintKeyToNumber(@currentKeys)
 
   hintKeys = ->
-    hint_keys = if Option.get("useletters") is 1
-      Option.get("hintkeys") || "asdfghjklqwertyuiopzxcvbnm"
+    if Option.get('useletters') is 1
+      Option.get('hintkeys') or 'asdfghjklqwertyuiopzxcvbnm'
     else
-      "1234567890"
-    # 1234567890 -> 0123456789
-    hint_keys[-1..-1] + hint_keys[0..-2]
+      '0123456789'
 
   numberToHintKey = (number) ->
     [key, hint_keys] = ["", hintKeys()]
@@ -76,7 +71,7 @@ class Hint
 
   @start: (new_tab, multi_mode) =>
     [hintMode, newTab, multiMode] = [true, new_tab, multi_mode]
-    setMatched(elements = (e for e in $(hintable).not("#_vrome_cmd_input_box") when isElementVisible(e)))
+    setMatched(elements = (e for e in $(hintable).not("#_vrome_cmd_input_box") when isElementVisible($(e))))
     setCurrentKeys ""
     CmdBox.set title: title(), pressDown: handleInput, content: ""
   desc @start, "Start Hint mode"
@@ -92,28 +87,18 @@ class Hint
   @remove: ->
     return false unless hintMode
     CmdBox.remove()
-    removeHighlightBox()
+    removeHighlightBox(false)
     hintMode = false
 
   handleInput = (e) =>
     currentKey = getKey(e)
 
     # If it is hint key
-    if (hintKeys().indexOf(currentKey) isnt -1) or (currentKey is "<BackSpace>" and @selected isnt 0)
-      setCurrentKeys(if (currentKey is "<BackSpace>") then @currentKeys[0..-2] else "#{@currentKeys}#{currentKey}")
+    if hintKeys().indexOf(currentKey) isnt -1 or (currentKey is '<BackSpace>' and @selected isnt 0)
+      setCurrentKeys(if currentKey is '<BackSpace>' then @currentKeys[0..-2] else "#{@currentKeys}#{currentKey}")
       KeyEvent.stopPropagation(e)
     else
       setTimeout delayToWaitKeyDown, 20 unless isEscapeKey(currentKey)
-
-  hintMatch = (elem) ->
-    invert = getCurrentAction() is invertFilter
-    filter = CmdBox.get().content.trimFirst(key for key, value of subActions)
-    regexp = new RegExp(filter, "im")
-
-    text = $(elem).val() || $(elem).text() || $(elem).attr("placeholder")
-    match = regexp.test(text) or regexp.test(PinYin.shortcut(text)) or regexp.test(PinYin.full(text))
-    if (invert and filter isnt "") then !match else match
-
 
   delayToWaitKeyDown = =>
     setMatched(elem for elem in elements when hintMatch(elem))
@@ -125,6 +110,14 @@ class Hint
     else
       CmdBox.set title: title()
 
+  hintMatch = (elem) ->
+    invert = getCurrentAction() is invertFilter
+    filter = CmdBox.get().content.trimFirst(key for key, value of subActions)
+    regexp = new RegExp(filter, "im")
+
+    text = $(elem).val() || $(elem).text() || $(elem).attr("placeholder")
+    match = regexp.test(text) or regexp.test(PinYin.shortcut(text)) or regexp.test(PinYin.full(text))
+    if (invert and filter isnt "") then !match else match
 
   ## Sub Actions
   getCurrentAction = (content) =>
@@ -140,7 +133,7 @@ class Hint
   focusElement.hint = "focus"
 
   copyElementUrl = (elem) ->
-    text = Url.fixRelativePath($(elem).attr("href"))
+    text = fixRelativePath($(elem).attr("href"))
     Clipboard.copy text
     CmdBox.set title: "[Copied] #{text}", timeout: 4000
   copyElementUrl.hint = "copy url"
@@ -152,7 +145,7 @@ class Hint
   copyElementText.hint = "copy text"
 
   openUrlIncognito = (elem) ->
-    Post action: "Tab.openUrl", url: Url.fixRelativePath($(elem).attr("href")), incognito: true
+    Post action: "Tab.openUrl", url: $(elem).attr("href"), incognito: true
   openUrlIncognito.hint = "incognito"
 
   invertFilter = {}
@@ -168,6 +161,8 @@ class Hint
 
 
   execCurrent = (elems=null) =>
+    CmdBox.set pressDown: null, content: ""
+
     elems = elems || [@matched[Math.max(0,@selected-1)]]
 
     for elem in elems

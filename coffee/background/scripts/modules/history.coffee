@@ -1,9 +1,7 @@
 class History
   @search: (msg) ->
-    [tab, keyword] = [getTab(arguments), msg.keyword]
-
-    chrome.history.search {text: keyword, startTime: 0}, (historys) ->
-      Post tab, {action: "Dialog.draw", urls: historys, keyword: keyword}
+    chrome.history.search {text: msg.keyword, startTime: 0}, (history) ->
+      Post msg.tab, {action: "Dialog.draw", urls: history, keyword: msg.keyword}
 
 
 root = exports ? window

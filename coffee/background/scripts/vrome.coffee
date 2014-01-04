@@ -10,12 +10,12 @@ class Vrome
         chrome.browserAction.setIcon path: 'images/logo.png'
         chrome.browserAction.setTitle title:"Vrome (enabled)"
 
-  @enable: =>
-    disableMap[getTab(arguments).id] = false
+  @enable: (msg) =>
+    disableMap[msg.tab.id] = false
     @setStatus()
 
-  @disable: =>
-    disableMap[getTab(arguments).id] = true
+  @disable: (msg) =>
+    disableMap[msg.tab.id] = true
     @setStatus()
 
 

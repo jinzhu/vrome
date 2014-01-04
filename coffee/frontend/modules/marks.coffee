@@ -25,12 +25,12 @@ class Marks
 
 
 
-  filterQuickMarks = (newtab) ->
+  filterQuickMarks = (newTab) ->
     (keyword) ->
       marks = Settings.get("@url_marks") or {}
       cuteMarks = ({title: key, url: mark} for key, mark of marks when key.startsWith(keyword))
       if cuteMarks.length == 1
-        Post action: "Tab.openUrl", url: cuteMarks[0]['url'], newtab: newtab
+        Post action: "Tab.openUrl", url: cuteMarks[0]['url'], newTab: newTab
       else
         Dialog.draw urls: cuteMarks, keyword: ""
 
@@ -41,9 +41,9 @@ class Marks
   @gotoQuickMarkNewTab: => @gotoQuickMark(true)
   desc @gotoQuickMarkNewTab, "Same as `go`, but open in new tab (support Dialog extend mode)"
 
-  @gotoQuickMark: (newtab) -> #Boolean
-    title = (if newtab then "Open Quick Mark (new tab)" else "Open Quick Mark")
-    Dialog.start title: title, search: filterQuickMarks(newtab), newtab: newtab
+  @gotoQuickMark: (newTab) -> #Boolean
+    title = (if newTab then "Open Quick Mark (new tab)" else "Open Quick Mark")
+    Dialog.start {title, search: filterQuickMarks(newTab), newTab}
   desc @gotoQuickMark, "Go to quick mark (support Dialog extend mode)"
 
   @deleteQuickMark: (keyword) ->

@@ -85,44 +85,42 @@ keyId =
   "U+00DE": "'"
 
 shiftNums =
-  "`": "~"
-  1: "!"
-  2: "@"
-  3: "#"
-  4: "$"
-  5: "%"
-  6: "^"
-  7: "&"
-  8: "*"
-  9: "("
-  0: ")"
-  "-": "_"
-  "=": "+"
-  ";": ":"
-  "'": "\""
-  ",": "<"
-  ".": ">"
-  "/": "?"
-  "\\": "|"
+  '`':  '~'
+  '1':  '!'
+  '2':  '@'
+  '3':  '#'
+  '4':  '$'
+  '5':  '%'
+  '6':  '^'
+  '7':  '&'
+  '8':  '*'
+  '9':  '('
+  '0':  ')'
+  '-':  '_'
+  '=':  '+'
+  ';':  ':'
+  "'":  '"'
+  ',':  '<'
+  '.':  '>'
+  '/':  '?'
+  '\\': '|'
 
 getKey = (evt) ->
-  evt = (if evt.originalEvent then evt.originalEvent else evt)
+  evt = evt.originalEvent or evt
   key = keyId[evt.keyIdentifier] or evt.keyIdentifier
 
-  ctrl = (if evt.ctrlKey then "C-" else "")
-  meta = (if (evt.metaKey or evt.altKey) then "M-" else "")
-  shift = (if evt.shiftKey then "S-" else "")
+  ctrl  = if evt.ctrlKey               then 'C-' else ''
+  meta  = if evt.metaKey or evt.altKey then 'M-' else ''
+  shift = if evt.shiftKey              then 'S-' else ''
 
-  if /^(Enter|Space|BackSpace|Tab|Esc|Home|End|Left|Right|Up|Down|PageUp|PageDown|F(\d\d?))$/.test(key)
-    return "<#{ctrl}#{meta}#{shift}#{key}>" if (ctrl or meta or shift)
-    return "<#{key}>"
+  if /^Enter|Space|BackSpace|Tab|Esc|Home|End|Left|Right|Up|Down|PageUp|PageDown|F(\d\d?)$/.test(key)
+    return "<#{ctrl}#{meta}#{shift}#{key}>"
 
   if evt.shiftKey
-    key = key.toUpperCase() if /^[a-z]$/.test(key)
+    key = key.toUpperCase()
     key = shiftNums[key] if shiftNums[key]
 
-  if (ctrl or meta) then ("<" + ctrl + meta + key + ">") else key
-
+  if ctrl or meta then "<#{ctrl}#{meta}#{key}>" else key
 
 root = exports ? window
 root.getKey = getKey

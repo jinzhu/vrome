@@ -1,7 +1,7 @@
 class Dialog
-  [dialogMode, searchFunc, tabFunc, lastKeyword, newTab, lastSearchTimeout, searching] = [null, null, null, null, null]
+  [dialogMode, searchFunc, tabFunc, newTab, searching] = [null, null, null, null, null]
 
-  [search_result, selected_class, quick_num, notice_id] = ["__vrome_search_result", "__vrome_selected", "__vrome_quick_num", "__vrome_dialog_notice"]
+  [SEARCH_RESULT, SELECTED_CLASS, QUICK_NUM, NOTICE_ID] = ["__vrome_search_result", "__vrome_selected", "__vrome_quick_num", "__vrome_dialog_notice"]
 
 
   dialogBox = ->
@@ -10,47 +10,47 @@ class Dialog
     $("#__vrome_dialog")
 
   setResultBox = (results, append=false) ->
-    $(".#{search_result}").remove() unless append
+    $(".#{SEARCH_RESULT}").remove() unless append
     for result in results
       if $.isArray result
         setResultBox result, true
       else
-        dialogBox().append $("<div>", {class: search_result}).append result
+        dialogBox().append $("<div>", {class: SEARCH_RESULT}).append result
     setSelected 0
 
   setSelected = (num=0) =>
-    [@selected, results] = [num, $(".#{search_result}")]
-    $(".#{selected_class}").removeClass selected_class
-    notice $(results[@selected]).addClass(selected_class).find("a").trigger("onselect").attr("href")
+    [@selected, results] = [num, $(".#{SEARCH_RESULT}")]
+    $(".#{SELECTED_CLASS}").removeClass SELECTED_CLASS
+    notice $(results[@selected]).addClass(SELECTED_CLASS).find("a").trigger("onselect").attr("href")
 
-    $(".#{quick_num}").remove()
+    $(".#{QUICK_NUM}").remove()
     max_num = Math.min(9, results.length-1)
 
     for index in [0..max_num]
-      $(results[rabs(@selected + index, results.length)]).prepend $("<span>", {class: quick_num}).text(index)
+      $(results[rabs(@selected + index, results.length)]).prepend $("<span>", {class: QUICK_NUM}).text(index)
 
     for index in [max_num..0]
-      $(".#{quick_num}:contains(#{index})").get(0)?.scrollIntoViewIfNeeded()
+      $(".#{QUICK_NUM}:contains(#{index})").get(0)?.scrollIntoViewIfNeeded()
     return
 
 
   notice = (msg) ->
     cmdBox = $(CmdBox.cmdBox())
-    if $("##{notice_id}").length == 0
+    if $("##{NOTICE_ID}").length == 0
       # 12 = padding-left (10) + border (1) x 2
       style = "right: #{cmdBox.outerWidth()}px; height:#{cmdBox.outerHeight()}px; line-height:#{cmdBox.outerHeight()}px; width: #{dialogBox().outerWidth() - cmdBox.outerWidth() - 12}px"
-      $("body").prepend $("<div>", id: notice_id, style: style)
-    $("##{notice_id}").text(msg)
+      $("body").prepend $("<div>", id: NOTICE_ID, style: style)
+    $("##{NOTICE_ID}").text(msg)
 
 
   @start: (o) ->
-    [dialogMode, lastKeyword, newTab, searchFunc, tabFunc] = [true, null, o.newtab, o.search, o.ontab]
+    [dialogMode, newTab, searchFunc, tabFunc] = [true, o.newTab, o.search, o.ontab]
     CmdBox.set title: o.title, pressDown: handleInput, pressUp: o.callback, content: o.content ? ""
-    searchFunc CmdBox.get().content
+    do callSearchFunc
 
   @stop: (force) ->
     return unless dialogMode or force
-    box.remove() for box in [dialogBox(), $("##{notice_id}"), CmdBox]
+    box.remove() for box in [dialogBox(), $("##{NOTICE_ID}"), CmdBox]
     dialogMode = false
 
   @draw: (msg) ->
@@ -67,7 +67,7 @@ class Dialog
       buildResult = (s, href) ->
         onClick = (e) ->
           unless s.onclick && s.onclick.call("", e)
-            Post action: "Tab.openUrl", url: href, newtab: e.ctrlKey
+            Post action: "Tab.openUrl", url: href, newTab: e.ctrlKey
           false
 
         title = (if s.title then "#{s.title} -- " else "")
@@ -82,10 +82,10 @@ class Dialog
       setResultBox results
 
   next = (direction=1) =>
-    setSelected rabs(@selected + direction, $(".#{search_result}").length)
+    setSelected rabs(@selected + direction, $(".#{SEARCH_RESULT}").length)
 
-  prev = (dirction=1) ->
-    next -1*dirction
+  prev = (direction=1) ->
+    next -1*direction
 
 
   handleInput = (e) =>
@@ -106,14 +106,13 @@ class Dialog
       next 10 if key is Option.get("autocomplete_next_10")
       return
 
-    setTimeout delayToWaitKeyDown, 100 unless isEscapeKey(key)
-
-  delayToWaitKeyDown = ->
-    keyword = CmdBox.get().content
-    if lastKeyword isnt keyword
+    if not isEscapeKey key
+      clearTimeout @timeout
+      @timeout = setTimeout callSearchFunc, 200
       Dialog.draw({searching: true})
-      clearTimeout(lastSearchTimeout)
-      lastSearchTimeout = setTimeout(searchFunc, 300, lastKeyword = keyword)
+
+  callSearchFunc = ->
+    searchFunc CmdBox.get().content
 
   @openCurrentNewTab: => @open true
   @openCurrentNewTab.description = "Open selected URL in new tab"
@@ -122,7 +121,7 @@ class Dialog
     setTimeout @openCurrent, 500, keep_open
 
   @current: ->
-    $(".#{selected_class} a")
+    $(".#{SELECTED_CLASS} a")
 
   @openCurrent: (keep_open) => #Boolean
     return setTimeout @openCurrent, 100, keep_open if searching

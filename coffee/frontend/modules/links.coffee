@@ -1,7 +1,7 @@
 class Links
 
   open = (url) ->
-    Post action: "Tab.openUrl", url: url, newtab: (CmdBox.get().content.indexOf("!") isnt -1)
+    Post action: "Tab.openUrl", url: url, newTab: (CmdBox.get().content.indexOf("!") isnt -1)
 
   @downloads: ->
     open "chrome://downloads/"

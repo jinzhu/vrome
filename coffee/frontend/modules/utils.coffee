@@ -12,22 +12,25 @@ root.times = (raw, read) ->
   if raw then KeyEvent.times(read) else (KeyEvent.times(read) or 1)
 
 
-root.isElementVisible = (elem, in_full_page) ->
-  return false unless $(elem).is(':visible')
-  style = window.getComputedStyle($(elem).get(0))
-  return false if (style.getPropertyValue('visibility') != 'visible' || style.getPropertyValue('display') == 'none' || style.getPropertyValue('opacity') == '0')
-  return true if in_full_page
+root.isElementVisible = (elem, inFullPage) ->
+  return false unless elem.is(':visible')
+  style = window.getComputedStyle(elem.get(0))
+  return false if \
+    style.getPropertyValue('visibility') isnt 'visible' or
+    style.getPropertyValue('display') is 'none' or
+    style.getPropertyValue('opacity') is '0'
+  return true if inFullPage
 
-  [winTop, winLeft] = [$(window).scrollTop(), $(window).scrollLeft()]
+  $window = $(window)
+  [winTop, winLeft] = [$window.scrollTop(), $window.scrollLeft()]
   winBottom = winTop + window.innerHeight
-  winRight = winLeft + $(window).width()
+  winRight  = winLeft + $window.width()
 
-  offset = $(elem).offset()
-  [elemTop, elemLeft] = [offset.top, offset.left]
-  elemBottom = elemTop + $(elem).height()
-  elemRight = elemLeft + $(elem).width()
+  offset     = elem.offset()
+  elemBottom = offset.top + elem.height()
+  elemRight  = offset.left + elem.width()
 
-  (elemBottom >= winTop) and (elemTop <= winBottom) and (elemLeft <= winRight) and (elemRight >= winLeft)
+  elemBottom >= winTop and offset.top <= winBottom and offset.left <= winRight and elemRight >= winLeft
 
 
 root.clickElement = (elem, opt={}) ->
@@ -57,6 +60,6 @@ root.clickElement = (elem, opt={}) ->
 
   # FIXME ctrl = false can't open url in current page
   # if (!!opt.ctrl is false) and $(elem).attr("href")?.match(/:\/\//)
-  #   Post action: "Tab.openUrl", url: $(elem).attr("href"), newtab: false
+  #   Post action: "Tab.openUrl", url: $(elem).attr("href"), newTab: false
 
   elem.setAttribute "target", old_target  if old_target

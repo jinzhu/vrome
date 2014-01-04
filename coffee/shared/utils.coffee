@@ -1,5 +1,7 @@
-@getLocalServerUrl = -> "http://127.0.0.1:" + Option.get("server_port")
-@checkServerStatus = ->
+root = exports ? window
+
+root.getLocalServerUrl = -> "http://127.0.0.1:" + Option.get("server_port")
+root.checkServerStatus = ->
   $.ajax(@getLocalServerUrl()).done(->
     $("#server_status").attr "src", "/images/server_online.png"
     $("#server_status").attr "alt", "Server Online"
@@ -7,24 +9,30 @@
     $("#server_status").attr "src", "/images/server_offline.png"
     $("#server_status").attr "alt", "Server Offline. Run ./vrome"
 
+root.rabs = (num, total) ->
+  # if num is -11 and total is 10:
+  # ((-11 % 10) + 10) % 10
+  # (-1 + 10) % 10
+  # 9
+  ((num % total) + total) % total
 
-# returns hostname or "file" for file:// urls
-@getHostname = (href) ->
-  return $("<a href='#{href}'>").get(0).host if href
-  window.location.host or "file"
-
-
-@stringify = (obj) ->
-  return obj.join(", ") if $.isArray(obj)
-  return JSON.stringify(obj) if $.isPlainObject obj
-  obj
-
-@rabs = (num, total) ->
-  (num % total + total) % total
-
-@desc = (func, description) ->
+root.desc = (func, description) ->
   func.description = description
 
-root = exports ? window
-for m in ["getLocalServerUrl", "checkServerStatus", "getHostname", "stringify", "rabs", "desc"]
-  root[m] = self[m]
+root.fixRelativePath = (url) ->
+  # http://google.com
+  return url if /:\/\//.test(url)
+
+  # /admin
+  return document.location.origin + url if (/^\//.test(url))
+
+  # ../users || ./products || ../users
+  url += '/' if url.match(/\/?\.\.$/) # .. -> ../
+
+  pathname = document.location.origin + document.location.pathname.replace(/\/+/g, '/')
+  for path in url.split('..')
+    if path.match(/^\//)
+      pathname = pathname.replace(/\/[^\/]*\/?$/, '') + path
+    else if path.match(/^.\//)
+      pathname = pathname.replace(/\/$/, '') + path.replace(/^.\//, '/')
+  pathname
