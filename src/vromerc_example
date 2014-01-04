@@ -14,6 +14,10 @@ imap <M-h> <M-w>
 " Remove key mapping in insert mode
 iunmap <M-w>
 
+" customize next/prev page pattern
+set nextpattern=["Next Page", "^\\s*Next\\s*$", "^>$", "^More$", "(^(>>|››|»)\\|?)|((»|››|>>)\\|?$)"]
+set previouspattern=["Previous Page", "^\\s*Prev(ious)?\\s*$", "^<$", "(^(<<|‹‹|«)\\|?)|((<<|‹‹|«)\\|?$)"]
+
 " Dialog Extend Mode, Change hotkey for go next / previous / next 10 / previous 10 matched item in autocomplete
 set autocomplete_prev=<S-Tab>
 set autocomplete_next=<Tab>
