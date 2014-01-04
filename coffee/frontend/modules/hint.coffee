@@ -115,8 +115,7 @@ class Hint
     filter = CmdBox.get().content.trimFirst(key for key, value of subActions)
     regexp = new RegExp(filter, 'im')
 
-    text = $(elem).val() || $(elem).text() || $(elem).attr("placeholder")
-    text += "☺" + $(elem).attr("alt")
+    text = $(elem).val() or $(elem).text() or $(elem).attr('placeholder') or $(elem).attr('alt')
     match = regexp.test(text) or regexp.test(PinYin.shortcut(text)) or regexp.test(PinYin.full(text))
     if invert and filter isnt '' then not match else match
 
