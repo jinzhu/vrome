@@ -7,7 +7,7 @@ reloadExtension = ->
     if tab = tabs[0]
       chrome.tabs.reload tab.id, bypassCache: true
     else
-      chrome.tabs.create url: "chrome://extensions-frame/", selected: false, pinned: true
+      chrome.tabs.create url: "chrome://extensions-frame/", active: false, pinned: true
       reloadExtension()
 
 checkReloadExtension = ->

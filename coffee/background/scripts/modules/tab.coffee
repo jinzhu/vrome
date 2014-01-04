@@ -79,7 +79,8 @@ class Tab
       chrome.windows.create {incognito: true, url}, ->
     else
       if msg.newTab
-        chrome.tabs.create({url, index: (msg.tab.index + 1), selected: msg.selected || Option.get("follow_new_tab") is 1})
+        # open a new tab next to currently selected tab
+        chrome.tabs.create({url, index: (msg.tab.index + 1), active: msg.active or Option.get('follow_new_tab') is 1})
       else
         @update {tab: msg.tab, url}
 
@@ -145,14 +146,14 @@ class Tab
 
 
   @select: (msg) ->
-    chrome.tabs.getAllInWindow msg.tab.windowId, (tabs) ->
+    chrome.tabs.query windowId: msg.tab.windowId, (tabs) ->
       index = Math.min(msg.index, tabs.length - 1) if typeof msg.index isnt "undefined"
       index = rabs(msg.tab.index + msg.offset, tabs.length) if typeof msg.offset isnt "undefined"
-      chrome.tabs.update tabs.splice(index, 1)[0].id, selected: true
+      chrome.tabs.update tabs.splice(index, 1)[0].id, active: true
 
 
-  @selectPrevious: ->
-    chrome.tabs.update(Tab.lastTab.id, selected: true) if Tab.lastTab
+  @selectPrevious: =>
+    chrome.tabs.update(@previousTab.id, active: true) if @previousTab
 
   @selectLastOpen: (msg) =>
     index = rabs(@lastOpenTabs.length - msg.count, @lastOpenTabs.length)
@@ -164,7 +165,7 @@ class Tab
 
   @reload: (msg) ->
     if msg.reloadAll
-      chrome.tabs.getAllInWindow msg.tab.windowId, (tabs) ->
+      chrome.tabs.query windowId: msg.tab.windowId, (tabs) ->
         # Reverse reload all tabs to avoid issues in development mode
         chrome.tabs.reload tab.id for tab in tabs.reverse()
         return
@@ -186,7 +187,7 @@ class Tab
 
   @duplicate: (msg) ->
     [index, count] = [msg.tab.index, msg.count ? 1]
-    chrome.tabs.create {url: msg.tab.url, index: ++index, selected: false} while count-- > 0
+    chrome.tabs.create {url: msg.tab.url, index: ++index, active: false} while count-- > 0
     return
 
 
