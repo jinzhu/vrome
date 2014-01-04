@@ -125,9 +125,9 @@ class Url
   desc @openFromClipboardNewTab, "Same as `p`, but open selected text or clipboard content in new tab"
 
   @openFromClipboard: (newTab=false, active=false) ->
-    selectedValue = getSelected()
-    if selectedValue isnt ''
-      Post {action: "Tab.openUrl", url: selectedValue, newTab, active}
+    selectedText = getSelected()
+    if selectedText isnt ''
+      Post {action: "Tab.openUrl", url: selectedText, newTab, active}
     else
       Post {action: "Tab.openFromClipboard", newTab, active}
 

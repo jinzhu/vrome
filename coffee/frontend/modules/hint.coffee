@@ -1,7 +1,7 @@
 class Hint
   [newTab, multiMode, hintMode, elements, currentKey] = []
-  hintable = "a,textarea,select,button,area[href],input:not([type=hidden]),*[onclick],*[onmouseover],[contenteditable],.js-new-tweets-bar"
-  hintable += ",[role=link],[role=checkbox],[role=button],[role=tab],[role=menubar]"
+  hintable = 'a,textarea,select,button,area[href],input:not([type=hidden]),*[onclick],*[onmouseover],[contenteditable],.js-new-tweets-bar'
+  hintable += ',[role=link],[role=checkbox],[role=button],[role=tab],[role=menubar]'
 
   @isHintable: (elem) ->
     $(elem).parent().find(hintable).toArray().indexOf(elem) isnt -1
@@ -12,21 +12,21 @@ class Hint
     "Hint #{if mode.length > 0 then "{#{mode.join(',')}}" else ''}"
 
   removeHighlightBox = (createAfterRemove) ->
-    $("#__vim_hint_highlight").remove()
-    $("body").append $("<div>", {id: "__vim_hint_highlight"}) if createAfterRemove
-    $("#__vim_hint_highlight")
+    $('#__vim_hint_highlight').remove()
+    $('body').append $('<div>', {id: '__vim_hint_highlight'}) if createAfterRemove
+    $('#__vim_hint_highlight')
 
   freshHints = =>
     highlight_box = removeHighlightBox(true)
 
     for elem, index in (@matched ? [])
       hint_key = numberToHintKey(index+1)
-      class_name = "normal"
-      class_name = "active" if hint_key == (@currentKeys || numberToHintKey(1)) # 1 is selected by default
-      class_name = "hidden" if not hint_key.startsWith(@currentKeys) # hide those won't match
-      hint_key = $("<key>", text: @currentKeys).get(0).outerHTML + hint_key.trimFirst(@currentKeys) if @currentKeys
+      class_name = 'normal'
+      class_name = 'active' if hint_key == (@currentKeys || numberToHintKey(1)) # 1 is selected by default
+      class_name = 'hidden' if not hint_key.startsWith(@currentKeys) # hide those won't match
+      hint_key = $('<key>', text: @currentKeys).get(0).outerHTML + hint_key.trimFirst(@currentKeys) if @currentKeys
       # <span vrome_highlight='class_name'><key>A</key>E</span>
-      span = $("<span>", {vrome_highlight: class_name, html: hint_key})
+      span = $('<span>', {vrome_highlight: class_name, html: hint_key})
       $(highlight_box).append span
       offset = $(elem).offset()
       span.offset left: offset.left-6, top: offset.top
@@ -50,38 +50,38 @@ class Hint
       '0123456789'
 
   numberToHintKey = (number) ->
-    [key, hint_keys] = ["", hintKeys()]
-    while number != 0
+    [key, hint_keys] = ['', hintKeys()]
+    while number isnt 0
       key = hint_keys[number % hint_keys.length] + key
       number = parseInt(number / hint_keys.length)
     key
 
   hintKeyToNumber = (keys) ->
     [number, hint_keys] = [0, hintKeys()]
-    while keys != ""
+    while keys isnt ''
       number = (number * hint_keys.length) + hint_keys.indexOf(keys[0])
       keys = keys[1..-1]
     number
 
   @multiModeStart: => @start true, true
-  desc @multiModeStart, "Same as `f`, but could open multiple links"
+  desc @multiModeStart, 'Same as `f`, but could open multiple links'
 
   @newTabStart: => @start true
-  desc @newTabStart, "Same as `f`, but open in new tabs"
+  desc @newTabStart, 'Same as `f`, but open in new tabs'
 
   @start: (new_tab, multi_mode) =>
     [hintMode, newTab, multiMode] = [true, new_tab, multi_mode]
-    setMatched(elements = (e for e in $(hintable).not("#_vrome_cmd_input_box") when isElementVisible($(e))))
-    setCurrentKeys ""
-    CmdBox.set title: title(), pressDown: handleInput, content: ""
-  desc @start, "Start Hint mode"
+    setMatched(elements = (e for e in $(hintable).not('#_vrome_cmd_input_box') when isElementVisible($(e))))
+    setCurrentKeys ''
+    CmdBox.set title: title(), pressDown: handleInput, content: ''
+  desc @start, 'Start Hint mode'
   @start.options = {
     hintkeys:
-      description: "Keys used to generate hints"
-      example: "set hintkeys=jlkhfsdagwerui"
+      description: 'Keys used to generate hints'
+      example: 'set hintkeys=jlkhfsdagwerui'
     useletters:
-      description: "Use letters or numbers to generate hints, if equal 0, then hintkeys will be ignored"
-      example: "set useletters=1"
+      description: 'Use letters or numbers to generate hints, if equal 0, then hintkeys will be ignored'
+      example: 'set useletters=1'
   }
 
   @remove: ->
@@ -113,12 +113,12 @@ class Hint
   hintMatch = (elem) ->
     invert = getCurrentAction() is invertFilter
     filter = CmdBox.get().content.trimFirst(key for key, value of subActions)
-    regexp = new RegExp(filter, "im")
+    regexp = new RegExp(filter, 'im')
 
     text = $(elem).val() || $(elem).text() || $(elem).attr("placeholder")
     text += "☺" + $(elem).attr("alt")
     match = regexp.test(text) or regexp.test(PinYin.shortcut(text)) or regexp.test(PinYin.full(text))
-    if (invert and filter isnt "") then !match else match
+    if invert and filter isnt '' then not match else match
 
   ## Sub Actions
   getCurrentAction = (content) =>
@@ -127,75 +127,75 @@ class Hint
 
   showElementInfo = (elem) ->
     CmdBox.set title: elem.outerHTML.escape()
-  showElementInfo.hint = "show info"
+  showElementInfo.hint = 'show info'
 
   focusElement = (elem) ->
     elem.focus()
-  focusElement.hint = "focus"
+  focusElement.hint = 'focus'
 
   copyElementUrl = (elem) ->
-    text = fixRelativePath($(elem).attr("href"))
+    text = fixRelativePath($(elem).attr('href'))
     Clipboard.copy text
     CmdBox.set title: "[Copied] #{text}", timeout: 4000
-  copyElementUrl.hint = "copy url"
+  copyElementUrl.hint = 'copy url'
 
   copyElementText = (elem) ->
     text = $(elem).val() || $(elem).text()
     Clipboard.copy text
     CmdBox.set title: "[Copied] #{text}", timeout: 4000
-  copyElementText.hint = "copy text"
+  copyElementText.hint = 'copy text'
 
   openUrlIncognito = (elem) ->
-    Post action: "Tab.openUrl", url: $(elem).attr("href"), incognito: true
-  openUrlIncognito.hint = "incognito"
+    Post action: 'Tab.openUrl', url: $(elem).attr('href'), incognito: true
+  openUrlIncognito.hint = 'incognito'
 
   invertFilter = {}
-  invertFilter.hint = "invert"
+  invertFilter.hint = 'invert'
 
   subActions =
-    ";": focusElement
-    "?": showElementInfo
-    "[": copyElementUrl
-    "{": copyElementText
-    "\\": openUrlIncognito
-    "!": invertFilter
+    ';':  focusElement
+    '?':  showElementInfo
+    '[':  copyElementUrl
+    '{':  copyElementText
+    '\\': openUrlIncognito
+    '!':  invertFilter
 
 
   execCurrent = (elems=null) =>
-    CmdBox.set pressDown: null, content: ""
+    CmdBox.set pressDown: null, content: ''
 
     elems ?= [@matched[Math.max(0, @selected-1)]]
 
     for elem in elems
       currentAction = getCurrentAction()
-      tag_name = $(elem).prop("tagName")?.toLowerCase()
-      type = $(elem).prop("type")?.toLowerCase()
+      tag_name = $(elem).prop('tagName')?.toLowerCase()
+      type = $(elem).prop('type')?.toLowerCase()
 
       if $.isFunction(currentAction)
         @remove() # No multiMode for extend mode
         currentAction elem
       else
-        if tag_name is "a"
+        if tag_name is 'a'
           clickElement elem, {ctrl: newTab}
-        else if $(elem).attr("onclick")
+        else if $(elem).attr('onclick')
           clickElement elem
-        else if $(elem).attr("onmouseover")
+        else if $(elem).attr('onmouseover')
           $(elem).mouseover()
-        else if (tag_name is "input" and (type in ["submit", "button", "reset", "radio", "checkbox"])) or tag_name is "button"
+        else if (tag_name is 'input' and (type in ['submit', 'button', 'reset', 'radio', 'checkbox'])) or tag_name is 'button'
           clickElement elem
-        else if tag_name in ["input", "textarea"]
+        else if tag_name in ['input', 'textarea']
           try
             $(elem).select()
           catch e
             clickElement elem # some website don't use standard submit input.
-        else if tag_name is "select"
+        else if tag_name is 'select'
           $(elem).focus()
         else
           clickElement elem
         newTab = true
 
     if multiMode
-      setCurrentKeys ""
+      setCurrentKeys ''
       CmdBox.set title: title()
     else
       setTimeout @remove, 200

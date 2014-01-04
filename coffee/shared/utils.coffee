@@ -1,13 +1,14 @@
 root = exports ? window
 
-root.getLocalServerUrl = -> "http://127.0.0.1:" + Option.get("server_port")
+root.getLocalServerUrl = -> "http://127.0.0.1:#{Option.get('server_port')}"
 root.checkServerStatus = ->
-  $.ajax(@getLocalServerUrl()).done(->
-    $("#server_status").attr "src", "/images/server_online.png"
-    $("#server_status").attr "alt", "Server Online"
-  ).fail ->
-    $("#server_status").attr "src", "/images/server_offline.png"
-    $("#server_status").attr "alt", "Server Offline. Run ./vrome"
+  request = $.ajax getLocalServerUrl()
+  request.done ->
+    $('#server_status').attr 'src', '/images/server_online.png'
+    $('#server_status').attr 'alt', 'Server Online'
+  request.fail ->
+    $('#server_status').attr 'src', '/images/server_offline.png'
+    $('#server_status').attr 'alt', 'Server Offline. Run ./vrome'
 
 root.rabs = (num, total) ->
   # if num is -11 and total is 10:
