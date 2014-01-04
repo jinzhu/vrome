@@ -116,6 +116,7 @@ class Hint
     regexp = new RegExp(filter, "im")
 
     text = $(elem).val() || $(elem).text() || $(elem).attr("placeholder")
+    text += "☺" + $(elem).attr("alt")
     match = regexp.test(text) or regexp.test(PinYin.shortcut(text)) or regexp.test(PinYin.full(text))
     if (invert and filter isnt "") then !match else match
 
@@ -145,7 +146,8 @@ class Hint
   copyElementText.hint = "copy text"
 
   openUrlIncognito = (elem) ->
-    Post action: "Tab.openUrl", url: $(elem).attr("href"), incognito: true
+    Post acti
+    on: "Tab.openUrl", url: $(elem).attr("href"), incognito: true
   openUrlIncognito.hint = "incognito"
 
   invertFilter = {}
