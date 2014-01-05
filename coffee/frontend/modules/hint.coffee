@@ -8,7 +8,7 @@ class Hint
 
   title = ->
     mode = if multiMode then ['multi mode'] else (if newTab then ['new tab'] else [])
-    mode.push sub_action if sub_action = getCurrentAction()?.hint
+    mode.push subAction if subAction = getCurrentAction()?.hint
     "Hint #{if mode.length > 0 then "{#{mode.join(',')}}" else ''}"
 
   removeHighlightBox = (createAfterRemove) ->
@@ -17,17 +17,17 @@ class Hint
     $('#__vim_hint_highlight')
 
   freshHints = =>
-    highlight_box = removeHighlightBox(true)
+    highlightBox = removeHighlightBox(true)
 
     for elem, index in (@matched ? [])
       hint_key = numberToHintKey(index+1)
-      class_name = 'normal'
-      class_name = 'active' if hint_key == (@currentKeys || numberToHintKey(1)) # 1 is selected by default
-      class_name = 'hidden' if not hint_key.startsWith(@currentKeys) # hide those won't match
+      className = 'normal'
+      className = 'active' if hint_key == (@currentKeys || numberToHintKey(1)) # 1 is selected by default
+      className = 'hidden' if not hint_key.startsWith(@currentKeys) # hide those won't match
       hint_key = $('<key>', text: @currentKeys).get(0).outerHTML + hint_key.trimFirst(@currentKeys) if @currentKeys
-      # <span vrome_highlight='class_name'><key>A</key>E</span>
-      span = $('<span>', {vrome_highlight: class_name, html: hint_key})
-      $(highlight_box).append span
+      # <span vrome_highlight='className'><key>A</key>E</span>
+      span = $('<span>', {vrome_highlight: className, html: hint_key})
+      $(highlightBox).append span
       offset = $(elem).offset()
       span.offset left: offset.left-6, top: offset.top
     return
@@ -50,16 +50,16 @@ class Hint
       '0123456789'
 
   numberToHintKey = (number) ->
-    [key, hint_keys] = ['', hintKeys()]
+    [key, hints] = ['', hintKeys()]
     while number isnt 0
-      key = hint_keys[number % hint_keys.length] + key
-      number = parseInt(number / hint_keys.length)
+      key = hints[number % hints.length] + key
+      number = parseInt(number / hints.length)
     key
 
   hintKeyToNumber = (keys) ->
-    [number, hint_keys] = [0, hintKeys()]
+    [number, hints] = [0, hintKeys()]
     while keys isnt ''
-      number = (number * hint_keys.length) + hint_keys.indexOf(keys[0])
+      number = (number * hints.length) + hints.indexOf(keys[0])
       keys = keys[1..-1]
     number
 
@@ -120,9 +120,9 @@ class Hint
     if invert and filter isnt '' then not match else match
 
   ## Sub Actions
-  getCurrentAction = (content) =>
-    action_name = (content or CmdBox.get().content).substring(0, 1)
-    subActions[action_name]
+  getCurrentAction = (content) ->
+    actionName = (content or CmdBox.get().content).substring(0, 1)
+    subActions[actionName]
 
   showElementInfo = (elem) ->
     CmdBox.set title: elem.outerHTML.escape()
@@ -159,7 +159,6 @@ class Hint
     '\\': openUrlIncognito
     '!':  invertFilter
 
-
   execCurrent = (elems=null) =>
     CmdBox.set pressDown: null, content: ''
 
@@ -167,27 +166,27 @@ class Hint
 
     for elem in elems
       currentAction = getCurrentAction()
-      tag_name = $(elem).prop('tagName')?.toLowerCase()
+      tagName = $(elem).prop('tagName')?.toLowerCase()
       type = $(elem).prop('type')?.toLowerCase()
 
       if $.isFunction(currentAction)
         @remove() # No multiMode for extend mode
         currentAction elem
       else
-        if tag_name is 'a'
+        if tagName is 'a'
           clickElement elem, {ctrl: newTab}
         else if $(elem).attr('onclick')
           clickElement elem
         else if $(elem).attr('onmouseover')
           $(elem).mouseover()
-        else if (tag_name is 'input' and (type in ['submit', 'button', 'reset', 'radio', 'checkbox'])) or tag_name is 'button'
+        else if (tagName is 'input' and (type in ['submit', 'button', 'reset', 'radio', 'checkbox'])) or tagName is 'button'
           clickElement elem
-        else if tag_name in ['input', 'textarea']
+        else if tagName in ['input', 'textarea']
           try
             $(elem).select()
           catch e
             clickElement elem # some website don't use standard submit input.
-        else if tag_name is 'select'
+        else if tagName is 'select'
           $(elem).focus()
         else
           clickElement elem
@@ -198,7 +197,6 @@ class Hint
       CmdBox.set title: title()
     else
       setTimeout @remove, 200
-
 
 root = exports ? window
 root.Hint = Hint

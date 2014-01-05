@@ -51,7 +51,7 @@ $ ->
   window.setTimeout setSettings, 500
   window.setInterval checkServerStatus, 1000
 
-  $('body').on('click', ".saveOptions",  saveOptions)
-  $('body').on('click', ".closeWindow",  window.close)
-  $('body').on('click', "#grantAccess",  grantOAuthAccess)
-  $('body').on('click', "#revokeAccess", revokeOAuthAccess)
+  $('body').on('click', '.saveOptions',  saveOptions)
+  $('body').on('click', '.closeWindow',  window.close)
+  $('body').on('click', '#grantAccess',  grantOAuthAccess)
+  $('body').on('click', '#revokeAccess', revokeOAuthAccess)

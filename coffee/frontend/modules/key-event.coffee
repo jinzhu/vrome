@@ -82,14 +82,14 @@ class KeyEvent
   keysRegex = /^(\d*)(.+)$/
   runCurrentKeys = (keys, insertMode, e) =>
     return unless keys
-    [key, last_times] = [(if e then getKey(e) else null), null]
+    [key, lastTimes] = [(if e then getKey(e) else null), null]
 
     # when run last command, fix run time.
     if key is '.' and not insertMode
-      last_times = Settings.get('@times')
-      keyTimes = (last_times or 1) * (keyTimes or 1)
+      lastTimes = Settings.get('@times')
+      keyTimes = (lastTimes or 1) * (keyTimes or 1)
     else
-      last_times = keyTimes
+      lastTimes = keyTimes
 
     # 0 is a special command: could be used to scroll left, also could be used as run count.
     if keyTimes <= 0 or not keys.match(/^\d$/)
@@ -97,21 +97,21 @@ class KeyEvent
       count = RegExp.$1
       match = RegExp.$2
 
-      for [command, binding_function, mode] in bindings when !!insertMode is mode
+      for [command, bindingFunction, mode] in bindings when !!insertMode is mode
         # Run matched functions
         if match is command
           someFunctionCalled = true
 
           # map j 3j
-          map_times = Number(count)
-          keyTimes = map_times * (keyTimes or 1) if map_times > 0
+          mapTimes = Number(count)
+          keyTimes = mapTimes * (keyTimes or 1) if mapTimes > 0
 
           try
-            binding_function.call e
+            bindingFunction.call e
           catch err
             Debug err
 
-          keyTimes = last_times if map_times > 0
+          keyTimes = lastTimes if mapTimes > 0
 
         # Check if there are any bindings matched
         someBindingMatched = true if command.startsWith(keys)
