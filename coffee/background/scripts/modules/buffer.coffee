@@ -1,10 +1,10 @@
 class Buffer
   getMatchedTabs = (tabs, keyword) ->
-    if /^\d+$/.test(keyword)
+    if /^\d+$/.test keyword
       [tabs[Number(keyword) - 1]]
     else
       regexp = new RegExp keyword, 'i'
-      tab for tab in tabs when regexp.test tab.url or regexp.test tab.title
+      tabs.filter (tab) -> regexp.test(tab.url) or regexp.test tab.title
 
   @gotoFirstMatch: (msg) ->
     chrome.tabs.query windowId: msg.tab.windowId, (tabs) ->

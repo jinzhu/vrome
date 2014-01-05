@@ -20,7 +20,7 @@ renderPages = ->
   render $('#featuresContent'),  '/files/features.html'
 
   # switch tab
-  switchTab document.location.hash or '#setting'
+  switchTab(document.location.hash or '#setting')
   $('nav #tabs li a').click -> switchTab $(this).attr('href')
 
 # Input values
@@ -51,7 +51,7 @@ $ ->
   window.setTimeout setSettings, 500
   window.setInterval checkServerStatus, 1000
 
-  $('body').on('click', '.saveOptions',  saveOptions)
-  $('body').on('click', '.closeWindow',  window.close)
-  $('body').on('click', '#grantAccess',  grantOAuthAccess)
-  $('body').on('click', '#revokeAccess', revokeOAuthAccess)
+  $('body').on 'click', '.saveOptions',  saveOptions
+  $('body').on 'click', '.closeWindow',  window.close
+  $('body').on 'click', '#grantAccess',  grantOAuthAccess
+  $('body').on 'click', '#revokeAccess', revokeOAuthAccess

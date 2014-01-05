@@ -5,7 +5,7 @@ keyId =
   "U+001B": "Esc"
   "U+0020": "Space"
   "U+0021": "!"
-  "U+0022": "\""
+  "U+0022": '"'
   "U+0023": "#"
   "U+0024": "$"
   "U+0026": "&"
@@ -113,7 +113,7 @@ getKey = (evt) ->
   meta  = if evt.metaKey or evt.altKey then 'M-' else ''
   shift = if evt.shiftKey              then 'S-' else ''
 
-  if /^Enter|Space|BackSpace|Tab|Esc|Home|End|Left|Right|Up|Down|PageUp|PageDown|F(\d\d?)$/.test(key)
+  if /^Enter|Space|BackSpace|Tab|Esc|Home|End|Left|Right|Up|Down|PageUp|PageDown|F(\d\d?)$/.test key
     return "<#{ctrl}#{meta}#{shift}#{key}>"
 
   if evt.shiftKey

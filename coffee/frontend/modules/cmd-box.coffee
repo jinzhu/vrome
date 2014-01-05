@@ -1,6 +1,5 @@
 class CmdBox
-  BOX_ID       = '_vrome_cmd_box'
-  INPUT_BOX_ID = '_vrome_cmd_input_box'
+  [BOX_ID, INPUT_BOX_ID] = ['_vrome_cmd_box', '_vrome_cmd_input_box']
 
   cmdBoxTitle = (forceCreate=false) =>
     elems = $('#_vrome_cmd_box span')
@@ -37,7 +36,7 @@ class CmdBox
     setTimeout @remove, Number(o.timeout), @cmdBox().attr('rand_id') if o.timeout
 
   @softSet: (o) =>
-    @set(o, false)
+    @set o, false
 
   @get: () ->
     input = cmdBoxInput()

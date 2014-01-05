@@ -1,10 +1,11 @@
 class Hint
   [newTab, multiMode, hintMode, elements, currentKey] = []
-  hintable = 'a,textarea,select,button,area[href],input:not([type=hidden]),*[onclick],*[onmouseover],[contenteditable],.js-new-tweets-bar'
-  hintable += ',[role=link],[role=checkbox],[role=button],[role=tab],[role=menubar]'
+  HINTABLE = 'a,textarea,select,button,area[href],input:not([type=hidden]),' +
+    '*[onclick],*[onmouseover],[contenteditable],.js-new-tweets-bar,' +
+    '[role=link],[role=checkbox],[role=button],[role=tab],[role=menubar]'
 
   @isHintable: (elem) ->
-    $(elem).parent().find(hintable).toArray().indexOf(elem) isnt -1
+    $(elem).parent().find(HINTABLE).toArray().indexOf(elem) isnt -1
 
   title = ->
     mode = if multiMode then ['multi mode'] else (if newTab then ['new tab'] else [])
@@ -13,20 +14,20 @@ class Hint
 
   removeHighlightBox = (createAfterRemove) ->
     $('#__vim_hint_highlight').remove()
-    $('body').append $('<div>', {id: '__vim_hint_highlight'}) if createAfterRemove
+    $('body').append $('<div>', id: '__vim_hint_highlight') if createAfterRemove
     $('#__vim_hint_highlight')
 
   freshHints = =>
     highlightBox = removeHighlightBox(true)
 
     for elem, index in (@matched ? [])
-      hint_key = numberToHintKey(index+1)
+      hintKey = numberToHintKey(index+1)
       className = 'normal'
-      className = 'active' if hint_key == (@currentKeys || numberToHintKey(1)) # 1 is selected by default
-      className = 'hidden' if not hint_key.startsWith(@currentKeys) # hide those won't match
-      hint_key = $('<key>', text: @currentKeys).get(0).outerHTML + hint_key.trimFirst(@currentKeys) if @currentKeys
+      className = 'active' if hintKey is (@currentKeys or numberToHintKey(1)) # 1 is selected by default
+      className = 'hidden' if not hintKey.startsWith(@currentKeys) # hide those won't match
+      hintKey = $('<key>', text: @currentKeys).get(0).outerHTML + hintKey.trimFirst(@currentKeys) if @currentKeys
       # <span vrome_highlight='className'><key>A</key>E</span>
-      span = $('<span>', {vrome_highlight: className, html: hint_key})
+      span = $('<span>', vrome_highlight: className, html: hintKey)
       $(highlightBox).append span
       offset = $(elem).offset()
       span.offset left: offset.left-6, top: offset.top
@@ -38,7 +39,7 @@ class Hint
   setSelected = (@selected) =>
     freshHints()
     CmdBox.set title: (if @selected > 0 then "#{title()} (#{numberToHintKey(@selected)})" else title())
-    setTimeout execCurrent, 200 if (@selected * hintKeys().length) > @matched.length
+    setTimeout execCurrent, 200 if @selected * hintKeys().length > @matched.length
 
   setCurrentKeys = (@currentKeys) =>
     setSelected hintKeyToNumber(@currentKeys)
@@ -53,7 +54,7 @@ class Hint
     [key, hints] = ['', hintKeys()]
     while number isnt 0
       key = hints[number % hints.length] + key
-      number = parseInt(number / hints.length)
+      number = parseInt(number / hints.length, 10)
     key
 
   hintKeyToNumber = (keys) ->
@@ -66,42 +67,41 @@ class Hint
   @multiModeStart: => @start true, true
   desc @multiModeStart, 'Same as `f`, but could open multiple links'
 
-  @newTabStart: => @start true
+  @newTabStart: => @start true, false
   desc @newTabStart, 'Same as `f`, but open in new tabs'
 
   @start: (new_tab, multi_mode) =>
     [hintMode, newTab, multiMode] = [true, new_tab, multi_mode]
-    setMatched(elements = (e for e in $(hintable).not('#_vrome_cmd_input_box') when isElementVisible($(e))))
+    setMatched(elements = (e for e in $(HINTABLE).not('#_vrome_cmd_input_box') when isElementVisible $(e)))
     setCurrentKeys ''
     CmdBox.set title: title(), pressDown: handleInput, content: ''
   desc @start, 'Start Hint mode'
-  @start.options = {
+  @start.options =
     hintkeys:
       description: 'Keys used to generate hints'
-      example: 'set hintkeys=jlkhfsdagwerui'
+      example:     'set hintkeys=jlkhfsdagwerui'
     useletters:
       description: 'Use letters or numbers to generate hints, if equal 0, then hintkeys will be ignored'
-      example: 'set useletters=1'
-  }
+      example:     'set useletters=1'
 
   @remove: ->
     return false unless hintMode
     CmdBox.remove()
-    removeHighlightBox(false)
+    removeHighlightBox false
     hintMode = false
 
   handleInput = (e) =>
-    currentKey = getKey(e)
+    currentKey = getKey e
 
     # If it is hint key
     if hintKeys().indexOf(currentKey) isnt -1 or (currentKey is '<BackSpace>' and @selected isnt 0)
       setCurrentKeys(if currentKey is '<BackSpace>' then @currentKeys[0..-2] else "#{@currentKeys}#{currentKey}")
-      KeyEvent.stopPropagation(e)
+      KeyEvent.stopPropagation e
     else
       setTimeout delayToWaitKeyDown, 20 unless isEscapeKey(currentKey)
 
   delayToWaitKeyDown = =>
-    setMatched(elements.filter(hintMatch))
+    setMatched(elements.filter hintMatch)
 
     if isCtrlAcceptKey(currentKey)
       execCurrent @matched
@@ -113,10 +113,10 @@ class Hint
   hintMatch = (elem) ->
     invert = getCurrentAction() is invertFilter
     filter = CmdBox.get().content.trimFirst(key for key, value of subActions)
-    regexp = new RegExp(filter, 'im')
+    regexp = new RegExp filter, 'im'
 
     text = $(elem).val() or $(elem).text() or $(elem).attr('placeholder') or $(elem).attr('alt')
-    match = regexp.test(text) or regexp.test(PinYin.shortcut(text)) or regexp.test(PinYin.full(text))
+    match = regexp.test(text) or regexp.test(PinYin.shortcut text) or regexp.test(PinYin.full text)
     if invert and filter isnt '' then not match else match
 
   ## Sub Actions
@@ -133,13 +133,13 @@ class Hint
   focusElement.hint = 'focus'
 
   copyElementUrl = (elem) ->
-    text = fixRelativePath($(elem).attr('href'))
+    text = fixRelativePath $(elem).attr('href')
     Clipboard.copy text
     CmdBox.set title: "[Copied] #{text}", timeout: 4000
   copyElementUrl.hint = 'copy url'
 
   copyElementText = (elem) ->
-    text = $(elem).val() || $(elem).text()
+    text = $(elem).val() or $(elem).text()
     Clipboard.copy text
     CmdBox.set title: "[Copied] #{text}", timeout: 4000
   copyElementText.hint = 'copy text'
@@ -174,12 +174,12 @@ class Hint
         currentAction elem
       else
         if tagName is 'a'
-          clickElement elem, {ctrl: newTab}
+          clickElement elem, ctrl: newTab
         else if $(elem).attr('onclick')
           clickElement elem
         else if $(elem).attr('onmouseover')
           $(elem).mouseover()
-        else if (tagName is 'input' and (type in ['submit', 'button', 'reset', 'radio', 'checkbox'])) or tagName is 'button'
+        else if (tagName is 'input' and type in ['submit', 'button', 'reset', 'radio', 'checkbox']) or tagName is 'button'
           clickElement elem
         else if tagName in ['input', 'textarea']
           try

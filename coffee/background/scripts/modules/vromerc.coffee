@@ -1,5 +1,4 @@
 class Vromerc
-
   @init: =>
     @loadAll true
     # Reload every 5 minutes
@@ -22,9 +21,9 @@ class Vromerc
     configs = []
     urlMarks = Settings.get('url_marks') or {}
 
-    for line in text.split('\n')
+    for line in text.split '\n'
       line = line.trim()
-      [method, key, value] = line.split(/\s+/)
+      [method, key, value] = line.split /\s+/
 
       if method in ['imap', 'map', 'cmap']
         configs.push line
@@ -38,41 +37,41 @@ class Vromerc
 
         settingKey   = config.split(/\+?=/)[0]
         settingValue = config.trimFirst(settingKey + '=').trimFirst(settingKey + '+=')
-        settingValue = Number(settingValue) unless isNaN(settingValue)
+        settingValue = Number settingValue unless isNaN settingValue
         # set xxx+=xxxxx
-        isPlus       = if line.match(/^\s*set\s+\w+\+=/) then true else false
+        isPlus       = /^\s*set\s+\w+\+=/.test line
 
-        if settingKey.startsWith('qm_')
-          urlMarks[settingKey.replace('qm_', '')] = settingValue
+        if settingKey.startsWith 'qm_'
+          urlMarks[settingKey.replace 'qm_', ''] = settingValue
         else
           settings.set[settingKey] = [settingValue, isPlus]
-      else if line.match(/^\s*$/)
-          configs.push line
+      else if /^\s*$/.test line
+        configs.push line
       else
         # comment this line
-        configs.push line.replace(/^"?\s{0,1}/, "\" ")
+        configs.push line.replace /^"?\s{0,1}/, '" '
 
     Settings.add 'url_marks', urlMarks
     # Replace configure, don't extend it
     Settings.add 'configure', settings
-    configs.join('\n')
+    configs.join '\n'
 
   @loadLocal: ->
     $.get(getLocalServerUrl()).done (data) =>
       if data
         vromerc = "\" Begin Local Vromerc generated\n#{data}\n\" End Local Vromerc generated\n\n"
-        vromerc += (Settings.get('vromerc') or '').replace(/" Begin Local Vromerc generated\n(.|\n)+\n" End Local Vromerc generated\n?\n?/g, "")
+        vromerc += (Settings.get('vromerc') or '').replace(/" Begin Local Vromerc generated\n(.|\n)+\n" End Local Vromerc generated\n?\n?/g, '')
         Settings.add vromerc: @parse(vromerc)
 
   @loadOnline: () ->
-    url = Settings.get('onlineVromercUrl')
+    url = Settings.get 'onlineVromercUrl'
     return false unless url
 
-    url = "http://#{url}" unless url.startsWith('http')
+    url = "http://#{url}" unless url.startsWith 'http'
 
     $.get(url).done (data) =>
       vromerc = "\" Begin Online Vromerc generated\n#{data}\n\" End Online Vromerc generated\n\n"
-      vromerc += (Settings.get('vromerc') or '').replace(/" Begin Online Vromerc generated\n(.|\n)+\n" End Online Vromerc generated\n?\n?/g, "")
+      vromerc += (Settings.get('vromerc') or '').replace(/" Begin Online Vromerc generated\n(.|\n)+\n" End Online Vromerc generated\n?\n?/g, '')
       Settings.add vromerc: @parse(vromerc), onlineVromercLastUpdatedAt: new Date().toString()
 
 root = exports ? window

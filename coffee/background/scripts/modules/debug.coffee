@@ -1,9 +1,9 @@
 Debug = (str) ->
   # Format Frontend Error
-  str = str['message'] if $.isPlainObject(str) and str['message']
+  str = str.message if $.isPlainObject(str) and str.message
 
   # Format TypeError
-  if (typeof(str) == 'object') and str.hasOwnProperty('stack') and str.hasOwnProperty('message')
+  if typeof str is 'object' and str.hasOwnProperty('stack') and str.hasOwnProperty 'message'
     str = "#{str.message}\n\n#{str.stack}"
 
   # Format Function
@@ -20,7 +20,6 @@ Debug = (str) ->
     runScript code: "console.log(\"#{str.replace(/\"/g, '\\"')}\")", Tab.currentTab if Tab.currentTab
   catch error
     console.log error
-
 
 root = exports ? window
 root.Debug = Debug

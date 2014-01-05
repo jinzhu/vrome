@@ -31,33 +31,33 @@ class Option
     configure = Settings.get('@configure.set')?[key]
     option = options[key]
 
-    if $.isArray(configure)
+    if $.isArray configure
       [value, isPlus] = configure
-      if option instanceof Array
+      if $.isArray option
         try
-          value = if value.startsWith('[') then JSON.parse(value) else [value]
+          value = if value.startsWith '[' then JSON.parse value else [value]
         catch e
           value = []
 
-        option = (if isPlus then option.concat(value) else value)
+        option = if isPlus then option.concat value else value
       else if $.isPlainObject option
         try
-          value = JSON.parse(value)
+          value = JSON.parse value
         catch e
           value = {}
 
-        if isPlus then $.extend(option, value) else option = value
+        if isPlus then $.extend option, value else option = value
       else
         option = if isPlus then option + value else value
 
     option
 
   @defaultSearchUrl: (url) ->
-    searchengines = Option.get('searchengines')
-    searchengine = searchengines[Option.get('defaultsearch')]
-    return searchengine.replace('{{keyword}}', url) if searchengine
+    searchengines = Option.get 'searchengines'
+    searchengine = searchengines[Option.get 'defaultsearch']
+    return searchengine.replace '{{keyword}}', url if searchengine
     # TODO: this shouldn't return many results
-    return searchengine.replace('{{keyword}}', url) for searchengine in searchengines
+    return searchengine.replace '{{keyword}}', url for searchengine in searchengines
 
 root = exports ? window
 root.Option = Option

@@ -1,13 +1,12 @@
 class Search
-  [searchMode, direction, lastSearch, nodes] = [null, null, null, null]
-  HIGHLIGHT_CLASS      = '__vrome_search_highlight'
-  HIGHLIGHT_CURRENT_ID = '__vrome_search_highlight_current'
+  [searchMode, direction, lastSearch, nodes] = []
+  [HIGHLIGHT_CLASS, HIGHLIGHT_CURRENT_ID] = ['__vrome_search_highlight', '__vrome_search_highlight_current']
 
   @backward: => @start -1
   desc @backward, 'Start backward search (with selected text)'
 
   title = ->
-    if direction > 0 then 'Forward search: ?' else 'Backward search: /'
+    if direction > 0 then 'Forward search: /' else 'Backward search: ?'
 
   @start: (offset=1) ->
     [searchMode, direction] = [true, offset]
@@ -30,14 +29,14 @@ class Search
     return unless searchMode
     KeyEvent.stopPropagation e
     key = getKey e
-    @removeHighlights() unless key is 'Enter' or isControlKey(key)
+    @removeHighlights() unless key is 'Enter' or isControlKey key
     lastSearch = CmdBox.get().content
     find lastSearch
 
   find = (keyword) =>
     $('body').highlight(keyword, className: HIGHLIGHT_CLASS)
-    nodes = $(".#{HIGHLIGHT_CLASS}").filter (i, e) -> isElementVisible($(e), true)
-    @next(0)
+    nodes = $(".#{HIGHLIGHT_CLASS}").filter (_, e) -> isElementVisible $(e), true
+    @next 0
 
   @prev: => @next -1
   desc @prev, 'Search prev'
@@ -63,12 +62,12 @@ class Search
     CmdBox.set title: cmdBoxTitle
   desc @next, 'Search next'
 
-  @openCurrentNewTab: => @openCurrent(true)
+  @openCurrentNewTab: => @openCurrent true
   desc @openCurrentNewTab, 'Open selected element in a new tab'
 
   @openCurrent: (newTab) ->
     return unless searchMode
-    clickElement $("##{HIGHLIGHT_CURRENT_ID}"), {ctrl: newTab}
+    clickElement $("##{HIGHLIGHT_CURRENT_ID}"), ctrl: newTab
     @stop()
   desc @openCurrent, 'Open selected element in current tab'
 
@@ -77,7 +76,7 @@ class Search
     if CmdBox.isActive()
       InsertMode.blurFocus()
     else
-      @openCurrent(false)
+      @openCurrent false
 
 root = exports ? window
 root.Search = Search

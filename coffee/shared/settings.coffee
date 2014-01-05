@@ -11,21 +11,21 @@ class Settings
 
   getKey = (args=[]) ->
     [scopeKey, hostname] = [args[args.length-1]?['scope_key'], document.location.hostname]
-    scopeKey = 'background' if hostname isnt '' and hostname.match(/^\w+$/) and not hostname.match(/local/)
+    scopeKey = 'background' if hostname isnt '' and hostname.match(/^\w+$/) and not hostname.match /local/
 
     if scopeKey
       scopeKey = hostname if scopeKey is 'host'
     else
       scopeKey = if $.isPlainObject args[0]
         'background'
-      else if typeof args[0] is 'string' and args[0].startsWith('@')
+      else if typeof args[0] is 'string' and args[0].startsWith '@'
         'background'
       else
         hostname
     scopeKey or 'other'
 
   syncLocal = (callback) ->
-    localKey = getKey(arguments)
+    localKey = getKey arguments
     if localKey isnt 'background'
       local.get localKey, (obj) -> settings[localKey] = obj[localKey]
     local.get 'background', (obj) ->
@@ -34,11 +34,11 @@ class Settings
         callback.call() if $.isFunction callback
 
   syncRemote = ->
-    syncToRemote = -> sync.set(background: settings['background'])
+    syncToRemote = -> sync.set background: settings['background']
     setInterval syncToRemote, 1000 * 60
 
     settings['background'] ?= {}
-    sync.get 'background', (obj) => $.extend(settings['background'], obj['background'])
+    sync.get 'background', (obj) -> $.extend(settings['background'], obj['background'])
 
   @init: (callback) ->
     syncRemote() if getKey() is 'background'
