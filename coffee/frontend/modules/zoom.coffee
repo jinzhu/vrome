@@ -13,7 +13,7 @@ class Zoom
     index = Math.min(levels.length - 1, Math.max(0, index))
     level = index - default_index
 
-    # 0 is default value. no need to set it for every site
+    # 0 is default value, no need to set it for every site
     Settings.add zoom_level: (index - default_index), scope_key: "host"
     topPercent = scrollY / document.height
     document.body.style.zoom = levels[index]

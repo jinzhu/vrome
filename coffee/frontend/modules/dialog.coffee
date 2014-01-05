@@ -125,7 +125,7 @@ class Dialog
 
   @openCurrent: (keep_open) => #Boolean
     return setTimeout @openCurrent, 100, keep_open if searching
-    return false if !dialogMode
+    return false unless dialogMode
     clickElement @current(), {"ctrl": keep_open or newTab}
     @stop() unless keep_open
 

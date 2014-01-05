@@ -57,7 +57,7 @@ class Vromerc
     $.get(getLocalServerUrl()).done (data) =>
       if data
         vromerc = "\" Begin Local Vromerc generated\n#{data}\n\" End Local Vromerc generated\n\n"
-        vromerc = vromerc + (Settings.get("vromerc") || "").replace(/" Begin Local Vromerc generated\n(.|\n)+\n" End Local Vromerc generated\n?\n?/g, "")
+        vromerc += (Settings.get("vromerc") || "").replace(/" Begin Local Vromerc generated\n(.|\n)+\n" End Local Vromerc generated\n?\n?/g, "")
         Settings.add vromerc: @parse(vromerc)
 
 
@@ -69,7 +69,7 @@ class Vromerc
 
     $.get(url).done (data) =>
       vromerc = "\" Begin Online Vromerc generated\n#{data}\n\" End Online Vromerc generated\n\n"
-      vromerc = vromerc + (Settings.get("vromerc") || "").replace(/" Begin Online Vromerc generated\n(.|\n)+\n" End Online Vromerc generated\n?\n?/g, "")
+      vromerc += (Settings.get("vromerc") || "").replace(/" Begin Online Vromerc generated\n(.|\n)+\n" End Online Vromerc generated\n?\n?/g, "")
       Settings.add vromerc: @parse(vromerc), onlineVromercLastUpdatedAt: new Date().toString()
 
 

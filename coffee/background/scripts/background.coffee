@@ -1,21 +1,20 @@
-# chrome.tabs.onUpdated.addListener (tabId) ->
-
 chrome.tabs.onCreated.addListener (tab) ->
   Tab.lastOpenTabs.push tab
 
 chrome.tabs.onActivated.addListener (info) ->
-  chrome.tabs.get info.tabId, (tab) ->
-    if tab and (tab isnt Tab.now_tab)
-      Tab.lastTab = Tab.now_tab
-      Tab.now_tab = tab
+  if not Tab.currentTab or info.tabId isnt Tab.currentTab.id
+    chrome.tabs.get info.tabId, (tab) ->
+      if tab
+        Tab.previousTab = Tab.currentTab
+        Tab.currentTab = tab
 
-  Vrome.setStatus()
+  Vrome.setStatus info.tabId
 
 chrome.tabs.onRemoved.addListener (tabId) ->
-  tab = Tab.now_tab
-  Tab.addToClosedTabs tab if tab?.id == tabId
+  tab = Tab.currentTab
+  Tab.addToClosedTabs tab if tab?.id is tabId
 
 $ ->
-  Vromerc.init()
+  do Vromerc.init
 
 root = exports ? window

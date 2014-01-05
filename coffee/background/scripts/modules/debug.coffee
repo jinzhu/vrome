@@ -9,12 +9,15 @@ Debug = (str) ->
   # Format Function
   str = str.toString() if $.isFunction str
 
-  # Post(Tab.now_tab, {action: 'console.log', arguments: str}) if Tab.now_tab
+  # Post(Tab.currentTab, {action: 'console.log', arguments: str}) if Tab.currentTab
 
-  $.post getLocalServerUrl(), JSON.stringify({method: "print_messages", messages: str})
+  params = JSON.stringify
+    method:   'print_messages'
+    messages: str
+  $.post getLocalServerUrl(), params
 
   try
-    runScript {code: "console.log(\"#{str.replace(/\"/g, '\\"')}\")"}, Tab.now_tab if Tab.now_tab
+    runScript code: "console.log(\"#{str.replace(/\"/g, '\\"')}\")", Tab.currentTab if Tab.currentTab
   catch error
     console.log error
 

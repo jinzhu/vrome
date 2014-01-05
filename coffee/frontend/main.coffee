@@ -1,9 +1,9 @@
 root = exports ? window
 
 root.Post = (msg) ->
-  chrome.runtime.sendMessage msg, (response) ->
+  chrome.runtime.sendMessage msg, ->
 
-window.addEventListener "error", ((err) -> Debug err), false
+window.addEventListener 'error', ((err) -> Debug err), false
 
 try
   Settings.init ->

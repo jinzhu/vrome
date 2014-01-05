@@ -79,7 +79,7 @@ class Url
 
   @referer: (newTab=false) ->
     if document.referrer
-      Post action: "openOrSelectUrl", url: document.referrer, newTab: newTab, selected: true
+      Post action: "openOrSelectUrl", url: document.referrer, newTab: newTab, active: true
   desc @referer, "Go to the referer"
 
   @decrement: => @increment(-1)
@@ -119,17 +119,17 @@ class Url
 
 
   @openFromClipboardAndFocusNewTab: => @openFromClipboard(true, true)
-  desc @openFromClipboardAndFocusNewTab, "Same as `p`, but open selected text or clipboard content in new tab and active it"
+  desc @openFromClipboardAndFocusNewTab, "Same as `p`, but open selected text or clipboard content in new tab and activate it"
 
   @openFromClipboardNewTab: => @openFromClipboard(true)
   desc @openFromClipboardNewTab, "Same as `p`, but open selected text or clipboard content in new tab"
 
-  @openFromClipboard: (newTab=false, selected=false) ->
-    selectedValue = getSelected()
-    if selectedValue isnt ''
-      Post {action: "Tab.openUrl", url: selectedValue, newTab, selected}
+  @openFromClipboard: (newTab=false, active=false) ->
+    selectedText = getSelected()
+    if selectedText isnt ''
+      Post {action: "Tab.openUrl", url: selectedText, newTab, active}
     else
-      Post {action: "Tab.openFromClipboard", newTab, selected}
+      Post {action: "Tab.openFromClipboard", newTab, active}
 
   desc @openFromClipboard, "Open selected text or clipboard content in current tab. If not a valid URL, make a search"
 

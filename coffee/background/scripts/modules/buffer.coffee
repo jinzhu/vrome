@@ -7,16 +7,16 @@ class Buffer
       tab for tab in tabs when regexp.test tab.url or regexp.test tab.title
 
   @gotoFirstMatch: (msg) ->
-    chrome.tabs.getAllInWindow msg.tab.windowId, (tabs) ->
+    chrome.tabs.query windowId: msg.tab.windowId, (tabs) ->
       Tab.select getMatchedTabs(tabs, msg.keyword)[0]
 
   @deleteMatch: (msg) ->
-    chrome.tabs.getAllInWindow msg.tab.windowId, (tabs) ->
+    chrome.tabs.query windowId: msg.tab.windowId, (tabs) ->
       Tab.close tab for tab in getMatchedTabs tabs, msg.keyword
       return
 
   @deleteNotMatch: (msg) ->
-    chrome.tabs.getAllInWindow msg.tab.windowId, (tabs) ->
+    chrome.tabs.query windowId: msg.tab.windowId, (tabs) ->
       matchedTabs = getMatchedTabs tabs, msg.keyword
       Tab.close tab for tab in tabs when tab not in matchedTabs
       return
