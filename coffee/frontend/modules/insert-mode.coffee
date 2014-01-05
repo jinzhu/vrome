@@ -3,7 +3,7 @@ class InsertMode
   storedValues = []
 
   @storeLastValue = ->
-    storedValues.push value if value != storedValues[-1]
+    storedValues.push value if value isnt storedValues[storedValues.length - 1]
 
   currentElement = =>
     elem = document.activeElement
