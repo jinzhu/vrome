@@ -6,12 +6,15 @@ class Search
   @backward: => @start -1
   desc @backward, 'Start backward search (with selected text)'
 
+  title = ->
+    if direction > 0 then 'Forward search: ?' else 'Backward search: /'
+
   @start: (offset=1) ->
     [searchMode, direction] = [true, offset]
 
     CmdBox.set
-      title: (if direction > 0 then 'Forward search: ?' else 'Backward search: /'),
-      pressUp: handleInput, content: getSelected() || lastSearch || ''
+      title: title(),
+      pressUp: handleInput, content: getSelected() or lastSearch or ''
   desc @start, 'Start forward search (with selected text)'
 
   @stop: =>
@@ -49,6 +52,15 @@ class Search
     currentIndex = Math.max 0, nodes.index(currentNode)
     gotoIndex = rabs(currentIndex + offset, nodes.length)
     $(nodes[gotoIndex]).attr('id', HIGHLIGHT_CURRENT_ID).get(0)?.scrollIntoViewIfNeeded()
+
+    # show notification that search has wrapped around
+    cmdBoxTitle = if offset > 0 and gotoIndex < currentIndex
+      'Search hit BOTTOM, continuing at TOP'
+    else if offset < 0 and gotoIndex > currentIndex
+      'Search hit TOP, continuing at BOTTOM'
+    else
+      title()
+    CmdBox.set title: cmdBoxTitle
   desc @next, 'Search next'
 
   @openCurrentNewTab: => @openCurrent(true)
