@@ -157,7 +157,7 @@ class Tab
     @update tab: @lastOpenTabs[index], active: true
 
   @toggleViewSource: (msg) =>
-    url = (if msg.tab.url.startsWith('view-source:') then '' else 'view-source:') + msg.tab.url
+    url = msg.tab.url.replace /^(view-source:)?/, if msg.tab.url.startsWith('view-source:') then '' else 'view-source:'
     @openUrl $.extend(msg, {url})
 
   @reload: (msg) ->
