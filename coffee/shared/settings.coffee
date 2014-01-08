@@ -2,73 +2,69 @@
 #
 # Setting.add {}, :scope_key => "background"/"host" -> scope_key as key, default is 'background'
 # Setting.add '@key', 'value', :scope_key => ''     -> scope_key as key, default is 'background'
-# Setting.add 'key', 'value', :scope_key => ''      -> scope_key as key, default is get_key()'
+# Setting.add 'key', 'value', :scope_key => ''      -> scope_key as key, default is getKey()'
 # Setting.get '@key', :scope_key => ''              -> scope_key as key, default is 'background'
-# Setting.get 'key', :scope_key => ''               -> scope_key as key, default is get_key()
+# Setting.get 'key', :scope_key => ''               -> scope_key as key, default is getKey()
 
 class Settings
   [sync, local, settings] = [chrome.storage.sync, chrome.storage.local, {}]
 
-  get_key = (args=[]) ->
-    [scope_key, hostname] = [args[args.length-1]?['scope_key'], document.location.hostname]
-    scope_key = "background" if (hostname isnt "") and hostname.match(/^\w+$/) and not hostname.match(/local/)
+  getKey = (args=[]) ->
+    [scopeKey, hostname] = [args[args.length-1]?['scope_key'], document.location.hostname]
+    scopeKey = 'background' if hostname isnt '' and hostname.match(/^\w+$/) and not hostname.match /local/
 
-    if scope_key
-      scope_key = hostname if scope_key is "host"
+    if scopeKey
+      scopeKey = hostname if scopeKey is 'host'
     else
-      scope_key = if $.isPlainObject args[0]
-        "background"
-      else if (typeof args[0] is 'string') and args[0].startsWith("@")
-        "background"
+      scopeKey = if $.isPlainObject args[0]
+        'background'
+      else if typeof args[0] is 'string' and args[0].startsWith '@'
+        'background'
       else
         hostname
-    scope_key || "other"
+    scopeKey or 'other'
 
-  syncLocal = (callback) =>
-    local_key = get_key(arguments)
-    if local_key isnt "background"
-      local.get local_key, (obj) => settings[local_key] = obj[local_key]
-    local.get "background", (obj) =>
+  syncLocal = (callback) ->
+    localKey = getKey arguments
+    if localKey isnt 'background'
+      local.get localKey, (obj) -> settings[localKey] = obj[localKey]
+    local.get 'background', (obj) ->
       try
-        settings["background"] = obj['background'] || JSON.parse(localStorage['__vrome_setting'] || "{}")
+        settings['background'] = obj['background'] or JSON.parse(localStorage['__vrome_setting'] or '{}')
         callback.call() if $.isFunction callback
 
   syncRemote = ->
-    syncToRemote = => sync.set(background: settings["background"])
+    syncToRemote = -> sync.set background: settings['background']
     setInterval syncToRemote, 1000 * 60
 
-    settings["background"] ||= {}
-    sync.get "background", (obj) => $.extend(settings["background"], obj["background"])
+    settings['background'] ?= {}
+    sync.get 'background', (obj) -> $.extend(settings['background'], obj['background'])
 
-
-  @init: (callback) =>
-    syncRemote() if get_key() is 'background'
+  @init: (callback) ->
+    syncRemote() if getKey() is 'background'
     syncLocal(callback)
     chrome.storage.onChanged.addListener syncLocal
 
-
-  @add: (values) =>
-    local_key = get_key(arguments)
+  @add: (values) ->
+    localKey = getKey(arguments)
     if $.isPlainObject values
-      settings[local_key] ||= {}
-      $.extend(true, settings[local_key], values)
+      settings[localKey] ?= {}
+      $.extend(true, settings[localKey], values)
     else
-      [names, value, setting] = [arguments[0].trimFirst("@").split('.'), arguments[1], settings[local_key]]
+      [names, value, setting] = [arguments[0].trimFirst('@').split('.'), arguments[1], settings[localKey]]
       for name in names[0...-1]
-        setting[name] ||= {}
+        setting[name] ?= {}
         setting = setting[name]
       setting[names[names.length-1]] = value
 
     local.set settings
 
-
-  @get: (names) =>
+  @get: (names) ->
     try
       setting = settings
-      if names and (setting = setting[get_key(arguments)])
-        (setting = setting[name]) for name in names.trimFirst("@").split('.')
+      if names and (setting = setting[getKey(arguments)])
+        (setting = setting[name]) for name in names.trimFirst('@').split('.')
       setting
-
 
 root = exports ? window
 root.Settings = Settings

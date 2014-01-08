@@ -1,6 +1,6 @@
 # Auto Reload Extension
 latestVersion = null
-time = 500
+TIME = 500
 
 root = exports ? window
 
@@ -13,7 +13,7 @@ root.reloadExtension = ->
       reloadExtension()
 
 root.checkReloadExtension = ->
-  $.post('http://127.0.0.1:20000', JSON.stringify({'method': 'get_latest_version'})).success (response) ->
+  $.post('http://127.0.0.1:20000', JSON.stringify(method: 'get_latest_version')).success (response) ->
     if latestVersion isnt null and latestVersion isnt response
       reloadExtension()
 
@@ -22,4 +22,4 @@ root.checkReloadExtension = ->
 
     latestVersion = response
 
-setInterval checkReloadExtension, time
+setInterval checkReloadExtension, TIME

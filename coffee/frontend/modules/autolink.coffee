@@ -1,20 +1,20 @@
 class AutoLink
+  URL_REGEXP = /(((https?|ftp|file):\/\/)?([\w]{2,}\.)+[\w]{2,5}(\/[\S]+)*)/g
 
-  url_regexp = /(((https?|ftp|file):\/\/)?([\w]{2,}\.)+[\w]{2,5}(\/[\S]+)*)/g
   textNodes = (elems)->
-    e for e in elems when e.data?.match(url_regexp) and (e.nodeType == 3) and (e.nodeName not in ["INPUT", "TEXTAREA"])
-
+    elems.filter (e) ->
+      e.data?.match(URL_REGEXP) and e.nodeType is 3 and e.nodeName not in ['INPUT', 'TEXTAREA']
 
   @makeLink: (elems=null) ->
-    elems = textNodes(elems || jQuery("*:visible").not("iframe").contents())
+    elems = textNodes(elems or $('*:visible').not('iframe').contents())
     for elem in elems
-      if jQuery(elem).parent().prop("tagName") != 'A'
-        value = jQuery(elem).text().replace url_regexp, ($0, $1) ->
+      $elem = $(elem)
+      if $elem.parent().prop('tagName') isnt 'A'
+        value = $elem.text().replace URL_REGEXP, ($0, $1) ->
           "<a href='#{if /^(\w+\.)+\w+/.test($1) then "http://#{$1}" else $1}'>#{$1}</a>"
-        jQuery(elem).after(value).remove()
+        $elem.after(value).remove()
     return
-  desc @makeLink, "Transforms URLs into clickable links"
-
+  desc @makeLink, 'Transforms URLs into clickable links'
 
 root = exports ? window
 root.AutoLink = AutoLink

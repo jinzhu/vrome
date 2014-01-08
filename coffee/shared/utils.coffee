@@ -22,18 +22,18 @@ root.desc = (func, description) ->
 
 root.fixRelativePath = (url) ->
   # http://google.com
-  return url if /:\/\//.test(url)
+  return url if /:\/\//.test url
 
   # /admin
-  return document.location.origin + url if (/^\//.test(url))
+  return document.location.origin + url if url[0] is '/'
 
   # ../users || ./products || ../users
-  url += '/' if url.match(/\/?\.\.$/) # .. -> ../
+  url += '/' if url.endsWith '..'
 
   pathname = document.location.origin + document.location.pathname.replace(/\/+/g, '/')
-  for path in url.split('..')
-    if path.match(/^\//)
+  for path in url.split '..'
+    if path[0] is '/'
       pathname = pathname.replace(/\/[^\/]*\/?$/, '') + path
-    else if path.match(/^.\//)
-      pathname = pathname.replace(/\/$/, '') + path.replace(/^.\//, '/')
+    else if path.startsWith './'
+      pathname = pathname.replace(/\/$/, '') + path.substr(1)
   pathname

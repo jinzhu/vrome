@@ -1,48 +1,48 @@
 class Command
+  VROME_HIDDEN = '__vrome_hidden'
 
   @reloadExtension: ->
-    Post action: "reloadExtension"
-  desc @reloadExtension, "Reload All Extensions"
+    Post action: 'reloadExtension'
+  desc @reloadExtension, 'Reload All Extensions'
 
   @print: ->
     CmdBox.remove()
     setTimeout window.print, 500
-  desc @print, "Print the current page you see"
+  desc @print, 'Print the current page you see'
 
   toggleHiddenElems = (all, elems) ->
     if all.length > 1
-      all.removeAttr("__vrome_hidden")
+      all.removeAttr VROME_HIDDEN
     else
-      elems.attr("__vrome_hidden", "1")
+      elems.attr VROME_HIDDEN, '1'
 
   @imagesToggle: ->
-    toggleHiddenElems $("img[__vrome_hidden]"), $("img")
-  desc @imagesToggle, "Toggle images"
+    toggleHiddenElems $("img[#{VROME_HIDDEN}]"), $('img')
+  desc @imagesToggle, 'Toggle images'
 
   @imagesOnly: ->
-    div = $("[__vrome_images]")
+    div = $('[__vrome_images]')
     if div.length > 0
-      toggleHiddenElems $("body").children(), div.remove()
+      toggleHiddenElems $('body').children(), div.remove()
     else
       images = $('img').filter(':visible').clone()
-      toggleHiddenElems [], $("body").children()
-      $("body").append $("<div>", {__vrome_images: "1"}).append(images)
-  desc @imagesOnly, "Only show images, run again to rollback"
+      toggleHiddenElems [], $('body').children()
+      $('body').append $('<div>', __vrome_images: '1').append(images)
+  desc @imagesOnly, 'Only show images, run again to rollback'
 
   @javascript: ->
     console.log eval(CmdBox.get().argument)
-  desc @javascript, "Run javascript (jQuery)"
+  desc @javascript, 'Run javascript (jQuery)'
 
   @source: ->
-    Post action: "Command.source", sources: CmdBox.get().argument
-  desc @source, "Source javascript/style files"
+    Post action: 'Command.source', sources: CmdBox.get().argument
+  desc @source, 'Source javascript/style files'
 
   @css: ->
-    div = $("style[__vrome_style]")
-    $("body").append(div = $("<style>", {"__vrome_style": 1})) if div.length == 0
-    div.text(div.text() + "\n" +  CmdBox.get().argument)
-  desc @css, "Add css styles"
-
+    div = $('style[__vrome_style]')
+    $('body').append(div = $('<style>', __vrome_style: 1)) if div.length is 0
+    div.text(div.text() + '\n' + CmdBox.get().argument)
+  desc @css, 'Add css styles'
 
 root = exports ? window
 root.Command = Command

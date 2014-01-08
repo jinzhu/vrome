@@ -17,7 +17,7 @@ class Window
   @save_page: (msg) ->
     chrome.pageCapture.saveAsMHTML tabId: msg.tab.id, (mhtml) ->
       filename = (msg.filename or msg.tab.title).replace(/(.mhtml)?$/, '.mhtml')
-      saveAs(mhtml, filename)
+      saveAs mhtml, filename
       Post msg.tab, {action: 'Window.saveas', data: mhtml, filename}
 
   @moveTabToWindowWithIncognito: (tab, incognito, callback) ->
@@ -25,12 +25,12 @@ class Window
       for window in windows
         if window.type is 'normal' and window.incognito is incognito and window.id isnt tab.windowId
           chrome.tabs.create windowId: window.id, url: tab.url
-          callback?(tab)
+          callback? tab
           return true
 
       # not returned
       chrome.windows.create {url: tab.url, incognito}
-      callback?(tab)
+      callback? tab
 
 root = exports ? window
 root.Window = Window
