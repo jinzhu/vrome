@@ -57,7 +57,7 @@ class Option
     searchengine = searchengines[Option.get 'defaultsearch']
     return searchengine.replace '{{keyword}}', url if searchengine
     # TODO: this shouldn't return many results
-    return searchengine.replace '{{keyword}}', url for searchengine in searchengines
+    return (searchengine.replace '{{keyword}}', url for searchengine in searchengines)
 
 root = exports ? window
 root.Option = Option

@@ -25,7 +25,7 @@ class Marks
   filterQuickMarks = (newTab) ->
     (keyword) ->
       marks = Settings.get('@url_marks') or {}
-      cuteMarks = title: key, url: mark for key, mark of marks when key.startsWith keyword
+      cuteMarks = (title: key, url: mark for key, mark of marks when key.startsWith keyword)
       if cuteMarks.length is 1
         Post action: 'Tab.openUrl', url: cuteMarks[0]['url'], newTab: newTab
       else
