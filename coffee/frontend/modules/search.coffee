@@ -34,16 +34,17 @@ class Search
     find lastSearch
 
   find = (keyword) =>
-    $('body').highlight(keyword, className: HIGHLIGHT_CLASS)
-    nodes = $(".#{HIGHLIGHT_CLASS}").filter (_, e) -> isElementVisible $(e), true
-    @next 0
+    if keyword isnt ''
+      $('body').highlight(keyword, className: HIGHLIGHT_CLASS)
+      nodes = $(".#{HIGHLIGHT_CLASS}").filter (_, e) -> isElementVisible $(e), true
+      @next 0
 
   @prev: => @next -1
   desc @prev, 'Search prev'
 
   @next: (step=1) ->
     return unless searchMode
-    return if nodes.length is 0
+    return CmdBox.set title: 'Nothing found' if nodes.length is 0
 
     offset = direction * step * times()
 
@@ -73,6 +74,8 @@ class Search
 
   @onAcceptKeyPressed: =>
     return unless searchMode
+    return @stop() if nodes.length is 0
+
     if CmdBox.isActive()
       InsertMode.blurFocus()
     else
