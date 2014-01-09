@@ -25,7 +25,7 @@ class Command
     if div.length > 0
       toggleHiddenElems $('body').children(), div.remove()
     else
-      images = $('img').filter(':visible').clone()
+      images = $('img').filter((_, e) -> isElementVisible $(e), true).clone()
       toggleHiddenElems [], $('body').children()
       $('body').append $('<div>', __vrome_images: '1').append(images)
   desc @imagesOnly, 'Only show images, run again to rollback'

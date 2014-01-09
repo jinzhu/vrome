@@ -40,7 +40,7 @@ class InsertMode
     $(currentElement()).blur()
 
   @focusFirstTextInput: ->
-    elems = $('input[type="text"],input[type="password"],input[type="search"],input:not([type])').filter(':visible')
+    elems = $('input[type="text"],input[type="password"],input[type="search"],input:not([type])').filter((_, e) -> isElementVisible $(e), true)
     $(elems[times() - 1]).focus().select()
   desc @focusFirstTextInput, 'Focus the {count} input field'
 

@@ -1,6 +1,6 @@
 class Page
   execMatch = (regexps) ->
-    elems = for elem in $('a, link').filter(':visible').reverse()
+    elems = for elem in $('a, link').filter((_, e) -> isElementVisible $(e), true).reverse()
       [elem, $(elem).text().trim()]
 
     for regexp in regexps
