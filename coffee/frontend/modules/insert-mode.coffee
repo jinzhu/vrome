@@ -40,7 +40,7 @@ class InsertMode
     $(currentElement()).blur()
 
   getFocusableElements = (inFullPage) ->
-    $('input[type="text"],input[type="password"],input[type="search"],input:not([type])').
+    $('input[type="text"],input[type="password"],input[type="search"],textarea,input:not([type])').
       filter (_, e) -> isElementVisible $(e), inFullPage
 
   @focusFirstTextInput: ->
@@ -48,7 +48,7 @@ class InsertMode
     elems = getFocusableElements false
     # if that fails, focus a visible element anywhere on the page
     elems = getFocusableElements true if elems.length is 0
-    $(elems[times() - 1]).focus().select()
+    $(elems[times() - 1]).focus().select().get(0)?.scrollIntoViewIfNeeded()
   desc @focusFirstTextInput, 'Focus the {count} input field'
 
   @restoreLastValue: ->
