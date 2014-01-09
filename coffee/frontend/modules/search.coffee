@@ -34,9 +34,10 @@ class Search
     find lastSearch
 
   find = (keyword) =>
-    $('body').highlight(keyword, className: HIGHLIGHT_CLASS)
-    nodes = $(".#{HIGHLIGHT_CLASS}").filter (_, e) -> isElementVisible $(e), true
-    @next 0
+    if keyword isnt ''
+      $('body').highlight(keyword, className: HIGHLIGHT_CLASS)
+      nodes = $(".#{HIGHLIGHT_CLASS}").filter (_, e) -> isElementVisible $(e), true
+      @next 0
 
   @prev: => @next -1
   desc @prev, 'Search prev'
