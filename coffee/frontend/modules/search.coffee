@@ -44,7 +44,7 @@ class Search
 
   @next: (step=1) ->
     return unless searchMode
-    return if nodes.length is 0
+    return CmdBox.set title: 'Nothing found' if nodes.length is 0
 
     offset = direction * step * times()
 
