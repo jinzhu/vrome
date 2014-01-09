@@ -74,6 +74,8 @@ class Search
 
   @onAcceptKeyPressed: =>
     return unless searchMode
+    return @stop() if nodes.length is 0
+
     if CmdBox.isActive()
       InsertMode.blurFocus()
     else
