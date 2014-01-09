@@ -127,11 +127,11 @@ class Tab
     @select.apply         '', arguments if msg.offset    # close and select right/left
 
     chrome.windows.getAll populate: true, (windows) ->
-      for window in windows
-        for tab in window.tabs.reverse()
+      for w in windows
+        for tab in w.tabs.reverse()
           if cond is 'otherWindows'
-            remove tab if window.id isnt msg.tab.windowId
-          else if window.id is msg.tab.windowId
+            remove tab if w.id isnt msg.tab.windowId
+          else if w.id is msg.tab.windowId
             if (
               (cond is 'closeOther' and tab.id isnt msg.tab.id) or
               (cond is 'closeLeft' and tab.index < index and (if count is 0 then true else tab.index >= index - count)) or
@@ -174,8 +174,8 @@ class Tab
 
   @unpinAll: (msg) =>
     chrome.windows.getAll populate: true, (windows) =>
-      for window in windows
-        for tab in window.tabs when tab.pinned and (msg.allWindows or window.id is msg.tab.windowId)
+      for w in windows
+        for tab in w.tabs when tab.pinned and (msg.allWindows or w.id is msg.tab.windowId)
           @update {pinned: false, tab}
       return
 
@@ -212,13 +212,13 @@ class Tab
 
   @mergeMarkedTabs: (msg) ->
     return if markedTabs.length is 0
-    chrome.windows.get msg.tab.windowId, (window) ->
+    chrome.windows.get msg.tab.windowId, (w) ->
       for tabId, index in markedTabs
         chrome.tabs.get tabId, (tab) ->
-          if window.incognito is tab.incognito
-            chrome.tabs.move tab.id, windowId: window.id, index: -1
+          if w.incognito is tab.incognito
+            chrome.tabs.move tab.id, windowId: w.id, index: -1
           else
-            chrome.tabs.create windowId: window.id, url: tab.url
+            chrome.tabs.create windowId: w.id, url: tab.url
             chrome.tabs.remove tab.id
       markedTabs = []
 
