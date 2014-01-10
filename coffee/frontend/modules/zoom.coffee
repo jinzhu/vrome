@@ -3,11 +3,11 @@ class Zoom
   DEFAULT_INDEX = LEVELS.indexOf '100%'
 
   currentLevel = ->
-    index = LEVELS.indexOf(document?.body?.style?.zoom)
+    index = LEVELS.indexOf document?.body?.style?.zoom
     if index is -1 then DEFAULT_INDEX else index
 
   setZoom = (count, keepCurrentPage) ->
-    index = if count then (currentLevel() + times() * count) else DEFAULT_INDEX
+    index = if count then currentLevel() + times() * count else DEFAULT_INDEX
 
     # index should >= 0 && < LEVELS.length
     index = Math.min(LEVELS.length - 1, Math.max(0, index))
@@ -15,7 +15,7 @@ class Zoom
 
     # 0 is default value, no need to set it for every site
     Settings.add zoom_level: (index - DEFAULT_INDEX), scope_key: 'host'
-    topPercent = scrollY / document.height
+    topPercent = window.scrollY / document.height
     document.body.style.zoom = LEVELS[index]
     scrollTo 0, topPercent * document.height if keepCurrentPage
 
