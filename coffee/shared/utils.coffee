@@ -22,7 +22,7 @@ root.desc = (func, description) ->
 
 root.fixRelativePath = (url) ->
   # http://google.com
-  return url if /:\/\//.test url
+  return url if url.isValidURL()
 
   # /admin
   return document.location.origin + url if url[0] is '/'

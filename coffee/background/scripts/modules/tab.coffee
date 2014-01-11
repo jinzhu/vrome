@@ -17,7 +17,7 @@ class Tab
   fixUrl = (url) ->
     url = url.trim()
     # file://xxxxx || http://xxxxx
-    if /:\/\//.test url
+    if url.isValidURL()
       url: url, origin: 'url'
     # /jinzhu || (.. || ./configure) && no space
     else if url[0] in ['/', '.']

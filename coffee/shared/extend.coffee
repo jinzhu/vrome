@@ -14,6 +14,9 @@ String::reverse = ->
 String::trim = ->
   @replace(/^[\s\xA0]+/, '').replace(/[\s\xA0]+$/, '')
 
+String::isValidURL = ->
+  /https?|ftp|file:\/\//.test this
+
 String::trimFirst = (str) -> # String || Array
   if typeof str is 'string'
     @trimFirstStr(str).trim()
