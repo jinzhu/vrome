@@ -85,14 +85,21 @@ class Dialog
   prev = (direction=1) ->
     next -direction
 
+  specialKeys = {}
+  specialKeys[key] = null for key in [
+    '<Up>', '<S-Tab>', '<Down>', '<Tab>', 'Control']
+  for key in [0..9]
+    specialKeys["<C-#{key}>"] = null
+    specialKeys["<M-#{key}>"] = null
+
   handleInput = (e) =>
     key = getKey e
 
     if key is '<Tab>' and tabFunc and tabFunc.call '', e
       KeyEvent.stopPropagation e
-      return true
+      return
 
-    if /<(?:C|M)-(\d)>|<Up>|<S-Tab>|<Down>|<Tab>|Control/.test key
+    if key of specialKeys
       KeyEvent.stopPropagation e
       if key.match /<(?:C|M)-(\d)>/
         next Number(RegExp.$1)

@@ -105,6 +105,13 @@ shiftNums =
   '/':  '?'
   '\\': '|'
 
+specialKeys = {}
+specialKeys[key] = null for key in [
+  'Enter', 'Space', 'BackSpace', 'Tab', 'Esc'
+  'Left', 'Right', 'Up', 'Down'
+  'Home', 'End', 'PageUp', 'PageDown']
+specialKeys["F#{key}"] = null for key in [1..12]
+
 getKey = (evt) ->
   evt = evt.originalEvent or evt
   key = keyId[evt.keyIdentifier] or evt.keyIdentifier
@@ -113,8 +120,7 @@ getKey = (evt) ->
   meta  = if evt.metaKey or evt.altKey then 'M-' else ''
   shift = if evt.shiftKey              then 'S-' else ''
 
-  if /^Enter|Space|BackSpace|Tab|Esc|Home|End|Left|Right|Up|Down|PageUp|PageDown|F(\d\d?)$/.test key
-    return "<#{ctrl}#{meta}#{shift}#{key}>"
+  return "<#{ctrl}#{meta}#{shift}#{key}>" if key of specialKeys
 
   if evt.shiftKey
     key = key.toUpperCase()
