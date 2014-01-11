@@ -7,7 +7,7 @@ class Window
 
   @closeAll: ->
     chrome.windows.getAll (windows) ->
-      chrome.windows.remove window.id for window in windows
+      chrome.windows.remove w.id for w in windows
       return
 
   @capture: (msg) ->
@@ -22,9 +22,9 @@ class Window
 
   @moveTabToWindowWithIncognito: (tab, incognito, callback) ->
     chrome.windows.getAll populate: true, (windows) ->
-      for window in windows
-        if window.type is 'normal' and window.incognito is incognito and window.id isnt tab.windowId
-          chrome.tabs.create windowId: window.id, url: tab.url
+      for w in windows
+        if w.type is 'normal' and w.incognito is incognito and w.id isnt tab.windowId
+          chrome.tabs.create windowId: w.id, url: tab.url
           callback? tab
           return true
 

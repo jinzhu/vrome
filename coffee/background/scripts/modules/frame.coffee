@@ -2,7 +2,7 @@ class Frame
   currentFrameUrls = {}
 
   nextUrl = (frames, currentFrameUrl, count) ->
-    frameUrls    = frame.url for frame in frames when not /doubleclick\.|qzone\.qq\.com|plusone\.google\.com|about:blank/.test frame.url
+    frameUrls    = (frame.url for frame in frames when not /doubleclick\.|qzone\.qq\.com|plusone\.google\.com|about:blank/.test frame.url)
     uniqueUrls   = $.unique(frameUrls).reverse()
     currentIndex = uniqueUrls.indexOf(currentFrameUrl) or 0
     newIndex     = rabs(currentIndex + count, uniqueUrls.length)

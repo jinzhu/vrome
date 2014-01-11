@@ -1,5 +1,4 @@
 chrome.runtime.onMessage.addListener (msg, sender, sendResponse) ->
-
   # Get function
   func = (func ? window)[action] for action in msg.action.split '.'
 

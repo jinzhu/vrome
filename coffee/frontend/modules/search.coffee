@@ -1,5 +1,5 @@
 class Search
-  [searchMode, direction, lastSearch, nodes] = []
+  [searchMode, direction, lastSearch, nodes, originalX, originalY] = []
   [HIGHLIGHT_CLASS, HIGHLIGHT_CURRENT_ID] = ['__vrome_search_highlight', '__vrome_search_highlight_current']
 
   @backward: => @start -1
@@ -9,7 +9,7 @@ class Search
     if direction > 0 then 'Forward search: /' else 'Backward search: ?'
 
   @start: (offset=1) ->
-    [searchMode, direction] = [true, offset]
+    [searchMode, direction, originalX, originalY] = [true, offset, window.scrollX, window.scrollY]
 
     CmdBox.set
       title: title(),
@@ -42,9 +42,13 @@ class Search
   @prev: => @next -1
   desc @prev, 'Search prev'
 
+  onNothingFound = ->
+    CmdBox.set title: 'Nothing found'
+    scrollTo originalX, originalY
+
   @next: (step=1) ->
     return unless searchMode
-    return CmdBox.set title: 'Nothing found' if nodes.length is 0
+    return onNothingFound() if nodes.length is 0
 
     offset = direction * step * times()
 

@@ -3,7 +3,7 @@ class Marks
     key = getKey this
     settingKey = if /^[A-Z]$/.test key then '@local_marks' else 'local_marks'
     localMarks = Settings.get(settingKey) or {}
-    localMarks[key] = [scrollX, scrollY, location.href]
+    localMarks[key] = [window.scrollX, window.scrollY, location.href]
     Settings.add settingKey, localMarks
     CmdBox.set title: "Added Local Mark #{key}", timeout: 1000
   desc @addLocalMark, 'Mark position x,y on the page e.g ma'
@@ -25,7 +25,7 @@ class Marks
   filterQuickMarks = (newTab) ->
     (keyword) ->
       marks = Settings.get('@url_marks') or {}
-      cuteMarks = title: key, url: mark for key, mark of marks when key.startsWith keyword
+      cuteMarks = (title: key, url: mark for key, mark of marks when key.startsWith keyword)
       if cuteMarks.length is 1
         Post action: 'Tab.openUrl', url: cuteMarks[0]['url'], newTab: newTab
       else

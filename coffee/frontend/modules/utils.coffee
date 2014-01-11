@@ -12,7 +12,7 @@ root.times = (raw, read) ->
   if raw then KeyEvent.times read else (KeyEvent.times(read) or 1)
 
 root.isElementVisible = (elem, inFullPage) ->
-  return false unless elem.is(':visible')
+  return false unless elem.is ':visible'
   style = window.getComputedStyle elem.get(0)
   return false if \
     style.getPropertyValue('visibility') isnt 'visible' or

@@ -1,16 +1,16 @@
 class Scroll
   [VERTICAL_MOMENT, HORIZONTAL_MOMENT ] = [15, 15]
 
-  @top: -> scrollTo scrollX, 0
+  @top: -> scrollTo window.scrollX, 0
   desc @top, 'Scroll to the top of the page'
 
-  @bottom: -> scrollTo scrollX, document.body.scrollHeight
+  @bottom: -> scrollTo window.scrollX, document.body.scrollHeight
   desc @bottom, 'Scroll to the bottom of the page'
 
-  @first: -> scrollTo 0, scrollY if times(true, true) is 0
+  @first: -> scrollTo 0, window.scrollY if times(true, true) is 0
   desc @first, 'Scroll to the left of the page'
 
-  @last: -> scrollTo document.body.scrollWidth, scrollY
+  @last: -> scrollTo document.body.scrollWidth, window.scrollY
   desc @last, 'Scroll to the right of the page'
 
   @up: -> scrollBy 0, times() * -VERTICAL_MOMENT
@@ -37,7 +37,7 @@ class Scroll
   @prevHalfPage: -> scrollBy 0, times() * -window.innerHeight / 2
   desc @prevHalfPage, 'Scroll up {count} half page'
 
-  @toPercent: -> scrollTo scrollX, times(true) * $(document).height() / 100
+  @toPercent: -> scrollTo window.scrollX, times(true) * $(document).height() / 100
   desc @toPercent, 'Scroll to {count}% of the page'
 
 root = exports ? window

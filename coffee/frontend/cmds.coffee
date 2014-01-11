@@ -210,10 +210,10 @@ imapFunc '<M-Enter>', 'Search.next'
 imapFunc '<S-Enter>', 'Search.prev'
 
 ## Marks
-markKeys = 'm' + String.fromCharCode(num) for num in [65..122] when num not in [91..96]
+markKeys = ('m' + String.fromCharCode(num) for num in [65..122] when num not in [91..96])
 nmapFunc markKeys, 'Marks.addLocalMark', 'm[a-z][0-9]'
 
-jumpKeys = "'" + String.fromCharCode(num) for num in [65..122] when num not in [91..96]
+jumpKeys = ("'" + String.fromCharCode(num) for num in [65..122] when num not in [91..96])
 nmapFunc jumpKeys, 'Marks.addLocalMark', "'[a-z][0-9]"
 
 nmapFunc 'M',  'Marks.addQuickMark'
