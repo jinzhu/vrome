@@ -8,12 +8,11 @@ class Tab
     chrome.tabs.remove tab.id
 
   runWhenComplete = (tabId, command) ->
-    # TODO: fix this!
     chrome.tabs.get tabId, (tab) ->
       if tab.status is 'complete'
         chrome.tabs.executeScript tabId, command
       else
-        runWhenComplete tabId, command
+        setTimeout runWhenComplete, 100, tabId, command
 
   fixUrl = (url) ->
     url = url.trim()
