@@ -49,25 +49,35 @@ class Tab
         urls:    defaultUrl
         keyword: msg.keyword
 
-    # TODO: do not search bookmarks/history if 'completion_items' doesn't include them
-    chrome.bookmarks.search msg.keyword, (bookmarks) ->
+    bookmarks = history = null
+    completionItems = Option.get('completion_items').split(',')
+    dataToFetch = Number('bookmarks' in completionItems) + Number('history' in completionItems)
+
+    returnUrls = ->
+      urls = []
+      for order in completionItems
+        switch order
+          when 'search-engine'
+            urls = urls.concat defaultUrl if defaultUrl.origin is 'search-engine'
+          when 'url'
+            urls = urls.concat defaultUrl if defaultUrl.origin is 'url'
+          when 'bookmarks'
+            urls = urls.concat bookmarks
+          when 'history'
+            urls = urls.concat history
+          when 'search'
+            urls = urls.concat defaultUrl if defaultUrl.origin is 'search'
+      Post msg.tab, {action: 'Dialog.draw', urls, keyword: msg.keyword}
+
+    if 'bookmarks' in completionItems
+      chrome.bookmarks.search msg.keyword, (bs) ->
+        bookmarks = bs
+        do returnUrls if --dataToFetch is 0
+    if 'history' in completionItems
       startTime = new Date().getTime() - 1000 * 60 * 60 * 24 * 10 # since 10 days ago
-      chrome.history.search {text: msg.keyword, maxResults: 30, startTime}, (history) ->
-        completionOrder = Option.get('completion_items').split(',')
-        urls = []
-        for order in completionOrder
-          switch order
-            when 'search-engine'
-              urls = urls.concat defaultUrl if defaultUrl.origin is 'search-engine'
-            when 'url'
-              urls = urls.concat defaultUrl if defaultUrl.origin is 'url'
-            when 'bookmarks'
-              urls = urls.concat bookmarks
-            when 'history'
-              urls = urls.concat history
-            when 'search'
-              urls = urls.concat defaultUrl if defaultUrl.origin is 'search'
-        Post msg.tab, {action: 'Dialog.draw', urls, keyword: msg.keyword}
+      chrome.history.search {text: msg.keyword, maxResults: 30, startTime}, (hs) ->
+        history = hs
+        do returnUrls if --dataToFetch is 0
   @autoComplete.options =
     completion_items:
       description: 'Sets which items to complete and the order in which they appear'

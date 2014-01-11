@@ -30,7 +30,7 @@ class CmdBox
       input.unbind().keydown(o.pressDown).keyup(o.pressUp).keypress(o.pressPress).select() if force
       if typeof o.selection is 'string'
         [start, length] = [input.val().indexOf(o.selection), o.selection.length]
-        input.prop(selectionStart: start, selectionEnd: start+length)
+        input.prop(selectionStart: start, selectionEnd: start + length)
       else if o.select_last
         input.prop(selectionStart: input.val().length)
     setTimeout @remove, Number(o.timeout), @cmdBox().attr('rand_id') if o.timeout
