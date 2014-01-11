@@ -46,8 +46,12 @@ class Search
     CmdBox.set title: 'Nothing found'
     scrollTo originalX, originalY
 
-  @next: (step=1) ->
-    return unless searchMode
+  @next: (step=1) =>
+    if not searchMode
+      return if not lastSearch or lastSearch is ''
+      @start step
+      find lastSearch
+      return InsertMode.blurFocus()
     return onNothingFound() if nodes.length is 0
 
     offset = direction * step * times()
