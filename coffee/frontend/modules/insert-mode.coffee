@@ -152,8 +152,8 @@ class InsertMode
     elem   = currentElement()
     editId = String(Math.random())
     text   = elem.value.substr(0, elem.selectionStart)
-    line   = 1 + text.replace(/[^\n]/g, '').length
-    col    = 1 + text.replace(/[^]*\n/, '').length
+    line   = 1 + text.match(/\n/g).length
+    col    = 1 + text.match(/\n?(.*?)$/)[1].length
     elem.setAttribute 'vrome_edit_id', editId
 
     Post {action: 'Editor.open', callbackAction: 'InsertMode.externalEditorCallBack', data: elem.value, editId, line, col}
