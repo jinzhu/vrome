@@ -64,14 +64,13 @@ class Dialog
     else
       buildResult = (s, href) ->
         onClick = (e) ->
-          unless s.onclick and s.onclick.call '', e
+          KeyEvent.stopPropagation e
+          if not s.onClick?.call '', e
             Post action: 'Tab.openUrl', url: href, newTab: e.ctrlKey
-          # TODO: perhaps use KeyEvent.stopPropagation?
-          false
 
         title = if s.title then "#{s.title} -- " else ''
         description = "#{title}#{s.description ? s.url}"
-        $('<a>', href: href ? '#', title: s.title, text: description, click: onClick).bind('onselect', s.onselect)
+        $('<a>', href: href ? '#', title: s.title, text: description, click: onClick).bind('onselect', s.onSelect)
 
       results = for source in sources
         if $.isArray source.url

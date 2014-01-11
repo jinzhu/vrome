@@ -8,14 +8,13 @@ class CmdLine
     Dialog.start title: 'Command-line', search: searchCommands, ontab: onTabFunc
   desc @start, 'Start command line'
 
-  onClickFuc = (command) ->
+  onClickFunc = (command) ->
     (e) ->
       [title, keywords] = [$(e.target).attr('title'), CmdBox.get().content.split(' ')]
       content = [title, keywords[1..-1].join(' ')].join(' ')
       CmdBox.softSet {content}
       command.func.call '', keywords[1..-1].join(' ')
       Dialog.stop()
-      # TODO: perhaps use KeyEvent.stopPropagation?
       false
 
   onSelectFunc = (e) ->
@@ -33,7 +32,7 @@ class CmdLine
       contents[0] = title
       CmdBox.softSet content: contents.join(' ').trim() + ' '
       return true
-    # TODO: perhaps use KeyEvent.stopPropagation?
+
     false
 
   searchCommands = () ->
@@ -50,7 +49,7 @@ class CmdLine
     addToAvailable command for key, command of commands when regexp.test command.description
 
     cuteCommands = for command in available
-      title: command.name, description: command.description, onclick: onClickFuc(command), onselect: onSelectFunc
+      title: command.name, description: command.description, onClick: onClickFunc(command), onSelect: onSelectFunc
     Dialog.draw urls: cuteCommands, keyword: ''
 
 root = exports ? window
