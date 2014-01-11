@@ -18,9 +18,9 @@ class Editor
         active: false
     post.done (data) ->
       Post msg.tab,
-        action:  msg.callbackAction
-        edit_id: msg.edit_id
-        value:   data
+        action: msg.callbackAction
+        editId: msg.editId
+        value:  data
 
 root = exports ? window
 root.Editor = Editor
