@@ -5,12 +5,12 @@ class Clipboard
     textNode
 
   @copy: (msg) ->
-    textNode = createTextArea(msg.value)
+    textNode = createTextArea msg.value
     textNode.select()
     document.execCommand 'Copy'
     $(textNode).remove()
 
-  @read: (msg) ->
+  @read: ->
     textNode = createTextArea ''
     textNode.select()
     document.execCommand 'paste'

@@ -96,7 +96,7 @@ class Url
 
   @shortUrl: (msg) ->
     if msg?.url
-      Clipboard.copy(msg.url)
+      Clipboard.copy msg.url
       CmdBox.set title: "[Copied] Shortened URL: #{msg.url}", timeout: 4000
     else
       CmdBox.set title: 'Shortening current URL', timeout: 4000

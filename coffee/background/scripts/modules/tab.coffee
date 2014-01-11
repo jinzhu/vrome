@@ -97,7 +97,6 @@ class Tab
 
   @openFromClipboard: (msg) =>
     url = Clipboard.read()
-    url = Option.defaultSearchUrl url unless url.isValidURL()
     @openUrl $.extend(msg, {url})
 
   @reopen: (msg) ->
