@@ -42,7 +42,7 @@ class Settings
 
   @init: (callback) ->
     syncRemote() if getKey() is 'background'
-    syncLocal(callback)
+    syncLocal callback
     chrome.storage.onChanged.addListener syncLocal
 
   @add: (values) ->

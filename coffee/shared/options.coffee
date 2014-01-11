@@ -1,4 +1,6 @@
 class Option
+  googleSearch = 'http://www.google.com/search?q={{keyword}}'
+
   options =
     nextpattern: ['(下|后)一?(页|頁|篇|张)', '^\\s*Next\\s*$', '^>$', '^More$', '(^(>>|››|»)\\|?)|((»|››|>>)\\|?$)']
     previouspattern: ['(上|前)一(页|頁|篇|张)', '^\\s*Prev(ious)?\\s*$', '^<$', '(^(<<|‹‹|«)\\|?)|((<<|‹‹|«)\\|?$)']
@@ -7,7 +9,7 @@ class Option
     editor: 'gvim -f'
     server_port: 20000
     searchengines:
-      google:    'http://www.google.com/search?q={{keyword}}'
+      google:    googleSearch
       yahoo:     'http://search.yahoo.com/search?p={{keyword}}'
       bing:      'http://www.bing.com/search?q={{keyword}}'
       wikipedia: 'http://en.wikipedia.org/wiki/{{keyword}}'
@@ -56,8 +58,7 @@ class Option
     searchengines = Option.get 'searchengines'
     searchengine = searchengines[Option.get 'defaultsearch']
     return searchengine.replace '{{keyword}}', url if searchengine
-    # TODO: this shouldn't return many results
-    return (searchengine.replace '{{keyword}}', url for searchengine in searchengines)
+    googleSearch.replace '{{keyword}}', url
 
 root = exports ? window
 root.Option = Option
