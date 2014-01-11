@@ -11,14 +11,14 @@ class Window
   @only: -> Tab.close type: 'otherWindows'
   desc @only, 'Close other windows'
 
-  @saveas: (msg) ->
+  @saveAs: (msg) ->
     if msg?.filename
       CmdBox.set title: "Downloaded as '#{msg.filename}'", timeout: 4000
     else
       filename = CmdBox.get().argument
       CmdBox.remove()
-      setTimeout Post, 500, action: 'Window.save_page', filename: filename
-  desc @saveas, 'Save page as'
+      setTimeout Post, 500, action: 'Window.savePage', filename: filename
+  desc @saveAs, 'Save page as'
 
   @capture: (msg) ->
     if msg?.url

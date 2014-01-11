@@ -23,7 +23,8 @@ class KeyEvent
     @reset()
 
   @disable: ->
-    CmdBox.set(title: ' -- PASS THROUGH -- ', mouseOverTitle: -> CmdBox.remove()) if Option.get 'show_disabled_text'
+    if Option.get 'show_disabled_text'
+      CmdBox.set title: ' -- PASS THROUGH -- ', mouseOverTitle: CmdBox.remove
     disableVrome = true
     Post action: 'Vrome.disable'
   desc @disable, 'Disable Vrome'
@@ -134,7 +135,7 @@ class KeyEvent
       @stopPropagation e
 
   @exec: (e) =>
-    key = getKey(e)
+    key = getKey e
     insertMode = /^INPUT|TEXTAREA|SELECT$/i.test(e.target.nodeName) or e.target.getAttribute('contenteditable')?
 
     # If Vrome in pass-next or disabled mode and using <C-Esc> to enable it.

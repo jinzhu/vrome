@@ -5,7 +5,7 @@ class CmdLine
     commands[name] = {name, description: func?.description, func, hasArgs}
 
   @start: ->
-    Dialog.start title: 'Command-line', search: searchCommands, ontab: onTabFunc
+    Dialog.start title: 'Command-line', search: searchCommands, onTab: onTabFunc
   desc @start, 'Start command line'
 
   onClickFunc = (command) ->
@@ -23,8 +23,8 @@ class CmdLine
       CmdBox.softSet content: title, selection: title.trimFirstStr(content)
 
   onTabFunc = (e) ->
-    if (CmdBox.get().selection?.length)
-      CmdBox.softSet content: CmdBox.get().content, select_last: true
+    if CmdBox.get().selection?.length
+      CmdBox.softSet content: CmdBox.get().content, selectLast: true
       return true
 
     [title, contents] = [Dialog.current()?.attr('title') or '', CmdBox.get().content.split(' ')]
@@ -49,7 +49,10 @@ class CmdLine
     addToAvailable command for key, command of commands when regexp.test command.description
 
     cuteCommands = for command in available
-      title: command.name, description: command.description, onClick: onClickFunc(command), onSelect: onSelectFunc
+      title:       command.name
+      description: command.description
+      onClick:     onClickFunc command
+      onSelect:    onSelectFunc
     Dialog.draw urls: cuteCommands, keyword: ''
 
 root = exports ? window

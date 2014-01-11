@@ -258,7 +258,7 @@ cmapFunc 'source',                'Command.source'
 cmapFunc 'reload_extension',      'Command.reloadExtension'
 cmapFunc 'print',                 'Command.print'
 cmapFunc 'capture',               'Window.capture'
-cmapFunc 'saveas',                'Window.saveas'
+cmapFunc 'save_as',               'Window.saveAs'
 
 cmapFunc 'quit',            'Tab.close'
 cmapFunc 'window_open',     'Window.create'

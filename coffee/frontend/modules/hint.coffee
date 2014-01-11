@@ -30,7 +30,7 @@ class Hint
       span = $('<span>', vrome_highlight: className, html: hintKey)
       $(highlightBox).append span
       offset = $(elem).offset()
-      span.offset left: offset.left-6, top: offset.top
+      span.offset left: offset.left - 6, top: offset.top
     return
 
   setMatched = (@matched) =>

@@ -50,7 +50,7 @@ class Marks
 
   handleAddMark = (e) ->
     [key, keyword] = [getKey e, CmdBox.get().content.trim()]
-    if isAcceptKey(key)
+    if isAcceptKey key
       Settings.add "@url_marks.#{keyword}", window.location.href
       Dialog.stop true
       CmdBox.set title: "Added Quick Mark #{keyword}", timeout: 2000

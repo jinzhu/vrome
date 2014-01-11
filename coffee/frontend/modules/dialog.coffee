@@ -42,7 +42,7 @@ class Dialog
     $("##{NOTICE_ID}").text(msg)
 
   @start: (o) ->
-    [dialogMode, newTab, searchFunc, tabFunc] = [true, o.newTab, o.search, o.ontab]
+    [dialogMode, newTab, searchFunc, tabFunc] = [true, o.newTab, o.search, o.onTab]
     CmdBox.set title: o.title, pressDown: handleInput, pressUp: o.callback, content: o.content ? ''
     do callSearchFunc
 
@@ -95,7 +95,7 @@ class Dialog
   handleInput = (e) =>
     key = getKey e
 
-    if key is '<Tab>' and tabFunc and tabFunc.call '', e
+    if key is '<Tab>' and tabFunc?.call '', e
       KeyEvent.stopPropagation e
       return
 
