@@ -18,7 +18,7 @@ class Hint
     $('#__vim_hint_highlight')
 
   freshHints = =>
-    highlightBox = removeHighlightBox(true)
+    highlightBox = removeHighlightBox true
 
     for elem, index in (@matched ? [])
       hintKey = numberToHintKey(index+1)
@@ -98,12 +98,12 @@ class Hint
       setCurrentKeys(if currentKey is '<BackSpace>' then @currentKeys[0..-2] else "#{@currentKeys}#{currentKey}")
       KeyEvent.stopPropagation e
     else
-      setTimeout delayToWaitKeyDown, 20 unless isEscapeKey(currentKey)
+      setTimeout delayToWaitKeyDown, 20 unless isEscapeKey currentKey
 
   delayToWaitKeyDown = =>
     setMatched(elements.filter hintMatch)
 
-    if isCtrlAcceptKey(currentKey)
+    if isCtrlAcceptKey currentKey
       execCurrent @matched
     else if isAcceptKey(currentKey) or @matched.length is 1
       execCurrent()

@@ -128,19 +128,19 @@ class KeyEvent
     keyTimes = 0 if someFunctionCalled and key
 
     # stopPropagation if Vrome is enabled and any functions executed but not in InsertMode or on a link
-    if e and someFunctionCalled
-      @stopPropagation e unless isAcceptKey(key) and (insertMode or Hint.isHintable(document.activeElement))
+    if e and someFunctionCalled and not (isAcceptKey(key) and (insertMode or Hint.isHintable(document.activeElement)))
+      @stopPropagation e
     # Compatible with google's new interface
     if e and key?.length is 1 and not insertMode
       @stopPropagation e
 
   @exec: (e) =>
     key = getKey e
-    insertMode = /^INPUT|TEXTAREA|SELECT$/i.test(e.target.nodeName) or e.target.getAttribute('contenteditable')?
+    insertMode = e.target.nodeName in ['INPUT', 'TEXTAREA', 'SELECT'] or e.target.getAttribute('contenteditable')?
 
     # If Vrome in pass-next or disabled mode and using <C-Esc> to enable it.
     return @enable() if not insertMode and (passNextKey or (disableVrome and isCtrlEscapeKey(key)))
-    return @stopPropagation e if /^Control|Alt|Shift$/.test key
+    return @stopPropagation e if key in ['Control', 'Alt', 'Shift']
     return if disableVrome
 
     currentKeys = filterKey currentKeys.concat(key), insertMode

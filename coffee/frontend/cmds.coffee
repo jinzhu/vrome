@@ -50,21 +50,21 @@ extractFunction = (functionName) ->
 imapFunc = (key, func, virtualKey) ->
   keys = if $.isArray key then key else [key]
   KeyEvent.add k, extractFunction(func), true for k in keys
-  Help.add virtualKey ? key, func, extractFunction(func), 'i'
+  Help.add (virtualKey ? key), func, extractFunction(func), 'i'
 
 nmapFunc = (key, func, virtualKey) ->
   keys = if $.isArray key then key else [key]
   KeyEvent.add k, extractFunction(func) for k in keys
-  Help.add virtualKey ? key, func, extractFunction(func), 'n'
+  Help.add (virtualKey ? key), func, extractFunction(func), 'n'
 
 cmapFunc = (key, func, virtualKey) ->
   keys = if $.isArray key then key else [key]
   CmdLine.add k, extractFunction(func) for k in keys
-  Help.add virtualKey ? key, func, extractFunction(func), 'c'
+  Help.add (virtualKey ? key), func, extractFunction(func), 'c'
 
 mapFunc = (key, func, virtualKey) ->
-  nmapFunc(key, func, virtualKey)
-  imapFunc(key, func, virtualKey)
+  nmapFunc key, func, virtualKey
+  imapFunc key, func, virtualKey
 
 nmapFunc '<F1>', 'Help.show'
 nmapFunc ':',    'CmdLine.start'

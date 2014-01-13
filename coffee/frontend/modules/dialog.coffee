@@ -24,7 +24,7 @@ class Dialog
     notice $(results[selected]).addClass(SELECTED_CLASS).find('a').trigger('onselect').attr('href')
 
     $(".#{QUICK_NUM}").remove()
-    maxNum = Math.min(9, results.length-1)
+    maxNum = Math.min(9, results.length - 1)
 
     for index in [0..maxNum]
       $(results[rabs(selected + index, results.length)]).prepend $('<span>', class: QUICK_NUM).text(index)
