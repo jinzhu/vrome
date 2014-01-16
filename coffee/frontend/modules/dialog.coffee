@@ -95,10 +95,9 @@ class Dialog
   handleInput = (e) =>
     key = getKey e
 
-    if key is '<Tab>' and tabFunc?.call '', e
-      KeyEvent.stopPropagation e
+    if key is '<Tab>'
+      tabFunc?.call '', e
     else if key of specialKeys
-      KeyEvent.stopPropagation e
       if key.match /<(?:C|M)-(\d)>/
         next Number(RegExp.$1)
         @openCurrent()

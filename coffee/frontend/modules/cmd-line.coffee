@@ -24,16 +24,12 @@ class CmdLine
 
   onTabFunc = (e) ->
     if CmdBox.get().selection?.length
-      CmdBox.softSet content: CmdBox.get().content, selectLast: true
-      return true
+      return CmdBox.softSet content: CmdBox.get().content, selectLast: true
 
     [title, contents] = [Dialog.current()?.attr('title') or '', CmdBox.get().content.split(' ')]
     if not title.startsWith contents[0]
       contents[0] = title
       CmdBox.softSet content: contents.join(' ').trim() + ' '
-      return true
-
-    false
 
   search = ->
     keyword = CmdBox.get()._content

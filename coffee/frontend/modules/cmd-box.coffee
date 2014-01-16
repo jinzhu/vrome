@@ -26,6 +26,8 @@ class CmdBox
     if typeof o.content is 'string'
       input = cmdBoxInput(force).val(o.content)
       input.unbind().keydown(o.pressDown).keyup(o.pressUp).select() if force
+      input.keydown (e) -> e.stopPropagation() # do not prevent default
+      input.keyup   (e) -> e.stopPropagation() # do not prevent default
       if typeof o.selection is 'string'
         [start, length] = [input.val().indexOf(o.selection), o.selection.length]
         input.prop selectionStart: start, selectionEnd: start + length

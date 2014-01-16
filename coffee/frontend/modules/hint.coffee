@@ -96,7 +96,6 @@ class Hint
     # If it is hint key
     if hintKeys().indexOf(currentKey) isnt -1 or (currentKey is '<BackSpace>' and @selected isnt 0)
       setCurrentKeys(if currentKey is '<BackSpace>' then @currentKeys[0..-2] else "#{@currentKeys}#{currentKey}")
-      KeyEvent.stopPropagation e
     else
       setTimeout delayToWaitKeyDown, 20 unless isEscapeKey currentKey
 

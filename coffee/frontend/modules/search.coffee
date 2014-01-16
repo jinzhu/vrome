@@ -26,7 +26,6 @@ class Search
 
   handleInput = (e) =>
     return unless searchMode
-    KeyEvent.stopPropagation e
     key = getKey e
     @removeHighlights() unless key is 'Enter' or isControlKey key
     lastSearch = CmdBox.get().content
