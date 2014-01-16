@@ -32,7 +32,7 @@ class Marks
         Dialog.draw urls: cuteMarks, keyword: ''
 
   @addQuickMark: ->
-    Dialog.start title: 'Add Quick Mark', search: filterQuickMarks, callback: handleAddMark
+    Dialog.start title: 'Add Quick Mark', search: filterQuickMarks, pressUp: handleAddMark
   desc @addQuickMark, 'Add new quick mark for current URL'
 
   @gotoQuickMarkNewTab: => @gotoQuickMark true

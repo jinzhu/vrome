@@ -12,8 +12,7 @@ class Search
     [searchMode, direction, originalX, originalY] = [true, offset, window.scrollX, window.scrollY]
 
     CmdBox.set
-      title: title(),
-      pressUp: handleInput, content: getSelected() or lastSearch or ''
+      title: title(), pressUp: handleInput, content: getSelected() or lastSearch or ''
   desc @start, 'Start forward search (with selected text)'
 
   @stop: =>

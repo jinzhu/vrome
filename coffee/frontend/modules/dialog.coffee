@@ -43,7 +43,7 @@ class Dialog
 
   @start: (o) ->
     [dialogMode, newTab, searchFunc, tabFunc] = [true, o.newTab, o.search, o.onTab]
-    CmdBox.set title: o.title, pressDown: handleInput, pressUp: o.callback, content: o.content ? ''
+    CmdBox.set title: o.title, pressDown: handleInput, pressUp: o.pressUp, content: o.content ? ''
     do callSearchFunc
 
   @stop: (force) ->
@@ -52,7 +52,7 @@ class Dialog
     dialogMode = false
 
   @draw: (msg) ->
-    return false unless dialogMode
+    return unless dialogMode
     sources = msg.urls or msg.sources
     searching = false
 
@@ -97,9 +97,7 @@ class Dialog
 
     if key is '<Tab>' and tabFunc?.call '', e
       KeyEvent.stopPropagation e
-      return
-
-    if key of specialKeys
+    else if key of specialKeys
       KeyEvent.stopPropagation e
       if key.match /<(?:C|M)-(\d)>/
         next Number(RegExp.$1)
@@ -108,12 +106,10 @@ class Dialog
       next()  if key is Option.get 'autocomplete_next'
       prev 10 if key is Option.get 'autocomplete_prev_10'
       next 10 if key is Option.get 'autocomplete_next_10'
-      return
-
-    if not isEscapeKey key
+    else if not isEscapeKey key
       clearTimeout @timeout
       @timeout = setTimeout callSearchFunc, 200
-      Dialog.draw searching: true
+      @draw searching: true
 
   callSearchFunc = ->
     searchFunc CmdBox.get().content

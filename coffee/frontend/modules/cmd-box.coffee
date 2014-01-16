@@ -4,14 +4,12 @@ class CmdBox
   cmdBoxTitle = (forceCreate=false) =>
     elems = $('#_vrome_cmd_box span')
     if forceCreate and elems.length is 0
-      elems.remove()
       @cmdBox().append $('<span>')
     $('#_vrome_cmd_box span')
 
   cmdBoxInput = (forceCreate=false) =>
     elems = $('#_vrome_cmd_box input')
     if forceCreate and elems.length is 0
-      elems.remove()
       @cmdBox().append $('<input>', id: INPUT_BOX_ID)
     $('#_vrome_cmd_box input')
 
@@ -27,7 +25,7 @@ class CmdBox
       cmdBoxTitle(force).unbind().html(o.title).mousedown(o.mouseOverTitle)
     if typeof o.content is 'string'
       input = cmdBoxInput(force).val(o.content)
-      input.unbind().keydown(o.pressDown).keyup(o.pressUp).keypress(o.pressPress).select() if force
+      input.unbind().keydown(o.pressDown).keyup(o.pressUp).select() if force
       if typeof o.selection is 'string'
         [start, length] = [input.val().indexOf(o.selection), o.selection.length]
         input.prop selectionStart: start, selectionEnd: start + length
@@ -38,7 +36,7 @@ class CmdBox
   @softSet: (o) =>
     @set o, false
 
-  @get: () ->
+  @get: ->
     input = cmdBoxInput()
     [content, start, end] = [input.val() or '', input.prop('selectionStart'), input.prop('selectionEnd')]
     _content = "#{content[0...start]}#{content[end..-1]}" # no_selection_content

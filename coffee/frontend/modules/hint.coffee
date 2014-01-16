@@ -160,7 +160,7 @@ class Hint
     '!':  invertFilter
 
   execCurrent = (elems=null) =>
-    CmdBox.set pressDown: null, content: ''
+    CmdBox.set content: ''
 
     elems ?= [@matched[Math.max(0, @selected-1)]]
 
@@ -169,7 +169,7 @@ class Hint
       tagName = $(elem).prop('tagName')?.toLowerCase()
       type = $(elem).prop('type')?.toLowerCase()
 
-      if $.isFunction(currentAction)
+      if $.isFunction currentAction
         @remove() # No multiMode for extend mode
         currentAction elem
       else

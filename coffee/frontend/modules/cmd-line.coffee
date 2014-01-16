@@ -5,7 +5,7 @@ class CmdLine
     commands[name] = {name, description: func?.description, func, hasArgs}
 
   @start: ->
-    Dialog.start title: 'Command-line', search: searchCommands, onTab: onTabFunc
+    Dialog.start title: 'Command-line', search: search, onTab: onTabFunc
   desc @start, 'Start command line'
 
   onClickFunc = (command) ->
@@ -35,7 +35,7 @@ class CmdLine
 
     false
 
-  searchCommands = () ->
+  search = ->
     keyword = CmdBox.get()._content
     cmd = keyword.split(' ').shift()
 
