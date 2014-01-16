@@ -15,7 +15,7 @@ String::trim = ->
   @replace(/^[\s\xA0]+/, '').replace(/[\s\xA0]+$/, '')
 
 String::isValidURL = ->
-  /https?|ftp|file:\/\//.test this
+  /(?:https?|ftp|file|chrome-extension):\/\//.test this
 
 String::trimFirst = (str) -> # String || Array
   if typeof str is 'string'

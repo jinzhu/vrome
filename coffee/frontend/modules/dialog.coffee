@@ -122,7 +122,7 @@ class Dialog
   @current: ->
     $(".#{SELECTED_CLASS} a")
 
-  @openCurrent: (keepOpen) => #Boolean
+  @openCurrent: (keepOpen) =>
     return setTimeout @openCurrent, 100, keepOpen if searching
     return false unless dialogMode
     clickElement @current(), ctrl: (keepOpen or newTab)

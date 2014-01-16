@@ -4,11 +4,11 @@ render = (elem, template) ->
     elem.html data
 
 # Switch tabs
-switchTab = (tab_name) ->
+switchTab = (tabName) ->
   $('nav #tabs li a').removeClass 'selected'
-  $("nav #tabs li a[href=#{tab_name}]").addClass 'selected'
+  $("nav #tabs li a[href=#{tabName}]").addClass 'selected'
   $('section .tabContent').hide()
-  $("#{tab_name}Content").show()
+  $("#{tabName}Content").show()
 
 # Render all partials
 renderPages = ->
