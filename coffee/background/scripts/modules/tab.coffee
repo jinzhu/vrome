@@ -175,7 +175,7 @@ class Tab
         chrome.tabs.reload tab.id for tab in tabs.reverse()
         return
     else
-      chrome.tabs.reload msg.tab.id, bypassCache: !!msg.bypassCache
+      chrome.tabs.reload msg.tab.id, bypassCache: (msg.bypassCache ? false)
 
   @togglePin: (msg) =>
     @update pinned: not msg.tab.pinned, tab: msg.tab

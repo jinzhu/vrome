@@ -54,7 +54,7 @@ imapFunc = (key, func, virtualKey) ->
 
 nmapFunc = (key, func, virtualKey) ->
   keys = if $.isArray key then key else [key]
-  KeyEvent.add k, extractFunction(func) for k in keys
+  KeyEvent.add k, extractFunction(func), false for k in keys
   Help.add (virtualKey ? key), func, extractFunction(func), 'n'
 
 cmapFunc = (key, func, virtualKey) ->

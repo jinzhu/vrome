@@ -53,7 +53,8 @@ root.clickElement = (elem, opt={}) ->
 
   for eventType in ['mousedown', 'mouseup', 'click']
     event = document.createEvent 'MouseEvents'
-    event.initMouseEvent eventType, true, true, window, 0, 0, 0, 0, 0, !!opt.ctrl, !!opt.alt, !!opt.shift, !!opt.meta, 0, null
+    event.initMouseEvent eventType, true, true, window, 0, 0, 0, 0, 0, (opt.ctrl ? false),
+      (opt.alt ? false), (opt.shift ? false), (opt.meta ? false), 0, null
     elem.dispatchEvent event
 
   # FIXME ctrl = false can't open url in current page

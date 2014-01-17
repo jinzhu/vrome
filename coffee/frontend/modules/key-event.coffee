@@ -11,7 +11,7 @@ class KeyEvent
       document.vromeEventListenerAdded = true
 
   @add: (keys, func, insertMode) ->
-    bindings.push [keys, func, !!insertMode]
+    bindings.push [keys, func, insertMode]
 
   @stopPropagation: (e) ->
     e.stopPropagation()
@@ -93,7 +93,7 @@ class KeyEvent
       count = RegExp.$1
       match = RegExp.$2
 
-      for [command, bindingFunction, mode] in bindings when !!insertMode is mode
+      for [command, bindingFunction, mode] in bindings when insertMode is mode
         # Run matched functions
         if match is command
           someFunctionCalled = true
