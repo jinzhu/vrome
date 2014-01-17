@@ -1,5 +1,5 @@
 class KeyEvent
-  [disableVrome, passNextKey, currentKeys, keyTimes, bindings] = [false, false, '', 0, []]
+  [disableVrome, passNextKey, currentKeys, keyTimes, bindings] = [false, false, '', 0, {}]
 
   @init: =>
     for disabledSite in Option.get('disablesites').split(', ')
@@ -11,7 +11,8 @@ class KeyEvent
       document.vromeEventListenerAdded = true
 
   @add: (keys, func, insertMode) ->
-    bindings.push [keys, func, insertMode]
+    bindings[keys] ?= []
+    bindings[keys][Number insertMode] = func
 
   @stopPropagation: (e) ->
     e.stopPropagation()
@@ -93,32 +94,34 @@ class KeyEvent
       count = RegExp.$1
       match = RegExp.$2
 
-      for [command, bindingFunction, mode] in bindings when insertMode is mode
-        # Run matched functions
-        if match is command
-          someFunctionCalled = true
+      bindingFunction = bindings[match]?[Number insertMode]
+      if bindingFunction?
+        # Run matched function
+        someFunctionCalled = true
 
-          # map j 3j
-          mapTimes = Number count
-          keyTimes = mapTimes * (keyTimes or 1) if mapTimes > 0
+        # map j 3j
+        mapTimes = Number count
+        keyTimes = mapTimes * (keyTimes or 1) if mapTimes > 0
 
-          try
-            bindingFunction.call e
-          catch err
-            Debug err
+        try
+          bindingFunction.call e
+        catch err
+          Debug err
 
-          keyTimes = lastTimes if mapTimes > 0
+        keyTimes = lastTimes if mapTimes > 0
+      else
+        # Check if there are any bindings that match
+        for command, modes of bindings when modes[Number insertMode]? and command.startsWith keys
+          someBindingMatched = true
+          break
 
-        # Check if there are any bindings matched
-        someBindingMatched = true if command.startsWith keys
-
-    showStatusLine currentKeys, keyTimes if someBindingMatched and not someFunctionCalled
+    showStatusLine currentKeys, keyTimes if not someFunctionCalled and someBindingMatched
     # If any function invoked, then store it to last run command.
     # (Don't do this when run repeat last command or In InsertMode)
     storeLast keys, keyTimes if someFunctionCalled and e and key isnt '.' and not insertMode
 
     # Reset currentKeys if nothing match or some function called
-    currentKeys = '' if not someBindingMatched or someFunctionCalled
+    currentKeys = '' if someFunctionCalled or not someBindingMatched
 
     # Set the count time
     keyTimes = (keyTimes or 0) * 10 + Number(key) if not someFunctionCalled and not insertMode and /^\d$/.test key
