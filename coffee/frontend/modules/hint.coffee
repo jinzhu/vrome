@@ -1,5 +1,5 @@
 class Hint
-  [newTab, multiMode, hintMode, elements, currentKey] = []
+  [newTab, multiMode, hintMode, elements] = []
   HINTABLE = 'a,textarea,select,button,area[href],input:not([type=hidden]),' +
     '*[onclick],*[onmouseover],[contenteditable],.js-new-tweets-bar,' +
     '[role=link],[role=checkbox],[role=button],[role=tab],[role=menubar]'
@@ -97,9 +97,9 @@ class Hint
     if hintKeys().indexOf(currentKey) isnt -1 or (currentKey is '<BackSpace>' and @selected isnt 0)
       setCurrentKeys(if currentKey is '<BackSpace>' then @currentKeys[0..-2] else "#{@currentKeys}#{currentKey}")
     else
-      setTimeout delayToWaitKeyDown, 20 unless isEscapeKey currentKey
+      setTimeout delayToWaitKeyDown, 20, currentKey unless isEscapeKey currentKey
 
-  delayToWaitKeyDown = =>
+  delayToWaitKeyDown = (currentKey) =>
     setMatched(elements.filter hintMatch)
 
     if isCtrlAcceptKey currentKey
