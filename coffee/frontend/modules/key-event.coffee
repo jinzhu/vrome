@@ -2,13 +2,10 @@ class KeyEvent
   [disableVrome, passNextKey, currentKeys, keyTimes, bindings] = [false, false, '', 0, {}]
 
   @init: =>
-    for disabledSite in Option.get('disablesites').split(', ')
-      continue if /^\s*$/.test disabledSite
+    for disabledSite in Option.get('disablesites').split(',') when disabledSite isnt ''
       @disable() if new RegExp(disabledSite, 'i').test(location.href)
 
-    unless document.vromeEventListenerAdded
-      document.addEventListener 'keydown', KeyEvent.exec, true
-      document.vromeEventListenerAdded = true
+    document.addEventListener 'keydown', KeyEvent.exec, true
 
   @add: (keys, func, insertMode) ->
     bindings[keys] ?= []
@@ -32,7 +29,7 @@ class KeyEvent
   @disable.options =
     disablesites:
       description: "Disable Vrome in those sites, Multiple URLs can be separated with ','"
-      example:     'set disablesites=mail.google.com, reader.google.com'
+      example:     'set disablesites=mail.google.com,reader.google.com'
     enable_vrome_key:
       description: 'Key to enable Vrome again'
       example:     'set enable_vrome_key=<Esc>'
@@ -73,13 +70,13 @@ class KeyEvent
     mode = if insertMode then 'iunmap' else 'unmap'
     configure?[mode]?[key]?
 
-  showStatusLine = (currentKeys, times) ->
-    if currentKeys and Option.get 'showstatus'
-      CmdBox.set title: "#{times or ''}#{currentKeys}", timeout: 500
+  showStatusLine = ->
+    if Option.get 'showstatus'
+      CmdBox.set title: "#{keyTimes or ''}#{currentKeys}", timeout: 500
 
   runCurrentKeys = (keys, insertMode, e) =>
     return unless keys
-    [key, lastTimes] = [(if e then getKey e else null), null]
+    key = if e then getKey e else null
 
     # when run last command, fix run time.
     if key is '.' and not insertMode
@@ -115,7 +112,7 @@ class KeyEvent
           someBindingMatched = true
           break
 
-    showStatusLine currentKeys, keyTimes if not someFunctionCalled and someBindingMatched
+    do showStatusLine if not someFunctionCalled and someBindingMatched
     # If any function invoked, then store it to last run command.
     # (Don't do this when run repeat last command or In InsertMode)
     storeLast keys, keyTimes if someFunctionCalled and e and key isnt '.' and not insertMode
@@ -124,7 +121,7 @@ class KeyEvent
     currentKeys = '' if someFunctionCalled or not someBindingMatched
 
     # Set the count time
-    keyTimes = (keyTimes or 0) * 10 + Number(key) if not someFunctionCalled and not insertMode and /^\d$/.test key
+    keyTimes = keyTimes * 10 + Number(key) if not someFunctionCalled and not insertMode and /^\d$/.test key
 
     # If some function invoked and a key pressed, reset the count
     # but don't reset it if no key pressed, this should means the function is invoked by runLastCommand.

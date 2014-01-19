@@ -31,14 +31,14 @@ class Settings
     local.get 'background', (obj) ->
       try
         settings['background'] = obj['background'] or JSON.parse(localStorage['__vrome_setting'] or '{}')
-        callback.call() if $.isFunction callback
+        callback?.call()
 
   syncRemote = ->
     syncToRemote = -> sync.set background: settings['background']
     setInterval syncToRemote, 1000 * 60
 
     settings['background'] ?= {}
-    sync.get 'background', (obj) -> $.extend(settings['background'], obj['background'])
+    sync.get 'background', (obj) -> $.extend settings['background'], obj['background']
 
   @init: (callback) ->
     syncRemote() if getKey() is 'background'
@@ -46,10 +46,10 @@ class Settings
     chrome.storage.onChanged.addListener syncLocal
 
   @add: (values) ->
-    localKey = getKey(arguments)
+    localKey = getKey arguments
     if $.isPlainObject values
       settings[localKey] ?= {}
-      $.extend(true, settings[localKey], values)
+      $.extend true, settings[localKey], values
     else
       [names, value, setting] = [arguments[0].trimFirst('@').split('.'), arguments[1], settings[localKey]]
       for name in names[0...-1]
@@ -62,7 +62,7 @@ class Settings
   @get: (names) ->
     try
       setting = settings
-      if names and (setting = setting[getKey(arguments)])
+      if names and (setting = setting[getKey arguments])
         (setting = setting[name]) for name in names.trimFirst('@').split('.')
       setting
 

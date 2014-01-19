@@ -31,9 +31,9 @@ class Vromerc
       else if method in ['unmap', 'iunmap']
         configs.push line
         settings[method][key] = true
-      else if method in ['set']
+      else if method is 'set'
         configs.push line
-        config = line.trimFirst(method)
+        config = line.trimFirst method
 
         settingKey   = config.split(/\+?=/)[0]
         settingValue = config.trimFirst(settingKey + '=').trimFirst(settingKey + '+=')

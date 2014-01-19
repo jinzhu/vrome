@@ -24,7 +24,7 @@ class Hint
       hintKey = numberToHintKey(index+1)
       className = 'normal'
       className = 'active' if hintKey is (@currentKeys or numberToHintKey(1)) # 1 is selected by default
-      className = 'hidden' if not hintKey.startsWith(@currentKeys) # hide those won't match
+      className = 'hidden' unless hintKey.startsWith @currentKeys # hide those won't match
       hintKey = $('<key>', text: @currentKeys).get(0).outerHTML + hintKey.trimFirst(@currentKeys) if @currentKeys
       # <span vrome_highlight='className'><key>A</key>E</span>
       span = $('<span>', vrome_highlight: className, html: hintKey)
@@ -38,7 +38,7 @@ class Hint
 
   setSelected = (@selected) =>
     freshHints()
-    CmdBox.set title: (if @selected > 0 then "#{title()} (#{numberToHintKey(@selected)})" else title())
+    CmdBox.set title: if @selected > 0 then "#{title()} (#{numberToHintKey(@selected)})" else title()
     setTimeout execCurrent, 200 if @selected * hintKeys().length > @matched.length
 
   setCurrentKeys = (@currentKeys) =>
@@ -85,7 +85,7 @@ class Hint
       example:     'set useletters=1'
 
   @remove: ->
-    return false unless hintMode
+    return unless hintMode
     CmdBox.remove()
     removeHighlightBox false
     hintMode = false
@@ -100,7 +100,7 @@ class Hint
       setTimeout delayToWaitKeyDown, 20, currentKey unless isEscapeKey currentKey
 
   delayToWaitKeyDown = (currentKey) =>
-    setMatched(elements.filter hintMatch)
+    setMatched elements.filter(hintMatch)
 
     if isCtrlAcceptKey currentKey
       execCurrent @matched
@@ -111,7 +111,7 @@ class Hint
 
   hintMatch = (elem) ->
     invert = getCurrentAction() is invertFilter
-    filter = CmdBox.get().content.trimFirst(key for key, value of subActions)
+    filter = CmdBox.get().content.trimFirst key for key of subActions # parens missing on purpose
     regexp = new RegExp filter, 'im'
 
     text = $(elem).val() or $(elem).text() or $(elem).attr('placeholder') or $(elem).attr('alt')
@@ -119,8 +119,8 @@ class Hint
     if invert and filter isnt '' then not match else match
 
   ## Sub Actions
-  getCurrentAction = (content) ->
-    actionName = (content or CmdBox.get().content).substring(0, 1)
+  getCurrentAction = ->
+    actionName = CmdBox.get().content.substring(0, 1)
     subActions[actionName]
 
   showElementInfo = (elem) ->
