@@ -1,10 +1,9 @@
 root = exports ? window
 
-root.Platform = {
+root.Platform =
   linux: navigator.userAgent.indexOf('Linux')   isnt -1
   mac:   navigator.userAgent.indexOf('Mac')     isnt -1
   win:   navigator.userAgent.indexOf('Windows') isnt -1
-}
 
 root.getSelected = -> window.getSelection().toString()
 
@@ -56,9 +55,5 @@ root.clickElement = (elem, opt={}) ->
     event.initMouseEvent eventType, true, true, window, 0, 0, 0, 0, 0, (opt.ctrl ? false),
       (opt.alt ? false), (opt.shift ? false), (opt.meta ? false), 0, null
     elem.dispatchEvent event
-
-  # FIXME ctrl = false can't open url in current page
-  # if (!!opt.ctrl is false) and $(elem).attr("href")?.match(/:\/\//)
-  #   Post action: "Tab.openUrl", url: $(elem).attr("href"), newTab: false
 
   elem.setAttribute 'target', oldTarget if oldTarget

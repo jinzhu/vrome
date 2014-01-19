@@ -3,7 +3,7 @@ class Command
 
   @reloadExtension: ->
     Post action: 'reloadExtension'
-  desc @reloadExtension, 'Reload All Extensions'
+  desc @reloadExtension, 'Reload Extension'
 
   @print: ->
     CmdBox.remove()

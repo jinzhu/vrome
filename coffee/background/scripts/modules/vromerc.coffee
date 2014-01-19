@@ -25,12 +25,9 @@ class Vromerc
       line = line.trim()
       [method, key, value] = line.split /\s+/
 
-      if method in ['imap', 'map', 'cmap']
+      if method.endsWith 'map'
         configs.push line
-        settings[method][key] = value
-      else if method in ['unmap', 'iunmap']
-        configs.push line
-        settings[method][key] = true
+        settings[method][key] = value ? true
       else if method is 'set'
         configs.push line
         config = line.trimFirst method
@@ -65,7 +62,7 @@ class Vromerc
 
   @loadOnline: () ->
     url = Settings.get 'onlineVromercUrl'
-    return false unless url
+    return unless url
 
     url = "http://#{url}" unless url.isValidURL()
 
