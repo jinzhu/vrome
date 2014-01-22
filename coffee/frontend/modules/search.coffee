@@ -1,5 +1,5 @@
 class Search
-  [searchMode, direction, lastSearch, nodes, originalX, originalY] = []
+  [searchMode, direction, lastSearch, nodes, originalX, originalY, lastPosition] = []
   [HIGHLIGHT_CLASS, HIGHLIGHT_CURRENT_ID] = ['__vrome_search_highlight', '__vrome_search_highlight_current']
 
   @backward: => @start -1
@@ -29,13 +29,14 @@ class Search
     key = getKey e
     @removeHighlights() unless key is 'Enter' or isControlKey key
     lastSearch = CmdBox.get().content
+    lastPosition = null
     find lastSearch
 
   find = (keyword) =>
     if keyword isnt ''
       $('body').highlight(keyword, className: HIGHLIGHT_CLASS)
       nodes = $(".#{HIGHLIGHT_CLASS}").filter (_, e) -> isElementVisible $(e), true
-      @next 0
+      @next((lastPosition or -1) + 1)
 
   @prev: => @next -1
   desc @prev, 'Search prev'
@@ -57,6 +58,7 @@ class Search
     currentNode = nodes.filter("##{HIGHLIGHT_CURRENT_ID}").removeAttr('id')
     currentIndex = Math.max 0, nodes.index(currentNode)
     gotoIndex = rabs(currentIndex + offset, nodes.length)
+    lastPosition = gotoIndex
     $(nodes[gotoIndex]).attr('id', HIGHLIGHT_CURRENT_ID).get(0)?.scrollIntoViewIfNeeded()
 
     # show notification that search has wrapped around
