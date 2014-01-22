@@ -12,12 +12,13 @@ class Search
     [searchMode, direction, originalX, originalY] = [true, offset, window.scrollX, window.scrollY]
 
     CmdBox.set
-      title: title(), pressUp: handleInput, content: getSelected() or lastSearch or ''
+      title: title(), pressUp: handleInput, content: getSelected() or lastSearch?.text or ''
   desc @start, 'Start forward search (with selected text)'
 
   @stop: =>
     return unless searchMode
     searchMode = false
+    scrollTo originalX, originalY if CmdBox.isActive()
     CmdBox.remove()
     @removeHighlights()
 
@@ -28,15 +29,17 @@ class Search
     return unless searchMode
     key = getKey e
     @removeHighlights() unless key is 'Enter' or isControlKey key
-    lastSearch = CmdBox.get().content
-    lastPosition = null
-    find lastSearch
+    lastSearch =
+      text:      CmdBox.get().content
+      position:  0
+      direction: direction
+    find lastSearch.text
 
   find = (keyword) =>
-    if keyword isnt ''
-      $('body').highlight(keyword, className: HIGHLIGHT_CLASS)
-      nodes = $(".#{HIGHLIGHT_CLASS}").filter (_, e) -> isElementVisible $(e), true
-      @next((lastPosition or -1) + 1)
+    return scrollTo originalX, originalY if keyword is ''
+    $('body').highlight(keyword, className: HIGHLIGHT_CLASS)
+    nodes = $(".#{HIGHLIGHT_CLASS}").filter (_, e) -> isElementVisible $(e), true
+    @next lastSearch.position
 
   @prev: => @next -1
   desc @prev, 'Search prev'
@@ -45,12 +48,16 @@ class Search
     CmdBox.set title: 'Nothing found'
     scrollTo originalX, originalY
 
+  repeatSearch = (step) =>
+    return if not lastSearch or lastSearch.text is ''
+    # TODO: show notification on search wrap
+    @start lastSearch.direction
+    lastSearch.position += step
+    find lastSearch.text
+    InsertMode.blurFocus()
+
   @next: (step=1) =>
-    if not searchMode
-      return if not lastSearch or lastSearch is ''
-      @start step
-      find lastSearch
-      return InsertMode.blurFocus()
+    return repeatSearch step unless searchMode
     return onNothingFound() if nodes.length is 0
 
     offset = direction * step * times()
@@ -58,7 +65,7 @@ class Search
     currentNode = nodes.filter("##{HIGHLIGHT_CURRENT_ID}").removeAttr('id')
     currentIndex = Math.max 0, nodes.index(currentNode)
     gotoIndex = rabs(currentIndex + offset, nodes.length)
-    lastPosition = gotoIndex
+    lastSearch.position = gotoIndex
     $(nodes[gotoIndex]).attr('id', HIGHLIGHT_CURRENT_ID).get(0)?.scrollIntoViewIfNeeded()
 
     # show notification that search has wrapped around

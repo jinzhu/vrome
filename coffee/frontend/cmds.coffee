@@ -34,11 +34,11 @@ root.CtrlAcceptKeyFunction = ->
 
 root.CancelKeyFunction = ->
   Hint.remove()
-  InsertMode.blurFocus()
-  KeyEvent.reset()
   Search.stop()
   Dialog.stop true
   Buffer.reset()
+  InsertMode.blurFocus()
+  KeyEvent.reset()
   CmdBox.remove()
   Help.hide true
 desc root.CancelKeyFunction, 'Cancel Actions'
