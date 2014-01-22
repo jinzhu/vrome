@@ -9,7 +9,7 @@ try
   Settings.init ->
     do KeyEvent.init
     $ ->
-      func.call() for func in [Zoom.init, Custom.runJS, Custom.loadCSS]
+      func.call() for func in [Mouse.init, Zoom.init, Custom.runJS, Custom.loadCSS]
       return
 catch err
   Debug err

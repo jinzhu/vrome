@@ -1,9 +1,15 @@
 class Search
-  [searchMode, direction, lastSearch, nodes, originalX, originalY, lastPosition] = []
+  [searchMode, direction, lastSearch, nodes, originalX, originalY, justClickedPosition] = []
   [HIGHLIGHT_CLASS, HIGHLIGHT_CURRENT_ID] = ['__vrome_search_highlight', '__vrome_search_highlight_current']
 
   @backward: => @start -1
   desc @backward, 'Start backward search (with selected text)'
+
+  @onMouseClick: (e) ->
+    return unless searchMode
+    justClickedPosition = x: e.pageX, y: e.pageY
+
+  Mouse.addOnClickHandler @onMouseClick
 
   title = ->
     if direction > 0 then 'Forward search: /' else 'Backward search: ?'
@@ -70,7 +76,31 @@ class Search
 
     currentNode = nodes.filter("##{HIGHLIGHT_CURRENT_ID}").removeAttr('id')
     currentIndex = Math.max 0, nodes.index(currentNode)
-    gotoIndex = rabs(currentIndex + offset, nodes.length)
+
+    if justClickedPosition
+      if step > 0
+        index = 0
+        while index < nodes.length
+          nodeOffset = $(nodes[index]).offset()
+          break if nodeOffset.top > justClickedPosition.y or
+            (nodeOffset.top is justClickedPosition.y and
+            nodeOffset.left >= justClickedPosition.x)
+          index++
+      else
+        index = nodes.length - 1
+        while index >= 0
+          nodeOffset = $(nodes[index]).offset()
+          break if nodeOffset.top < justClickedPosition.y or
+            (nodeOffset.top is justClickedPosition.y and
+            nodeOffset.left <= justClickedPosition.x)
+          index--
+
+      gotoIndex = if index is nodes.length then 0 else index
+
+      justClickedPosition = null
+    else
+      gotoIndex = rabs(currentIndex + offset, nodes.length)
+
     lastSearch.position = gotoIndex
     $(nodes[gotoIndex]).attr('id', HIGHLIGHT_CURRENT_ID).get(0)?.scrollIntoViewIfNeeded()
 
