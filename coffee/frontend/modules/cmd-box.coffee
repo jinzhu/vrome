@@ -5,20 +5,25 @@ class CmdBox
     elems = $("##{BOX_ID} span")
     if forceCreate and elems.length is 0
       @cmdBox().append $('<span>')
-    $("##{BOX_ID} span")
+      elems = $("##{BOX_ID} span")
+    elems
 
   cmdBoxInput = (forceCreate) =>
     elems = $("##{BOX_ID} input")
     if forceCreate and elems.length is 0
       @cmdBox().append $('<input>', id: INPUT_BOX_ID)
-    $("##{BOX_ID} input")
+      elems = $("##{BOX_ID} input")
+    elems
 
   @isActive: ->
     document.activeElement?.id is INPUT_BOX_ID
 
   @cmdBox: ->
-    $('body').prepend $('<div>', id: BOX_ID) if $("##{BOX_ID}").length is 0
-    $("##{BOX_ID}").attr 'rand_id', Math.random().toString()
+    box = $("##{BOX_ID}")
+    if box.length is 0
+      box = $('<div>', id: BOX_ID)
+      $('body').prepend box
+    box
 
   @set: (o, forceCreate=true) =>
     if typeof o.title is 'string'
@@ -33,7 +38,7 @@ class CmdBox
         input.prop selectionStart: start, selectionEnd: start + length
       else if o.selectLast
         input.prop selectionStart: input.val().length
-    setTimeout @remove, Number(o.timeout), @cmdBox().attr('rand_id') if o.timeout
+    setTimeout @remove, Number(o.timeout) if o.timeout
 
   @softSet: (o) =>
     @set o, false
@@ -45,10 +50,11 @@ class CmdBox
     argument = content.split(' ')[1..-1].join(' ')
     {title: cmdBoxTitle(false).html() or '', content, selection: content[start..end], _content, argument}
 
-  @remove: (randId=null) ->
-    (if randId then $("##{BOX_ID}").filter("[rand_id='#{randId}']") else $("##{BOX_ID}")).unbind().remove()
+  @remove: ->
+    $("##{BOX_ID}").unbind().remove()
 
-  @blur: -> cmdBoxInput(false)?.blur()
+  @blur: ->
+    cmdBoxInput(false).blur()
 
 root = exports ? window
 root.CmdBox = CmdBox
