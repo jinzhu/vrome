@@ -38,7 +38,13 @@ class Search
   find = (keyword) =>
     return scrollTo originalX, originalY if keyword is ''
     $('body').highlight(keyword, className: HIGHLIGHT_CLASS)
-    nodes = $(".#{HIGHLIGHT_CLASS}").filter (_, e) -> isElementVisible $(e), true
+    nodes = $(".#{HIGHLIGHT_CLASS}").filter((_, e) -> isElementVisible $(e), true).
+      sort (a, b) ->
+        offsetA = $(a).offset()
+        offsetB = $(b).offset()
+        topDifference = offsetA.top - offsetB.top
+        return topDifference if topDifference isnt 0
+        return offsetA.left - offsetB.left
     @next lastSearch.position
 
   @prev: => @next -1
