@@ -8,7 +8,7 @@ class Frame
       document.body.scrollIntoViewIfNeeded()
       document.body.style.border = '5px solid yellow'
       setTimeout (-> document.body.style.border = originalBorder), 200
-      code = "CmdBox.set({ title : 'Switched Frame To:#{document.location.href}',timeout : 2000});"
+      code = "CmdBox.set({title: 'Switched Frame To:#{document.location.href}', timeout: 2000});"
       Post {action: 'runScript', code}
 
   @next: -> Post action: 'Frame.next', count: times()

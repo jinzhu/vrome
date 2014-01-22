@@ -5,17 +5,17 @@ class Search
   @backward: => @start -1
   desc @backward, 'Start backward search (with selected text)'
 
-  @onMouseClick: (e) ->
+  onMouseClick = (e) ->
     return unless searchMode
     justClickedPosition = x: e.pageX, y: e.pageY
 
-  Mouse.addOnClickHandler @onMouseClick
+  Mouse.addOnClickHandler onMouseClick
 
   title = ->
     if direction > 0 then 'Forward search: /' else 'Backward search: ?'
 
   @start: (offset=1) ->
-    [searchMode, direction, originalX, originalY] = [true, offset, window.scrollX, window.scrollY]
+    [searchMode, direction, originalX, originalY, justClickedPosition] = [true, offset, window.scrollX, window.scrollY]
 
     CmdBox.set
       title: title(), pressUp: handleInput, content: getSelected() or lastSearch?.text or ''
