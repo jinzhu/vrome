@@ -67,3 +67,12 @@ Features:
 NO AVAILABLE API:
   ~   Open home directory
   gh  goto home page
+
+Others:
+  unmaps shouldn't be saved - i.e. it could be an optimization to just remove mappings
+  Should not focus first input field!
+  Select specific frame on click so it can be scrolled.
+  Google groups don't work - cannot be scrolled.
+  Save history typed in Dialog and move through it with Up and Down.
+  Ability to start dialog (e.g. tabnew) with something written in it (like "google ").
+  When CmdBox is open, "gg" (or any multi-key mapping) closes it while it shouldn't.
