@@ -23,11 +23,11 @@ class Command
   @imagesOnly: ->
     div = $('[__vrome_images]')
     if div.length > 0
-      toggleHiddenElems $('body').children(), div.remove()
+      toggleHiddenElems $body.children(), div.remove()
     else
       images = $('img').filter((_, e) -> isElementVisible $(e), true).clone()
-      toggleHiddenElems [], $('body').children()
-      $('body').append $('<div>', __vrome_images: '1').append(images)
+      toggleHiddenElems [], $body.children()
+      $body.append $('<div>', __vrome_images: '1').append(images)
   desc @imagesOnly, 'Only show images, run again to rollback'
 
   @javascript: ->
@@ -40,7 +40,9 @@ class Command
 
   @css: ->
     div = $('style[__vrome_style]')
-    $('body').append(div = $('<style>', __vrome_style: 1)) if div.length is 0
+    if div.length is 0
+      div = $('<style>', __vrome_style: 1)
+      $body.append div
     div.text(div.text() + '\n' + CmdBox.get().argument)
   desc @css, 'Add css styles'
 

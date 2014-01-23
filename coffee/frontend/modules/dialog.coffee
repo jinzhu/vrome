@@ -5,9 +5,11 @@ class Dialog
     ['__vrome_search_result', '__vrome_selected', '__vrome_quick_num', '__vrome_dialog_notice', '__vrome_dialog']
 
   dialogBox = ->
-    if $("##{VROME_DIALOG}").length is 0
-      $('body').prepend $('<div>', id: VROME_DIALOG, style: "bottom: #{CmdBox.cmdBox().outerHeight()}px")
-    $("##{VROME_DIALOG}")
+    dialog = $("##{VROME_DIALOG}")
+    if dialog.length is 0
+      dialog = $('<div>', id: VROME_DIALOG, style: "bottom: #{CmdBox.cmdBox().outerHeight()}px")
+      $body.prepend dialog
+    dialog
 
   setResultBox = (results, append=false) ->
     $(".#{SEARCH_RESULT}").remove() unless append
@@ -35,11 +37,27 @@ class Dialog
 
   notice = (msg) ->
     cmdBox = $(CmdBox.cmdBox())
-    if $("##{NOTICE_ID}").length is 0
+    notice = $("##{NOTICE_ID}")
+    if notice.length is 0
       # 12 = padding-left (10) + border (1) x 2
-      style = "right: #{cmdBox.outerWidth()}px; height:#{cmdBox.outerHeight()}px; line-height:#{cmdBox.outerHeight()}px; width: #{dialogBox().outerWidth() - cmdBox.outerWidth() - 12}px"
-      $('body').prepend $('<div>', id: NOTICE_ID, style: style)
-    $("##{NOTICE_ID}").text(msg)
+      style = "right: #{cmdBox.outerWidth()}px; " +
+        "height:#{cmdBox.outerHeight()}px; " +
+        "line-height:#{cmdBox.outerHeight()}px; " +
+        "width: #{dialogBox().outerWidth() - cmdBox.outerWidth() - 12}px"
+
+      notice = $('<div>', id: NOTICE_ID, style: style)
+      $body.prepend notice
+    notice.text(msg)
+
+  buildResult = (s, href) ->
+    onClick = (e) ->
+      KeyEvent.stopPropagation e
+      if not s.onClick?.call '', e
+        Post action: 'Tab.openUrl', url: href, newTab: e.ctrlKey
+
+    title = if s.title then "#{s.title} -- " else ''
+    description = "#{title}#{s.description ? s.url}"
+    $('<a>', href: href ? '#', title: s.title, text: description, click: onClick).bind('onselect', s.onSelect)
 
   @start: (o) ->
     [dialogMode, newTab, searchFunc, tabFunc] = [true, o.newTab, o.search, o.onTab]
@@ -56,28 +74,19 @@ class Dialog
     sources = msg.urls or msg.sources
     searching = false
 
-    if msg.searching
+    results = if msg.searching
       searching = true
-      setResultBox [$('<div>').html('Searching...')]
+      [$('<div>').html('Searching...')]
     else if sources.length is 0
-      setResultBox [$('<div>').html('No results found!')]
+      [$('<div>').html('No results found!')]
     else
-      buildResult = (s, href) ->
-        onClick = (e) ->
-          KeyEvent.stopPropagation e
-          if not s.onClick?.call '', e
-            Post action: 'Tab.openUrl', url: href, newTab: e.ctrlKey
-
-        title = if s.title then "#{s.title} -- " else ''
-        description = "#{title}#{s.description ? s.url}"
-        $('<a>', href: href ? '#', title: s.title, text: description, click: onClick).bind('onselect', s.onSelect)
-
-      results = for source in sources
+      for source in sources
         if $.isArray source.url
           buildResult source, url for url in source.url
         else
           buildResult source, source.url
-      setResultBox results
+
+    setResultBox results
 
   next = (direction=1) ->
     setSelected rabs(selected + direction, $(".#{SEARCH_RESULT}").length)

@@ -2,7 +2,7 @@ class Mouse
   onClickHandlers = []
 
   @init: =>
-    $('body').on('click', onClick)
+    $body.on('click', onClick)
 
   @addOnClickHandler: (func) ->
     onClickHandlers.push func

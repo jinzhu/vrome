@@ -9,6 +9,7 @@ try
   Settings.init ->
     do KeyEvent.init
     $ ->
+      root.$body = $('body')
       func.call() for func in [Mouse.init, Zoom.init, Custom.runJS, Custom.loadCSS]
       return
 catch err

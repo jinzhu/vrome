@@ -29,7 +29,7 @@ class Search
     @removeHighlights()
 
   @removeHighlights: ->
-    $('body').unhighlight(className: HIGHLIGHT_CLASS)
+    $body.unhighlight(className: HIGHLIGHT_CLASS)
 
   handleInput = (e) =>
     return unless searchMode
@@ -43,7 +43,7 @@ class Search
 
   find = (keyword) =>
     return scrollTo originalX, originalY if keyword is ''
-    $('body').highlight(keyword, className: HIGHLIGHT_CLASS)
+    $body.highlight(keyword, className: HIGHLIGHT_CLASS)
     nodes = $(".#{HIGHLIGHT_CLASS}").filter((_, e) -> isElementVisible $(e), true).
       sort (a, b) ->
         offsetA = $(a).offset()

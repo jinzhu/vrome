@@ -7,7 +7,7 @@ class Custom
   @runJS: ->
     customJS = Settings.get '@configure.js'
     if customJS
-      $('body').append $('<script>', class: '__vrome_custom_js', text: customJS)
+      $body.append $('<script>', class: '__vrome_custom_js', text: customJS)
 
 root = exports ? window
 root.Custom = Custom
