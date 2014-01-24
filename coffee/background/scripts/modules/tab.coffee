@@ -122,7 +122,7 @@ class Tab
   @move: (msg) ->
     direction = if msg.direction is 'left' then -1 else 1
 
-    chrome.tabs.query {windowId: msg.tab.windowId}, (tabs) ->
+    chrome.tabs.query windowId: msg.tab.windowId, (tabs) ->
       # ensure index in 0..tabs.length
       newIndex = (msg.tab.index + msg.count * direction) % tabs.length
       chrome.tabs.move msg.tab.id, index: newIndex
@@ -205,18 +205,23 @@ class Tab
       Window.moveTabToWindowWithIncognito msg.tab, incognito, (tab) ->
         chrome.tabs.remove tab.id
 
-  @markForMerging: (msg) ->
-    chrome.tabs.query windowId: msg.tab.windowId, (tabs) ->
-      tabs = [msg.tab] unless msg.all
-      for tab in tabs
-        index = markedTabs.indexOf tab.id
-        if index isnt -1
-          markedTabs.splice(index, 1)
-        else if tab.url
-          markedTabs.push tab.id
+  markTabs = (msg, tabs) ->
+    for tab in tabs
+      index = markedTabs.indexOf tab.id
+      if index isnt -1
+        markedTabs.splice(index, 1)
+      else if tab.url
+        markedTabs.push tab.id
 
-      title = "#{markedTabs.length} Tab(s) marked"
-      Post msg.tab, {action: 'CmdBox.set', title, timeout: 4000}
+    title = "#{markedTabs.length} Tab(s) marked"
+    Post msg.tab, {action: 'CmdBox.set', title, timeout: 4000}
+
+  @markForMerging: (msg) ->
+    if msg.all
+      chrome.tabs.query windowId: msg.tab.windowId, (tabs) ->
+        markTabs msg, tabs
+    else
+      markTabs msg, [msg.tab]
 
   @mergeMarkedTabs: (msg) ->
     return if markedTabs.length is 0

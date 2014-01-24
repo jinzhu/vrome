@@ -35,7 +35,8 @@ class Tab
     Post action: 'Tab.duplicate', count: times()
   desc @duplicate, 'Duplicate {count} current tab'
 
-  @detach: -> Post action: 'Tab.detach'
+  @detach: ->
+    Post action: 'Tab.detach'
   desc @detach, 'Detach current tab to a new window'
 
   @toggleIncognito: ->
@@ -46,10 +47,12 @@ class Tab
     Post $.extend(option, action: 'Tab.markForMerging')
   desc @markForMerging, 'Mark/unmark current tab for merging (can mark multiple tabs)'
 
-  @markAllForMerging: => @markForMerging all: true
+  @markAllForMerging: =>
+    @markForMerging all: true
   desc @markAllForMerging, 'Marks all tabs in current window for merging'
 
-  @mergeMarkedTabs: -> Post action: 'Tab.mergeMarkedTabs'
+  @mergeMarkedTabs: ->
+    Post action: 'Tab.mergeMarkedTabs'
   desc @mergeMarkedTabs, 'Merge marked tab(s) to current window'
 
   @selectPrevious: ->

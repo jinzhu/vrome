@@ -47,7 +47,7 @@ class Dialog
 
       notice = $('<div>', id: NOTICE_ID, style: style)
       $body.prepend notice
-    notice.text(msg)
+    notice.text msg
 
   buildResult = (s, href) ->
     onClick = (e) ->

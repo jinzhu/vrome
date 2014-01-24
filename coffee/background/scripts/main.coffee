@@ -28,7 +28,9 @@ root.openOrSelectUrl = (msg) ->
   chrome.tabs.query windowId: chrome.windows.WINDOW_ID_CURRENT, (tabs) ->
     for tab in tabs
       return chrome.tabs.update tab.id, active: true if tab.url is msg.url
-      msg.tab = tab if tab.active
+      if tab.active
+        msg.tab = tab
+        break
     Tab.openUrl msg
 
 window.addEventListener 'error', ((err) -> Debug err), false

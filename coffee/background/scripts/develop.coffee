@@ -6,11 +6,10 @@ root = exports ? window
 
 root.reloadExtension = ->
   chrome.tabs.query url: 'chrome://extensions-frame/', (tabs) ->
-    if tab = tabs[0]
-      chrome.tabs.reload tab.id, bypassCache: true
+    if tabs.length > 0
+      chrome.tabs.reload tabs[0].id, bypassCache: true
     else
       chrome.tabs.create url: 'chrome://extensions-frame/', active: false, pinned: true
-      reloadExtension()
 
 checkReloadExtension = ->
   $.post(getLocalServerUrl(), JSON.stringify(method: 'get_latest_version')).success (response) ->

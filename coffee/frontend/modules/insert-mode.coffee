@@ -61,7 +61,8 @@ class InsertMode
   desc @moveToFirstOrSelectAll, 'Move to first word or select all'
 
   @moveToEnd: ->
-    currentElement()?.setSelectionRange value.length, value.length
+    elem = currentElement()
+    elem?.setSelectionRange value.length, value.length
   desc @moveToEnd, 'Move to end'
 
   @moveToBeginCurrentLine: ->
@@ -95,7 +96,7 @@ class InsertMode
   @deleteBackwardChar: ->
     elem = currentElement()
     elem.value = value.substr(0, caretPosition - 1) + value.substr(caretPosition)
-    elem?.setSelectionRange caretPosition - 1, caretPosition - 1
+    elem?.setSelectionRange(caretPosition - 1, caretPosition - 1)
   desc @deleteBackwardChar, 'Delete backward char. <M-(yuio)> for delete back/forward a word/char'
 
   @deleteBackwardWord: ->
