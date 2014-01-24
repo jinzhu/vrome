@@ -13,7 +13,6 @@ root.checkNewVersion = ->
     openOptions 'changelog' if Settings.get('version') isnt data.version
     Settings.add version: data.version
 
-root.openHelpWebsite = -> openOrSelectUrl 'https://github.com/jinzhu/vrome#readme'
 root.openChromeStore = -> openOrSelectUrl 'https://chrome.google.com/webstore/detail/godjoomfiimiddapohpmfklhgmbfffjj/details'
 root.openIssuesPage  = -> openOrSelectUrl 'https://github.com/jinzhu/vrome/issues'
 root.openSourcePage  = -> openOrSelectUrl 'https://github.com/jinzhu/vrome'
@@ -21,17 +20,15 @@ root.openOptions = (params) ->
   url = "background/options.html#{if params then "##{params}" else ''}"
   openOrSelectUrl chrome.extension.getURL(url)
 
-root.openOrSelectUrl = (msg) ->
-  if typeof msg is 'string'
-    msg = url: msg, newTab: true, active: true
+openOrSelectUrl = (url) ->
+  msg = url: url, newTab: true, active: true
 
-  chrome.tabs.query windowId: chrome.windows.WINDOW_ID_CURRENT, (tabs) ->
-    for tab in tabs
-      return chrome.tabs.update tab.id, active: true if tab.url is msg.url
-      if tab.active
-        msg.tab = tab
-        break
-    Tab.openUrl msg
+  chrome.tabs.query url: msg.url, (tabs) ->
+    return chrome.tabs.update tabs[0].id, active: true if tabs.length > 0
+    chrome.tabs.query active: true, (tabs) ->
+      msg.tab = tabs[0]
+      Tab.openUrl msg
 
 window.addEventListener 'error', ((err) -> Debug err), false
+
 Settings.init checkNewVersion
