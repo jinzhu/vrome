@@ -54,7 +54,7 @@ class Search
     @next lastSearch.position
 
   @prev: => @next -1
-  desc @prev, 'Search prev'
+  desc @prev, 'Find previous'
 
   onNothingFound = ->
     CmdBox.set title: 'Nothing found'
@@ -112,7 +112,7 @@ class Search
     else
       title()
     CmdBox.set title: cmdBoxTitle
-  desc @next, 'Search next'
+  desc @next, 'Find next'
 
   @openCurrentNewTab: => @openCurrent true
   desc @openCurrentNewTab, 'Open selected element in a new tab'

@@ -58,7 +58,7 @@ class InsertMode
   # Move <(C|M)-(a|e)>
   @moveToFirstOrSelectAll: ->
     currentElement()?.setSelectionRange 0, (if caretPosition is 0 then value.length else 0)
-  desc @moveToFirstOrSelectAll, 'Move to first words or select all'
+  desc @moveToFirstOrSelectAll, 'Move to first word or select all'
 
   @moveToEnd: ->
     currentElement()?.setSelectionRange value.length, value.length
@@ -160,7 +160,7 @@ class InsertMode
   desc @externalEditor, 'Launch the external editor'
   @externalEditor.options =
     editor:
-      description: "Set editor command,default 'editor' is 'gvim -f'"
+      description: "Set editor command, default is 'gvim -f'"
       example:     'set editor=gvim -f'
 
 root = exports ? window

@@ -1,5 +1,5 @@
 class Editor
-  code = "CmdBox.set({title: 'Failed to open external Editor, Please check Vrome WIKI opened in new tab for how to do', timeout: 15000});"
+  code = "CmdBox.set({title: 'Failed to open external Editor, Please check Vrome WIKI opened in a new tab for how to do', timeout : 15000});"
 
   @open: (msg) ->
     params = JSON.stringify

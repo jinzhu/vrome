@@ -68,7 +68,7 @@ class Hint
   desc @multiModeStart, 'Same as `f`, but could open multiple links'
 
   @newTabStart: => @start true, false
-  desc @newTabStart, 'Same as `f`, but open in new tabs'
+  desc @newTabStart, 'Same as `f`, but open in a new tab'
 
   @start: (new_tab, multi_mode) =>
     [hintMode, newTab, multiMode] = [true, new_tab, multi_mode]
@@ -81,7 +81,7 @@ class Hint
       description: 'Keys used to generate hints'
       example:     'set hintkeys=jlkhfsdagwerui'
     useletters:
-      description: 'Use letters or numbers to generate hints, if equal 0, then hintkeys will be ignored'
+      description: 'Use letters or numbers to generate hints; if equal 0, then hintkeys will be ignored'
       example:     'set useletters=1'
 
   @remove: ->

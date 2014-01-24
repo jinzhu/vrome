@@ -28,13 +28,13 @@ class KeyEvent
   desc @disable, 'Disable Vrome'
   @disable.options =
     disablesites:
-      description: "Disable Vrome in those sites, Multiple URLs can be separated with ','"
+      description: "Disable Vrome in those sites. Multiple URLs can be separated with ','"
       example:     'set disablesites=mail.google.com,reader.google.com'
     enable_vrome_key:
       description: 'Key to enable Vrome again'
       example:     'set enable_vrome_key=<Esc>'
     show_disabled_text:
-      description: 'Show Vrome Disabled text or not, You could also know this from the Action Icon'
+      description: 'Show Vrome Disabled text or not. You could also know this from the Action Icon'
       example:     'set show_disable_text=0'
 
   @passNextKey: ->

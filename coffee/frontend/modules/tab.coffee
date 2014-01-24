@@ -21,7 +21,7 @@ class Tab
 
   @reloadWithoutCache: =>
     @reload bypassCache: true
-  desc @reloadWithoutCache, 'Reload (no cache)'
+  desc @reloadWithoutCache, 'Reload current tab (no cache)'
 
   @reloadAll: =>
     @reload reloadAll: true
@@ -38,12 +38,13 @@ class Tab
   @detach: -> Post action: 'Tab.detach'
   desc @detach, 'Detach current tab to a new window'
 
-  @toggleIncognito: -> Post action: 'Tab.toggleIncognito'
-  desc @toggleIncognito, 'Toggle incognito mode for current tab (need to enable Vrome in incognito mode)'
+  @toggleIncognito: ->
+    Post action: 'Tab.toggleIncognito'
+  desc @toggleIncognito, 'Toggle incognito mode for current tab (Vrome should be enabled in incognito mode)'
 
   @markForMerging: (option={}) ->
-    Post $.extend option, action: 'Tab.markForMerging'
-  desc @markForMerging, 'Toggle marks current tab for merging (can mark multiple tabs)'
+    Post $.extend(option, action: 'Tab.markForMerging')
+  desc @markForMerging, 'Mark/unmark current tab for merging (can mark multiple tabs)'
 
   @markAllForMerging: => @markForMerging all: true
   desc @markAllForMerging, 'Marks all tabs in current window for merging'
@@ -80,7 +81,7 @@ class Tab
 
   @close: (option={}) ->
     Post $.extend option, action: 'Tab.close', count: times(true)
-  desc @close, 'Quit current tab'
+  desc @close, 'Close current tab'
 
   @closeAndFoucsLast: =>
     @close focusLast: true

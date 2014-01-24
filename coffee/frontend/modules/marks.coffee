@@ -6,7 +6,7 @@ class Marks
     localMarks[key] = [window.scrollX, window.scrollY, location.href]
     Settings.add settingKey, localMarks
     CmdBox.set title: "Added Local Mark #{key}", timeout: 1000
-  desc @addLocalMark, 'Mark position x,y on the page e.g ma'
+  desc @addLocalMark, "Mark position x,y on the page: e.g 'ma'"
 
   @gotoLocalMark: ->
     key = getKey this
@@ -20,7 +20,7 @@ class Marks
         scrollTo position[0], position[1]
     else
       CmdBox.set title: "Mark #{key} not set", timeout: 1000
-  desc @gotoLocalMark, "Go to marked position on the page e.g 'a"
+  desc @gotoLocalMark, "Go to marked position on the page: e.g 'a"
 
   filterQuickMarks = (newTab) ->
     (keyword) ->
@@ -33,10 +33,10 @@ class Marks
 
   @addQuickMark: ->
     Dialog.start title: 'Add Quick Mark', search: filterQuickMarks, pressUp: handleAddMark
-  desc @addQuickMark, 'Add new quick mark for current URL'
+  desc @addQuickMark, 'Add new quick mark for the current URL'
 
   @gotoQuickMarkNewTab: => @gotoQuickMark true
-  desc @gotoQuickMarkNewTab, 'Same as `go`, but open in new tab (support Dialog extend mode)'
+  desc @gotoQuickMarkNewTab, 'Same as `go`, but open in a new tab (support Dialog extend mode)'
 
   @gotoQuickMark: (newTab) ->
     title = if newTab then 'Open Quick Mark (new tab)' else 'Open Quick Mark'

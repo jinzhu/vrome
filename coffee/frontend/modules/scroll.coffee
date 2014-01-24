@@ -8,10 +8,10 @@ class Scroll
   desc @bottom, 'Scroll to the bottom of the page'
 
   @first: -> scrollTo 0, window.scrollY if times(true, true) is 0
-  desc @first, 'Scroll to the left of the page'
+  desc @first, 'Scroll to the leftmost of the page'
 
   @last: -> scrollTo document.body.scrollWidth, window.scrollY
-  desc @last, 'Scroll to the right of the page'
+  desc @last, 'Scroll to the rightmost of the page'
 
   @up: -> scrollBy 0, times() * -VERTICAL_MOMENT
   desc @up, 'Scroll up'

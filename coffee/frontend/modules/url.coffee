@@ -3,10 +3,10 @@ class Url
   desc @tabopen, 'Same as `o`, but open URLs or search in a new tab'
 
   @openWithDefault: => @open true, false
-  desc @openWithDefault, 'Same as `o`, Open URLs or search (edit current URL)'
+  desc @openWithDefault, 'Same as `o`, open URLs or search but edit current URL'
 
   @tabopenWithDefault: => @open true, true
-  desc @tabopenWithDefault, 'Same as `o`, but open URLs or search in a new tab (edit current URL)'
+  desc @tabopenWithDefault, 'Same as `t`, open URLs or search in a new tab but edit current URL'
 
   @open: (withDefault, newTab) ->
     title = if newTab then 'TabOpen: ' else 'Open: '
@@ -62,12 +62,12 @@ class Url
   desc @root, 'Go to the root of the website'
 
   @tabReferer: => @referer true
-  desc @tabReferer, 'Same as `gr`, But open in new tab'
+  desc @tabReferer, 'Same as `gr`, but open in a new tab'
 
   @referer: (newTab=false) ->
     if document.referrer
       Post action: 'openOrSelectUrl', url: document.referrer, newTab: newTab, active: true
-  desc @referer, 'Go to the referer'
+  desc @referer, 'Go to the referrer'
 
   @decrement: => @increment -1
   desc @decrement, 'Decrement the last number in URL by {count}'
@@ -88,7 +88,7 @@ class Url
   desc @increment, 'Increment the last number in URL by {count}'
 
   @viewSourceNewTab: => @viewSource true
-  desc @viewSourceNewTab, 'View source code in new tab'
+  desc @viewSourceNewTab, 'View source code in a new tab'
 
   @viewSource: (newTab) ->
     Post action: 'Tab.toggleViewSource', newTab: newTab
@@ -101,13 +101,13 @@ class Url
     else
       CmdBox.set title: 'Shortening current URL', timeout: 4000
       Post action: 'shortUrl'
-  desc @shortUrl, 'Copy shorten URL to clipboard, the URL is shortened by `http://goo.gl`, You can use your account after grand auth in option page'
+  desc @shortUrl, 'Copy shorten URL to clipboard, the URL is shortened by `http://goo.gl`, You can use your account after grant auth in option page'
 
   @openFromClipboardAndFocusNewTab: => @openFromClipboard true, true
-  desc @openFromClipboardAndFocusNewTab, 'Same as `p`, but open selected text or clipboard content in new tab and activate it'
+  desc @openFromClipboardAndFocusNewTab, 'Same as `p`, but open selected text or clipboard content in a new tab and activate it'
 
   @openFromClipboardNewTab: => @openFromClipboard true, false
-  desc @openFromClipboardNewTab, 'Same as `p`, but open selected text or clipboard content in new tab'
+  desc @openFromClipboardNewTab, 'Same as `p`, but open selected text or clipboard content in a new tab'
 
   @openFromClipboard: (newTab=false, active=false) ->
     selectedText = getSelected()

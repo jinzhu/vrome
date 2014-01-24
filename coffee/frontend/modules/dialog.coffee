@@ -123,7 +123,7 @@ class Dialog
     searchFunc CmdBox.get().content
 
   @openCurrentNewTab: => @open true
-  @openCurrentNewTab.description = 'Open selected URL in new tab'
+  @openCurrentNewTab.description = 'Open selected URL in a new tab'
 
   @open: (keepOpen) =>
     setTimeout @openCurrent, 500, keepOpen

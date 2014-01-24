@@ -8,7 +8,7 @@ class Command
   @print: ->
     CmdBox.remove()
     setTimeout window.print, 500
-  desc @print, 'Print the current page you see'
+  desc @print, 'Print the current page'
 
   toggleHiddenElems = (all, elems) ->
     if all.length > 1
@@ -44,7 +44,7 @@ class Command
       div = $('<style>', __vrome_style: 1)
       $body.append div
     div.text(div.text() + '\n' + CmdBox.get().argument)
-  desc @css, 'Add css styles'
+  desc @css, 'Add CSS styles'
 
 root = exports ? window
 root.Command = Command

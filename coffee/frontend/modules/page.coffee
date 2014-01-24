@@ -28,10 +28,10 @@ class Page
 
   @prev: ->
     execMatch Option.get 'previouspattern'
-  desc @prev, 'Paginate backward'
+  desc @prev, 'Paginate backwards'
   @prev.options =
     previouspattern:
-      description: 'Pattern(s) for prev page'
+      description: 'Pattern(s) for previous page'
       example:     "set previouspattern+=^PrevPage|‹‹$ OR set previouspattern=['(上|前)一(页|頁)', '^Prev(ious)?']"
 
 root = exports ? window

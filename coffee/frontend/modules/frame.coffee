@@ -15,7 +15,7 @@ class Frame
   desc @next, 'Next {count} frame'
 
   @prev: -> Post action: 'Frame.next', count: -times()
-  desc @prev, 'Prev {count} frame'
+  desc @prev, 'Previous {count} frame'
 
 root = exports ? window
 root.Frame = Frame
