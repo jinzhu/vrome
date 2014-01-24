@@ -2,9 +2,13 @@ Debug = (str) ->
   # Format Frontend Error
   str = str.message if $.isPlainObject(str) and str.message
 
-  # Format TypeError
-  if typeof str is 'object' and str.hasOwnProperty('stack') and str.hasOwnProperty 'message'
-    str = "#{str.message}\n\n#{str.stack}"
+  if typeof str is 'object' and str.hasOwnProperty 'message'
+    # Format TypeError
+    if str.hasOwnProperty 'stack'
+      str = "#{str.message}\n#{str.stack}"
+    # Format ErrorEvent
+    else if str.hasOwnProperty 'lineno'
+      str = "#{str.message}\n#{str.filename}:#{str.lineno}"
 
   # Format Function
   str = str.toString() if $.isFunction str
