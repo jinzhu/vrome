@@ -6,13 +6,6 @@ root.Post = (tab, message) ->
 root.runScript = (msg) ->
   chrome.tabs.executeScript msg.tab.id, code: msg.code
 
-# Notify new version
-root.checkNewVersion = ->
-  $.get(chrome.extension.getURL 'manifest.json').done (data) ->
-    data = JSON.parse data
-    openOptions 'changelog' if Settings.get('version') isnt data.version
-    Settings.add version: data.version
-
 root.openChromeStore = -> openOrSelectUrl 'https://chrome.google.com/webstore/detail/godjoomfiimiddapohpmfklhgmbfffjj/details'
 root.openIssuesPage  = -> openOrSelectUrl 'https://github.com/jinzhu/vrome/issues'
 root.openSourcePage  = -> openOrSelectUrl 'https://github.com/jinzhu/vrome'
@@ -30,5 +23,12 @@ openOrSelectUrl = (url) ->
       Tab.openUrl msg
 
 window.addEventListener 'error', ((err) -> Debug err), false
+
+# notify of new version
+checkNewVersion = ->
+  $.get(chrome.extension.getURL 'manifest.json').done (data) ->
+    data = JSON.parse data
+    openOptions 'changelog' if Settings.get('version') isnt data.version
+    Settings.add version: data.version
 
 Settings.init checkNewVersion
