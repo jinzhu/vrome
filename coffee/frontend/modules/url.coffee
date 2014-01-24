@@ -66,7 +66,7 @@ class Url
 
   @referer: (newTab=false) ->
     if document.referrer
-      Post action: 'openOrSelectUrl', url: document.referrer, newTab: newTab, active: true
+      Post action: 'Tab.openUrl', url: document.referrer, newTab: newTab, active: true
   desc @referer, 'Go to the referrer'
 
   @decrement: => @increment -1
