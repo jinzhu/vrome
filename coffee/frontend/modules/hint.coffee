@@ -1,5 +1,5 @@
 class Hint
-  [newTab, multiMode, hintMode, elements] = []
+  [newTab, multiMode, hintMode, elements, matched, selected, currentKeys] = []
   HINTABLE = 'a,textarea,select,button,area[href],input:not([type=hidden]),' +
     '*[onclick],*[onmouseover],[contenteditable],.js-new-tweets-bar,' +
     '[role=link],[role=checkbox],[role=button],[role=tab],[role=menubar]'
@@ -20,12 +20,12 @@ class Hint
   freshHints = =>
     highlightBox = removeHighlightBox true
 
-    for elem, index in (@matched ? [])
-      hintKey = numberToHintKey(index+1)
+    for elem, index in (matched ? [])
+      hintKey = numberToHintKey(index + 1)
       className = 'normal'
-      className = 'active' if hintKey is (@currentKeys or numberToHintKey(1)) # 1 is selected by default
-      className = 'hidden' unless hintKey.startsWith @currentKeys # hide those won't match
-      hintKey = $('<key>', text: @currentKeys).get(0).outerHTML + hintKey.trimFirst(@currentKeys) if @currentKeys
+      className = 'active' if hintKey is (currentKeys or numberToHintKey 1) # 1 is selected by default
+      className = 'hidden' unless hintKey.startsWith currentKeys # hide those won't match
+      hintKey = $('<key>', text: currentKeys).get(0).outerHTML + hintKey.trimFirst(currentKeys) if currentKeys
       # <span vrome_highlight='className'><key>A</key>E</span>
       span = $('<span>', vrome_highlight: className, html: hintKey)
       $(highlightBox).append span
@@ -33,16 +33,19 @@ class Hint
       span.offset left: offset.left - 6, top: offset.top
     return
 
-  setMatched = (@matched) =>
+  setMatched = (_matched) =>
+    matched = _matched
     freshHints()
 
-  setSelected = (@selected) =>
+  setSelected = (_selected) =>
+    selected = _selected
     freshHints()
-    CmdBox.set title: if @selected > 0 then "#{title()} (#{numberToHintKey(@selected)})" else title()
-    setTimeout execCurrent, 200 if @selected * hintKeys().length > @matched.length
+    CmdBox.set title: if selected > 0 then "#{title()} (#{numberToHintKey selected})" else title()
+    setTimeout execCurrent, 200 if selected * hintKeys().length > matched.length
 
-  setCurrentKeys = (@currentKeys) =>
-    setSelected hintKeyToNumber(@currentKeys)
+  setCurrentKeys = (_currentKeys) =>
+    currentKeys = _currentKeys
+    setSelected hintKeyToNumber(currentKeys)
 
   hintKeys = ->
     if Option.get('useletters') is 1
@@ -60,7 +63,7 @@ class Hint
   hintKeyToNumber = (keys) ->
     [number, hints] = [0, hintKeys()]
     while keys isnt ''
-      number = (number * hints.length) + hints.indexOf(keys[0])
+      number = (number * hints.length) + hints.indexOf keys[0]
       keys = keys[1..-1]
     number
 
@@ -94,8 +97,8 @@ class Hint
     currentKey = getKey e
 
     # If it is hint key
-    if hintKeys().indexOf(currentKey) isnt -1 or (currentKey is '<BackSpace>' and @selected isnt 0)
-      setCurrentKeys(if currentKey is '<BackSpace>' then @currentKeys[0..-2] else "#{@currentKeys}#{currentKey}")
+    if hintKeys().indexOf(currentKey) isnt -1 or (currentKey is '<BackSpace>' and selected isnt 0)
+      setCurrentKeys(if currentKey is '<BackSpace>' then currentKeys[0..-2] else "#{currentKeys}#{currentKey}")
     else
       setTimeout delayToWaitKeyDown, 20, currentKey unless isEscapeKey currentKey
 
@@ -103,8 +106,8 @@ class Hint
     setMatched elements.filter(hintMatch)
 
     if isCtrlAcceptKey currentKey
-      execCurrent @matched
-    else if isAcceptKey(currentKey) or @matched.length is 1
+      execCurrent matched
+    else if isAcceptKey(currentKey) or matched.length is 1
       execCurrent()
     else
       CmdBox.set title: title()
@@ -115,7 +118,7 @@ class Hint
     regexp = new RegExp filter, 'im'
 
     text = $(elem).val() or $(elem).text() or $(elem).attr('placeholder') or $(elem).attr('alt')
-    match = regexp.test(text) or regexp.test(PinYin.shortcut text) or regexp.test(PinYin.full text)
+    match = regexp.test(text) or regexp.test(PinYin.shortcut text) or regexp.test PinYin.full(text)
     if invert and filter isnt '' then not match else match
 
   ## Sub Actions
@@ -161,7 +164,7 @@ class Hint
   execCurrent = (elems=null) =>
     CmdBox.set content: ''
 
-    elems ?= [@matched[Math.max(0, @selected-1)]]
+    elems ?= [matched[Math.max(0, selected - 1)]]
 
     for elem in elems
       currentAction = getCurrentAction()

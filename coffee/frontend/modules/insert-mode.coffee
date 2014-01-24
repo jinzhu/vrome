@@ -2,7 +2,7 @@ class InsertMode
   [elem, caretPosition, value, lineStart, prevLineStart, nextLineStart, next2LineStart] = []
   storedValues = []
 
-  @storeLastValue = ->
+  storeLastValue = ->
     storedValues.push value if value isnt storedValues[storedValues.length - 1]
 
   currentElement = =>
@@ -15,7 +15,7 @@ class InsertMode
         prevLineStart = caretPositionOfAboveLine()
         nextLineStart = caretPositionOfNextLine()
         next2LineStart = caretPositionOfNext2Line()
-        @storeLastValue()
+        do storeLastValue
     catch err
       Debug err
     elem

@@ -12,7 +12,7 @@ root.reloadExtension = ->
       chrome.tabs.create url: 'chrome://extensions-frame/', active: false, pinned: true
       reloadExtension()
 
-root.checkReloadExtension = ->
+checkReloadExtension = ->
   $.post(getLocalServerUrl(), JSON.stringify(method: 'get_latest_version')).success (response) ->
     if latestVersion isnt null and latestVersion isnt response
       reloadExtension()
