@@ -26,7 +26,7 @@ class Window
         if w.type is 'normal' and w.incognito is incognito and w.id isnt tab.windowId
           chrome.tabs.create windowId: w.id, url: tab.url
           callback? tab
-          return true
+          return
 
       # not returned
       chrome.windows.create {url: tab.url, incognito}

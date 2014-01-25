@@ -130,7 +130,7 @@ class Dialog
 
   @openCurrent: (keepOpen) =>
     return setTimeout @openCurrent, 100, keepOpen if searching
-    return false unless dialogMode
+    return unless dialogMode
     clickElement @current(), ctrl: (keepOpen or newTab)
     @stop() unless keepOpen
 
