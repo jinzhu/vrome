@@ -1,7 +1,7 @@
 root = exports ? window
 
 root.Post = (tab, message) ->
-  chrome.tabs.sendMessage tab.id, message, ->
+  chrome.tabs.sendMessage tab.id, message
 
 root.runScript = (msg) ->
   chrome.tabs.executeScript msg.tab.id, code: msg.code
