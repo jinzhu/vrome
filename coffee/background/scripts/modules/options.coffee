@@ -1,7 +1,8 @@
 # Render partial in option page
-render = (elem, template) ->
+render = (elem, template, callback) ->
   $.get chrome.extension.getURL(template), (data) ->
     elem.html data
+    do callback
 
 # Switch tabs
 switchTab = (tabName) ->
@@ -11,13 +12,17 @@ switchTab = (tabName) ->
   $("#{tabName}Content").show()
 
 # Render all partials
-renderPages = ->
-  render $('#dashboardContent'), '/README.html'
-  render $('#settingContent'),   '/files/setting.html'
-  render $('#donatesContent'),   '/files/donates.html'
-  render $('#changelogContent'), '/files/changelog.html'
-  render $('#thanksContent'),    '/files/thanks.html'
-  render $('#featuresContent'),  '/files/features.html'
+renderPages = (callback) ->
+  count = 6
+  decreaseCount = ->
+    do callback if --count is 0
+
+  render $('#dashboardContent'), '/README.html',          decreaseCount
+  render $('#settingContent'),   '/files/setting.html',   decreaseCount
+  render $('#donatesContent'),   '/files/donates.html',   decreaseCount
+  render $('#changelogContent'), '/files/changelog.html', decreaseCount
+  render $('#thanksContent'),    '/files/thanks.html',    decreaseCount
+  render $('#featuresContent'),  '/files/features.html',  decreaseCount
 
   # switch tab
   switchTab(document.location.hash or '#setting')
@@ -38,7 +43,7 @@ saveSettings = ->
     onlineVromercReloadInterval: $('#onlineVromercReloadInterval').val(),
     vromerc:                     Vromerc.parse($('#vromerc').val())
 
-  window.setTimeout setSettings, 100
+  do setSettings
 
 saveOptions = ->
   saveSettings()
@@ -46,12 +51,12 @@ saveOptions = ->
   $('#saved').show().fadeOut 3000
 
 $ ->
-  renderPages()
+  renderPages ->
 
-  window.setTimeout setSettings, 500
-  window.setInterval checkServerStatus, 1000
+    do setSettings
+    window.setInterval checkServerStatus, 1000
 
-  $('body').on 'click', '.saveOptions',  saveOptions
-  $('body').on 'click', '.closeWindow',  window.close
-  $('body').on 'click', '#grantAccess',  grantOAuthAccess
-  $('body').on 'click', '#revokeAccess', revokeOAuthAccess
+    $('body').on 'click', '.saveOptions',  saveOptions
+    $('body').on 'click', '.closeWindow',  window.close
+    $('body').on 'click', '#grantAccess',  grantOAuthAccess
+    $('body').on 'click', '#revokeAccess', revokeOAuthAccess
