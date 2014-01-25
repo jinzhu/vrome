@@ -7,12 +7,12 @@ class Tab
     @addToClosedTabs tab
     chrome.tabs.remove tab.id
 
-  runWhenComplete = (tabId, command) ->
-    chrome.tabs.get tabId, (tab) ->
+  runWhenComplete = (msg) ->
+    chrome.tabs.get msg.tab.id, (tab) ->
       if tab.status is 'complete'
-        chrome.tabs.executeScript tabId, command
+        runScript msg
       else
-        setTimeout runWhenComplete, 100, tabId, command
+        setTimeout runWhenComplete, 100, msg
 
   fixUrl = (url) ->
     url = url.trim()
@@ -117,7 +117,7 @@ class Tab
     attr.pinned      = msg.pinned      if typeof msg.pinned      isnt 'undefined'
 
     chrome.tabs.update msg.tab.id, attr, (tab) ->
-      runWhenComplete(tab.id, code: msg.callback) if msg.callback
+      runWhenComplete {tab, code: msg.callback} if msg.callback
 
   @move: (msg) ->
     direction = if msg.direction is 'left' then -1 else 1

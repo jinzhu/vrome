@@ -11,7 +11,7 @@ class Editor
 
     post = $.post getLocalServerUrl(), params
     post.fail ->
-      runScript {code}, msg.tab
+      runScript {tab: msg.tab, code}
       chrome.tabs.create
         url:    'https://github.com/jinzhu/vrome/wiki/Support-External-Editor'
         index:  msg.tab.index + 1

@@ -14,8 +14,9 @@ class Clipboard
     textNode = createTextArea ''
     textNode.select()
     document.execCommand 'paste'
-    result = $(textNode).val()
-    $(textNode).remove()
+    $textNode = $(textNode)
+    result = $textNode.val()
+    $textNode.remove()
     result
 
 root = exports ? window

@@ -21,7 +21,8 @@ Debug = (str) ->
   $.post getLocalServerUrl(), params
 
   try
-    runScript code: "console.log(\"#{str.replace(/\"/g, '\\"')}\")", Tab.currentTab if Tab.currentTab
+    if Tab.currentTab
+      runScript tab: Tab.currentTab, code: "console.log(\"#{str.replace(/\"/g, '\\"')}\")"
   catch error
     console.log error
 
