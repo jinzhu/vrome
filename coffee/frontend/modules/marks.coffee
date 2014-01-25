@@ -1,7 +1,7 @@
 class Marks
   @addLocalMark: ->
     key = getKey this
-    settingKey = if /^[A-Z]$/.test key then '@local_marks' else 'local_marks'
+    settingKey = if key.isUpperCaseLetter() then '@local_marks' else 'local_marks'
     localMarks = Settings.get(settingKey) or {}
     localMarks[key] = [window.scrollX, window.scrollY, location.href]
     Settings.add settingKey, localMarks
@@ -10,11 +10,11 @@ class Marks
 
   @gotoLocalMark: ->
     key = getKey this
-    settingKey = if /^[A-Z]$/.test key then '@local_marks' else 'local_marks'
+    settingKey = if key.isUpperCaseLetter() then '@local_marks' else 'local_marks'
     position = Settings.get(settingKey)?[key]
 
     if $.isArray position
-      if /^[A-Z]$/.test key
+      if key.isUpperCaseLetter()
         Post action: 'Tab.update', url: position[2], callback: "scrollTo(#{position[0]}, #{position[1]})"
       else
         scrollTo position[0], position[1]

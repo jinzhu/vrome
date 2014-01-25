@@ -23,3 +23,6 @@ String::trimFirstStr = (str) -> # don't trim space
 
 String::escape = ->
   $('<div>').text(this).html()
+
+String::isUpperCaseLetter = ->
+  /^[A-Z]$/.test this

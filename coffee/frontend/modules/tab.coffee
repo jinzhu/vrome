@@ -1,9 +1,9 @@
 class Tab
   move = (option={}) ->
-    Post $.extend option, action: 'Tab.move'
+    Post $.extend(option, action: 'Tab.move')
 
   unpinAll = (option={}) ->
-    Post $.extend option, action: 'Tab.unpinAll'
+    Post $.extend(option, action: 'Tab.unpinAll')
 
   @copyUrl: ->
     url = document.location.href
@@ -16,7 +16,7 @@ class Tab
   desc @reopen, 'Reopen the last closed {count} tab'
 
   @reload: (option={}) ->
-    Post $.extend option, action: 'Tab.reload'
+    Post $.extend(option, action: 'Tab.reload')
   desc @reload, 'Reload current tab'
 
   @reloadWithoutCache: =>
@@ -83,7 +83,7 @@ class Tab
   desc @last, 'Go to last tab'
 
   @close: (option={}) ->
-    Post $.extend option, action: 'Tab.close', count: times(true)
+    Post $.extend(option, action: 'Tab.close', count: times(true))
   desc @close, 'Close current tab'
 
   @closeAndFoucsLast: =>

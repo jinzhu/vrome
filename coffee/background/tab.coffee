@@ -209,7 +209,7 @@ class Tab
     for tab in tabs
       index = markedTabs.indexOf tab.id
       if index isnt -1
-        markedTabs.splice(index, 1)
+        markedTabs.splice index, 1
       else if tab.url
         markedTabs.push tab.id
 
