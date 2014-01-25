@@ -37,17 +37,17 @@ class Dialog
 
   notice = (msg) ->
     cmdBox = $(CmdBox.cmdBox())
-    notice = $("##{NOTICE_ID}")
-    if notice.length is 0
+    noticeElement = $("##{NOTICE_ID}")
+    if noticeElement.length is 0
       # 12 = padding-left (10) + border (1) x 2
       style = "right: #{cmdBox.outerWidth()}px; " +
         "height:#{cmdBox.outerHeight()}px; " +
         "line-height:#{cmdBox.outerHeight()}px; " +
         "width: #{dialogBox().outerWidth() - cmdBox.outerWidth() - 12}px"
 
-      notice = $('<div>', id: NOTICE_ID, style: style)
-      $body.prepend notice
-    notice.text msg
+      noticeElement = $('<div>', id: NOTICE_ID, style: style)
+      $body.prepend noticeElement
+    noticeElement.text msg
 
   buildResult = (s, href) ->
     onClick = (e) ->
