@@ -30,9 +30,9 @@ root.fixRelativePath = (url) ->
       pathname = pathname.replace(/\/$/, '') + path.substr(1)
   pathname
 
+# TODO: this shouldn't be here
 root.openUrl = (url) ->
-  # TODO: this is not working right
-  chrome.tabs.query active: true, (tabs) ->
+  chrome.tabs.query active: true, currentWindow: true, (tabs) ->
     Tab.openUrl url: url, newTab: true, active: true, tab: tabs[0]
 
 root.openOptions = (params) ->
