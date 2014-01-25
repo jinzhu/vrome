@@ -36,5 +36,5 @@ root.openUrl = (url) ->
     Tab.openUrl url: url, newTab: true, active: true, tab: tabs[0]
 
 root.openOptions = (params) ->
-  url = "background/options.html#{if params then "##{params}" else ''}"
+  url = "background/html/options.html#{if params then "##{params}" else ''}"
   openUrl chrome.extension.getURL(url)

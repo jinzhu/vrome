@@ -27,7 +27,7 @@ class Links
     open 'https://github.com/jinzhu/vrome/issues'
 
   @options: ->
-    open '/background/options.html'
+    open '/background/html/options.html'
 
   for url in ['downloads', 'bookmarks', 'history', 'chrome_help', 'settings', 'extensions', 'github', 'issues', 'options']
     desc @[url], "Open #{url},! open in new page"

@@ -18,11 +18,11 @@ renderPages = (callback) ->
     do callback if --count is 0
 
   render $('#dashboardContent'), '/README.html',          decreaseCount
-  render $('#settingContent'),   '/files/setting.html',   decreaseCount
-  render $('#donatesContent'),   '/files/donates.html',   decreaseCount
-  render $('#changelogContent'), '/files/changelog.html', decreaseCount
-  render $('#thanksContent'),    '/files/thanks.html',    decreaseCount
-  render $('#featuresContent'),  '/files/features.html',  decreaseCount
+  render $('#settingContent'),   '/background/html/setting.html',   decreaseCount
+  render $('#donatesContent'),   '/background/html/donates.html',   decreaseCount
+  render $('#changelogContent'), '/background/html/changelog.html', decreaseCount
+  render $('#thanksContent'),    '/background/html/thanks.html',    decreaseCount
+  render $('#featuresContent'),  '/background/html/features.html',  decreaseCount
 
   # switch tab
   switchTab(document.location.hash or '#setting')

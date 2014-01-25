@@ -9,9 +9,9 @@ Gemfile.lock
 /src/README.html
 /src/manifest.json
 /system/ruby/pkg
-/src/files/features.html
-/src/files/changelog.html
-/src/files/thanks.html
+/src/background/html/features.html
+/src/background/html/changelog.html
+/src/background/html/thanks.html
 /nbproject/
 node_modules/
 tags
