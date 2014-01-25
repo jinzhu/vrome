@@ -8,7 +8,7 @@ class KeyEvent
     document.addEventListener 'keydown', KeyEvent.exec, true
 
   @add: (keys, func, insertMode) ->
-    bindings[keys] ?= []
+    bindings[keys] ?= [null, null]
     bindings[keys][Number insertMode] = func
 
   @stopPropagation: (e) ->
