@@ -17,6 +17,7 @@ class Window
     else
       filename = CmdBox.get().argument
       CmdBox.remove()
+      # Save after removing the cmdbox
       setTimeout Post, 500, action: 'Window.savePage', filename: filename
   desc @saveAs, 'Save page as'
 
@@ -28,7 +29,7 @@ class Window
         timeout: 8000
     else
       CmdBox.remove()
-      # Capture after remove the cmdbox
+      # Capture after removing the cmdbox
       setTimeout Post, 500, action: 'Window.capture'
   desc @capture, 'Capture visible tab'
 

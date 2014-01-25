@@ -1,14 +1,6 @@
 root = exports ? window
 
 root.getLocalServerUrl = -> "http://127.0.0.1:#{Option.get('server_port')}"
-root.checkServerStatus = ->
-  request = $.ajax getLocalServerUrl()
-  request.done ->
-    $('#server_status').attr 'src', '/images/server_online.png'
-    $('#server_status').attr 'alt', 'Server Online'
-  request.fail ->
-    $('#server_status').attr 'src', '/images/server_offline.png'
-    $('#server_status').attr 'alt', 'Server Offline. Run ./vrome'
 
 root.rabs = (num, total) ->
   # if num is -11 and total is 10:
@@ -37,3 +29,12 @@ root.fixRelativePath = (url) ->
     else if path.startsWith './'
       pathname = pathname.replace(/\/$/, '') + path.substr(1)
   pathname
+
+root.openUrl = (url) ->
+  # TODO: this is not working right
+  chrome.tabs.query active: true, (tabs) ->
+    Tab.openUrl url: url, newTab: true, active: true, tab: tabs[0]
+
+root.openOptions = (params) ->
+  url = "background/options.html#{if params then "##{params}" else ''}"
+  openUrl chrome.extension.getURL(url)

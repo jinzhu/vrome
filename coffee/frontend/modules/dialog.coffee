@@ -122,11 +122,8 @@ class Dialog
   callSearchFunc = ->
     searchFunc CmdBox.get().content
 
-  @openCurrentNewTab: => @open true
+  @openCurrentNewTab: => @openCurrent true
   @openCurrentNewTab.description = 'Open selected URL in a new tab'
-
-  @open: (keepOpen) =>
-    setTimeout @openCurrent, 500, keepOpen
 
   @current: ->
     $(".#{SELECTED_CLASS} a")

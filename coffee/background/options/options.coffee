@@ -50,13 +50,38 @@ saveOptions = ->
   Vromerc.loadAll()
   $('#saved').show().fadeOut 3000
 
+checkServerStatus = ->
+  request = $.ajax getLocalServerUrl()
+  request.done ->
+    $('#server_status').attr 'src', '/images/server_online.png'
+    $('#server_status').attr 'alt', 'Server Online'
+  request.fail ->
+    $('#server_status').attr 'src', '/images/server_offline.png'
+    $('#server_status').attr 'alt', 'Server Offline. Run ./vrome'
+
+onAuthorize = ->
+  changeAccessButtonStatus true
+  delete chrome.extension.getBackgroundPage().OnAuthorizeCallBack
+
+grantOAuthAccess = ->
+  chrome.extension.getBackgroundPage().OnAuthorizeCallBack = onAuthorize
+  chrome.tabs.create url: '/oauth/chrome_ex_oauth.html'
+
+revokeOAuthAccess = ->
+  chrome.extension.getBackgroundPage().oauth.clearTokens()
+  changeAccessButtonStatus false
+
+changeAccessButtonStatus = (granted) ->
+  $('#revokeAccess').get(0).disabled = not granted
+  $('#grantAccess').get(0).disabled = granted
+
 $ ->
+  $('body').on 'click', '.saveOptions',  saveOptions
+  $('body').on 'click', '.closeWindow',  window.close
+  $('body').on 'click', '#grantAccess',  grantOAuthAccess
+  $('body').on 'click', '#revokeAccess', revokeOAuthAccess
+
+Settings.init ->
   renderPages ->
-
     do setSettings
-    window.setInterval checkServerStatus, 1000
-
-    $('body').on 'click', '.saveOptions',  saveOptions
-    $('body').on 'click', '.closeWindow',  window.close
-    $('body').on 'click', '#grantAccess',  grantOAuthAccess
-    $('body').on 'click', '#revokeAccess', revokeOAuthAccess
+    setInterval checkServerStatus, 1000

@@ -1,4 +1,8 @@
-applyEvents = ->
+openSourcePage  = -> openUrl 'https://github.com/jinzhu/vrome'
+openChromeStore = -> openUrl 'https://chrome.google.com/webstore/detail/godjoomfiimiddapohpmfklhgmbfffjj/details'
+openIssuesPage  = -> openUrl 'https://github.com/jinzhu/vrome/issues'
+
+$ ->
   $('.openOptionsFeatures').click  -> openOptions 'features'
   $('.openOptionsSetting').click   -> openOptions 'setting'
   $('.openOptionsChangelog').click -> openOptions 'changelog'
@@ -8,7 +12,6 @@ applyEvents = ->
   $('.openChromeStore').click openChromeStore
   $('.openIssuesPage').click  openIssuesPage
 
-  $('.version').text Settings.get('version')
-
-$ ->
-  window.setTimeout applyEvents, 500
+Settings.init ->
+  $ ->
+    $('.version').text Settings.get('version')

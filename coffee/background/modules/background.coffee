@@ -13,8 +13,3 @@ chrome.tabs.onActivated.addListener (info) ->
 chrome.tabs.onRemoved.addListener (tabId) ->
   tab = Tab.currentTab
   Tab.addToClosedTabs tab if tab?.id is tabId
-
-$ ->
-  do Vromerc.init
-
-root = exports ? window

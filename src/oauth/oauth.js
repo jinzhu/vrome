@@ -7,28 +7,3 @@ var oauth = ChromeExOAuth.initBackgroundPage({
 	'scope' : 'https://www.googleapis.com/auth/urlshortener',
 	'app_name' : 'Vrome - URL Shortener',
 });
-
-function chromeExOAuthOnAuthorize(token, secret) {
-	if(typeof OnAuthorizeCallBack === 'function')
-		 OnAuthorizeCallBack();
-}
-
-function grantOAuthAccess() {
-	chrome.extension.getBackgroundPage().OnAuthorizeCallBack = OnAuthorize;
-	chrome.tabs.create({url: '/oauth/chrome_ex_oauth.html'});
-}
-
-function OnAuthorize() {
-	changeAccessButtonStatus(true);
-	chrome.extension.getBackgroundPage().OnAuthorizeCallBack = undefined;
-}
-
-function revokeOAuthAccess() {
-	chrome.extension.getBackgroundPage().oauth.clearTokens();
-	changeAccessButtonStatus(false);
-}
-
-function changeAccessButtonStatus(granted) {
-	document.getElementById('revokeAccess').disabled = !granted;
-	document.getElementById('grantAccess').disabled = granted;
-}

@@ -7,6 +7,7 @@ class Command
 
   @print: ->
     CmdBox.remove()
+    # Print after removing the cmdbox
     setTimeout window.print, 500
   desc @print, 'Print the current page'
 
