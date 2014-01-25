@@ -1,5 +1,5 @@
 class Scroll
-  [VERTICAL_MOMENT, HORIZONTAL_MOMENT ] = [15, 15]
+  [VERTICAL_MOMENT, HORIZONTAL_MOMENT] = [15, 15]
 
   @top: -> scrollTo window.scrollX, 0
   desc @top, 'Scroll to the top of the page'

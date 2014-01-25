@@ -54,6 +54,7 @@ task :build do
     json['background']['scripts'] =
       ['shared/vendor/jquery.js', 'shared/vendor/FileSaver.js']
         .concat(Dir['shared/*.js'])
+        .concat(Dir['background/*.js'])
         .concat(Dir['background/modules/*.js'])
         .concat(Dir['oauth/*.js'])
   end
