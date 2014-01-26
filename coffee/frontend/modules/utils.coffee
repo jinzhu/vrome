@@ -1,7 +1,9 @@
 root = exports ? window
 
-platform =
-  mac: navigator.userAgent.indexOf('Mac') isnt -1
+root.Platform =
+  linux: navigator.userAgent.indexOf('Linux')   isnt -1
+  mac:   navigator.userAgent.indexOf('Mac')     isnt -1
+  win:   navigator.userAgent.indexOf('Windows') isnt -1
 
 root.getSelected = -> window.getSelection().toString()
 
@@ -35,7 +37,7 @@ root.clickElement = (elem, opt={}) ->
   #                     button, relatedTarget);
   # https://developer.mozilla.org/en/DOM/event.initMouseEvent
 
-  opt.meta = opt.ctrl if platform.mac
+  opt.meta = opt.ctrl if Platform.mac
 
   if elem.length # If defined method length, then we thought it as Array
     clickElement e, opt for e in elem
