@@ -112,7 +112,9 @@ specialKeys[key] = null for key in [
   'Home', 'End', 'PageUp', 'PageDown']
 specialKeys["F#{key}"] = null for key in [1..12]
 
-getKey = (evt) ->
+root = exports ? window
+
+root.getKey = (evt) ->
   evt = evt.originalEvent or evt
   key = keyId[evt.keyIdentifier] or evt.keyIdentifier
 
@@ -127,6 +129,3 @@ getKey = (evt) ->
     key = shiftNums[key] if shiftNums[key]
 
   if ctrl or meta then "<#{ctrl}#{meta}#{key}>" else key
-
-root = exports ? window
-root.getKey = getKey

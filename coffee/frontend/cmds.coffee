@@ -1,9 +1,9 @@
 root = exports ? window
 
-root.AcceptKey     = ['<Enter>', '<C-j>', '<C-m>']
-root.CtrlAcceptKey = ['<C-Enter>']
-root.CancelKey     = ['<Esc>', '<C-[>']
-root.CtrlEscapeKey = ['<C-Esc>']
+AcceptKey     = ['<Enter>', '<C-j>', '<C-m>']
+CtrlAcceptKey = ['<C-Enter>']
+CancelKey     = ['<Esc>', '<C-[>']
+CtrlEscapeKey = ['<C-Esc>']
 
 root.isControlKey = (key) ->
   key in ['Control', 'Shift', 'Alt', 'Win']
@@ -21,18 +21,18 @@ root.isCtrlEscapeKey = (key) ->
   return true if Option.get('enable_vrome_key') is key
   key in CtrlEscapeKey
 
-root.AcceptKeyFunction = ->
+AcceptKeyFunction = ->
   Search.onAcceptKeyPressed()
   Dialog.openCurrent()
   Buffer.gotoFirstMatchHandle()
   Buffer.deleteMatchHandle()
   Buffer.deleteNoteMatchHandle()
 
-root.CtrlAcceptKeyFunction = ->
+CtrlAcceptKeyFunction = ->
   Dialog.openCurrentNewTab()
   Search.openCurrentNewTab()
 
-root.CancelKeyFunction = ->
+CancelKeyFunction = ->
   Hint.remove()
   Search.stop()
   Dialog.stop true
@@ -41,7 +41,7 @@ root.CancelKeyFunction = ->
   KeyEvent.reset()
   CmdBox.remove()
   Help.hide true
-desc root.CancelKeyFunction, 'Cancel Actions'
+desc CancelKeyFunction, 'Cancel Actions'
 
 extractFunction = (functionName) ->
   func = (func ? root)[action] for action in functionName.split('.')
