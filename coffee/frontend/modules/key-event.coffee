@@ -44,8 +44,8 @@ class window.KeyEvent
   desc @passNextKey, 'Pass next key'
 
   @reset: ->
-    CmdBox.remove()
-    [currentKeys, times] = ['', 0]
+    currentKeys = ''
+    keyTimes = 0
 
   @times: (onlyRead) ->
     result = keyTimes
