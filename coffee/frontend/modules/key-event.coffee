@@ -56,7 +56,7 @@ class window.KeyEvent
     Settings.add { currentKeys, times }
 
   @runLast: ->
-    runCurrentKeys Settings.get('@currentKeys')
+    runCurrentKeys Settings.get('@currentKeys'), false
   desc @runLast, 'Repeat the last command'
 
   filterKey = (key, insertMode) ->
