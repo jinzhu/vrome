@@ -1,4 +1,4 @@
-Debug = (str) ->
+window.Debug = (str) ->
   # Format Frontend Error
   str = str.message if $.isPlainObject(str) and str.message
 
@@ -25,6 +25,3 @@ Debug = (str) ->
       runScript tab: Tab.currentTab, code: "console.log(\"#{str.replace(/\"/g, '\\"')}\")"
   catch error
     console.log error
-
-root = exports ? window
-root.Debug = Debug

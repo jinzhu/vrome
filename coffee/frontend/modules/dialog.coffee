@@ -1,4 +1,4 @@
-class Dialog
+class window.Dialog
   [dialogMode, searchFunc, tabFunc, newTab, searching, selected] = []
 
   [SEARCH_RESULT, SELECTED_CLASS, QUICK_NUM, NOTICE_ID, VROME_DIALOG] =
@@ -133,6 +133,3 @@ class Dialog
     return unless dialogMode
     clickElement @current(), ctrl: (keepOpen or newTab)
     @stop() unless keepOpen
-
-root = exports ? window
-root.Dialog = Dialog

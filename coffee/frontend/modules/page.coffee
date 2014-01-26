@@ -1,4 +1,4 @@
-class Page
+class window.Page
   execMatch = (regexps) ->
     elems = for elem in $('a, link').filter((_, e) -> isElementVisible $(e), true).reverse()
       [elem, $(elem).text().trim()]
@@ -33,6 +33,3 @@ class Page
     previouspattern:
       description: 'Pattern(s) for previous page'
       example:     "set previouspattern+=^PrevPage|‹‹$ OR set previouspattern=['(上|前)一(页|頁)', '^Prev(ious)?']"
-
-root = exports ? window
-root.Page = Page

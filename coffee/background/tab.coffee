@@ -1,4 +1,4 @@
-class Tab
+class window.Tab
   [closedTabs, @previousTab, @lastOpenTabs, markedTabs] = [[], null, [], []]
 
   # close the tab and add it to closed tabs list
@@ -240,6 +240,3 @@ class Tab
       closedTabs.splice index, 1
       break
     closedTabs.push url: tab.url, index: tab.index if tab.url isnt 'chrome://newtab/'
-
-root = exports ? window
-root.Tab = Tab

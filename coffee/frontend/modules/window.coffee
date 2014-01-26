@@ -1,4 +1,4 @@
-class Window
+class window.Window
   @create: -> Post action: 'Window.create'
   desc @create, 'Open a new window'
 
@@ -32,6 +32,3 @@ class Window
       # Capture after removing the cmdbox
       setTimeout Post, 500, action: 'Window.capture'
   desc @capture, 'Capture visible tab'
-
-root = exports ? window
-root.Window = Window

@@ -112,9 +112,7 @@ specialKeys[key] = null for key in [
   'Home', 'End', 'PageUp', 'PageDown']
 specialKeys["F#{key}"] = null for key in [1..12]
 
-root = exports ? window
-
-root.getKey = (evt) ->
+window.getKey = (evt) ->
   evt = evt.originalEvent or evt
   key = keyId[evt.keyIdentifier] or evt.keyIdentifier
 

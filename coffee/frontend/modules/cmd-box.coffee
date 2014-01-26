@@ -1,4 +1,4 @@
-class CmdBox
+class window.CmdBox
   [BOX_ID, INPUT_BOX_ID] = ['_vrome_cmd_box', '_vrome_cmd_input_box']
 
   cmdBoxTitle = (forceCreate) =>
@@ -55,6 +55,3 @@ class CmdBox
 
   @blur: ->
     cmdBoxInput(false).blur()
-
-root = exports ? window
-root.CmdBox = CmdBox

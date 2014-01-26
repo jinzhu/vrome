@@ -1,4 +1,4 @@
-class Frame
+class window.Frame
   @select: (msg) ->
     if location.href is msg.href
       area = innerWidth * innerHeight
@@ -16,6 +16,3 @@ class Frame
 
   @prev: -> Post action: 'Frame.next', count: -times()
   desc @prev, 'Previous {count} frame'
-
-root = exports ? window
-root.Frame = Frame

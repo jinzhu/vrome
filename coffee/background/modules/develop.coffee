@@ -2,9 +2,7 @@
 latestVersion = null
 TIME = 500
 
-root = exports ? window
-
-root.reloadExtension = ->
+window.reloadExtension = ->
   chrome.tabs.query url: 'chrome://extensions-frame/', currentWindow: true, (tabs) ->
     if tabs.length > 0
       chrome.tabs.reload tabs[0].id, bypassCache: true

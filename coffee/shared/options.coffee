@@ -1,4 +1,4 @@
-class Option
+class window.Option
   googleSearch = 'http://www.google.com/search?q={{keyword}}'
 
   options =
@@ -59,6 +59,3 @@ class Option
     searchengine = searchengines[Option.get 'defaultsearch']
     return searchengine.replace '{{keyword}}', url if searchengine
     googleSearch.replace '{{keyword}}', url
-
-root = exports ? window
-root.Option = Option

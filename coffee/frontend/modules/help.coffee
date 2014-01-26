@@ -1,4 +1,4 @@
-class Help
+class window.Help
   maps = []
 
   escape = (value) ->
@@ -17,6 +17,3 @@ class Help
 
   @hide: (reset) ->
     $('#__vrome_help_overlay').remove()
-
-root = exports ? window
-root.Help = Help

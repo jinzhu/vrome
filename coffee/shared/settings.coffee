@@ -6,7 +6,7 @@
 # Setting.get '@key', :scope_key => ''              -> scope_key as key, default is 'background'
 # Setting.get 'key', :scope_key => ''               -> scope_key as key, default is getKey()
 
-class Settings
+class window.Settings
   [sync, local, settings] = [chrome.storage.sync, chrome.storage.local, {}]
 
   getKey = (args=[]) ->
@@ -65,6 +65,3 @@ class Settings
       if names and (setting = setting[getKey arguments])
         (setting = setting[name]) for name in names.trimFirst('@').split('.')
       setting
-
-root = exports ? window
-root.Settings = Settings

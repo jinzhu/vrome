@@ -1,14 +1,12 @@
-root = exports ? window
-
 platform =
   mac: navigator.userAgent.indexOf('Mac') isnt -1
 
-root.getSelected = -> window.getSelection().toString()
+window.getSelected = -> window.getSelection().toString()
 
-root.times = (raw, read) ->
+window.times = (raw, read) ->
   if raw then KeyEvent.times read else (KeyEvent.times(read) or 1)
 
-root.isElementVisible = (elem, inFullPage) ->
+window.isElementVisible = (elem, inFullPage) ->
   return false unless elem.is ':visible'
   style = window.getComputedStyle elem.get(0)
   return false if \
@@ -28,7 +26,7 @@ root.isElementVisible = (elem, inFullPage) ->
 
   elemBottom >= winTop and offset.top <= winBottom and offset.left <= winRight and elemRight >= winLeft
 
-root.clickElement = (elem, opt={}) ->
+window.clickElement = (elem, opt={}) ->
   #event.initMouseEvent(type, canBubble, cancelable, view,
   #                     detail, screenX, screenY, clientX, clientY,
   #                     ctrlKey, altKey, shiftKey, metaKey,

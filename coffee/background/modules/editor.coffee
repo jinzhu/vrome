@@ -1,4 +1,4 @@
-class Editor
+class window.Editor
   code = "CmdBox.set({ title: 'Failed to open external Editor, Please check Vrome WIKI opened in a new tab for how to do', timeout : 15000 });"
 
   @open: (msg) ->
@@ -21,6 +21,3 @@ class Editor
         action: msg.callbackAction
         editId: msg.editId
         value:  data
-
-root = exports ? window
-root.Editor = Editor

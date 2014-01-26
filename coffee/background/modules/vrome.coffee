@@ -1,4 +1,4 @@
-class Vrome
+class window.Vrome
   disableMap = {}
 
   @setStatus: (tabId) ->
@@ -16,6 +16,3 @@ class Vrome
   @disable: (msg) =>
     disableMap[msg.tab.id] = true
     @setStatus msg.tab.id
-
-root = exports ? window
-root.Vrome = Vrome

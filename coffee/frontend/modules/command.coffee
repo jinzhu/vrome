@@ -1,4 +1,4 @@
-class Command
+class window.Command
   VROME_HIDDEN = '__vrome_hidden'
 
   @reloadExtension: ->
@@ -46,6 +46,3 @@ class Command
       $body.append div
     div.text(div.text() + '\n' + CmdBox.get().argument)
   desc @css, 'Add CSS styles'
-
-root = exports ? window
-root.Command = Command

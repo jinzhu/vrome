@@ -1,4 +1,4 @@
-class Links
+class window.Links
   open = (url) ->
     Post action: 'Tab.openUrl', url: url, newTab: (CmdBox.get().content.indexOf('!') isnt -1)
 
@@ -31,6 +31,3 @@ class Links
 
   for url in ['downloads', 'bookmarks', 'history', 'chrome_help', 'settings', 'extensions', 'github', 'issues', 'options']
     desc @[url], "Open #{url},! open in new page"
-
-root = exports ? window
-root.Links = Links

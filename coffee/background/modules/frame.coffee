@@ -1,4 +1,4 @@
-class Frame
+class window.Frame
   currentFrameUrls = {}
 
   nextUrl = (frames, currentFrameUrl, count) ->
@@ -12,6 +12,3 @@ class Frame
     chrome.webNavigation.getAllFrames tabId: msg.tab.id, (frames) ->
       currentFrameUrls[msg.tab.id] = nextUrl(frames, currentFrameUrls[msg.tab.id], msg.count)
       Post msg.tab, action: 'Frame.select', href: currentFrameUrls[msg.tab.id]
-
-root = exports ? window
-root.Frame = Frame

@@ -1,8 +1,6 @@
 SERVER_URL = 'https://www.googleapis.com/urlshortener/v1/url'
 
-root = exports ? window
-
-root.shortUrl = (msg) ->
+window.shortUrl = (msg) ->
   sendBackCurrentUrl = ->
     Post msg.tab, action: 'Url.shortUrl', url: msg.tab.url
 

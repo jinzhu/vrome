@@ -1,5 +1,5 @@
 # From http://lazycms.googlecode.com/svn/other/Pinyin.js
-PinYin = (->
+window.PinYin = do ->
   CC2PY = (l1) ->
     return unless l1
     l2 = l1.length
@@ -451,8 +451,3 @@ PinYin = (->
 
   full: CC2FULLPY
   shortcut: CC2PY
-)()
-
-
-root = exports ? window
-root.PinYin = PinYin

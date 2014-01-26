@@ -1,4 +1,4 @@
-class Zoom
+class window.Zoom
   LEVELS = ['30%', '50%', '67%', '80%', '90%', '100%', '110%', '120%', '133%', '150%', '170%', '190%', '220%', '250%', '280%', '310%']
   DEFAULT_INDEX = LEVELS.indexOf '100%'
 
@@ -52,6 +52,3 @@ class Zoom
   @current: -> parseInt(LEVELS[currentLevel()], 10) / 100
 
   @init: -> setZoom Settings.get('zoom_level')
-
-root = exports ? window
-root.Zoom = Zoom

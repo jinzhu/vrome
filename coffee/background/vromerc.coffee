@@ -1,4 +1,4 @@
-class Vromerc
+class window.Vromerc
   @init: =>
     do @loadAll
     # Reload every 5 minutes
@@ -70,6 +70,3 @@ class Vromerc
       vromerc = "\" Begin Online Vromerc generated\n#{data}\n\" End Online Vromerc generated\n\n"
       vromerc += (Settings.get('vromerc') or '').replace(/" Begin Online Vromerc generated\n(.|\n)+\n" End Online Vromerc generated\n?\n?/g, '')
       Settings.add vromerc: @parse(vromerc), onlineVromercLastUpdatedAt: new Date().toString()
-
-root = exports ? window
-root.Vromerc = Vromerc

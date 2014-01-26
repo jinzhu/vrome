@@ -1,4 +1,4 @@
-class Command
+class window.Command
   @source: (msg) ->
     for src in msg.sources.split ','
       src = src.trim()
@@ -13,6 +13,3 @@ class Command
         runScript msg
         # $.ajax type: 'GET', url: src, dataType : 'text', success: (data) -> injectCode(data, src, msg.tab)
     return
-
-root = exports ? window
-root.Command = Command

@@ -1,4 +1,4 @@
-class Mouse
+class window.Mouse
   onClickHandlers = []
 
   @init: =>
@@ -10,6 +10,3 @@ class Mouse
   onClick = (e) ->
     func e for func in onClickHandlers
     return
-
-root = exports ? window
-root.Mouse = Mouse

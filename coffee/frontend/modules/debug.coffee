@@ -1,4 +1,4 @@
-Debug = (str) ->
+window.Debug = (str) ->
   try
     # Format TypeError
     if typeof str is 'object' and str.hasOwnProperty('stack') and str.hasOwnProperty 'message'
@@ -10,6 +10,3 @@ Debug = (str) ->
     Post action: 'Debug', message: str
   catch err
     console.log err
-
-root = exports ? window
-root.Debug = Debug

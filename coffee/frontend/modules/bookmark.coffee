@@ -1,4 +1,4 @@
-class Bookmark
+class window.Bookmark
   search = (keyword) ->
     Post action: 'Bookmark.search', keyword: keyword
 
@@ -7,6 +7,3 @@ class Bookmark
   desc @start, 'Filter bookmarks with keyword (support Dialog extend mode)'
 
   @newTabStart: => @start true
-
-root = exports ? window
-root.Bookmark = Bookmark

@@ -1,4 +1,4 @@
-class Tab
+class window.Tab
   move = (option={}) ->
     Post $.extend(option, action: 'Tab.move')
 
@@ -127,6 +127,3 @@ class Tab
 
   @unpinAllTabsInAllWindows: -> unpinAll allWindows: true
   desc @unpinAllTabsInAllWindows, 'Unpin all tabs from all windows'
-
-root = exports ? window
-root.Tab = Tab

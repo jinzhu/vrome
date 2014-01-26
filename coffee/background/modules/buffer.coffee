@@ -1,4 +1,4 @@
-class Buffer
+class window.Buffer
   getMatchedTabs = (tabs, keyword) ->
     if /^\d+$/.test keyword
       [tabs[Number(keyword) - 1]]
@@ -20,6 +20,3 @@ class Buffer
       matchedTabs = getMatchedTabs tabs, msg.keyword
       Tab.close tab for tab in tabs when tab not in matchedTabs
       return
-
-root = exports ? window
-root.Buffer = Buffer

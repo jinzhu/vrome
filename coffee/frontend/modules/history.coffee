@@ -1,4 +1,4 @@
-class History
+class window.History
   search = (keyword) ->
     Post action: 'History.search', keyword: keyword
 
@@ -13,6 +13,3 @@ class History
 
   @forward: -> history.go times()
   desc @forward, 'Go {count} pages forward'
-
-root = exports ? window
-root.History = History

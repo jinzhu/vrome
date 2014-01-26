@@ -1,4 +1,4 @@
-class Custom
+class window.Custom
   @loadCSS: ->
     customCSS = Settings.get '@configure.css'
     if customCSS
@@ -8,6 +8,3 @@ class Custom
     customJS = Settings.get '@configure.js'
     if customJS
       $body.append $('<script>', class: '__vrome_custom_js', text: customJS)
-
-root = exports ? window
-root.Custom = Custom

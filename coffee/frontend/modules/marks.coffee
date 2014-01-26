@@ -1,4 +1,4 @@
-class Marks
+class window.Marks
   @addLocalMark: ->
     key = getKey this
     settingKey = if key.isUpperCaseLetter() then '@local_marks' else 'local_marks'
@@ -54,6 +54,3 @@ class Marks
       Settings.add "@url_marks.#{keyword}", window.location.href
       Dialog.stop true
       CmdBox.set title: "Added Quick Mark #{keyword}", timeout: 2000
-
-root = exports ? window
-root.Marks = Marks

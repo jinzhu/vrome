@@ -1,4 +1,4 @@
-class Buffer
+class window.Buffer
   [bufferGotoMode, closeMatchMode, keepMatchMode] = []
 
   @reset: ->
@@ -44,6 +44,3 @@ class Buffer
     CmdBox.set title: 'Keep Matched Buffer', content: ''
     keepMatchMode = true
   desc @deleteNotMatch, 'Like `B`, but keep matched tabs, close others'
-
-root = exports ? window
-root.Buffer = Buffer

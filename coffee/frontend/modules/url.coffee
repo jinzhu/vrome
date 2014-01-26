@@ -1,4 +1,4 @@
-class Url
+class window.Url
   @tabopen: => @open false, true
   desc @tabopen, 'Same as `o`, but open URLs or search in a new tab'
 
@@ -116,6 +116,3 @@ class Url
     else
       Post { action: 'Tab.openFromClipboard', newTab, active }
   desc @openFromClipboard, 'Open selected text or clipboard content in current tab. If not a valid URL, make a search'
-
-root = exports ? window
-root.Url = Url

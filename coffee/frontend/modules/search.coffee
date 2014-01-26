@@ -1,4 +1,4 @@
-class Search
+class window.Search
   [searchMode, direction, lastSearch, nodes, originalX, originalY, justClickedPosition] = []
   [HIGHLIGHT_CLASS, HIGHLIGHT_CURRENT_ID] = ['__vrome_search_highlight', '__vrome_search_highlight_current']
 
@@ -129,6 +129,3 @@ class Search
       InsertMode.blurFocus()
     else
       @openCurrent false
-
-root = exports ? window
-root.Search = Search

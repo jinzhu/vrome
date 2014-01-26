@@ -1,4 +1,4 @@
-class KeyEvent
+class window.KeyEvent
   [disableVrome, passNextKey, currentKeys, keyTimes, bindings] = [false, false, '', 0, {}]
 
   @init: =>
@@ -147,6 +147,3 @@ class KeyEvent
     return if ignoreKey currentKeys, insertMode
 
     runCurrentKeys currentKeys, insertMode, e
-
-root = exports ? window
-root.KeyEvent = KeyEvent

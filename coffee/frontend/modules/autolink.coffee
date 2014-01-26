@@ -1,4 +1,4 @@
-class AutoLink
+class window.AutoLink
   URL_REGEXP = /(((https?|ftp|file):\/\/)?([\w]{2,}\.)+[\w]{2,5}(\/[\S]+)*)/g
 
   textNodes = (elems)->
@@ -15,6 +15,3 @@ class AutoLink
         $elem.after(value).remove()
     return
   desc @makeLink, 'Transforms URLs into clickable links'
-
-root = exports ? window
-root.AutoLink = AutoLink

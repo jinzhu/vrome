@@ -1,4 +1,4 @@
-class Scroll
+class window.Scroll
   [VERTICAL_MOMENT, HORIZONTAL_MOMENT] = [15, 15]
 
   @top: -> scrollTo window.scrollX, 0
@@ -39,6 +39,3 @@ class Scroll
 
   @toPercent: -> scrollTo window.scrollX, times(true) * $(document).height() / 100
   desc @toPercent, 'Scroll to {count}% of the page'
-
-root = exports ? window
-root.Scroll = Scroll

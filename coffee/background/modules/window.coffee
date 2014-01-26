@@ -1,4 +1,4 @@
-class Window
+class window.Window
   @create: ->
     chrome.windows.create()
 
@@ -30,6 +30,3 @@ class Window
 
       chrome.windows.create { url: tab.url, incognito }
       callback? tab
-
-root = exports ? window
-root.Window = Window

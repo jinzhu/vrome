@@ -1,4 +1,4 @@
-class InsertMode
+class window.InsertMode
   [elem, caretPosition, value, lineStart, prevLineStart, nextLineStart, next2LineStart] = []
   storedValues = []
 
@@ -163,6 +163,3 @@ class InsertMode
     editor:
       description: "Set editor command, default is 'gvim -f'"
       example:     'set editor=gvim -f'
-
-root = exports ? window
-root.InsertMode = InsertMode

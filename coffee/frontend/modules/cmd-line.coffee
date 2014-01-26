@@ -1,4 +1,4 @@
-class CmdLine
+class window.CmdLine
   commands = {}
 
   @add: (name, func, hasArgs) ->
@@ -50,6 +50,3 @@ class CmdLine
       onClick:     onClickFunc command
       onSelect:    onSelectFunc
     Dialog.draw urls: cuteCommands, keyword: ''
-
-root = exports ? window
-root.CmdLine = CmdLine

@@ -1,4 +1,4 @@
-class Hint
+class window.Hint
   [newTab, multiMode, hintMode, elements, matched, selected, currentKeys] = []
   HINTABLE = 'a,textarea,select,button,area[href],input:not([type=hidden]),' +
     '*[onclick],*[onmouseover],[contenteditable],.js-new-tweets-bar,' +
@@ -199,6 +199,3 @@ class Hint
       CmdBox.set title: title()
     else
       setTimeout @remove, 200
-
-root = exports ? window
-root.Hint = Hint

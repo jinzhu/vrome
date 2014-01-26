@@ -1,4 +1,4 @@
-class Clipboard
+class window.Clipboard
   createTextArea = (data) ->
     textNode = $('<textarea>').val(data)
     $('body').append textNode
@@ -18,6 +18,3 @@ class Clipboard
     result = $textNode.val()
     $textNode.remove()
     result
-
-root = exports ? window
-root.Clipboard = Clipboard

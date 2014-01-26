@@ -1,9 +1,7 @@
-root = exports ? window
-
-root.Post = (tab, message) ->
+window.Post = (tab, message) ->
   chrome.tabs.sendMessage tab.id, message
 
-root.runScript = (msg) ->
+window.runScript = (msg) ->
   chrome.tabs.executeScript msg.tab.id, code: msg.code
 
 window.addEventListener 'error', ((error) -> Debug error), false
