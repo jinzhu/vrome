@@ -135,11 +135,11 @@ class window.Tab
     @select.apply         '', arguments if msg.offset    # close and select right/left
 
     chrome.windows.getAll populate: true, (windows) ->
-      for w in windows
+      for w in windows when cond is 'otherWindows' or w.id is msg.tab.windowId
         for tab in w.tabs.reverse()
           if cond is 'otherWindows'
             remove tab if w.id isnt msg.tab.windowId
-          else if w.id is msg.tab.windowId
+          else
             if (
               (cond is 'closeOther' and tab.id isnt msg.tab.id) or
               (cond is 'closeLeft' and tab.index < index and (if count is 0 then true else tab.index >= index - count)) or

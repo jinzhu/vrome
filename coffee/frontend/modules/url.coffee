@@ -72,8 +72,8 @@ class window.Url
   @decrement: => @increment -1
   desc @decrement, 'Decrement the last number in URL by {count}'
 
-  @increment: (dirction) ->
-    count = times() * (dirction or 1)
+  @increment: (direction) ->
+    count = times() * (direction or 1)
 
     if document.location.href.match /(.*?)(\d+)(\D*)$/
       [before, number, after] = [RegExp.$1, RegExp.$2, RegExp.$3]
