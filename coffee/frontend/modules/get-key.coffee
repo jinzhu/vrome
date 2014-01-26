@@ -114,6 +114,8 @@ specialKeys["F#{key}"] = null for key in [1..12]
 
 window.getKey = (evt) ->
   evt = evt.originalEvent or evt
+  return evt.keyIdentifier if evt.keyIdentifier in ['Control', 'Alt', 'Meta', 'Shift']
+
   key = keyId[evt.keyIdentifier] or evt.keyIdentifier
 
   ctrl  = if evt.ctrlKey               then 'C-' else ''

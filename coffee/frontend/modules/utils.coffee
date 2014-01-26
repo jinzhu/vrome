@@ -16,6 +16,7 @@ window.isElementVisible = (elem, inFullPage) ->
   return true if inFullPage
 
   $window = $(window)
+  # TODO: should use documentElement.scrollTop(), scrollLeft
   [winTop, winLeft] = [$window.scrollTop(), $window.scrollLeft()]
   winBottom = winTop + window.innerHeight
   winRight  = winLeft + $window.width()
