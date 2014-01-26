@@ -52,11 +52,11 @@ class window.KeyEvent
     keyTimes = 0 unless onlyRead
     result
 
-  storeLast = (currentKeys, times=0) ->
-    Settings.add { currentKeys, times }
+  storeLast = ->
+    Settings.add { currentKeys, times: keyTimes }
 
   @runLast: ->
-    runCurrentKeys Settings.get('@currentKeys'), false
+    runCurrentKeys Settings.get('@currentKeys'), Settings.get('@times'), false
   desc @runLast, 'Repeat the last command'
 
   filterKey = (key, insertMode) ->
@@ -74,16 +74,9 @@ class window.KeyEvent
     if Option.get 'showstatus'
       CmdBox.set title: "#{keyTimes or ''}#{currentKeys}", timeout: 500
 
-  runCurrentKeys = (keys, insertMode, e) =>
+  runCurrentKeys = (keys, times, insertMode, e) =>
     return unless keys
     key = if e then getKey e else null
-
-    # when run last command, fix run time.
-    if key is '.' and not insertMode
-      lastTimes = Settings.get '@times'
-      keyTimes = (lastTimes or 1) * (keyTimes or 1)
-    else
-      lastTimes = keyTimes
 
     # 0 is a special command: could be used to scroll left, also could be used as run count.
     if keyTimes <= 0 or not /^\d$/.test keys
@@ -96,20 +89,20 @@ class window.KeyEvent
         # Run matched function
 
         # map j 3j
-        mapTimes = Number count
-        keyTimes = mapTimes * (keyTimes or 1) if mapTimes > 0
+        originalKeyTimes = keyTimes
+        keyTimes = (keyTimes or 1) * times * (Number(count) or 1)
 
         try
           bindingFunction.call e
         catch error
           Debug error
 
-        keyTimes = lastTimes if mapTimes > 0
+        keyTimes = originalKeyTimes
 
         if e
           # If any function invoked, then store it to last run command.
           # (don't do this when running 'repeat last command' or in InsertMode)
-          storeLast keys, keyTimes if key isnt '.' and not insertMode
+          do storeLast if key isnt '.' and not insertMode
 
           # stopPropagation if Vrome is enabled and any functions executed
           @stopPropagation e
@@ -119,19 +112,19 @@ class window.KeyEvent
           keyTimes = 0
 
         currentKeys = ''
+      else if not insertMode and /^\d$/.test key
+        # Set the count time
+        keyTimes = keyTimes * 10 + Number(key)
+        currentKeys = ''
+        do showStatusLine
       else
-        # Check if there are any bindings that match
+        # Check if there are any bindings that partially match
         for command, modes of bindings when modes[Number insertMode]? and command.startsWith keys
           someBindingMatched = true
           do showStatusLine
           break
 
         currentKeys = '' if not someBindingMatched
-
-        # Set the count time
-        if not insertMode and /^\d$/.test key
-          keyTimes = keyTimes * 10 + Number(key)
-          do showStatusLine
 
   @exec: (e) =>
     key = getKey e
@@ -145,4 +138,4 @@ class window.KeyEvent
     currentKeys = filterKey currentKeys.concat(key), insertMode
     return if ignoreKey currentKeys, insertMode
 
-    runCurrentKeys currentKeys, insertMode, e
+    runCurrentKeys currentKeys, 1, insertMode, e
