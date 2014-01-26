@@ -1,7 +1,6 @@
 root = exports ? window
 
-root.Post = (msg) ->
-  chrome.runtime.sendMessage msg
+root.Post = chrome.runtime.sendMessage
 
 window.addEventListener 'error', ((err) -> Debug err), false
 
