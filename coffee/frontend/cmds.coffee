@@ -1,9 +1,9 @@
 root = exports ? window
 
-root.AcceptKey     = ['<Enter>', '<C-j>', '<C-m>']
-root.CtrlAcceptKey = ['<C-Enter>']
-root.CancelKey     = ['<Esc>', '<C-[>']
-root.CtrlEscapeKey = ['<C-Esc>']
+AcceptKey     = ['<Enter>', '<C-j>', '<C-m>']
+CancelKey     = ['<Esc>', '<C-[>']
+CtrlAcceptKey = ['<C-Enter>']
+CtrlEscapeKey = ['<C-Esc>']
 
 root.isControlKey = (key) ->
   key in ['Control', 'Shift', 'Alt', 'Win']
@@ -28,10 +28,6 @@ root.AcceptKeyFunction = ->
   Buffer.deleteMatchHandle()
   Buffer.deleteNoteMatchHandle()
 
-root.CtrlAcceptKeyFunction = ->
-  Dialog.openCurrentNewTab()
-  Search.openCurrentNewTab()
-
 root.CancelKeyFunction = ->
   Hint.remove()
   Search.stop()
@@ -42,6 +38,10 @@ root.CancelKeyFunction = ->
   CmdBox.remove()
   Help.hide true
 desc root.CancelKeyFunction, 'Cancel Actions'
+
+root.CtrlAcceptKeyFunction = ->
+  Dialog.openCurrentNewTab()
+  Search.openCurrentNewTab()
 
 extractFunction = (functionName) ->
   func = (func ? root)[action] for action in functionName.split('.')
