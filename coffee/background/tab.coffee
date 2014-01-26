@@ -101,7 +101,7 @@ class window.Tab
 
   @reopen: (msg) ->
     if closedTabs.length > 0
-      index = (closedTabs.length - msg.count) % closedTabs.length
+      index = rabs(closedTabs.length - msg.count, closedTabs.length)
       lastClosedTab = closedTabs[index]
       if lastClosedTab
         closedTabs.splice index, 1
@@ -124,7 +124,7 @@ class window.Tab
 
     chrome.tabs.query windowId: msg.tab.windowId, (tabs) ->
       # ensure index in 0..tabs.length
-      newIndex = (msg.tab.index + msg.count * direction) % tabs.length
+      newIndex = rabs(msg.tab.index + msg.count * direction, tabs.length)
       chrome.tabs.move msg.tab.id, index: newIndex
 
   @close: (msg) =>
