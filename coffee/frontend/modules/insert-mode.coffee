@@ -153,7 +153,7 @@ class window.InsertMode
     elem   = currentElement()
     editId = String(Math.random())
     text   = elem.value.substr(0, elem.selectionStart)
-    line   = 1 + text.match(/\n/g).length
+    line   = 1 + (text.match(/\n/g) or []).length
     col    = 1 + text.match(/\n?(.*?)$/)[1].length
     elem.setAttribute 'vrome_edit_id', editId
 
