@@ -3,7 +3,7 @@ class History
     Post action: 'History.search', keyword: keyword
 
   @start: (newTab) ->
-    Dialog.start {title: 'History', search, newTab}
+    Dialog.start { title: 'History', search, newTab }
   desc @start, 'Filter History with keyword (support Dialog extend mode)'
 
   @newTabStart: => @start true

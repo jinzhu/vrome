@@ -11,7 +11,7 @@ class Url
   @open: (withDefault, newTab) ->
     title = if newTab then 'TabOpen: ' else 'Open: '
     content = if withDefault then location.href else (getSelected() or '')
-    Dialog.start {title, content, search, newTab}
+    Dialog.start { title, content, search, newTab }
   desc @open, 'Open URLs or search'
   @open.options =
     noautocomplete:
@@ -112,9 +112,9 @@ class Url
   @openFromClipboard: (newTab=false, active=false) ->
     selectedText = getSelected()
     if selectedText isnt ''
-      Post {action: 'Tab.openUrl', url: selectedText, newTab, active}
+      Post { action: 'Tab.openUrl', url: selectedText, newTab, active }
     else
-      Post {action: 'Tab.openFromClipboard', newTab, active}
+      Post { action: 'Tab.openFromClipboard', newTab, active }
   desc @openFromClipboard, 'Open selected text or clipboard content in current tab. If not a valid URL, make a search'
 
 root = exports ? window

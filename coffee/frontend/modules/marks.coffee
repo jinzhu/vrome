@@ -40,7 +40,7 @@ class Marks
 
   @gotoQuickMark: (newTab) ->
     title = if newTab then 'Open Quick Mark (new tab)' else 'Open Quick Mark'
-    Dialog.start {title, search: filterQuickMarks(newTab), newTab}
+    Dialog.start { title, search: filterQuickMarks(newTab), newTab }
   desc @gotoQuickMark, 'Go to quick mark (support Dialog extend mode)'
 
   @deleteQuickMark: (keyword) ->

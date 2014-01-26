@@ -48,7 +48,7 @@ class CmdBox
     [content, start, end] = [input.val() or '', input.prop('selectionStart'), input.prop('selectionEnd')]
     _content = "#{content[0...start]}#{content[end..-1]}" # no_selection_content
     argument = content.split(' ')[1..-1].join(' ')
-    {title: cmdBoxTitle(false).html() or '', content, selection: content[start..end], _content, argument}
+    { title: cmdBoxTitle(false).html() or '', content, selection: content[start..end], _content, argument }
 
   @remove: ->
     $("##{BOX_ID}").unbind().remove()

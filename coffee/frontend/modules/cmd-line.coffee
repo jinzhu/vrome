@@ -2,7 +2,7 @@ class CmdLine
   commands = {}
 
   @add: (name, func, hasArgs) ->
-    commands[name] = {name, description: func?.description, func, hasArgs}
+    commands[name] = { name, description: func?.description, func, hasArgs }
 
   @start: ->
     Dialog.start title: 'Command-line', search: search, onTab: onTabFunc
@@ -12,7 +12,7 @@ class CmdLine
     (e) ->
       [title, keywords] = [$(e.target).attr('title'), CmdBox.get().content.split(' ')]
       content = [title, keywords[1..-1].join(' ')].join(' ')
-      CmdBox.softSet {content}
+      CmdBox.softSet { content }
       command.func.call '', keywords[1..-1].join(' ')
       Dialog.stop()
       false

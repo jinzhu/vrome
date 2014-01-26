@@ -157,7 +157,7 @@ class InsertMode
     col    = 1 + text.match(/\n?(.*?)$/)[1].length
     elem.setAttribute 'vrome_edit_id', editId
 
-    Post {action: 'Editor.open', callbackAction: 'InsertMode.externalEditorCallBack', data: elem.value, editId, line, col}
+    Post { action: 'Editor.open', callbackAction: 'InsertMode.externalEditorCallBack', data: elem.value, editId, line, col }
   desc @externalEditor, 'Launch the external editor'
   @externalEditor.options =
     editor:

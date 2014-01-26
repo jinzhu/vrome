@@ -2,7 +2,7 @@ root = exports ? window
 
 root.Post = chrome.runtime.sendMessage
 
-window.addEventListener 'error', ((err) -> Debug err), false
+window.addEventListener 'error', ((error) -> Debug error), false
 
 Settings.init ->
   do KeyEvent.init

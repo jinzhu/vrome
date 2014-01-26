@@ -67,7 +67,7 @@ class Tab
             urls = urls.concat history
           when 'search'
             urls = urls.concat defaultUrl if defaultUrl.origin is 'search'
-      Post msg.tab, {action: 'Dialog.draw', urls, keyword: msg.keyword}
+      Post msg.tab, { action: 'Dialog.draw', urls, keyword: msg.keyword }
 
     if 'bookmarks' in completionItems
       chrome.bookmarks.search msg.keyword, (bs) ->
@@ -75,7 +75,7 @@ class Tab
         do returnUrls if --dataToFetch is 0
     if 'history' in completionItems
       startTime = new Date().getTime() - 1000 * 60 * 60 * 24 * 10 # since 10 days ago
-      chrome.history.search {text: msg.keyword, maxResults: 30, startTime}, (hs) ->
+      chrome.history.search { text: msg.keyword, maxResults: 30, startTime }, (hs) ->
         history = hs
         do returnUrls if --dataToFetch is 0
   @autoComplete.options =
@@ -87,17 +87,17 @@ class Tab
     url = fixUrl(msg.url).url
 
     if msg.incognito
-      chrome.windows.create {incognito: true, url}, ->
+      chrome.windows.create { incognito: true, url }, ->
     else
       if msg.newTab
         # open a new tab next to currently selected tab
-        chrome.tabs.create {url, index: (msg.tab.index + 1), active: msg.active or Option.get('follow_new_tab') is 1}
+        chrome.tabs.create { url, index: (msg.tab.index + 1), active: msg.active or Option.get('follow_new_tab') is 1 }
       else
-        @update {tab: msg.tab, url}
+        @update { tab: msg.tab, url }
 
   @openFromClipboard: (msg) =>
     url = Clipboard.read()
-    @openUrl $.extend(msg, {url})
+    @openUrl $.extend(msg, { url })
 
   @reopen: (msg) ->
     if closedTabs.length > 0
@@ -117,7 +117,7 @@ class Tab
     attr.pinned      = msg.pinned      if typeof msg.pinned      isnt 'undefined'
 
     chrome.tabs.update msg.tab.id, attr, (tab) ->
-      runWhenComplete {tab, code: msg.callback} if msg.callback
+      runWhenComplete { tab, code: msg.callback } if msg.callback
 
   @move: (msg) ->
     direction = if msg.direction is 'left' then -1 else 1
@@ -166,7 +166,7 @@ class Tab
 
   @toggleViewSource: (msg) =>
     url = msg.tab.url.replace /^(view-source:)?/, if msg.tab.url.startsWith('view-source:') then '' else 'view-source:'
-    @openUrl $.extend(msg, {url})
+    @openUrl $.extend(msg, { url })
 
   @reload: (msg) ->
     if msg.reloadAll
@@ -184,7 +184,7 @@ class Tab
     chrome.windows.getAll populate: true, (windows) =>
       for w in windows
         for tab in w.tabs when tab.pinned and (msg.allWindows or w.id is msg.tab.windowId)
-          @update {pinned: false, tab}
+          @update { pinned: false, tab }
       return
 
   @duplicate: (msg) ->
@@ -214,7 +214,7 @@ class Tab
         markedTabs.push tab.id
 
     title = "#{markedTabs.length} Tab(s) marked"
-    Post msg.tab, {action: 'CmdBox.set', title, timeout: 4000}
+    Post msg.tab, { action: 'CmdBox.set', title, timeout: 4000 }
 
   @markForMerging: (msg) ->
     if msg.all

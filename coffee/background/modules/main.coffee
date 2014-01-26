@@ -6,7 +6,7 @@ root.Post = (tab, message) ->
 root.runScript = (msg) ->
   chrome.tabs.executeScript msg.tab.id, code: msg.code
 
-window.addEventListener 'error', ((err) -> Debug err), false
+window.addEventListener 'error', ((error) -> Debug error), false
 
 # notify of new version
 checkNewVersion = ->

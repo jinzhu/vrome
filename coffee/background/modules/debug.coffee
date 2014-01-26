@@ -13,7 +13,7 @@ Debug = (str) ->
   # Format Function
   str = str.toString() if $.isFunction str
 
-  # Post(Tab.currentTab, {action: 'console.log', arguments: str}) if Tab.currentTab
+  # Post(Tab.currentTab, { action: 'console.log', arguments: str }) if Tab.currentTab
 
   params = JSON.stringify
     method:   'print_messages'
