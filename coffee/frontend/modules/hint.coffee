@@ -4,9 +4,6 @@ class window.Hint
     '*[onclick],*[onmouseover],[contenteditable],.js-new-tweets-bar,' +
     '[role=link],[role=checkbox],[role=button],[role=tab],[role=menubar]'
 
-  @isHintable: (elem) ->
-    $(elem).parent().find(HINTABLE).toArray().indexOf(elem) isnt -1
-
   title = ->
     mode = if multiMode then ['multi mode'] else (if newTab then ['new tab'] else [])
     mode.push subAction if subAction = getCurrentAction()?.hint

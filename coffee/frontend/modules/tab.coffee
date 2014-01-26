@@ -83,7 +83,7 @@ class window.Tab
   desc @last, 'Go to last tab'
 
   @close: (option={}) ->
-    Post $.extend(option, action: 'Tab.close', count: times(true))
+    Post $.extend(option, action: 'Tab.close', count: times true)
   desc @close, 'Close current tab'
 
   @closeAndFoucsLast: =>

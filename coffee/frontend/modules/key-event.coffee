@@ -94,7 +94,6 @@ class window.KeyEvent
       bindingFunction = bindings[match]?[Number insertMode]
       if bindingFunction?
         # Run matched function
-        someFunctionCalled = true
 
         # map j 3j
         mapTimes = Number count
@@ -102,37 +101,37 @@ class window.KeyEvent
 
         try
           bindingFunction.call e
-        catch err
-          Debug err
+        catch error
+          Debug error
 
         keyTimes = lastTimes if mapTimes > 0
+
+        if e
+          # If any function invoked, then store it to last run command.
+          # (don't do this when running 'repeat last command' or in InsertMode)
+          storeLast keys, keyTimes if key isnt '.' and not insertMode
+
+          # stopPropagation if Vrome is enabled and any functions executed
+          @stopPropagation e
+
+          # If some function invoked and a key pressed, reset the count
+          # but don't reset it if no key pressed, this means the function is invoked by runLast.
+          keyTimes = 0
+
+        currentKeys = ''
       else
         # Check if there are any bindings that match
         for command, modes of bindings when modes[Number insertMode]? and command.startsWith keys
           someBindingMatched = true
+          do showStatusLine
           break
 
-    do showStatusLine if not someFunctionCalled and someBindingMatched
-    # If any function invoked, then store it to last run command.
-    # (Don't do this when run repeat last command or In InsertMode)
-    storeLast keys, keyTimes if someFunctionCalled and e and key isnt '.' and not insertMode
+        currentKeys = '' if not someBindingMatched
 
-    # Reset currentKeys if nothing match or some function called
-    currentKeys = '' if someFunctionCalled or not someBindingMatched
-
-    # Set the count time
-    keyTimes = keyTimes * 10 + Number(key) if not someFunctionCalled and not insertMode and /^\d$/.test key
-
-    # If some function invoked and a key pressed, reset the count
-    # but don't reset it if no key pressed, this should means the function is invoked by runLastCommand.
-    keyTimes = 0 if someFunctionCalled and key
-
-    # stopPropagation if Vrome is enabled and any functions executed but not in InsertMode or on a link
-    if e and someFunctionCalled and not (isAcceptKey(key) and (insertMode or Hint.isHintable(document.activeElement)))
-      @stopPropagation e
-    # Compatible with google's new interface
-    if e and key?.length is 1 and not insertMode
-      @stopPropagation e
+        # Set the count time
+        if not insertMode and /^\d$/.test key
+          keyTimes = keyTimes * 10 + Number(key)
+          do showStatusLine
 
   @exec: (e) =>
     key = getKey e

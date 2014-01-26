@@ -11,7 +11,7 @@ class window.Buffer
     CmdBox.remove()
 
   @gotoFirstMatch: ->
-    if count = times(true)
+    if count = times true
       Post action: 'Tab.select', index: count - 1
     else
       bufferGotoMode = true
@@ -26,7 +26,7 @@ class window.Buffer
   desc @deleteMatchHandle, 'Close all matched tabs: like `B` in normal mode'
 
   @deleteMatch: ->
-    if count = times(true)
+    if count = times true
       Post action: 'Tab.close', index: count - 1
     else
       closeMatchMode = true
