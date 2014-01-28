@@ -105,7 +105,7 @@ class window.KeyEvent
           do storeLast if key isnt '.' and not insertMode
 
           # stopPropagation if Vrome is enabled and any functions executed
-          @stopPropagation e
+          @stopPropagation e if not (isAcceptKey(key) and (insertMode or Hint.isHintable(document.activeElement)))
 
           # If some function invoked and a key pressed, reset the count
           # but don't reset it if no key pressed, this means the function is invoked by runLast.
