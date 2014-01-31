@@ -103,7 +103,9 @@ class window.Search
     $(nodes[gotoIndex]).attr('id', HIGHLIGHT_CURRENT_ID).get(0)?.scrollIntoViewIfNeeded()
 
     # show notification that search has wrapped around
-    cmdBoxTitle = if offset > 0 and gotoIndex < currentIndex
+    cmdBoxTitle = if gotoIndex is currentIndex and step isnt 0
+      'No more results found'
+    else if offset > 0 and gotoIndex < currentIndex
       'Search hit BOTTOM, continuing at TOP'
     else if offset < 0 and gotoIndex > currentIndex
       'Search hit TOP, continuing at BOTTOM'
