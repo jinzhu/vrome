@@ -5,9 +5,10 @@ class window.Search
   @backward: => @start -1
   desc @backward, 'Start backward search (with selected text)'
 
-  Mouse.addOnClickHandler (e) ->
-    return unless searchMode
-    justClickedPosition = x: e.pageX, y: e.pageY
+  @init: ->
+    Mouse.addOnClickHandler (e) ->
+      return unless searchMode
+      justClickedPosition = x: e.pageX, y: e.pageY
 
   title = ->
     if direction > 0 then 'Forward search: /' else 'Backward search: ?'
