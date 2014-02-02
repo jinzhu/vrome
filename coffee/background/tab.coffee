@@ -4,7 +4,7 @@ class window.Tab
   # close the tab and add it to closed tabs list
   remove = (tab) =>
     return unless tab
-    @addToClosedTabs tab
+    @addToClosedTabs tab if Tab.currentTab.id isnt tab.id
     chrome.tabs.remove tab.id
 
   runWhenComplete = (msg) ->
