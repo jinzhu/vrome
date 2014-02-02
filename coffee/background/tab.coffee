@@ -134,22 +134,24 @@ class window.Tab
     @selectPrevious.apply '', arguments if msg.focusLast # close and select last
     @select.apply         '', arguments if msg.offset    # close and select right/left
 
-    chrome.windows.getAll populate: true, (windows) ->
-      for w in windows when cond is 'otherWindows' or w.id is msg.tab.windowId
-        for tab in w.tabs.reverse()
-          if cond is 'otherWindows'
-            remove tab if w.id isnt msg.tab.windowId
-          else
-            if (
-              (cond is 'closeOther' and tab.id isnt msg.tab.id) or
-              (cond is 'closeLeft' and tab.index < index and (if count is 0 then true else tab.index >= index - count)) or
-              (cond is 'closeRight' and tab.index > index and (if count is 0 then true else tab.index <= index + count)) or
-              (cond is 'closePinned' and tab.pinned) or
-              (cond is 'closeUnPinned' and not tab.pinned) or
-              (not cond and tab.index >= index and tab.index < index + Math.max(1, count))
-            )
-              remove tab
-      return
+    if cond is 'otherWindows'
+      chrome.windows.getAll populate: true, (windows) ->
+        for w in windows when w.id isnt msg.tab.windowId
+          w.tabs.forEach remove
+        return
+    else
+      chrome.windows.getCurrent populate: true, (w) ->
+        for tab in w.tabs
+          if (
+            (cond is 'closeOther' and tab.id isnt msg.tab.id) or
+            (cond is 'closeLeft' and tab.index < index and (if count is 0 then true else tab.index >= index - count)) or
+            (cond is 'closeRight' and tab.index > index and (if count is 0 then true else tab.index <= index + count)) or
+            (cond is 'closePinned' and tab.pinned) or
+            (cond is 'closeUnPinned' and not tab.pinned) or
+            (not cond and tab.index >= index and tab.index < index + Math.max(1, count))
+          )
+            remove tab
+        return
 
   @select: (msg) ->
     chrome.tabs.query windowId: msg.tab.windowId, (tabs) ->
