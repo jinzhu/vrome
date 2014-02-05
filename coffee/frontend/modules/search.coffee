@@ -48,8 +48,9 @@ class window.Search
         offsetA = $(a).offset()
         offsetB = $(b).offset()
         topDifference = offsetA.top - offsetB.top
+        topDifference = 0 if Math.abs(topDifference) is 1
         return topDifference if topDifference isnt 0
-        return offsetA.left - offsetB.left
+        offsetA.left - offsetB.left
     @next lastSearch.position
 
   @prev: => @next -1
