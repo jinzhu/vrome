@@ -168,27 +168,27 @@ class window.Hint
 
     for elem in elems
       currentAction = getCurrentAction()
-      tagName = $(elem).prop('tagName')?.toLowerCase()
-      type = $(elem).prop('type')?.toLowerCase()
+      tagName = elem.tagName
+      type = elem.type
 
       if $.isFunction currentAction
         @remove() # No multiMode for extend mode
         currentAction elem
       else
-        if tagName is 'a'
+        if tagName is 'A'
           clickElement elem, ctrl: newTab
         else if $(elem).attr('onclick')
           clickElement elem
         else if $(elem).attr('onmouseover')
           $(elem).mouseover()
-        else if (tagName is 'input' and type in ['submit', 'button', 'reset', 'radio', 'checkbox']) or tagName is 'button'
+        else if (tagName is 'INPUT' and type in ['SUBMIT', 'BUTTON', 'RESET', 'RADIO', 'CHECKBOX']) or tagName is 'BUTTON'
           clickElement elem
-        else if tagName in ['input', 'textarea']
+        else if tagName in ['INPUT', 'TEXTAREA']
           try
             $(elem).select()
           catch e
             clickElement elem # some website don't use standard submit input.
-        else if tagName is 'select'
+        else if tagName is 'SELECT'
           $(elem).focus()
         else
           clickElement elem
