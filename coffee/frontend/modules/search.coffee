@@ -1,5 +1,5 @@
 class window.Search
-  [searchMode, direction, lastSearch, nodes, originalX, originalY, justClickedPosition] = []
+  [searchMode, direction, lastSearch, nodes, originalX, originalY, justClickedPosition, timeout] = []
   [HIGHLIGHT_CLASS, HIGHLIGHT_CURRENT_ID] = ['__vrome_search_highlight', '__vrome_search_highlight_current']
 
   @backward: => @start -1
@@ -22,6 +22,7 @@ class window.Search
 
   @stop: =>
     return unless searchMode
+    clearTimeout timeout
     searchMode = false
     scrollTo originalX, originalY if CmdBox.isActive()
     CmdBox.remove()
@@ -38,19 +39,28 @@ class window.Search
       text:      CmdBox.get().content
       position:  0
       direction: direction
-    find lastSearch.text
+    find false, lastSearch.text
 
-  find = (keyword) =>
+  doHighlight = (inFullPage, keyword) ->
+    $body.highlight keyword,
+      className:      HIGHLIGHT_CLASS
+      filterFunction: (e) -> isElementVisible $(e), inFullPage
+    nodes = $(".#{HIGHLIGHT_CLASS}").sort (a, b) ->
+      offsetA = $(a).offset()
+      offsetB = $(b).offset()
+      topDifference = offsetA.top - offsetB.top
+      return topDifference if topDifference isnt 0
+      offsetA.left - offsetB.left
+
+  find = (inFullPage, keyword) =>
     return scrollTo originalX, originalY if keyword is ''
-    $body.highlight keyword, className: HIGHLIGHT_CLASS
-    nodes = $(".#{HIGHLIGHT_CLASS}").filter((_, e) -> isElementVisible $(e), true).
-      sort (a, b) ->
-        offsetA = $(a).offset()
-        offsetB = $(b).offset()
-        topDifference = offsetA.top - offsetB.top
-        topDifference = 0 if Math.abs(topDifference) is 1
-        return topDifference if topDifference isnt 0
-        offsetA.left - offsetB.left
+    clearTimeout timeout
+    doHighlight inFullPage, keyword
+    if not inFullPage
+      if nodes.length is 0
+        doHighlight true, keyword
+      else
+        timeout = setTimeout (-> doHighlight true, keyword), 300
     @next lastSearch.position
 
   @prev: => @next -1
@@ -65,7 +75,7 @@ class window.Search
     # TODO: show notification on search wrap
     @start lastSearch.direction
     lastSearch.position += step
-    find lastSearch.text
+    find true, lastSearch.text
     InsertMode.blurFocus()
 
   @next: (step=1) =>
