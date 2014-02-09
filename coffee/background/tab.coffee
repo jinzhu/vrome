@@ -101,7 +101,7 @@ class window.Tab
 
   @reopen: (msg) ->
     if closedTabs.length > 0
-      index = rabs(closedTabs.length - msg.count, closedTabs.length)
+      index = (closedTabs.length - msg.count) %% closedTabs.length
       lastClosedTab = closedTabs[index]
       if lastClosedTab
         closedTabs.splice index, 1
@@ -124,7 +124,7 @@ class window.Tab
 
     chrome.tabs.query windowId: msg.tab.windowId, (tabs) ->
       # ensure index in 0..tabs.length
-      newIndex = rabs(msg.tab.index + msg.count * direction, tabs.length)
+      newIndex = (msg.tab.index + msg.count * direction) %% tabs.length
       chrome.tabs.move msg.tab.id, index: newIndex
 
   @close: (msg) =>
@@ -155,15 +155,15 @@ class window.Tab
 
   @select: (msg) ->
     chrome.tabs.query windowId: msg.tab.windowId, (tabs) ->
-      index = Math.min(msg.index, tabs.length - 1)          if typeof msg.index  isnt 'undefined'
-      index = rabs(msg.tab.index + msg.offset, tabs.length) if typeof msg.offset isnt 'undefined'
+      index = Math.min(msg.index, tabs.length - 1)        if typeof msg.index  isnt 'undefined'
+      index = (msg.tab.index + msg.offset) %% tabs.length if typeof msg.offset isnt 'undefined'
       chrome.tabs.update tabs.splice(index, 1)[0].id, active: true
 
   @selectPrevious: =>
     chrome.tabs.update @previousTab.id, active: true if @previousTab
 
   @selectLastOpen: (msg) =>
-    index = rabs(@lastOpenTabs.length - msg.count, @lastOpenTabs.length)
+    index = (@lastOpenTabs.length - msg.count) %% @lastOpenTabs.length
     @update tab: @lastOpenTabs[index], active: true
 
   @toggleViewSource: (msg) =>

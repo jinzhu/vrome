@@ -29,7 +29,7 @@ class window.Dialog
     maxNum = Math.min(9, results.length - 1)
 
     for index in [0..maxNum]
-      $(results[rabs(selected + index, results.length)]).prepend $('<span>', class: QUICK_NUM).text(index)
+      $(results[(selected + index) %% results.length]).prepend $('<span>', class: QUICK_NUM).text(index)
 
     for index in [maxNum..0]
       $(".#{QUICK_NUM}:contains(#{index})").get(0)?.scrollIntoViewIfNeeded()
@@ -89,7 +89,7 @@ class window.Dialog
     setResultBox results
 
   next = (direction=1) ->
-    setSelected rabs(selected + direction, $(".#{SEARCH_RESULT}").length)
+    setSelected((selected + direction) %% $(".#{SEARCH_RESULT}").length)
 
   prev = (direction=1) ->
     next -direction

@@ -5,7 +5,7 @@ class window.Frame
     frameUrls    = (frame.url for frame in frames when frame.url not in ['doubleclick.', 'qzone.qq.com', 'plusone.google.com', 'about:blank'])
     uniqueUrls   = $.unique(frameUrls).reverse()
     currentIndex = uniqueUrls.indexOf(currentFrameUrl) or 0
-    newIndex     = rabs(currentIndex + count, uniqueUrls.length)
+    newIndex     = (currentIndex + count) %% uniqueUrls.length
     uniqueUrls[newIndex]
 
   @next: (msg) ->

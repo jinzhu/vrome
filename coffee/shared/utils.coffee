@@ -1,12 +1,5 @@
 window.getLocalServerUrl = -> "http://127.0.0.1:#{Option.get('server_port')}"
 
-window.rabs = (num, total) ->
-  # if num is -11 and total is 10:
-  # ((-11 % 10) + 10) % 10
-  # (-1 + 10) % 10
-  # 9
-  ((num % total) + total) % total
-
 window.desc = (func, description) ->
   func.description = description
 

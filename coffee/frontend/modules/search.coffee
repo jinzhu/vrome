@@ -14,7 +14,8 @@ class window.Search
     if direction > 0 then 'Forward search: /' else 'Backward search: ?'
 
   @start: (offset=1) ->
-    [searchMode, direction, originalX, originalY, justClickedPosition] = [true, offset, window.scrollX, window.scrollY]
+    [searchMode, direction, originalX, originalY, justClickedPosition] =
+      [true, offset, window.scrollX, window.scrollY]
 
     CmdBox.set
       title: title(), pressUp: handleInput, content: getSelected() or lastSearch?.text or ''
@@ -109,7 +110,7 @@ class window.Search
 
       justClickedPosition = null
     else
-      gotoIndex = rabs(currentIndex + offset, nodes.length)
+      gotoIndex = (currentIndex + offset) %% nodes.length
 
     lastSearch.position = gotoIndex
     $(nodes[gotoIndex]).attr('id', HIGHLIGHT_CURRENT_ID).get(0)?.scrollIntoViewIfNeeded()
