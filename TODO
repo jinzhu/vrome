@@ -76,3 +76,4 @@ Others:
   Save history typed in Dialog and move through it with Up and Down.
   Ability to start dialog (e.g. tabnew) with something written in it (like "google ").
   When CmdBox is open, "gg" (or any multi-key mapping) closes it while it shouldn't.
+  Search should search in textboxes too

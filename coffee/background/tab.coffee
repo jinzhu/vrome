@@ -108,15 +108,7 @@ class window.Tab
         chrome.tabs.create lastClosedTab
 
   @update: (msg) ->
-    attr = {}
-
-    # https://github.com/jashkenas/coffee-script/issues/1617
-    attr.url         = msg.url         if typeof msg.url         isnt 'undefined'
-    attr.active      = msg.active      if typeof msg.active      isnt 'undefined'
-    attr.highlighted = msg.highlighted if typeof msg.highlighted isnt 'undefined'
-    attr.pinned      = msg.pinned      if typeof msg.pinned      isnt 'undefined'
-
-    chrome.tabs.update msg.tab.id, attr, (tab) ->
+    chrome.tabs.update msg.tab.id, msg, (tab) ->
       runWhenComplete { tab, code: msg.callback } if msg.callback
 
   @move: (msg) ->
@@ -155,8 +147,10 @@ class window.Tab
 
   @select: (msg) ->
     chrome.tabs.query windowId: msg.tab.windowId, (tabs) ->
-      index = Math.min(msg.index, tabs.length - 1)        if typeof msg.index  isnt 'undefined'
-      index = (msg.tab.index + msg.offset) %% tabs.length if typeof msg.offset isnt 'undefined'
+      if msg.index
+        index = Math.min(msg.index, tabs.length - 1)
+      else # msg.offset
+        index = (msg.tab.index + msg.offset) %% tabs.length
       chrome.tabs.update tabs.splice(index, 1)[0].id, active: true
 
   @selectPrevious: =>
