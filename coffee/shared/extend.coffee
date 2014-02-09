@@ -25,4 +25,4 @@ String::escape = ->
   $('<div>').text(this).html()
 
 String::isUpperCaseLetter = ->
-  /^[A-Z]$/.test this
+  this.length is 1 and this >= 'A' and this <= 'Z'
