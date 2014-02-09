@@ -192,7 +192,7 @@ class window.Tab
     chrome.windows.create tabId: msg.tab.id, incognito: msg.tab.incognito
 
   @makeLastTabIncognito: =>
-    tab = @lastOpenTabs[@lastOpenTabs.length - 1]
+    [..., tab] = @lastOpenTabs
     openInIncognito tab if tab
 
   @toggleIncognito: (msg) ->
