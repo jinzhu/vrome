@@ -26,7 +26,7 @@ class window.Tab
     else if /\w+\.\w+/.test(url) and not /\s/.test url
       url: "http://#{url}", origin: 'url'
     # Local URL, for example: localhost:3000 || dev.local/
-    else if /local(?:host)?(?:$|\/|:)/.test url
+    else if /local(?:host)?(?:$|\/|:)/.test(url) and not /\s/.test url
       url: "http://#{url}", origin: 'url'
     # google vrome
     else
