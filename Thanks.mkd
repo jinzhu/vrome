@@ -1,3 +1,8 @@
+## Retired Author
+
+- Hassen Ben Tanfous
+  - https://github.com/hbt
+
 ## Biggest Thanks:
 
   The Vrome is based on vimlike smoozie (hiroki.fujita - http://code.google.com/p/vimlike-smooziee/)
@@ -9,29 +14,39 @@
   (Please contact me if you don't want to be seen in this list)
 
 ## Contributors:
-  - Stephan Kountso aka StepLg / \<github\> StepLg
-      - Vrome WIKI
-  - Jason / \<github\> jasonweng
-      - Vrome UI style
-  - Philip Xu / \<github\> pyx
-      - Vrome server for python
-  - Mark Stosberg / \<github\> markstos
-      - Vrome server for perl
-      - Format README.mkd and make it easier to read
+  - Stephan Kountso aka StepLg
+    - http://github.com/StepLg
+    - Vrome WIKI
+  - Jason
+    - http://github.com/jasonweng
+    - Vrome UI style
+  - Philip Xu
+    - http://github.com/pyx
+    - Vrome server for python
+  - Mark Stosberg
+    - http://github.com/markstos
+    - Vrome server for perl
+    - Format README.mkd and make it easier to read
   - Vincent Aravantinos
-      - Bug Fix: `F` should open links in a new tab (Mac)
-  - Yuriy Taraday / \<github\> YorikSar
-      - Faster Search
-  - Lukasz Wrzosek / \<github\> wrzoski
-      - \<C-r\> refresh page without cached content
-  - Keryn Knight / \<github\> kezabelle
-      - Faster Hint Mode
-  - Brandon Goldsworthy / \<github\> bgoldsworthy
-      - Configurable hintkeys
-  - Takashi Sakai / \<github\> kabostime
-      - Fix open, search multibyte characters
-  - Boris Petrov / \<github\> boris-petrov
-      - Pull requests for follow new tab and search mode
+    - Bug Fix: `F` should open links in a new tab (Mac)
+  - Yuriy Taraday
+    - http://github.com/YorikSar
+    - Faster Search
+  - Lukasz Wrzosek
+    - http://github.com/wrzoski
+    - `<C-r>` refresh page without cached content
+  - Keryn Knight
+    - http://github.com/kezabelle
+    - Faster Hint Mode
+  - Brandon Goldsworthy
+    - http://github.com/bgoldsworthy
+    - Configurable hintkeys
+  - Takashi Sakai
+    - http://github.com/kabostime
+    - Fix open, search multibyte characters
+  - Boris Petrov
+    - http://github.com/boris-petrov
+    - Pull requests for follow new tab and search mode
 
 ## Sponsors:
 

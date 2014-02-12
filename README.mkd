@@ -64,6 +64,5 @@ Like Vrome? Improve it by:
  * <wosmvp@gmail.com>
  * <http://twitter.com/zhangjinzhu>
 
-**Hassen Ben Tanfous**
- * <hassenbentanfous@gmail.com>
- * <https://github.com/hbt>
+**Boris Petrov**
+ * <https://github.com/boris-petrov>
