@@ -16,7 +16,7 @@ addOnFocus = (element) ->
 
 removeOnFocus = ->
   element.removeEventListener 'focus', onFocus, false for element in disabledElements
-  return
+  disabledElements = null
 
 document.addEventListener 'DOMContentLoaded', ->
   addOnFocus document.documentElement
