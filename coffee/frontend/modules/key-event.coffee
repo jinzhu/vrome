@@ -128,7 +128,7 @@ class window.KeyEvent
 
   @exec: (e) =>
     key = getKey e
-    insertMode = e.target.nodeName in ['INPUT', 'TEXTAREA', 'SELECT'] or e.target.getAttribute('contenteditable')?
+    insertMode = isEditableElement e.target
 
     # If Vrome in pass-next or disabled mode and using <C-Esc> to enable it.
     return @enable() if not insertMode and (passNextKey or (disableVrome and isCtrlEscapeKey(key)))
