@@ -43,6 +43,9 @@ set follow_new_tab=1
 " Disable autocomplete
 set noautocomplete
 
+" Disable autofocusing of elements during page load
+set disable_autofocus
+
 " The server port is what external server running on
 " The external server is used to support launch the external editor in insert mode.
 " Please refer "Support External Editor" https://github.com/jinzhu/vrome/wiki/Support-External-Editor for more

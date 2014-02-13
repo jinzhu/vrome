@@ -70,7 +70,6 @@ NO AVAILABLE API:
 
 Others:
   unmaps shouldn't be saved - i.e. it could be an optimization to just remove mappings
-  Should not focus first input field!
   Select specific frame on click so it can be scrolled.
   Google groups don't work - cannot be scrolled.
   Save history typed in Dialog and move through it with Up and Down.
