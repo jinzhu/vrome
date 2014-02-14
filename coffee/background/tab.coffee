@@ -108,7 +108,9 @@ class window.Tab
         chrome.tabs.create lastClosedTab
 
   @update: (msg) ->
-    chrome.tabs.update msg.tab.id, msg, (tab) ->
+    tab = msg.tab
+    delete msg.tab
+    chrome.tabs.update tab.id, msg, (tab) ->
       runWhenComplete { tab, code: msg.callback } if msg.callback
 
   @move: (msg) ->
