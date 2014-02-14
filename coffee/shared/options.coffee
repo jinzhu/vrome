@@ -26,8 +26,6 @@ class window.Option
     show_disabled_text: 1
     follow_new_tab: 1
     completion_items: 'url,search-engine,bookmarks,history,search'
-    sources_map:
-      jquery: 'http://code.jquery.com/jquery.js'
 
   @get: (key) ->
     configure = Settings.get('@configure.set')?[key]
