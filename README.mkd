@@ -1,8 +1,8 @@
 ##[Vrome](http://github.com/jinzhu/vrome) - Bringing Vim's elegance to Chrome
 
-Vrome is a Vim keybindings extension for chrome. Designed to provide a more efficient browsing experience. Vrome comes with its own additions that will surprise you.
+Vrome is a Vim keybindings extension for Chrome. Designed to provide a more efficient browsing experience, Vrome comes with its own additions that will surprise you.
 
-Vim + Vimperator users will feel right at home.
+Vim and Vimperator/Pentadactyl users will feel right at home.
 
 [What's new?](https://github.com/jinzhu/vrome/blob/master/ChangeLog.mkd)
 
@@ -14,27 +14,27 @@ Vim + Vimperator users will feel right at home.
 * Page navigation + Scrolling + Zoom + Search
 * History
 * External editor support
-* [**and much much More**](https://github.com/jinzhu/vrome/blob/master/Features.mkd)
+* [**and much, much more**](https://github.com/jinzhu/vrome/blob/master/Features.mkd)
 
 ### Important notes:
+
 * Chrome does not allow extensions to run in the Chrome Webstore, Settings/Extensions page or "New Tab" page!
 * Vrome is an open-source project. We do not log your personal information! All required permissions are used for features. You can check the source code here: [http://github.com/jinzhu/vrome](http://github.com/jinzhu/vrome)
 * After install/upgrade, please refresh all tabs to enable all/new Vrome features. Tip: use "\<C-r\>" (Control + R) to refresh a tab, then try Vrome command "R" to refresh all tabs.
 * Please enable Vrome in incognito mode in order to use commands that require incognito. Check [chrome://extensions](chrome://extensions) page.
 * Type `<F1>` for Help page.
 
-
 ### Installation
 
 * (Recommended) Install the latest stable Vrome from [Chrome Web Store](https://chrome.google.com/webstore/detail/godjoomfiimiddapohpmfklhgmbfffjj/details).
   Afterwards, extension will be automatically updated when a new version is available!
 * (Manual) From source:
-  + Make sure ruby, npm, git installed
+  + Make sure ruby, npm, git are installed
   + `git clone git://github.com/jinzhu/vrome.git`
-  + Install coffee-script with npm `npm install coffee-script -g`
+  + Install coffee-script with npm `npm install -g coffee-script`
   + Install Bundler with rubygems `gem install bundler`
   + Run `bundle install`
-  + Run `rake init_development_env`
+  + Run `bundle exec rake build`
   + Load this extension from chrome://extensions/ page
 
 ### Improve it!
@@ -49,7 +49,7 @@ Like Vrome? Improve it by:
 ### Hack it!
 
 * Install Vrome from source
-* Run `guard`
++ Run `bundle exec guard`
 * That's all, all changes you made will apply to your browser automatically!
 
 
