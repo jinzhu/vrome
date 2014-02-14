@@ -150,16 +150,16 @@ class window.Tab
             remove tab
         return
 
-  @select: (msg) ->
-    chrome.tabs.query windowId: msg.tab.windowId, (tabs) ->
+  @select: (msg) =>
+    chrome.tabs.query windowId: msg.tab.windowId, (tabs) =>
       if msg.index
         index = Math.min(msg.index, tabs.length - 1)
       else # msg.offset
         index = (msg.tab.index + msg.offset) %% tabs.length
-      chrome.tabs.update tabs.splice(index, 1)[0].id, active: true
+      @update tab: tabs[index], active: true
 
   @selectPrevious: =>
-    chrome.tabs.update @previousTab.id, active: true if @previousTab
+    @update tab: @previousTab, active: true if @previousTab
 
   @selectLastOpen: (msg) =>
     index = (@lastOpenTabs.length - msg.count) %% @lastOpenTabs.length
@@ -179,13 +179,13 @@ class window.Tab
       chrome.tabs.reload msg.tab.id, bypassCache: (msg.bypassCache ? false)
 
   @togglePin: (msg) =>
-    @update pinned: not msg.tab.pinned, tab: msg.tab
+    @update tab: msg.tab, pinned: not msg.tab.pinned
 
   @unpinAll: (msg) =>
     chrome.windows.getAll populate: true, (windows) =>
       for w in windows
         for tab in w.tabs when tab.pinned and (msg.allWindows or w.id is msg.tab.windowId)
-          @update { pinned: false, tab }
+          @update { tab, pinned: false }
       return
 
   @duplicate: (msg) ->
