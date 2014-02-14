@@ -91,7 +91,10 @@ class window.Tab
     else
       if msg.newTab
         # open a new tab next to currently selected tab
-        chrome.tabs.create { url, index: (msg.tab.index + 1), active: msg.active or Option.get('follow_new_tab') is 1 }
+        chrome.tabs.create
+          url:    url
+          index:  (msg.tab.index + 1)
+          active: msg.active or Option.get('follow_new_tab') is 1
       else
         @update { tab: msg.tab, url }
 

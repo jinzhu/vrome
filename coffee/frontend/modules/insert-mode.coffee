@@ -1,6 +1,6 @@
 class window.InsertMode
-  [elem, caretPosition, value, lineStart, prevLineStart, nextLineStart, next2LineStart] = []
-  storedValues = []
+  [storedValues, nextEditId, elem, caretPosition, value, lineStart,
+    prevLineStart, nextLineStart, next2LineStart] = [[], 0]
 
   storeLastValue = ->
     storedValues.push value if value isnt storedValues[storedValues.length - 1]
@@ -151,8 +151,8 @@ class window.InsertMode
 
   @externalEditor: ->
     elem   = currentElement()
-    editId = String(Math.random())
-    text   = elem.value.substr(0, elem.selectionStart)
+    editId = String nextEditId++
+    text   = elem.value.substr 0, elem.selectionStart
     line   = 1 + (text.match(/\n/g) or []).length
     col    = 1 + text.match(/\n?(.*?)$/)[1].length
     elem.setAttribute 'vrome_edit_id', editId
