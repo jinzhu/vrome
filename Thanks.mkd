@@ -5,11 +5,11 @@
 
 ## Biggest Thanks:
 
-  The Vrome is based on vimlike smoozie (hiroki.fujita - http://code.google.com/p/vimlike-smooziee/)
+  Vrome is based on vimlike smoozie (hiroki.fujita - http://code.google.com/p/vimlike-smooziee/)
 
   And inspiration from the Vim text editor and Vimperator for Firefox.
 
-  Thanks for all people report bugs, contribute your code & ideas and even donote this project!
+  Thanks for all people who report bugs, contribute code & ideas and even donate to this project!
 
   (Please contact me if you don't want to be seen in this list)
 
