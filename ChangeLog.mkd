@@ -1,91 +1,101 @@
-2.9.6 (2013/12/25)
+# Changelog
 
-- Add option `follow_new_tab`, follow new tab opened by `t/T/F` or `<C-Enter>` if its value is 1, default is 1.
-- Change `<Enter>`'s behavior in search mode. Press once to leave command box, press again to open current focused link
+## master (unreleased)
 
-2.9.5 (2013/11/18)
+* Add option `disable_autofocus` which tries to prevent web pages from focusing some input field when loaded.
+* Updates to the search feature - lots of optimizations; it shows a notification on search wrap; it displays if there is a single result; ability to click on the page after the search is initiated and finding the next match continues from there
+* Add option `completion_items` - it supports the following options: "url,search-engine,bookmarks,history,search". Any could be added/removed and in any order and then results from completion will be filtered and ordered accordingly.
+* Lots of optimizations here and there
+* Lots of minor fixes
 
--- Fix lost characters when type fast when open url
+## 2.9.6 (2013/12/25)
 
-2.9.4 (2013/08/26)
+* Add option `follow_new_tab`, follow new tab opened by `t/T/F` or `<C-Enter>` if its value is 1, default is 1.
+* Change `<Enter>`'s behavior in search mode. Press once to leave command box, press again to open current focused link
 
-- `O/T` editing the URL of the current page.
+## 2.9.5 (2013/11/18)
 
-2.9.3 (2013/07/22)
+* Fix lost characters when type fast when open url
 
-- No need press Enter when open Quick Marks with `go|gn`
-- Fix vrome with mime-type text/xml pages
+## 2.9.4 (2013/08/26)
 
-2.9.2 (2013/07/08)
+* `O/T` editing the URL of the current page.
 
-- Use Coffee Script to rewrite the whole project
-- This version would broken custom css/javascript configurations, looking for a better soluation in version 3
-- Improved command line mode
-- New help page (haven't finish yet, wait version 3)
-- Add gr/gR to open referer URL
-- Add `<M-d>`, same as P, but focus the new tab
-- Add `<M-b>`, delete tabs don't match keyword
-- Add `<M-(y|u|i|o)>` to delete forward/backward char/word in insert mode
-- Add `<M-(n|m)>` to move next/previous line in insert mode
-- Add `<M-z>` to undo changes in insert mode
-- Add lots of commands for command line mode
-- Bug Fixes
+## 2.9.3 (2013/07/22)
 
-2.0.2 (2013/02/04)
+* No need press Enter when open Quick Marks with `go|gn`
+* Fix vrome with mime-type text/xml pages
 
-- Fix can't save option page
-- Fix Font error in gmail/youtube
+## 2.9.2 (2013/07/08)
 
-2.0.1 (2013/02/04)
+* Use Coffee Script to rewrite the whole project
+* This version would broken custom css/javascript configurations, looking for a better soluation in version 3
+* Improved command line mode
+* New help page (haven't finish yet, wait version 3)
+* Add gr/gR to open referer URL
+* Add `<M-d>`, same as P, but focus the new tab
+* Add `<M-b>`, delete tabs don't match keyword
+* Add `<M-(y|u|i|o)>` to delete forward/backward char/word in insert mode
+* Add `<M-(n|m)>` to move next/previous line in insert mode
+* Add `<M-z>` to undo changes in insert mode
+* Add lots of commands for command line mode
+* Bug Fixes
 
-- Fix `<M-d>` close current and focus last visited tab
-- Fix `<C-y>` to shorten URL
+## 2.0.2 (2013/02/04)
 
-2.0.0 (2013/02/03)
+* Fix can't save option page
+* Fix Font error in gmail/youtube
 
-- New help page, press `<F1>` to check it
-- Add some commands to CmdLine
-- Rewitten quick mark features
-- New short keys in InsertMode. `<M-{hjkl}>` to move a char/word, `<M-{yuio}>` to delete a char/word
-- New short keys for tab. `<ge>, <gq>, <dW>, <gm>, <gM>` and more...
-- Add Hassen Ben Tanfous as author! Thank you!
+## 2.0.1 (2013/02/04)
 
-1.1.2 (2012/04/10)
+* Fix `<M-d>` close current and focus last visited tab
+* Fix `<C-y>` to shorten URL
 
-- [Url] Fix open, search multibyte characters (Thanks Takashi Sakai)
+## 2.0.0 (2013/02/03)
 
-1.1.1 (2012/03/29)
+* New help page, press `<F1>` to check it
+* Add some commands to CmdLine
+* Rewitten quick mark features
+* New short keys in InsertMode. `<M-{hjkl}>` to move a char/word, `<M-{yuio}>` to delete a char/word
+* New short keys for tab. `<ge>, <gq>, <dW>, <gm>, <gM>` and more...
+* Add Hassen Ben Tanfous as author! Thank you!
 
-- [Hint] Configurable hintkeys, e.g: http://goo.gl/d7EQ0, refer Features -\> Hints Mode for more (Thanks Brandon Goldsworthy)
+## 1.1.2 (2012/04/10)
 
-1.1.0 (2012/03/16)
+* [Url] Fix open, search multibyte characters (Thanks Takashi Sakai)
 
-- [Hint] Faster Hint Mode (Thanks Keryn Knight)
-- [Open] Escape special characters when open a url (issue #117)
-- [Open] Recognize "localhost" as valid URL (issue #118)
-- [Open] Fix open part of the URL you inputed when you input very fast or search history very slow (issue #116)
-- [Vromerc] Fix can't use Function keys as map key in .Vromerc (issue #109)
-- [AutoComplete/Vromerc] Available to change the hotkey to go to the next/previous/next 10/previous 10 matched item. Example: http://goo.gl/koFEh (issue #102)
+## 1.1.1 (2012/03/29)
 
-1.0.3 (2012/03/06)
+* [Hint] Configurable hintkeys, e.g: http://goo.gl/d7EQ0, refer Features -\> Hints Mode for more (Thanks Brandon Goldsworthy)
 
-- `<C-r>` Refresh page without cached content (Thanks Lukasz Wrzosek)
+## 1.1.0 (2012/03/16)
 
-1.0.2 (2012/02/27)
+* [Hint] Faster Hint Mode (Thanks Keryn Knight)
+* [Open] Escape special characters when open a url (issue #117)
+* [Open] Recognize "localhost" as valid URL (issue #118)
+* [Open] Fix open part of the URL you inputed when you input very fast or search history very slow (issue #116)
+* [Vromerc] Fix can't use Function keys as map key in .Vromerc (issue #109)
+* [AutoComplete/Vromerc] Available to change the hotkey to go to the next/previous/next 10/previous 10 matched item. Example: http://goo.gl/koFEh (issue #102)
 
-- Faster Search (Thanks YorikSar)
-- In order to Fix `<C-Esc>` is mapped to open Start menu in Windows, make the enable Vrome key customizable.
+## 1.0.3 (2012/03/06)
+
+* `<C-r>` Refresh page without cached content (Thanks Lukasz Wrzosek)
+
+## 1.0.2 (2012/02/27)
+
+* Faster Search (Thanks YorikSar)
+* In order to Fix `<C-Esc>` is mapped to open Start menu in Windows, make the enable Vrome key customizable.
   You need to add something like below to your .Vromerc from option page.
 
    `set enable_vrome_key=<Esc>`
 
-1.0.1 (2012/02/09)
+## 1.0.1 (2012/02/09)
 
-- Fix scroll issues with 'G' that caused by chrome's update
+* Fix scroll issues with 'G' that caused by chrome's update
 
-1.0.0 (2012/01/01)
+## 1.0.0 (2012/01/01)
 
-- The first public and stable release after two more years development!
+* The first public and stable release after two more years development!
 
   We did lots of changes in this release, suggest you to read the README once again.
 
