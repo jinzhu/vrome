@@ -11,5 +11,5 @@ Settings.init ->
   do KeyEvent.init
   $ ->
     window.$body = $('body')
-    func.call() for func in [Search.init, Mouse.init, Zoom.init, Custom.runJS, Custom.loadCSS]
+    func.call() for func in [Zoom.init, Custom.runJS, Custom.loadCSS]
     return

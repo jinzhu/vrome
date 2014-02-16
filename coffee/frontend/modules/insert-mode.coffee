@@ -44,6 +44,7 @@ class window.InsertMode
       filter (_, e) -> isElementVisible $(e), inFullPage
 
   @focusFirstTextInput: ->
+    do Unfocus.didReceiveInput
     # first try to focus a currently visible element
     elems = getFocusableElements false
     # if that fails, focus a visible element anywhere on the page
