@@ -26,4 +26,4 @@ class window.Unfocus
     do removeOnFocus
     $(document.documentElement).off 'click', @didReceiveInput
 
-  $(document.documentElement).click @didReceiveInput
+  $(document.documentElement).click(@didReceiveInput).focus()
