@@ -75,10 +75,18 @@ class window.Scroll
         if biggestVerticallyScrollable
           generateWheelEvent biggestVerticallyScrollable, offsetX, offsetY
 
-  @top: -> scrollTo window.scrollX, 0
+  @top: ->
+    if isScrollableElement currentlySelectedElement
+      scroll 0, -currentlySelectedElement.scrollTop
+    else
+      scrollTo window.scrollX, 0
   desc @top, 'Scroll to the top of the page'
 
-  @bottom: -> scrollTo window.scrollX, document.body.scrollHeight
+  @bottom: ->
+    if isScrollableElement currentlySelectedElement
+      scroll 0, currentlySelectedElement.scrollHeight
+    else
+      scrollTo window.scrollX, document.body.scrollHeight
   desc @bottom, 'Scroll to the bottom of the page'
 
   @first: -> scrollTo 0, window.scrollY if times(true, true) is 0
@@ -111,5 +119,9 @@ class window.Scroll
   @prevHalfPage: -> scroll 0, times() * -window.innerHeight / 2
   desc @prevHalfPage, 'Scroll up {count} half page'
 
-  @toPercent: -> scrollTo window.scrollX, times(true) * $(document).height() / 100
+  @toPercent: ->
+    if isScrollableElement currentlySelectedElement
+      scroll 0, currentlySelectedElement.scrollHeight * times(true) / 100
+    else
+      scrollTo window.scrollX, times(true) * $(document).height() / 100
   desc @toPercent, 'Scroll to {count}% of the page'
