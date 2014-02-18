@@ -26,3 +26,6 @@ String::escape = ->
 
 String::isUpperCaseLetter = ->
   this.length is 1 and this >= 'A' and this <= 'Z'
+
+Math.sign = (number) ->
+  if number < 0 then -1 else if number > 0 then 1 else 0
