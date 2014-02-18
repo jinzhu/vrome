@@ -25,11 +25,27 @@ class window.Scroll
     clickedElement = document.elementFromPoint(e.pageX - window.pageXOffset, e.pageY - window.pageYOffset)
     currentlySelectedElement = getClosestScrollable clickedElement, ':scrollable'
 
+  setRealOffset = (element, offsetX, offsetY) ->
+    $element = $(element)
+    offsetX =  $element.width()  if offsetX is  Infinity
+    offsetX = -$element.width()  if offsetX is -Infinity
+    offsetY =  $element.height() if offsetY is  Infinity
+    offsetY = -$element.height() if offsetY is -Infinity
+    [offsetX, offsetY]
+
   generateWheelEvent = (element, offsetX, offsetY) ->
     return unless element
+
+    [offsetX, offsetY] = setRealOffset element, offsetX, offsetY
+
     event = document.createEvent 'WheelEvent'
     event.initWebKitWheelEvent -offsetX, -offsetY
     element.dispatchEvent event
+
+  scrollBy = (offsetX, offsetY) ->
+    [offsetX, offsetY] = setRealOffset document, offsetX, offsetY
+
+    window.scrollBy offsetX, offsetY
 
   pageIsHorizontallyScrollable = ->
     $(document).width() > $(window).width()
@@ -73,24 +89,16 @@ class window.Scroll
           biggestVerticallyScrollable = getBiggestScrollable ':vertically-scrollable'
         generateWheelEvent biggestVerticallyScrollable, offsetX, offsetY
 
-  @top: ->
-    if isScrollableElement currentlySelectedElement
-      scroll 0, -currentlySelectedElement.scrollTop
-    else
-      scrollTo window.scrollX, 0
+  @top: -> scroll 0, -Infinity
   desc @top, 'Scroll to the top of the page'
 
-  @bottom: ->
-    if isScrollableElement currentlySelectedElement
-      scroll 0, currentlySelectedElement.scrollHeight
-    else
-      scrollTo window.scrollX, document.body.scrollHeight
+  @bottom: -> scroll 0, Infinity
   desc @bottom, 'Scroll to the bottom of the page'
 
-  @first: -> scrollTo 0, window.scrollY if times(true, true) is 0
+  @first: -> scroll -Infinity, 0 if times(true, true) is 0
   desc @first, 'Scroll to the leftmost of the page'
 
-  @last: -> scrollTo document.body.scrollWidth, window.scrollY
+  @last: -> scroll Infinity, 0
   desc @last, 'Scroll to the rightmost of the page'
 
   @up: -> scroll 0, times() * -VERTICAL_MOMENT
