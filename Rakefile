@@ -44,7 +44,7 @@ task :build do
 
   Dir.chdir('src') do
     json['content_scripts'][0]['js'] =
-      ['shared/vendor/jquery.js', 'shared/vendor/jquery.highlight.js']
+      ['shared/vendor/jquery.js', 'shared/vendor/jquery.scrollable.js', 'shared/vendor/jquery.highlight.js']
         .concat(Dir['shared/*.js'])
         .concat(Dir['frontend/modules/*.js'])
         .concat(Dir['frontend/*.js'])
@@ -65,6 +65,7 @@ task :build do
 end
 
 task :zip do
+  # TODO: minify JS files?
   system('find -iname "*map" | xargs rm')
   system('rm vrome.zip; zip -r vrome.zip src/; cp vrome.zip ~')
 end

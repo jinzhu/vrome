@@ -3,7 +3,8 @@
 ## master (unreleased)
 
 * Add option `disable_autofocus` which tries to prevent web pages from focusing some input field when loaded.
-* Updates to the search feature - lots of optimizations; it shows a notification on search wrap; it displays if there is a single result; ability to click on the page after the search is initiated and finding the next match continues from there
+* Vrome now will try to scroll every page the "correct" way; you can click on any element that is scrollable and it will scroll it
+* Updates to the search feature - lots of optimizations; it shows a notification on search wrap; it displays if there is a single result; ability to click on the page after the search is initiated and finding the next match continues from there; and more
 * Add option `completion_items` - it supports the following options: "url,search-engine,bookmarks,history,search". Any could be added/removed and in any order and then results from completion will be filtered and ordered accordingly.
 * Lots of optimizations here and there
 * Lots of minor fixes
