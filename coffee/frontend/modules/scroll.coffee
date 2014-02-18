@@ -26,21 +26,19 @@ class window.Scroll
     currentlySelectedElement = getClosestScrollable clickedElement, ':scrollable'
 
   generateWheelEvent = (element, offsetX, offsetY) ->
-    evt = document.createEvent 'WheelEvent'
-    evt.initWebKitWheelEvent -offsetX, -offsetY
-    element.dispatchEvent evt
+    return unless element
+    event = document.createEvent 'WheelEvent'
+    event.initWebKitWheelEvent -offsetX, -offsetY
+    element.dispatchEvent event
 
-  pageHasVerticalScroll = ->
-    return yes unless document.body
+  pageIsHorizontallyScrollable = ->
+    $(document).width() > $(window).width()
 
-    if window.innerHeight
-      document.body.offsetHeight > window.innerHeight
-    else
-      document.documentElement.scrollHeight > document.documentElement.offsetHeight or
-        document.body.scrollHeight > document.body.offsetHeight
+  pageIsVerticallyScrollable = ->
+    $(document).height() > $(window).height()
 
   isScrollableElement = (element) ->
-    element and element isnt document.body
+    element and element isnt document.body and element isnt document.documentElement
 
   isElementScrolledToEnd = (offsetX, offsetY, element) ->
     return no unless element
@@ -62,18 +60,18 @@ class window.Scroll
       else
         scrollBy offsetX, offsetY
     else
-      return scrollBy offsetX, offsetY if pageHasVerticalScroll()
-
       if offsetX isnt 0
+        return scrollBy offsetX, offsetY if pageIsHorizontallyScrollable()
+
         if biggestHorizontallyScrollable is undefined
           biggestHorizontallyScrollable = getBiggestScrollable ':horizontally-scrollable'
-        if biggestHorizontallyScrollable
-          generateWheelEvent biggestHorizontallyScrollable, offsetX, offsetY
+        generateWheelEvent biggestHorizontallyScrollable, offsetX, offsetY
       else # offsetY isnt 0
+        return scrollBy offsetX, offsetY if pageIsVerticallyScrollable()
+
         if biggestVerticallyScrollable is undefined
           biggestVerticallyScrollable = getBiggestScrollable ':vertically-scrollable'
-        if biggestVerticallyScrollable
-          generateWheelEvent biggestVerticallyScrollable, offsetX, offsetY
+        generateWheelEvent biggestVerticallyScrollable, offsetX, offsetY
 
   @top: ->
     if isScrollableElement currentlySelectedElement
