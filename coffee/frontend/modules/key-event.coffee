@@ -79,7 +79,7 @@ class window.KeyEvent
     key = if e then getKey e else null
 
     # 0 is a special command: could be used to scroll left, also could be used as run count.
-    if keyTimes <= 0 or not /^\d$/.test keys
+    if (keys == "0" && keyTimes == 0) or not /^\d$/.test keys
       /^(\d*)(.+)$/.test keys
       count = RegExp.$1
       match = RegExp.$2
@@ -112,19 +112,20 @@ class window.KeyEvent
           keyTimes = 0
 
         currentKeys = ''
-      else if not insertMode and /^\d$/.test key
-        # Set the count time
-        keyTimes = keyTimes * 10 + Number(key)
-        currentKeys = ''
-        do showStatusLine
-      else
-        # Check if there are any bindings that partially match
-        for command, modes of bindings when modes[Number insertMode]? and command.startsWith keys
-          someBindingMatched = true
-          do showStatusLine
-          break
+    else if not insertMode and /^\d$/.test key
+      # Set the count time
+      keyTimes = keyTimes * 10 + Number(key)
+      currentKeys = ''
 
-        currentKeys = '' if not someBindingMatched
+      do showStatusLine
+    else
+      # Check if there are any bindings that partially match
+      for command, modes of bindings when modes[Number insertMode]? and command.startsWith keys
+        someBindingMatched = true
+        do showStatusLine
+        break
+
+      currentKeys = '' if not someBindingMatched
 
   @exec: (e) =>
     key = getKey e
