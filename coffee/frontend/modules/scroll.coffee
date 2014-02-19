@@ -141,7 +141,7 @@ class window.Scroll
 
   @toPercent: ->
     if isScrollableElement currentlySelectedElement
-      scroll 0, currentlySelectedElement.scrollHeight * times(true) / 100
+      scroll 0, currentlySelectedElement.scrollHeight * times(true) / 100 - currentlySelectedElement.scrollTop
     else
       scrollTo window.scrollX, times(true) * $(document).height() / 100
   desc @toPercent, 'Scroll to {count}% of the page'
