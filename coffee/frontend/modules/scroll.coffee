@@ -3,31 +3,18 @@ class window.Scroll
 
   [VERTICAL_MOMENT, HORIZONTAL_MOMENT] = [15, 15]
 
-  getElementHeight = (element) ->
-    if element isnt document and
-        (element.style.overflow in ['auto', 'hidden'] or element.style.height isnt '')
-
-      element = $.clone element
-      element.style.overflow = ''
-      element.style.height = ''
-      element.style.visibility = 'hidden'
-
-      document.body.appendChild element
-      removeElement = yes
-
-    result = $(element).height()
-    document.body.removeChild element if removeElement
-    result
+  elementHeight = (element) ->
+    element.scrollHeight or $(element).height()
 
   getBiggestScrollable = (direction) ->
     biggestScrollable = null
     $body.find(direction).each (_, element) ->
       $element = $(element)
 
-      area = $element.width() * getElementHeight(element)
+      area = $element.width() * elementHeight(element)
       if biggestScrollable
         $biggestScrollable = $(biggestScrollable)
-        biggestArea = $biggestScrollable.width() * getElementHeight(biggestScrollable)
+        biggestArea = $biggestScrollable.width() * elementHeight(biggestScrollable)
       else
         biggestArea = -1
 
@@ -43,8 +30,8 @@ class window.Scroll
 
   getRealOffset = (element, offsetX, offsetY) ->
     $element = $(element)
-    offsetX = $element.width()          * Math.sign(offsetX) if Math.abs(offsetX) is Infinity
-    offsetY = getElementHeight(element) * Math.sign(offsetY) if Math.abs(offsetY) is Infinity
+    offsetX = $element.width()       * Math.sign(offsetX) if Math.abs(offsetX) is Infinity
+    offsetY = elementHeight(element) * Math.sign(offsetY) if Math.abs(offsetY) is Infinity
     [offsetX, offsetY]
 
   generateWheelEvent = (element, offsetX, offsetY) ->
