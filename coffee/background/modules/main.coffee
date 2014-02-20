@@ -16,3 +16,4 @@ checkNewVersion = ->
 Settings.init ->
   do checkNewVersion
   do Vromerc.init
+  do Develop.init
