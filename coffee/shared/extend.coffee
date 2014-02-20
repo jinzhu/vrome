@@ -14,6 +14,9 @@ String::trim = ->
 String::isValidURL = ->
   /(?:https?|ftp|file|chrome-extension):\/\//.test this
 
+String::getValidURL = ->
+  if @isValidURL() then this else "http://#{this}"
+
 String::trimFirst = (str) ->
   @trimFirstStr(str).trim()
 

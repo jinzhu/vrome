@@ -64,7 +64,7 @@ class window.Vromerc
     url = Settings.get 'onlineVromercUrl'
     return unless url
 
-    url = "http://#{url}" unless url.isValidURL()
+    url = url.getValidURL()
 
     $.get(url).done (data) =>
       vromerc = "\" Begin Online Vromerc generated\n#{data}\n\" End Online Vromerc generated\n\n"

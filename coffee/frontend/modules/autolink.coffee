@@ -11,7 +11,7 @@ class window.AutoLink
       $elem = $(elem)
       if $elem.parent().prop('tagName') isnt 'A'
         value = $elem.text().replace URL_REGEXP, ($0, $1) ->
-          "<a href='#{if $1.isValidURL() then $1 else "http://#{$1}" }'>#{$1}</a>"
+          "<a href='#{ $1.getValidURL() }'>#{$1}</a>"
         $elem.after(value).remove()
     return
   desc @makeLink, 'Transforms URLs into clickable links'

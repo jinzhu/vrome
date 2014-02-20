@@ -3,7 +3,7 @@ class window.Command
     for src in msg.sources.split ','
       src = src.trim()
       src = Option.get('sources_map')[src[1..-1]] if src.startsWith '@'
-      src = "http://#{src}" unless src.isValidURL()
+      src = src.getValidURL()
 
       if src.startsWith 'http'
         msg.code = if src.endsWith 'js'
