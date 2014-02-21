@@ -35,8 +35,6 @@ class window.Scroll
     [offsetX, offsetY]
 
   generateWheelEvent = (element, offsetX, offsetY) ->
-    return unless element
-
     [offsetX, offsetY] = getRealOffset element, offsetX, offsetY
 
     event = document.createEvent 'WheelEvent'
@@ -55,7 +53,13 @@ class window.Scroll
     $(document).height() > $(window).height()
 
   isScrollableElement = (element) ->
-    element and element isnt document.body and element isnt document.documentElement
+    element and element not in [document.body, document.documentElement]
+
+  scrollElement = (element, offsetX, offsetY) ->
+    if isScrollableElement element
+      generateWheelEvent element, offsetX, offsetY
+    else
+      scrollBy offsetX, offsetY
 
   isElementScrolledToEnd = (offsetX, offsetY, element) ->
     return no unless element
@@ -72,23 +76,19 @@ class window.Scroll
         element = getClosestScrollable element.parentElement,
           (if offsetX isnt 0 then ':horizontally-scrollable' else ':vertically-scrollable')
 
-      if isScrollableElement element
-        generateWheelEvent element, offsetX, offsetY
-      else
-        scrollBy offsetX, offsetY
-    else
-      if offsetX isnt 0
-        return scrollBy offsetX, offsetY if pageIsHorizontallyScrollable()
+      scrollElement element, offsetX, offsetY
+    else if offsetX isnt 0
+      return scrollBy offsetX, offsetY if pageIsHorizontallyScrollable()
 
-        if biggestHorizontallyScrollable is undefined
-          biggestHorizontallyScrollable = getBiggestScrollable ':horizontally-scrollable'
-        generateWheelEvent biggestHorizontallyScrollable, offsetX, offsetY
-      else # offsetY isnt 0
-        return scrollBy offsetX, offsetY if pageIsVerticallyScrollable()
+      if biggestHorizontallyScrollable is undefined
+        biggestHorizontallyScrollable = getBiggestScrollable ':horizontally-scrollable'
+      scrollElement biggestHorizontallyScrollable, offsetX, offsetY
+    else # offsetY isnt 0
+      return scrollBy offsetX, offsetY if pageIsVerticallyScrollable()
 
-        if biggestVerticallyScrollable is undefined
-          biggestVerticallyScrollable = getBiggestScrollable ':vertically-scrollable'
-        generateWheelEvent biggestVerticallyScrollable, offsetX, offsetY
+      if biggestVerticallyScrollable is undefined
+        biggestVerticallyScrollable = getBiggestScrollable ':vertically-scrollable'
+      scrollElement biggestVerticallyScrollable, offsetX, offsetY
 
   @top: -> scroll 0, -Infinity
   desc @top, 'Scroll to the top of the page'
