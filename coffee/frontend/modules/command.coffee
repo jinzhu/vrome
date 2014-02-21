@@ -2,7 +2,7 @@ class window.Command
   VROME_HIDDEN = '__vrome_hidden'
 
   @reloadExtension: ->
-    Post action: 'reloadExtension'
+    Post action: 'Develop.reloadExtension'
   desc @reloadExtension, 'Reload Extension'
 
   @print: ->

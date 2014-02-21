@@ -46,7 +46,7 @@ class window.Vromerc
         configs.push line
       else
         # comment this line
-        configs.push line.replace /^"?\s{0,1}/, '" '
+        configs.push line.replace(/^"?\s{0,1}/, '" ')
 
     Settings.add 'url_marks', urlMarks
     # Replace configure, don't extend it
