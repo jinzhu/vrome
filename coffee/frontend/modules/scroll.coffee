@@ -47,13 +47,14 @@ class window.Scroll
     window.scrollBy offsetX, offsetY
 
   pageIsHorizontallyScrollable = ->
-    $(document).width() > $(window).width()
+    $(document).width() > window.innerWidth
 
   pageIsVerticallyScrollable = ->
-    $(document).height() > $(window).height()
+    $(document).height() > window.innerHeight
 
   isScrollableElement = (element) ->
-    element and element not in [document.body, document.documentElement]
+    element and element not in [document.body, document.documentElement] and
+      isElementVisible $(element), true
 
   scrollElement = (element, offsetX, offsetY) ->
     if isScrollableElement element
@@ -69,6 +70,9 @@ class window.Scroll
       (offsetX > 0 and element.scrollWidth - element.scrollLeft is element.clientWidth) or
       (offsetX < 0 and element.scrollLeft is 0)
 
+  shouldResetBiggestScrollable = (scrollable) ->
+    scrollable is undefined or (scrollable and not isScrollableElement scrollable)
+
   scroll = (offsetX, offsetY) ->
     if isScrollableElement currentlySelectedElement
       element = currentlySelectedElement
@@ -80,13 +84,13 @@ class window.Scroll
     else if offsetX isnt 0
       return scrollBy offsetX, offsetY if pageIsHorizontallyScrollable()
 
-      if biggestHorizontallyScrollable is undefined
+      if shouldResetBiggestScrollable biggestHorizontallyScrollable
         biggestHorizontallyScrollable = getBiggestScrollable ':horizontally-scrollable'
       scrollElement biggestHorizontallyScrollable, offsetX, offsetY
     else # offsetY isnt 0
       return scrollBy offsetX, offsetY if pageIsVerticallyScrollable()
 
-      if biggestVerticallyScrollable is undefined
+      if shouldResetBiggestScrollable biggestVerticallyScrollable
         biggestVerticallyScrollable = getBiggestScrollable ':vertically-scrollable'
       scrollElement biggestVerticallyScrollable, offsetX, offsetY
 
