@@ -70,9 +70,6 @@ class window.Scroll
       (offsetX > 0 and element.scrollWidth - element.scrollLeft is element.clientWidth) or
       (offsetX < 0 and element.scrollLeft is 0)
 
-  shouldResetBiggestScrollable = (scrollable) ->
-    scrollable is undefined or (scrollable and not isScrollableElement scrollable)
-
   scroll = (offsetX, offsetY) ->
     if isScrollableElement currentlySelectedElement
       element = currentlySelectedElement
@@ -84,13 +81,13 @@ class window.Scroll
     else if offsetX isnt 0
       return scrollBy offsetX, offsetY if pageIsHorizontallyScrollable()
 
-      if shouldResetBiggestScrollable biggestHorizontallyScrollable
+      if not isScrollableElement biggestHorizontallyScrollable
         biggestHorizontallyScrollable = getBiggestScrollable ':horizontally-scrollable'
       scrollElement biggestHorizontallyScrollable, offsetX, offsetY
     else # offsetY isnt 0
       return scrollBy offsetX, offsetY if pageIsVerticallyScrollable()
 
-      if shouldResetBiggestScrollable biggestVerticallyScrollable
+      if not isScrollableElement biggestVerticallyScrollable
         biggestVerticallyScrollable = getBiggestScrollable ':vertically-scrollable'
       scrollElement biggestVerticallyScrollable, offsetX, offsetY
 
