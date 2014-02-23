@@ -1,4 +1,4 @@
-var highlight = function (node, re, nodeName, className, filterFunction) {
+function highlight(node, re, nodeName, className, filterFunction) {
     if (node.nodeType === 3) {
         var match = node.data.match(re);
         if (match) {
@@ -23,7 +23,7 @@ var highlight = function (node, re, nodeName, className, filterFunction) {
     return 0;
 }
 
-jQuery.fn.unhighlight = function (options) {
+jQuery.fn.unhighlight = function(options) {
     var settings = { className: 'highlight', element: 'span' };
     jQuery.extend(settings, options);
 
@@ -34,11 +34,16 @@ jQuery.fn.unhighlight = function (options) {
     }).end();
 };
 
-jQuery.fn.highlight = function (word, options) {
-    var settings = { className: 'highlight', element: 'span', filterFunction: function(node) { return true; } };
+jQuery.fn.highlight = function(word, options) {
+    var settings = {
+        className:      'highlight',
+        element:        'span',
+        filterFunction: function(node) { return true; }
+    };
     jQuery.extend(settings, options);
 
-    var re = new RegExp('(' + word + ')', 'i');
+    var re = new RegExp(word, 'i');
 
-    highlight(this.get(0), re, settings.element.toUpperCase(), settings.className, settings.filterFunction);
+    highlight(this.get(0), re, settings.element.toUpperCase(),
+        settings.className, settings.filterFunction);
 };
