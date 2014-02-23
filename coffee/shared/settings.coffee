@@ -33,7 +33,7 @@ class window.Settings
   getKey = (args=[]) ->
     [scopeKey, hostname] = [args[args.length-1]?['scope_key'], document.location.hostname]
     # Background pages, url looks like chrome-extension://hjkbcadlghpfpjnlecbdihlfdfaijnoh/background/html/options.html
-    scopeKey = 'background' if hostname.match(/^\w+$/) and not hostname.match /local/
+    scopeKey = 'background' if /^\w+$/.test(hostname) and not /local/.test hostname
 
     # if specified scope key
     if scopeKey
