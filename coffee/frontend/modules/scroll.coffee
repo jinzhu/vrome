@@ -3,15 +3,18 @@ class window.Scroll
 
   [VERTICAL_MOMENT, HORIZONTAL_MOMENT] = [15, 15]
 
+  elementWidth = (element) ->
+    element.scrollWidth or $(element).width()
+
   elementHeight = (element) ->
     element.scrollHeight or $(element).height()
 
   getBiggestScrollable = (direction) ->
     biggestScrollable = null
     $(document.documentElement).find(direction).each (_, element) ->
-      area = $(element).width() * elementHeight(element)
+      area = elementWidth(element) * elementHeight(element)
       if biggestScrollable
-        biggestArea = $(biggestScrollable).width() * elementHeight(biggestScrollable)
+        biggestArea = elementWidth(biggestScrollable) * elementHeight(biggestScrollable)
       else
         biggestArea = -1
 
@@ -27,7 +30,7 @@ class window.Scroll
 
   getRealOffset = (element, offsetX, offsetY) ->
     $element = $(element)
-    offsetX = $element.width()       * Math.sign(offsetX) if Math.abs(offsetX) is Infinity
+    offsetX = elementWidth(element)  * Math.sign(offsetX) if Math.abs(offsetX) is Infinity
     offsetY = elementHeight(element) * Math.sign(offsetY) if Math.abs(offsetY) is Infinity
     [offsetX, offsetY]
 
