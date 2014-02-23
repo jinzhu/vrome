@@ -14,7 +14,7 @@ class window.Hint
 
   removeHighlightBox = (createAfterRemove) ->
     $('#__vim_hint_highlight').remove()
-    $body.append $('<div>', id: '__vim_hint_highlight') if createAfterRemove
+    $(document.documentElement).append $('<div>', id: '__vim_hint_highlight') if createAfterRemove
     $('#__vim_hint_highlight')
 
   freshHints = =>

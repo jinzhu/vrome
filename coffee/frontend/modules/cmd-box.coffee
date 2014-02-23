@@ -22,7 +22,7 @@ class window.CmdBox
     box = $("##{BOX_ID}")
     if box.length is 0
       box = $('<div>', id: BOX_ID)
-      $body.prepend box
+      $(document.documentElement).prepend box
     box
 
   @set: (o, forceCreate=true) =>

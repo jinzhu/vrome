@@ -1,7 +1,7 @@
 class window.Clipboard
   createTextArea = (data) ->
     textNode = $('<textarea>').val(data)
-    $('body').append textNode
+    $(document.documentElement).append textNode
     textNode
 
   @copy: (msg) ->

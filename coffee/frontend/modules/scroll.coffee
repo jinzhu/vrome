@@ -8,7 +8,7 @@ class window.Scroll
 
   getBiggestScrollable = (direction) ->
     biggestScrollable = null
-    $body.find(direction).each (_, element) ->
+    $(document.documentElement).find(direction).each (_, element) ->
       $element = $(element)
 
       area = $element.width() * elementHeight(element)

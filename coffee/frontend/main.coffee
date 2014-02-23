@@ -10,6 +10,5 @@ window.isEditableElement = (element) ->
 Settings.init ->
   do KeyEvent.init
   $ ->
-    window.$body = $('body')
     func.call() for func in [Zoom.init, Custom.runJS, Custom.loadCSS]
     return

@@ -22,6 +22,7 @@ class window.Command
   desc @imagesToggle, 'Toggle images'
 
   @imagesOnly: ->
+    $body = $('body')
     div = $('[__vrome_images]')
     if div.length > 0
       toggleHiddenElems $body.children(), div.remove()
@@ -43,6 +44,6 @@ class window.Command
     div = $('style[__vrome_style]')
     if div.length is 0
       div = $('<style>', __vrome_style: 1)
-      $body.append div
+      $('body').append div
     div.text(div.text() + '\n' + CmdBox.get().argument)
   desc @css, 'Add CSS styles'

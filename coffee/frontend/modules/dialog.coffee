@@ -8,7 +8,7 @@ class window.Dialog
     dialog = $("##{VROME_DIALOG}")
     if dialog.length is 0
       dialog = $('<div>', id: VROME_DIALOG, style: "bottom: #{CmdBox.cmdBox().outerHeight()}px")
-      $body.prepend dialog
+      $(document.documentElement).prepend dialog
     dialog
 
   setResultBox = (results, append=false) ->
@@ -46,7 +46,7 @@ class window.Dialog
         "width: #{dialogBox().outerWidth() - cmdBox.outerWidth() - 12}px"
 
       noticeElement = $('<div>', id: NOTICE_ID, style: style)
-      $body.prepend noticeElement
+      $(document.documentElement).prepend noticeElement
     noticeElement.text msg
 
   buildResult = (s, href) ->

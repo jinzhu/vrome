@@ -29,7 +29,7 @@ class window.Search
     @removeHighlights()
 
   @removeHighlights: ->
-    $body.unhighlight className: HIGHLIGHT_CLASS
+    $(document.documentElement).unhighlight className: HIGHLIGHT_CLASS
 
   handleInput = (e) =>
     return unless searchMode
@@ -42,7 +42,7 @@ class window.Search
     find false, lastSearch.text
 
   doHighlight = (inFullPage, keyword) ->
-    $body.highlight keyword,
+    $(document.documentElement).highlight keyword,
       className:      HIGHLIGHT_CLASS
       filterFunction: (e) -> isElementVisible $(e), inFullPage
     nodes = $(".#{HIGHLIGHT_CLASS}").sort (a, b) ->
