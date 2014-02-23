@@ -1,4 +1,5 @@
 # TODO: this doesn't work for 'autofocus' attributes
+# TODO: this doesn't work for Gmail when the reply text field is open
 
 class window.Unfocus
   disabledElements = []
