@@ -8,9 +8,6 @@ String::endsWith = (str) ->
   return true if str is undefined
   @substring(@length - str.length, @length) is str
 
-String::trim = ->
-  @replace(/^[\s\xA0]+/, '').replace(/[\s\xA0]+$/, '')
-
 String::isValidURL = ->
   /(?:https?|ftp|file|chrome-extension):\/\//.test this
 
