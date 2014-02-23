@@ -9,7 +9,7 @@ String::endsWith = (str) ->
   @substring(@length - str.length, @length) is str
 
 String::isValidURL = ->
-  /(?:https?|ftp|file|chrome-extension):\/\//.test this
+  /(?:https?|ftp|file|chrome|chrome-extension):\/\//.test this
 
 String::getValidURL = ->
   if @isValidURL() then this else "http://#{this}"
