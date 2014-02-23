@@ -18,14 +18,14 @@ String::trimFirst = (str) ->
   @trimFirstStr(str).trim()
 
 String::trimFirstStr = (str) -> # don't trim space
-  return @substring str.length if typeof str is 'string' and @startsWith str
+  return @substring str.length if @startsWith str
   this
 
 String::escape = ->
   $('<div>').text(this).html()
 
 String::isUpperCaseLetter = ->
-  this.length is 1 and this >= 'A' and this <= 'Z'
+  @length is 1 and this >= 'A' and this <= 'Z'
 
 Math.sign = (number) ->
   if number < 0 then -1 else if number > 0 then 1 else 0
