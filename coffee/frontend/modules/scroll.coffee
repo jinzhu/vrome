@@ -9,12 +9,9 @@ class window.Scroll
   getBiggestScrollable = (direction) ->
     biggestScrollable = null
     $(document.documentElement).find(direction).each (_, element) ->
-      $element = $(element)
-
-      area = $element.width() * elementHeight(element)
+      area = $(element).width() * elementHeight(element)
       if biggestScrollable
-        $biggestScrollable = $(biggestScrollable)
-        biggestArea = $biggestScrollable.width() * elementHeight(biggestScrollable)
+        biggestArea = $(biggestScrollable).width() * elementHeight(biggestScrollable)
       else
         biggestArea = -1
 
