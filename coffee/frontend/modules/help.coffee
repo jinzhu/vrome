@@ -5,7 +5,7 @@ class window.Help
     value.toString().escape()
 
   @add: (key, funcName, func, mode) ->
-    maps.push([escape(key), escape(funcName), escape(func.description), mode]) if func.description
+    maps.push [escape(key), escape(funcName), escape(func.description), mode] if func.description
 
   @show: ->
     results = "<tr class='head'><td>Value</td><td>Description</td><td>Modes</td></tr>"
