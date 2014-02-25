@@ -78,6 +78,11 @@ class window.KeyEvent
     return unless keys
     key = if e then getKey e else null
 
+    stopPropagation = =>
+      # stopPropagation if Vrome is enabled and any functions executed
+      @stopPropagation e if e and not (isAcceptKey(key) and
+        (insertMode or Hint.isHintable(document.activeElement)))
+
     # 0 is a special command: could be used to scroll left, also could be used as run count.
     if (keys is '0' and keyTimes is 0) or not /^\d$/.test keys
       /^(\d*)(.+)$/.test keys
@@ -104,8 +109,7 @@ class window.KeyEvent
           # (don't do this when running 'repeat last command' or in InsertMode)
           do storeLast if key isnt '.' and not insertMode
 
-          # stopPropagation if Vrome is enabled and any functions executed
-          @stopPropagation e if not (isAcceptKey(key) and (insertMode or Hint.isHintable(document.activeElement)))
+          do stopPropagation
 
           # If some function invoked and a key pressed, reset the count
           # but don't reset it if no key pressed, this means the function is invoked by runLast.
@@ -116,6 +120,7 @@ class window.KeyEvent
         # Check if there are any bindings that partially match
         for command, modes of bindings when modes[Number insertMode]? and command.startsWith keys
           someBindingMatched = true
+          do stopPropagation
           do showStatusLine
           break
 
