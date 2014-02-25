@@ -9,9 +9,14 @@ class window.Scroll
   elementHeight = (element) ->
     element.scrollHeight or $(element).height()
 
+  isScrollableElement = (element) ->
+    element and element not in [document.body, document.documentElement] and
+      isElementVisible $(element), true
+
   getBiggestScrollable = (direction) ->
     biggestScrollable = null
     $(document.documentElement).find(direction).each (_, element) ->
+      return unless isScrollableElement element
       area = elementWidth(element) * elementHeight(element)
       if biggestScrollable
         biggestArea = elementWidth(biggestScrollable) * elementHeight(biggestScrollable)
@@ -51,10 +56,6 @@ class window.Scroll
 
   pageIsVerticallyScrollable = ->
     $(document).height() > window.innerHeight
-
-  isScrollableElement = (element) ->
-    element and element not in [document.body, document.documentElement] and
-      isElementVisible $(element), true
 
   scrollElement = (element, offsetX, offsetY) ->
     if isScrollableElement element
