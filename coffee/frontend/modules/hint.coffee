@@ -114,7 +114,7 @@ class window.Hint
 
   hintMatch = (elem) ->
     filter = CmdBox.get().content
-    filter = filter[1..] while filter[0] of subAction
+    filter = filter[1..] while filter[0] of subActions
     regexp = new RegExp filter, 'im'
 
     text = $(elem).val() or $(elem).text() or $(elem).attr('placeholder') or $(elem).attr('alt')
