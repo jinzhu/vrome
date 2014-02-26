@@ -113,17 +113,17 @@ class window.Hint
       CmdBox.set title: title()
 
   hintMatch = (elem) ->
-    invert = getCurrentAction() is invertFilter
-    filter = CmdBox.get().content.trimFirst key for key of subActions # parens missing on purpose
+    filter = CmdBox.get().content
+    filter = filter[1..] while filter[0] of subAction
     regexp = new RegExp filter, 'im'
 
     text = $(elem).val() or $(elem).text() or $(elem).attr('placeholder') or $(elem).attr('alt')
     match = regexp.test(text) or regexp.test(PinYin.shortcut text) or regexp.test PinYin.full(text)
-    if invert and filter isnt '' then not match else match
+    if getCurrentAction() is invertFilter and filter isnt '' then not match else match
 
   ## Sub Actions
   getCurrentAction = ->
-    actionName = CmdBox.get().content.substring(0, 1)
+    actionName = CmdBox.get().content[0]
     subActions[actionName]
 
   showElementInfo = (elem) ->
