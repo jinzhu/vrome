@@ -20,7 +20,7 @@ class window.Tab
     if url.isValidURL()
       url: url, origin: 'url'
     # /jinzhu || (.. || ./configure) && no space
-    else if url[0] in ['/', '.']
+    else if url[0] in ['/', '.'] and not /\s/.test url
       url: fixRelativePath(url), origin: 'url'
     # Like url, for example: google.com
     else if /\w+\.\w+/.test(url) and not /\s/.test url
