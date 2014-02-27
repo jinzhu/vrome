@@ -3,7 +3,7 @@ class window.AutoLink
 
   textNodes = (elems)->
     elems.filter (e) ->
-      e.data?.match(URL_REGEXP) and e.nodeType is 3 and e.nodeName not in ['INPUT', 'TEXTAREA']
+      e.data?.match(URL_REGEXP) and e.nodeType is 3 and not $(e).is('input, textarea')
 
   @makeLink: (elems=null) ->
     elems = textNodes(elems or $('*:visible').not('iframe').contents())
