@@ -8,3 +8,4 @@ gem 'sass'
 
 gem 'guard'
 gem 'guard-shell'
+gem 'rb-readline'
