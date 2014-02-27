@@ -1,4 +1,6 @@
 class window.Scroll
+  # TODO: doesn't work in some cases like http://bikesport.bg/en/products/965-sprint-radical-deluxe-27_5_quot_-hard-tail-mountain-bikes_
+
   [currentlySelectedElement, biggestVerticallyScrollable, biggestHorizontallyScrollable] = []
 
   [VERTICAL_MOMENT, HORIZONTAL_MOMENT] = [15, 15]
