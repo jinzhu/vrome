@@ -1,5 +1,6 @@
 class window.Scroll
   # TODO: doesn't work in some cases like http://bikesport.bg/en/products/965-sprint-radical-deluxe-27_5_quot_-hard-tail-mountain-bikes_
+  # TODO: scrolling in iframes doesn't work - http://www.ikvm.net/
 
   [currentlySelectedElement, biggestVerticallyScrollable, biggestHorizontallyScrollable] = []
 
