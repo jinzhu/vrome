@@ -1,5 +1,6 @@
 # TODO: this doesn't work for 'autofocus' attributes (e.g. mailinator.com)
 # TODO: this doesn't work for Gmail when the reply text field is open
+# TODO: this doesn't work for https://imo.im/register
 
 class window.Unfocus
   disabledElements = []
