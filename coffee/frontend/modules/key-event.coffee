@@ -95,7 +95,8 @@ class window.KeyEvent
 
         # map j 3j
         originalKeyTimes = keyTimes
-        keyTimes = (keyTimes or 1) * times * (Number(count) or 1)
+        if Number(count) > 1 || times > 1
+          keyTimes = (keyTimes or 1) * times * (Number(count) or 1)
 
         try
           bindingFunction.call e
