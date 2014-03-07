@@ -1,6 +1,6 @@
 # Changelog
 
-## master (unreleased)
+## 2.9.7 (2014/03/07)
 
 * Add option `disable_autofocus` which tries to prevent web pages from focusing some input field when loaded.
 * Vrome now will try to scroll every page the "correct" way; you can click on any element that is scrollable and it will scroll it
