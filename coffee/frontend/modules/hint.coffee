@@ -75,7 +75,7 @@ class window.Hint
 
   @start: (new_tab, multi_mode) =>
     [hintMode, newTab, multiMode] = [true, new_tab, multi_mode]
-    setMatched(elements = (e for e in $(HINTABLE).not('#_vrome_cmd_input_box') when isElementVisible $(e)))
+    setMatched(elements = (e for e in $(HINTABLE).not("##{CmdBox.INPUT_BOX_ID}") when isElementVisible $(e)))
     setCurrentKeys ''
     CmdBox.set title: title(), pressDown: handleInput, content: ''
   desc @start, 'Start Hint mode'

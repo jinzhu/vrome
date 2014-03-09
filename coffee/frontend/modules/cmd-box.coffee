@@ -1,5 +1,5 @@
 class window.CmdBox
-  [BOX_ID, INPUT_BOX_ID] = ['_vrome_cmd_box', '_vrome_cmd_input_box']
+  [BOX_ID, @INPUT_BOX_ID] = ['_vrome_cmd_box', '_vrome_cmd_input_box']
 
   cmdBoxTitle = (forceCreate) =>
     elems = $("##{BOX_ID} span")
@@ -11,12 +11,12 @@ class window.CmdBox
   cmdBoxInput = (forceCreate) =>
     elems = $("##{BOX_ID} input")
     if forceCreate and elems.length is 0
-      @cmdBox().append $('<input>', id: INPUT_BOX_ID)
+      @cmdBox().append $('<input>', id: CmdBox.INPUT_BOX_ID)
       elems = $("##{BOX_ID} input")
     elems
 
   @isActive: ->
-    document.activeElement?.id is INPUT_BOX_ID
+    document.activeElement?.id is CmdBox.INPUT_BOX_ID
 
   @cmdBox: ->
     box = $("##{BOX_ID}")
