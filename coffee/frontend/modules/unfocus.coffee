@@ -1,7 +1,5 @@
 # TODO: this doesn't work for 'autofocus' attributes (e.g. mailinator.com)
 # TODO: this doesn't work for Gmail when the reply text field is open
-# TODO: this doesn't work for https://imo.im/register
-# TODO: this doesn't work for http://www.edreams.com/
 
 class window.Unfocus
   disabledElements = []
@@ -22,11 +20,19 @@ class window.Unfocus
     element.removeEventListener 'focus', onFocus, false for element in disabledElements
     disabledElements = []
 
+  onDOMNodeInserted = (event) ->
+    element = event.target
+    if element.nodeType is 1 and element.id isnt CmdBox.INPUT_BOX_ID
+      addOnFocus event.target
+
   document.addEventListener 'DOMContentLoaded', ->
     addOnFocus document.documentElement
 
+    document.addEventListener 'DOMNodeInserted', onDOMNodeInserted
+
   @didReceiveInput: =>
-    do removeOnFocus
+    document.removeEventListener 'DOMNodeInserted', onDOMNodeInserted
     $(document.documentElement).off 'click', @didReceiveInput
+    do removeOnFocus
 
   $(document.documentElement).click(@didReceiveInput).focus()
