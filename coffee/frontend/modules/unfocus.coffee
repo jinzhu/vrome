@@ -3,6 +3,7 @@
 
 class window.Unfocus
   disabledElements = []
+  observer = null
 
   onFocus = (e) ->
     # In Chrome, caller is null if the user initiated the focus,
@@ -20,18 +21,18 @@ class window.Unfocus
     element.removeEventListener 'focus', onFocus, false for element in disabledElements
     disabledElements = []
 
-  onDOMNodeInserted = (event) ->
-    element = event.target
-    if element.nodeType is 1 and element.id isnt CmdBox.INPUT_BOX_ID
-      addOnFocus event.target
-
   document.addEventListener 'DOMContentLoaded', ->
     addOnFocus document.documentElement
 
-    document.addEventListener 'DOMNodeInserted', onDOMNodeInserted
+    observer = new WebKitMutationObserver (mutations) ->
+      for mutation in mutations
+        for addedNode in mutation.addedNodes when addedNode.nodeType is 1
+          addOnFocus addedNode
+      return
+    observer.observe document.body, childList: true, subtree: true
 
   @didReceiveInput: =>
-    document.removeEventListener 'DOMNodeInserted', onDOMNodeInserted
+    do observer.disconnect
     $(document.documentElement).off 'click', @didReceiveInput
     do removeOnFocus
 
