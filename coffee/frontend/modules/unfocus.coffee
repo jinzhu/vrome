@@ -1,6 +1,12 @@
 # TODO: this doesn't work for 'autofocus' attributes (e.g. mailinator.com)
 # TODO: this doesn't work for Gmail when the reply text field is open
 
+# sites to test with:
+# https://encrypted.google.com/
+# http://pagemon.net/
+# https://imo.im/register
+# http://www.edreams.com/
+
 class window.Unfocus
   disabledElements = []
   observer = null
