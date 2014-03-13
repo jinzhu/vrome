@@ -12,11 +12,12 @@ class window.Unfocus
   observer = null
 
   onFocus = (e) ->
-    # In Chrome, caller is null if the user initiated the focus,
-    # and non-null if the focus was caused by a call to element.focus().
     element = e.target
-    userInitiated = onFocus.caller or element.autofocus
-    element.blur() if Option.get('disable_autofocus') and userInitiated
+    # In Chrome, caller is null if the user initiated the focus
+    # or the element has the 'autofocus' attribute,
+    # and non-null if the focus was caused by a call to element.focus().
+    nonUserInitiated = onFocus.caller or element.autofocus
+    element.blur() if Option.get('disable_autofocus') and nonUserInitiated
 
   addOnFocus = (element) ->
     if isEditableElement element
