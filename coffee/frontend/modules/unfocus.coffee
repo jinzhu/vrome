@@ -1,4 +1,3 @@
-# TODO: this doesn't work for 'autofocus' attributes (e.g. mailinator.com)
 # TODO: this doesn't work for Gmail when the reply text field is open
 
 # sites to test with:
@@ -6,6 +5,7 @@
 # http://pagemon.net/
 # https://imo.im/register
 # http://www.edreams.com/
+# http://mailinator.com/
 
 class window.Unfocus
   disabledElements = []
@@ -14,7 +14,9 @@ class window.Unfocus
   onFocus = (e) ->
     # In Chrome, caller is null if the user initiated the focus,
     # and non-null if the focus was caused by a call to element.focus().
-    e.target.blur() if Option.get('disable_autofocus') and onFocus.caller
+    element = e.target
+    userInitiated = onFocus.caller or element.autofocus
+    element.blur() if Option.get('disable_autofocus') and userInitiated
 
   addOnFocus = (element) ->
     if isEditableElement element
