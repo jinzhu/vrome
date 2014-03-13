@@ -27,19 +27,18 @@ class window.Unfocus
     element.removeEventListener 'focus', onFocus, false for element in disabledElements
     disabledElements = []
 
-  document.addEventListener 'DOMContentLoaded', ->
-    addOnFocus document.documentElement
-
-    observer = new WebKitMutationObserver (mutations) ->
-      for mutation in mutations
-        for addedNode in mutation.addedNodes when addedNode.nodeType is 1
-          addOnFocus addedNode
-      return
-    observer.observe document.body, childList: true, subtree: true
-
   @didReceiveInput: =>
     do observer.disconnect
     $(document.documentElement).off 'click', @didReceiveInput
     do removeOnFocus
 
   $(document.documentElement).click(@didReceiveInput).focus()
+
+  observer = new WebKitMutationObserver (mutations) ->
+    for mutation in mutations
+      for addedNode in mutation.addedNodes when addedNode.nodeType is 1
+        addOnFocus addedNode
+    return
+  observer.observe document.documentElement, childList: true, subtree: true
+
+  addOnFocus document.documentElement

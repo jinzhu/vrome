@@ -29,3 +29,8 @@ window.openUrl = (url) ->
 window.openOptions = (params) ->
   url = "background/html/options.html#{if params then "##{params}" else ''}"
   openUrl chrome.extension.getURL(url)
+
+window.isEditableElement = (element) ->
+  element.nodeType is 1 and
+    ($(element).is('input, textarea, select') or
+      element.getAttribute('contenteditable')?)
