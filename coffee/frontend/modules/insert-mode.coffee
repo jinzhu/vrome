@@ -147,18 +147,43 @@ class window.InsertMode
     elem.setSelectionRange start, start
   desc @moveBackwardLine, 'Move backward line. <M-(nm)> for move back/forward a line'
 
+  # The next three functions handle 'contenteditable' elements specially;
+  # they do not have a 'value' property and their selection should be
+  # taken in a different way
+  # Example could be GMail's reply text field
   @externalEditorCallBack: (msg) ->
-    $("[vrome_edit_id='#{msg.editId}']").val(msg.value).removeAttr('vrome_edit_id')
+    element = $("[vrome_edit_id='#{msg.editId}']").removeAttr('vrome_edit_id')[0]
+    if element
+      if element.value
+        element.value = msg.value
+      else
+        element.innerText = msg.value
+
+  getElementText = (element) ->
+    element.value or element.innerText
+
+  getElementSelection = (element) ->
+    if element.value
+      element.value.substr 0, elem.selectionStart
+    else
+      range = window.getSelection().getRangeAt(0)
+      preCaretRange = range.cloneRange()
+      preCaretRange.selectNodeContents element
+      preCaretRange.setEnd(range.endContainer, range.endOffset)
+      contents = preCaretRange.cloneContents()
+      div = document.createElement 'div'
+      div.appendChild contents
+      div.innerHTML.replace /<br>/g, '\n'
 
   @externalEditor: ->
     elem   = currentElement()
     editId = String nextEditId++
-    text   = elem.value.substr 0, elem.selectionStart
+    text   = getElementSelection elem
     line   = 1 + (text.match(/\n/g) or []).length
     col    = 1 + text.match(/\n?(.*?)$/)[1].length
     elem.setAttribute 'vrome_edit_id', editId
 
-    Post { action: 'Editor.open', callbackAction: 'InsertMode.externalEditorCallBack', data: elem.value, editId, line, col }
+    Post { action: 'Editor.open', callbackAction: 'InsertMode.externalEditorCallBack', data: getElementText(elem), editId, line, col }
   desc @externalEditor, 'Launch the external editor'
   @externalEditor.options =
     editor:
