@@ -40,7 +40,7 @@ class window.InsertMode
     $(currentElement()).blur()
 
   getFocusableElements = (inFullPage) ->
-    $('input[type="text"],input[type="password"],input[type="search"],textarea,input:not([type])').
+    $('input[type="text"],input[type="password"],input[type="search"],textarea,input:not([type]),[contenteditable]').
       filter (_, e) -> isElementVisible $(e), inFullPage
 
   @focusFirstTextInput: ->
