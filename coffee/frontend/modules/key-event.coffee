@@ -3,7 +3,7 @@ class window.KeyEvent
 
   @init: =>
     for disabledSite in Option.get('disablesites').split(',') when disabledSite isnt ''
-      @disable() if new RegExp(disabledSite, 'i').test(location.href)
+      @disable() if new RegExp(disabledSite.trim(), 'i').test(location.href)
 
     document.addEventListener 'keydown', KeyEvent.exec, true
 
