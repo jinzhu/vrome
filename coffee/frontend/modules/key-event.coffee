@@ -86,7 +86,7 @@ class window.KeyEvent
     # 0 is a special command: could be used to scroll left, also could be used as run count.
     if (keys is '0' and keyTimes is 0) or not /^\d$/.test keys
       /^(\d*)(.+)$/.test keys
-      count = RegExp.$1
+      count = Number RegExp.$1
       match = RegExp.$2
 
       bindingFunction = bindings[match]?[Number insertMode]
@@ -95,8 +95,8 @@ class window.KeyEvent
 
         # map j 3j
         originalKeyTimes = keyTimes
-        if Number(count) > 1 || times > 1
-          keyTimes = (keyTimes or 1) * times * (Number(count) or 1)
+        if count > 1 or times > 1
+          keyTimes = (keyTimes or 1) * times * (count or 1)
 
         try
           bindingFunction.call e
