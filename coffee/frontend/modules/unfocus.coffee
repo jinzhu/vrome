@@ -1,4 +1,5 @@
-# TODO: this doesn't work for Gmail when the reply text field is open
+# TODO: doesn't work for Gmail when the reply text field is open
+# TODO: doesn't work for http://3v4l.org/XXbtf
 
 # sites to test with:
 # https://encrypted.google.com/
