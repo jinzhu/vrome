@@ -1,5 +1,6 @@
 # TODO: doesn't work for Gmail when the reply text field is open
 # TODO: doesn't work for http://3v4l.org/XXbtf
+# TODO: doesn't work for http://www.twoo.com/
 
 # sites to test with:
 # https://encrypted.google.com/
