@@ -29,7 +29,7 @@ class window.Unfocus
     disabledElements = []
 
   onClick = (e) =>
-    clickedElement = document.elementFromPoint(e.pageX - window.pageXOffset, e.pageY - window.pageYOffset)
+    clickedElement = getClickedElement e
     do @didReceiveInput
     do clickedElement.focus
 

@@ -33,7 +33,7 @@ class window.Scroll
     $(element).closest(direction).get(0)
 
   $(document.documentElement).click (e) ->
-    clickedElement = document.elementFromPoint(e.pageX - window.pageXOffset, e.pageY - window.pageYOffset)
+    clickedElement = getClickedElement e
     currentlySelectedElement = getClosestScrollable clickedElement, ':scrollable'
 
   getRealOffset = (element, offsetX, offsetY) ->
