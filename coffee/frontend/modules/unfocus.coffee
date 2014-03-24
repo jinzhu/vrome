@@ -1,6 +1,5 @@
 # TODO: doesn't work for Gmail when the reply text field is open
 # TODO: doesn't work for http://3v4l.org/XXbtf
-# TODO: doesn't work for http://www.twoo.com/
 
 # sites to test with:
 # https://encrypted.google.com/
@@ -8,18 +7,15 @@
 # https://imo.im/register
 # http://www.edreams.com/
 # http://mailinator.com/
+# http://zamunda.net/login.php
+# http://www.twoo.com/
 
 class window.Unfocus
   disabledElements = []
   observer = null
 
   onFocus = (e) ->
-    element = e.target
-    # In Chrome, caller is null if the user initiated the focus
-    # or the element has the 'autofocus' attribute,
-    # and non-null if the focus was caused by a call to element.focus().
-    nonUserInitiated = onFocus.caller or element.autofocus
-    element.blur() if Option.get('disable_autofocus') and nonUserInitiated
+    e.target.blur() if Option.get('disable_autofocus')
 
   addOnFocus = (element) ->
     if isEditableElement element
@@ -32,12 +28,17 @@ class window.Unfocus
     element.removeEventListener 'focus', onFocus, false for element in disabledElements
     disabledElements = []
 
-  @didReceiveInput: =>
+  onClick = (e) =>
+    clickedElement = document.elementFromPoint(e.pageX - window.pageXOffset, e.pageY - window.pageYOffset)
+    do @didReceiveInput
+    do clickedElement.focus
+
+  @didReceiveInput: ->
     do observer.disconnect
-    $(document.documentElement).off 'click', @didReceiveInput
+    $(document.documentElement).off 'click', onClick
     do removeOnFocus
 
-  $(document.documentElement).click(@didReceiveInput).focus()
+  $(document.documentElement).click(onClick).focus()
 
   observer = new WebKitMutationObserver (mutations) ->
     for mutation in mutations
