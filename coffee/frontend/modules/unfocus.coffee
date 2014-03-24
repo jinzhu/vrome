@@ -33,6 +33,8 @@ class window.Unfocus
     do e.target.focus
 
   @didReceiveInput: ->
+    return if disabledElements.length is 0
+
     do observer.disconnect
     $(document.documentElement).off 'click', onClick
     do removeOnFocus
