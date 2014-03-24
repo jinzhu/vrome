@@ -29,9 +29,8 @@ class window.Unfocus
     disabledElements = []
 
   onClick = (e) =>
-    clickedElement = getClickedElement e
     do @didReceiveInput
-    do clickedElement.focus
+    do e.target.focus
 
   @didReceiveInput: ->
     do observer.disconnect
