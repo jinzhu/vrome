@@ -154,16 +154,16 @@ class window.InsertMode
   @externalEditorCallBack: (msg) ->
     element = $("[vrome_edit_id='#{msg.editId}']").removeAttr('vrome_edit_id')[0]
     if element
-      if element.value
+      if element.value?
         element.value = msg.value
       else
         element.innerText = msg.value
 
   getElementText = (element) ->
-    element.value or element.innerText
+    element.value ? element.innerText
 
   getElementSelection = (element) ->
-    if element.value
+    if element.value?
       element.value.substr 0, elem.selectionStart
     else
       range = window.getSelection().getRangeAt(0)
