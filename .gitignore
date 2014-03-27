@@ -14,5 +14,5 @@ Gemfile.lock
 /src/background/html/thanks.html
 /nbproject/
 node_modules/
-tags
+.tags
 utils/version.txt
