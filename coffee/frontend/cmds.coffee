@@ -3,8 +3,8 @@ CancelKey     = ['<Esc>', '<C-[>']
 CtrlAcceptKey = ['<C-Enter>']
 CtrlEscapeKey = ['<C-Esc>']
 
-window.isControlKey = (key) ->
-  key in ['Control', 'Shift', 'Alt', 'Win']
+window.isModifierKey = (key) ->
+  key in ['Control', 'Shift', 'Alt', 'Win', 'Meta']
 
 window.isCtrlAcceptKey = (key) ->
   key in CtrlAcceptKey

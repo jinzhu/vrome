@@ -34,7 +34,7 @@ class window.Search
   handleInput = (e) =>
     return unless searchMode
     key = getKey e
-    @removeHighlights() unless key is 'Enter' or isControlKey key
+    @removeHighlights() unless key is 'Enter' or isModifierKey key
     lastSearch =
       text:      CmdBox.get().content
       position:  0

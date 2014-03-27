@@ -139,7 +139,7 @@ class window.KeyEvent
 
     # If Vrome in pass-next or disabled mode and using <C-Esc> to enable it.
     return @enable() if not insertMode and (passNextKey or (disableVrome and isCtrlEscapeKey(key)))
-    return @stopPropagation e if key in ['Control', 'Alt', 'Shift']
+    return @stopPropagation e if isModifierKey key
     return if disableVrome
 
     currentKeys = filterKey currentKeys.concat(key), insertMode
