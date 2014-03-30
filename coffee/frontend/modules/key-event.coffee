@@ -119,10 +119,11 @@ class window.KeyEvent
         currentKeys = ''
       else
         # Check if there are any bindings that partially match
+        numberInsertMode = Number insertMode
         startsWithKey = (command, key) ->
           command is key or
             (command.startsWith(key) and not command.startsWith '<')
-        for command, modes of bindings when modes[Number insertMode]? and startsWithKey command, keys
+        for command, modes of bindings when modes[numberInsertMode]? and startsWithKey command, keys
           someBindingMatched = true
           do stopPropagation
           do showStatusLine
