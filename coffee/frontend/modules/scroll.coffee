@@ -68,6 +68,14 @@ class window.Scroll
   isElementScrolledToEnd = (offsetX, offsetY, element) ->
     return no unless element
 
+    $element = $(element)
+
+    # hack to fix non-integer values for element height
+    # example: http://userstyles.org/styles/36026/google-dark
+    # element: div id="additional-info-text"
+    $element.height $element.height()
+    $element.width $element.width()
+
     (offsetY > 0 and element.scrollHeight - element.scrollTop is element.clientHeight) or
       (offsetY < 0 and element.scrollTop is 0) or
       (offsetX > 0 and element.scrollWidth - element.scrollLeft is element.clientWidth) or
