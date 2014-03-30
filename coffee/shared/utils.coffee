@@ -3,17 +3,19 @@ window.getLocalServerUrl = -> "http://127.0.0.1:#{Option.get('server_port')}"
 window.desc = (func, description) ->
   func.description = description
 
-window.fixRelativePath = (url) ->
+window.fixRelativePath = (url, currentUrl) ->
+  location = document.createElement('a');
+  location.href = currentUrl ? document.location.href;
   # http://google.com
   return url if url.isValidURL()
 
   # /admin
-  return document.location.origin + url if url[0] is '/'
+  return location.origin + url if url[0] is '/'
 
   # ../users || ./products || ../users
   url += '/' if url.endsWith '..'
 
-  pathname = document.location.origin + document.location.pathname.replace(/\/+/g, '/')
+  pathname = location.origin + location.pathname.replace(/\/+/g, '/')
   for path in url.split '..'
     if path[0] is '/'
       pathname = pathname.replace(/\/[^\/]*\/?$/, '') + path

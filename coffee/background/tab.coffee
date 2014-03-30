@@ -14,14 +14,14 @@ class window.Tab
       else
         setTimeout runWhenComplete, 100, msg
 
-  fixUrl = (url) ->
+  fixUrl = (url, tab) ->
     url = url.trim()
     # file://xxxxx || http://xxxxx
     if url.isValidURL()
       url: url, origin: 'url'
     # /jinzhu || (.. || ./configure) && no space
     else if url[0] in ['/', '.'] and not /\s/.test url
-      url: fixRelativePath(url), origin: 'url'
+      url: fixRelativePath(url, tab.url), origin: 'url'
     # Like url, for example: google.com
     else if /\w+\.\w+/.test(url) and not /\s/.test url
       url: "http://#{url}", origin: 'url'
@@ -42,7 +42,7 @@ class window.Tab
         url: Option.defaultSearchUrl(url), origin: 'search'
 
   @autoComplete: (msg) ->
-    defaultUrl = fixUrl msg.keyword
+    defaultUrl = fixUrl msg.keyword, msg.tab
     if Option.get 'noautocomplete'
       return Post msg.tab,
         action:  'Dialog.draw'
@@ -84,7 +84,7 @@ class window.Tab
       example:     'set completion_items=url,search-engine,bookmarks,history,search'
 
   @openUrl: (msg) =>
-    url = fixUrl(msg.url).url
+    url = fixUrl(msg.url, msg.tab).url
 
     if msg.incognito
       chrome.windows.create { incognito: true, url }, ->
