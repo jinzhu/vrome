@@ -119,7 +119,7 @@ class window.KeyEvent
         currentKeys = ''
       else
         # Check if there are any bindings that partially match
-        for command, modes of bindings when modes[Number insertMode]? and command.startsWith keys
+        for command, modes of bindings when modes[Number insertMode]? and command.startsWith keys and !isCtrlAcceptKey(command)
           someBindingMatched = true
           do stopPropagation
           do showStatusLine
