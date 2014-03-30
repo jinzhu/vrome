@@ -20,7 +20,7 @@ class window.Option
     autocomplete_prev:    '<Up>'
     autocomplete_next_10: '<Tab>'
     autocomplete_prev_10: '<S-Tab>'
-    hintkeys: 'asdfghjklqwertyuiopzxcvbnm'
+    hintkeys: 'masdfghjklqwertyuiopzxcvbn'
     useletters: 1
     showstatus: 1
     show_disabled_text: 1

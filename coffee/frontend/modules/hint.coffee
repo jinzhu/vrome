@@ -49,7 +49,7 @@ class window.Hint
 
   hintKeys = ->
     if Option.get('useletters') is 1
-      Option.get('hintkeys') or 'asdfghjklqwertyuiopzxcvbnm'
+      Option.get('hintkeys')
     else
       '0123456789'
 
