@@ -4,10 +4,11 @@ window.desc = (func, description) ->
   func.description = description
 
 window.fixRelativePath = (url, currentUrl) ->
-  location = document.createElement('a');
-  location.href = currentUrl ? document.location.href;
   # http://google.com
   return url if url.isValidURL()
+
+  location = document.createElement 'a'
+  location.href = currentUrl or document.location.href
 
   # /admin
   return location.origin + url if url[0] is '/'
