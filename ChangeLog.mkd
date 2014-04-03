@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.9.8 (2014/04/03)
+
+* Fix can't open relative path
+* Fix need to type `<` twice in textarea
+* Fix `<C-v><C-f>` doesn't work in Mac OS
+* Fix open in external editor doesn't work in gmail
+* Lots of minor fixes
+
 ## 2.9.7 (2014/03/07)
 
 * Add option `disable_autofocus` which tries to prevent web pages from focusing some input field when loaded.
