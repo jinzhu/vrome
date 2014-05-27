@@ -46,6 +46,18 @@ set noautocomplete
 " Disable autofocusing of elements during page load
 set disable_autofocus
 
+" Disable Vrome in those sites, Multiple URLs can be separated with ,
+set disablesites=mail.google.com, reader.google.com
+
+" Set your hintkeys instead of the default 0123456789
+set hintkeys=jlkhfsdagwerui
+
+" by default, hints use numbers. You can have both numbers AND strings (view custom JS below). Or you can use strings only as hints and overwr
+set useletters=1
+
+" Change external editor, default is GVim
+set editor=gvim -f
+
 " The server port is what external server running on
 " The external server is used to support launch the external editor in insert mode.
 " Please refer "Support External Editor" https://github.com/jinzhu/vrome/wiki/Support-External-Editor for more
