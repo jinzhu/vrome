@@ -12,10 +12,13 @@
 
                       There are some powerful features here:
                       1, AutoComplete support:
-                      <Down>,<Up>   Navigate next/previous link. (You can change the behavior in config, please see http://goo.gl/koFEh)
-                      <Tab>,<S-Tab> Navigate the next/previous 10th link. (You can change the behavior in config, please see http://goo.gl/koFEh)
+                      <Down>,<Up>   Navigate next/previous link. (You can change the behavior in config, please
+                                    see http://goo.gl/koFEh)
+                      <Tab>,<S-Tab> Navigate the next/previous 10th link. (You can change the behavior in config,
+                                    please see http://goo.gl/koFEh)
                       <Enter>       Open selected link in current tab.
-                      <C-Enter>     Open selected link in new tab. and keep AutoComplete list open so you can open another link.
+                      <C-Enter>     Open selected link in new tab. and keep AutoComplete list open so you can
+                                    open another link.
                       <C-[0-9]>     Open links marked with red number.
                                     The red number is the relative index of the currently selected link.
                                     E.g: you can use <C-5> to open the 5th link, <C-7> to open the 7th one.
@@ -31,7 +34,8 @@
 
                       3, Search Engines:
                       Try `google [query]` e.g `google vrome` will return search results for `vrome`
-					  Supported engines:  `google`, `answers`, `yahoo`, `wikipedia`, `bing`, `twitter` are built in search engines.
+					  Supported engines:  `google`, `answers`, `yahoo`, `wikipedia`, `bing`, `twitter` are built
+                      in search engines.
 					  Define your own [Example](https://github.com/jinzhu/vrome/wiki/vromerc-example-file)
 
 					  If no search engine name is provided, default (google) one is used
@@ -114,14 +118,18 @@
 
 ### Marks ###
        M{a-zA-Z0-9}   Add new QuickMark for current URL.
-                      You can go to a marked URL in the current tab with go{a-zA-Z0-9} or in a new tab with gn{a-zA-Z0-9}.
+                      You can go to a marked URL in the current tab with go{a-zA-Z0-9} or in a new tab with
+                      gn{a-zA-Z0-9}.
                       e.g: Go to `http://github.com`, associate `github.com` to quick mark `g` using `Mg`,
-                      Then you can use `gog` to open `http://github.com` in current tab. or `gng` to open it in a new tab.
+                      Then you can use `gog` to open `http://github.com` in current tab. or `gng` to open it in
+                      a new tab.
        go{a-zA-Z0-9}  Open marked URL in current tab. (check M{a-zA-Z0-9} for more)
        gn{a-zA-Z0-9}  Open marked URL in new tab. (check M{a-zA-Z0-9} for more)
 
-       m{a-zA-Z}      Set mark at the cursor position. Marks a-z are local to the buffer, whereas A-Z are valid between buffers.
-                      e.g: When you are reading the first paragraph of an article, you can save your cursor position using `ma`
+       m{a-zA-Z}      Set mark at the cursor position. Marks a-z are local to the buffer, whereas A-Z are valid
+                      between buffers.
+                      e.g: When you are reading the first paragraph of an article, you can save your cursor
+                      position using `ma`
                       When revisiting the page, jump to the location using `'a`
        '{a-zA-Z}      Jump to the mark. Marks a-z are local to the buffer, whereas A-Z are valid between buffers.
                       (check m{a-zA-Z} for more)
@@ -130,7 +138,8 @@
 ### Hints Mode ###
             f         Start Hint mode, All visible links/inputs are given a number.
                       Filter these elements using hints (numbers) or a keyword matching the element's content.
-                      When a match is found, element is opened in the current tab (URL) or clicked (checkbox) or grabs focus (input).
+                      When a match is found, element is opened in the current tab (URL) or clicked (checkbox) or
+                      grabs focus (input).
 
                       e.g: if there is a link named `Gmail`, you can type `ma` to filter and open it.
                       One more thing, Press <Enter> would open current highlighted element.
@@ -144,7 +153,8 @@
                       If you want to customize the hint keys sequence:
                       `set hintkeys=jlkhfsdagwerui`
 
-                      If you need both numbers AND strings available. You need to map the commands to different keys. [Example](https://github.com/jinzhu/vrome/wiki/vromerc-example-file)
+                      If you need both numbers AND strings available. You need to map the commands to different
+                      keys. [Example](https://github.com/jinzhu/vrome/wiki/vromerc-example-file)
 
                       If you need to change the font-size or background-color. You can inject CSS using
                       `custom_begin_css and custom_end_css` [Example](https://github.com/jinzhu/vrome/wiki/vromerc-example-file)
@@ -158,8 +168,10 @@
 
             Also there are some extra commands when in the [input box]:
                 ?     Show information about an element.
-                      For example, type `?gmail` in the input box, it would search all elements matching gmail like normal.
-                      If there is one element matched, it would show the element's details, usually it is the element's html.
+                      For example, type `?gmail` in the input box, it would search all elements matching gmail
+                      like normal.
+                      If there is one element matched, it would show the element's details, usually it is the
+                      element's html.
                 ;     Focus on an element. (check `?` in Hints Mode for more)
                 [     Copy selected elements' url if existent. [hint] `[` looks like the C in Copy.
                       (check `?` in Hints  Mode for more)
@@ -207,12 +219,14 @@
     [count] L         Go [count] pages forward.
     [count] <C-o>     Go [count] pages back.
     [count] <C-i>     Go [count] pages forward.
-            gh        Filter History with keyword. -- <Up>/<Down>/<Tab>/<S-Tab>/<Enter>/<C-Enter> could be used here.
+            gh        Filter History with keyword. -- <Up>/<Down>/<Tab>/<S-Tab>/<Enter>/<C-Enter> could be used
+                      here.
                       check Navigation:`o` - AutoComplete for more.
             gH        Filter History with keyword, but open in new tab. (check `gh` for more)
 
 ### Bookmark ###
-            gb        Filter bookmarks with keyword. <Up>/<Down>/<Tab>/<S-Tab>/<Enter>/<C-Enter> could be used here.
+            gb        Filter bookmarks with keyword. <Up>/<Down>/<Tab>/<S-Tab>/<Enter>/<C-Enter> could be used
+                      here.
                       check Navigation:`o` - AutoComplete for more.
             gB        Filter bookmarks with keyword, but open in new tab. (check `gb` for more)
 
