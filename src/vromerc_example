@@ -29,10 +29,10 @@ set showstatus=0
 
 " Define search engines. the value should be valid json looks like below.
 " Please remember the first searchengine is the default one. in the below one, it is google
-set searchengines={"google":"http://www.google.com/search?q={{keyword}}", "yahoo":"http://search.yahoo.com/search?p={{keyword}}","wikipedia":"http://en.wikipedia.org/wiki/{{keyword}}","answers":"http://www.answers.com/main/ntquery?s={{keyword}}","yubnub":"http://yubnub.org/parser/parse?command={{keyword}}"}
+set searchengines={"google":"https://www.google.com/search?q={{keyword}}", "yahoo":"https://search.yahoo.com/search?p={{keyword}}","wikipedia":"https://www.wikipedia.org/wiki/Special:Search/{{keyword}}","answers":"https://www.answers.com/main/ntquery?s={{keyword}}","yubnubs":"http://yubnub.org/parser/parse?command={{keyword}}"}
 
 " You could also add some new searchengines without overwrite build in.
-set searchengines+={"baidu":"http://www.baidu.com/s?wd={{keyword}}"}
+set searchengines+={"baidu":"https://www.baidu.com/s?wd={{keyword}}"}
 
 " Change default search engine, default is google.
 set defaultsearch=yahoo

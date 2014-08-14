@@ -19,7 +19,7 @@ class window.Url
       example:     'set noautocomplete'
     searchengines:
       description: 'JSON of search engines'
-      example:     'set searchengines={"google":"http://www.google.com/search?q={{keyword}}", "yahoo":"http://search.yahoo.com/search?p={{keyword}}"}'
+      example:     'set searchengines={"google":"https://www.google.com/search?q={{keyword}}", "yahoo":"https://search.yahoo.com/search?p={{keyword}}"}'
     defaultsearch:
       description: 'Default search engine name'
       example:     'set defaultsearch=yahoo'

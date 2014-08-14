@@ -1,5 +1,5 @@
 class window.Option
-  googleSearch = 'http://www.google.com/search?q={{keyword}}'
+  googleSearch = 'https://www.google.com/search?q={{keyword}}'
 
   options =
     nextpattern: ['(下|后)一?(页|頁|篇|张)', '^\\s*Next\\s*$', '^>$', '^More$', '(^(>>|››|»)\\|?)|((»|››|>>)\\|?$)']
@@ -9,10 +9,10 @@ class window.Option
     server_port: 20000
     searchengines:
       google:    googleSearch
-      yahoo:     'http://search.yahoo.com/search?p={{keyword}}'
-      bing:      'http://www.bing.com/search?q={{keyword}}'
-      wikipedia: 'http://en.wikipedia.org/wiki/{{keyword}}'
-      answers:   'http://www.answers.com/main/ntquery?s={{keyword}}'
+      yahoo:     'https://search.yahoo.com/search?p={{keyword}}'
+      bing:      'https://www.bing.com/search?q={{keyword}}'
+      wikipedia: 'https://www.wikipedia.org/wiki/Special:Search/{{keyword}}'
+      answers:   'https://www.answers.com/main/ntquery?s={{keyword}}'
       twitter:   'https://twitter.com/search/{{keyword}}'
     defaultsearch: 'google'
     autocomplete_next:    '<Down>'
