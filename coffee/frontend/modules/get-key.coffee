@@ -115,6 +115,7 @@ specialKeys["F#{key}"] = null for key in [1..12]
 window.getKey = (evt) ->
   evt = evt.originalEvent or evt
   return evt.keyIdentifier if isModifierKey evt.keyIdentifier
+  return evt.keyCode - 96 if evt.DOM_KEY_LOCATION_NUMPAD is evt.location
 
   key = keyId[evt.keyIdentifier] or evt.keyIdentifier
 
