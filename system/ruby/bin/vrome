@@ -71,7 +71,7 @@ end
 puts "Starting Vrome server..."
 
 server = WEBrick::HTTPServer.new(:BindAddress => '127.0.0.1', :Port => port, :AccessLog => [
-  [WEBrick::Log.new("/dev/null", 1), WEBrick::AccessLog::COMMON_LOG_FORMAT]
+  [WEBrick::Log.new(File::NULL, 1), WEBrick::AccessLog::COMMON_LOG_FORMAT]
 ])
 server.mount "/", VromeServer
 trap(:INT) { server.shutdown }
