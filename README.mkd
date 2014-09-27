@@ -12,7 +12,7 @@ Vim and Vimperator/Pentadactyl users will feel right at home.
 * type ':' and voila! 
 * you just upgraded your chrome with vim power!
 
-> if you had some tabs open already, just refresh them to make it respond to vrome.
+> if you had some tabs open already, just refresh them to make them respond to vrome.
 
 ### Keybindings for:
 
