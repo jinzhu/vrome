@@ -6,6 +6,13 @@ Vim and Vimperator/Pentadactyl users will feel right at home.
 
 [What's new?](https://github.com/jinzhu/vrome/blob/master/ChangeLog.mkd)
 
+### Getting started
+
+* install it from the [Chrome Web Store](https://chrome.google.com/webstore/detail/godjoomfiimiddapohpmfklhgmbfffjj/details)
+* type ':' and voila! you just upgraded your chrome with vim power!
+
+> if you had some tabs open already, just refresh them to make it respond to vrome.
+
 ### Keybindings for:
 
 * URL navigation
