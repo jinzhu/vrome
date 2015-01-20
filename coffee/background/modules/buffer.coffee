@@ -6,9 +6,11 @@ class window.Buffer
       regexp = new RegExp keyword, 'i'
       tabs.filter (tab) -> regexp.test(tab.url) or regexp.test tab.title
 
+
   @gotoFirstMatch: (msg) ->
     chrome.tabs.query windowId: msg.tab.windowId, (tabs) ->
-      Tab.select getMatchedTabs(tabs, msg.keyword)[0]
+      msg.tab = getMatchedTabs(tabs, msg.keyword)[0]
+      Tab.select msg
 
   @deleteMatch: (msg) ->
     chrome.tabs.query windowId: msg.tab.windowId, (tabs) ->
