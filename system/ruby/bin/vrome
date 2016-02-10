@@ -6,12 +6,21 @@ require 'tempfile'
 require 'json'
 require 'open-uri'
 require 'fileutils'
+require 'optparse'
 
-port = 20000
+$options = {port: 20000, editor: 'gvim -f'}
 
-if ARGV[0] =~ /^\d+$/
-  port = ARGV[0].to_i
-end
+OptionParser.new do |opts|
+  opts.banner = "Usage: vrome [options]"
+
+  opts.on("-p port", "--port port", "Server Listen Port") do |value|
+    $options[:port] = value
+  end
+
+  opts.on("-e editor", "--editor editor", "External Editor") do |value|
+    $options[:editor] = value
+  end
+end.parse!
 
 class VromeServer < WEBrick::HTTPServlet::AbstractServlet
 
@@ -37,7 +46,7 @@ class VromeServer < WEBrick::HTTPServlet::AbstractServlet
   def open_editor(request)
     puts "#{Time.now} opening editor..."
 
-    editor = request['editor']
+    editor = $options[:editor]
     line   = request['line'] || 0
     column = request['col'] || 0
 
@@ -70,7 +79,7 @@ end
 
 puts "Starting Vrome server..."
 
-server = WEBrick::HTTPServer.new(:BindAddress => '127.0.0.1', :Port => port, :AccessLog => [
+server = WEBrick::HTTPServer.new(:BindAddress => '127.0.0.1', :Port => $options[:port], :AccessLog => [
   [WEBrick::Log.new(File::NULL, 1), WEBrick::AccessLog::COMMON_LOG_FORMAT]
 ])
 server.mount "/", VromeServer
