@@ -4,7 +4,6 @@ class window.Editor
   @open: (msg) ->
     params = JSON.stringify
       method: 'open_editor'
-      editor: Option.get 'editor'
       data:   msg.data
       col:    msg.col
       line:   msg.line

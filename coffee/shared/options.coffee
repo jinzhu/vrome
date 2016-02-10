@@ -6,7 +6,6 @@ class window.Option
     previouspattern: ['(上|前)一(页|頁|篇|张)', '^\\s*Prev(ious)?\\s*$', '^<$', '(^(<<|‹‹|«)\\|?)|((<<|‹‹|«)\\|?$)']
     enable_vrome_key: '<C-Esc>'
     disablesites: ''
-    editor: 'gvim -f'
     server_port: 20000
     searchengines:
       google:    googleSearch

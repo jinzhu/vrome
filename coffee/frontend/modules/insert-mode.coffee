@@ -185,7 +185,3 @@ class window.InsertMode
 
     Post { action: 'Editor.open', callbackAction: 'InsertMode.externalEditorCallBack', data: getElementText(elem), editId, line, col }
   desc @externalEditor, 'Launch the external editor'
-  @externalEditor.options =
-    editor:
-      description: "Set editor command, default is 'gvim -f'"
-      example:     'set editor=gvim -f'
