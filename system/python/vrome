@@ -1,13 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # for Vrome (http://github.com/jinzhu/vrome)
-# see README for details 
+# see README for details
 # Copyright (c) 2010 pyx a.k.a 8pm
 # This is a reimplementation of Jinzhu's ruby code in python.
 version = (0, 99)
 
 import os
 import sys
+import getopt
 from tempfile import mkstemp
 
 try:
@@ -19,44 +20,55 @@ except ImportError:
         import sys
         sys.exit('either python >= 2.6 or simplejson is needed.')
 
-from BaseHTTPServer import HTTPServer, BaseHTTPRequestHandler
+from http.server import HTTPServer, BaseHTTPRequestHandler
 
-class VromeServer(BaseHTTPRequestHandler):
-    def do_POST(self):
-        length = int(self.headers.getheader('content-length'))
-        request = json.loads(self.rfile.read(length))
-        status, content_type, body = getattr(self, request['method'])(request)
+def get_vrome_server(editor):
+    class VromeServer(BaseHTTPRequestHandler):
+        def do_POST(self):
+            length = int(self.headers['content-length'])
+            request = json.loads(self.rfile.read(length).decode('utf-8'))
+            status, content_type, body = getattr(self, request['method'])(request)
 
-        self.send_response(status)
-        self.send_header('Content-type', content_type)
-        self.end_headers()
-        self.wfile.write(body)
+            self.send_response(status)
+            self.send_header('Content-type', content_type)
+            self.end_headers()
+            self.wfile.write(body.encode("utf-8"))
 
-    def open_editor(self, request):
-        editor = request['editor']
-        if editor == 'gvim': editor = 'gvim -f'
+        def open_editor(self, request):
+            fd, filename = mkstemp()
+            os.write(fd, request['data'].encode('utf-8'))
+            os.close(fd)
+            os.system("%s %s" % (editor, filename))
+            text = open(filename, 'r').read()
+            # os.remove(filename)
+            return 200, 'text/plain', text
 
-        fd, filename = mkstemp()
-        os.write(fd, request['data'].encode('utf-8'))
-        os.close(fd)
-        os.system("%s %s" % (editor, filename))
-        text = open(filename, 'r').read()
-        # os.remove(filename)
-        return 200, 'text/plain', text
+    return VromeServer
 
 def run_server():
-    if len(sys.argv) < 2:
-        port = 20000
-    else:
-        port = int(sys.argv[1])
+    port = '20000'
+    editor = 'gvim -f'
+    try:
+        opts, args = getopt.getopt(sys.argv[1:], 'hp:e:', ['port=', 'editor='])
+    except getopt.GetoptError:
+        print('vrome [-p port] [-e editor]')
+        sys.exit(2)
+    for opt, arg in opts:
+        if opt in ('-h', '--help'):
+            print('vrome [-p port] [-e editor]')
+            sys.exit()
+        elif opt in ('-p', '--port'):
+            port = arg
+        elif opt in ('-e', '--editor'):
+            editor = arg
 
-    httpd = HTTPServer(('127.0.0.1', port), VromeServer)
+    httpd = HTTPServer(('127.0.0.1', int(port)), get_vrome_server(editor))
     httpd.serve_forever()
 
 if __name__ == '__main__':
     try:
         run_server()
     except KeyboardInterrupt:
-        print 'Server Terminated.'
+        print('Server Terminated.')
 
 # -*- vim: set sts=4 sw=4 et fdm=marker tw=72:  ------  vim modeline -*-
