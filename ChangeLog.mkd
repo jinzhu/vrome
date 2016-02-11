@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.9.11 (2016/02/02)
+
+* Open new tab in background, add `set follow_new_tab=1` to options to open it in frontend
+
 ## 2.9.9 (2016/02/02)
 
 * Fix goto buffer
