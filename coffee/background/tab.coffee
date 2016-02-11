@@ -215,7 +215,7 @@ class window.Tab
         markedTabs.push tab.id
 
     title = "#{markedTabs.length} Tab(s) marked"
-    Post msg.tab, { action: 'CmdBox.set', title, timeout: 4000 }
+    Post msg.tab, { action: 'CmdBox.set', title: title, timeout: 4000 }
 
   @markForMerging: (msg) ->
     if msg.all
