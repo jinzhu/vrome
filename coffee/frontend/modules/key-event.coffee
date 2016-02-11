@@ -144,7 +144,10 @@ class window.KeyEvent
     insertMode = isEditableElement e.target
 
     # If Vrome in pass-next or disabled mode and using <C-Esc> to enable it.
-    return @enable() if not insertMode and (passNextKey or (disableVrome and isCtrlEscapeKey(key)))
+    if not insertMode and (passNextKey or (disableVrome and isCtrlEscapeKey(key)))
+      window.CancelKeyFunction()
+      return @enable()
+
     return if disableVrome
 
     currentKeys = filterKey currentKeys.concat(key), insertMode

@@ -9,8 +9,11 @@ class window.Buffer
 
   @gotoFirstMatch: (msg) ->
     chrome.tabs.query windowId: msg.tab.windowId, (tabs) ->
-      msg.tab = getMatchedTabs(tabs, msg.keyword)[0]
-      Tab.select msg
+      tabs = getMatchedTabs(tabs, msg.keyword)
+      if tabs.length > 0
+        Tab.select index: tabs[0].index, tab: tabs[0]
+      else
+        Post msg.tab, action: 'CmdBox.set', title: "no matched tab found"
 
   @deleteMatch: (msg) ->
     chrome.tabs.query windowId: msg.tab.windowId, (tabs) ->

@@ -152,14 +152,10 @@ class window.Tab
 
   @select: (msg) =>
     chrome.tabs.query windowId: msg.tab.windowId, (tabs) =>
-      if msg.tab?
-        @update tab: msg.tab, active: true
-        return
-      else if msg.index?
+      if msg.index?
         index = Math.min(msg.index, tabs.length - 1)
       else # msg.offset
         index = (msg.tab.index + msg.offset) %% tabs.length
-
       @update tab: tabs[index], active: true
 
   @selectPrevious: =>
