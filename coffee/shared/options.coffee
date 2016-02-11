@@ -23,7 +23,7 @@ class window.Option
     useletters: 1
     showstatus: 1
     show_disabled_text: 1
-    follow_new_tab: 1
+    follow_new_tab: 0
     completion_items: 'url,search-engine,bookmarks,history,search'
 
   @get: (key) ->
