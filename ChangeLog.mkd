@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.9.9 (2016/02/02)
+
+* Fix goto buffer
+* Fix security issue
+
 ## 2.9.8 (2014/04/03)
 
 * Fix can't open relative path
