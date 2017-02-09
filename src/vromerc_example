@@ -47,7 +47,7 @@ set noautocomplete
 set disable_autofocus
 
 " Disable Vrome in those sites, Multiple URLs can be separated with ,
-set disablesites=mail.google.com, reader.google.com
+set disablesites=mail.google.com, reader.google.com, getpocket.com, instapaper.com
 
 " Set your hintkeys instead of the default 0123456789
 set hintkeys=jlkhfsdagwerui
